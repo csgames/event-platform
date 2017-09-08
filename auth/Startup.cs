@@ -8,6 +8,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using SecureTokenService.Interfaces;
+using SecureTokenService.Models;
 
 namespace SecureTokenService
 {
@@ -24,6 +26,9 @@ namespace SecureTokenService
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+            
+            services.AddScoped<IDatabase, Database>();
+            services.AddScoped<IUserRepository, UserRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
