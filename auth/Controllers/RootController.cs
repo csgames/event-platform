@@ -7,7 +7,7 @@ namespace SecureTokenService.Controllers
     [Route("api")]
     public class RootController : Controller
     {
-        private IUserRepository _repo;
+        private readonly IUserRepository _repo;
 
         public RootController(IUserRepository repo)
         {
@@ -21,7 +21,7 @@ namespace SecureTokenService.Controllers
             var test = await _repo.GetAll();
             return new JsonResult(new
             {
-                tst = test.ToArray()
+                tst = test
             });
         }
     }

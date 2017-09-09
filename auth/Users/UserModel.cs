@@ -1,11 +1,11 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
+using SecureTokenService.Models;
 
 namespace SecureTokenService.Users
 {
-    public class UserModel
+    public class UserModel : ModelBase
     {
-        public ObjectId Id { get; set; }
         [BsonElement("username")]
         public string Username { get; set; }
         [BsonElement("password")]
