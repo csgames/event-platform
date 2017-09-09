@@ -1,11 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using System;
+﻿using System.Threading.Tasks;
 using MongoDB.Bson;
-using MongoDB.Driver;
-using SecureTokenService.Models;
 
-namespace SecureTokenService.Interfaces
+namespace SecureTokenService.Models
 {
     public interface IRepositoryBase<T>
     {

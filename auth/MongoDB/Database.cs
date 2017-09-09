@@ -1,9 +1,8 @@
 ﻿using System;
 using MongoDB.Driver;
 using SecureTokenService.Config;
-using SecureTokenService.Interfaces;
 
-namespace SecureTokenService.Models
+namespace SecureTokenService.MongoDB
 {
     public class Database : IDatabase
     {

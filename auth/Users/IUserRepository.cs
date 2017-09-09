@@ -1,7 +1,6 @@
-﻿
 using SecureTokenService.Models;
 
-namespace SecureTokenService.Interfaces
+namespace SecureTokenService.Users
 {
     public interface IUserRepository : IRepositoryBase<UserModel>
     {
