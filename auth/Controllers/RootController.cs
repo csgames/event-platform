@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using SecureTokenService.Interfaces;
-using SecureTokenService.Models;
+using SecureTokenService.Users;
 
 namespace SecureTokenService.Controllers
 {

@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using SecureTokenService.Models;
 
-namespace SecureTokenService.Interfaces
+namespace SecureTokenService.Users
 {
     public interface IUserRepository
     {

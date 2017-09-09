@@ -1,7 +1,7 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
-namespace SecureTokenService.Models
+namespace SecureTokenService.Users
 {
     public class UserModel
     {

@@ -2,9 +2,9 @@
 using System.Threading.Tasks;
 using MongoDB.Bson;
 using MongoDB.Driver;
-using SecureTokenService.Interfaces;
+using SecureTokenService.MongoDB;
 
-namespace SecureTokenService.Models
+namespace SecureTokenService.Users
 {
     public class UserRepository : IUserRepository
     {

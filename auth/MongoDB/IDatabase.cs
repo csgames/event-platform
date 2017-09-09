@@ -1,6 +1,6 @@
 ﻿using MongoDB.Driver;
 
-namespace SecureTokenService.Interfaces
+namespace SecureTokenService.MongoDB
 {
     public interface IDatabase
     {
