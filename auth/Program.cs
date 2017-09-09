@@ -14,6 +14,7 @@ namespace SecureTokenService
     {
         public static void Main(string[] args)
         {
+            DotNetEnv.Env.Load();
             BuildWebHost(args).Run();
         }
 
