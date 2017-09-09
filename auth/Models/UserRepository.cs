@@ -6,18 +6,11 @@ using SecureTokenService.Interfaces;
 
 namespace SecureTokenService.Models
 {
-    public class UserRepository : IUserRepository
+    public class UserRepository : RepositoryBase<UserModel>, IUserRepository
     {
-        private readonly IMongoCollection<UserModel> _collection;
-
-        public UserRepository(IDatabase db)
+        public UserRepository(IDatabase db) : base(db.GetCollection<UserModel>("users"))
         {
-            _collection = db.GetCollection<UserModel>("users");
-        }
 
-        public Task<List<UserModel>> GetAll()
-        {
-            return _collection.Find(new BsonDocument()).ToListAsync();
         }
     }
 }

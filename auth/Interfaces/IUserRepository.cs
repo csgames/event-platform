@@ -1,11 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿
 using SecureTokenService.Models;
 
 namespace SecureTokenService.Interfaces
 {
-    public interface IUserRepository
+    public interface IUserRepository : IRepositoryBase<UserModel>
     {
-        Task<List<UserModel>> GetAll();
+        
     }
 }
