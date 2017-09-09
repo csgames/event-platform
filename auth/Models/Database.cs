@@ -1,4 +1,6 @@
-﻿using MongoDB.Driver;
+﻿using System;
+using MongoDB.Driver;
+using SecureTokenService.Config;
 using SecureTokenService.Interfaces;
 
 namespace SecureTokenService.Models
@@ -9,10 +11,18 @@ namespace SecureTokenService.Models
 
         public Database()
         {
-            var credential = Environment.Get("DB_USERNAME") + ":" + Environment.Get("DB_PASSWORD");
-            var url = "mongodb://" + Environment.Get("DB_HOST") + ":27017";
-            var client = new MongoClient(url);
-            _db = client.GetDatabase(Environment.Get("DB_NAME"));
+            try
+            {
+                var client = new MongoClient(ConfigManager.DatabaseConnectionString);
+                _db = client.GetDatabase(ConfigManager.DatabaseName);
+                Console.WriteLine(_db != null
+                    ? $"Successfully connected to MongoDB with connection string {ConfigManager.DatabaseConnectionString}"
+                    : $"Failed to connect to MongoDB with connection string {ConfigManager.DatabaseConnectionString}");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"Failed to connect to MongoDB with connection string {ConfigManager.DatabaseConnectionString}");
+            }
         }
 
         public IMongoCollection<T> GetCollection<T>(string name)
