@@ -20,9 +20,9 @@ namespace SecureTokenService
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
-            
-            services.AddSingleton<IDatabase, Database>();
-            services.AddSingleton<IUserRepository, UserRepository>();
+            var db = new Database();
+            services.AddSingleton<IDatabase>(db);
+            services.AddSingleton<IUserRepository>(new UserRepository(db));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
