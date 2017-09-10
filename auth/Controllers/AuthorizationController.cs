@@ -5,17 +5,17 @@ using SecureTokenService.Utils;
 
 namespace SecureTokenService.Controllers
 {
-    [Route("authorize")]
+    [Route("authorization")]
     public class AuthorizationController : Controller
     {
         [HttpPost]
-        public Task<AuthorizationResult> AuthorizeRequest()
+        public Task<JsonResult> AuthorizeRequest()
         {
-            return Task.Run(() => new AuthorizationResult
+            return Task.Run(() => new JsonResult(new
             {
                 Success = true,
                 Message = "Test"
-            });
+            }));
         }
     }
 }

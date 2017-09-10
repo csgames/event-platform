@@ -13,5 +13,16 @@ namespace SecureTokenService.Users
         {
 
         }
+
+        public new Task Create(UserModel model)
+        {
+            model.Password = BCrypt.Net.BCrypt.HashPassword(model.Password);
+            return Collection.InsertOneAsync(model);
+        }
+
+        public async Task<UserModel> GetUserByUsername(string username)
+        {
+            return await Collection.Find(u => u.Username == username).Limit(1).FirstOrDefaultAsync();
+        }
     }
 }
