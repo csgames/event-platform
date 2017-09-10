@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SecureTokenService.MongoDB;
+using SecureTokenService.Permissions;
 using SecureTokenService.Redis;
 using SecureTokenService.Roles;
 using SecureTokenService.Users;
@@ -25,6 +26,7 @@ namespace SecureTokenService
             var db = new Database();
             services.AddSingleton<IDatabase>(db);
             services.AddSingleton(new RedisManager());
+            services.AddSingleton<IPermissionRepository, PermissionRepository>();
             services.AddSingleton<IRoleRepository, RoleRepository>();
             services.AddSingleton<IUserRepository, UserRepository>();
         }

@@ -1,6 +1,7 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using SecureTokenService.Models;
+using SecureTokenService.Permissions;
 
 namespace SecureTokenService.Roles
 {
@@ -8,7 +9,9 @@ namespace SecureTokenService.Roles
     {
         [BsonElement("name")]
         public string Name { get; set; }
-        [BsonElement("permissions")]
-        public string[] Permissions { get; set; }
+        [BsonElement("permissions_id")]
+        public ObjectId[] PermissionsId { get; set; }
+        
+        public PermissionModel[] Permissions { get; set; }
     }
 }
