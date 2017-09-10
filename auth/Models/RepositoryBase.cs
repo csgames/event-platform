@@ -27,7 +27,14 @@ namespace SecureTokenService.Models
 
         public async Task<T> GetById(ObjectId id)
         {
-            return (await Collection.Find(new BsonDocument("_id", id)).ToListAsync()).ToArray()[0];
+            var element = await Collection.Find(new BsonDocument("_id", id)).Limit(1).FirstOrDefaultAsync();
+
+            return element ?? null;
+        }
+
+        public T GetByIdSync(ObjectId id)
+        {
+            return Collection.Find(new BsonDocument("_id", id)).First();
         }
 
         public async Task<T> Update(T model)

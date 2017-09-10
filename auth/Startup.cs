@@ -3,7 +3,9 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SecureTokenService.MongoDB;
+using SecureTokenService.Permissions;
 using SecureTokenService.Redis;
+using SecureTokenService.Roles;
 using SecureTokenService.Users;
 
 namespace SecureTokenService
@@ -24,7 +26,9 @@ namespace SecureTokenService
             var db = new Database();
             services.AddSingleton<IDatabase>(db);
             services.AddSingleton(new RedisManager());
-            services.AddSingleton<IUserRepository>(new UserRepository(db));
+            services.AddSingleton<IPermissionRepository, PermissionRepository>();
+            services.AddSingleton<IRoleRepository, RoleRepository>();
+            services.AddSingleton<IUserRepository, UserRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
