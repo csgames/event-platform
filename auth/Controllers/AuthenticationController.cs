@@ -9,10 +9,11 @@ using Newtonsoft.Json;
 using SecureTokenService.Helpers;
 using SecureTokenService.Users;
 using SecureTokenService.Utils;
+using ServiceStack;
 
 namespace SecureTokenService.Controllers
 {
-    [Route("authentication")]
+    [Microsoft.AspNetCore.Mvc.Route("authentication")]
     public class AuthenticationController : Controller
     {
         private readonly IUserRepository _repo;
@@ -57,14 +58,20 @@ namespace SecureTokenService.Controllers
                     return Unauthorized();
                 }
 
-                var jwt = _tokenHelper.GenerateJWT(user);
-                var refreshToken = _tokenHelper.GenerateRefreshToken(user);
-
-                var options = new CookieOptions
+                
+                var hasRefreshToken = Request.Cookies["refreshtoken"];
+                if (hasRefreshToken == null || !_tokenHelper.IsRefreshTokenValid(hasRefreshToken))
                 {
-                    Secure = true
-                };
-                HttpContext.Response.Cookies.Append("refreshtoken", refreshToken, options);
+                    var refreshToken = _tokenHelper.GenerateRefreshToken(user);
+
+                    var options = new CookieOptions
+                    {
+                        Expires = DateTime.Now.AddDays(1)
+                    };
+                    HttpContext.Response.Cookies.Append("refreshtoken", refreshToken, options);
+                }
+                var jwt = _tokenHelper.GenerateJWT(user);
+                
                 
                 return Ok(new
                 {
@@ -73,6 +80,29 @@ namespace SecureTokenService.Controllers
                 });
             }
             catch (Exception)
+            {
+                return Unauthorized();
+            }
+        }
+        
+        [HttpPost("refresh")]
+        public async Task<IActionResult> Refresh()
+        {
+            try
+            {
+                var refreshToken = Request.Cookies["refreshtoken"];
+
+                var user = await _tokenHelper.GetUserForRefreshToken(refreshToken);
+                
+                var jwt = _tokenHelper.GenerateJWT(user);
+                
+                return Ok(new
+                {
+                    success = true,
+                    jwt
+                });
+            }
+            catch (Exception e)
             {
                 return Unauthorized();
             }
