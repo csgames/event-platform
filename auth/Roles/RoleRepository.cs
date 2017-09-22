@@ -11,7 +11,7 @@ namespace SecureTokenService.Roles
 {
     public class RoleRepository : RepositoryBase<RoleModel>, IRoleRepository
     {
-        private IPermissionRepository _permissionRepository;
+        private readonly IPermissionRepository _permissionRepository;
 
         public RoleRepository(IDatabase db, IPermissionRepository permissionRepository) : base(db.GetCollection<RoleModel>("roles"))
         {
@@ -24,9 +24,9 @@ namespace SecureTokenService.Roles
             return role;
         }
 
-        public new async Task<RoleModel> GetById(ObjectId id)
+        public new async Task<RoleModel> GetById(string id)
         {
-            var user = await Collection.Find(new BsonDocument("_id", id)).Limit(1).FirstOrDefaultAsync();
+            var user = await Collection.Find(new BsonDocument("_id", new ObjectId(id))).Limit(1).FirstOrDefaultAsync();
 
             if (user == null)
                 return null;

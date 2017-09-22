@@ -1,4 +1,6 @@
-﻿namespace SecureTokenService.Utils
+﻿using System.Runtime.Serialization;
+
+namespace SecureTokenService.Utils
 {
     public class Credentials
     {

@@ -25,7 +25,7 @@ namespace SecureTokenService.Permissions
             var i = 0;
             foreach (var permission in role.PermissionsId)
             {
-                array[i++] = permission;
+                array[i++] = new ObjectId(permission);
             }
 
             var filter = Builders<PermissionModel>.Filter.AnyIn("_id", array);

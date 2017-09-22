@@ -25,14 +25,14 @@ namespace SecureTokenService.Models
             return (await Collection.Find(new BsonDocument()).ToListAsync()).ToArray();
         }
 
-        public async Task<T> GetById(ObjectId id)
+        public async Task<T> GetById(string id)
         {
             var element = await Collection.Find(new BsonDocument("_id", id)).Limit(1).FirstOrDefaultAsync();
 
             return element ?? null;
         }
 
-        public T GetByIdSync(ObjectId id)
+        public T GetByIdSync(string id)
         {
             return Collection.Find(new BsonDocument("_id", id)).First();
         }
@@ -49,7 +49,7 @@ namespace SecureTokenService.Models
             return null;
         }
 
-        public async Task<bool> Delete(ObjectId id)
+        public async Task<bool> Delete(string id)
         {
             var result = await Collection.DeleteOneAsync(new BsonDocument("_id", id));
 

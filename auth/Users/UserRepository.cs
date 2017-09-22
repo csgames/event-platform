@@ -12,7 +12,7 @@ namespace SecureTokenService.Users
 {
     public class UserRepository : RepositoryBase<UserModel>, IUserRepository
     {
-        private IRoleRepository _roleRepository;
+        private readonly IRoleRepository _roleRepository;
 
         public UserRepository(IDatabase db, IRoleRepository roleRepository) : base(db.GetCollection<UserModel>("users"))
         {
@@ -25,9 +25,9 @@ namespace SecureTokenService.Users
             return user;
         }
 
-        public new async Task<UserModel> GetById(ObjectId id)
+        public new async Task<UserModel> GetById(string id)
         {
-            var user = await Collection.Find(new BsonDocument("_id", id)).Limit(1).FirstOrDefaultAsync();
+            var user = await Collection.Find(new BsonDocument("_id", new ObjectId(id))).Limit(1).FirstOrDefaultAsync();
 
             if (user == null)
                 return null;
@@ -60,7 +60,14 @@ namespace SecureTokenService.Users
 
         public async Task<UserModel> GetUserByUsername(string username)
         {
-            return await Collection.Find(u => u.Username == username).Limit(1).FirstOrDefaultAsync();
+            var user = await Collection.Find(u => u.Username == username).Limit(1).FirstOrDefaultAsync();
+            
+            if (user == null)
+                return null;
+
+            user = await PopulateUserModel(user);
+
+            return user;
         }
     }
 }

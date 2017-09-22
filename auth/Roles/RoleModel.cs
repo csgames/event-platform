@@ -9,8 +9,10 @@ namespace SecureTokenService.Roles
     {
         [BsonElement("name")]
         public string Name { get; set; }
+        
+        [BsonRepresentation(BsonType.ObjectId)]
         [BsonElement("permissions_id")]
-        public ObjectId[] PermissionsId { get; set; }
+        public string[] PermissionsId { get; set; }
         
         public PermissionModel[] Permissions { get; set; }
     }
