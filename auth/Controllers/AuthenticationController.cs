@@ -26,10 +26,25 @@ namespace SecureTokenService.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<JsonResult> Register([FromBody] UserModel input)
+        public async Task<IActionResult> Register([FromBody] UserModel input)
         {
             try
             {
+                var authorization = Request.Headers["Authorization"].ToString();
+                var type = authorization.Split(" ")[0];
+                var jwt = authorization.Split(" ")[1];
+                try
+                {
+                    var token = _tokenHelper.ValidateJWT(jwt, new string[] {"regiset"});
+                    if (token == null)
+                    {
+                        return new StatusCodeResult(401);
+                    }
+                }
+                catch (Exception e)
+                {
+                    
+                }
                 await _repo.Create(input);
                 return new JsonResult(new
                 {

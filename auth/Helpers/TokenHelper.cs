@@ -18,12 +18,12 @@ namespace SecureTokenService.Helpers
         public DateTime IssuedAt;
         public DateTime ExpiresAt;
     }
-    
-    public class TokenHelper: ITokenHelper
+
+    public class TokenHelper : ITokenHelper
     {
         private const string RefreshTokenString = "refreshtokens";
 
-        private readonly string _secret = ConfigManager.JWTSecret;
+        private readonly byte[] _symmetricKey = Convert.FromBase64String(ConfigManager.JWTSecret);
         private readonly TimeSpan _expiration = ConfigManager.JWTExpirationTime;
 
         private readonly TimeSpan _refreshExpiration = ConfigManager.RefreshTokenExpirationTime;
@@ -39,7 +39,6 @@ namespace SecureTokenService.Helpers
 
         public string GenerateJWT(UserModel user)
         {
-            var symmetricKey = Convert.FromBase64String(_secret);
             var tokenHandler = new JwtSecurityTokenHandler();
 
             var now = DateTime.UtcNow;
@@ -56,7 +55,7 @@ namespace SecureTokenService.Helpers
 
                 Expires = now.AddMinutes(_expiration.TotalMinutes),
 
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(symmetricKey),
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(_symmetricKey),
                     SecurityAlgorithms.HmacSha256Signature)
             };
 
@@ -64,6 +63,26 @@ namespace SecureTokenService.Helpers
             var token = tokenHandler.WriteToken(stoken);
 
             return token;
+        }
+
+        public SecurityToken ValidateJWT(string token, string[] permissions)
+        {
+            try
+            {
+                var tokenHandler = new JwtSecurityTokenHandler();
+                tokenHandler.ValidateToken(token, new TokenValidationParameters()
+                {
+                    ValidateIssuer = false,
+                    ValidateAudience = false,
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(_symmetricKey)
+                }, out var validatedToken);
+                return validatedToken;
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
         }
 
         public string GenerateRefreshToken(UserModel user)
@@ -83,7 +102,7 @@ namespace SecureTokenService.Helpers
 
         public TokenInfo GetTokenInfo(string token)
         {
-            var info =_redisManager.Client.Get<string>(token);
+            var info = _redisManager.Client.Get<string>(token);
             if (info == null)
             {
                 throw new Exception("Invalid refresh token.");
@@ -91,7 +110,7 @@ namespace SecureTokenService.Helpers
             var infoObj = JsonConvert.DeserializeObject<TokenInfo>(info);
             return infoObj;
         }
-        
+
         public bool IsRefreshTokenValid(string token)
         {
             try
@@ -111,7 +130,7 @@ namespace SecureTokenService.Helpers
             var obj = GetTokenInfo(token);
 
             var user = await _userRepository.GetById(obj.IssuedTo);
-            
+
             if (IsRefreshTokenValid(token))
             {
                 _redisManager.Client.Remove(token);
