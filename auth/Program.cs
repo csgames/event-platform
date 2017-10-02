@@ -31,7 +31,7 @@ namespace STS
                 .UseContentRoot(Directory.GetCurrentDirectory())
                 .UseIISIntegration()
                 .UseStartup<Startup>()
-                .UseUrls($"http://localhost:{Environment.GetEnvironmentVariable("PORT") ?? "5555"}")
+                .UseUrls($"http://*:{Environment.GetEnvironmentVariable("PORT") ?? "5555"}")
                 .Build();
     }
 }
