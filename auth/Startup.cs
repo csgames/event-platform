@@ -11,6 +11,7 @@ using IdentityServer4.Validation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -19,6 +20,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using MongoDB.Bson.IO;
 using MongoDB.Bson.Serialization;
+using STS.Configuration;
 using STS.Extension;
 using STS.Interface;
 using STS.Store;
@@ -42,7 +44,17 @@ namespace STS
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
+            services.AddCors(options=>
+            {
+                options.AddPolicy("default", policy =>
+                {
+                    policy.AllowAnyOrigin()
+                        .AllowAnyHeader()
+                        .AllowAnyMethod()
+                        .AllowCredentials();
+                });
+            });
+            
             services.AddMvc();
             services.AddIdentityServer()
                 .AddSigningCredential(_cert)
@@ -54,6 +66,7 @@ namespace STS
 
             services.AddTransient<IResourceOwnerPasswordValidator, CustomResourceOwnerPasswordValidator>();
             services.AddTransient<IProfileService, ProfileService>();
+            services.AddSingleton<ICorsPolicyService, CustomCorsPolicyService>();
             
             var tokenValidationParameters = new TokenValidationParameters
             {
@@ -80,11 +93,13 @@ namespace STS
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            app.UseCors("default");
             app.UseDeveloperExceptionPage();
             app.UseIdentityServer();
             app.UseStaticFiles();
             app.UseMvcWithDefaultRoute();
-           
+            
+            
             ConfigureMongoDriver2IgnoreExtraElements();
 
             InitializeDatabase(app);
