@@ -10,4 +10,4 @@ openssl genrsa 2048 > private.pem
 openssl req -x509 -new -key private.pem -out public.pem
 
 # Generate pfx file
-openssl pkcs12 -export -in public.pem -inkey private.pem -out mycert.pfx
+openssl pkcs12 -export -in public.pem -inkey private.pem -out STSCert.pfx
