@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Security.Claims;
+using System.Threading.Tasks;
 using IdentityServer4.Models;
 using STS.Interface;
 
@@ -18,6 +19,10 @@ namespace STS.Store
             return Task.Run(() =>
             {
                 var client = _dbRepository.Single<Client>(c => c.ClientId == clientId);
+                foreach (var prop in client.Properties)
+                {
+                    client.Claims.Add(new Claim(prop.Key, prop.Value));
+                }
                 return client;
             });
         }

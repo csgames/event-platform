@@ -48,8 +48,7 @@ namespace STS.User
                             {
                                 var claims = UserHelper.GetUserClaims(user, _db);
 
-                                context.IssuedClaims =
-                                    claims.Where(x => context.RequestedClaimTypes.Contains(x.Type)).ToList();
+                                context.IssuedClaims = claims.ToList();
                             }
                         }
                     }

@@ -4,6 +4,7 @@ using System.Security.Claims;
 using IdentityServer4;
 using IdentityServer4.Models;
 using IdentityServer4.Test;
+using Newtonsoft.Json;
 
 namespace STS
 {
@@ -72,6 +73,10 @@ namespace STS
                         "lhgames_game_api",
                         "lhgames_deployment_runner_api",
                         "lhgames_bob_the_builder_api"
+                    },
+                    Properties =
+                    {
+                        new KeyValuePair<string, string>("permissions", "[]")
                     }
                 },
                 new Client

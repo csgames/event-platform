@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Security.Claims;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using IdentityServer4.Models;
@@ -16,11 +17,13 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using MongoDB.Bson.IO;
 using MongoDB.Bson.Serialization;
 using STS.Extension;
 using STS.Interface;
 using STS.Store;
 using STS.User;
+using JsonConvert = Newtonsoft.Json.JsonConvert;
 
 namespace STS
 {
@@ -130,6 +133,11 @@ namespace STS
         private static void ConfigureMongoDriver2IgnoreExtraElements()
         {
             BsonClassMap.RegisterClassMap<Client>(cm =>
+            {
+                cm.AutoMap();
+                cm.SetIgnoreExtraElements(true);
+            }); 
+            BsonClassMap.RegisterClassMap<Claim>(cm =>
             {
                 cm.AutoMap();
                 cm.SetIgnoreExtraElements(true);

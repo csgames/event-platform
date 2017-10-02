@@ -28,6 +28,23 @@ namespace STS.Controllers
         {
             return Task.Run<IActionResult>(() =>
             {
+                var permissionsClaim =
+                (from c in HttpContext.User.Claims
+                    where c.Type == "permissions" || c.Type == "client_permissions"
+                    select c).First();
+
+                if (permissionsClaim == null)
+                {
+                    return Forbid();
+                }
+
+                var permissions = JsonConvert.DeserializeObject<List<string>>(permissionsClaim.Value);
+
+                if (!permissions.Contains("sts:create:user"))
+                {
+                    return Forbid();
+                }
+
                 if (!ModelState.IsValid)
                 {
                     return BadRequest();
