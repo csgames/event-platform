@@ -14,8 +14,15 @@ namespace STS
     {
         public static void Main(string[] args)
         {
-            DotNetEnv.Env.Load();
-            BuildWebHost(args).Run();
+            try
+            {
+                DotNetEnv.Env.Load();
+                BuildWebHost(args).Run();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("No .env file found");
+            }
         }
 
         public static IWebHost BuildWebHost(string[] args) =>
