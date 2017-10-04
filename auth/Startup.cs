@@ -56,7 +56,7 @@ namespace STS
             });
             
             services.AddMvc();
-            services.AddIdentityServer()
+            services.AddIdentityServer(x => x.IssuerUri = Environment.GetEnvironmentVariable("ISSUER_URI"))
                 .AddSigningCredential(_cert)
                 .AddMongoRepository()
                 .AddClients()
