@@ -24,7 +24,7 @@ namespace STS.Controllers
 
         [Authorize]
         [HttpPost]
-        public Task<IActionResult> Post([FromBody] UserRegisterInput input)
+        public Task<IActionResult> Post(UserRegisterInput input)
         {
             return Task.Run<IActionResult>(() =>
             {
@@ -47,6 +47,7 @@ namespace STS.Controllers
 
                 if (!ModelState.IsValid)
                 {
+                    Console.WriteLine(input);
                     return BadRequest();
                 }
                 var user = _db.Single<User.User>(u => u.Username == input.Username);

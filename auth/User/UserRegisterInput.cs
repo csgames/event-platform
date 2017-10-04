@@ -1,14 +1,15 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace STS.User
 {
     public class UserRegisterInput
     {
         [Required]
-        public string Username;
+        public string Username { get; set; }
         [Required]
-        public string Password;
+        public string Password { get; set; }
         [Required]
-        public string RoleId;
+        public string RoleId { get; set; }
     }
 }
