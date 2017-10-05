@@ -17,5 +17,6 @@ namespace STS.Interface
         void Add<T>(T item) where T : class, new();
         void Add<T>(IEnumerable<T> items) where T : class, new();
         bool CollectionExists<T>() where T : class, new();
+        void Update<T>(string id, Dictionary<string, object> set) where T : class, new();
     }
 }

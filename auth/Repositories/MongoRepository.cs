@@ -12,20 +12,21 @@ namespace STS.Repositories
     {
         protected static IMongoClient _client;
         protected static IMongoDatabase _database;
-        
+
         public MongoRepository()
         {
             _client = new MongoClient(ConfigManager.DatabaseConnectionString);
             _database = _client.GetDatabase(ConfigManager.DatabaseName);
         }
 
-        
+
         public IQueryable<T> All<T>() where T : class, new()
         {
             return _database.GetCollection<T>(typeof(T).Name).AsQueryable();
         }
 
-        public IQueryable<T> Where<T>(System.Linq.Expressions.Expression<Func<T, bool>> expression) where T : class, new()
+        public IQueryable<T> Where<T>(System.Linq.Expressions.Expression<Func<T, bool>> expression)
+            where T : class, new()
         {
             return All<T>().Where(expression);
         }
@@ -33,8 +34,8 @@ namespace STS.Repositories
         public void Delete<T>(System.Linq.Expressions.Expression<Func<T, bool>> predicate) where T : class, new()
         {
             var result = _database.GetCollection<T>(typeof(T).Name).DeleteMany(predicate);
-
         }
+
         public T Single<T>(System.Linq.Expressions.Expression<Func<T, bool>> expression) where T : class, new()
         {
             return All<T>().Where(expression).SingleOrDefault();
@@ -46,7 +47,6 @@ namespace STS.Repositories
             var filter = new BsonDocument();
             var totalCount = collection.Count(filter);
             return (totalCount > 0) ? true : false;
-
         }
 
         public void Add<T>(T item) where T : class, new()
@@ -59,7 +59,13 @@ namespace STS.Repositories
             _database.GetCollection<T>(typeof(T).Name).InsertMany(items);
         }
 
-
-       
+        public void Update<T>(string id, Dictionary<string, object> set) where T : class, new()
+        {
+            var collection = _database.GetCollection<T>(typeof(T).Name);
+            var builder = Builders<T>.Filter;
+            var filter = builder.Eq("_id", new ObjectId(id));
+            var update = set.Aggregate(Builders<T>.Update.Combine(), (current, up) => current.Set(up.Key, up.Value));
+            collection.UpdateOne(filter, update);
+        }
     }
 }
