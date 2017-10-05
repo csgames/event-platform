@@ -13,9 +13,15 @@ using STS.User;
 
 namespace STS.Controllers
 {
+    
     [Route("register")]
     public class RegisterController : Controller
     {
+        enum ErrorCode
+        {
+            WRONG_OLD_PASSWORD_ERROR = 26
+        }
+        
         private readonly IRepository _db;
 
         public RegisterController(IRepository db)
@@ -95,15 +101,16 @@ namespace STS.Controllers
 
                 var permissions = JsonConvert.DeserializeObject<List<string>>(permissionsClaim.Value);
 
-                if (!permissions.Contains("sts:change-own:password"))
+                if (!permissions.Contains("sts:update:password"))
                 {
                     return Forbid();
                 }
-
+                
                 if (!ModelState.IsValid)
                 {
                     return BadRequest();
                 }
+                
                 var user = _db.Single<User.User>(u => u.Username == input.Username);
                 if (user == null)
                 {
@@ -113,7 +120,11 @@ namespace STS.Controllers
                 {
                     if (!BCrypt.Net.BCrypt.Verify(input.OldPassword, user.Password))
                     {
-                        return Unauthorized();
+                        return StatusCode((int) HttpStatusCode.BadRequest, new
+                        {
+                            success = true,
+                            code = ErrorCode.WRONG_OLD_PASSWORD_ERROR
+                        });
                     }
                     var hashedNewPassword = BCrypt.Net.BCrypt.HashPassword(input.NewPassword);
                     _db.Update<User.User>(user.Id, new Dictionary<string, object>()
