@@ -1,9 +1,9 @@
 import { Module } from "@nestjs/common";
-import { AttendeesModule } from "./database/attendees/attendees.module";
+import { TemplatesModule } from "./database/templates/templates.module";
 
 @Module({
     modules: [
-        AttendeesModule
+        TemplatesModule
     ]
 })
 export class ApplicationModule {

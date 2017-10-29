@@ -12,7 +12,7 @@ async function bootstrap() {
 
     app.use(morgan("dev"));
     app.use(bodyParser.json());
-    app.use(bodyParser.urlencoded({extended: true}));
+    app.use(bodyParser.urlencoded({ extended: true }));
     // app.use(jwt({
     //     secret: fs.readFileSync(process.env.STS_PUBLIC_KEY),
     //     audience: [
@@ -27,16 +27,11 @@ async function bootstrap() {
         preflightContinue: true
     }));
     app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
-        if (req.headers["origin"]) {
-            res.setHeader("Access-Control-Allow-Origin", req.headers["origin"]);
+        if (req.headers[ "origin" ]) {
+            res.setHeader("Access-Control-Allow-Origin", req.headers[ "origin" ]);
             res.setHeader("Access-Control-Allow-Credentials", "true");
         }
         next();
-    });
-
-    app.post("attendee2", function (req: express.Request, res: express.Response) {
-        console.log(req.body);
-        res.send({success: true});
     });
 
     const nestApp = await NestFactory.create(ApplicationModule, app);
