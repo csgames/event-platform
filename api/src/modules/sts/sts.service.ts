@@ -13,15 +13,12 @@ export class STSService {
 
     private accessToken: string;
 
-    constructor() {
-        this.renewToken();
-    }
-
     public async validateTokens(): Promise<boolean> {
         if (!this.accessToken) {
             return await this.renewToken();
         }
 
+        // Extract payload from jwt token
         let payload = JSON.parse(Buffer.from(this.accessToken.split(".")[1], "base64").toString());
         let exp = payload.exp;
         let now = new Date().getTime() / 1000;
@@ -57,7 +54,6 @@ export class STSService {
             }).then(r => r.json());
             return res.access_token;
         } catch (e) {
-            console.log(e);
             return null;
         }
     }
