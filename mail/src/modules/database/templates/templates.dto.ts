@@ -1,7 +1,4 @@
-import {
-    IsDefined, IsNotEmpty, IsOptional, IsString,
-    registerDecorator, ValidationOptions
-} from "class-validator";
+import { IsDefined, IsNotEmpty, IsOptional, IsString, registerDecorator, ValidationOptions } from "class-validator";
 
 export class CreateTemplateDto {
 
