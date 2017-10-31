@@ -22,6 +22,6 @@ export class AttendeesController {
     @Get()
     @Permissions('event_management:get-all:attendee')
     async getAll(): Promise<Attendees[]> {
-        return this.attendeesService.findAll();
+        return await this.attendeesService.findAll();
     }
 }
