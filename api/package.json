@@ -12,7 +12,8 @@
   "scripts": {
     "start": "node ./build/server.js",
     "build": "gulp",
-    "lint": "gulp lint"
+    "lint": "gulp lint",
+    "test": "cross-env JASMINE_CONFIG_PATH=jasmine.json jasmine-ts \"./**/*.spec.ts\""
   },
   "dependencies": {
     "@nestjs/common": "^4.1.1",
@@ -38,15 +39,21 @@
     "@types/cors": "^2.8.1",
     "@types/express": "^4.0.37",
     "@types/express-jwt": "0.0.37",
+    "@types/jasmine": "^2.6.2",
     "@types/mongoose": "^4.7.24",
     "@types/morgan": "^1.7.35",
     "@types/node": "^8.0.46",
     "@types/node-fetch": "^1.6.7",
+    "cross-env": "^5.1.1",
     "gulp": "^3.9.1",
     "gulp-sourcemaps": "^2.6.1",
     "gulp-tslint": "^8.1.2",
     "gulp-typescript": "^3.2.3",
+    "jasmine": "^2.8.0",
+    "jasmine-spec-reporter": "^4.2.1",
+    "jasmine-ts": "^0.2.1",
     "tslint": "^5.8.0",
+    "typemoq": "^2.0.1",
     "typescript": "^2.5.3"
   }
 }
