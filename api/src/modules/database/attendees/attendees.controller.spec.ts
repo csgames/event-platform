@@ -6,8 +6,8 @@ import { CreateAttendeeDto } from './attendees.dto';
 
 describe('AttendeesController Tests', () => {
     let attendeeServiceMock: IMock<AttendeesService>;
-    let reqMock: IMock<express.Request>
-    let createAttendeeDtoMock: IMock<CreateAttendeeDto>
+    let reqMock: IMock<express.Request>;
+    let createAttendeeDtoMock: IMock<CreateAttendeeDto>;
 
     let controller: AttendeesController;
 
