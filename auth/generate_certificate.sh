@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # Create keys folder 
-mkdir -p keys
+mkdir -p keys && cd keys
 
 # Generate private key
 openssl genrsa 2048 > private.pem
