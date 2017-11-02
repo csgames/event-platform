@@ -29,7 +29,7 @@ ISSUERS=http://localhost:5556
 For `DB_CONNECTION_STRING`, the dev database uri is on slack  
 For `DB_NAME`, the dev database name is on slack
 
-For `CERT_PATH`, if you changed the default location of your certificates, you need to put the path of the new location here 
+For `CERT_PATH`, if you changed the default location of your certificates, you need to put the path of the new location here   
 For `CERT_PASSWORD`, the value is the password of the generated certificates 
 
 For `AUDIENCE`, the value of this field is also on slack 
