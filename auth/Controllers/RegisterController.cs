@@ -65,15 +65,17 @@ namespace STS.Controllers
                 try
                 {
                     var hashedPassword = BCrypt.Net.BCrypt.HashPassword(input.Password);
-                    _db.Add(new User.User()
+                    user = new User.User()
                     {
                         Username = input.Username,
                         Password = hashedPassword,
                         RoleId = input.RoleId
-                    });
+                    };
+                    _db.Add(user);
                     return Ok(new
                     {
                         success = true,
+                        userId = user.Id
                     });
                 }
                 catch (Exception e)
