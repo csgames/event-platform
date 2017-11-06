@@ -7,7 +7,7 @@ export class CreateTemplateDto {
 
     @IsString()
     @IsNotEmpty()
-    template: string;
+    html: string;
 
     @IsOptional()
     @IsString()
@@ -23,7 +23,7 @@ export class UpdateTemplateDto {
     @IsOptional()
     @IsString()
     @IsNotEmpty()
-    template: string;
+    html: string;
 
     @IsOptional()
     @IsString()

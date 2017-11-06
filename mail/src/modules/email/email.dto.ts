@@ -1,4 +1,13 @@
-import { ArrayNotEmpty, IsDefined, IsNotEmpty, IsString, registerDecorator, ValidationOptions } from "class-validator";
+import {
+    ArrayNotEmpty,
+    IsDefined,
+    IsNotEmpty,
+    IsOptional,
+    IsString,
+    registerDecorator,
+    ValidationOptions
+} from "class-validator";
+import { EmailMessage } from "./email.interface";
 
 export class EmailSendDto {
     @IsString()
@@ -21,6 +30,15 @@ export class EmailSendDto {
     @IsString()
     @IsNotEmpty()
     html: string;
+
+    // If template is present, will overwrite html.
+    @IsOptional()
+    @IsString()
+    @IsNotEmpty()
+    template: string;
+
+    @IsOptional()
+    variables: { [key: string]: string };
 }
 
 export function IsStringArray(validationOptions?: ValidationOptions) {
@@ -36,5 +54,15 @@ export function IsStringArray(validationOptions?: ValidationOptions) {
                 }
             }
         });
+    };
+}
+
+export function dtoToMailgunReadable(emailSendDto: EmailSendDto): EmailMessage {
+    return {
+        from: emailSendDto.from,
+        to: emailSendDto.to,
+        subject: emailSendDto.subject,
+        text: emailSendDto.text,
+        html: emailSendDto.html,
     };
 }

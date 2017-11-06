@@ -1,6 +1,6 @@
 import { Component } from "@nestjs/common";
 import * as _mailgun from "mailgun-js";
-import { EmailSendDto } from "./email.dto";
+import { EmailMessage } from "./email.interface";
 
 @Component()
 export class EmailService {
@@ -11,7 +11,7 @@ export class EmailService {
         this.mailgun = new _mailgun({ apiKey: process.env.MAILGUN_API_KEY, domain: process.env.MAILGUN_DOMAIN });
     }
 
-    async send(emailSendDto: EmailSendDto) {
-        return await this.mailgun.messages().send(emailSendDto);
+    async send(emailMessage: EmailMessage) {
+        return await this.mailgun.messages().send(emailMessage);
     }
 }

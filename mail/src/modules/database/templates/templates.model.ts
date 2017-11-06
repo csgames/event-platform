@@ -3,7 +3,7 @@ import * as mongoose from "mongoose";
 export interface Template extends mongoose.Document {
     name: string;
     description: string;
-    template: string;
+    html: string;
 }
 
 export const TemplatesSchema = new mongoose.Schema({
@@ -12,7 +12,7 @@ export const TemplatesSchema = new mongoose.Schema({
         unique: true,
         required: true,
     },
-    template: {
+    html: {
         type: String,
         required: true
     },
