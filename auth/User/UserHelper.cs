@@ -18,8 +18,12 @@ namespace STS.User
             {
                 new Claim("user_id", user.Id ?? ""),
                 new Claim(JwtClaimTypes.Name, user.Username ?? ""),
-                new Claim("permissions", JsonConvert.SerializeObject(permissions) ?? "blbsdmvklds"),
-                new Claim(JwtClaimTypes.Role, role.Name)
+                new Claim("permissions", JsonConvert.SerializeObject(permissions) ?? "[]"),
+                new Claim(JwtClaimTypes.Role, role.Name),
+                new Claim("email", user.Email ?? ""),
+                new Claim("firstname", user.FirstName ?? ""),
+                new Claim("lastname", user.LastName ?? ""),
+                new Claim("birthdate", user.BirthDate ?? "")
             };
         }
     }

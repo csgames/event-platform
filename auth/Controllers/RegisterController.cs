@@ -5,8 +5,6 @@ using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Data.OData.Query;
-using MongoDB.Bson;
 using Newtonsoft.Json;
 using STS.Interface;
 using STS.User;

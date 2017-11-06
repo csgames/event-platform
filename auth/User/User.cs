@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Security.Claims;
-using IdentityModel;
-using MongoDB.Bson;
+﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
 namespace STS.User
@@ -15,6 +12,14 @@ namespace STS.User
         public string Username { get; set; }
 
         public string Password { get; set; }
+        
+        public string Email { get; set; }
+        
+        public string FirstName { get; set; }
+        
+        public string LastName { get; set; }
+        
+        public string BirthDate { get; set; }
 
         public bool IsActive { get; } = true;
         
