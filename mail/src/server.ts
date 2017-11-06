@@ -13,16 +13,6 @@ async function bootstrap() {
     app.use(morgan("dev"));
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({ extended: true }));
-    // app.use(jwt({
-    //     secret: fs.readFileSync(process.env.STS_PUBLIC_KEY),
-    //     audience: [
-    //         process.env.STS_AUDIENCE_URL,
-    //         process.env.STS_AUDIENCE_SCOPE
-    //     ],
-    //     issuer: process.env.STS_ISSUER_URL
-    // }).unless({
-    //     path: [/^\/registration\/.*/]
-    // }));
     app.use(cors({
         preflightContinue: true
     }));

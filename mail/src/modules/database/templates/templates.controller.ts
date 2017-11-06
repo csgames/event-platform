@@ -12,10 +12,6 @@ export class TemplatesController {
 
     @Post()
     async create(@Req() req: express.Request, @Body(new ValidationPipe()) createTemplateDto: CreateTemplateDto) {
-        // Convert buffer to string
-        if (Buffer.isBuffer(createTemplateDto)) {
-            createTemplateDto.template = createTemplateDto.toString("utf-8");
-        }
         await this.templatesService.create(createTemplateDto);
     }
 

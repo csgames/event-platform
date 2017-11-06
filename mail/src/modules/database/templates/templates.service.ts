@@ -14,14 +14,18 @@ export class TemplatesService {
     }
 
     async findAll(): Promise<Template[]> {
-        return await this.templatesModel.find().exec();
+        return this.templatesModel.find().exec();
+    }
+
+    async findOne(name: string): Promise<Template> {
+        return this.templatesModel.findOne({ name: name }).exec();
     }
 
     async update(name: string, updateTemplateDto: UpdateTemplateDto) {
-        return await this.templatesModel.update({ name: name }, updateTemplateDto).exec();
+        return this.templatesModel.update({ name: name }, updateTemplateDto).exec();
     }
 
     async remove(name: string) {
-        return await this.templatesModel.remove({ name: name }).exec();
+        return this.templatesModel.remove({ name: name }).exec();
     }
 }

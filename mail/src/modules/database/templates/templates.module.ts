@@ -10,7 +10,8 @@ import { DatabaseModule } from "../database.module";
     components: [
         TemplatesService,
         ...templatesProviders
-    ]
+    ],
+    exports: [ TemplatesService ]
 })
 export class TemplatesModule {
 }
