@@ -3,7 +3,6 @@
     <TargetFramework>netcoreapp2.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-    <Folder Include="NewDirectory1" />
     <Folder Include="wwwroot\" />
   </ItemGroup>
   <ItemGroup>
