@@ -1,28 +1,30 @@
-import * as express from "express";
 import { AttendeesController } from './attendees.controller';
 import { IMock, Mock, It, Times } from 'typemoq';
 import { AttendeesService } from './attendees.service';
-import { CreateAttendeeDto } from './attendees.dto';
+import { SchoolsService } from "../schools/schools.service";
+import { CreateAttendeeDto } from "./attendees.dto";
 
 describe('AttendeesController Tests', () => {
     let attendeeServiceMock: IMock<AttendeesService>;
-    let reqMock: IMock<express.Request>;
+    let schoolServiceMock: IMock<SchoolsService>;
     let createAttendeeDtoMock: IMock<CreateAttendeeDto>;
 
     let controller: AttendeesController;
 
     beforeEach(() => {
         attendeeServiceMock = Mock.ofType<AttendeesService>();
+        schoolServiceMock = Mock.ofType<SchoolsService>();
 
-        reqMock = Mock.ofType<express.Request>();
+        schoolServiceMock.setup(x => x.findOne(It.isAny())).returns(() => It.isAny());
+
         createAttendeeDtoMock = Mock.ofType<CreateAttendeeDto>();
 
-        controller = new AttendeesController(attendeeServiceMock.object);
+        controller = new AttendeesController(attendeeServiceMock.object, schoolServiceMock.object);
     });
 
     it('Calling create - Should call attendeeService.create', async () => {
         // Act
-        await controller.create(reqMock.object, createAttendeeDtoMock.object);
+        await controller.create('', createAttendeeDtoMock.object);
 
         // Assert
         attendeeServiceMock.verify(x => x.create(It.isAny()), Times.once());

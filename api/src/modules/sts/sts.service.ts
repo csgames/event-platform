@@ -5,6 +5,16 @@ import * as querystring from "querystring";
 import { UserModel } from "./user.model";
 import { HttpException } from "@nestjs/core";
 
+export interface RegisterUserResponse {
+    success: boolean;
+    userId: string;
+}
+
+export interface GetAllRolesResponse {
+    success: boolean;
+    roles: [{ id: string, name: string }];
+}
+
 @Component()
 export class STSService {
     private STS_URL = process.env.STS_URL;
@@ -58,7 +68,7 @@ export class STSService {
         }
     }
 
-    public async registerUser(user: UserModel) {
+    public async registerUser(user: Partial<UserModel>): Promise<RegisterUserResponse> {
         if (!await this.validateTokens()) {
             throw new Error("Error while retrieving token from STS.");
         }
@@ -72,6 +82,12 @@ export class STSService {
                 "Content-Type": "application/x-www-form-urlencoded"
             }
         });
+
+        if (res.ok) {
+            return await res.json();
+        } else {
+            throw new HttpException(res.statusText, res.status);
+        }
     }
 
     public async updateUserPassword(username: string, oldPassword: string, newPassword: string) {
@@ -103,6 +119,25 @@ export class STSService {
             } else {
                 throw new Error("Unknown error.");
             }
+        }
+    }
+
+    public async getRoles(): Promise<GetAllRolesResponse> {
+        if (!await this.validateTokens()) {
+            throw new Error("Error while retrieving token from STS.");
+        }
+
+        let res = await fetch(`${this.STS_URL}/role`, {
+            method: "GET",
+            headers: {
+                "Authorization": `Bearer ${this.accessToken}`
+            }
+        });
+
+        if (res.ok) {
+            return await res.json();
+        } else {
+            throw new HttpException(res.statusText, res.status);
         }
     }
 }
