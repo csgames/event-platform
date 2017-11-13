@@ -4,8 +4,8 @@ import { Events } from "../events/events.model";
 
 export interface Teams extends mongoose.Document {
     readonly name: string;
-    readonly attendees: Attendees[];
-    readonly event: Events;
+    readonly attendees: Attendees[] | mongoose.Schema.Types.ObjectId[];
+    readonly event: Events | mongoose.Schema.Types.ObjectId;
 }
 
 export const TeamsSchema = new mongoose.Schema({

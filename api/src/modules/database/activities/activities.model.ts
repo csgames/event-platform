@@ -6,7 +6,7 @@ export interface Activities extends mongoose.Document {
     readonly beginDate: Date;
     readonly endDate: Date;
     readonly location: string;
-    readonly attendees: Attendees[];
+    readonly attendees: Attendees[] | mongoose.Schema.Types.ObjectId[];
 }
 
 export const ActivitiesSchema = new mongoose.Schema({

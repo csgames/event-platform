@@ -27,3 +27,7 @@ gulp.task("lint", function () {
         .pipe(tslint({ formatter: "stylish" }))
         .pipe(tslint.report({ summarizeFailureOutput: true }))
 });
+
+gulp.task("watch", function () {
+    gulp.watch('src/**/*.ts', ['build'])
+});
