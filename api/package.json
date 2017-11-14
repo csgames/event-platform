@@ -13,6 +13,7 @@
     "start": "node ./build/server.js",
     "build": "gulp",
     "lint": "gulp lint",
+    "dev": "npm run build && npm run start",
     "test": "cross-env JASMINE_CONFIG_PATH=jasmine.json jasmine-ts \"./**/*.spec.ts\""
   },
   "dependencies": {
