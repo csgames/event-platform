@@ -31,12 +31,12 @@ export class TeamsController {
     @Post('join')
     @Permissions('event_management:join:team')
     public async join(@Body() joinTeamDto: JoinOrLeaveTeamDto) {
-        return { team: await this.teamsService.join(joinTeamDto.attendeeId, joinTeamDto.teamId) };
+        return { team: await this.teamsService.join(joinTeamDto) };
     }
 
     @Post("leave")
     @Permissions('event_management:leave:team')
     public async leave(@Body() leaveTeamDto: JoinOrLeaveTeamDto) {
-        return await this.teamsService.leave(leaveTeamDto.attendeeId, leaveTeamDto.teamId);
+        return await this.teamsService.leave(leaveTeamDto);
     }
 }

@@ -1,7 +1,6 @@
 // Filter for coded errors. This is used to have more distinguishable error code unlike HttpStatus.
-import { Catch } from "@nestjs/common";
+import { Catch, ExceptionFilter } from "@nestjs/common";
 import { CodeException } from "./code.exception";
-import { ExceptionFilter } from "@nestjs/common/interfaces/exceptions";
 
 export interface ErrorStatus {
     message: string;

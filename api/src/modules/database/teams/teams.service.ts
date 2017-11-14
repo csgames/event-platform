@@ -4,7 +4,7 @@ import { CodeException } from "../../../filters/CodedError/code.exception";
 import { BaseService } from "../../../services/base.service";
 import { AttendeesService } from "../attendees/attendees.service";
 import { Attendees } from "../attendees/attendees.model";
-import { CreateTeamDto } from "./teams.dto";
+import { CreateTeamDto, JoinOrLeaveTeamDto } from "./teams.dto";
 import { Teams } from "./teams.model";
 import { Code } from "./teams.exception";
 
@@ -23,13 +23,13 @@ export class TeamsService extends BaseService<Teams, CreateTeamDto> {
         super(teamsModel);
     }
 
-    public async join(attendeeId: string, teamId: string): Promise<Teams> {
-        let attendee: Attendees = await this.attendeesService.findOne( { _id: attendeeId });
+    public async join(joinTeamDto: JoinOrLeaveTeamDto): Promise<Teams> {
+        let attendee: Attendees = await this.attendeesService.findOne( { _id: joinTeamDto.attendeeId });
         if (!attendee) {
             throw new CodeException(Code.ATTENDEE_NOT_FOUND);
         }
 
-        let team: Teams = await this.findOne({ _id: teamId });
+        let team: Teams = await this.findOne({ _id: joinTeamDto.teamId });
         if (!team) {
             throw new CodeException(Code.TEAM_NOT_FOUND);
         }
@@ -39,28 +39,28 @@ export class TeamsService extends BaseService<Teams, CreateTeamDto> {
         }
 
         let attendeeTeam: Teams = await this.findOne({
-            attendees: attendeeId, event: team.event });
+            attendees: joinTeamDto.attendeeId, event: team.event });
         if (attendeeTeam) {
             throw new CodeException(Code.ATTENDEE_HAS_TEAM);
         }
 
-        team.attendees.push(Types.ObjectId(attendeeId));
+        team.attendees.push(Types.ObjectId(joinTeamDto.attendeeId));
 
-        return await team.save();
+        return team.save();
     }
 
-    public async leave(attendeeId: string, teamId: string): Promise<LeaveTeamResponse> {
-        let attendee: Attendees = await this.attendeesService.findOne({ _id: attendeeId });
+    public async leave(leaveTeamDto: JoinOrLeaveTeamDto): Promise<LeaveTeamResponse> {
+        let attendee: Attendees = await this.attendeesService.findOne({ _id: leaveTeamDto.attendeeId });
         if (!attendee) {
             throw new CodeException(Code.ATTENDEE_NOT_FOUND);
         }
 
-        let team: Teams = await this.findOne( { _id: teamId });
+        let team: Teams = await this.findOne( { _id: leaveTeamDto.teamId });
         if (!team) {
             throw new CodeException(Code.TEAM_NOT_FOUND);
         }
 
-        let index = team.attendees.indexOf(attendeeId);
+        let index = team.attendees.indexOf(leaveTeamDto.attendeeId);
         if (index < 0) {
             throw new CodeException(Code.ATTENDEE_NOT_IN_TEAM);
         }
