@@ -1,7 +1,4 @@
-import * as mongoose from 'mongoose';
-import { IsString, IsNotEmpty, IsDate, IsArray, ArrayNotEmpty, IsOptional } from "class-validator";
-import { Attendees } from "../attendees/attendees.model";
-import { Activities } from "../activities/activities.model";
+import { IsString, IsNotEmpty, IsDate, IsArray, IsOptional, ArrayUnique } from "class-validator";
 
 export class CreateEventDto {
 
@@ -19,9 +16,11 @@ export class CreateEventDto {
 
     @IsOptional()
     @IsArray()
-    activities: mongoose.Schema.Types.ObjectId[];
+    @ArrayUnique()
+    activities: string[];
 
     @IsOptional()
     @IsArray()
-    attendees: mongoose.Schema.Types.ObjectId[];
+    @ArrayUnique()
+    attendees: string[];
 }

@@ -1,16 +1,17 @@
 import * as mongoose from "mongoose";
-import { Attendees, AttendeesSchema } from "../attendees/attendees.model";
+import { Attendees } from "../attendees/attendees.model";
 import { Events } from "../events/events.model";
 
 export interface Teams extends mongoose.Document {
-    readonly name: string;
-    readonly attendees: Attendees[] | mongoose.Schema.Types.ObjectId[];
-    readonly event: Events | mongoose.Schema.Types.ObjectId;
+    name: string;
+    attendees: (Attendees | mongoose.Types.ObjectId | string)[];
+    event: Events | mongoose.Types.ObjectId | string;
 }
 
 export const TeamsSchema = new mongoose.Schema({
     name: {
         type: String,
+        unique: true,
         required: true
     },
     attendees: {
