@@ -6,13 +6,14 @@ export interface Events extends mongoose.Document {
     readonly name: string;
     readonly beginDate: Date;
     readonly endDate: Date;
-    readonly activities: Activities[];
-    readonly attendees: Attendees[];
+    readonly activities: (Activities[] | mongoose.Types.ObjectId | string)[];
+    readonly attendees: (Attendees[] | mongoose.Types.ObjectId | string)[];
 }
 
 export const EventsSchema = new mongoose.Schema({
     name: {
         type: String,
+        unique: true,
         required: true
     },
     beginDate: {

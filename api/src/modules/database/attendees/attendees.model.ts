@@ -11,7 +11,7 @@ export interface Attendees extends mongoose.Document {
    readonly degree: string;
    readonly gender: string;
    readonly tshirt: string;
-   readonly school: Schools;
+   readonly school: Schools | mongoose.Types.ObjectId | string;
    readonly publicId: string;
 }
 

@@ -1,6 +1,4 @@
-import * as mongoose from 'mongoose';
-import { IsString, IsNotEmpty, ArrayMinSize, ArrayMaxSize, IsArray, IsMongoId } from "class-validator";
-import { Attendees } from "../attendees/attendees.model";
+import { IsString, IsNotEmpty, ArrayMinSize, ArrayMaxSize, IsArray, IsMongoId, ArrayUnique } from "class-validator";
 
 export class CreateTeamDto {
 
@@ -11,8 +9,19 @@ export class CreateTeamDto {
     @IsArray()
     @ArrayMinSize(1)
     @ArrayMaxSize(4)
-    attendees: mongoose.Schema.Types.ObjectId[];
+    @ArrayUnique()
+    @IsMongoId({ each: true })
+    attendees: string[];
 
     @IsMongoId()
-    event: mongoose.Schema.Types.ObjectId;
+    event: string;
+}
+
+export class JoinOrLeaveTeamDto {
+
+    @IsMongoId()
+    attendeeId: string;
+
+    @IsMongoId()
+    teamId: string;
 }
