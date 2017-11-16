@@ -1,5 +1,5 @@
 import * as express from "express";
-import { Body, Controller, Get, Post, Req, UseGuards } from "@nestjs/common";
+import { Body, Controller, Get, Param, Post, Req, UseGuards } from "@nestjs/common";
 import { EventsService } from "./events.service";
 import { CreateEventDto } from "./events.dto";
 import { Events } from "./events.model";
@@ -23,5 +23,15 @@ export class EventsController {
     @Permissions('event_management:get-all:event')
     async getAll(): Promise<Events[]> {
         return await this.eventsService.findAll();
+    }
+
+    @Get(':id')
+    @Permissions('event_management:get:event')
+    async getByPublicId(@Param('id') id: string) {
+        return {
+            event: await this.eventsService.findOne({
+                _id: id
+            })
+        };
     }
 }

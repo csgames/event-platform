@@ -23,4 +23,16 @@ export class CreateEventDto {
     @IsArray()
     @ArrayUnique()
     attendees: string[];
+
+    @IsOptional()
+    @IsString()
+    imageUrl: string;
+
+    @IsOptional()
+    @IsString()
+    coverUrl: string;
+
+    @IsOptional()
+    @IsString()
+    website: string;
 }
