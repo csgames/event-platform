@@ -67,7 +67,11 @@ namespace STS.Controllers
                     {
                         Username = input.Username,
                         Password = hashedPassword,
-                        RoleId = input.RoleId
+                        RoleId = input.RoleId,
+                        BirthDate = input.BirthDate,
+                        Email = input.Email,
+                        FirstName = input.FirstName,
+                        LastName = input.LastName
                     };
                     _db.Add(user);
                     return Ok(new
