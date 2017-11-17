@@ -11,6 +11,7 @@ export class AttendeesService extends BaseService<Attendees, CreateAttendeeDto> 
     }
 
     async create(object: Partial<Attendees>): Promise<Attendees> {
-        return this.attendeesModel.update({ userId: object.userId }, <Object>object, { upsert: true }).exec();
+        await this.attendeesModel.update({ userId: object.userId }, <Object>object, { upsert: true }).exec();
+        return this.findOne({ userId: object.userId }, { path: 'schools' });
     }
 }
