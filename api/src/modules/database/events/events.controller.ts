@@ -1,5 +1,5 @@
 import * as express from "express";
-import { Body, Controller, Get, Param, Post, Req, UseGuards } from "@nestjs/common";
+import { Body, Controller, Get, Headers, Param, Post, Req, UseGuards, Put } from "@nestjs/common";
 import { EventsService } from "./events.service";
 import { CreateEventDto } from "./events.dto";
 import { Events } from "./events.model";
@@ -17,6 +17,12 @@ export class EventsController {
     @Permissions('event_management:create:event')
     async create(@Req() req: express.Request, @Body(new ValidationPipe()) createEventDto: CreateEventDto) {
         await this.eventsService.create(createEventDto);
+    }
+
+    @Put(':id/attendee')
+    // @Permissions('event_management:add-attendee:event')
+    async addAttendee(@Headers('token-claim-user_id') userId: string, @Param('id') eventId: string) {
+        await this.eventsService.addAttendee(eventId, userId);
     }
 
     @Get()
