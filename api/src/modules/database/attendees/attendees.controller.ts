@@ -4,11 +4,11 @@ import { ValidationPipe } from "../../../pipes/validation.pipe";
 import { PermissionsGuard } from "../../../guards/permission.guard";
 import { Permissions } from "../../../decorators/permission.decorator";
 import { HttpException } from "@nestjs/core";
-import { CreateAttendeeGuard } from "./attendees.guard";
 import { SchoolsService } from "../schools/schools.service";
 import { CreateAttendeeDto } from "./attendees.dto";
 import { Attendees } from "./attendees.model";
 import { Schools } from "../schools/schools.model";
+import { EventsService } from "../events/events.service";
 
 @Controller("attendee")
 @UseGuards(PermissionsGuard)
@@ -17,7 +17,6 @@ export class AttendeesController {
                 private readonly schoolService: SchoolsService) { }
 
     @Post()
-    @UseGuards(CreateAttendeeGuard)
     async create(@Headers('token-claim-user_id') userId: string, @Body(new ValidationPipe()) value: CreateAttendeeDto) {
         let school: Schools;
         try {

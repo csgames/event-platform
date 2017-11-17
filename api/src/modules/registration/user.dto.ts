@@ -1,4 +1,4 @@
-import { IsEmail, IsString, IsNotEmpty, Matches } from "class-validator";
+import { IsEmail, IsString, IsNotEmpty, Matches, IsOptional, IsDateString } from "class-validator";
 
 export class CreateUserDto {
 
@@ -16,4 +16,22 @@ export class CreateUserDto {
     @IsString()
     @Matches(/(^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{6,}$)/g)
     password: string;
+
+    @IsNotEmpty()
+    @IsDateString()
+    birthDate: Date;
+
+    @IsEmail()
+    @IsString()
+    @IsNotEmpty()
+    email: string;
+    @IsString()
+
+    @IsString()
+    @IsNotEmpty()
+    firstName: string;
+
+    @IsString()
+    @IsNotEmpty()
+    lastName: string;
 }

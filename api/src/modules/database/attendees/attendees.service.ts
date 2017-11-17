@@ -6,7 +6,11 @@ import { CreateAttendeeDto } from "./attendees.dto";
 
 @Component()
 export class AttendeesService extends BaseService<Attendees, CreateAttendeeDto> {
-    constructor(@Inject("AttendeesModelToken") private readonly attendeesModel: Model<Attendees>) {
+    constructor( @Inject("AttendeesModelToken") private readonly attendeesModel: Model<Attendees>) {
         super(attendeesModel);
+    }
+
+    async create(object: Partial<Attendees>): Promise<Attendees> {
+        return this.attendeesModel.update({ userId: object.userId }, <Object>object, { upsert: true }).exec();
     }
 }
