@@ -54,7 +54,7 @@ export const AttendeesSchema = new mongoose.Schema({
     school: {
         type: mongoose.Schema.Types.ObjectId,
         required: true,
-        ref: 'schools'
+        ref: 'School'
     },
     publicId: {
         type: String,

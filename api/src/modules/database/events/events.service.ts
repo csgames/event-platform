@@ -14,6 +14,10 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
 
     async addAttendee(eventId: string, userId: string) {
         let attendee = await this.attendeeService.findOne({ userId });
+
+        if (await this.eventsModel.count({ attendees: { $contains: attendee._id } }).exec()) {
+
+        }
         return this.eventsModel.update({ _id: eventId }, { $push: { attendees: attendee._id }}).exec();
     }
 }

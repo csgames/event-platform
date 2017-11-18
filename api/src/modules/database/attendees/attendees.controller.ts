@@ -36,6 +36,7 @@ export class AttendeesController {
             website: value.website,
             gender: value.gender,
             tshirt: value.tshirt,
+            degree: value.degree,
             school: school._id
         };
 
