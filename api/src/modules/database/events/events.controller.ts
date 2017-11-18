@@ -8,6 +8,7 @@ import { PermissionsGuard } from "../../../guards/permission.guard";
 import { Permissions } from "../../../decorators/permission.decorator";
 import { CodeExceptionFilter } from "../../../filters/CodedError/code.filter";
 import { codeMap } from "./events.exception";
+import { AttendeesGuard } from "../attendees/attendees.guard";
 
 @Controller("event")
 @UseGuards(PermissionsGuard)
@@ -43,5 +44,11 @@ export class EventsController {
                 _id: id
             })
         };
+    }
+
+    @Get(':id/attendee')
+    @UseGuards(AttendeesGuard)
+    async hasAttendee(@Headers('token-claim-user_id') userId: string, @Param('id') eventId: string) {
+        return { registered: await this.eventsService.hasAttendee(eventId, userId)};
     }
 }
