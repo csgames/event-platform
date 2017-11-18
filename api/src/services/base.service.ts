@@ -2,6 +2,7 @@ import { Model, Document, ModelPopulateOptions } from "mongoose";
 import { HttpException } from "@nestjs/core";
 import { HttpStatus } from "@nestjs/common";
 import { MongoError } from "mongodb";
+import { async } from "rxjs/scheduler/async";
 
 export class BaseService<T extends Document, Dto> {
     constructor(private readonly model: Model<T>) { }
@@ -45,6 +46,10 @@ export class BaseService<T extends Document, Dto> {
         } else {
             return this.model.findById(id).populate(populate).exec();
         }
+    }
+
+    async update(condition: Object, data: Partial<T>): Promise<any> {
+        return this.model.update(condition, <T>data).exec();
     }
 
     async remove(condition: Object): Promise<void> {

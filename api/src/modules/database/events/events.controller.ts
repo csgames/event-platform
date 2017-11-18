@@ -26,6 +26,7 @@ export class EventsController {
     @Permissions('event_management:add-attendee:event')
     async addAttendee(@Headers('token-claim-user_id') userId: string, @Param('id') eventId: string) {
         await this.eventsService.addAttendee(eventId, userId);
+        return {};
     }
 
     @Get()
