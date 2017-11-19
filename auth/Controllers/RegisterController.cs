@@ -10,7 +10,7 @@ using STS.User;
 
 namespace STS.Controllers
 {
-    
+
     [Route("register")]
     public class RegisterController : Controller
     {
@@ -18,12 +18,54 @@ namespace STS.Controllers
         {
             WrongOldPasswordError = 26
         }
-        
+
         private readonly IRepository _db;
 
         public RegisterController(IRepository db)
         {
             _db = db;
+        }
+
+        [HttpPost("attendee")]
+        public Task<IActionResult> createAttendee(AttendeeRegisterInput input)
+        {
+            return Task.Run<IActionResult>(() =>
+            {
+                if (!ModelState.IsValid)
+                {
+                    Console.WriteLine(input);
+                    return BadRequest();
+                }
+                var user = _db.Single<User.User>(u => u.Username == input.Username);
+                if (user != null)
+                {
+                    return new StatusCodeResult((int)HttpStatusCode.Conflict);
+                }
+                try
+                {
+                    var hashedPassword = BCrypt.Net.BCrypt.HashPassword(input.Password);
+                    user = new User.User()
+                    {
+                        Username = input.Username,
+                        Password = hashedPassword,
+                        BirthDate = input.BirthDate,
+                        RoleId = _db.Single<User.Role>(r => r.Name == "attendee").Id,
+                        Email = input.Email,
+                        FirstName = input.FirstName,
+                        LastName = input.LastName
+                    };
+                    _db.Add(user);
+                    return Ok(new
+                    {
+                        success = true,
+                        userId = user.Id
+                    });
+                }
+                catch (Exception)
+                {
+                    return new StatusCodeResult((int)HttpStatusCode.InternalServerError);
+                }
+            });
         }
 
         [Authorize]
@@ -41,7 +83,7 @@ namespace STS.Controllers
                 var user = _db.Single<User.User>(u => u.Username == input.Username);
                 if (user != null)
                 {
-                    return new StatusCodeResult((int) HttpStatusCode.Conflict);
+                    return new StatusCodeResult((int)HttpStatusCode.Conflict);
                 }
                 try
                 {
@@ -65,7 +107,7 @@ namespace STS.Controllers
                 }
                 catch (Exception)
                 {
-                    return new StatusCodeResult((int) HttpStatusCode.InternalServerError);
+                    return new StatusCodeResult((int)HttpStatusCode.InternalServerError);
                 }
             });
         }
@@ -81,17 +123,17 @@ namespace STS.Controllers
                 {
                     return BadRequest();
                 }
-                
+
                 var user = _db.Single<User.User>(u => u.Username == input.Username);
                 if (user == null)
                 {
-                    return new StatusCodeResult((int) HttpStatusCode.BadRequest);
+                    return new StatusCodeResult((int)HttpStatusCode.BadRequest);
                 }
                 try
                 {
                     if (!BCrypt.Net.BCrypt.Verify(input.OldPassword, user.Password))
                     {
-                        return StatusCode((int) HttpStatusCode.BadRequest, new
+                        return StatusCode((int)HttpStatusCode.BadRequest, new
                         {
                             success = true,
                             code = ErrorCode.WrongOldPasswordError
@@ -109,7 +151,7 @@ namespace STS.Controllers
                 }
                 catch (Exception)
                 {
-                    return new StatusCodeResult((int) HttpStatusCode.InternalServerError);
+                    return new StatusCodeResult((int)HttpStatusCode.InternalServerError);
                 }
             });
         }
