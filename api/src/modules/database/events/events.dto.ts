@@ -1,4 +1,5 @@
 import { IsString, IsNotEmpty, IsDate, IsArray, IsOptional, ArrayUnique } from "class-validator";
+import { EventRegistrations } from "./events.model";
 
 export class CreateEventDto {
 
@@ -22,7 +23,7 @@ export class CreateEventDto {
     @IsOptional()
     @IsArray()
     @ArrayUnique()
-    attendees: string[];
+    attendees: EventRegistrations[];
 
     @IsOptional()
     @IsString()

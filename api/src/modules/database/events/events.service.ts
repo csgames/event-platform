@@ -15,26 +15,44 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
     }
 
     async addAttendee(eventId: string, userId: string) {
-        let attendee = await this.attendeeService.findOne({ userId });
+        let attendee = await this.attendeeService.findOne({userId});
 
         if (!attendee) {
             throw new CodeException(Code.USER_NOT_ATTENDEE);
         }
 
-        if (await this.eventsModel.count({ _id: eventId, attendees: { $in: [attendee._id] } }).exec()) {
+        const attendeeAlreadyRegistered = (await this.eventsModel.count({
+            _id: eventId,
+            "attendees.attendee": attendee._id
+        }).exec()) > 0;
+
+        if (attendeeAlreadyRegistered) {
             throw new CodeException(Code.ATTENDEE_ALREADY_REGISTERED);
         }
 
-        return this.eventsModel.update({ _id: eventId }, { $push: { attendees: attendee._id }}).exec();
+        return this.eventsModel.update({
+            _id: eventId
+        }, {
+            $push: {
+                attendees: {
+                    attendee: attendee._id
+                }
+            }
+        }).exec();
     }
 
     async hasAttendee(eventId: string, userId: string) {
-        let attendee = await this.attendeeService.findOne({ userId });
+        let attendee = await this.attendeeService.findOne({userId});
 
         if (!attendee) {
             throw new CodeException(Code.USER_NOT_ATTENDEE);
         }
 
-        return (await this.eventsModel.count({ _id: eventId, attendees: { $in: [attendee._id] } }).exec()) > 0;
+        const occurrencesOfAttendee = await this.eventsModel.count({
+            _id: eventId,
+            "attendees.attendee": attendee._id
+        }).exec();
+
+        return occurrencesOfAttendee > 0;
     }
 }
