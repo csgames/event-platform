@@ -18,7 +18,7 @@ namespace STS
             {
                 DotNetEnv.Env.Load();
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 Console.WriteLine("No .env file found");
             }

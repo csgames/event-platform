@@ -41,8 +41,6 @@ namespace STS.Store
             return Task.Run(() =>
             {
                 _dbRepository.Delete<PersistedGrant>(i => i.SubjectId == subjectId && i.ClientId == clientId);
-
-                return;
             });
         }
 
@@ -52,8 +50,6 @@ namespace STS.Store
             return Task.Run(() =>
             {
                 _dbRepository.Delete<PersistedGrant>(i => i.SubjectId == subjectId && i.ClientId == clientId && i.Type == type);
-
-                return;
             });
         }
 
@@ -62,8 +58,6 @@ namespace STS.Store
             return Task.Run(() =>
             {
                 _dbRepository.Delete<PersistedGrant>(i => i.Key == key);
-
-                return;
             });
         }
 
@@ -71,9 +65,7 @@ namespace STS.Store
         {
             return Task.Run(() =>
             {
-                _dbRepository.Add<PersistedGrant>(grant);
-
-                return;
+                _dbRepository.Add(grant);
             });
         }
     }

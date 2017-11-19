@@ -1,17 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
-using IdentityModel;
 using IdentityServer4.Models;
-using IdentityServer4.Test;
 using IdentityServer4.Validation;
-using MongoDB.Bson.IO;
 using STS.Interface;
-using JsonConvert = Newtonsoft.Json.JsonConvert;
+using STS.User;
 
-namespace STS.User
+namespace STS.Utils
 {
     public class CustomResourceOwnerPasswordValidator: IResourceOwnerPasswordValidator
     {
@@ -28,7 +22,7 @@ namespace STS.User
             {
                 try
                 {
-                    var user = _db.Single<User>(u => u.Username == context.UserName);
+                    var user = _db.Single<User.User>(u => u.Username == context.UserName);
                     if (user != null)
                     {
                         if (BCrypt.Net.BCrypt.Verify(context.Password, user.Password))
@@ -47,7 +41,7 @@ namespace STS.User
                     }
                     context.Result = new GrantValidationResult(TokenRequestErrors.InvalidGrant, "User does not exist.");
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     context.Result =
                         new GrantValidationResult(TokenRequestErrors.InvalidGrant, "Invalid username or password");

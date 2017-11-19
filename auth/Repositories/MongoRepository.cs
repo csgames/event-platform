@@ -10,13 +10,12 @@ namespace STS.Repositories
 {
     public class MongoRepository : IRepository
     {
-        protected static IMongoClient _client;
-        protected static IMongoDatabase _database;
+        private static IMongoDatabase _database;
 
         public MongoRepository()
         {
-            _client = new MongoClient(ConfigManager.DatabaseConnectionString);
-            _database = _client.GetDatabase(ConfigManager.DatabaseName);
+            var client = new MongoClient(ConfigManager.DatabaseConnectionString);
+            _database = client.GetDatabase(ConfigManager.DatabaseName);
         }
 
 
@@ -33,7 +32,7 @@ namespace STS.Repositories
 
         public void Delete<T>(System.Linq.Expressions.Expression<Func<T, bool>> predicate) where T : class, new()
         {
-            var result = _database.GetCollection<T>(typeof(T).Name).DeleteMany(predicate);
+            _database.GetCollection<T>(typeof(T).Name).DeleteMany(predicate);
         }
 
         public T Single<T>(System.Linq.Expressions.Expression<Func<T, bool>> expression) where T : class, new()
@@ -46,7 +45,7 @@ namespace STS.Repositories
             var collection = _database.GetCollection<T>(typeof(T).Name);
             var filter = new BsonDocument();
             var totalCount = collection.Count(filter);
-            return (totalCount > 0) ? true : false;
+            return totalCount > 0;
         }
 
         public void Add<T>(T item) where T : class, new()
@@ -66,6 +65,12 @@ namespace STS.Repositories
             var filter = builder.Eq("_id", new ObjectId(id));
             var update = set.Aggregate(Builders<T>.Update.Combine(), (current, up) => current.Set(up.Key, up.Value));
             collection.UpdateOne(filter, update);
+        }
+
+        public void Replace<T>(System.Linq.Expressions.Expression<Func<T, bool>> expression, T replaceValue) where T : class, new()
+        {
+            var collection = _database.GetCollection<T>(typeof(T).Name);
+            collection.ReplaceOne(expression, replaceValue);
         }
     }
 }

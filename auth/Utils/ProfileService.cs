@@ -1,15 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
-using IdentityModel;
 using IdentityServer4.Models;
 using IdentityServer4.Services;
-using Newtonsoft.Json;
 using STS.Interface;
+using STS.User;
 
-namespace STS.User
+namespace STS.Utils
 {
     public class ProfileService : IProfileService
     {
@@ -28,7 +25,7 @@ namespace STS.User
                 {
                     if (!string.IsNullOrEmpty(context.Subject.Identity.Name))
                     {
-                        var user = _db.Single<User>(u => context.Subject.Identity.Name == u.Username);
+                        var user = _db.Single<User.User>(u => context.Subject.Identity.Name == u.Username);
 
                         if (user == null) return;
                         var claims = UserHelper.GetUserClaims(user, _db);
@@ -42,7 +39,7 @@ namespace STS.User
 
                         if (userId != null && !string.IsNullOrEmpty(userId.Value))
                         {
-                            var user = _db.Single<User>(u => u.Id == userId.Value);
+                            var user = _db.Single<User.User>(u => u.Id == userId.Value);
 
                             if (user != null)
                             {
@@ -69,7 +66,7 @@ namespace STS.User
                     var userId = context.Subject.Claims.FirstOrDefault(x => x.Type == "user_id");
 
                     if (userId == null || string.IsNullOrEmpty(userId.Value)) return;
-                    var user = _db.Single<User>(u => u.Id == userId.Value);
+                    var user = _db.Single<User.User>(u => u.Id == userId.Value);
 
                     if (user == null) return;
                     if (user.IsActive)

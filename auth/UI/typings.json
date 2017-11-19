@@ -1,0 +1,9 @@
+{
+  "globalDependencies": {
+    "three": "registry:dt/three#0.84.0+20170323144537"
+  },
+  "globalDevDependencies": {
+    "ora": "registry:dt/ora#0.3.0+20161119044246",
+    "webpack-merge": "registry:dt/webpack-merge#0.0.0+20161121205806"
+  }
+}

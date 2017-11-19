@@ -1,7 +1,11 @@
-﻿using System.Security.Claims;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using IdentityServer4.Models;
+using Newtonsoft.Json;
 using STS.Interface;
+using STS.User;
 
 namespace STS.Store
 {
@@ -19,10 +23,12 @@ namespace STS.Store
             return Task.Run(() =>
             {
                 var client = _dbRepository.Single<Client>(c => c.ClientId == clientId);
-                foreach (var prop in client.Properties)
-                {
-                    client.Claims.Add(new Claim(prop.Key, prop.Value));
-                }
+                var permissions = client.Properties["permissions"];
+                if (permissions == null) return client;
+                var deserializedPermissions = JsonConvert.DeserializeObject<List<string>>(permissions);
+                var permissionNames = deserializedPermissions
+                    .Select(id => _dbRepository.Single<Permission>(p => p.Id == id).Name);
+                client.Claims.Add(new Claim("permissions", JsonConvert.SerializeObject(permissionNames)));
                 return client;
             });
         }

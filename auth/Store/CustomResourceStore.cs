@@ -42,8 +42,6 @@ namespace STS.Store
             return Task.Run(() =>
             {
                 var list = _dbRepository.Where<ApiResource>(a => scopeNames.Contains(a.Name));
-
-                var t = list.ToList();
                 return list.AsEnumerable();
             });
         }
@@ -65,11 +63,6 @@ namespace STS.Store
                 var result = new Resources(GetAllIdentityResources(), GetAllApiResources());
                 return result;
             });
-        }
-
-        private Func<IdentityResource, bool> BuildPredicate(Func<IdentityResource, bool> predicate)
-        {
-            return predicate;
         }
     }
 }

@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
+using STS.Attributes;
 using STS.Interface;
 using STS.User;
 
@@ -15,9 +14,9 @@ namespace STS.Controllers
     [Route("register")]
     public class RegisterController : Controller
     {
-        enum ErrorCode
+        private enum ErrorCode
         {
-            WRONG_OLD_PASSWORD_ERROR = 26
+            WrongOldPasswordError = 26
         }
         
         private readonly IRepository _db;
@@ -28,28 +27,12 @@ namespace STS.Controllers
         }
 
         [Authorize]
+        [RequiresPermissions("sts:create:user")]
         [HttpPost]
         public Task<IActionResult> Post(UserRegisterInput input)
         {
             return Task.Run<IActionResult>(() =>
             {
-                var permissionsClaim =
-                (from c in HttpContext.User.Claims
-                    where c.Type == "permissions" || c.Type == "client_permissions"
-                    select c).First();
-
-                if (permissionsClaim == null)
-                {
-                    return Forbid();
-                }
-
-                var permissions = JsonConvert.DeserializeObject<List<string>>(permissionsClaim.Value);
-
-                if (!permissions.Contains("sts:create:user"))
-                {
-                    return Forbid();
-                }
-
                 if (!ModelState.IsValid)
                 {
                     Console.WriteLine(input);
@@ -76,7 +59,7 @@ namespace STS.Controllers
                         userId = user.Id
                     });
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     return new StatusCodeResult((int) HttpStatusCode.InternalServerError);
                 }
@@ -84,28 +67,12 @@ namespace STS.Controllers
         }
 
         [Authorize]
+        [RequiresPermissions("sts:update:password")]
         [HttpPut("password")]
         public Task<IActionResult> ChangePassword(ChangePasswordInput input)
         {
             return Task.Run<IActionResult>(() =>
             {
-                var permissionsClaim =
-                (from c in HttpContext.User.Claims
-                    where c.Type == "permissions" || c.Type == "client_permissions"
-                    select c).First();
-
-                if (permissionsClaim == null)
-                {
-                    return Forbid();
-                }
-
-                var permissions = JsonConvert.DeserializeObject<List<string>>(permissionsClaim.Value);
-
-                if (!permissions.Contains("sts:update:password"))
-                {
-                    return Forbid();
-                }
-                
                 if (!ModelState.IsValid)
                 {
                     return BadRequest();
@@ -123,7 +90,7 @@ namespace STS.Controllers
                         return StatusCode((int) HttpStatusCode.BadRequest, new
                         {
                             success = true,
-                            code = ErrorCode.WRONG_OLD_PASSWORD_ERROR
+                            code = ErrorCode.WrongOldPasswordError
                         });
                     }
                     var hashedNewPassword = BCrypt.Net.BCrypt.HashPassword(input.NewPassword);
@@ -136,7 +103,7 @@ namespace STS.Controllers
                         success = true,
                     });
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     return new StatusCodeResult((int) HttpStatusCode.InternalServerError);
                 }
