@@ -4,8 +4,9 @@ using System.Security.Claims;
 using IdentityModel;
 using Newtonsoft.Json;
 using STS.Interface;
+using STS.Models;
 
-namespace STS.User
+namespace STS.Helpers
 {
     public static class UserHelper
     {

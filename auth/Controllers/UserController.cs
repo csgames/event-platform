@@ -1,12 +1,13 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using STS.Attributes;
+using STS.Inputs;
 using STS.Interface;
-using STS.User;
+using STS.Models;
 
 namespace STS.Controllers
 {
@@ -36,7 +37,7 @@ namespace STS.Controllers
                     Console.WriteLine(input);
                     return BadRequest();
                 }
-                var user = _db.Single<User.User>(u => u.Username == input.Username);
+                var user = _db.Single<User>(u => u.Username == input.Username);
                 if (user != null)
                 {
                     return new StatusCodeResult((int)HttpStatusCode.Conflict);
@@ -44,12 +45,12 @@ namespace STS.Controllers
                 try
                 {
                     var hashedPassword = BCrypt.Net.BCrypt.HashPassword(input.Password);
-                    user = new User.User()
+                    user = new User
                     {
                         Username = input.Username,
                         Password = hashedPassword,
                         BirthDate = input.BirthDate,
-                        RoleId = _db.Single<User.Role>(r => r.Name == "attendee").Id,
+                        RoleId = _db.Single<Role>(r => r.Name == "attendee").Id,
                         Email = input.Email,
                         FirstName = input.FirstName,
                         LastName = input.LastName
@@ -80,7 +81,7 @@ namespace STS.Controllers
                     Console.WriteLine(input);
                     return BadRequest();
                 }
-                var user = _db.Single<User.User>(u => u.Username == input.Username);
+                var user = _db.Single<User>(u => u.Username == input.Username);
                 if (user != null)
                 {
                     return new StatusCodeResult((int)HttpStatusCode.Conflict);
@@ -88,7 +89,7 @@ namespace STS.Controllers
                 try
                 {
                     var hashedPassword = BCrypt.Net.BCrypt.HashPassword(input.Password);
-                    user = new User.User()
+                    user = new User
                     {
                         Username = input.Username,
                         Password = hashedPassword,
@@ -123,7 +124,7 @@ namespace STS.Controllers
                 {
                     return BadRequest();
                 }
-                var user = _db.Single<User.User>(u => u.Id == id);
+                var user = _db.Single<User>(u => u.Id == id);
                 if (user == null)
                 {
                     return new StatusCodeResult((int)HttpStatusCode.BadRequest);
@@ -139,7 +140,7 @@ namespace STS.Controllers
                         });
                     }
                     var hashedNewPassword = BCrypt.Net.BCrypt.HashPassword(input.NewPassword);
-                    _db.Update<User.User>(user.Id, new Dictionary<string, object>()
+                    _db.Update<User>(user.Id, new Dictionary<string, object>()
                     {
                         {"Password", hashedNewPassword},
                         {"Username", input.Username},

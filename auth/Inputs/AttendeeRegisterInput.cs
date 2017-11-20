@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace STS.User
+namespace STS.Inputs
 {
     public class AttendeeRegisterInput
     {

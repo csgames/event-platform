@@ -18,7 +18,9 @@ namespace STS
                 new ApiResource("lhgames_management_api", "LH Games Management Api"),
                 new ApiResource("lhgames_game_api", "LH Games Game Api"),
                 new ApiResource("lhgames_deployment_runner_api", "LH Games Deployment Runner Api"),
-                new ApiResource("lhgames_bob_the_builder_api", "LH Games Bob the Builder Api")
+                new ApiResource("lhgames_bob_the_builder_api", "LH Games Bob the Builder Api"),
+                new ApiResource("event_management_api", "PolyHx EventManagement Api"),
+                new ApiResource("mail_api", "PolyHx Mail Api")
             };
         }
 
@@ -180,6 +182,37 @@ namespace STS
                     {
                         "offline_access",
                         "lhgames_management_api"
+                    }
+                },
+                new Client
+                {
+                    ClientId = "event_management",
+                    ClientName = "Event Management Service",
+                    ClientSecrets = { new Secret(Environment.GetEnvironmentVariable("EVENT_MANAGEMENT_CLIENT_SECRET").Sha256()) },
+
+                    AllowedGrantTypes = GrantTypes.ClientCredentials,
+
+                    AllowOfflineAccess = true,
+                    
+                    AllowedScopes =
+                    {
+                        "sts_api",
+                        "mail_api"
+                    }
+                },
+                new Client
+                {
+                    ClientId = "mail",
+                    ClientName = "Mail Service",
+                    ClientSecrets = { new Secret(Environment.GetEnvironmentVariable("MAIL_CLIENT_SECRET").Sha256()) },
+
+                    AllowedGrantTypes = GrantTypes.ClientCredentials,
+
+                    AllowOfflineAccess = true,
+                    
+                    AllowedScopes =
+                    {
+                        "sts_api"
                     }
                 }
             };

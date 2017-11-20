@@ -20,13 +20,14 @@ using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using MongoDB.Bson.IO;
 using MongoDB.Bson.Serialization;
+using PolyHxDotNetServices.Mail;
+using PolyHxDotNetServices.Sts;
 using STS.Configuration;
 using STS.Extension;
 using STS.Interface;
 using STS.Store;
-using STS.User;
+using STS.Models;
 using STS.Utils;
-using JsonConvert = Newtonsoft.Json.JsonConvert;
 
 namespace STS
 {
@@ -55,7 +56,7 @@ namespace STS
                         .AllowCredentials();
                 });
             });
-            
+
             services.AddMvc();
             services.AddIdentityServer(x => x.IssuerUri = Environment.GetEnvironmentVariable("ISSUER_URI"))
                 .AddSigningCredential(_cert)
@@ -68,7 +69,12 @@ namespace STS
             services.AddTransient<IResourceOwnerPasswordValidator, CustomResourceOwnerPasswordValidator>();
             services.AddTransient<IProfileService, ProfileService>();
             services.AddSingleton<ICorsPolicyService, CustomCorsPolicyService>();
-            
+
+            var stsService = new StsService();
+            var mailService = new MailService(stsService);
+            services.AddSingleton<IStsService>(stsService);
+            services.AddSingleton<IMailService>(mailService);
+
             var tokenValidationParameters = new TokenValidationParameters
             {
                 ValidateIssuerSigningKey = true,
@@ -183,7 +189,7 @@ namespace STS
                 cm.AutoMap();
                 cm.SetIgnoreExtraElements(true);
             });
-            BsonClassMap.RegisterClassMap<User.User>(cm =>
+            BsonClassMap.RegisterClassMap<User>(cm =>
             {
                 cm.AutoMap();
                 cm.SetIgnoreExtraElements(true);

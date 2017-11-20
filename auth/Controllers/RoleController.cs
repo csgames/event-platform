@@ -9,7 +9,7 @@ using Newtonsoft.Json;
 using STS.Attributes;
 using STS.Inputs;
 using STS.Interface;
-using STS.User;
+using STS.Models;
 
 namespace STS.Controllers
 {

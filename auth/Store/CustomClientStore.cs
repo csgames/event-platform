@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using IdentityServer4.Models;
 using Newtonsoft.Json;
 using STS.Interface;
-using STS.User;
+using STS.Models;
 
 namespace STS.Store
 {

@@ -2,8 +2,9 @@
 using System.Threading.Tasks;
 using IdentityServer4.Models;
 using IdentityServer4.Validation;
+using STS.Helpers;
 using STS.Interface;
-using STS.User;
+using STS.Models;
 
 namespace STS.Utils
 {
@@ -22,7 +23,7 @@ namespace STS.Utils
             {
                 try
                 {
-                    var user = _db.Single<User.User>(u => u.Username == context.UserName);
+                    var user = _db.Single<Models.User>(u => u.Username == context.UserName);
                     if (user != null)
                     {
                         if (BCrypt.Net.BCrypt.Verify(context.Password, user.Password))

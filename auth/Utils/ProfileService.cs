@@ -3,8 +3,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using IdentityServer4.Models;
 using IdentityServer4.Services;
+using STS.Helpers;
 using STS.Interface;
-using STS.User;
+using STS.Models;
 
 namespace STS.Utils
 {
@@ -25,7 +26,7 @@ namespace STS.Utils
                 {
                     if (!string.IsNullOrEmpty(context.Subject.Identity.Name))
                     {
-                        var user = _db.Single<User.User>(u => context.Subject.Identity.Name == u.Username);
+                        var user = _db.Single<Models.User>(u => context.Subject.Identity.Name == u.Username);
 
                         if (user == null) return;
                         var claims = UserHelper.GetUserClaims(user, _db);
@@ -39,7 +40,7 @@ namespace STS.Utils
 
                         if (userId != null && !string.IsNullOrEmpty(userId.Value))
                         {
-                            var user = _db.Single<User.User>(u => u.Id == userId.Value);
+                            var user = _db.Single<Models.User>(u => u.Id == userId.Value);
 
                             if (user != null)
                             {
@@ -66,7 +67,7 @@ namespace STS.Utils
                     var userId = context.Subject.Claims.FirstOrDefault(x => x.Type == "user_id");
 
                     if (userId == null || string.IsNullOrEmpty(userId.Value)) return;
-                    var user = _db.Single<User.User>(u => u.Id == userId.Value);
+                    var user = _db.Single<Models.User>(u => u.Id == userId.Value);
 
                     if (user == null) return;
                     if (user.IsActive)

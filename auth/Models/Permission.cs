@@ -2,7 +2,7 @@
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
-namespace STS.User
+namespace STS.Models
 {
     public class Permission
     {
