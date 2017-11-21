@@ -11,7 +11,6 @@ using STS.Models;
 
 namespace STS.Controllers
 {
-
     [Route("user")]
     public class RegisterController : Controller
     {
@@ -40,7 +39,7 @@ namespace STS.Controllers
                 var user = _db.Single<User>(u => u.Username == input.Username);
                 if (user != null)
                 {
-                    return new StatusCodeResult((int)HttpStatusCode.Conflict);
+                    return new StatusCodeResult((int) HttpStatusCode.Conflict);
                 }
                 try
                 {
@@ -64,7 +63,7 @@ namespace STS.Controllers
                 }
                 catch (Exception)
                 {
-                    return new StatusCodeResult((int)HttpStatusCode.InternalServerError);
+                    return new StatusCodeResult((int) HttpStatusCode.InternalServerError);
                 }
             });
         }
@@ -84,7 +83,7 @@ namespace STS.Controllers
                 var user = _db.Single<User>(u => u.Username == input.Username);
                 if (user != null)
                 {
-                    return new StatusCodeResult((int)HttpStatusCode.Conflict);
+                    return new StatusCodeResult((int) HttpStatusCode.Conflict);
                 }
                 try
                 {
@@ -108,8 +107,28 @@ namespace STS.Controllers
                 }
                 catch (Exception)
                 {
-                    return new StatusCodeResult((int)HttpStatusCode.InternalServerError);
+                    return new StatusCodeResult((int) HttpStatusCode.InternalServerError);
                 }
+            });
+        }
+
+        [Authorize]
+        [RequiresPermissions("sts:get:user")]
+        [HttpGet("{id}")]
+        public Task<IActionResult> Get(string id)
+        {
+            return Task.Run<IActionResult>(() =>
+            {
+                var user = _db.Single<User>(u => u.Id == id);
+                if (user == null)
+                {
+                    return NotFound();
+                } 
+                return Ok(new
+                {
+                    success = true,
+                    user
+                });
             });
         }
 
@@ -127,13 +146,13 @@ namespace STS.Controllers
                 var user = _db.Single<User>(u => u.Id == id);
                 if (user == null)
                 {
-                    return new StatusCodeResult((int)HttpStatusCode.BadRequest);
+                    return new StatusCodeResult((int) HttpStatusCode.BadRequest);
                 }
                 try
                 {
                     if (!BCrypt.Net.BCrypt.Verify(input.OldPassword, user.Password))
                     {
-                        return StatusCode((int)HttpStatusCode.BadRequest, new
+                        return StatusCode((int) HttpStatusCode.BadRequest, new
                         {
                             success = true,
                             code = ErrorCode.WrongOldPasswordError
@@ -149,7 +168,7 @@ namespace STS.Controllers
                         {"FirstName", input.FirstName},
                         {"LastName", input.LastName},
                         {"BirthDate", input.BirthDate}
-                    });  
+                    });
                     return Ok(new
                     {
                         success = true,
@@ -157,7 +176,7 @@ namespace STS.Controllers
                 }
                 catch (Exception)
                 {
-                    return new StatusCodeResult((int)HttpStatusCode.InternalServerError);
+                    return new StatusCodeResult((int) HttpStatusCode.InternalServerError);
                 }
             });
         }
