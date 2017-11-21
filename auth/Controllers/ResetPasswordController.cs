@@ -78,15 +78,37 @@ namespace STS.Controllers
                 };
                 var res = await _mailService.SendEmail(mailInput);
 
-                return res ? (IActionResult) Ok() : BadRequest();
+                return res ? (IActionResult) Ok(new {}) : BadRequest();
             });
         }
-        
-        [HttpPost("{uuid}")]
-        public Task<IActionResult> GetByUuid(string uuid, ResetPasswordInput input)
+
+        [HttpGet("{uuid}")]
+        public Task<IActionResult> IsValidUuid(string uuid)
         {
             return Task.Run<IActionResult>(() =>
             {
+                var resetPassword = _db.Single<ResetPassword>(r => r.Uuid == uuid);
+
+                if (resetPassword == null)
+                    return BadRequest();
+
+                if (resetPassword.Used)
+                    return BadRequest();
+                
+                return Ok(new {});
+            });
+        }
+        
+        [HttpPut("{uuid}")]
+        public Task<IActionResult> UpdatePassword(string uuid, ResetPasswordInput input)
+        {
+            return Task.Run<IActionResult>(() =>
+            {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest();
+                }
+
                 var resetPassword = _db.Where<ResetPassword>(r => r.Uuid == uuid).First();
 
                 if (resetPassword == null)
@@ -106,7 +128,7 @@ namespace STS.Controllers
                     { "Password", hashedNewPassword }
                 });
 
-                return Ok();
+                return Ok(new {});
             });
         }
     }
