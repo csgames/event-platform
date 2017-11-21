@@ -158,8 +158,6 @@ namespace STS.Controllers
                     {
                         {"Password", hashedNewPassword},
                         {"Username", input.Username},
-                        {"RoleId", input.RoleId},
-                        {"Email", input.Email},
                         {"FirstName", input.FirstName},
                         {"LastName", input.LastName},
                         {"BirthDate", input.BirthDate}
