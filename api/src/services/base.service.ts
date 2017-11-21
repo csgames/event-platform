@@ -10,7 +10,7 @@ export class BaseService<T extends Document, Dto> {
     async create(object: Partial<T>): Promise<T> {
         const instance = new this.model(<T>object);
         try {
-            return await instance.save();
+            return instance.save();
         } catch (e) {
             // Catch mongo errors like required, unique, min, max, etc...
             if (e instanceof MongoError) {
@@ -24,7 +24,7 @@ export class BaseService<T extends Document, Dto> {
         }
     }
 
-    async findAll(populate?: ModelPopulateOptions): Promise<T[]> {
+    async findAll(populate?: ModelPopulateOptions | string): Promise<T[]> {
         if (!populate) {
             return this.model.find().exec();
         } else {
@@ -32,7 +32,7 @@ export class BaseService<T extends Document, Dto> {
         }
     }
 
-    async findOne(condition: Object, populate?: ModelPopulateOptions): Promise<T> {
+    async findOne(condition: Object, populate?: ModelPopulateOptions | string): Promise<T> {
         if (!populate) {
             return this.model.findOne(condition).exec();
         } else {
@@ -40,7 +40,15 @@ export class BaseService<T extends Document, Dto> {
         }
     }
 
-    async findById(id: Object | string | number, populate?: ModelPopulateOptions): Promise<T> {
+    async findOneLean(condition: Object, populate?: ModelPopulateOptions | string): Promise<T> {
+        if (!populate) {
+            return this.model.findOne(condition).lean().exec() as Promise<T>;
+        } else {
+            return this.model.findOne(condition).populate(populate).lean().exec() as Promise<T>;
+        }
+    }
+
+    async findById(id: Object | string | number, populate?: ModelPopulateOptions | string): Promise<T> {
         if (!populate) {
             return this.model.findById(id).exec();
         } else {

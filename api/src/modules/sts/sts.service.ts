@@ -90,6 +90,25 @@ export class STSService {
         }
     }
 
+    public async getUser(id: string) {
+        if (!await this.validateTokens()) {
+            throw new Error("Error while retrieving token from STS.");
+        }
+
+        let res: Response = await fetch(`${this.STS_URL}/user/${id}`, {
+            method: "GET",
+            headers: {
+                "Authorization": `Bearer ${this.accessToken}`
+            }
+        });
+
+        if (res.ok) {
+            return await res.json().then(r => r.user);
+        } else {
+            throw new HttpException(res.statusText, res.status);
+        }
+    }
+
     public async updateUserPassword(username: string, oldPassword: string, newPassword: string) {
         if (newPassword.length < 6) {
             throw new HttpException("Password must be at least 6 characters.", HttpStatus.BAD_REQUEST);
