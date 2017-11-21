@@ -51,7 +51,6 @@ namespace STS.Controllers
                         Password = hashedPassword,
                         BirthDate = input.BirthDate,
                         RoleId = _db.Single<Role>(r => r.Name == "attendee").Id,
-                        Email = input.Email,
                         FirstName = input.FirstName,
                         LastName = input.LastName
                     };
@@ -95,7 +94,6 @@ namespace STS.Controllers
                         Password = hashedPassword,
                         RoleId = input.RoleId,
                         BirthDate = input.BirthDate,
-                        Email = input.Email,
                         FirstName = input.FirstName,
                         LastName = input.LastName
                     };
@@ -120,10 +118,6 @@ namespace STS.Controllers
         {
             return Task.Run<IActionResult>(() =>
             {
-                if (!ModelState.IsValid)
-                {
-                    return BadRequest();
-                }
                 var user = _db.Single<User>(u => u.Id == id);
                 if (user == null)
                 {
@@ -131,28 +125,26 @@ namespace STS.Controllers
                 }
                 try
                 {
-                    if (!BCrypt.Net.BCrypt.Verify(input.OldPassword, user.Password))
+                    var dic = input.toDictionnary();
+                    if (input.NewPassword != null)
                     {
-                        return StatusCode((int)HttpStatusCode.BadRequest, new
+                        if (!BCrypt.Net.BCrypt.Verify(input.OldPassword, user.Password))
                         {
-                            success = true,
-                            code = ErrorCode.WrongOldPasswordError
-                        });
+                            return StatusCode((int) HttpStatusCode.BadRequest, new
+                            {
+                                success = true,
+                                code = ErrorCode.WrongOldPasswordError
+                            });
+                        }
+                        dic["Password"] = BCrypt.Net.BCrypt.HashPassword(input.NewPassword);
                     }
-                    var hashedNewPassword = BCrypt.Net.BCrypt.HashPassword(input.NewPassword);
-                    _db.Update<User>(user.Id, new Dictionary<string, object>()
-                    {
-                        {"Password", hashedNewPassword},
-                        {"Username", input.Username},
-                        {"RoleId", input.RoleId},
-                        {"Email", input.Email},
-                        {"FirstName", input.FirstName},
-                        {"LastName", input.LastName},
-                        {"BirthDate", input.BirthDate}
-                    });  
+                   
+                    _db.Update<User>(user.Id, dic);  
+   
                     return Ok(new
                     {
                         success = true,
+                        user = _db.Single<User>(u => u.Id == id)
                     });
                 }
                 catch (Exception)
