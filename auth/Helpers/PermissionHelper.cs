@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
+using IdentityServer4.Validation;
 using Newtonsoft.Json;
 
 namespace STS.Helpers

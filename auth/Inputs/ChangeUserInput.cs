@@ -1,24 +1,38 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using STS.Models;
 
 namespace STS.Inputs
 {
     public class ChangeUserInput
     {
-        [Required]
         public string Username { get; set; }
-        [Required]
         public string OldPassword { get; set; }
-        [Required]
         public string NewPassword { get; set; }
-        [Required]
-        public string RoleId { get; set; }
-        [Required]
-        public string Email { get; set; }
-        [Required]
         public string FirstName { get; set; }
-        [Required]
         public string LastName { get; set; }
-        [Required]
         public string BirthDate { get; set; }
+
+        public Dictionary<string, object> toDictionnary()
+        {
+            var dic = new Dictionary<string, object>();
+            
+            if (Username != null)
+                dic.Add("Username", Username);
+            
+            if (OldPassword != null)
+                dic.Add("Password", NewPassword);
+            
+            if (FirstName != null)
+                dic.Add("FirstName", FirstName);
+            
+            if (LastName != null)
+                dic.Add("LastName", LastName);
+            
+            if (BirthDate != null)
+                dic.Add("BirthDate", BirthDate);
+
+            return dic;
+        }
     }
 }
