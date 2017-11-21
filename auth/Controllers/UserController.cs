@@ -140,28 +140,26 @@ namespace STS.Controllers
                 var user = _db.Single<User>(u => u.Id == id);
                 if (user == null)
                 {
-                    return new StatusCodeResult((int) HttpStatusCode.BadRequest);
+                    return new StatusCodeResult((int)HttpStatusCode.BadRequest);
                 }
                 try
                 {
                     var dic = input.toDictionnary();
                     if (input.NewPassword != null)
                     {
-                        return StatusCode((int) HttpStatusCode.BadRequest, new
+                        if (!BCrypt.Net.BCrypt.Verify(input.OldPassword, user.Password))
                         {
-                            success = true,
-                            code = ErrorCode.WrongOldPasswordError
-                        });
+                            return StatusCode((int) HttpStatusCode.BadRequest, new
+                            {
+                                success = true,
+                                code = ErrorCode.WrongOldPasswordError
+                            });
+                        }
+                        dic["Password"] = BCrypt.Net.BCrypt.HashPassword(input.NewPassword);
                     }
-                    var hashedNewPassword = BCrypt.Net.BCrypt.HashPassword(input.NewPassword);
-                    _db.Update<User>(user.Id, new Dictionary<string, object>()
-                    {
-                        {"Password", hashedNewPassword},
-                        {"Username", input.Username},
-                        {"FirstName", input.FirstName},
-                        {"LastName", input.LastName},
-                        {"BirthDate", input.BirthDate}
-                    });
+                   
+                    _db.Update<User>(user.Id, dic);  
+   
                     return Ok(new
                     {
                         success = true,
@@ -170,7 +168,7 @@ namespace STS.Controllers
                 }
                 catch (Exception)
                 {
-                    return new StatusCodeResult((int) HttpStatusCode.InternalServerError);
+                    return new StatusCodeResult((int)HttpStatusCode.InternalServerError);
                 }
             });
         }
