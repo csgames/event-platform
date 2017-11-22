@@ -1,42 +1,77 @@
 import * as express from "express";
-import { Body, Controller, Get, Post, Req, UseFilters, UseGuards } from "@nestjs/common";
+import { Body, Controller, Get, Param, Post, Headers, UseFilters, UseGuards, Delete } from "@nestjs/common";
 import { Permissions } from "../../../decorators/permission.decorator";
 import { PermissionsGuard } from "../../../guards/permission.guard";
 import { ValidationPipe } from "../../../pipes/validation.pipe";
 import { CodeExceptionFilter } from "../../../filters/CodedError/code.filter";
-import { CreateTeamDto, JoinOrLeaveTeamDto } from "./teams.dto";
+import { CreateOrJoinTeamDto } from "./teams.dto";
 import { Teams } from "./teams.model";
 import { TeamsService } from "./teams.service";
 import { codeMap } from "./teams.exception";
+import { AttendeesService } from "../attendees/attendees.service";
+import { STSService } from "../../sts/sts.service";
+import { Attendees } from "../attendees/attendees.model";
 
 @Controller("team")
 @UseGuards(PermissionsGuard)
 @UseFilters(new CodeExceptionFilter(codeMap))
 export class TeamsController {
-    constructor(private readonly teamsService: TeamsService) {
+    constructor(private readonly teamsService: TeamsService,
+                private readonly attendeesService: AttendeesService,
+                private readonly stsService: STSService) {
     }
 
     @Post()
-    @Permissions('event_management:create:team')
-    async create(@Req() req: express.Request, @Body(new ValidationPipe()) createTeamDto: CreateTeamDto) {
-        await this.teamsService.create(createTeamDto);
+    @Permissions('event_management:create-join:team')
+    async createOrJoin(@Headers('token-claim-user_id') userId: string,
+                       @Body(new ValidationPipe()) createOrJoinTeamDto: CreateOrJoinTeamDto) {
+        return this.teamsService.createOrJoin(createOrJoinTeamDto, userId);
     }
 
     @Get()
     @Permissions('event_management:get-all:team')
     async getAll(): Promise<Teams[]> {
-        return await this.teamsService.findAll();
+        return this.teamsService.findAll();
     }
 
-    @Post('join')
-    @Permissions('event_management:join:team')
-    public async join(@Body() joinTeamDto: JoinOrLeaveTeamDto) {
-        return { team: await this.teamsService.join(joinTeamDto) };
+    @Get('info')
+    @Permissions('event_management:get:team')
+    async getInfo(@Headers('token-claim-user_id') userId: string): Promise<Teams> {
+        const attendee = await this.attendeesService.findOne({userId: userId});
+        const team = await this.teamsService.findOneLean({
+            attendees: attendee._id
+        }, {
+            path: 'attendees',
+            model: 'attendees'
+        });
+        if(!team) {
+            return null;
+        }
+        for (let a of team.attendees as Attendees[]) {
+            a.user = await this.stsService.getUser(a.userId);
+        }
+        return team;
     }
 
-    @Post("leave")
+    @Get(':id')
+    @Permissions('event_management:get:team')
+    async get(@Param('id') id: string): Promise<Teams> {
+        const team = await this.teamsService.findOneLean({
+            _id: id
+        }, {
+            path: 'attendees',
+            model: 'attendees'
+        });
+        for (let a of team.attendees as Attendees[]) {
+            a.user = await this.stsService.getUser(a.userId);
+        }
+        return team;
+    }
+
+    @Delete(":id")
     @Permissions('event_management:leave:team')
-    public async leave(@Body() leaveTeamDto: JoinOrLeaveTeamDto) {
-        return await this.teamsService.leave(leaveTeamDto);
+    public async leave(@Headers('token-claim-user_id') userId: string, @Param('id') teamId: string) {
+        const attendee = await this.attendeesService.findOne({userId: userId});
+        return this.teamsService.leave({teamId, attendeeId: attendee._id});
     }
 }

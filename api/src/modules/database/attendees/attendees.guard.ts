@@ -1,7 +1,8 @@
 import * as express from 'express';
-import { Guard, CanActivate, ExecutionContext, HttpStatus } from '@nestjs/common';
+import { Guard, CanActivate, ExecutionContext } from '@nestjs/common';
 import { AttendeesService } from "./attendees.service";
-import { HttpException } from "@nestjs/core";
+import { CodeException } from "../../../filters/CodedError/code.exception";
+import { Code } from "./attendees.exception";
 
 @Guard()
 export class CreateAttendeeGuard implements CanActivate {
@@ -9,8 +10,7 @@ export class CreateAttendeeGuard implements CanActivate {
 
     async canActivate(req: express.Request, context: ExecutionContext): Promise<boolean> {
         if (req.header("token-claim-role") !== 'attendee') {
-            throw new HttpException("Only a user with the role attendee can create an attendee",
-                HttpStatus.BAD_REQUEST);
+            throw new CodeException(Code.USER_NOT_ATTENDEE);
         }
 
         let attendee;
@@ -19,13 +19,24 @@ export class CreateAttendeeGuard implements CanActivate {
                 userId: req.header("token-claim-user_id")
             });
         } catch (err) {
-            throw new HttpException("Error while finding attendee", HttpStatus.INTERNAL_SERVER_ERROR);
+            throw new CodeException(Code.ATTENDEE_FIND_ERROR);
         }
 
         if (!attendee) {
             return true;
         }
 
-        throw new HttpException("A user cannot be linked to more than one attendee", HttpStatus.BAD_REQUEST);
+        throw new CodeException(Code.USER_IS_ALREADY_ATTENDEE);
+    }
+}
+
+@Guard()
+export class AttendeesGuard implements CanActivate {
+    canActivate(req: express.Request, context: ExecutionContext): boolean {
+        if (req.header("token-claim-role") !== 'attendee') {
+            throw new CodeException(Code.USER_NOT_ATTENDEE);
+        }
+
+        return true;
     }
 }

@@ -4,7 +4,7 @@ import { EventsSchema } from "./events.model";
 export const eventsProviders = [
     {
         provide: "EventsModelToken",
-        useFactory: (connection: Connection) => connection.model("Event", EventsSchema),
+        useFactory: (connection: Connection) => connection.model("events", EventsSchema),
         inject: ["DbConnectionToken"]
     }
 ];

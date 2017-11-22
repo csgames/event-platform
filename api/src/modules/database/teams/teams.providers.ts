@@ -4,7 +4,7 @@ import { TeamsSchema } from "./teams.model";
 export const teamsProviders = [
     {
         provide: "TeamsModelToken",
-        useFactory: (connection: Connection) => connection.model("Team", TeamsSchema),
+        useFactory: (connection: Connection) => connection.model("teams", TeamsSchema),
         inject: ["DbConnectionToken"]
     }
 ];

@@ -1,18 +1,20 @@
 import * as mongoose from "mongoose";
 import * as uuid from "uuid";
 import { Schools } from "../schools/schools.model";
+import { UserModel } from "../../sts/user.model";
 
 export interface Attendees extends mongoose.Document {
-   readonly userId: string;
-   readonly github: string;
-   readonly linkedIn: string;
-   readonly cvLink: string;
-   readonly website: string;
-   readonly degree: string;
-   readonly gender: string;
-   readonly tshirt: string;
-   readonly school: Schools | mongoose.Types.ObjectId | string;
-   readonly publicId: string;
+    readonly userId: string;
+    readonly github: string;
+    readonly linkedIn: string;
+    readonly cvLink: string;
+    readonly website: string;
+    readonly degree: string;
+    readonly gender: string;
+    readonly tshirt: string;
+    readonly school: Schools | mongoose.Types.ObjectId | string;
+    readonly publicId: string;
+    user: UserModel;
 }
 
 export const AttendeesSchema = new mongoose.Schema({

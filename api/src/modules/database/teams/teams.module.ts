@@ -4,9 +4,10 @@ import { teamsProviders } from "./teams.providers";
 import { TeamsService } from "./teams.service";
 import { AttendeesModule } from "../attendees/attendees.module";
 import { DatabaseModule } from "../database.module";
+import { STSModule } from "../../sts/sts.module";
 
 @Module({
-    modules: [AttendeesModule, DatabaseModule],
+    modules: [AttendeesModule, DatabaseModule, STSModule],
     controllers: [TeamsController],
     components: [
         TeamsService,

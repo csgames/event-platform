@@ -9,4 +9,8 @@ export class CreateSchoolDto {
     @IsString()
     @IsNotEmpty()
     website: string;
+
+    @IsString()
+    @IsNotEmpty()
+    countryCode: string;
 }
