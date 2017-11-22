@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using STS.Attributes;
+using PolyHxDotNetServices.Mail;
+using PolyHxDotNetServices.Mail.Inputs;
 using STS.Inputs;
 using STS.Interface;
 using STS.Models;
@@ -20,16 +22,18 @@ namespace STS.Controllers
         }
 
         private readonly IRepository _db;
+        private readonly IMailService _mailService;
 
-        public RegisterController(IRepository db)
+        public RegisterController(IRepository db, IMailService mailService)
         {
             _db = db;
+            _mailService = mailService;
         }
 
         [HttpPost("attendee")]
         public Task<IActionResult> CreateAttendee(AttendeeRegisterInput input)
         {
-            return Task.Run<IActionResult>(() =>
+            return Task.Run<IActionResult>(async () =>
             {
                 if (!ModelState.IsValid)
                 {
@@ -54,6 +58,31 @@ namespace STS.Controllers
                         LastName = input.LastName
                     };
                     _db.Add(user);
+
+                    var confirmEmail = new ConfirmEmail
+                    {
+                        UserId = user.Id,
+                        Uuid = Guid.NewGuid().ToString()
+                    };
+                    _db.Add(confirmEmail);
+
+                    //  Create confirm password doc
+                    var mailInput = new SendMailInput
+                    {
+                        From = "PolyHx <support@polyhx.io>",
+                        To = new[] {user.Username},
+                        Subject = "Confirmer votre adresse courriel | Confirm Email",
+                        Template = "confirm_email",
+                        Html = "<html></html>",
+                        Text = "Text",
+                        Variables = new Dictionary<string, string>
+                        {
+                            {"name", $"{user.FirstName}"},
+                            {"url", $"{Environment.GetEnvironmentVariable("CONFIRM_EMAIL_URL")}/{confirmEmail.Uuid}"}
+                        }
+                    };
+                    var res = await _mailService.SendEmail(mailInput);
+
                     return Ok(new
                     {
                         success = true,
