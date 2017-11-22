@@ -4,7 +4,7 @@ import { Permissions } from "../../../decorators/permission.decorator";
 import { PermissionsGuard } from "../../../guards/permission.guard";
 import { ValidationPipe } from "../../../pipes/validation.pipe";
 import { CodeExceptionFilter } from "../../../filters/CodedError/code.filter";
-import { CreateOrJoinTeamDto, JoinOrLeaveTeamDto } from "./teams.dto";
+import { CreateOrJoinTeamDto } from "./teams.dto";
 import { Teams } from "./teams.model";
 import { TeamsService } from "./teams.service";
 import { codeMap } from "./teams.exception";
@@ -32,6 +32,25 @@ export class TeamsController {
     @Permissions('event_management:get-all:team')
     async getAll(): Promise<Teams[]> {
         return this.teamsService.findAll();
+    }
+
+    @Get('info')
+    @Permissions('event_management:get:team')
+    async getInfo(@Headers('token-claim-user_id') userId: string): Promise<Teams> {
+        const attendee = await this.attendeesService.findOne({userId: userId});
+        const team = await this.teamsService.findOneLean({
+            attendees: attendee._id
+        }, {
+            path: 'attendees',
+            model: 'attendees'
+        });
+        if(!team) {
+            return null;
+        }
+        for (let a of team.attendees as Attendees[]) {
+            a.user = await this.stsService.getUser(a.userId);
+        }
+        return team;
     }
 
     @Get(':id')
