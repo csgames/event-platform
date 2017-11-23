@@ -11,7 +11,8 @@ import { AttendeesModule } from "../attendees/attendees.module";
     components: [
         EventsService,
         ...eventsProviders
-    ]
+    ],
+    exports: [ EventsService ]
 })
 export class EventsModule {
 }

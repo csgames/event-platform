@@ -11,6 +11,7 @@ import { codeMap } from "./teams.exception";
 import { AttendeesService } from "../attendees/attendees.service";
 import { STSService } from "../../sts/sts.service";
 import { Attendees } from "../attendees/attendees.model";
+import { EventsService } from "../events/events.service";
 
 @Controller("team")
 @UseGuards(PermissionsGuard)
@@ -18,6 +19,7 @@ import { Attendees } from "../attendees/attendees.model";
 export class TeamsController {
     constructor(private readonly teamsService: TeamsService,
                 private readonly attendeesService: AttendeesService,
+                private readonly eventsService: EventsService,
                 private readonly stsService: STSService) {
     }
 
@@ -47,8 +49,9 @@ export class TeamsController {
         if(!team) {
             return null;
         }
-        for (let a of team.attendees as Attendees[]) {
+        for (let a of team.attendees as (Attendees & {status: string})[]) {
             a.user = await this.stsService.getUser(a.userId);
+            a.status = await this.eventsService.getAttendeeStatus(a._id, team.event as string)
         }
         return team;
     }
