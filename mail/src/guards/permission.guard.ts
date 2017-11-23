@@ -11,7 +11,11 @@ export class PermissionsGuard implements CanActivate {
         let userPermissions;
 
         try {
-            userPermissions = JSON.parse(req.header("token-claim-permissions"));
+            if (req.header("token-claim-permissions")) {
+                userPermissions = JSON.parse(req.header("token-claim-permissions"));
+            } else {
+                userPermissions = JSON.parse(req.header("token-claim-client_permissions"));
+            }
         } catch (err) {
             throw new HttpException("Invalid permissions claim", HttpStatus.BAD_REQUEST);
         }
