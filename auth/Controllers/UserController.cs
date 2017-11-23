@@ -40,7 +40,7 @@ namespace STS.Controllers
                     Console.WriteLine(input);
                     return BadRequest();
                 }
-                var user = _db.Single<User>(u => u.Username == input.Username);
+                var user = _db.Single<User>(u => u.Username == input.Username.ToLower());
                 if (user != null)
                 {
                     return new StatusCodeResult((int) HttpStatusCode.Conflict);
@@ -50,7 +50,7 @@ namespace STS.Controllers
                     var hashedPassword = BCrypt.Net.BCrypt.HashPassword(input.Password);
                     user = new User
                     {
-                        Username = input.Username,
+                        Username = input.Username.ToLower(),
                         Password = hashedPassword,
                         BirthDate = input.BirthDate,
                         RoleId = _db.Single<Role>(r => r.Name == "attendee").Id,
@@ -109,7 +109,7 @@ namespace STS.Controllers
                     Console.WriteLine(input);
                     return BadRequest();
                 }
-                var user = _db.Single<User>(u => u.Username == input.Username);
+                var user = _db.Single<User>(u => u.Username == input.Username.ToLower());
                 if (user != null)
                 {
                     return new StatusCodeResult((int) HttpStatusCode.Conflict);
@@ -119,7 +119,7 @@ namespace STS.Controllers
                     var hashedPassword = BCrypt.Net.BCrypt.HashPassword(input.Password);
                     user = new User
                     {
-                        Username = input.Username,
+                        Username = input.Username.ToLower(),
                         Password = hashedPassword,
                         RoleId = input.RoleId,
                         BirthDate = input.BirthDate,
@@ -168,10 +168,15 @@ namespace STS.Controllers
         {
             return Task.Run<IActionResult>(() =>
             {
-                var user = _db.Single<User>(u => u.Username == input.Username);
-                if (user != null)
+                User user;
+                if (input.Username != null)
                 {
-                    return new StatusCodeResult((int) HttpStatusCode.Conflict);
+                    input.Username = input.Username.ToLower();
+                    user = _db.Single<User>(u => u.Username == input.Username);
+                    if (user != null)
+                    {
+                        return new StatusCodeResult((int) HttpStatusCode.Conflict);
+                    }
                 }
                 
                 user = _db.Single<User>(u => u.Id == id);
