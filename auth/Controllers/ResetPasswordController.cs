@@ -41,7 +41,15 @@ namespace STS.Controllers
                     return new StatusCodeResult((int) HttpStatusCode.BadRequest);
                 }
 
-                var resetPassword = _db.Single<ResetPassword>(c => c.UserId == user.Id && !c.Used);
+                ResetPassword resetPassword;
+                try
+                {
+                    resetPassword = _db.Single<ResetPassword>(c => c.UserId == user.Id && !c.Used);
+                }
+                catch (Exception e)
+                {
+                    resetPassword = null;
+                }
 
                 if (resetPassword == null)
                 {

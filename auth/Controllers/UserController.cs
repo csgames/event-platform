@@ -55,7 +55,8 @@ namespace STS.Controllers
                         BirthDate = input.BirthDate,
                         RoleId = _db.Single<Role>(r => r.Name == "attendee").Id,
                         FirstName = input.FirstName,
-                        LastName = input.LastName
+                        LastName = input.LastName,
+                        Validated = false
                     };
                     _db.Add(user);
 
@@ -71,7 +72,7 @@ namespace STS.Controllers
                     {
                         From = "PolyHx <support@polyhx.io>",
                         To = new[] {user.Username},
-                        Subject = "Confirmer votre adresse courriel | Confirm Email",
+                        Subject = "Confirmer votre compte | Confirm your account",
                         Template = "confirm_email",
                         Html = "<html></html>",
                         Text = "Text",
@@ -123,7 +124,8 @@ namespace STS.Controllers
                         RoleId = input.RoleId,
                         BirthDate = input.BirthDate,
                         FirstName = input.FirstName,
-                        LastName = input.LastName
+                        LastName = input.LastName,
+                        Validated = false
                     };
                     _db.Add(user);
                     return Ok(new

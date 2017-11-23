@@ -22,6 +22,8 @@ namespace STS.Models
         public string BirthDate { get; set; }
 
         public bool IsActive { get; } = true;
+
+        public bool Validated { get; set; }
         
         [BsonRepresentation(BsonType.ObjectId)]
         public string[] Scopes { get; set; }
