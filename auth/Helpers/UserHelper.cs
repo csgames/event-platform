@@ -24,7 +24,9 @@ namespace STS.Helpers
                 new Claim("email", user.Email ?? ""),
                 new Claim("firstname", user.FirstName ?? ""),
                 new Claim("lastname", user.LastName ?? ""),
-                new Claim("birthdate", user.BirthDate ?? "")
+                new Claim("birthdate", user.BirthDate ?? ""),
+                new Claim("birthdate", user.BirthDate ?? ""),
+                new Claim("validated", user.Validated.ToString())
             };
         }
     }
