@@ -37,6 +37,9 @@ export interface Events extends mongoose.Document {
     readonly imageUrl: string;
     readonly coverUrl: string;
     readonly website: string;
+    readonly facebookEvent: string;
+    readonly locationName: string;
+    readonly locationAddress: string;
 }
 
 export const EventsSchema = new mongoose.Schema({
@@ -65,6 +68,15 @@ export const EventsSchema = new mongoose.Schema({
         type: String
     },
     website: {
+        type: String
+    },
+    facebookEvent: {
+        type: String
+    },
+    locationName: {
+        type: String
+    },
+    locationAddress: {
         type: String
     }
 });

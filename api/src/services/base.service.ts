@@ -32,6 +32,14 @@ export class BaseService<T extends Document, Dto> {
         }
     }
 
+    async find(conditions: any, populate?: ModelPopulateOptions | string): Promise<T[]> {
+        if (!populate) {
+            return this.model.find(conditions).exec();
+        } else {
+            return this.model.find(conditions).populate(populate).exec();
+        }
+    }
+
     async findOne(condition: Object, populate?: ModelPopulateOptions | string): Promise<T> {
         if (!populate) {
             return this.model.findOne(condition).exec();

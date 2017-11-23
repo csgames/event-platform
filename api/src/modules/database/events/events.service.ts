@@ -41,18 +41,37 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
         }).exec();
     }
 
-    async hasAttendee(eventId: string, userId: string) {
+    async hasAttendeeForUser(eventId: string, userId: string) {
         let attendee = await this.attendeeService.findOne({userId});
 
         if (!attendee) {
             throw new CodeException(Code.USER_NOT_ATTENDEE);
         }
 
+        return this.hasAttendee(eventId, attendee._id);
+    }
+
+    async hasAttendee(eventId: string, attendeeId: string) {
         const occurrencesOfAttendee = await this.eventsModel.count({
             _id: eventId,
-            "attendees.attendee": attendee._id
+            "attendees.attendee": attendeeId
         }).exec();
 
         return occurrencesOfAttendee > 0;
+    }
+
+    async getAttendeeStatus(attendeeId: string, eventId: string) {
+        const event = await this.findOne({_id: eventId});
+        const status = event.attendees.find(a => a.attendee.toString() == attendeeId.toString());
+        if (!status) {
+            return 'not-registered';
+        }
+        if (status.confirmed) {
+            return 'confirmed';
+        } else if(status.selected) {
+            return 'selected';
+        } else {
+            return 'registered';
+        }
     }
 }

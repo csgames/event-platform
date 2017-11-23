@@ -9,12 +9,14 @@ import { Permissions } from "../../../decorators/permission.decorator";
 import { CodeExceptionFilter } from "../../../filters/CodedError/code.filter";
 import { codeMap } from "./events.exception";
 import { AttendeesGuard } from "../attendees/attendees.guard";
+import { AttendeesService } from "../attendees/attendees.service";
 
 @Controller("event")
 @UseGuards(PermissionsGuard)
 @UseFilters(new CodeExceptionFilter(codeMap))
 export class EventsController {
-    constructor(private readonly eventsService: EventsService) {
+    constructor(private readonly eventsService: EventsService,
+                private readonly attendeesService: AttendeesService) {
     }
 
     @Post()
@@ -28,6 +30,15 @@ export class EventsController {
     async addAttendee(@Headers('token-claim-user_id') userId: string, @Param('id') eventId: string) {
         await this.eventsService.addAttendee(eventId, userId);
         return {};
+    }
+
+    @Get(':id/status')
+    @Permissions('event_management:get-status:event')
+    async getAttendeeStatus(@Headers('token-claim-user_id') userId: string, @Param('id') eventId: string) {
+        const attendee = await this.attendeesService.findOne({userId});
+        return {
+            status: await this.eventsService.getAttendeeStatus(attendee._id, eventId)
+        }
     }
 
     @Get()
@@ -49,6 +60,6 @@ export class EventsController {
     @Get(':id/attendee')
     @UseGuards(AttendeesGuard)
     async hasAttendee(@Headers('token-claim-user_id') userId: string, @Param('id') eventId: string) {
-        return { registered: await this.eventsService.hasAttendee(eventId, userId)};
+        return {registered: await this.eventsService.hasAttendeeForUser(eventId, userId)};
     }
 }

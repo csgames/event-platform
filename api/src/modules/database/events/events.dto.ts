@@ -36,4 +36,16 @@ export class CreateEventDto {
     @IsOptional()
     @IsString()
     website: string;
+
+    @IsOptional()
+    @IsString()
+    facebookEvent: string;
+
+    @IsOptional()
+    @IsString()
+    locationName: string;
+
+    @IsOptional()
+    @IsString()
+    locationAddress: string;
 }
