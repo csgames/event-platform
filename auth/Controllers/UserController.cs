@@ -137,7 +137,13 @@ namespace STS.Controllers
         {
             return Task.Run<IActionResult>(() =>
             {
-                var user = _db.Single<User>(u => u.Id == id);
+                var user = _db.Single<User>(u => u.Username == input.Username);
+                if (user != null)
+                {
+                    return new StatusCodeResult((int) HttpStatusCode.Conflict);
+                }
+                
+                user = _db.Single<User>(u => u.Id == id);
                 if (user == null)
                 {
                     return new StatusCodeResult((int)HttpStatusCode.BadRequest);
