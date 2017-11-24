@@ -25,7 +25,7 @@ namespace STS.Controllers
         private readonly IRepository _db;
         private readonly IMailService _mailService;
 
-        private static bool ValidatePassword(string password)
+        public static bool ValidatePassword(string password)
         {
             var pattern = @"[0-9]";
             var matches = Regex.Matches(password, pattern);
@@ -42,7 +42,7 @@ namespace STS.Controllers
             if (matches.Count == 0)
                 return false;
             
-            return password.Length >= 6;
+            return password.Length >= 8;
         }
         
         public RegisterController(IRepository db, IMailService mailService)
