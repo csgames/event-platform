@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -24,6 +25,26 @@ namespace STS.Controllers
         private readonly IRepository _db;
         private readonly IMailService _mailService;
 
+        private static bool ValidatePassword(string password)
+        {
+            var pattern = @"[0-9]";
+            var matches = Regex.Matches(password, pattern);
+            if (matches.Count == 0)
+                return false;
+
+            pattern = @"[A-Z]";
+            matches = Regex.Matches(password, pattern);
+            if (matches.Count == 0)
+                return false;
+
+            pattern = @"[a-z]";
+            matches = Regex.Matches(password, pattern);
+            if (matches.Count == 0)
+                return false;
+            
+            return password.Length >= 6;
+        }
+        
         public RegisterController(IRepository db, IMailService mailService)
         {
             _db = db;
@@ -40,6 +61,15 @@ namespace STS.Controllers
                     Console.WriteLine(input);
                     return BadRequest();
                 }
+
+                if (!ValidatePassword(input.Password))
+                {
+                    return BadRequest(new
+                    {
+                        Message = "Password not valid"
+                    });
+                }
+
                 var user = _db.Single<User>(u => u.Username == input.Username.ToLower());
                 if (user != null)
                 {
@@ -114,6 +144,15 @@ namespace STS.Controllers
                 {
                     return new StatusCodeResult((int) HttpStatusCode.Conflict);
                 }
+                
+                if (!ValidatePassword(input.Password))
+                {
+                    return BadRequest(new
+                    {
+                        Message = "Password not valid"
+                    });
+                }
+                
                 try
                 {
                     var hashedPassword = BCrypt.Net.BCrypt.HashPassword(input.Password);
@@ -175,9 +214,9 @@ namespace STS.Controllers
                     return new StatusCodeResult((int)HttpStatusCode.BadRequest);
                 }
 
+                input.Username = input.Username.ToLower();
                 if (input.Username != null && input.Username != user.Username)
                 {
-                    input.Username = input.Username.ToLower();
                     var u = _db.Single<User>(U => U.Username == input.Username);
                     if (u != null)
                     {
@@ -190,6 +229,14 @@ namespace STS.Controllers
                     var dic = input.toDictionnary();
                     if (input.NewPassword != null)
                     {
+                        if (!ValidatePassword(input.NewPassword))
+                        {
+                            return BadRequest(new
+                            {
+                                Message = "Password not valid"
+                            });
+                        }
+                        
                         if (!BCrypt.Net.BCrypt.Verify(input.OldPassword, user.Password))
                         {
                             return StatusCode((int) HttpStatusCode.BadRequest, new
@@ -205,8 +252,7 @@ namespace STS.Controllers
    
                     return Ok(new
                     {
-                        success = true,
-                        user = _db.Single<User>(u => u.Id == id)
+                        success = true
                     });
                 }
                 catch (Exception)
