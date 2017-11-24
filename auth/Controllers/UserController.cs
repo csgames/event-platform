@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
@@ -168,22 +168,23 @@ namespace STS.Controllers
         {
             return Task.Run<IActionResult>(() =>
             {
-                User user;
-                if (input.Username != null)
+                var user = _db.Single<User>(u => u.Id == id);
+
+                if (user == null)
+                {
+                    return new StatusCodeResult((int)HttpStatusCode.BadRequest);
+                }
+
+                if (input.Username != null && input.Username != user.Username)
                 {
                     input.Username = input.Username.ToLower();
-                    user = _db.Single<User>(u => u.Username == input.Username);
-                    if (user != null)
+                    var u = _db.Single<User>(U => U.Username == input.Username);
+                    if (u != null)
                     {
                         return new StatusCodeResult((int) HttpStatusCode.Conflict);
                     }
                 }
                 
-                user = _db.Single<User>(u => u.Id == id);
-                if (user == null)
-                {
-                    return new StatusCodeResult((int)HttpStatusCode.BadRequest);
-                }
                 try
                 {
                     var dic = input.toDictionnary();
