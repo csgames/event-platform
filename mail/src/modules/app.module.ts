@@ -1,9 +1,11 @@
 import { Module } from "@nestjs/common";
-import { AttendeesModule } from "./database/attendees/attendees.module";
+import { TemplatesModule } from "./database/templates/templates.module";
+import { EmailModule } from "./email/email.module";
 
 @Module({
     modules: [
-        AttendeesModule
+        EmailModule,
+        TemplatesModule
     ]
 })
 export class ApplicationModule {
