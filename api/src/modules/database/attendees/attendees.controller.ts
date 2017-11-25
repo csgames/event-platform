@@ -108,6 +108,9 @@ export class AttendeesController {
                 await this.storageService.delete(previousCv);
             }
             value.cv = await this.storageService.upload(req.file);
+        } else if (value.cv === "null") {
+            await this.storageService.delete((await this.attendeesService.findOne({ userId })).cv);
+            value.cv = null;
         }
         let attendee: Partial<Attendees> = value;
         if (value.school) {
