@@ -67,7 +67,7 @@ export class AttendeesController {
     @UseGuards(AttendeesGuard)
     async getInfo(@Headers('token-claim-user_id') userId: string) {
         let attendee = await this.attendeesService.findOne({ userId }, { path: 'school' });
-        if (attendee.cv) {
+        if (attendee && attendee.cv) {
             let newAttendee = attendee.toObject();
             newAttendee["cv"] = await this.storageService.getMetadata(attendee.cv);
             return { attendee: newAttendee };
