@@ -1,4 +1,9 @@
-import { Body, Controller, Get, Headers, HttpStatus, Param, Post, Put, UseFilters, UseGuards } from "@nestjs/common";
+import { Request } from "express";
+import {
+    Body, Controller, Get, Headers, HttpStatus, Param, Post, Put, Req, UseFilters,
+    UseGuards
+} from "@nestjs/common";
+import { StorageService } from "@polyhx/nest-services";
 import { AttendeesService } from "./attendees.service";
 import { ValidationPipe } from "../../../pipes/validation.pipe";
 import { PermissionsGuard } from "../../../guards/permission.guard";
@@ -17,7 +22,8 @@ import { codeMap } from "./attendees.exception";
 @UseFilters(new CodeExceptionFilter(codeMap))
 export class AttendeesController {
     constructor(private readonly attendeesService: AttendeesService,
-                private readonly schoolService: SchoolsService) { }
+                private readonly schoolService: SchoolsService,
+                private readonly storageService: StorageService) { }
 
     private async getSchool(name: string) {
         let school: Schools;
@@ -36,8 +42,12 @@ export class AttendeesController {
 
     @Post()
     @UseGuards(CreateAttendeeGuard)
-    async create(@Headers('token-claim-user_id') userId: string, @Body(new ValidationPipe()) value: CreateAttendeeDto) {
-        let attendee: Partial<Attendees> = Object.assign({}, value);
+    async create(@Req() req: Request, @Headers('token-claim-user_id') userId: string,
+                 @Body(new ValidationPipe()) value: CreateAttendeeDto) {
+        if (req.file) {
+            value.cv = await this.storageService.upload(req.file);
+        }
+        let attendee: Partial<Attendees> = {};
         attendee = Object.assign(attendee, { userId, school: (await this.getSchool(value.school))._id });
         return {
             attendee: await this.attendeesService.create(attendee)
@@ -55,12 +65,27 @@ export class AttendeesController {
 
     @Get('info')
     @UseGuards(AttendeesGuard)
-    async getInfo(@Headers('token-claim-user_id') user: string) {
+    async getInfo(@Headers('token-claim-user_id') userId: string) {
+        let attendee = await this.attendeesService.findOne({ userId }, { path: 'school' });
+        if (attendee.cv) {
+            let newAttendee = attendee.toObject();
+            newAttendee["cv"] = await this.storageService.getMetadata(attendee.cv);
+            return { attendee: newAttendee };
+        }
         return {
-            attendee: await this.attendeesService.findOne({
-                userId: user
-            }, { path: 'school' })
+            attendee: attendee
         };
+    }
+
+    @Get('cv/url')
+    @UseGuards(AttendeesGuard)
+    async getCvUrl(@Headers('token-claim-user_id') userId: string) {
+        let attendee = await this.attendeesService.findOne({ userId });
+        if (attendee.cv) {
+            return { url: await this.storageService.getDownloadUrl(attendee.cv) };
+        } else {
+            throw new HttpException("Attendee has no cv.", HttpStatus.NOT_FOUND);
+        }
     }
 
     @Get(':id')
@@ -75,9 +100,19 @@ export class AttendeesController {
 
     @Put()
     @UseGuards(AttendeesGuard)
-    async update(@Headers('token-claim-user_id') userId: string, @Body(new ValidationPipe()) value: UpdateAttendeeDto) {
-        let attendee: Partial<Attendees> = Object.assign({}, value);
-        attendee = Object.assign(attendee, { school: (await this.getSchool(value.school))._id });
+    async update(@Req() req: Request, @Headers('token-claim-user_id') userId: string,
+                 @Body(new ValidationPipe()) value: UpdateAttendeeDto) {
+        if (req.file) {
+            let previousCv = (await this.attendeesService.findOne({ userId })).cv;
+            if (previousCv) {
+                await this.storageService.delete(previousCv);
+            }
+            value.cv = await this.storageService.upload(req.file);
+        }
+        let attendee: Partial<Attendees> = value;
+        if (value.school) {
+            attendee.school = (await this.getSchool(value.school))._id;
+        }
         return {
             attendee: await this.attendeesService.update({ userId }, attendee)
                 .then(async a => {

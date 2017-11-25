@@ -62,13 +62,13 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
 
     async getAttendeeStatus(attendeeId: string, eventId: string) {
         const event = await this.findOne({_id: eventId});
-        const status = event.attendees.find(a => a.attendee.toString() == attendeeId.toString());
+        const status = event.attendees.find(a => a.attendee.toString() === attendeeId.toString());
         if (!status) {
             return 'not-registered';
         }
         if (status.confirmed) {
             return 'confirmed';
-        } else if(status.selected) {
+        } else if (status.selected) {
             return 'selected';
         } else {
             return 'registered';
