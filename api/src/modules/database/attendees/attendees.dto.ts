@@ -12,7 +12,7 @@ export class CreateAttendeeDto {
 
     @IsOptional()
     @IsString()
-    cvLink: string;
+    cv: string;
 
     @IsOptional()
     @IsString()
@@ -50,7 +50,7 @@ export class UpdateAttendeeDto {
 
     @IsOptional()
     @IsString()
-    cvLink: string;
+    cv: string;
 
     @IsOptional()
     @IsString()

@@ -4,16 +4,16 @@ import { Schools } from "../schools/schools.model";
 import { UserModel } from "../../sts/user.model";
 
 export interface Attendees extends mongoose.Document {
-    readonly userId: string;
-    readonly github: string;
-    readonly linkedIn: string;
-    readonly cvLink: string;
-    readonly website: string;
-    readonly degree: string;
-    readonly gender: string;
-    readonly tshirt: string;
-    readonly school: Schools | mongoose.Types.ObjectId | string;
-    readonly publicId: string;
+    userId: string;
+    github: string;
+    linkedIn: string;
+    cv: string;
+    website: string;
+    degree: string;
+    gender: string;
+    tshirt: string;
+    school: Schools | mongoose.Types.ObjectId | string;
+    publicId: string;
     user: UserModel;
 }
 
@@ -30,7 +30,7 @@ export const AttendeesSchema = new mongoose.Schema({
         type: String,
         default: null
     },
-    cvLink: {
+    cv: {
         type: String,
         default: null
     },

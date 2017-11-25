@@ -46,12 +46,12 @@ export class TeamsController {
             path: 'attendees',
             model: 'attendees'
         });
-        if(!team) {
+        if (!team) {
             return null;
         }
         for (let a of team.attendees as (Attendees & {status: string})[]) {
             a.user = await this.stsService.getUser(a.userId);
-            a.status = await this.eventsService.getAttendeeStatus(a._id, team.event as string)
+            a.status = await this.eventsService.getAttendeeStatus(a._id, team.event as string);
         }
         return team;
     }

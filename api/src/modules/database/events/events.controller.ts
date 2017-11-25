@@ -38,7 +38,7 @@ export class EventsController {
         const attendee = await this.attendeesService.findOne({userId});
         return {
             status: await this.eventsService.getAttendeeStatus(attendee._id, eventId)
-        }
+        };
     }
 
     @Get()

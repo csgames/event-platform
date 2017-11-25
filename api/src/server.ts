@@ -1,3 +1,5 @@
+import { StorageService } from "@polyhx/nest-services";
+
 require("dotenv").config();
 
 import * as bodyParser from "body-parser";
@@ -13,6 +15,7 @@ async function bootstrap() {
     app.use(morgan("dev"));
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({ extended: true }));
+    app.use(StorageService.multerMemoryStorageConfig());
     app.use(cors({
         preflightContinue: true
     }));
