@@ -109,4 +109,10 @@ typings/
 # dotenv environment variables file
 .env
 
+# build folder
+build/
 
+# NPM package lock
+package-lock.json
+
+storage-68db91dfdf5d.json

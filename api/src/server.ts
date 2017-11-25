@@ -1,3 +1,5 @@
+import { StorageService } from "@polyhx/nest-services";
+
 require("dotenv").config();
 
 import * as bodyParser from "body-parser";
@@ -12,17 +14,8 @@ async function bootstrap() {
 
     app.use(morgan("dev"));
     app.use(bodyParser.json());
-    app.use(bodyParser.urlencoded({extended: true}));
-    // app.use(jwt({
-    //     secret: fs.readFileSync(process.env.STS_PUBLIC_KEY),
-    //     audience: [
-    //         process.env.STS_AUDIENCE_URL,
-    //         process.env.STS_AUDIENCE_SCOPE
-    //     ],
-    //     issuer: process.env.STS_ISSUER_URL
-    // }).unless({
-    //     path: [/^\/registration\/.*/]
-    // }));
+    app.use(bodyParser.urlencoded({ extended: true }));
+    app.use(StorageService.multerMemoryStorageConfig());
     app.use(cors({
         preflightContinue: true
     }));
@@ -32,11 +25,6 @@ async function bootstrap() {
             res.setHeader("Access-Control-Allow-Credentials", "true");
         }
         next();
-    });
-
-    app.post("attendee2", function (req: express.Request, res: express.Response) {
-        console.log(req.body);
-        res.send({success: true});
     });
 
     const nestApp = await NestFactory.create(ApplicationModule, app);
