@@ -6,7 +6,7 @@ const tslint = require("gulp-tslint");
 
 const tsProject = ts.createProject("tsconfig.json");
 
-gulp.task('watch', function () {
+gulp.task('watch', ['build'], function () {
     nodemon({
         ext: "ts",
         watch: ["src"],

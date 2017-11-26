@@ -47,7 +47,7 @@ export class AttendeesController {
         if (req.file) {
             value.cv = await this.storageService.upload(req.file);
         }
-        let attendee: Partial<Attendees> = {};
+        let attendee: Partial<Attendees> = value;
         attendee = Object.assign(attendee, { userId, school: (await this.getSchool(value.school))._id });
         return {
             attendee: await this.attendeesService.create(attendee)

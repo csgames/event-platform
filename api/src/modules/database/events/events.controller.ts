@@ -36,6 +36,13 @@ export class EventsController {
     @Permissions('event_management:get-status:event')
     async getAttendeeStatus(@Headers('token-claim-user_id') userId: string, @Param('id') eventId: string) {
         const attendee = await this.attendeesService.findOne({userId});
+
+        if (!attendee) {
+            return {
+                status: 'not-registered'
+            };
+        }
+
         return {
             status: await this.eventsService.getAttendeeStatus(attendee._id, eventId)
         };
