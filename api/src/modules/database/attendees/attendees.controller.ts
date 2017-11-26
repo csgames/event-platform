@@ -40,6 +40,15 @@ export class AttendeesController {
         return school;
     }
 
+    private async appendCvMetadata(a: Attendees) {
+        if (!a.cv) {
+            return a;
+        }
+        let newAttendee = a.toObject();
+        newAttendee["cv"] = await this.storageService.getMetadata(a.cv);
+        return newAttendee;
+    }
+
     @Post()
     @UseGuards(CreateAttendeeGuard)
     async create(@Req() req: Request, @Headers('token-claim-user_id') userId: string,
@@ -53,11 +62,7 @@ export class AttendeesController {
             attendee: await this.attendeesService.create(attendee)
                 .then(async a => {
                     return await a.populate({ path: 'school' }).execPopulate();
-                }).then(async a => {
-                    let newAttendee = a.toObject();
-                    newAttendee["cv"] = await this.storageService.getMetadata(a.cv);
-                    return newAttendee;
-                })
+                }).then(this.appendCvMetadata.bind(this))
         };
     }
 
@@ -71,10 +76,8 @@ export class AttendeesController {
     @UseGuards(AttendeesGuard)
     async getInfo(@Headers('token-claim-user_id') userId: string) {
         let attendee = await this.attendeesService.findOne({ userId }, { path: 'school' });
-        if (attendee && attendee.cv) {
-            let newAttendee = attendee.toObject();
-            newAttendee["cv"] = await this.storageService.getMetadata(attendee.cv);
-            return { attendee: newAttendee };
+        if (attendee) {
+            return { attendee: await this.appendCvMetadata(attendee) };
         }
         return {
             attendee: attendee
@@ -126,11 +129,7 @@ export class AttendeesController {
             attendee: await this.attendeesService.update({ userId }, attendee)
                 .then(async a => {
                     return await this.attendeesService.findOne({ userId }, { path: 'school' });
-                }).then(async a => {
-                    let newAttendee = a.toObject();
-                    newAttendee["cv"] = await this.storageService.getMetadata(a.cv);
-                    return newAttendee;
-                })
+                }).then(this.appendCvMetadata.bind(this))
         };
     }
 }
