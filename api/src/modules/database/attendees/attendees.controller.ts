@@ -53,6 +53,10 @@ export class AttendeesController {
             attendee: await this.attendeesService.create(attendee)
                 .then(async a => {
                     return await a.populate({ path: 'school' }).execPopulate();
+                }).then(async a => {
+                    let newAttendee = a.toObject();
+                    newAttendee["cv"] = await this.storageService.getMetadata(a.cv);
+                    return newAttendee;
                 })
         };
     }
@@ -111,6 +115,8 @@ export class AttendeesController {
         } else if (value.cv === "null") {
             await this.storageService.delete((await this.attendeesService.findOne({ userId })).cv);
             value.cv = null;
+        } else {
+            delete value.cv;
         }
         let attendee: Partial<Attendees> = value;
         if (value.school) {
@@ -120,6 +126,10 @@ export class AttendeesController {
             attendee: await this.attendeesService.update({ userId }, attendee)
                 .then(async a => {
                     return await this.attendeesService.findOne({ userId }, { path: 'school' });
+                }).then(async a => {
+                    let newAttendee = a.toObject();
+                    newAttendee["cv"] = await this.storageService.getMetadata(a.cv);
+                    return newAttendee;
                 })
         };
     }
