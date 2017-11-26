@@ -40,15 +40,22 @@ export class TeamsController {
     @Permissions('event_management:get:team')
     async getInfo(@Headers('token-claim-user_id') userId: string): Promise<Teams> {
         const attendee = await this.attendeesService.findOne({userId: userId});
+
+        if (!attendee) {
+            return null;
+        }
+
         const team = await this.teamsService.findOneLean({
             attendees: attendee._id
         }, {
             path: 'attendees',
             model: 'attendees'
         });
+
         if (!team) {
             return null;
         }
+
         for (let a of team.attendees as (Attendees & {status: string})[]) {
             a.user = await this.stsService.getUser(a.userId);
             a.status = await this.eventsService.getAttendeeStatus(a._id, team.event as string);

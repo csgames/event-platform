@@ -47,7 +47,7 @@ export class AttendeesController {
         if (req.file) {
             value.cv = await this.storageService.upload(req.file);
         }
-        let attendee: Partial<Attendees> = {};
+        let attendee: Partial<Attendees> = value;
         attendee = Object.assign(attendee, { userId, school: (await this.getSchool(value.school))._id });
         return {
             attendee: await this.attendeesService.create(attendee)
@@ -67,7 +67,7 @@ export class AttendeesController {
     @UseGuards(AttendeesGuard)
     async getInfo(@Headers('token-claim-user_id') userId: string) {
         let attendee = await this.attendeesService.findOne({ userId }, { path: 'school' });
-        if (attendee.cv) {
+        if (attendee && attendee.cv) {
             let newAttendee = attendee.toObject();
             newAttendee["cv"] = await this.storageService.getMetadata(attendee.cv);
             return { attendee: newAttendee };
