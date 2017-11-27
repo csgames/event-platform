@@ -29,6 +29,12 @@ export class TeamsService extends BaseService<Teams, CreateOrJoinTeamDto> {
         if (!attendee) {
             throw new CodeException(Code.ATTENDEE_NOT_FOUND);
         }
+        let attendeeTeam: Teams = await this.findOne({
+            attendees: attendee._id, event: createOrJoinTeamDto.event
+        });
+        if (attendeeTeam) {
+            throw new CodeException(Code.ATTENDEE_HAS_TEAM);
+        }
         if (team) {
             return this.join({
                 attendeeId: attendee._id,
