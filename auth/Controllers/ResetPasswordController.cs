@@ -117,7 +117,7 @@ namespace STS.Controllers
                     return BadRequest();
                 }
 
-                if (!RegisterController.ValidatePassword(input.Password))
+                if (!UserController.ValidatePassword(input.Password))
                 {
                     return BadRequest(new
                     {

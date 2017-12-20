@@ -17,7 +17,7 @@ namespace STS.Interface
         void Add<T>(T item) where T : class, new();
         void Add<T>(IEnumerable<T> items) where T : class, new();
         bool CollectionExists<T>() where T : class, new();
-        void Update<T>(string id, Dictionary<string, object> set) where T : class, new();
+        void Update<T>(string id, IDictionary<string, object> set) where T : class, new();
         void Replace<T>(System.Linq.Expressions.Expression<Func<T, bool>> expression, T replaceValue) where T : class, new();
     }
 }

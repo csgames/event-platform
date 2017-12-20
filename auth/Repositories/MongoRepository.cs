@@ -58,7 +58,7 @@ namespace STS.Repositories
             _database.GetCollection<T>(typeof(T).Name).InsertMany(items);
         }
 
-        public void Update<T>(string id, Dictionary<string, object> set) where T : class, new()
+        public void Update<T>(string id, IDictionary<string, object> set) where T : class, new()
         {
             var collection = _database.GetCollection<T>(typeof(T).Name);
             var builder = Builders<T>.Filter;
