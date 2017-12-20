@@ -34,8 +34,7 @@ namespace STS.Controllers
                     return BadRequest();
                 }
 
-                var user = _db.Single<User>(c =>
-                    string.Equals(c.Username, input.Username, StringComparison.CurrentCultureIgnoreCase));
+                var user = _db.Single<User>(c => c.Username.ToLower() == input.Username.ToLower());
 
                 if (user == null)
                 {
@@ -117,7 +116,7 @@ namespace STS.Controllers
                 {
                     return BadRequest();
                 }
-                
+
                 if (!RegisterController.ValidatePassword(input.Password))
                 {
                     return BadRequest(new

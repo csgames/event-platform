@@ -26,8 +26,8 @@ namespace STS.Utils
                 {
                     if (!string.IsNullOrEmpty(context.Subject.Identity.Name))
                     {
-                        var user = _db.Single<User>(u => string.Equals(context.Subject.Identity.Name, u.Username,
-                            StringComparison.CurrentCultureIgnoreCase));
+                        var user = _db.Single<User>(
+                            u => context.Subject.Identity.Name.ToLower() == u.Username.ToLower());
 
                         if (user == null) return;
                         var claims = UserHelper.GetUserClaims(user, _db);

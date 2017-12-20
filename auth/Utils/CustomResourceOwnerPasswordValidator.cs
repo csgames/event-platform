@@ -8,7 +8,7 @@ using STS.Models;
 
 namespace STS.Utils
 {
-    public class CustomResourceOwnerPasswordValidator : IResourceOwnerPasswordValidator
+    public class CustomResourceOwnerPasswordValidator: IResourceOwnerPasswordValidator
     {
         private readonly IRepository _db;
 
@@ -16,15 +16,14 @@ namespace STS.Utils
         {
             _db = db;
         }
-
+        
         public async Task ValidateAsync(ResourceOwnerPasswordValidationContext context)
         {
             await Task.Run(() =>
             {
                 try
                 {
-                    var user = _db.Single<Models.User>(u =>
-                        string.Equals(u.Username, context.UserName, StringComparison.CurrentCultureIgnoreCase));
+                    var user = _db.Single<Models.User>(u => u.Username.ToLower() == context.UserName.ToLower());
                     if (user != null)
                     {
                         if (BCrypt.Net.BCrypt.Verify(context.Password, user.Password))
@@ -50,5 +49,7 @@ namespace STS.Utils
                 }
             });
         }
+        
+      
     }
 }
