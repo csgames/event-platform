@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using STS.Attributes;
 using PolyHxDotNetServices.Mail;
 using PolyHxDotNetServices.Mail.Inputs;
+using STS.Helpers;
 using STS.Inputs;
 using STS.Interface;
 using STS.Models;
@@ -16,7 +17,7 @@ using STS.Models;
 namespace STS.Controllers
 {
     [Route("user")]
-    public class RegisterController : Controller
+    public class UserController : Controller
     {
         private enum ErrorCode
         {
@@ -46,7 +47,7 @@ namespace STS.Controllers
             return password.Length >= 8;
         }
         
-        public RegisterController(IRepository db, IMailService mailService)
+        public UserController(IRepository db, IMailService mailService)
         {
             _db = db;
             _mailService = mailService;
@@ -237,10 +238,21 @@ namespace STS.Controllers
         [Authorize]
         [RequiresPermissions("sts:update:user")]
         [HttpPut("{id}")]
-        public Task<IActionResult> UpdateUser(string id, ChangeUserInput input)
+        public Task<IActionResult> UpdateAttendee(string id, EditAttendeeInput input)
         {
             return Task.Run<IActionResult>(() =>
             {
+                // Check if the authenticated user matches the edited user.
+                var authenticatedUserId = from c in HttpContext.User.Claims
+                    where c.Type == "user_id"
+                    select c.Value;
+                
+                if (authenticatedUserId.First() != id)
+                {
+                    return new ForbidResult();
+                }
+                
+                // Check if user exist.
                 var user = _db.Single<User>(u => u.Id == id);
 
                 if (user == null)
@@ -248,6 +260,8 @@ namespace STS.Controllers
                     return new StatusCodeResult((int) HttpStatusCode.BadRequest);
                 }
 
+                
+                // If the username changes, check if the new one is not taken.
                 input.Username = input.Username.ToLower();
                 if (input.Username != null && input.Username != user.Username)
                 {
@@ -260,7 +274,9 @@ namespace STS.Controllers
 
                 try
                 {
-                    var dic = input.toDictionnary();
+                    var dic = input.ToDictionary();
+                    
+                    // If changing the password.
                     if (input.NewPassword != null)
                     {
                         if (!ValidatePassword(input.NewPassword))
@@ -280,6 +296,64 @@ namespace STS.Controllers
                             });
                         }
                         dic["Password"] = BCrypt.Net.BCrypt.HashPassword(input.NewPassword);
+                    }
+
+                    _db.Update<User>(user.Id, dic);
+
+                    return Ok(new
+                    {
+                        success = true
+                    });
+                }
+                catch (Exception)
+                {
+                    return new StatusCodeResult((int) HttpStatusCode.InternalServerError);
+                }
+            });
+        }
+        
+        [Authorize]
+        [RequiresPermissions("sts:update-admin:user")]
+        [HttpPut("admin/{id}")]
+        public Task<IActionResult> Update(string id, EditUserInput input)
+        {
+            return Task.Run<IActionResult>(() =>
+            {
+                // Check if user exist.
+                var user = _db.Single<User>(u => u.Id == id);
+
+                if (user == null)
+                {
+                    return new StatusCodeResult((int) HttpStatusCode.BadRequest);
+                }
+
+                
+                // If the username changes, check if the new one is not taken.
+                input.Username = input.Username.ToLower();
+                if (input.Username != null && input.Username != user.Username)
+                {
+                    var u = _db.Single<User>(U => U.Username == input.Username);
+                    if (u != null)
+                    {
+                        return new StatusCodeResult((int) HttpStatusCode.Conflict);
+                    }
+                }
+
+                try
+                {
+                    var dic = input.ToDictionary();
+                    
+                    // If changing the password.
+                    if (input.Password != null)
+                    {
+                        if (!ValidatePassword(input.Password))
+                        {
+                            return BadRequest(new
+                            {
+                                Message = "Password not valid"
+                            });
+                        }
+                        dic["Password"] = BCrypt.Net.BCrypt.HashPassword(input.Password);
                     }
 
                     _db.Update<User>(user.Id, dic);
