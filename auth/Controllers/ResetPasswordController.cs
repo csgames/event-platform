@@ -117,6 +117,14 @@ namespace STS.Controllers
                 {
                     return BadRequest();
                 }
+                
+                if (!RegisterController.ValidatePassword(input.Password))
+                {
+                    return BadRequest(new
+                    {
+                        Message = "Password not valid"
+                    });
+                }
 
                 var resetPassword = _db.Where<ResetPassword>(r => r.Uuid == uuid).First();
 
