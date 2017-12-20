@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -98,6 +99,32 @@ namespace STS.Controllers
         }
 
         [Authorize]
+        [RequiresPermissions("sts:get-all:user")]
+        [HttpGet]
+        public Task<IActionResult> GetAll()
+        {
+            return Task.Run<IActionResult>(() =>
+            {
+                var users = _db.All<User>()
+                    .ToList()
+                    .Select(u =>
+                    {
+                        var role = _db.Single<Role>(r => r.Id == u.RoleId);
+                        var permissions = _db.Where<Permission>(p => role.Permissions.Contains(p.Id))
+                            .Select(p => p.Name);
+                        u.Role = role.Name;
+                        u.Permissions = permissions.ToList();
+                        return u;
+                    });
+                return Ok(new
+                {
+                    success = true,
+                    users
+                });
+            });
+        }
+
+        [Authorize]
         [RequiresPermissions("sts:create:user")]
         [HttpPost]
         public Task<IActionResult> Post(UserRegisterInput input)
@@ -152,7 +179,14 @@ namespace STS.Controllers
                 if (user == null)
                 {
                     return NotFound();
-                } 
+                }
+
+                var role = _db.Single<Role>(r => r.Id == user.RoleId);
+                var permissions = _db.Where<Permission>(p => role.Permissions.Contains(p.Id))
+                    .Select(p => p.Name);
+                user.Role = role.Name;
+                user.Permissions = permissions.ToList();
+
                 return Ok(new
                 {
                     success = true,
@@ -172,7 +206,7 @@ namespace STS.Controllers
 
                 if (user == null)
                 {
-                    return new StatusCodeResult((int)HttpStatusCode.BadRequest);
+                    return new StatusCodeResult((int) HttpStatusCode.BadRequest);
                 }
 
                 if (input.Username != null && input.Username != user.Username)
@@ -184,7 +218,7 @@ namespace STS.Controllers
                         return new StatusCodeResult((int) HttpStatusCode.Conflict);
                     }
                 }
-                
+
                 try
                 {
                     var dic = input.toDictionnary();
@@ -200,9 +234,9 @@ namespace STS.Controllers
                         }
                         dic["Password"] = BCrypt.Net.BCrypt.HashPassword(input.NewPassword);
                     }
-                   
-                    _db.Update<User>(user.Id, dic);  
-   
+
+                    _db.Update<User>(user.Id, dic);
+
                     return Ok(new
                     {
                         success = true,
@@ -211,7 +245,7 @@ namespace STS.Controllers
                 }
                 catch (Exception)
                 {
-                    return new StatusCodeResult((int)HttpStatusCode.InternalServerError);
+                    return new StatusCodeResult((int) HttpStatusCode.InternalServerError);
                 }
             });
         }

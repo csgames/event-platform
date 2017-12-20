@@ -25,7 +25,7 @@ namespace STS.Controllers
         }
 
         [Authorize]
-        [RequiresPermissions("sts:read-all:role")]
+        [RequiresPermissions("sts:get-all:role")]
         [HttpGet]
         public Task<IActionResult> GetAll()
         {
