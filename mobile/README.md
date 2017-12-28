@@ -1,2 +1,8 @@
-# MobileApp
-The official PolyHx Mobile app
+# mobile_app2
+
+The official PolyHx mobile app.
+
+## Getting Started
+
+For help getting started with Flutter, view our online
+[documentation](http://flutter.io/).
