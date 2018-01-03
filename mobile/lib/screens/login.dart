@@ -24,7 +24,8 @@ class _LoginPageState extends State<LoginPage> {
           children: <Widget>[
             new Image.asset('assets/logo.png'),
             new Container(
-              width: 320.0,
+              width: 340.0,
+              margin: new EdgeInsets.fromLTRB(20.0, 0.0, 40.0, 0.0),
               child: new Form(
                 child: new Column(
                   children: <Widget>[
@@ -34,6 +35,7 @@ class _LoginPageState extends State<LoginPage> {
                         style: new TextStyle(color: Colors.white),
                         decoration: new InputDecoration(
                           labelText: 'Email',
+                          icon: new Icon(Icons.person_outline, color: Colors.white),
                         ),
                         onSaved: (val) => _email = val,
                       ),
@@ -44,6 +46,7 @@ class _LoginPageState extends State<LoginPage> {
                         style: new TextStyle(color: Colors.white),
                         decoration: new InputDecoration(
                           labelText: 'Password',
+                          icon: new Icon(Icons.lock_outline, color: Colors.white)
                         ),
                         onSaved: (val) => _password = val,
                         obscureText: true,
