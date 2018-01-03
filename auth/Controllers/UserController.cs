@@ -5,6 +5,7 @@ using System.Net;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using STS.Attributes;
 using PolyHxDotNetServices.Mail;
@@ -13,6 +14,7 @@ using STS.Helpers;
 using STS.Inputs;
 using STS.Interface;
 using STS.Models;
+using STS.Utils;
 
 namespace STS.Controllers
 {
@@ -43,10 +45,10 @@ namespace STS.Controllers
             matches = Regex.Matches(password, pattern);
             if (matches.Count == 0)
                 return false;
-            
+
             return password.Length >= 8;
         }
-        
+
         public UserController(IRepository db, IMailService mailService)
         {
             _db = db;
@@ -156,6 +158,66 @@ namespace STS.Controllers
         }
 
         [Authorize]
+        [RequiresPermissions("sts:get-all:user")]
+        [HttpPost("filter")]
+        public Task<IActionResult> GetAllSortedFiltered()
+        {
+            return Task.Run<IActionResult>(() =>
+            {
+                var users = _db.All<User>().AsEnumerable();
+
+                var draw = HttpContext.Request.Form["draw"].FirstOrDefault();
+                var start = Request.Form["start"].FirstOrDefault();
+                var length = Request.Form["length"].FirstOrDefault();
+                var sortColumn = Request
+                    .Form["columns[" + Request.Form["order[0][column]"].FirstOrDefault() + "][name]"].FirstOrDefault();
+                var sortColumnDirection = Request.Form["order[0][dir]"].FirstOrDefault();
+                var searchValue = Request.Form["search[value]"].FirstOrDefault();
+
+                var pageSize = length != null ? Convert.ToInt32(length) : 0;
+                var skip = start != null ? Convert.ToInt32(start) : 0;
+                var recordsTotal = 0;
+
+                // Sorting
+                if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDirection)))
+                {
+                    users = users.OrderBy(sortColumn, sortColumnDirection);
+                }
+
+                // Search
+                if (!string.IsNullOrEmpty(searchValue))
+                {
+                    // Before you say anything: Nullables.
+                    users = users.Where(u =>
+                        u.FirstName?.Contains(searchValue) == true ||
+                        u.LastName?.Contains(searchValue) == true ||
+                        u.Email?.Contains(searchValue) == true ||
+                        u.Username?.Contains(searchValue) == true);
+                }
+
+                // Paging
+                recordsTotal = users.Count();
+                var data = users
+                    .Skip(skip)
+                    .Take(pageSize)
+                    .Select(u =>
+                    {
+                        var role = _db.Single<Role>(r => r.Id == u.RoleId);
+                        u.Role = role.Name;
+                        return u;
+                    });
+
+                return Json(new
+                {
+                    draw = draw,
+                    recordsFiltered = recordsTotal,
+                    recordsTotal = recordsTotal,
+                    data = data
+                });
+            });
+        }
+
+        [Authorize]
         [RequiresPermissions("sts:create:user")]
         [HttpPost]
         public Task<IActionResult> Post(UserRegisterInput input)
@@ -172,7 +234,7 @@ namespace STS.Controllers
                 {
                     return new StatusCodeResult((int) HttpStatusCode.Conflict);
                 }
-                
+
                 if (!ValidatePassword(input.Password))
                 {
                     return BadRequest(new
@@ -180,7 +242,7 @@ namespace STS.Controllers
                         Message = "Password not valid"
                     });
                 }
-                
+
                 try
                 {
                     var hashedPassword = BCrypt.Net.BCrypt.HashPassword(input.Password);
@@ -192,7 +254,8 @@ namespace STS.Controllers
                         BirthDate = input.BirthDate,
                         FirstName = input.FirstName,
                         LastName = input.LastName,
-                        Validated = false
+                        IsActive = input?.IsActive ?? false,
+                        Validated = input?.Validated ?? false
                     };
                     _db.Add(user);
                     return Ok(new
@@ -246,12 +309,12 @@ namespace STS.Controllers
                 var authenticatedUserId = from c in HttpContext.User.Claims
                     where c.Type == "user_id"
                     select c.Value;
-                
+
                 if (authenticatedUserId.First() != id)
                 {
                     return new ForbidResult();
                 }
-                
+
                 // Check if user exist.
                 var user = _db.Single<User>(u => u.Id == id);
 
@@ -260,7 +323,7 @@ namespace STS.Controllers
                     return new StatusCodeResult((int) HttpStatusCode.BadRequest);
                 }
 
-                
+
                 // If the username changes, check if the new one is not taken.
                 input.Username = input.Username.ToLower();
                 if (input.Username != null && input.Username != user.Username)
@@ -275,7 +338,7 @@ namespace STS.Controllers
                 try
                 {
                     var dic = input.ToDictionary();
-                    
+
                     // If changing the password.
                     if (input.NewPassword != null)
                     {
@@ -286,7 +349,7 @@ namespace STS.Controllers
                                 Message = "Password not valid"
                             });
                         }
-                        
+
                         if (!BCrypt.Net.BCrypt.Verify(input.OldPassword, user.Password))
                         {
                             return StatusCode((int) HttpStatusCode.BadRequest, new
@@ -311,7 +374,7 @@ namespace STS.Controllers
                 }
             });
         }
-        
+
         [Authorize]
         [RequiresPermissions("sts:update-admin:user")]
         [HttpPut("admin/{id}")]
@@ -327,7 +390,7 @@ namespace STS.Controllers
                     return new StatusCodeResult((int) HttpStatusCode.BadRequest);
                 }
 
-                
+
                 // If the username changes, check if the new one is not taken.
                 input.Username = input.Username.ToLower();
                 if (input.Username != null && input.Username != user.Username)
@@ -342,7 +405,7 @@ namespace STS.Controllers
                 try
                 {
                     var dic = input.ToDictionary();
-                    
+
                     // If changing the password.
                     if (input.Password != null)
                     {

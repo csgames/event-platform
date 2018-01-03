@@ -46,7 +46,7 @@ namespace STS.Controllers
                 {
                     resetPassword = _db.Single<ResetPassword>(c => c.UserId == user.Id && !c.Used);
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     resetPassword = null;
                 }
