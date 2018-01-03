@@ -39,6 +39,22 @@ namespace STS.Controllers
                 });
             });
         }
+
+        [Authorize]
+        [RequiresPermissions("sts:get:role")]
+        [HttpGet("{id}")]
+        public Task<IActionResult> Get(string id)
+        {
+            return Task.Run<IActionResult>(() =>
+            {
+                var role = _db.Single<Role>(r => r.Id == id);
+                return Ok(new
+                {
+                    success = true,
+                    role
+                });
+            });
+        }
         
         
         [Authorize]
