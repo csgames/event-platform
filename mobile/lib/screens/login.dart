@@ -53,7 +53,7 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     ),
                     new PillButton(
-                      text: 'LogIn',
+                      text: 'Login',
                       textColor: Colors.white,
                       onPressed: _submit,
                     ),
