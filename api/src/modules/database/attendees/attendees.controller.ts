@@ -16,7 +16,9 @@ import { Schools } from "../schools/schools.model";
 import { AttendeesGuard, CreateAttendeeGuard } from "./attendees.guard";
 import { CodeExceptionFilter } from "../../../filters/CodedError/code.filter";
 import { codeMap } from "./attendees.exception";
+import { ApiUseTags } from "@nestjs/swagger";
 
+@ApiUseTags('Attendee')
 @Controller("attendee")
 @UseGuards(PermissionsGuard)
 @UseFilters(new CodeExceptionFilter(codeMap))

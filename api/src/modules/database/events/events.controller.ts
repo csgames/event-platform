@@ -10,7 +10,9 @@ import { CodeExceptionFilter } from "../../../filters/CodedError/code.filter";
 import { codeMap } from "./events.exception";
 import { AttendeesGuard } from "../attendees/attendees.guard";
 import { AttendeesService } from "../attendees/attendees.service";
+import { ApiUseTags } from "@nestjs/swagger";
 
+@ApiUseTags('Event')
 @Controller("event")
 @UseGuards(PermissionsGuard)
 @UseFilters(new CodeExceptionFilter(codeMap))

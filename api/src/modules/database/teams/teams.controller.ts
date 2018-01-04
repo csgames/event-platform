@@ -1,4 +1,3 @@
-import * as express from "express";
 import { Body, Controller, Get, Param, Post, Headers, UseFilters, UseGuards, Delete } from "@nestjs/common";
 import { Permissions } from "../../../decorators/permission.decorator";
 import { PermissionsGuard } from "../../../guards/permission.guard";
@@ -12,7 +11,9 @@ import { AttendeesService } from "../attendees/attendees.service";
 import { STSService } from "../../sts/sts.service";
 import { Attendees } from "../attendees/attendees.model";
 import { EventsService } from "../events/events.service";
+import { ApiUseTags } from "@nestjs/swagger";
 
+@ApiUseTags('Team')
 @Controller("team")
 @UseGuards(PermissionsGuard)
 @UseFilters(new CodeExceptionFilter(codeMap))

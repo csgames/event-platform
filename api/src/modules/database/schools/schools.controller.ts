@@ -4,7 +4,9 @@ import { CreateSchoolDto } from "./schools.dto";
 import { ValidationPipe } from "../../../pipes/validation.pipe";
 import { PermissionsGuard } from "../../../guards/permission.guard";
 import { Permissions } from "../../../decorators/permission.decorator";
+import { ApiUseTags } from "@nestjs/swagger";
 
+@ApiUseTags('School')
 @Controller("school")
 @UseGuards(PermissionsGuard)
 export class SchoolsController {
