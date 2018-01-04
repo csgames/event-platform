@@ -27,7 +27,7 @@ namespace STS.Store
                 if (permissions == null) return client;
                 var deserializedPermissions = JsonConvert.DeserializeObject<List<string>>(permissions);
                 var permissionNames = deserializedPermissions
-                    .Select(id => _dbRepository.Single<Permission>(p => p.Id == id).Name);
+                    .Select(id => _dbRepository.Single<Permission>(p => p.Id == id)?.Name);
                 client.Claims.Add(new Claim("permissions", JsonConvert.SerializeObject(permissionNames)));
                 return client;
             });

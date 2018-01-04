@@ -24,17 +24,54 @@ namespace STS.Controllers
         }
 
         [Authorize]
-        [RequiresPermissions("sts:read-all:client")]
+        [RequiresPermissions("sts:get-all:client")]
         [HttpGet]
         public Task<IActionResult> GetAll()
         {
             return Task.Run<IActionResult>(() =>
             {
                 var clients = _db.All<Client>();
+
+                var clientsOutput = new List<ClientModel>();
+
+                foreach (var client in clients)
+                {
+                    
+                    client.Properties.TryGetValue("permissions", out var permissions);
+                    var clientModel = new ClientModel
+                    {
+                        ClientId = client.ClientId,
+                        ClientName = client.ClientName,
+                        AllowedGrantTypes = client.AllowedGrantTypes.ToArray(),
+                        AllowedScopes = client.AllowedScopes.ToArray(),
+                        AllowOfflineAccess = client.AllowOfflineAccess,
+                        Permissions = JsonConvert.DeserializeObject<List<string>>(permissions ?? "[]").ToArray()
+                    };
+                    clientsOutput.Add(clientModel);
+                }
+
                 return Ok(new
                 {
                     success = true,
-                    clients
+                    clients = clientsOutput
+                });
+            });
+        }
+
+        [Authorize]
+        [RequiresPermissions("sts:get-all:client")]
+        [HttpGet("count")]
+        public Task<IActionResult> Count()
+        {
+            return Task.Run<IActionResult>(() =>
+            {
+                var count = _db.All<Client>()
+                    .ToList()
+                    .Count;
+                return Ok(new
+                {
+                    success = true,
+                    count
                 });
             });
         }
@@ -42,7 +79,7 @@ namespace STS.Controllers
         [Authorize]
         [RequiresPermissions("sts:create:client")]
         [HttpPost]
-        public Task<IActionResult> Create(ClientInput input)
+        public Task<IActionResult> Create(ClientModel input)
         {
             return Task.Run<IActionResult>(() =>
             {
@@ -81,7 +118,7 @@ namespace STS.Controllers
         [Authorize]
         [RequiresPermissions("sts:update:client")]
         [HttpPut]
-        public Task<IActionResult> Update(ClientInput input)
+        public Task<IActionResult> Update(ClientModel input)
         {
             return Task.Run<IActionResult>(() =>
             {
@@ -113,13 +150,13 @@ namespace STS.Controllers
                         "permissions", JsonConvert.SerializeObject(input.Permissions)
                     }
                 };
-                
+
                 _db.Replace(c => c.ClientId == input.ClientId, client);
 
                 return Ok(new {success = true});
             });
         }
-        
+
         [Authorize]
         [RequiresPermissions("sts:delete:client")]
         [HttpDelete("{id}")]
@@ -131,9 +168,9 @@ namespace STS.Controllers
                 {
                     return BadRequest();
                 }
-                
+
                 _db.Delete<Client>(c => c.ClientId == id);
-                
+
                 return Ok(new {success = true});
             });
         }

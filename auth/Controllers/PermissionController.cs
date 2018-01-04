@@ -141,6 +141,20 @@ namespace STS.Controllers
                     role.Permissions = permissionList.ToArray();
                     _db.Replace(r => r.Id == role.Id, role);
                 }
+                
+                var clients = _db.All<Client>();
+                foreach (var client in clients)
+                {
+                    client.Properties.TryGetValue("permissions", out var permissions);
+                    if (permissions == null) continue;
+                    var deserializedPermissions = JsonConvert.DeserializeObject<List<string>>(permissions);
+                    
+                    if (!deserializedPermissions.Contains(id)) continue;
+                    
+                    deserializedPermissions.Remove(id);
+                    client.Properties["permissions"] = JsonConvert.SerializeObject(deserializedPermissions);
+                    _db.Replace(c => c.ClientId == client.ClientId, client);
+                }
                
 
                 _db.Delete<Permission>(p => p.Id == id);

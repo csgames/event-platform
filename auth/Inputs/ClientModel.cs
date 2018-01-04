@@ -2,7 +2,7 @@
 
 namespace STS.Inputs
 {
-    public class ClientInput
+    public class ClientModel
     {
         [Required]
         public string ClientId { get; set; }
