@@ -23,7 +23,7 @@ namespace STS.Utils
             {
                 try
                 {
-                    var user = _db.Single<Models.User>(u => u.Username == context.UserName);
+                    var user = _db.Single<Models.User>(u => u.Username.ToLower() == context.UserName.ToLower());
                     if (user != null)
                     {
                         if (BCrypt.Net.BCrypt.Verify(context.Password, user.Password))

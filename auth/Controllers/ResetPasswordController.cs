@@ -34,7 +34,7 @@ namespace STS.Controllers
                     return BadRequest();
                 }
 
-                var user = _db.Single<User>(c => c.Username == input.Username);
+                var user = _db.Single<User>(c => c.Username.ToLower() == input.Username.ToLower());
 
                 if (user == null)
                 {
@@ -46,7 +46,7 @@ namespace STS.Controllers
                 {
                     resetPassword = _db.Single<ResetPassword>(c => c.UserId == user.Id && !c.Used);
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     resetPassword = null;
                 }
@@ -86,7 +86,7 @@ namespace STS.Controllers
                 };
                 var res = await _mailService.SendEmail(mailInput);
 
-                return res ? (IActionResult) Ok(new {}) : BadRequest();
+                return res ? (IActionResult) Ok(new { }) : BadRequest();
             });
         }
 
@@ -102,11 +102,11 @@ namespace STS.Controllers
 
                 if (resetPassword.Used)
                     return BadRequest();
-                
-                return Ok(new {});
+
+                return Ok(new { });
             });
         }
-        
+
         [HttpPut("{uuid}")]
         public Task<IActionResult> UpdatePassword(string uuid, ResetPasswordInput input)
         {
@@ -116,8 +116,8 @@ namespace STS.Controllers
                 {
                     return BadRequest();
                 }
-                
-                if (!RegisterController.ValidatePassword(input.Password))
+
+                if (!UserController.ValidatePassword(input.Password))
                 {
                     return BadRequest(new
                     {
@@ -135,16 +135,16 @@ namespace STS.Controllers
 
                 _db.Update<ResetPassword>(resetPassword.Id, new Dictionary<string, object>
                 {
-                    { "Used", true }
+                    {"Used", true}
                 });
 
                 var hashedNewPassword = BCrypt.Net.BCrypt.HashPassword(input.Password);
                 _db.Update<User>(resetPassword.UserId, new Dictionary<string, object>
                 {
-                    { "Password", hashedNewPassword }
+                    {"Password", hashedNewPassword}
                 });
 
-                return Ok(new {});
+                return Ok(new { });
             });
         }
     }

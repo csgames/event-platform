@@ -5,18 +5,21 @@ using System.Net;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using STS.Attributes;
 using PolyHxDotNetServices.Mail;
 using PolyHxDotNetServices.Mail.Inputs;
+using STS.Helpers;
 using STS.Inputs;
 using STS.Interface;
 using STS.Models;
+using STS.Utils;
 
 namespace STS.Controllers
 {
     [Route("user")]
-    public class RegisterController : Controller
+    public class UserController : Controller
     {
         private enum ErrorCode
         {
@@ -42,11 +45,11 @@ namespace STS.Controllers
             matches = Regex.Matches(password, pattern);
             if (matches.Count == 0)
                 return false;
-            
+
             return password.Length >= 8;
         }
-        
-        public RegisterController(IRepository db, IMailService mailService)
+
+        public UserController(IRepository db, IMailService mailService)
         {
             _db = db;
             _mailService = mailService;
@@ -129,6 +132,92 @@ namespace STS.Controllers
         }
 
         [Authorize]
+        [RequiresPermissions("sts:get-all:user")]
+        [HttpGet]
+        public Task<IActionResult> GetAll()
+        {
+            return Task.Run<IActionResult>(() =>
+            {
+                var users = _db.All<User>()
+                    .ToList()
+                    .Select(u =>
+                    {
+                        var role = _db.Single<Role>(r => r.Id == u.RoleId);
+                        var permissions = _db.Where<Permission>(p => role.Permissions.Contains(p.Id))
+                            .Select(p => p.Name);
+                        u.Role = role.Name;
+                        u.Permissions = permissions.ToList();
+                        return u;
+                    });
+                return Ok(new
+                {
+                    success = true,
+                    users
+                });
+            });
+        }
+
+        [Authorize]
+        [RequiresPermissions("sts:get-all:user")]
+        [HttpPost("filter")]
+        public Task<IActionResult> GetAllSortedFiltered()
+        {
+            return Task.Run<IActionResult>(() =>
+            {
+                var users = _db.All<User>().AsEnumerable();
+
+                var draw = HttpContext.Request.Form["draw"].FirstOrDefault();
+                var start = Request.Form["start"].FirstOrDefault();
+                var length = Request.Form["length"].FirstOrDefault();
+                var sortColumn = Request
+                    .Form["columns[" + Request.Form["order[0][column]"].FirstOrDefault() + "][name]"].FirstOrDefault();
+                var sortColumnDirection = Request.Form["order[0][dir]"].FirstOrDefault();
+                var searchValue = Request.Form["search[value]"].FirstOrDefault();
+
+                var pageSize = length != null ? Convert.ToInt32(length) : 0;
+                var skip = start != null ? Convert.ToInt32(start) : 0;
+                var recordsTotal = 0;
+
+                // Sorting
+                if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDirection)))
+                {
+                    users = users.OrderBy(sortColumn, sortColumnDirection);
+                }
+
+                // Search
+                if (!string.IsNullOrEmpty(searchValue))
+                {
+                    // Before you say anything: Nullables.
+                    users = users.Where(u =>
+                        u.FirstName?.Contains(searchValue) == true ||
+                        u.LastName?.Contains(searchValue) == true ||
+                        u.Email?.Contains(searchValue) == true ||
+                        u.Username?.Contains(searchValue) == true);
+                }
+
+                // Paging
+                recordsTotal = users.Count();
+                var data = users
+                    .Skip(skip)
+                    .Take(pageSize)
+                    .Select(u =>
+                    {
+                        var role = _db.Single<Role>(r => r.Id == u.RoleId);
+                        u.Role = role.Name;
+                        return u;
+                    });
+
+                return Json(new
+                {
+                    draw = draw,
+                    recordsFiltered = recordsTotal,
+                    recordsTotal = recordsTotal,
+                    data = data
+                });
+            });
+        }
+
+        [Authorize]
         [RequiresPermissions("sts:create:user")]
         [HttpPost]
         public Task<IActionResult> Post(UserRegisterInput input)
@@ -145,7 +234,7 @@ namespace STS.Controllers
                 {
                     return new StatusCodeResult((int) HttpStatusCode.Conflict);
                 }
-                
+
                 if (!ValidatePassword(input.Password))
                 {
                     return BadRequest(new
@@ -153,7 +242,7 @@ namespace STS.Controllers
                         Message = "Password not valid"
                     });
                 }
-                
+
                 try
                 {
                     var hashedPassword = BCrypt.Net.BCrypt.HashPassword(input.Password);
@@ -165,7 +254,8 @@ namespace STS.Controllers
                         BirthDate = input.BirthDate,
                         FirstName = input.FirstName,
                         LastName = input.LastName,
-                        Validated = false
+                        IsActive = input?.IsActive ?? false,
+                        Validated = input?.Validated ?? false
                     };
                     _db.Add(user);
                     return Ok(new
@@ -192,7 +282,14 @@ namespace STS.Controllers
                 if (user == null)
                 {
                     return NotFound();
-                } 
+                }
+
+                var role = _db.Single<Role>(r => r.Id == user.RoleId);
+                var permissions = _db.Where<Permission>(p => role.Permissions.Contains(p.Id))
+                    .Select(p => p.Name);
+                user.Role = role.Name;
+                user.Permissions = permissions.ToList();
+
                 return Ok(new
                 {
                     success = true,
@@ -223,17 +320,30 @@ namespace STS.Controllers
         [Authorize]
         [RequiresPermissions("sts:update:user")]
         [HttpPut("{id}")]
-        public Task<IActionResult> UpdateUser(string id, ChangeUserInput input)
+        public Task<IActionResult> UpdateAttendee(string id, EditAttendeeInput input)
         {
             return Task.Run<IActionResult>(() =>
             {
+                // Check if the authenticated user matches the edited user.
+                var authenticatedUserId = from c in HttpContext.User.Claims
+                    where c.Type == "user_id"
+                    select c.Value;
+
+                if (authenticatedUserId.First() != id)
+                {
+                    return new ForbidResult();
+                }
+
+                // Check if user exist.
                 var user = _db.Single<User>(u => u.Id == id);
 
                 if (user == null)
                 {
-                    return new StatusCodeResult((int)HttpStatusCode.BadRequest);
+                    return new StatusCodeResult((int) HttpStatusCode.BadRequest);
                 }
 
+
+                // If the username changes, check if the new one is not taken.
                 input.Username = input.Username.ToLower();
                 if (input.Username != null && input.Username != user.Username)
                 {
@@ -243,10 +353,12 @@ namespace STS.Controllers
                         return new StatusCodeResult((int) HttpStatusCode.Conflict);
                     }
                 }
-                
+
                 try
                 {
-                    var dic = input.toDictionnary();
+                    var dic = input.ToDictionary();
+
+                    // If changing the password.
                     if (input.NewPassword != null)
                     {
                         if (!ValidatePassword(input.NewPassword))
@@ -256,7 +368,7 @@ namespace STS.Controllers
                                 Message = "Password not valid"
                             });
                         }
-                        
+
                         if (!BCrypt.Net.BCrypt.Verify(input.OldPassword, user.Password))
                         {
                             return StatusCode((int) HttpStatusCode.BadRequest, new
@@ -267,9 +379,9 @@ namespace STS.Controllers
                         }
                         dic["Password"] = BCrypt.Net.BCrypt.HashPassword(input.NewPassword);
                     }
-                   
-                    _db.Update<User>(user.Id, dic);  
-   
+
+                    _db.Update<User>(user.Id, dic);
+
                     return Ok(new
                     {
                         success = true
@@ -277,7 +389,65 @@ namespace STS.Controllers
                 }
                 catch (Exception)
                 {
-                    return new StatusCodeResult((int)HttpStatusCode.InternalServerError);
+                    return new StatusCodeResult((int) HttpStatusCode.InternalServerError);
+                }
+            });
+        }
+
+        [Authorize]
+        [RequiresPermissions("sts:update-admin:user")]
+        [HttpPut("admin/{id}")]
+        public Task<IActionResult> Update(string id, EditUserInput input)
+        {
+            return Task.Run<IActionResult>(() =>
+            {
+                // Check if user exist.
+                var user = _db.Single<User>(u => u.Id == id);
+
+                if (user == null)
+                {
+                    return new StatusCodeResult((int) HttpStatusCode.BadRequest);
+                }
+
+
+                // If the username changes, check if the new one is not taken.
+                input.Username = input.Username.ToLower();
+                if (input.Username != null && input.Username != user.Username)
+                {
+                    var u = _db.Single<User>(U => U.Username == input.Username);
+                    if (u != null)
+                    {
+                        return new StatusCodeResult((int) HttpStatusCode.Conflict);
+                    }
+                }
+
+                try
+                {
+                    var dic = input.ToDictionary();
+
+                    // If changing the password.
+                    if (input.Password != null)
+                    {
+                        if (!ValidatePassword(input.Password))
+                        {
+                            return BadRequest(new
+                            {
+                                Message = "Password not valid"
+                            });
+                        }
+                        dic["Password"] = BCrypt.Net.BCrypt.HashPassword(input.Password);
+                    }
+
+                    _db.Update<User>(user.Id, dic);
+
+                    return Ok(new
+                    {
+                        success = true
+                    });
+                }
+                catch (Exception)
+                {
+                    return new StatusCodeResult((int) HttpStatusCode.InternalServerError);
                 }
             });
         }

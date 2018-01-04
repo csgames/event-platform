@@ -25,7 +25,7 @@ namespace STS.Controllers
         }
 
         [Authorize]
-        [RequiresPermissions("sts:read-all:role")]
+        [RequiresPermissions("sts:get-all:role")]
         [HttpGet]
         public Task<IActionResult> GetAll()
         {
@@ -36,6 +36,22 @@ namespace STS.Controllers
                 {
                     success = true,
                     roles
+                });
+            });
+        }
+
+        [Authorize]
+        [RequiresPermissions("sts:get:role")]
+        [HttpGet("{id}")]
+        public Task<IActionResult> Get(string id)
+        {
+            return Task.Run<IActionResult>(() =>
+            {
+                var role = _db.Single<Role>(r => r.Id == id);
+                return Ok(new
+                {
+                    success = true,
+                    role
                 });
             });
         }
