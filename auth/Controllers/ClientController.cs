@@ -36,7 +36,6 @@ namespace STS.Controllers
 
                 foreach (var client in clients)
                 {
-                    
                     client.Properties.TryGetValue("permissions", out var permissions);
                     var clientModel = new ClientModel
                     {
@@ -136,18 +135,20 @@ namespace STS.Controllers
 
                 client.ClientId = input.ClientId;
                 client.ClientName = input.ClientName;
-                client.ClientSecrets = new List<Secret>()
+                if (!string.IsNullOrEmpty(input.ClientSecret))
                 {
-                    new Secret(input.ClientSecret.Sha256())
-                };
-
+                    client.ClientSecrets = new List<Secret>()
+                    {
+                        new Secret(input.ClientSecret.Sha256())
+                    };
+                }
                 client.AllowedGrantTypes = input.AllowedGrantTypes;
                 client.AllowedScopes = input.AllowedScopes;
                 client.AllowOfflineAccess = input.AllowOfflineAccess;
                 client.Properties = new Dictionary<string, string>
                 {
                     {
-                        "permissions", JsonConvert.SerializeObject(input.Permissions)
+                        "permissions", JsonConvert.SerializeObject(input.Permissions ?? new List<string>().ToArray())
                     }
                 };
 

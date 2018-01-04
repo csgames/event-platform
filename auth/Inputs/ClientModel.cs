@@ -10,7 +10,6 @@ namespace STS.Inputs
         [Required]
         public string ClientName { get; set; }
         
-        [Required]
         public string ClientSecret { get; set; }
         
         [Required]
@@ -22,7 +21,6 @@ namespace STS.Inputs
         [Required]
         public bool AllowOfflineAccess { get; set; }
         
-        [Required]
         public string[] Permissions { get; set; }
     }
 }
