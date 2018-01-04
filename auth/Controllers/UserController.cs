@@ -159,6 +159,24 @@ namespace STS.Controllers
 
         [Authorize]
         [RequiresPermissions("sts:get-all:user")]
+        [HttpGet("count")]
+        public Task<IActionResult> Count()
+        {
+            return Task.Run<IActionResult>(() =>
+            {
+                var count = _db.All<User>()
+                    .ToList()
+                    .Count;
+                return Ok(new
+                {
+                    success = true,
+                    count
+                });
+            });
+        }
+
+        [Authorize]
+        [RequiresPermissions("sts:get-all:user")]
         [HttpPost("filter")]
         public Task<IActionResult> GetAllSortedFiltered()
         {
@@ -299,7 +317,7 @@ namespace STS.Controllers
         }
 
         [Authorize]
-        [RequiresPermissions("sts:get-all-with-ids:users")]
+        [RequiresPermissions("sts:get-all-with-ids:user")]
         [HttpPost("getallwithids")]
         public Task<IActionResult> GetAllWithIds(UserGetAllWithIdsInput input)
         {

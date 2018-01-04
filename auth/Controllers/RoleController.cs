@@ -40,6 +40,25 @@ namespace STS.Controllers
             });
         }
 
+
+        [Authorize]
+        [RequiresPermissions("sts:get-all:role")]
+        [HttpGet("count")]
+        public Task<IActionResult> Count()
+        {
+            return Task.Run<IActionResult>(() =>
+            {
+                var count = _db.All<Role>()
+                    .ToList()
+                    .Count;
+                return Ok(new
+                {
+                    success = true,
+                    count
+                });
+            });
+        }
+
         [Authorize]
         [RequiresPermissions("sts:get:role")]
         [HttpGet("{id}")]

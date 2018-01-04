@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
@@ -35,6 +36,24 @@ namespace STS.Controllers
                 {
                     success = true,
                     permissions
+                });
+            });
+        }
+
+        [Authorize]
+        [RequiresPermissions("sts:get-all:permission")]
+        [HttpGet("count")]
+        public Task<IActionResult> Count()
+        {
+            return Task.Run<IActionResult>(() =>
+            {
+                var count = _db.All<Permission>()
+                    .ToList()
+                    .Count;
+                return Ok(new
+                {
+                    success = true,
+                    count
                 });
             });
         }
@@ -83,7 +102,7 @@ namespace STS.Controllers
 
                 var permissionExists = _db.Single<Permission>(p => p.Id == id) != null;
 
-                if (permissionExists)
+                if (!permissionExists)
                 {
                     return new StatusCodeResult((int) HttpStatusCode.NotFound);
                 }
@@ -93,13 +112,13 @@ namespace STS.Controllers
                     Id = id,
                     Name = input.Name
                 };
-                
+
                 _db.Replace(p => p.Id == id, permission);
 
                 return Ok(new {success = true});
             });
         }
-        
+
         [Authorize]
         [RequiresPermissions("sts:delete:permission")]
         [HttpDelete("{id}")]
@@ -111,9 +130,21 @@ namespace STS.Controllers
                 {
                     return BadRequest();
                 }
-                
+
+                var allRoles = _db.All<Role>().ToList();
+                var roles = allRoles.Where(r => r.Permissions.Contains(id));
+
+                foreach (var role in roles)
+                {
+                    var permissionList = role.Permissions.ToList();
+                    permissionList.Remove(id);
+                    role.Permissions = permissionList.ToArray();
+                    _db.Replace(r => r.Id == role.Id, role);
+                }
+               
+
                 _db.Delete<Permission>(p => p.Id == id);
-                
+
                 return Ok(new {success = true});
             });
         }
