@@ -299,7 +299,7 @@ namespace STS.Controllers
         }
 
         [Authorize]
-        [RequiresPermissions("sts:get:users-with-ids")]
+        [RequiresPermissions("sts:get-all-with-ids:users")]
         [HttpPost("getallwithids")]
         public Task<IActionResult> GetAllWithIds(UserGetAllWithIdsInput input)
         {
