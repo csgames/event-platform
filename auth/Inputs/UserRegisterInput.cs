@@ -17,4 +17,12 @@ namespace STS.Inputs
         [Required]
         public string BirthDate { get; set; }
     }
+
+    public class UserGetAllWithIdsInput
+    {
+        [Required]
+        public string[] userIds { get; set; }
+        [Required]
+        public string test { get; set; }
+    }
 }

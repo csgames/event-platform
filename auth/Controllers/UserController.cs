@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -196,6 +197,25 @@ namespace STS.Controllers
                 {
                     success = true,
                     user
+                });
+            });
+        }
+
+        [Authorize]
+        [RequiresPermissions("sts:get:users-with-ids")]
+        [HttpPost("getallwithids")]
+        public Task<IActionResult> GetAllWithIds(UserGetAllWithIdsInput input)
+        {
+            return Task.Run<IActionResult>(() =>
+            {
+                var users = _db.Where<User>(u => input.userIds.Contains(u.Id));
+                if (users == null)
+                {
+                    return NotFound();
+                }
+                return Ok(new
+                {
+                    users
                 });
             });
         }
