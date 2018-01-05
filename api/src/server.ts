@@ -40,6 +40,7 @@ async function bootstrap() {
         .addTag('School')
         .addTag('Team')
         .addBearerAuth()
+        .setSchemes('http', 'https')
         .build();
     try {
         const document = SwaggerModule.createDocument(nestApp, options);
