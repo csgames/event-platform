@@ -1,11 +1,8 @@
 import {
-    ArrayNotEmpty,
     IsDefined,
     IsNotEmpty,
     IsOptional,
-    IsString,
-    registerDecorator,
-    ValidationOptions
+    IsString
 } from "class-validator";
 import { EmailMessage } from "./email.interface";
 
@@ -14,9 +11,7 @@ export class EmailSendDto {
     @IsNotEmpty()
     from: string;
 
-    @IsStringArray()
     @IsDefined()
-    @ArrayNotEmpty()
     to: string[];
 
     @IsString()
@@ -27,6 +22,7 @@ export class EmailSendDto {
     @IsNotEmpty()
     text: string;
 
+    @IsOptional()
     @IsString()
     @IsNotEmpty()
     html: string;
@@ -39,22 +35,6 @@ export class EmailSendDto {
 
     @IsOptional()
     variables: { [key: string]: string };
-}
-
-export function IsStringArray(validationOptions?: ValidationOptions) {
-    return function (object: Object, propertyName: string) {
-        registerDecorator({
-            name: "IsStringArray",
-            target: object.constructor,
-            propertyName: propertyName,
-            options: validationOptions,
-            validator: {
-                validate(value: any): boolean {
-                    return Array.isArray(value) && value.every(s => typeof s === "string");
-                }
-            }
-        });
-    };
 }
 
 export function dtoToMailgunReadable(emailSendDto: EmailSendDto): EmailMessage {

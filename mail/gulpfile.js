@@ -1,7 +1,9 @@
 const gulp = require("gulp");
+const nodemon = require('gulp-nodemon');
 const ts = require("gulp-typescript");
 const sourcemaps = require('gulp-sourcemaps');
 const tslint = require("gulp-tslint");
+
 const tsProject = ts.createProject("tsconfig.json");
 
 gulp.task("default", function () {
@@ -12,6 +14,15 @@ gulp.task("default", function () {
         .pipe(tsProject())
         .js
         .pipe(sourcemaps.write()).pipe(gulp.dest("build"));
+});
+
+
+gulp.task("watch", ["lint", "build"], function () {
+    nodemon({
+        ext: "ts",
+        watch: ["src"],
+        tasks: ["lint", "build"]
+    });
 });
 
 gulp.task("build", function () {
