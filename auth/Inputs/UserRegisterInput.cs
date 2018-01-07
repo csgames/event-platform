@@ -38,4 +38,10 @@ namespace STS.Inputs
         [Required]
         public string test { get; set; }
     }
+    
+    public class UserQueryAllInput
+    {
+        [Required]
+        public string searchValue{ get; set; }
+    }
 }

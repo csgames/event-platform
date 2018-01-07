@@ -234,6 +234,33 @@ namespace STS.Controllers
                 });
             });
         }
+        
+        [Authorize]
+        [RequiresPermissions("sts:get-all:user")]
+        [HttpPost("query")]
+        public Task<IActionResult> QueryAll(UserQueryAllInput input)
+        {
+            return Task.Run<IActionResult>(() =>
+            {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest();
+                }
+
+                var users = _db.All<User>().AsEnumerable();
+
+                users = users.Where(u =>
+                    u.FirstName?.Contains(input.searchValue) == true ||
+                    u.LastName?.Contains(input.searchValue) == true ||
+                    u.Email?.Contains(input.searchValue) == true ||
+                    u.Username?.Contains(input.searchValue) == true);
+
+                return Json(new
+                {
+                    users
+                });
+            });
+        }
 
         [Authorize]
         [RequiresPermissions("sts:create:user")]
