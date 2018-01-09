@@ -58,7 +58,7 @@ export class TeamsController {
         }
 
         for (let a of team.attendees as (Attendees & {status: string})[]) {
-            a.user = await this.stsService.getUser(a.userId);
+            a.user = (await this.stsService.getUser(a.userId)).user;
             a.status = await this.eventsService.getAttendeeStatus(a._id, team.event as string);
         }
         return team;

@@ -1,4 +1,4 @@
-import { IsString, IsOptional, IsIn, IsNotEmpty, IsUrl } from "class-validator";
+import { IsString, IsOptional, IsIn, IsNotEmpty, IsBoolean } from 'class-validator';
 import { ApiModelProperty } from "@nestjs/swagger";
 
 export class CreateAttendeeDto {
@@ -91,4 +91,24 @@ export class UpdateAttendeeDto {
     @IsString()
     @ApiModelProperty()
     school: string;
+
+    @IsOptional()
+    @IsString()
+    @ApiModelProperty()
+    phoneNumber: string;
+
+    @IsOptional()
+    @IsBoolean()
+    @ApiModelProperty()
+    acceptSMSNotifications: boolean;
+
+    @IsOptional()
+    @IsBoolean()
+    @ApiModelProperty()
+    hasDietaryRestrictions: boolean;
+
+    @IsOptional()
+    @IsString()
+    @ApiModelProperty()
+    dietaryRestrictions: string;
 }

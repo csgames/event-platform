@@ -1,4 +1,4 @@
-import { IsString, IsNotEmpty, IsDate, IsArray, IsOptional, ArrayUnique } from "class-validator";
+import { IsString, IsNotEmpty, IsDate, IsArray, IsOptional, ArrayUnique, IsBoolean } from 'class-validator';
 import { EventRegistrations } from "./events.model";
 import { ApiModelProperty } from "@nestjs/swagger";
 

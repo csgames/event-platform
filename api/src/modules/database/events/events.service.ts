@@ -11,7 +11,6 @@ import { HttpException } from "@nestjs/core";
 import { GetAllWithIdsResponse } from "@polyhx/nest-services/modules/sts/sts.service";
 import { EmailService } from "../../email/email.service";
 import { STSService } from "@polyhx/nest-services";
-import { triggerAsyncId } from "async_hooks";
 
 @Component()
 export class EventsService extends BaseService<Events, CreateEventDto> {
@@ -49,6 +48,37 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
         }).exec();
     }
 
+    async confirmAttendee(eventId: string, userId: string, attending: boolean) {
+        let attendee = await this.attendeeService.findOne({userId});
+
+        if (!attendee) {
+            throw new CodeException(Code.USER_NOT_ATTENDEE);
+        }
+
+        const event = await this.eventsModel.findOne({
+            _id: eventId
+        });
+
+        const attendeeRegistration = event.attendees.find(r => r.attendee.toString() === attendee._id.toString());
+
+        if (!attendeeRegistration.selected) {
+            throw new CodeException(Code.ATTENDEE_NOT_SELECTED);
+        }
+
+        event.attendees.splice(event.attendees.indexOf(attendeeRegistration), 1);
+
+        if (attending) {
+            attendeeRegistration.confirmed = true;
+            attendeeRegistration.declined = false;
+        } else {
+            attendeeRegistration.confirmed = false;
+            attendeeRegistration.declined = true;
+        }
+
+        event.attendees.push(attendeeRegistration);
+        await event.save();
+    }
+
     async hasAttendeeForUser(eventId: string, userId: string) {
         let attendee = await this.attendeeService.findOne({userId});
 
@@ -76,6 +106,8 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
         }
         if (status.confirmed) {
             return 'confirmed';
+        } else if (status.declined) {
+            return 'declined';
         } else if (status.selected) {
             return 'selected';
         } else {

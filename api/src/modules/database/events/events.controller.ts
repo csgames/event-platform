@@ -11,9 +11,7 @@ import { CodeExceptionFilter } from "../../../filters/CodedError/code.filter";
 import { codeMap } from "./events.exception";
 import { AttendeesGuard } from "../attendees/attendees.guard";
 import { AttendeesService } from "../attendees/attendees.service";
-import { STSService } from "@polyhx/nest-services";
 import { EmailService } from "../../email/email.service";
-import { GetAllWithIdsResponse } from "@polyhx/nest-services/modules/sts/sts.service";
 import { DataTablePipe } from "../../../pipes/dataTable.pipe";
 import { DataTableInterface } from "../../../interfaces/dataTable.interface";
 
@@ -37,6 +35,13 @@ export class EventsController {
     async addAttendee(@Headers('token-claim-user_id') userId: string, @Param('id') eventId: string) {
         await this.eventsService.addAttendee(eventId, userId);
         return {};
+    }
+
+
+    @Post(':id/confirm')
+    async confirm(@Req() req: express.Request, @Headers('token-claim-user_id') userId: string,
+                  @Param('id') eventId: string, @Body('attending') attending: boolean) {
+        await this.eventsService.confirmAttendee(eventId, userId, attending);
     }
 
     @Put(':id/send_selection_email')

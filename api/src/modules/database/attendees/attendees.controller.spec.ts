@@ -1,15 +1,15 @@
 import { AttendeesController } from './attendees.controller';
-import { IMock, Mock, It, Times } from 'typemoq';
+// import { IMock, Mock, It, Times } from 'typemoq';
 import { AttendeesService } from './attendees.service';
 import { SchoolsService } from "../schools/schools.service";
 import { CreateAttendeeDto } from "./attendees.dto";
 
 describe('AttendeesController Tests', () => {
-    let attendeeServiceMock: IMock<AttendeesService>;
-    let schoolServiceMock: IMock<SchoolsService>;
-    let createAttendeeDtoMock: IMock<CreateAttendeeDto>;
-
-    let controller: AttendeesController;
+    // let attendeeServiceMock: IMock<AttendeesService>;
+    // let schoolServiceMock: IMock<SchoolsService>;
+    // let createAttendeeDtoMock: IMock<CreateAttendeeDto>;
+    //
+    // let controller: AttendeesController;
 
     /*beforeEach(() => {
         attendeeServiceMock = Mock.ofType<AttendeesService>();
