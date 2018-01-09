@@ -23,9 +23,7 @@ import { DataTableInterface } from "../../../interfaces/dataTable.interface";
 @UseFilters(new CodeExceptionFilter(codeMap))
 export class EventsController {
     constructor(private attendeesService: AttendeesService,
-                private emailService: EmailService,
-                private eventsService: EventsService,
-                private stsService: STSService) {
+                private eventsService: EventsService) {
     }
 
     @Post()
@@ -41,33 +39,11 @@ export class EventsController {
         return {};
     }
 
-    @Put('/send_selection_email')
+    @Put(':id/send_selection_email')
     @Permissions('event_management:send-selection-email:event')
-    async sendSelectionEmail(@Body(new ValidationPipe()) sendConfirmEmailDto: SendConfirmEmailDto) {
-        let res: GetAllWithIdsResponse = await this.stsService.getAllWithIds(sendConfirmEmailDto.userIds);
-
-        let emails = res.users.map(user => user.username);
-        let succeeded = [];
-        let failed = [];
-        for (let email of emails) {
-            try {
-                succeeded.push({email});
-                await this.emailService.sendEmail({
-                    from: "info@polyhx.io",
-                    to: [ email ],
-                    subject: "Hackatown 2018 - Selection",
-                    text: "Hackatown 2018 - Selection",
-                    html: "<h1>Congrats</h1>"
-                    //template: "hackatown2018-selection",
-                    //variables: {}
-                });
-            } catch (err) {
-                failed.push({email, err});
-                console.log(err);
-            }
-        }
-
-        return { succeeded: succeeded, failed: failed };
+    async sendSelectionEmail(@Body(new ValidationPipe()) sendConfirmEmailDto: SendConfirmEmailDto,
+                             @Param('id') id: string) {
+        return await this.eventsService.selectAttendees(id, sendConfirmEmailDto.userIds);
     }
 
     @Get(':id/status')
