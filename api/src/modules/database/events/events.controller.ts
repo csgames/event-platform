@@ -1,5 +1,5 @@
 import * as express from "express";
-import { Body, Controller, Get, Headers, Param, Post, Req, UseGuards, Put, UseFilters } from "@nestjs/common";
+import { Body, Controller, Get, Headers, Param, Post, Req, UseGuards, Put, UseFilters, HttpCode } from "@nestjs/common";
 import { EventsService } from "./events.service";
 import { CreateEventDto } from "./events.dto";
 import { Events } from "./events.model";
@@ -11,6 +11,8 @@ import { codeMap } from "./events.exception";
 import { AttendeesGuard } from "../attendees/attendees.guard";
 import { AttendeesService } from "../attendees/attendees.service";
 import { ApiUseTags } from "@nestjs/swagger";
+import { DataTablePipe } from "../../../pipes/dataTable.pipe";
+import { DataTableInterface } from "../../../interfaces/dataTable.interface";
 
 @ApiUseTags('Event')
 @Controller("event")
@@ -70,5 +72,12 @@ export class EventsController {
     @UseGuards(AttendeesGuard)
     async hasAttendee(@Headers('token-claim-user_id') userId: string, @Param('id') eventId: string) {
         return {registered: await this.eventsService.hasAttendeeForUser(eventId, userId)};
+    }
+
+    @Post(':id/attendee/filter')
+    @HttpCode(200)
+    @Permissions('event_management:get-all:event')
+    async eventAttendeeQuery(@Param('id') eventId: string, @Body(new DataTablePipe()) body: DataTableInterface) {
+        return await this.eventsService.getFilteredAttendees(eventId, body);
     }
 }

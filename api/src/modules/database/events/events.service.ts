@@ -1,11 +1,13 @@
 import { Model } from "mongoose";
-import { Component, Inject } from "@nestjs/common";
+import { Component, HttpStatus, Inject } from "@nestjs/common";
 import { CreateEventDto } from "./events.dto";
 import { Events } from "./events.model";
 import { BaseService } from "../../../services/base.service";
 import { AttendeesService } from "../attendees/attendees.service";
 import { CodeException } from "../../../filters/CodedError/code.exception";
 import { Code } from "./events.exception";
+import { DataTableInterface, DataTableReturnInterface } from "../../../interfaces/dataTable.interface";
+import { HttpException } from "@nestjs/core";
 
 @Component()
 export class EventsService extends BaseService<Events, CreateEventDto> {
@@ -73,5 +75,35 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
         } else {
             return 'registered';
         }
+    }
+
+    // From the attendees of a specified event (null-checked), filters them and returns the result as a promise of
+    // DataTableReturnInterface.
+    async getFilteredAttendees(eventId: string, filter: DataTableInterface): Promise<DataTableReturnInterface> {
+        const event: Events = await this.findOne({_id: eventId});
+        if (!event) {
+            throw new HttpException(`Event not found. (EventId: ${eventId})`, HttpStatus.NOT_FOUND);
+        }
+
+        let attendeeIds: string[] = event.attendees.map(attendee => attendee.attendee.toString());
+        let res = await this.attendeeService.filterFrom(attendeeIds, filter);
+
+        for (let attendee of res.data) {
+            let a = event.attendees[
+                event.attendees.findIndex( value => value.attendee.toString() === attendee._id.toString())
+                ];
+
+            if (a.confirmed) {
+                attendee.status = "confirmed";
+            } else if (a.declined) {
+                attendee.status = "declined";
+            } else if (a.selected) {
+                attendee.status = "selected";
+            } else {
+                attendee.status = "registered";
+            }
+        }
+
+        return res;
     }
 }

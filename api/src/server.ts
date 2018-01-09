@@ -39,6 +39,7 @@ async function bootstrap() {
         .addTag('Event')
         .addTag('School')
         .addTag('Team')
+        .setSchemes('http', 'https')
         .addBearerAuth()
         .build();
     try {
