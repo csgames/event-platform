@@ -8,7 +8,7 @@ import { PermissionsGuard } from "../../../guards/permission.guard";
 import { Permissions } from "../../../decorators/permission.decorator";
 
 @Controller("template")
-@UseGuards(PermissionsGuard)
+//@UseGuards(PermissionsGuard)
 export class TemplatesController {
     constructor(private readonly templatesService: TemplatesService) {
     }

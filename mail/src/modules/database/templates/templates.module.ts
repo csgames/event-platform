@@ -1,16 +1,13 @@
 import { Module } from "@nestjs/common";
 import { TemplatesController } from "./templates.controller";
 import { TemplatesService } from "./templates.service";
-import { templatesProviders } from "./templates.providers";
-import { DatabaseModule } from "../database.module";
+import { MongooseModule } from "@nestjs/mongoose";
+import { TemplatesSchema } from "./templates.model";
 
 @Module({
-    modules: [ DatabaseModule ],
+    imports: [ MongooseModule.forFeature([{ name: 'Template', schema: TemplatesSchema }]) ],
     controllers: [ TemplatesController ],
-    components: [
-        TemplatesService,
-        ...templatesProviders
-    ],
+    components: [ TemplatesService ],
     exports: [ TemplatesService ]
 })
 export class TemplatesModule {

@@ -1,11 +1,15 @@
-import { Module } from "@nestjs/common";
-import { TemplatesModule } from "./database/templates/templates.module";
-import { EmailModule } from "./email/email.module";
+import { Module } from '@nestjs/common';
+import { MongooseModule } from "@nestjs/mongoose";
+import { DatabaseModule } from "./database/database.module";
+import { WebHookModule } from "./webhook/webhook.module";
+
+const mongoUri = `mongodb://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@${process.env.DB_ADDRESS}`;
 
 @Module({
-    modules: [
-        EmailModule,
-        TemplatesModule
+    imports: [
+        MongooseModule.forRoot(mongoUri, { useMongoClient: true }),
+        DatabaseModule,
+        WebHookModule
     ]
 })
 export class ApplicationModule {
