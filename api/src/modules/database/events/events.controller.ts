@@ -1,7 +1,8 @@
 import * as express from "express";
+import { ApiUseTags } from "@nestjs/swagger";
 import { Body, Controller, Get, Headers, Param, Post, Req, UseGuards, Put, UseFilters, HttpCode } from "@nestjs/common";
 import { EventsService } from "./events.service";
-import { CreateEventDto } from "./events.dto";
+import { CreateEventDto, SendConfirmEmailDto } from "./events.dto";
 import { Events } from "./events.model";
 import { ValidationPipe } from "../../../pipes/validation.pipe";
 import { PermissionsGuard } from "../../../guards/permission.guard";
@@ -10,7 +11,9 @@ import { CodeExceptionFilter } from "../../../filters/CodedError/code.filter";
 import { codeMap } from "./events.exception";
 import { AttendeesGuard } from "../attendees/attendees.guard";
 import { AttendeesService } from "../attendees/attendees.service";
-import { ApiUseTags } from "@nestjs/swagger";
+import { STSService } from "@polyhx/nest-services";
+import { EmailService } from "../../email/email.service";
+import { GetAllWithIdsResponse } from "@polyhx/nest-services/modules/sts/sts.service";
 import { DataTablePipe } from "../../../pipes/dataTable.pipe";
 import { DataTableInterface } from "../../../interfaces/dataTable.interface";
 
@@ -19,8 +22,10 @@ import { DataTableInterface } from "../../../interfaces/dataTable.interface";
 @UseGuards(PermissionsGuard)
 @UseFilters(new CodeExceptionFilter(codeMap))
 export class EventsController {
-    constructor(private readonly eventsService: EventsService,
-                private readonly attendeesService: AttendeesService) {
+    constructor(private attendeesService: AttendeesService,
+                private emailService: EmailService,
+                private eventsService: EventsService,
+                private stsService: STSService) {
     }
 
     @Post()
@@ -34,6 +39,35 @@ export class EventsController {
     async addAttendee(@Headers('token-claim-user_id') userId: string, @Param('id') eventId: string) {
         await this.eventsService.addAttendee(eventId, userId);
         return {};
+    }
+
+    @Put('/send_selection_email')
+    @Permissions('event_management:send-selection-email:event')
+    async sendSelectionEmail(@Body(new ValidationPipe()) sendConfirmEmailDto: SendConfirmEmailDto) {
+        let res: GetAllWithIdsResponse = await this.stsService.getAllWithIds(sendConfirmEmailDto.userIds);
+
+        let emails = res.users.map(user => user.username);
+        let succeeded = [];
+        let failed = [];
+        for (let email of emails) {
+            try {
+                succeeded.push({email});
+                await this.emailService.sendEmail({
+                    from: "info@polyhx.io",
+                    to: [ email ],
+                    subject: "Hackatown 2018 - Selection",
+                    text: "Hackatown 2018 - Selection",
+                    html: "<h1>Congrats</h1>"
+                    //template: "hackatown2018-selection",
+                    //variables: {}
+                });
+            } catch (err) {
+                failed.push({email, err});
+                console.log(err);
+            }
+        }
+
+        return { succeeded: succeeded, failed: failed };
     }
 
     @Get(':id/status')

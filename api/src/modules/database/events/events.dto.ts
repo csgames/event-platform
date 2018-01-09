@@ -61,3 +61,9 @@ export class CreateEventDto {
     @ApiModelProperty()
     locationAddress: string;
 }
+
+export class SendConfirmEmailDto {
+    @IsArray()
+    @ArrayUnique()
+    userIds: string[];
+}
