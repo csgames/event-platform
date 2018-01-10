@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:PolyHxApp/pages/login.dart';
+import 'package:PolyHxApp/pages/home.dart';
 import 'package:PolyHxApp/services/auth.service.dart';
 import 'package:PolyHxApp/services/token.service.dart';
 
@@ -31,6 +32,9 @@ class PolyHxApp extends StatelessWidget {
         textSelectionColor: POLYHX_RED,
       ),
       home: new LoginPage(_authService),
+      routes: <String, WidgetBuilder>{
+        '/home': (BuildContext context) => new HomePage(_authService),
+      }
     );
   }
 }

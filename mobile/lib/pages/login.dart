@@ -12,16 +12,30 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  static const String LOGIN_FAILED_MESSAGE = 'Login failed.';
   final formKey = new GlobalKey<FormState>();
   AuthService _authService;
   String _email;
   String _password;
+  String _loginFeedbackMessage = '';
 
   _LoginPageState(this._authService);
 
   void _login() {
     formKey.currentState.save();
-    _authService.login(_email, _password);
+    _authService.login(_email, _password).then((loggedIn) {
+      if (loggedIn && _authService.CurrentUser != null) {
+        setState(() {
+          _loginFeedbackMessage = '';
+        });
+        Navigator.of(context).pushNamed('/home');
+      }
+      else {
+        setState(() {
+          _loginFeedbackMessage = LOGIN_FAILED_MESSAGE;
+        });
+      }
+    });
   }
 
   @override
@@ -66,6 +80,12 @@ class _LoginPageState extends State<LoginPage> {
                       text: 'Login',
                       textColor: Colors.white,
                       onPressed: _login,
+                    ),
+                    new Padding(
+                      padding: new EdgeInsets.only(top: 20.0),
+                      child: new Text(_loginFeedbackMessage,
+                        style: new TextStyle(color: Colors.red, fontSize: 16.0),
+                      )
                     ),
                   ],
                 ),
