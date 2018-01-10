@@ -50,9 +50,7 @@ class AuthService {
       ..set('password', password);
     var headers = { 'Content-Type': 'application/x-www-form-urlencoded' };
     try {
-      print(body.toString());
       var response = await _http.post(url, body: body.toString(), headers: headers);
-      print(response.body);
       Map responseBody = JSON.decode(response.body);
       _tokenService.setup(responseBody['access_token'], responseBody['refresh_token']);
       await _tokenService.validateTokens();

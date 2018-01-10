@@ -58,7 +58,6 @@ class TokenService {
     var headers = {'Content-Type': 'application/x-www-form-urlencoded'};
     try {
       var response = await _http.post(url, body: body.toString(), headers: headers);
-      print(response.body);
       Map responseBody = JSON.decode(response.body);
       return responseBody['access_token'];
     }
