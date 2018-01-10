@@ -1,18 +1,27 @@
 import 'package:flutter/material.dart';
-import '../components/pillbutton.dart';
+import 'package:PolyHxApp/components/pillbutton.dart';
+import 'package:PolyHxApp/services/auth.service.dart';
 
 class LoginPage extends StatefulWidget {
-  LoginPage({Key key}) : super(key: key);
+  AuthService _authService;
+
+  LoginPage(this._authService, {Key key}) : super(key: key);
 
   @override
-  _LoginPageState createState() => new _LoginPageState();
+  _LoginPageState createState() => new _LoginPageState(_authService);
 }
 
 class _LoginPageState extends State<LoginPage> {
+  final formKey = new GlobalKey<FormState>();
+  AuthService _authService;
   String _email;
   String _password;
 
-  void _submit() {
+  _LoginPageState(this._authService);
+
+  void _login() {
+    formKey.currentState.save();
+    _authService.login(_email, _password);
   }
 
   @override
@@ -27,6 +36,7 @@ class _LoginPageState extends State<LoginPage> {
               width: 340.0,
               margin: new EdgeInsets.fromLTRB(20.0, 0.0, 40.0, 0.0),
               child: new Form(
+                key: formKey,
                 child: new Column(
                   children: <Widget>[
                     new Padding(
@@ -55,7 +65,7 @@ class _LoginPageState extends State<LoginPage> {
                     new PillButton(
                       text: 'LogIn',
                       textColor: Colors.white,
-                      onPressed: _submit,
+                      onPressed: _login,
                     ),
                   ],
                 ),

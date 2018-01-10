@@ -1,9 +1,21 @@
 import 'package:flutter/material.dart';
-import 'pages/login.dart';
+import 'package:http/http.dart';
+import 'package:PolyHxApp/pages/login.dart';
+import 'package:PolyHxApp/services/auth.service.dart';
+import 'package:PolyHxApp/services/token.service.dart';
 
-void main() => runApp(new MyApp());
+void main() {
+  var client = new Client();
+  var tokenService = new TokenService(client);
+  var authService = new AuthService(client, tokenService);
+  runApp(new PolyHxApp(authService));
+}
 
-class MyApp extends StatelessWidget {
+class PolyHxApp extends StatelessWidget {
+  AuthService _authService;
+
+  PolyHxApp(this._authService);
+
   @override
   Widget build(BuildContext context) {
     final Color POLYHX_RED = new Color.fromARGB(255, 239, 72, 93);
@@ -18,7 +30,7 @@ class MyApp extends StatelessWidget {
         scaffoldBackgroundColor: POLYHX_GREY,
         textSelectionColor: POLYHX_RED,
       ),
-      home: new LoginPage(),
+      home: new LoginPage(_authService),
     );
   }
 }
