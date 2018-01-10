@@ -151,7 +151,7 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
         for (let user of res.users) {
             try {
                 await this.emailService.sendEmail({
-                    from: "info@polyhx.io",
+                    from: "PolyHx <info@polyhx.io>",
                     to: [ user.username ],
                     subject: "Hackatown 2018 - Selection",
                     text: "Hackatown 2018 - Selection",
