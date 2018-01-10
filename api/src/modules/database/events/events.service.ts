@@ -148,19 +148,22 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
     async selectAttendees(eventId, userIds: string[]) {
         let res: GetAllWithIdsResponse = await this.stsService.getAllWithIds(userIds);
 
-        let emails = res.users.map(user => user.username);
-        try {
-            await this.emailService.sendEmail({
-                from: "info@polyhx.io",
-                to: emails,
-                subject: "Hackatown 2018 - Selection",
-                text: "Hackatown 2018 - Selection",
-                html: "<h1>Congrats</h1>"
-                //template: "hackatown2018-selection",
-                //variables: {}
-            });
-        } catch (err) {
-            console.log(err);
+        for (let user of res.users) {
+            try {
+                await this.emailService.sendEmail({
+                    from: "info@polyhx.io",
+                    to: [ user.email ],
+                    subject: "Hackatown 2018 - Selection",
+                    text: "Hackatown 2018 - Selection",
+                    html: "<h1>Congrats</h1>",
+                    template: "hackatown2018-selection",
+                    variables: {
+                        name: user.firstName
+                    }
+                });
+            } catch (err) {
+                console.log(err);
+            }
         }
 
         let attendees = await this.attendeeService.find({
