@@ -43,9 +43,8 @@ export const EmailSchema = new mongoose.Schema({
         required: false
     },
     template: {
-        type: mongoose.Schema.Types.ObjectId,
+        type: String,
         required: false,
-        ref: 'templates'
     },
     variables: {
         type: Object,
