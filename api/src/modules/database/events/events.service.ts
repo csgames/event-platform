@@ -152,13 +152,13 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
             try {
                 await this.emailService.sendEmail({
                     from: "info@polyhx.io",
-                    to: [ user.email ],
+                    to: [ user.username ],
                     subject: "Hackatown 2018 - Selection",
                     text: "Hackatown 2018 - Selection",
                     html: "<h1>Congrats</h1>",
                     template: "hackatown2018-selection",
                     variables: {
-                        name: user.username
+                        name: user.firstName
                     }
                 });
             } catch (err) {
