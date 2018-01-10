@@ -158,7 +158,7 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
                     html: "<h1>Congrats</h1>",
                     template: "hackatown2018-selection",
                     variables: {
-                        name: user.firstName
+                        name: user.username
                     }
                 });
             } catch (err) {
