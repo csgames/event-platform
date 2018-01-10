@@ -82,7 +82,7 @@ export class EmailService {
             }
             for (let variable in <Object>variables) {
                 if (variables.hasOwnProperty(variable)) {
-                    let re: RegExp = new RegExp(`{{${variable}}`, "g");
+                    let re: RegExp = new RegExp(`{{${variable}}}`, "g");
                     html = html.replace(re, variables[variable]);
                 }
             }
