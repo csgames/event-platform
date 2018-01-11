@@ -1,7 +1,8 @@
 name: PolyHxApp
-description: The official PolyHx mobile app.
+description: Official PolyHx Mobile App
 
 dependencies:
+  shared_preferences:
   flutter:
     sdk: flutter
 
