@@ -1,7 +1,8 @@
 import * as express from "express";
-import { Body, Controller, Get, Headers, Param, Post, Req, UseGuards, Put, UseFilters } from "@nestjs/common";
+import { ApiUseTags } from "@nestjs/swagger";
+import { Body, Controller, Get, Headers, Param, Post, Req, UseGuards, Put, UseFilters, HttpCode } from "@nestjs/common";
 import { EventsService } from "./events.service";
-import { CreateEventDto } from "./events.dto";
+import { CreateEventDto, SendConfirmEmailDto } from "./events.dto";
 import { Events } from "./events.model";
 import { ValidationPipe } from "../../../pipes/validation.pipe";
 import { PermissionsGuard } from "../../../guards/permission.guard";
@@ -10,15 +11,17 @@ import { CodeExceptionFilter } from "../../../filters/CodedError/code.filter";
 import { codeMap } from "./events.exception";
 import { AttendeesGuard } from "../attendees/attendees.guard";
 import { AttendeesService } from "../attendees/attendees.service";
-import { ApiUseTags } from "@nestjs/swagger";
+import { EmailService } from "../../email/email.service";
+import { DataTablePipe } from "../../../pipes/dataTable.pipe";
+import { DataTableInterface } from "../../../interfaces/dataTable.interface";
 
 @ApiUseTags('Event')
 @Controller("event")
 @UseGuards(PermissionsGuard)
 @UseFilters(new CodeExceptionFilter(codeMap))
 export class EventsController {
-    constructor(private readonly eventsService: EventsService,
-                private readonly attendeesService: AttendeesService) {
+    constructor(private attendeesService: AttendeesService,
+                private eventsService: EventsService) {
     }
 
     @Post()
@@ -32,6 +35,20 @@ export class EventsController {
     async addAttendee(@Headers('token-claim-user_id') userId: string, @Param('id') eventId: string) {
         await this.eventsService.addAttendee(eventId, userId);
         return {};
+    }
+
+
+    @Post(':id/confirm')
+    async confirm(@Req() req: express.Request, @Headers('token-claim-user_id') userId: string,
+                  @Param('id') eventId: string, @Body('attending') attending: boolean) {
+        await this.eventsService.confirmAttendee(eventId, userId, attending);
+    }
+
+    @Put(':id/send_selection_email')
+    @Permissions('event_management:send-selection-email:event')
+    async sendSelectionEmail(@Body(new ValidationPipe()) sendConfirmEmailDto: SendConfirmEmailDto,
+                             @Param('id') id: string) {
+        return await this.eventsService.selectAttendees(id, sendConfirmEmailDto.userIds);
     }
 
     @Get(':id/status')
@@ -70,5 +87,12 @@ export class EventsController {
     @UseGuards(AttendeesGuard)
     async hasAttendee(@Headers('token-claim-user_id') userId: string, @Param('id') eventId: string) {
         return {registered: await this.eventsService.hasAttendeeForUser(eventId, userId)};
+    }
+
+    @Post(':id/attendee/filter')
+    @HttpCode(200)
+    @Permissions('event_management:get-all:event')
+    async eventAttendeeQuery(@Param('id') eventId: string, @Body(new DataTablePipe()) body: DataTableInterface) {
+        return await this.eventsService.getFilteredAttendees(eventId, body);
     }
 }

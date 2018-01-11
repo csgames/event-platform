@@ -1,4 +1,4 @@
-import { IsString, IsNotEmpty, IsDate, IsArray, IsOptional, ArrayUnique } from "class-validator";
+import { IsString, IsNotEmpty, IsDate, IsArray, IsOptional, ArrayUnique, IsBoolean } from 'class-validator';
 import { EventRegistrations } from "./events.model";
 import { ApiModelProperty } from "@nestjs/swagger";
 
@@ -60,4 +60,10 @@ export class CreateEventDto {
     @IsString()
     @ApiModelProperty()
     locationAddress: string;
+}
+
+export class SendConfirmEmailDto {
+    @IsArray()
+    @ArrayUnique()
+    userIds: string[];
 }

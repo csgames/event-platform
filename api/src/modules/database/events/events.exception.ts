@@ -4,7 +4,8 @@ import { HttpStatus } from "@nestjs/common";
 export enum Code {
     UNKNOWN,
     ATTENDEE_ALREADY_REGISTERED,
-    USER_NOT_ATTENDEE
+    USER_NOT_ATTENDEE,
+    ATTENDEE_NOT_SELECTED
 }
 
 export let codeMap: CodeMap = {
@@ -18,6 +19,10 @@ export let codeMap: CodeMap = {
     },
     2: { // USER_NOT_ATTENDEE
         message: "User is not an attendee.",
+        statusCode: HttpStatus.BAD_REQUEST
+    },
+    3: { // ATTENDEE_NOT_SELECTED
+        message: "Attendee is not selected.",
         statusCode: HttpStatus.BAD_REQUEST
     }
 };

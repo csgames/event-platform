@@ -12,6 +12,10 @@ export interface Attendees extends mongoose.Document {
     degree: string;
     gender: string;
     tshirt: string;
+    phoneNumber: string;
+    acceptSMSNotifications: boolean;
+    hasDietaryRestrictions: boolean;
+    dietaryRestrictions: string;
     school: Schools | mongoose.Types.ObjectId | string;
     publicId: string;
     user: UserModel;
@@ -51,6 +55,22 @@ export const AttendeesSchema = new mongoose.Schema({
     tshirt: {
         type: String,
         enum: ['small', 'medium', 'large', 'x-large', '2x-large'],
+        default: null
+    },
+    phoneNumber: {
+        type: String,
+        default: null
+    },
+    acceptSMSNotifications: {
+        type: Boolean,
+        default: null
+    },
+    hasDietaryRestrictions: {
+        type: Boolean,
+        default: null
+    },
+    dietaryRestrictions: {
+        type: String,
         default: null
     },
     school: {
