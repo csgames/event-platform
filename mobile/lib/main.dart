@@ -1,7 +1,9 @@
+import 'package:PolyHxApp/pages/eventlist.dart';
+import 'package:PolyHxApp/services/event-management.dart';
+import 'package:PolyHxApp/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:PolyHxApp/pages/login.dart';
-import 'package:PolyHxApp/pages/home.dart';
 import 'package:PolyHxApp/services/auth.service.dart';
 import 'package:PolyHxApp/services/token.service.dart';
 
@@ -9,32 +11,35 @@ void main() {
   var client = new Client();
   var tokenService = new TokenService(client);
   var authService = new AuthService(client, tokenService);
-  runApp(new PolyHxApp(authService));
+  var eventManagementService = new EventManagementService(client, tokenService);
+  runApp(new PolyHxApp(authService, tokenService, eventManagementService));
 }
 
 class PolyHxApp extends StatelessWidget {
   AuthService _authService;
+  TokenService _tokenService;
+  EventManagementService _eventManagementService;
 
-  PolyHxApp(this._authService);
+  PolyHxApp(
+      this._authService, this._tokenService, this._eventManagementService);
 
   @override
   Widget build(BuildContext context) {
-    final Color POLYHX_RED = new Color.fromARGB(255, 239, 72, 93);
-    final Color POLYHX_GREY = new Color.fromARGB(0xFF, 0x44, 0x44, 0x44);
     return new MaterialApp(
-      title: 'PolyHx',
-      theme: new ThemeData(
-        accentColor: Colors.white,
-        buttonColor: POLYHX_RED,
-        hintColor: Colors.white,
-        primaryColor: POLYHX_RED,
-        scaffoldBackgroundColor: POLYHX_GREY,
-        textSelectionColor: POLYHX_RED,
-      ),
-      home: new LoginPage(_authService),
-      routes: <String, WidgetBuilder>{
-        '/home': (BuildContext context) => new HomePage(_authService),
-      }
-    );
+        title: 'PolyHx',
+        theme: new ThemeData(
+          accentColor: Constants.POLYHX_GREY,
+          buttonColor: Constants.POLYHX_RED,
+          hintColor: Constants.POLYHX_GREY,
+          primaryColor: Constants.POLYHX_RED,
+          scaffoldBackgroundColor: Colors.white,
+          textSelectionColor: Constants.POLYHX_RED,
+        ),
+        home: new EventList(_tokenService, _eventManagementService),
+        routes: <String, WidgetBuilder>{
+          '/login': (BuildContext context) => new LoginPage(_authService),
+          '/home': (BuildContext context) =>
+              new EventList(_tokenService, _eventManagementService),
+        });
   }
 }

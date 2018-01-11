@@ -17,13 +17,13 @@ class AuthService {
 
   AuthService(this._http, this._tokenService) {
     checkLoggedIn();
-    if (_tokenService.getTokenPayload() != null) {
+    if (_tokenService.TokenPayload != null) {
       updateCurrentUser();
     }
   }
 
   void updateCurrentUser() {
-    var payload = _tokenService.getTokenPayload();
+    var payload = _tokenService.TokenPayload;
     this._currentUser = new User()
       ..id = payload["user_id"]
       ..permissions = JSON.decode(payload["permissions"])
@@ -54,7 +54,7 @@ class AuthService {
       Map responseBody = JSON.decode(response.body);
       _tokenService.setup(responseBody['access_token'], responseBody['refresh_token']);
       await _tokenService.validateTokens();
-      if (_tokenService.getTokenPayload() != null) {
+      if (_tokenService.TokenPayload != null) {
         updateCurrentUser();
       }
       return true;

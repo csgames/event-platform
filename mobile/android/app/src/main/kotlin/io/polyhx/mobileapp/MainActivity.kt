@@ -1,4 +1,4 @@
-package io.polyhx.mobileapp2
+package io.polyhx.mobileapp
 
 import android.os.Bundle
 
