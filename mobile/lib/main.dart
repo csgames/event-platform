@@ -4,6 +4,7 @@ import 'package:PolyHxApp/pages/login.dart';
 import 'package:PolyHxApp/pages/home.dart';
 import 'package:PolyHxApp/services/auth.service.dart';
 import 'package:PolyHxApp/services/token.service.dart';
+import 'package:PolyHxApp/utils/routes.dart';
 
 void main() {
   var client = new Client();
@@ -33,7 +34,7 @@ class PolyHxApp extends StatelessWidget {
       ),
       home: new LoginPage(_authService),
       routes: <String, WidgetBuilder>{
-        '/home': (BuildContext context) => new HomePage(_authService),
+        Routes.HOME: (BuildContext context) => new HomePage(_authService),
       }
     );
   }

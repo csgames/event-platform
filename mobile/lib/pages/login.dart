@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:PolyHxApp/components/pillbutton.dart';
 import 'package:PolyHxApp/services/auth.service.dart';
+import 'package:PolyHxApp/utils/routes.dart';
 
 class LoginPage extends StatefulWidget {
   AuthService _authService;
@@ -28,7 +29,7 @@ class _LoginPageState extends State<LoginPage> {
         setState(() {
           _loginFeedbackMessage = '';
         });
-        Navigator.of(context).pushNamed('/home');
+        Navigator.of(context).pushNamed(Routes.HOME);
       }
       else {
         setState(() {
