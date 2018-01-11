@@ -123,7 +123,29 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
             throw new HttpException(`Event not found. (EventId: ${eventId})`, HttpStatus.NOT_FOUND);
         }
 
-        let attendeeIds: string[] = event.attendees.map(attendee => attendee.attendee.toString());
+        const selected = RegExp(`.*${filter.search.value}.*`).test("selected");
+        const confirmed = RegExp(`.*${filter.search.value}.*`).test("confirmed");
+        const declined = RegExp(`.*${filter.search.value}.*`).test("declined");
+        const registered = RegExp(`.*${filter.search.value}.*`).test("registered");
+
+        let attendeeIds: string[] = event.attendees.map(attendee => {
+            if (registered && !attendee.selected && !attendee.confirmed && !attendee.declined) {
+                return attendee.attendee.toString();
+            } else if (attendee.selected && selected && !attendee.confirmed && !attendee.declined) {
+                return attendee.attendee.toString();
+            } else if (attendee.confirmed && confirmed) {
+                return attendee.attendee.toString();
+            } else if (attendee.declined && declined) {
+                return attendee.attendee.toString();
+            } else if (!selected && !confirmed && !declined && !registered) {
+                return attendee.attendee.toString();
+            }
+        });
+
+        if (selected || confirmed || declined || registered) {
+            filter.search.value = "";
+        }
+
         let res = await this.attendeeService.filterFrom(attendeeIds, filter);
 
         for (let attendee of res.data) {
