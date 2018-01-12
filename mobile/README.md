@@ -1,6 +1,6 @@
-# mobile_app2
+# mobile_app
 
-The official PolyHx mobile app.
+Official PolyHx Mobile App
 
 ## Getting Started
 
