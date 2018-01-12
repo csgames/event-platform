@@ -1,3 +1,4 @@
+import 'package:PolyHxApp/pages/eventdetails.dart';
 import 'package:PolyHxApp/pages/eventlist.dart';
 import 'package:PolyHxApp/services/event-management.dart';
 import 'package:PolyHxApp/utils/constants.dart';
@@ -37,10 +38,26 @@ class PolyHxApp extends StatelessWidget {
           textSelectionColor: Constants.POLYHX_RED,
         ),
         home: new EventList(_tokenService, _eventManagementService),
-        routes: <String, WidgetBuilder>{
-          Routes.LOGIN: (BuildContext context) => new LoginPage(_authService),
-          Routes.HOME: (BuildContext context) => new EventList(_tokenService, _eventManagementService),
-        }
-    );
+        onGenerateRoute: (RouteSettings routeSettings) {
+          var path = routeSettings.name.split('/');
+          switch (path[0]) {
+            case Routes.LOGIN:
+              return new MaterialPageRoute(
+                  builder: (BuildContext context) =>
+                      new LoginPage(_authService),
+                  settings: routeSettings);
+            case Routes.HOME:
+              return new MaterialPageRoute(
+                  builder: (BuildContext context) =>
+                      new EventList(_tokenService, _eventManagementService),
+                  settings: routeSettings);
+            case Routes.EVENT:
+              var eventId = path[1];
+              return new MaterialPageRoute(
+                  builder: (BuildContext context) =>
+                      new EventDetails(_eventManagementService, eventId),
+                  settings: routeSettings);
+          }
+        });
   }
 }

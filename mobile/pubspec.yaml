@@ -3,6 +3,7 @@ description: Official PolyHx Mobile App
 
 dependencies:
   shared_preferences:
+  intl:
   flutter:
     sdk: flutter
 
