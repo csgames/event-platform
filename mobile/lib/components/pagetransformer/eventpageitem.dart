@@ -63,6 +63,8 @@ class EventPageItem extends StatelessWidget {
             child: new Image.network(
               item.imageUrl,
               fit: BoxFit.cover,
+              width: 250.0,
+              height: 250.0,
               alignment: new FractionalOffset(
                 0.5 + (pageVisibility.pagePosition / 3),
                 0.5,

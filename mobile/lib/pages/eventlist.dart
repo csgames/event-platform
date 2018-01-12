@@ -19,6 +19,10 @@ class EventList extends StatelessWidget {
     return _tokenService.validateTokens();
   }
 
+  Future<List<Event>> fetchAllEvents() async {
+    return _eventManagementService.getAllEvents();
+  }
+
   @override
   Widget build(BuildContext context) {
     return new FutureBuilder(
@@ -38,35 +42,46 @@ class EventList extends StatelessWidget {
                 ),
                 body: new Center(
                   child: new SizedBox.fromSize(
-                    size: const Size.fromHeight(500.0),
-                    child: new PageTransformer(
-                      pageViewBuilder: (context, visibilityResolver) {
-                        return new PageView.builder(
-                          controller:
-                              new PageController(viewportFraction: 0.85),
-                          itemCount: 2,
-                          itemBuilder: (context, index) {
-                            final item = new Event(
-                                name: "Hackatown 2018",
-                                coverUrl: "https://i.imgur.com/VwtbfRu.jpg",
-                                imageUrl: "https://i.imgur.com/53HXN2a.png");
-                            final pageVisibility =
-                                visibilityResolver.resolvePageVisibility(index);
+                      child: new FutureBuilder(
+                      future: fetchAllEvents(),
+                      builder:
+                          (BuildContext context,
+                          AsyncSnapshot<List<Event>> snapshot) {
+                        if (snapshot.connectionState == ConnectionState.waiting) {
+                          return new Scaffold(
+                              body: new Center(child: new LoadingSpinner()));
+                        } else {
+                          if (!snapshot.hasError && snapshot.data != null) {
+                            return new PageTransformer(
+                              pageViewBuilder: (context, visibilityResolver) {
+                                return new PageView.builder(
+                                  controller:
+                                  new PageController(viewportFraction: 0.85),
+                                  itemCount: snapshot.data.length,
+                                  itemBuilder: (context, index) {
+                                    final item = snapshot.data[index];
+                                    final pageVisibility = visibilityResolver
+                                        .resolvePageVisibility(index);
 
-                            return new EventPageItem(
-                              item: item,
-                              pageVisibility: pageVisibility,
+                                    return new EventPageItem(
+                                      item: item,
+                                      pageVisibility: pageVisibility,
+                                    );
+                                  },
+                                );
+                              },
                             );
-                          },
-                        );
-                      },
-                    ),
-                  ),
+                          } else {
+                            print(snapshot.data);
+                          }
+                        }
+                      })),
                 ),
               );
             } else {
               new Future.delayed(new Duration(milliseconds: 1),
-                  () => Navigator.of(context).pushReplacementNamed('/login'));
+                      () =>
+                      Navigator.of(context).pushReplacementNamed('/login'));
               return new Container();
             }
           }
