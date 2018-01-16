@@ -1,8 +1,8 @@
-import 'package:PolyHxApp/components/loadingspinner.dart';
-import 'package:PolyHxApp/utils/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:PolyHxApp/components/loadingspinner.dart';
 import 'package:PolyHxApp/components/pillbutton.dart';
 import 'package:PolyHxApp/services/auth.service.dart';
+import 'package:PolyHxApp/utils/constants.dart';
 import 'package:PolyHxApp/utils/routes.dart';
 
 class LoginPage extends StatefulWidget {
