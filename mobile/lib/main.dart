@@ -1,7 +1,8 @@
-import 'package:flutter/material.dart';
 import 'package:http/http.dart';
+import 'package:flutter/material.dart';
+import 'package:qrcode_reader/QRCodeReader.dart';
 import 'package:PolyHxApp/pages/eventlist.dart';
-import 'package:PolyHxApp/pages/eventdetails.dart';
+import 'package:PolyHxApp/pages/eventpage.dart';
 import 'package:PolyHxApp/pages/login.dart';
 import 'package:PolyHxApp/services/auth.service.dart';
 import 'package:PolyHxApp/services/event-management.dart';
@@ -14,16 +15,17 @@ void main() {
   var tokenService = new TokenService(client);
   var authService = new AuthService(client, tokenService);
   var eventManagementService = new EventManagementService(client, tokenService);
-  runApp(new PolyHxApp(authService, tokenService, eventManagementService));
+  var qrCodeReader = new QRCodeReader();
+  runApp(new PolyHxApp(authService, tokenService, eventManagementService, qrCodeReader));
 }
 
 class PolyHxApp extends StatelessWidget {
   AuthService _authService;
   TokenService _tokenService;
   EventManagementService _eventManagementService;
+  QRCodeReader _qrCodeReader;
 
-  PolyHxApp(
-      this._authService, this._tokenService, this._eventManagementService);
+  PolyHxApp(this._authService, this._tokenService, this._eventManagementService, this._qrCodeReader);
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +57,7 @@ class PolyHxApp extends StatelessWidget {
               var eventId = path[1];
               return new MaterialPageRoute(
                   builder: (BuildContext context) =>
-                      new EventDetails(_eventManagementService, eventId),
+                      new EventPage(_eventManagementService, _qrCodeReader, eventId),
                   settings: routeSettings);
           }
         }
