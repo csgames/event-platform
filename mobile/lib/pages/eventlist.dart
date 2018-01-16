@@ -1,5 +1,6 @@
 import 'dart:async';
-
+import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:PolyHxApp/components/loadingspinner.dart';
 import 'package:PolyHxApp/components/pagetransformer/eventpageitem.dart';
 import 'package:PolyHxApp/components/pagetransformer/pagetransformer.dart';
@@ -7,8 +8,6 @@ import 'package:PolyHxApp/domain/event.dart';
 import 'package:PolyHxApp/services/event-management.dart';
 import 'package:PolyHxApp/services/token.service.dart';
 import 'package:PolyHxApp/utils/routes.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class EventList extends StatelessWidget {
   final TokenService _tokenService;
