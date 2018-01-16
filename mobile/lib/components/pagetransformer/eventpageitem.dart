@@ -1,17 +1,21 @@
+import 'package:PolyHxApp/components/eventimage.dart';
 import 'package:PolyHxApp/components/pagetransformer/pagetransformer.dart';
 import 'package:PolyHxApp/domain/event.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:meta/meta.dart';
+import 'package:intl/intl.dart';
 
 class EventPageItem extends StatelessWidget {
   EventPageItem({
     @required this.item,
     @required this.pageVisibility,
+    @required this.onTap,
   });
 
   final Event item;
   final PageVisibility pageVisibility;
+  final Function onTap;
 
   Widget _applyTextEffects({
     @required double translationFactor,
@@ -49,27 +53,21 @@ class EventPageItem extends StatelessWidget {
       ),
     );
 
+    final eventImage = new EventImage(item);
 
+    var formatter = new DateFormat.yMMMMd('en_US');
 
-    final eventImage = new Material(
-        elevation: 4.0,
-        borderRadius: new BorderRadius.circular(2.0),
-        child: new Container(
-            decoration: new BoxDecoration(
-                border: new Border.all(
-              color: Colors.white,
-              width: 2.0,
-            )),
-            child: new Image.network(
-              item.imageUrl,
-              fit: BoxFit.cover,
-              alignment: new FractionalOffset(
-                0.5 + (pageVisibility.pagePosition / 3),
-                0.5,
-              ),
-            )
-        )
-    );
+    final eventDates = _applyTextEffects(
+        translationFactor: 200.0,
+        child: new Padding(
+            padding: const EdgeInsets.only(top: 16.0),
+            child: new Text(
+              "${formatter.format(item.beginDate)} - ${formatter.format(
+                  item.endDate)}",
+              style: textTheme.subhead
+                  .copyWith(color: Colors.white, fontWeight: FontWeight.normal),
+              textAlign: TextAlign.center,
+            )));
 
     return new Positioned(
       bottom: 56.0,
@@ -77,7 +75,7 @@ class EventPageItem extends StatelessWidget {
       right: 32.0,
       child: new Column(
         mainAxisSize: MainAxisSize.min,
-        children: [eventImage, titleText],
+        children: [eventImage, titleText, eventDates],
       ),
     );
   }
@@ -106,23 +104,25 @@ class EventPageItem extends StatelessWidget {
       ),
     );
 
-    return new Padding(
-      padding: const EdgeInsets.symmetric(
-        vertical: 30.0,
-        horizontal: 8.0,
-      ),
-      child: new Material(
-        elevation: 4.0,
-        borderRadius: new BorderRadius.circular(8.0),
-        child: new Stack(
-          fit: StackFit.expand,
-          children: [
-            image,
-            imageOverlayGradient,
-            _buildContent(context),
-          ],
-        ),
-      ),
-    );
+    return new GestureDetector(
+        onTap: onTap,
+        child: new Padding(
+          padding: const EdgeInsets.symmetric(
+            vertical: 30.0,
+            horizontal: 8.0,
+          ),
+          child: new Material(
+            elevation: 4.0,
+            borderRadius: new BorderRadius.circular(8.0),
+            child: new Stack(
+              fit: StackFit.expand,
+              children: [
+                image,
+                imageOverlayGradient,
+                _buildContent(context),
+              ],
+            ),
+          ),
+        ));
   }
 }

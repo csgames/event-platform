@@ -47,7 +47,14 @@ class TokenService {
       return null;
     }
 
-    List<int> base64Bytes = BASE64.decode(accessToken.split('.')[1]);
+    String payload = accessToken.split('.')[1];
+    int padding = payload.length % 4;
+
+    for (int i = 0; i < padding; ++i) {
+      payload += '=';
+    }
+
+    List<int> base64Bytes = BASE64.decode(payload);
     String payloadStr = UTF8.decode(base64Bytes);
     return JSON.decode(payloadStr);
   }
