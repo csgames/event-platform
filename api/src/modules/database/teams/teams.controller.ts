@@ -8,7 +8,7 @@ import { Teams } from "./teams.model";
 import { TeamsService } from "./teams.service";
 import { codeMap } from "./teams.exception";
 import { AttendeesService } from "../attendees/attendees.service";
-import { STSService } from "../../sts/sts.service";
+import { STSService } from "@polyhx/nest-services";
 import { Attendees } from "../attendees/attendees.model";
 import { EventsService } from "../events/events.service";
 import { ApiUseTags } from "@nestjs/swagger";
@@ -74,7 +74,7 @@ export class TeamsController {
             model: 'attendees'
         });
         for (let a of team.attendees as Attendees[]) {
-            a.user = await this.stsService.getUser(a.userId);
+            a.user = (await this.stsService.getUser(a.userId)).user;
         }
         return team;
     }

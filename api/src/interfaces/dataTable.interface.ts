@@ -1,3 +1,5 @@
+import { QueryBuilder } from "./queryBuilder";
+
 export interface DataTableSearchInterface {
     value: string;
     regex: boolean;
@@ -23,6 +25,7 @@ export interface DataTableInterface {
     order: DataTableOrderInterface[];
     search: DataTableSearchInterface;
     start: number;
+    rules: QueryBuilder;
 }
 
 export interface DataTableReturnInterface {

@@ -44,11 +44,11 @@ export class AttendeesService extends BaseService<Attendees, CreateAttendeeDto> 
     }
 
     private async getAttendeesUser(attendees: AttendeeDtInterface[]) {
-        let ids = attendees.map( v => v.userId);
+        let ids = attendees.map(v => v.userId);
         let users = (await this.stsService.getAllWithIds(ids)).users;
 
         for (let attendee of attendees) {
-            let user = users[users.findIndex( value => (<any>value).id === attendee.userId)];
+            let user = users[users.findIndex(value => (<any>value).id === attendee.userId)];
             if (user) {
                 attendee.firstName = user.firstName;
                 attendee.lastName = user.lastName;
@@ -61,36 +61,54 @@ export class AttendeesService extends BaseService<Attendees, CreateAttendeeDto> 
     }
 
     public async filterFrom(attendeeIds: string[], filter: DataTableInterface): Promise<DataTableReturnInterface> {
-        let regex = filter.search.regex ? filter.search.value : `.*${filter.search.value}.*`;
-        let schoolIds = filter.search.value !== "" ? await this.getFilteredSchoolIds(filter) : [];
-        let userIds = filter.search.value !== "" ? await this.getFilteredUserIds(filter) : [];
+        let school = "";
+        let user = "";
 
-        let query = this.attendeesModel.find({
-            _id: { $in: attendeeIds },
-            $or: [
-                {
-                    degree: {
-                        $regex: regex
-                    }
-                }, {
-                    github: {
-                        $regex: regex
-                    }
-                }, {
-                    linkedIn: {
-                        $regex: regex
-                    }
-                }, {
-                    school: {
-                        $in: schoolIds
-                    }
-                }, {
-                    userId: {
-                        $in: userIds
-                    }
+        if (filter.rules) {
+            for (let rule of filter.rules.rules) {
+                if (rule.id === 'school.name') {
+                    school = <string>rule.value;
+                } else if (rule.id === 'user.username') {
+                    user = <string>rule.value;
                 }
-            ]
-        });
+            }
+        }
+
+        let or = { $or: [] };
+
+        let schoolIds = [];
+        if (school !== "") {
+            filter.search.value = school;
+            schoolIds = await this.getFilteredSchoolIds(filter);
+            or.$or.push({
+                school: {
+                    $in: schoolIds
+                }
+            })
+        }
+
+        let userIds = [];
+        if (user !== "") {
+            filter.search.value = user;
+            userIds = await this.getFilteredUserIds(filter);
+            or.$or.push({
+                userId: {
+                    $in: userIds
+                }
+            })
+        }
+
+        let condition = {
+            $and: [{
+                _id: { $in: attendeeIds }
+            }]
+        };
+
+        if (or.$or.length > 0) {
+            condition.$and.push(<any>or);
+        }
+
+        let query = this.attendeesModel.find(condition);
         let data: DataTableReturnInterface = <DataTableReturnInterface> {
             draw: filter.draw,
             recordsTotal: await query.count().exec()

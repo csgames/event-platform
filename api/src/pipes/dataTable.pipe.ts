@@ -3,6 +3,7 @@ import {
     DataTableColumnInterface, DataTableInterface, DataTableOrderInterface,
     DataTableSearchInterface
 } from "../interfaces/dataTable.interface";
+import { QBRule, QueryBuilder } from "../interfaces/queryBuilder";
 
 @Pipe()
 export class DataTablePipe implements PipeTransform<any> {
@@ -15,6 +16,7 @@ export class DataTablePipe implements PipeTransform<any> {
         data.order = this.transformOrders(value.order);
         data.search = this.transformSearch(value.search);
         data.start = Number(value.start);
+        data.rules = <any>value.rules !== "" ? this.transformRules(value.rules) : null;
 
         return data;
     }
@@ -61,5 +63,34 @@ export class DataTablePipe implements PipeTransform<any> {
             column: Number(order.column),
             dir: order.dir
         };
+    }
+
+    private transformRules(rules: QueryBuilder): QueryBuilder {
+        return {
+            not: <any>rules.not === 'true',
+            valid: <any>rules.valid === 'true',
+            condition: rules.condition,
+            rules: this.transformQbRules(rules.rules)
+        };
+    }
+
+    private transformQbRules(rules: QBRule[]): QBRule[] {
+        let qbRules: QBRule[] = [];
+
+        for (let rule of rules) {
+            qbRules.push({
+                id: rule.id,
+                name: rule.name,
+                type: rule.type,
+                input: rule.input,
+                operator: rule.operator,
+                value: rule.value,
+                condition: rule.condition,
+                rules: rule.rules ? this.transformQbRules(rule.rules) : null,
+                not: <any>rule.not === 'true'
+            });
+        }
+
+        return qbRules;
     }
 }
