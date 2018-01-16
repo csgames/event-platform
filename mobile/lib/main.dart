@@ -1,12 +1,12 @@
-import 'package:PolyHxApp/pages/eventdetails.dart';
-import 'package:PolyHxApp/pages/eventlist.dart';
-import 'package:PolyHxApp/services/event-management.dart';
-import 'package:PolyHxApp/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
+import 'package:PolyHxApp/pages/eventlist.dart';
+import 'package:PolyHxApp/pages/eventdetails.dart';
 import 'package:PolyHxApp/pages/login.dart';
 import 'package:PolyHxApp/services/auth.service.dart';
+import 'package:PolyHxApp/services/event-management.dart';
 import 'package:PolyHxApp/services/token.service.dart';
+import 'package:PolyHxApp/utils/constants.dart';
 import 'package:PolyHxApp/utils/routes.dart';
 
 void main() {
@@ -58,6 +58,7 @@ class PolyHxApp extends StatelessWidget {
                       new EventDetails(_eventManagementService, eventId),
                   settings: routeSettings);
           }
-        });
+        }
+    );
   }
 }

@@ -20,6 +20,7 @@ class EventDetails extends StatelessWidget {
         appBar: new AppBar(title: new Text(event.name)),
         body: new Column(
           children: <Widget>[new EventImage(event)],
-        ));
+        ),
+    );
   }
 }
