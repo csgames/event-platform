@@ -343,6 +343,31 @@ namespace STS.Controllers
             });
         }
 
+        [HttpGet("username/{username}")]
+        public Task<IActionResult> GetByUsername(string username)
+        {
+            return Task.Run<IActionResult>(() =>
+            {
+                var user = _db.Single<User>(u => u.Username == username);
+                if (user == null)
+                {
+                    return NotFound();
+                }
+
+                var role = _db.Single<Role>(r => r.Id == user.RoleId);
+                var permissions = _db.Where<Permission>(p => role.Permissions.Contains(p.Id))
+                    .Select(p => p.Name);
+                user.Role = role.Name;
+                user.Permissions = permissions.ToList();
+
+                return Ok(new
+                {
+                    success = true,
+                    user
+                });
+            });
+        }
+
         [Authorize]
         [RequiresPermissions("sts:get-all-with-ids:user")]
         [HttpPost("getallwithids")]
