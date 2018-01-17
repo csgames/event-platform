@@ -2,7 +2,7 @@ import 'package:http/http.dart';
 import 'package:flutter/material.dart';
 import 'package:qrcode_reader/QRCodeReader.dart';
 import 'package:PolyHxApp/pages/eventlist.dart';
-import 'package:PolyHxApp/pages/eventpage.dart';
+import 'package:PolyHxApp/pages/event.dart';
 import 'package:PolyHxApp/pages/login.dart';
 import 'package:PolyHxApp/services/auth.service.dart';
 import 'package:PolyHxApp/services/event-management.dart';
