@@ -1,14 +1,19 @@
 import 'dart:async';
+import 'dart:ui';
 
 import 'package:PolyHxApp/components/loadingspinner.dart';
 import 'package:PolyHxApp/components/pagetransformer/eventpageitem.dart';
 import 'package:PolyHxApp/components/pagetransformer/pagetransformer.dart';
 import 'package:PolyHxApp/domain/event.dart';
+import 'package:PolyHxApp/redux/actions/actions.dart';
+import 'package:PolyHxApp/redux/state.dart';
 import 'package:PolyHxApp/services/event-management.dart';
 import 'package:PolyHxApp/services/token.service.dart';
 import 'package:PolyHxApp/utils/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_redux/flutter_redux.dart';
+import 'package:redux/redux.dart';
 
 class EventList extends StatelessWidget {
   final TokenService _tokenService;
@@ -39,16 +44,19 @@ class EventList extends StatelessWidget {
                     itemCount: snapshot.data.length,
                     itemBuilder: (context, index) {
                       final item = snapshot.data[index];
-                      final pageVisibility =
-                          visibilityResolver.resolvePageVisibility(index);
-
-                      return new EventPageItem(
-                        item: item,
-                        pageVisibility: pageVisibility,
-                        onTap: () => Navigator
-                            .of(context)
-                            .pushNamed("${Routes.EVENT}/${item.id}"),
-                      );
+                      final pageVisibility = visibilityResolver.resolvePageVisibility(index);
+                      return new StoreConnector<AppState, VoidCallback>(
+                          converter: (Store<AppState> store) => () => store.dispatch(new SetCurrentEventAction(item)),
+                          builder: (BuildContext context, VoidCallback setCurrentEvent) {
+                            return new EventPageItem(
+                              item: item,
+                              pageVisibility: pageVisibility,
+                              onTap: () {
+                                setCurrentEvent();
+                                Navigator.of(context).pushNamed("${Routes.EVENT}");
+                              },
+                            );
+                          });
                     },
                   );
                 },
@@ -72,10 +80,7 @@ class EventList extends StatelessWidget {
               return new Scaffold(
                 appBar: new AppBar(
                   title: new Text("Events"),
-                  leading: new IconButton(
-                      icon: new Icon(Icons.view_headline),
-                      color: Colors.white,
-                      onPressed: null),
+                  leading: new IconButton(icon: new Icon(Icons.view_headline), color: Colors.white, onPressed: null),
                 ),
                 body: new Center(
                   child: new SizedBox.fromSize(child: _buildEventCards()),
@@ -83,9 +88,7 @@ class EventList extends StatelessWidget {
               );
             } else {
               new Future.delayed(
-                  new Duration(milliseconds: 1),
-                  () =>
-                      Navigator.of(context).pushReplacementNamed(Routes.LOGIN));
+                  new Duration(milliseconds: 1), () => Navigator.of(context).pushReplacementNamed(Routes.LOGIN));
               return new Container();
             }
           }

@@ -1,9 +1,14 @@
 import 'package:PolyHxApp/components/loadingspinner.dart';
+import 'package:PolyHxApp/domain/user.dart';
+import 'package:PolyHxApp/redux/actions/actions.dart';
+import 'package:PolyHxApp/redux/state.dart';
 import 'package:PolyHxApp/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:PolyHxApp/components/pillbutton.dart';
 import 'package:PolyHxApp/services/auth.service.dart';
 import 'package:PolyHxApp/utils/routes.dart';
+import 'package:flutter_redux/flutter_redux.dart';
+import 'package:redux/redux.dart';
 
 class LoginPage extends StatefulWidget {
   AuthService _authService;
@@ -35,8 +40,7 @@ class _LoginPageState extends State<LoginPage> {
           _loginFeedbackMessage = '';
         });
         Navigator.of(context).pushNamed(Routes.HOME);
-      }
-      else {
+      } else {
         setState(() {
           _loginFeedbackMessage = LOGIN_FAILED_MESSAGE;
         });
@@ -67,8 +71,7 @@ class _LoginPageState extends State<LoginPage> {
             child: new TextFormField(
               style: new TextStyle(color: Constants.POLYHX_GREY),
               decoration: new InputDecoration(
-                  labelText: 'Password',
-                  icon: new Icon(Icons.lock_outline, color: Constants.POLYHX_GREY)),
+                  labelText: 'Password', icon: new Icon(Icons.lock_outline, color: Constants.POLYHX_GREY)),
               onSaved: (val) => _password = val,
               obscureText: true,
             ),
@@ -108,14 +111,10 @@ class _LoginPageState extends State<LoginPage> {
               new Container(
                   color: Colors.transparent,
                   margin: new EdgeInsets.all(15.0),
-                  child: new Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        new Image.asset('assets/logo.png', fit: BoxFit.contain),
-                        new Container(
-                            width: 340.0,
-                            child: buildLoginForm()),
-                      ])),
+                  child: new Column(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
+                    new Image.asset('assets/logo.png', fit: BoxFit.contain),
+                    new Container(width: 340.0, child: buildLoginForm()),
+                  ])),
               loading ? new LoadingSpinner() : new Container()
             ],
           ),

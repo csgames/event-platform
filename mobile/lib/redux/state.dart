@@ -1,4 +1,5 @@
 import 'package:PolyHxApp/domain/event.dart';
+import 'package:PolyHxApp/domain/user.dart';
 import 'package:meta/meta.dart';
 
 @immutable

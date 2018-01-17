@@ -1,4 +1,5 @@
 import 'package:PolyHxApp/domain/event.dart';
+import 'package:PolyHxApp/domain/user.dart';
 
 class LoadEventsAction {}
 
@@ -11,8 +12,7 @@ class EventsLoadedAction {
 class EventsNotLoadedAction {}
 
 class SetCurrentEventAction {
-  final String id;
+  final Event event;
 
-  SetCurrentEventAction(this.id);
+  SetCurrentEventAction(this.event);
 }
-
