@@ -5,6 +5,7 @@ class PillButton extends StatelessWidget {
   VoidCallback onPressed;
   Widget child;
   bool enabled;
+
   double elevation;
 
   PillButton({
@@ -23,10 +24,7 @@ class PillButton extends StatelessWidget {
       child: new RaisedButton(
         color: color,
         onPressed: enabled ? onPressed : null,
-        child: new Padding(
-          padding: new EdgeInsets.fromLTRB(25.0, 10.0, 25.0, 10.0),
-          child: child,
-        ),
+        child: child,
       ),
     );
   }

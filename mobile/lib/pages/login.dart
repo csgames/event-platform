@@ -76,10 +76,13 @@ class _LoginPageState extends State<LoginPage> {
           new PillButton(
             onPressed: _login,
             enabled: !loading,
-            child: new Text('Login',
-              style: new TextStyle(
-                color: Colors.white,
-                fontSize: 20.0,
+            child: new Padding(
+              padding: new EdgeInsets.fromLTRB(25.0, 10.0, 25.0, 10.0),
+              child: new Text('Login',
+                style: new TextStyle(
+                  color: Colors.white,
+                  fontSize: 20.0,
+                ),
               ),
             ),
           ),
