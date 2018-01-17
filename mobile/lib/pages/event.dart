@@ -3,34 +3,37 @@ import 'package:flutter/widgets.dart';
 import 'package:qrcode_reader/QRCodeReader.dart';
 import 'package:PolyHxApp/pages/attendee-retrieval.dart';
 import 'package:PolyHxApp/services/event-management.dart';
+import 'package:PolyHxApp/services/users.service.dart';
 
 class EventPage extends StatefulWidget {
   final EventManagementService _eventManagementService;
+  final UsersService _usersService;
   final QRCodeReader _qrCodeReader;
   final String _eventId;
 
-  EventPage(this._eventManagementService, this._qrCodeReader, this._eventId, {Key key})
+  EventPage(this._eventManagementService, this._usersService, this._qrCodeReader, this._eventId, {Key key})
       : super(key: key);
 
   @override
-  _EventPageState createState() => new _EventPageState(_eventManagementService, _qrCodeReader, _eventId);
+  _EventPageState createState() => new _EventPageState(_eventManagementService, _usersService, _qrCodeReader, _eventId);
 }
 
 enum EventTabs { Info, Scan, Activities }
 
 class _EventPageState extends State<EventPage> {
   final EventManagementService _eventManagementService;
+  final UsersService _usersService;
   final QRCodeReader _qrCodeReader;
   final String _eventId;
   int _currentTabIndex = 1;
 
-  _EventPageState(this._eventManagementService, this._qrCodeReader, this._eventId);
+  _EventPageState(this._eventManagementService, this._usersService, this._qrCodeReader, this._eventId);
 
   Widget _buildBody() {
     Widget body;
     switch (EventTabs.values[_currentTabIndex]) {
       case EventTabs.Scan:
-        body = new AttendeeRetrievalPage(_qrCodeReader);
+        body = new AttendeeRetrievalPage(_usersService, _qrCodeReader);
         break;
       default:
         break;

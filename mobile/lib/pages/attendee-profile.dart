@@ -2,14 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:PolyHxApp/components/gravatar.dart';
 import 'package:PolyHxApp/components/pillbutton.dart';
+import 'package:PolyHxApp/domain/user.dart';
 import 'package:PolyHxApp/utils/constants.dart';
 
 class AttendeeProfilePage extends StatelessWidget {
-  String _attendeeEmail;
+  User _user;
   VoidCallback onDone;
   VoidCallback onCancel;
 
-  AttendeeProfilePage(this._attendeeEmail, {this.onDone, this.onCancel});
+  AttendeeProfilePage(this._user, {this.onDone, this.onCancel});
 
   _scanForNfcBracelet() async {
 
@@ -22,7 +23,7 @@ class AttendeeProfilePage extends StatelessWidget {
           elevation: 2.0,
           borderRadius: new BorderRadius.circular(60.0),
           child: new CircleAvatar(
-            backgroundImage: new Gravatar(_attendeeEmail),
+            backgroundImage: new Gravatar(_user.username),
             radius: 60.0,
           ),
         ),
@@ -62,7 +63,7 @@ class AttendeeProfilePage extends StatelessWidget {
   Widget _buildAttendeeName() {
     return new Padding(
       padding: new EdgeInsets.only(top: 40.0),
-      child: new Text(_attendeeEmail,
+      child: new Text('${_user.firstName} ${_user.lastName}',
           style: new TextStyle(
             color: Constants.POLYHX_GREY,
             fontSize: 24.0,
