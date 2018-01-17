@@ -16,7 +16,7 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   static const String LOGIN_FAILED_MESSAGE = 'Login failed.';
-  final formKey = new GlobalKey<FormState>();
+  final _formKey = new GlobalKey<FormState>();
   AuthService _authService;
   String _email;
   String _password;
@@ -28,7 +28,7 @@ class _LoginPageState extends State<LoginPage> {
 
   void _login() {
     setState(() => loading = true);
-    formKey.currentState.save();
+    _formKey.currentState.save();
     _authService.login(_email, _password).then((loggedIn) {
       if (loggedIn && _authService.CurrentUser != null) {
         setState(() {
@@ -47,7 +47,7 @@ class _LoginPageState extends State<LoginPage> {
 
   Widget buildLoginForm() {
     return new Form(
-      key: formKey,
+      key: _formKey,
       child: new Column(
         children: <Widget>[
           new Padding(
@@ -74,10 +74,14 @@ class _LoginPageState extends State<LoginPage> {
             ),
           ),
           new PillButton(
-            text: 'Login',
-            textColor: Colors.white,
             onPressed: _login,
             enabled: !loading,
+            child: new Text('Login',
+              style: new TextStyle(
+                color: Colors.white,
+                fontSize: 20.0,
+              ),
+            ),
           ),
           new Padding(
               padding: new EdgeInsets.only(top: 20.0),
