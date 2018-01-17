@@ -39,7 +39,9 @@ class _AttendeeRetrievalPageState extends State<AttendeeRetrievalPage> {
 
   _scanAttendee() async {
     var username = await _qrCodeReader.scan();
-    _findAttendee(username);
+    if (username != null) {
+      _findAttendee(username);
+    }
   }
 
   void _clearAttendee() {
