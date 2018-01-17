@@ -1,13 +1,18 @@
-import 'package:PolyHxApp/pages/eventdetails.dart';
+import 'package:http/http.dart';
+import 'package:flutter/material.dart';
+import 'package:qrcode_reader/QRCodeReader.dart';
 import 'package:PolyHxApp/pages/eventlist.dart';
 import 'package:PolyHxApp/redux/state.dart';
 import 'package:PolyHxApp/services/event-management.dart';
 import 'package:PolyHxApp/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
+import 'package:PolyHxApp/pages/event.dart';
 import 'package:PolyHxApp/pages/login.dart';
 import 'package:PolyHxApp/services/auth.service.dart';
+import 'package:PolyHxApp/services/event-management.dart';
 import 'package:PolyHxApp/services/token.service.dart';
+import 'package:PolyHxApp/utils/constants.dart';
 import 'package:PolyHxApp/utils/routes.dart';
 import 'package:PolyHxApp/redux/reducers/app-state-reducer.dart';
 import 'package:PolyHxApp/redux/middlewares/middlewares.dart';
@@ -19,8 +24,8 @@ void main() {
   var tokenService = new TokenService(client);
   var authService = new AuthService(client, tokenService);
   var eventManagementService = new EventManagementService(client, tokenService);
-
-  runApp(new PolyHxApp(authService, tokenService, eventManagementService));
+  var qrCodeReader = new QRCodeReader();
+  runApp(new PolyHxApp(authService, tokenService, eventManagementService, qrCodeReader));
 }
 
 class PolyHxApp extends StatelessWidget {
@@ -29,9 +34,9 @@ class PolyHxApp extends StatelessWidget {
   AuthService _authService;
   TokenService _tokenService;
   EventManagementService _eventManagementService;
+  QRCodeReader _qrCodeReader;
 
-  PolyHxApp(
-      this._authService, this._tokenService, this._eventManagementService) {
+  PolyHxApp(this._authService, this._tokenService, this._eventManagementService, this._qrCodeReader) {
     store = new Store<AppState>(appReducer,
         initialState: new AppState(),
         middleware: createEventsMiddleware(_eventManagementService));
@@ -68,7 +73,7 @@ class PolyHxApp extends StatelessWidget {
                 case Routes.EVENT:
                   return new MaterialPageRoute(
                       builder: (BuildContext context) =>
-                          new EventDetails(_eventManagementService),
+                          new EventDetails(_eventManagementService, _qrCodeReader),
                       settings: routeSettings);
               }
             }));
