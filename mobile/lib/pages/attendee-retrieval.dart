@@ -60,7 +60,7 @@ class _AttendeeRetrievalPageState extends State<AttendeeRetrievalPage> {
             ),
             new Text('Register attendee',
                 style: new TextStyle(
-                  fontSize: 26.0,
+                  fontSize: 30.0,
                   fontWeight: FontWeight.w900,
                   color: Constants.POLYHX_GREY.withAlpha(144),
                 )
