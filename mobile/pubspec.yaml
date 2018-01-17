@@ -1,7 +1,11 @@
-name: mobile_app2
-description: The official PolyHx mobile app.
+name: PolyHxApp
+description: Official PolyHx Mobile App
 
 dependencies:
+  shared_preferences:
+  intl:
+  redux:
+  flutter_redux:
   flutter:
     sdk: flutter
 
@@ -24,6 +28,9 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
+
+  assets:
+    - assets/logo.png
 
   # To add assets to your application, add an assets section, like this:
   # assets:
