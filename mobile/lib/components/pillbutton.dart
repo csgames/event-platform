@@ -1,36 +1,31 @@
 import 'package:flutter/material.dart';
 
 class PillButton extends StatelessWidget {
-  String text;
-  Color textColor;
-  Color backgroundColor;
+  Color color;
   VoidCallback onPressed;
+  Widget child;
   bool enabled;
+  double elevation;
 
   PillButton({
-    this.text,
-    this.textColor,
-    this.backgroundColor,
+    this.color,
     this.onPressed,
-    this.enabled
+    this.child,
+    this.enabled = true,
+    this.elevation = 2.0,
   });
 
   @override
   Widget build(BuildContext context) {
-    return new ClipRRect(
+    return new Material(
       borderRadius: new BorderRadius.circular(30.0),
+      elevation: elevation,
       child: new RaisedButton(
-        color: this.backgroundColor,
-        onPressed: enabled ? this.onPressed : null,
+        color: color,
+        onPressed: enabled ? onPressed : null,
         child: new Padding(
           padding: new EdgeInsets.fromLTRB(25.0, 10.0, 25.0, 10.0),
-          child: new Text(
-            this.text,
-            style: new TextStyle(
-              color: this.textColor,
-              fontSize: 20.0,
-            ),
-          ),
+          child: child,
         ),
       ),
     );
