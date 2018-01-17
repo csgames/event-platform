@@ -343,6 +343,8 @@ namespace STS.Controllers
             });
         }
 
+        [Authorize]
+        [RequiresPermissions("sts:get:user")]
         [HttpGet("username/{username}")]
         public Task<IActionResult> GetByUsername(string username)
         {
