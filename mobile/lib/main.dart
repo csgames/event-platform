@@ -73,7 +73,7 @@ class PolyHxApp extends StatelessWidget {
                 case Routes.EVENT:
                   return new MaterialPageRoute(
                       builder: (BuildContext context) =>
-                          new EventDetails(_eventManagementService, _qrCodeReader),
+                          new EventPage(_eventManagementService, _qrCodeReader),
                       settings: routeSettings);
               }
             }));

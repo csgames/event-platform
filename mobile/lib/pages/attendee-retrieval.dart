@@ -40,6 +40,7 @@ class _AttendeeRetrievalPageState extends State<AttendeeRetrievalPage> {
     return new Padding(
       padding: new EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 0.0),
       child: new PillTextField(
+        keyboardType: TextInputType.emailAddress,
         onSubmitted: (val) => _attendeeEmail = val,
         decoration: new InputDecoration(
           icon: new Icon(Icons.search, color: Constants.POLYHX_RED),

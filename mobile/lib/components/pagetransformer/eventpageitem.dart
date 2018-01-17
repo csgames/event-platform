@@ -46,8 +46,7 @@ class EventPageItem extends StatelessWidget {
         padding: const EdgeInsets.only(top: 16.0),
         child: new Text(
           item.name,
-          style: textTheme.title
-              .copyWith(color: Colors.white, fontWeight: FontWeight.bold),
+          style: textTheme.title.copyWith(color: Colors.white, fontWeight: FontWeight.bold),
           textAlign: TextAlign.center,
         ),
       ),
@@ -64,8 +63,7 @@ class EventPageItem extends StatelessWidget {
             child: new Text(
               "${formatter.format(item.beginDate)} - ${formatter.format(
                   item.endDate)}",
-              style: textTheme.subhead
-                  .copyWith(color: Colors.white, fontWeight: FontWeight.normal),
+              style: textTheme.subhead.copyWith(color: Colors.white, fontWeight: FontWeight.normal),
               textAlign: TextAlign.center,
             )));
 
