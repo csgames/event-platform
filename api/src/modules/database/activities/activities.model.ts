@@ -27,7 +27,7 @@ export const ActivitiesSchema = new mongoose.Schema({
         required: true
     },
     attendees: {
-        type: [mongoose.Types.ObjectId],
+        type: [mongoose.Schema.Types.ObjectId],
         ref: 'attendees'
     }
 });
