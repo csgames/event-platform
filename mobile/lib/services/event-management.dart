@@ -1,11 +1,9 @@
 import 'dart:async';
 import 'dart:convert';
-
+import 'package:http/http.dart';
 import 'package:PolyHxApp/domain/event.dart';
 import 'package:PolyHxApp/services/token.service.dart';
 import 'package:PolyHxApp/utils/environment.dart';
-import 'package:http/http.dart';
-
 
 class EventManagementService {
   Client _http;
@@ -13,9 +11,7 @@ class EventManagementService {
 
   List<Event> _eventsCache;
 
-  EventManagementService(this._http, this._tokenService) {
-
-  }
+  EventManagementService(this._http, this._tokenService);
 
   Future<List<Event>> getAllEvents() async {
     final res = await _http.get("${Environment.EVENT_MANAGEMENT_URL}/event",
