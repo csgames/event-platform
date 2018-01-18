@@ -23,10 +23,11 @@ class Attendee {
   static final Map<String, ShirtSize> _SHIRT_SIZES = {
     'small': ShirtSize.Small,
     'medium': ShirtSize.Medium,
-    'large': ShirtSize.XLarge,
+    'large': ShirtSize.Large,
     'x-large': ShirtSize.XLarge,
     '2x-large': ShirtSize.XXLarge,
   };
+
 
   String userId;
   String github;
