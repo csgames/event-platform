@@ -91,7 +91,8 @@ class UsersService {
       );
       final responseMap = JSON.decode(response.body);
       return true;
-    } catch (e) {
+    }
+    catch (e) {
       print(e);
       return false;
     }
@@ -119,7 +120,8 @@ class UsersService {
       );
       final responseMap =  JSON.decode(response.body);
       return true;
-    } catch (e) {
+    }
+    catch (e) {
       print(e);
       return false;
     }
