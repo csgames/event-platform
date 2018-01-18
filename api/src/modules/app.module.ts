@@ -15,6 +15,7 @@ import { ActivitiesModule } from './database/activities/activities.module';
         RegistrationModule,
         SchoolsModule,
         TeamsModule
+        
     ],
     components: [
         MailGateway
