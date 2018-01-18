@@ -18,7 +18,6 @@ export const NotificationsSchema = new mongoose.Schema({
     },
     attendees: {
         type: [mongoose.Schema.Types.ObjectId],
-        required: true,
         ref: 'attendees'
     },
 });

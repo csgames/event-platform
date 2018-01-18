@@ -4,6 +4,7 @@ import { BaseService } from "../../../services/base.service";
 import { CreateNotificationsDto } from "./notifications.dto";
 import { Notifications } from "./notifications.model";
 import { AttendeesService } from "../attendees/attendees.service";
+import { NotificationGateway } from "./notifications.gateway";
 
 // TODO: Add Notification_size field in event and use that to check Notification size when joining.
 const MAX_Notification_SIZE = 4;
@@ -16,8 +17,17 @@ interface LeaveNotificationResponse {
 @Component()
 export class NotificationsService extends BaseService<Notifications, CreateNotificationsDto> {
     constructor(@Inject("NotificationsModelToken") private readonly notificationModel: Model<Notifications>,
-                private readonly attendeeService: AttendeesService) {
+                private readonly attendeeService: AttendeesService,
+                private readonly gateway: NotificationGateway) {
         super(notificationModel);
+    }
+
+    async create(dto: Partial<Notifications>) {
+        let notification = await super.create(dto);
+
+        this.gateway.sendNotification(dto);
+
+        return notification;
     }
 
     async getAll(userId: string, role) {
@@ -28,6 +38,16 @@ export class NotificationsService extends BaseService<Notifications, CreateNotif
                     $nin: [ attendee._id ]
                 }
             });
+
+            for (let notif of notifications) {
+                await this.notificationModel.update({
+                    _id: notif._id
+                }, {
+                    $push: {
+                        attendees: attendee._id
+                    }
+                });
+            }
 
             return notifications.map(value => {
                 return {
