@@ -3,34 +3,49 @@ import 'package:flutter/widgets.dart';
 import 'package:qrcode_reader/QRCodeReader.dart';
 import 'package:PolyHxApp/components/pillbutton.dart';
 import 'package:PolyHxApp/components/pilltextfield.dart';
+import 'package:PolyHxApp/domain/attendee.dart';
 import 'package:PolyHxApp/domain/user.dart';
 import 'package:PolyHxApp/pages/attendee-profile.dart';
+import 'package:PolyHxApp/services/attendees.service.dart';
+import 'package:PolyHxApp/services/events.service.dart';
 import 'package:PolyHxApp/services/users.service.dart';
 import 'package:PolyHxApp/utils/constants.dart';
 
 class AttendeeRetrievalPage extends StatefulWidget {
   final UsersService _usersService;
+  final AttendeesService _attendeesService;
+  final EventsService _eventsService;
   final QRCodeReader _qrCodeReader;
 
-  AttendeeRetrievalPage(this._usersService, this._qrCodeReader);
+  AttendeeRetrievalPage(this._usersService, this._attendeesService, this._eventsService, this._qrCodeReader);
 
   @override
-  _AttendeeRetrievalPageState createState() => new _AttendeeRetrievalPageState(_usersService, _qrCodeReader);
+  _AttendeeRetrievalPageState createState() => new _AttendeeRetrievalPageState(_usersService, _attendeesService, _eventsService, _qrCodeReader);
 }
 
 class _AttendeeRetrievalPageState extends State<AttendeeRetrievalPage> {
   final UsersService _usersService;
+  final AttendeesService _attendeesService;
+  final EventsService _eventsService;
   final QRCodeReader _qrCodeReader;
-  User _attendee;
+  User _user;
+  Attendee _attendee;
 
-  _AttendeeRetrievalPageState(this._usersService, this._qrCodeReader);
+  _AttendeeRetrievalPageState(this._usersService, this._attendeesService, this._eventsService, this._qrCodeReader);
 
   _findAttendee(String username) async {
     var user = await _usersService.getUserByUsername(username);
     if (user != null) {
-      setState(() {
-        _attendee = user;
-      });
+      var attendee = await _attendeesService.getAttendee(user.id);
+      if (attendee != null) {
+        setState(() {
+          _attendee = attendee;
+          _user = user;
+        });
+      }
+      else {
+        showDialog(context: context, child: _buildAttendeeNotFoundDialog(username));
+      }
     }
     else {
       showDialog(context: context, child: _buildUserNotFoundDialog(username));
@@ -44,22 +59,44 @@ class _AttendeeRetrievalPageState extends State<AttendeeRetrievalPage> {
     }
   }
 
+  _saveAttendee() async {
+
+  }
+
   void _clearAttendee() {
     setState(() {
-      _attendee = null;
+      _user = null;
     });
   }
 
   Widget _buildUserNotFoundDialog(String username) {
     return new AlertDialog(
-      title: new Text('Not Found'),
-      content: new Text('User "$username" could not be found.'),
+      title: new Text('User Not Found'),
+      content: new Text('No user with email address $username could be found.'),
       actions: <Widget>[
         new FlatButton(
           child: new Text('OK',
               style: new TextStyle(
                   color: Colors.red,
                   fontSize: 18.0,
+              )
+          ),
+          onPressed: Navigator.of(context).pop,
+        ),
+      ],
+    );
+  }
+
+  Widget _buildAttendeeNotFoundDialog(String username) {
+    return new AlertDialog(
+      title: new Text('Attendee Not Found'),
+      content: new Text('User $username is not a registered attendee for this event.'),
+      actions: <Widget>[
+        new FlatButton(
+          child: new Text('OK',
+              style: new TextStyle(
+                color: Colors.red,
+                fontSize: 18.0,
               )
           ),
           onPressed: Navigator.of(context).pop,
@@ -125,12 +162,15 @@ class _AttendeeRetrievalPageState extends State<AttendeeRetrievalPage> {
   Widget _buildAttendeeProfile() {
     return new Padding(
       padding: new EdgeInsets.fromLTRB(30.0, 20.0, 30.0, 20.0),
-      child: new AttendeeProfilePage(_attendee, onDone: _clearAttendee, onCancel: _clearAttendee),
+      child: new AttendeeProfilePage(_attendee, _user,
+          onDone: _saveAttendee,
+          onCancel: _clearAttendee
+      ),
     );
   }
 
   Widget _buildPage() {
-    return _attendee != null
+    return _attendee != null && _user != null
          ? _buildAttendeeProfile()
          : new Column(
             children: <Widget>[

@@ -2,15 +2,25 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:PolyHxApp/components/gravatar.dart';
 import 'package:PolyHxApp/components/pillbutton.dart';
+import 'package:PolyHxApp/domain/attendee.dart';
 import 'package:PolyHxApp/domain/user.dart';
 import 'package:PolyHxApp/utils/constants.dart';
 
 class AttendeeProfilePage extends StatelessWidget {
+  static final Map<ShirtSize, String> _SHIRT_SIZE_LETTERS = {
+    ShirtSize.Small: 'S',
+    ShirtSize.Medium: 'M',
+    ShirtSize.Large: 'L',
+    ShirtSize.XLarge: 'XL',
+    ShirtSize.XXLarge: 'XXL',
+  };
+
+  Attendee _attendee;
   User _user;
   VoidCallback onDone;
   VoidCallback onCancel;
 
-  AttendeeProfilePage(this._user, {this.onDone, this.onCancel});
+  AttendeeProfilePage(this._attendee, this._user, {this.onDone, this.onCancel});
 
   _scanForNfcBracelet() async {
 
@@ -106,7 +116,21 @@ class AttendeeProfilePage extends StatelessWidget {
             _buildConfirmationButtons(),
             _buildAttendeeName(),
             new Expanded(
-              child: new Container(),
+              child: new Stack(
+                alignment: Alignment.center,
+                children: <Widget>[
+                  new Image.asset('assets/tshirt.png',
+                    width: 150.0,
+                  ),
+                  new Text(_SHIRT_SIZE_LETTERS[_attendee.shirtSize],
+                    style: new TextStyle(
+                        color: Constants.POLYHX_GREY,
+                        fontSize: 30.0,
+                        fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ),
             ),
             _buildNfcButton(),
           ],
