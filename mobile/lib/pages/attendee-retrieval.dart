@@ -39,24 +39,22 @@ class _AttendeeRetrievalPageState extends State<AttendeeRetrievalPage> {
   _findAttendee(String username) async {
     setState(() {_isLoading = true; });
     var user = await _usersService.getUserByUsername(username);
-    if (user != null) {
-      var attendee = await _attendeesService.getAttendee(user.id);
-      if (attendee != null) {
-        setState(() {
-          _isLoading = false;
-          _attendee = attendee;
-          _user = user;
-        });
-      }
-      else {
-        setState(() { _isLoading = false; });
-        showDialog(context: context, child: _buildAttendeeNotFoundDialog(username));
-      }
-    }
-    else {
+    if (user == null) {
       setState(() { _isLoading = false; });
       showDialog(context: context, child: _buildUserNotFoundDialog(username));
+      return;
     }
+    var attendee = await _attendeesService.getAttendeeByUserId(user.id);
+    if (attendee == null) {
+      setState(() { _isLoading = false; });
+      showDialog(context: context, child: _buildAttendeeNotFoundDialog(username));
+      return;
+    }
+    setState(() {
+      _isLoading = false;
+      _attendee = attendee;
+      _user = user;
+    });
   }
 
   _scanAttendee() async {

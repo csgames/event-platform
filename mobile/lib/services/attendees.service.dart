@@ -35,10 +35,10 @@ class AttendeesService {
 
   AttendeesService(this._http, this._tokenService);
 
-  Future<Attendee> getAttendee(String id) async {
+  Future<Attendee> getAttendeeByUserId(String userId) async {
     try {
       final headers = {"Authorization": "Bearer ${_tokenService.AccessToken}"};
-      final response = await _http.get("${Environment.EVENT_MANAGEMENT_URL}/attendee/user/$id", headers: headers);
+      final response = await _http.get("${Environment.EVENT_MANAGEMENT_URL}/attendee/user/$userId", headers: headers);
       var responseMap = JSON.decode(response.body);
       var attendee = new Attendee.fromMap(responseMap["attendee"]);
       return attendee;
