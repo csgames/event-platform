@@ -34,6 +34,7 @@
     "gulp-nodemon": "^2.2.1",
     "mongoose": "^4.12.4",
     "morgan": "^1.9.0",
+    "nexmo": "^2.1.1",
     "node-fetch": "^1.7.3",
     "reflect-metadata": "^0.1.10",
     "rxjs": "^5.5.0",

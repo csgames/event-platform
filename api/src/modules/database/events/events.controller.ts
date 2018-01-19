@@ -11,7 +11,6 @@ import { CodeExceptionFilter } from "../../../filters/CodedError/code.filter";
 import { codeMap } from "./events.exception";
 import { AttendeesGuard } from "../attendees/attendees.guard";
 import { AttendeesService } from "../attendees/attendees.service";
-import { EmailService } from "../../email/email.service";
 import { DataTablePipe } from "../../../pipes/dataTable.pipe";
 import { DataTableInterface } from "../../../interfaces/dataTable.interface";
 
@@ -95,4 +94,5 @@ export class EventsController {
     async eventAttendeeQuery(@Param('id') eventId: string, @Body(new DataTablePipe()) body: DataTableInterface) {
         return await this.eventsService.getFilteredAttendees(eventId, body);
     }
+
 }

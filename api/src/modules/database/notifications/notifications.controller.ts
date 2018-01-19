@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, Headers, UseFilters, UseGuards, Delete } from "@nestjs/common";
+import { Body, Controller, Get, Post, Headers, UseFilters, UseGuards } from "@nestjs/common";
 import { Permissions } from "../../../decorators/permission.decorator";
 import { PermissionsGuard } from "../../../guards/permission.guard";
 import { CodeExceptionFilter } from "../../../filters/CodedError/code.filter";
@@ -6,14 +6,16 @@ import { NotificationsService } from "./notifications.service";
 import { codeMap } from "./notifications.exception";
 import { ApiUseTags } from "@nestjs/swagger";
 import { ValidationPipe } from "../../../pipes/validation.pipe";
-import { CreateNotificationsDto } from "./notifications.dto";
+import { CreateNotificationsDto, SmsDto } from "./notifications.dto";
+import { AttendeesService } from "../attendees/attendees.service";
 
 @ApiUseTags('Notification')
 @Controller("notification")
 @UseGuards(PermissionsGuard)
 @UseFilters(new CodeExceptionFilter(codeMap))
 export class NotificationsController {
-    constructor(private readonly notificationsService: NotificationsService) {}
+    constructor(private notificationsService: NotificationsService,
+                private attendeesService: AttendeesService) {}
 
     @Post()
     @Permissions('event_management:create:notification')
@@ -30,5 +32,22 @@ export class NotificationsController {
         return {
             notification: await this.notificationsService.getAll(userId, role)
         };
+    }
+
+    @Post('sms')
+    @Permissions('event_management:sms:notification')
+    async sms(@Body(new ValidationPipe()) smsDto: SmsDto) {
+        let attendees = await this.attendeesService.find({
+            publicId: { $in: smsDto.publicIds },
+            acceptSMSNotifications: true,
+        });
+
+        let phoneNumbers: string[] = attendees
+            .map(attendee => { return attendee.phoneNumber; })
+            .filter(number => /^\+?[1-9]\d{10,14}$/g.test(number));
+
+        this.notificationsService.sendSms(phoneNumbers, smsDto.text);
+
+        return { message: "sms queued"};
     }
 }
