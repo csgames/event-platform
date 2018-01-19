@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:qrcode_reader/QRCodeReader.dart';
+import 'package:PolyHxApp/components/loadingspinner.dart';
 import 'package:PolyHxApp/components/pillbutton.dart';
 import 'package:PolyHxApp/components/pilltextfield.dart';
 import 'package:PolyHxApp/domain/attendee.dart';
@@ -28,26 +29,32 @@ class _AttendeeRetrievalPageState extends State<AttendeeRetrievalPage> {
   final AttendeesService _attendeesService;
   final EventsService _eventsService;
   final QRCodeReader _qrCodeReader;
+
   User _user;
   Attendee _attendee;
+  bool _isLoading = false;
 
   _AttendeeRetrievalPageState(this._usersService, this._attendeesService, this._eventsService, this._qrCodeReader);
 
   _findAttendee(String username) async {
+    setState(() {_isLoading = true; });
     var user = await _usersService.getUserByUsername(username);
     if (user != null) {
       var attendee = await _attendeesService.getAttendee(user.id);
       if (attendee != null) {
         setState(() {
+          _isLoading = false;
           _attendee = attendee;
           _user = user;
         });
       }
       else {
+        setState(() { _isLoading = false; });
         showDialog(context: context, child: _buildAttendeeNotFoundDialog(username));
       }
     }
     else {
+      setState(() { _isLoading = false; });
       showDialog(context: context, child: _buildUserNotFoundDialog(username));
     }
   }
@@ -120,7 +127,9 @@ class _AttendeeRetrievalPageState extends State<AttendeeRetrievalPage> {
   }
 
   Widget _buildNoAttendeeBody() {
-    return new Expanded(
+    return _isLoading
+      ? new Expanded(child: new LoadingSpinner())
+      : new Expanded(
         child: new Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
@@ -153,6 +162,7 @@ class _AttendeeRetrievalPageState extends State<AttendeeRetrievalPage> {
               size: 40.0,
             ),
           ),
+          enabled: !_isLoading,
           onPressed: _scanAttendee,
         ),
       ),
