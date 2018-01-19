@@ -105,6 +105,16 @@ export class AttendeesController {
         };
     }
 
+    @Get('user/:userId')
+    @Permissions('event_management:get:attendee')
+    async getByUserId(@Param('userId') userId: string) {
+        return {
+            attendee: await this.attendeesService.findOne({
+                userId: userId
+            })
+        };
+    }
+
     @Put()
     @UseGuards(AttendeesGuard)
     async update(@Req() req: Request, @Headers('token-claim-user_id') userId: string,
