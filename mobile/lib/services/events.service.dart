@@ -14,19 +14,30 @@ class EventsService {
   EventsService(this._http, this._tokenService);
 
   Future<List<Event>> getAllEvents() async {
-    final res = await _http.get("${Environment.EVENT_MANAGEMENT_URL}/event",
-        headers: {"Authorization": "Bearer ${_tokenService.AccessToken}"})
-        .then((r) => JSON.decode(r.body));
-
-    _eventsCache = res.map((e) => new Event.fromMap(e)).toList();
-    return _eventsCache;
+    try {
+      final response = await _http.get("${Environment.EVENT_MANAGEMENT_URL}/event",
+          headers: {"Authorization": "Bearer ${_tokenService.AccessToken}"});
+      final responseMap = JSON.decode(response.body);
+      _eventsCache = responseMap.map((e) => new Event.fromMap(e)).toList();
+      return _eventsCache;
+    }
+    catch (e) {
+      print(e);
+      return null;
+    }
   }
 
   Future<Event> getEventById(String id) async {
-    final res = await _http.get("${Environment.EVENT_MANAGEMENT_URL}/event/$id",
-        headers: {"Authorization": "Bearer ${_tokenService.AccessToken}"})
-        .then((r) => JSON.decode(r.body));
-    return new Event.fromMap(res['event']);
+    try {
+      final response = await _http.get("${Environment.EVENT_MANAGEMENT_URL}/event/$id",
+          headers: {"Authorization": "Bearer ${_tokenService.AccessToken}"});
+      final responseMap = JSON.decode(response.body);
+      return new Event.fromMap(responseMap['event']);
+    }
+    catch (e) {
+      print(e);
+      return null;
+    }
   }
 
   Event getEventByIdFromCache(String id) {
