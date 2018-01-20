@@ -44,7 +44,7 @@ class AttendeesService {
       return attendee;
     }
     catch (e) {
-      print(e);
+      print('AttendeesService.getAttendeeByUserId(): $e');
       return null;
     }
   }

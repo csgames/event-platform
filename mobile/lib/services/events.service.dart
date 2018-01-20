@@ -23,7 +23,7 @@ class EventsService {
       return _eventsCache;
     }
     catch (e) {
-      print(e);
+      print('EventsService.getAllEvents(): $e');
       return null;
     }
   }
@@ -36,7 +36,7 @@ class EventsService {
       return new Event.fromMap(responseMap['event']);
     }
     catch (e) {
-      print(e);
+      print('EventsService.getEventById(): $e');
       return null;
     }
   }
