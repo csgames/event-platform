@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:PolyHxApp/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter/src/material/scaffold.dart';
@@ -32,11 +33,37 @@ class _ActivitiesScheduleState extends State<ActivitiesSchedulePage>
   }
 
   Widget _buildActivityCard(Activity a) {
-    return new Material(
-        elevation: 3.0,
-        child: new Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: new Text(a.name)
+    var formatter = new DateFormat.Hm('en_US');
+    var beginHour = formatter.format(a.beginDate);
+    var endHour = formatter.format(a.endDate);
+    return new Container(
+        margin: const EdgeInsets.fromLTRB(0.0, 5.0, 0.0, 5.0),
+        child: new Material(
+            elevation: 3.0,
+            child: new Row(
+                children: <Widget>[
+                  new Padding(
+                      padding: const EdgeInsets.all(20.0),
+                      child: new Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            new Text(a.name,
+                                style: new TextStyle(
+                                    fontSize: 20.0
+                                )
+                            ),
+                            new Padding(
+                                padding: const EdgeInsets.fromLTRB(0.0, 3.0, 0.0, 0.0),
+                                child: new Text("$beginHour - $endHour",
+                                    style: new TextStyle(
+                                        fontSize: 15.0
+                                    )
+                                )
+                            )
+                          ]
+                      )
+                  )
+                ])
         )
     );
   }
@@ -78,13 +105,17 @@ class _ActivitiesScheduleState extends State<ActivitiesSchedulePage>
               return new Column(
                 children: [
                   tabBar,
-                  new TabBarView(
-                      controller: _tabController,
-                      children: activitiesPerDay.keys.map((d) =>
-                      new Column(
-                          children: activitiesPerDay[d].map((a) =>
-                              _buildActivityCard(a)).toList()
-                      )).toList()
+                  new Flexible(
+                      child: new TabBarView(
+                          controller: _tabController,
+                          children: activitiesPerDay.keys.map((d) =>
+                          new SingleChildScrollView(
+                              child:
+                              new Column(
+                                  children: activitiesPerDay[d].map((a) =>
+                                      _buildActivityCard(a)).toList()
+                              ))).toList()
+                      )
                   )
                 ],
               );

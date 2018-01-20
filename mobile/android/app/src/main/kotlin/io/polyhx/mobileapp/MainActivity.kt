@@ -77,7 +77,6 @@ class MainActivity() : FlutterActivity() {
     }
 
     private fun handleNfcScan(id: String) {
-        MethodChannel(flutterView, CHANNEL).invokeMethod("newNfcTagScanned", id);
-        println(id)
+        MethodChannel(flutterView, CHANNEL).invokeMethod("newNfcTagScanned", id)
     }
 }
