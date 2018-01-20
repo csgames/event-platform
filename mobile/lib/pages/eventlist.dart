@@ -4,7 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:redux/redux.dart';
-import 'package:PolyHxApp/components/loadingspinner.dart';
+import 'package:PolyHxApp/components/loading-spinner.dart';
 import 'package:PolyHxApp/components/pagetransformer/eventpageitem.dart';
 import 'package:PolyHxApp/components/pagetransformer/pagetransformer.dart';
 import 'package:PolyHxApp/domain/event.dart';

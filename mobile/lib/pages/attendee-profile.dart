@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:PolyHxApp/components/gravatar.dart';
-import 'package:PolyHxApp/components/pillbutton.dart';
+import 'package:PolyHxApp/components/pill-button.dart';
 import 'package:PolyHxApp/domain/attendee.dart';
 import 'package:PolyHxApp/domain/event.dart';
 import 'package:PolyHxApp/domain/user.dart';

@@ -1,4 +1,4 @@
-import 'package:PolyHxApp/components/eventimage.dart';
+import 'package:PolyHxApp/components/event-image.dart';
 import 'package:PolyHxApp/components/pagetransformer/pagetransformer.dart';
 import 'package:PolyHxApp/domain/event.dart';
 import 'package:flutter/material.dart';

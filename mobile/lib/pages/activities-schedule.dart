@@ -6,7 +6,7 @@ import 'package:flutter/src/material/scaffold.dart';
 import 'package:intl/intl.dart';
 import 'package:PolyHxApp/components/activity-card.dart';
 import 'package:PolyHxApp/components/gravatar.dart';
-import 'package:PolyHxApp/components/loadingspinner.dart';
+import 'package:PolyHxApp/components/loading-spinner.dart';
 import 'package:PolyHxApp/domain/activity.dart';
 import 'package:PolyHxApp/domain/user.dart';
 import 'package:PolyHxApp/services/attendees.service.dart';
