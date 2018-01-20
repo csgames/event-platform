@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter/src/material/scaffold.dart';
 import 'package:intl/intl.dart';
+import 'package:PolyHxApp/components/activity-card.dart';
 import 'package:PolyHxApp/components/gravatar.dart';
 import 'package:PolyHxApp/components/loadingspinner.dart';
 import 'package:PolyHxApp/domain/activity.dart';
-import 'package:PolyHxApp/domain/attendee.dart';
 import 'package:PolyHxApp/domain/user.dart';
 import 'package:PolyHxApp/services/attendees.service.dart';
 import 'package:PolyHxApp/services/events.service.dart';
@@ -148,52 +148,6 @@ class _ActivitiesScheduleState extends State<ActivitiesSchedulePage>
     });
   }
 
-  Widget _buildActivityCard(Activity a) {
-    var formatter = new DateFormat.Hm('en_US');
-    var beginHour = formatter.format(a.beginDate);
-    var endHour = formatter.format(a.endDate);
-    return new Container(
-        margin: const EdgeInsets.fromLTRB(0.0, 5.0, 0.0, 5.0),
-        child: new Material(
-            elevation: 3.0,
-            child: new Row(
-                children: <Widget>[
-                  new Padding(
-                      padding: const EdgeInsets.all(20.0),
-                      child: new Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            new Text(a.name,
-                                style: new TextStyle(
-                                    fontSize: 20.0
-                                )
-                            ),
-                            new Padding(
-                                padding: const EdgeInsets.fromLTRB(0.0, 3.0, 0.0, 0.0),
-                                child: new Text("$beginHour - $endHour",
-                                    style: new TextStyle(
-                                        fontSize: 15.0
-                                    )
-                                )
-                            ),
-                            new Padding(
-                                padding: const EdgeInsets.fromLTRB(
-                                    0.0, 3.0, 0.0, 0.0),
-                                child: new Text(a.location,
-                                    style: new TextStyle(
-                                        fontWeight: FontWeight.w100,
-                                        fontSize: 15.0
-                                    )
-                                )
-                            ),
-                          ]
-                      )
-                  )
-                ])
-        )
-    );
-  }
-
   Map<String, List<Activity>> _getActivitiesPerDay(List<Activity> activities) {
     var formatter = new DateFormat.MMMMd('en_US');
     Map<String, List<Activity>> dates = {};
@@ -210,25 +164,26 @@ class _ActivitiesScheduleState extends State<ActivitiesSchedulePage>
       children: <Widget>[
         new Column(
           children: <Widget> [
-          new TabBar(
-            labelColor: Colors.black,
-            controller: _tabController,
-            tabs: _activitiesPerDay.keys.map((d) => new Tab(text: d)).toList()
-          ),
-          new Flexible(
-            child: new TabBarView(
+            new TabBar(
+              labelColor: Colors.black,
+              controller: _tabController,
+              tabs: _activitiesPerDay.keys.map((d) => new Tab(text: d)).toList(),
+            ),
+            new Flexible(
+              child: new TabBarView(
                 controller: _tabController,
                 children: _activitiesPerDay.keys.map((d) =>
                 new SingleChildScrollView(
-                    child:
-                    new Column(
-                        children: _activitiesPerDay[d].map((a) =>
-                            _buildActivityCard(a)).toList()
-                    ))).toList()
-            )
-          )
-        ],
-      ),
+                  child: new Column(
+                    children: _activitiesPerDay[d].map((a) =>
+                    new ActivityCard(a)).toList(),
+                  ),
+                ),
+                ).toList(),
+              ),
+            ),
+          ],
+        ),
         _buildUserDialog(),
       ],
     );
