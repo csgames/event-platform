@@ -73,7 +73,6 @@ export class NotificationsService extends BaseService<Notifications, CreateNotif
 
     // Send an sms to number (Use E.164 format)
     async sendSms(numbers: string[], text: string) {
-        numbers = [];
         for (let number of numbers) {
             let retry = true;
             let retryCount = 0;
