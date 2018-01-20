@@ -69,8 +69,23 @@ class _AttendeeRetrievalPageState extends State<AttendeeRetrievalPage> {
     }
   }
 
-  _saveAttendee() async {
+  _onNfcChipScanned(BuildContext context, String nfcId) async {
+    setState(() {
+      _attendee.publicId = nfcId;
+    });
+    Scaffold.of(context).showSnackBar(new SnackBar(
+      content: new Text('NFC scanned: $nfcId'),
+      action: new SnackBarAction(
+        label: 'OK',
+        onPressed: Scaffold.of(context).hideCurrentSnackBar,
+      ),
+    ));
+  }
 
+  _saveAttendee() async {
+    setState(() {
+      _user = null;
+    });
   }
 
   void _clearAttendee() {
