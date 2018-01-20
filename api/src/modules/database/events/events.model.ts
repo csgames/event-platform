@@ -7,6 +7,7 @@ export interface EventRegistrations extends mongoose.Document {
     selected: boolean;
     confirmed: boolean;
     declined: boolean;
+    present: boolean;
 }
 
 export const EventRegistrationsSchema = new mongoose.Schema({
@@ -23,6 +24,10 @@ export const EventRegistrationsSchema = new mongoose.Schema({
         default: false
     },
     declined: {
+        type: Boolean,
+        default: false
+    },
+    present: {
         type: Boolean,
         default: false
     }

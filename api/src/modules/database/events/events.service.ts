@@ -110,6 +110,8 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
             return 'declined';
         } else if (status.selected) {
             return 'selected';
+        } else if (status.present) {
+            return 'present';
         } else {
             return 'registered';
         }
@@ -221,6 +223,8 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
                 attendee.status = "declined";
             } else if (a.selected) {
                 attendee.status = "selected";
+            } else if (a.present) {
+                attendee.status = "present";
             } else {
                 attendee.status = "registered";
             }
