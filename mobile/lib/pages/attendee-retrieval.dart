@@ -94,7 +94,7 @@ class _AttendeeRetrievalPageState extends State<AttendeeRetrievalPage> {
     }
   }
 
-  _onNfcChipScanned(BuildContext context, String nfcId) async {
+  _onNfcTagScanned(BuildContext context, String nfcId) async {
     if (nfcId != _attendee.publicId) {
       setState(() {
         _attendee.publicId = nfcId;
@@ -111,7 +111,8 @@ class _AttendeeRetrievalPageState extends State<AttendeeRetrievalPage> {
     }
   }
 
-  _saveAttendee() async {
+  _saveAttendeePublicId() async {
+    bool saved = await _attendeesService.updateAttendeePublicId(_attendee);
     setState(() {
       _user = null;
     });
@@ -206,7 +207,7 @@ class _AttendeeRetrievalPageState extends State<AttendeeRetrievalPage> {
       padding: new EdgeInsets.fromLTRB(30.0, 20.0, 30.0, 20.0),
       child: new AttendeeProfilePage(
           _attendee, _user, _event.getRegistrationStatus(_attendee.id),
-          onDone: _saveAttendee,
+          onDone: _saveAttendeePublicId,
           onCancel: _clearAttendee
       ),
     );
@@ -227,7 +228,7 @@ class _AttendeeRetrievalPageState extends State<AttendeeRetrievalPage> {
   @override
   Widget build(BuildContext context) {
     _nfcService.NfcStream.asBroadcastStream().listen((id) =>
-        _onNfcChipScanned(context, id));
+        _onNfcTagScanned(context, id));
     return new Center(
       child: _buildPage(),
     );
