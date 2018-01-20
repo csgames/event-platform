@@ -50,8 +50,11 @@ class TokenService {
     String payload = accessToken.split('.')[1];
     int padding = payload.length % 4;
 
-    for (int i = 0; i < padding; ++i) {
+    if (padding == 1 || padding == 3) {
       payload += '=';
+    }
+    else if (padding == 2) {
+      payload += '==';
     }
 
     List<int> base64Bytes = BASE64.decode(payload);
