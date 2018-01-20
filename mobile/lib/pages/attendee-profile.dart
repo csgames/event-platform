@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:PolyHxApp/components/gravatar.dart';
+import 'package:PolyHxApp/components/circle-gravatar.dart';
 import 'package:PolyHxApp/components/pill-button.dart';
 import 'package:PolyHxApp/domain/attendee.dart';
 import 'package:PolyHxApp/domain/event.dart';
@@ -26,15 +26,8 @@ class AttendeeProfilePage extends StatelessWidget {
 
   Widget _buildAvatar() {
     return new Align(
-        alignment: Alignment.topCenter,
-        child:  new Material(
-          elevation: 2.0,
-          borderRadius: new BorderRadius.circular(60.0),
-          child: new CircleAvatar(
-            backgroundImage: new Gravatar(_user.username),
-            radius: 60.0,
-          ),
-        ),
+      alignment: Alignment.topCenter,
+      child: new CircleGravatar(_user.username),
     );
   }
 

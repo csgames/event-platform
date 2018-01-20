@@ -5,7 +5,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter/src/material/scaffold.dart';
 import 'package:intl/intl.dart';
 import 'package:PolyHxApp/components/activity-card.dart';
-import 'package:PolyHxApp/components/gravatar.dart';
+import 'package:PolyHxApp/components/circle-gravatar.dart';
 import 'package:PolyHxApp/components/loading-spinner.dart';
 import 'package:PolyHxApp/domain/activity.dart';
 import 'package:PolyHxApp/domain/user.dart';
@@ -67,14 +67,7 @@ class _ActivitiesScheduleState extends State<ActivitiesSchedulePage>
   Widget _buildAvatar() {
     return new Align(
       alignment: Alignment.topCenter,
-      child:  new Material(
-        elevation: 2.0,
-        borderRadius: new BorderRadius.circular(60.0),
-        child: new CircleAvatar(
-          backgroundImage: new Gravatar(_shownUser.username),
-          radius: 60.0,
-        ),
-      ),
+      child: new CircleGravatar(_shownUser.username),
     );
   }
 
