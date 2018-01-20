@@ -74,4 +74,17 @@ class EventsService {
       return null;
     }
   }
+
+  Future<bool> setAttendeeAsPresent(String eventId, String attendeeId) async {
+    try {
+      final headers = {'Authorization': 'Bearer ${_tokenService.AccessToken}'};
+      final response = await _http.put('${Environment.EVENT_MANAGEMENT_URL}/event/$eventId/$attendeeId/present',
+          headers: headers);
+      return response.statusCode == 200;
+    }
+    catch (e) {
+      print('AttendeesService.addAttendeeToActivity(): $e');
+      return false;
+    }
+  }
 }
