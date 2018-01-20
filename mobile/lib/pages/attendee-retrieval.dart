@@ -45,6 +45,7 @@ class _AttendeeRetrievalPageState extends State<AttendeeRetrievalPage> {
   User _user;
   Attendee _attendee;
   bool _isLoading = false;
+  String _lastScannedTag;
 
   _AttendeeRetrievalPageState(this._eventsService, this._usersService,
       this._attendeesService, this._nfcService, this._qrCodeReader, this._event) {
@@ -99,6 +100,7 @@ class _AttendeeRetrievalPageState extends State<AttendeeRetrievalPage> {
 
   _onNfcTagScanned(BuildContext context, String nfcId) async {
     if (nfcId != _attendee.publicId) {
+      _lastScannedTag = nfcId;
       setState(() {
         _attendee.publicId = nfcId;
       });
@@ -111,6 +113,21 @@ class _AttendeeRetrievalPageState extends State<AttendeeRetrievalPage> {
               .hideCurrentSnackBar,
         ),
       ));
+      _saveAttendee(context);
+    }
+    else if (nfcId != _lastScannedTag){
+      _lastScannedTag = nfcId;
+      Scaffold.of(context).showSnackBar(new SnackBar(
+          content: new Text('Attendee already assigned to this tag.',
+          style: new TextStyle(color: Colors.white)),
+        action: new SnackBarAction(
+        label: 'OK',
+        onPressed: Scaffold
+        .of(context)
+        .hideCurrentSnackBar,
+        ),
+      ),
+      );
     }
   }
 
@@ -130,9 +147,6 @@ class _AttendeeRetrievalPageState extends State<AttendeeRetrievalPage> {
             .hideCurrentSnackBar,
       ),
     ));
-    setState(() {
-      _user = null;
-    });
   }
 
   void _clearAttendee() {
@@ -224,7 +238,7 @@ class _AttendeeRetrievalPageState extends State<AttendeeRetrievalPage> {
       padding: new EdgeInsets.fromLTRB(30.0, 20.0, 30.0, 20.0),
       child: new AttendeeProfilePage(
           _attendee, _user, _event.getRegistrationStatus(_attendee.id),
-          onDone: () { _saveAttendee(context); },
+          onDone: _clearAttendee,
           onCancel: _clearAttendee
       ),
     );

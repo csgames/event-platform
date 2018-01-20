@@ -47,7 +47,7 @@ class AttendeeProfilePage extends StatelessWidget {
 
   Widget _buildAttendeeNameWidget() {
     return new Padding(
-      padding: new EdgeInsets.only(top: 40.0),
+      padding: new EdgeInsets.only(top: 100.0),
       child: new Text('${_user.firstName} ${_user.lastName}',
           style: new TextStyle(
             color: Constants.POLYHX_GREY,
@@ -159,7 +159,6 @@ class AttendeeProfilePage extends StatelessWidget {
         borderRadius: new BorderRadius.circular(10.0),
         child: new Column(
           children: <Widget>[
-            _buildConfirmationButtons(),
             _buildAttendeeNameWidget(),
             _buildAttendeeStatusWidget(),
             _buildShirtSizeWidget(),
