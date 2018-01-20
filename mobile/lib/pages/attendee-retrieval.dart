@@ -1,4 +1,6 @@
+import 'package:PolyHxApp/services/nfc.service.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:qrcode_reader/QRCodeReader.dart';
 import 'package:PolyHxApp/components/loadingspinner.dart';
@@ -14,18 +16,25 @@ import 'package:PolyHxApp/utils/constants.dart';
 
 class AttendeeRetrievalPage extends StatefulWidget {
   final UsersService _usersService;
+  final NfcService _nfcService;
   final AttendeesService _attendeesService;
   final QRCodeReader _qrCodeReader;
   final Event _event;
 
-  AttendeeRetrievalPage(this._usersService, this._attendeesService, this._qrCodeReader, this._event);
+  AttendeeRetrievalPage(this._usersService, this._attendeesService,
+      this._nfcService, this._qrCodeReader, this._event);
 
   @override
-  _AttendeeRetrievalPageState createState() => new _AttendeeRetrievalPageState(_usersService, _attendeesService, _qrCodeReader, _event);
+  _AttendeeRetrievalPageState createState() =>
+      new _AttendeeRetrievalPageState(
+          _usersService, _attendeesService, _nfcService, _qrCodeReader, _event);
 }
 
 class _AttendeeRetrievalPageState extends State<AttendeeRetrievalPage> {
+  static const platform = const MethodChannel('app.polyhx.io/nfc');
+
   final UsersService _usersService;
+  final NfcService _nfcService;
   final AttendeesService _attendeesService;
   final QRCodeReader _qrCodeReader;
   final Event _event;
@@ -34,25 +43,41 @@ class _AttendeeRetrievalPageState extends State<AttendeeRetrievalPage> {
   Attendee _attendee;
   bool _isLoading = false;
 
-  _AttendeeRetrievalPageState(this._usersService, this._attendeesService, this._qrCodeReader, this._event);
+  _AttendeeRetrievalPageState(this._usersService, this._attendeesService,
+      this._nfcService, this._qrCodeReader, this._event) {
+  }
 
   _findAttendee(String username) async {
-    setState(() {_isLoading = true; });
+    setState(() {
+      _isLoading = true;
+    });
     var user = await _usersService.getUserByUsername(username);
     if (user == null) {
-      setState(() { _isLoading = false; });
-      showDialog(context: context, child: _buildAlertDialog('User Not Found', 'No user with email address $username could be found.'));
+      setState(() {
+        _isLoading = false;
+      });
+      showDialog(context: context,
+          child: _buildAlertDialog('User Not Found',
+              'No user with email address $username could be found.'));
       return;
     }
     var attendee = await _attendeesService.getAttendeeByUserId(user.id);
     if (attendee == null) {
-      setState(() { _isLoading = false; });
-      showDialog(context: context, child: _buildAlertDialog('Attendee Not Found', 'No attendee with email address $username could be found.'));
+      setState(() {
+        _isLoading = false;
+      });
+      showDialog(context: context,
+          child: _buildAlertDialog('Attendee Not Found',
+              'No attendee with email address $username could be found.'));
       return;
     }
     if (!_event.isRegistered(attendee.id)) {
-      setState(() { _isLoading = false; });
-      showDialog(context: context, child: _buildAlertDialog('Attendee not registered', 'User $username is not registered to this event.'));
+      setState(() {
+        _isLoading = false;
+      });
+      showDialog(context: context,
+          child: _buildAlertDialog('Attendee not registered',
+              'User $username is not registered to this event.'));
       return;
     }
     setState(() {
@@ -70,16 +95,20 @@ class _AttendeeRetrievalPageState extends State<AttendeeRetrievalPage> {
   }
 
   _onNfcChipScanned(BuildContext context, String nfcId) async {
-    setState(() {
-      _attendee.publicId = nfcId;
-    });
-    Scaffold.of(context).showSnackBar(new SnackBar(
-      content: new Text('NFC scanned: $nfcId'),
-      action: new SnackBarAction(
-        label: 'OK',
-        onPressed: Scaffold.of(context).hideCurrentSnackBar,
-      ),
-    ));
+    if (nfcId != _attendee.publicId) {
+      setState(() {
+        _attendee.publicId = nfcId;
+      });
+      Scaffold.of(context).showSnackBar(new SnackBar(
+        content: new Text('NFC scanned: $nfcId'),
+        action: new SnackBarAction(
+          label: 'OK',
+          onPressed: Scaffold
+              .of(context)
+              .hideCurrentSnackBar,
+        ),
+      ));
+    }
   }
 
   _saveAttendee() async {
@@ -106,7 +135,9 @@ class _AttendeeRetrievalPageState extends State<AttendeeRetrievalPage> {
                 fontSize: 18.0,
               )
           ),
-          onPressed: Navigator.of(context).pop,
+          onPressed: Navigator
+              .of(context)
+              .pop,
         ),
       ],
     );
@@ -129,24 +160,24 @@ class _AttendeeRetrievalPageState extends State<AttendeeRetrievalPage> {
 
   Widget _buildNoAttendeeBody() {
     return _isLoading
-      ? new Expanded(child: new LoadingSpinner())
-      : new Expanded(
-        child: new Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            new Icon(Icons.person,
-              size: 240.0,
-              color: Constants.POLYHX_GREY.withAlpha(144),
-            ),
-            new Text('Register attendee',
-                style: new TextStyle(
-                  fontSize: 30.0,
-                  fontWeight: FontWeight.w900,
-                  color: Constants.POLYHX_GREY.withAlpha(144),
-                )
-            ),
-          ],
-        ),
+        ? new Expanded(child: new LoadingSpinner())
+        : new Expanded(
+      child: new Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          new Icon(Icons.person,
+            size: 240.0,
+            color: Constants.POLYHX_GREY.withAlpha(144),
+          ),
+          new Text('Register attendee',
+              style: new TextStyle(
+                fontSize: 30.0,
+                fontWeight: FontWeight.w900,
+                color: Constants.POLYHX_GREY.withAlpha(144),
+              )
+          ),
+        ],
+      ),
     );
   }
 
@@ -173,7 +204,8 @@ class _AttendeeRetrievalPageState extends State<AttendeeRetrievalPage> {
   Widget _buildAttendeeProfile() {
     return new Padding(
       padding: new EdgeInsets.fromLTRB(30.0, 20.0, 30.0, 20.0),
-      child: new AttendeeProfilePage(_attendee, _user, _event.getRegistrationStatus(_attendee.id),
+      child: new AttendeeProfilePage(
+          _attendee, _user, _event.getRegistrationStatus(_attendee.id),
           onDone: _saveAttendee,
           onCancel: _clearAttendee
       ),
@@ -182,20 +214,22 @@ class _AttendeeRetrievalPageState extends State<AttendeeRetrievalPage> {
 
   Widget _buildPage() {
     return _attendee != null && _user != null
-         ? _buildAttendeeProfile()
-         : new Column(
-            children: <Widget>[
-              _buildSearchBar(),
-              _buildNoAttendeeBody(),
-              _buildScanButton(),
-            ],
+        ? _buildAttendeeProfile()
+        : new Column(
+      children: <Widget>[
+        _buildSearchBar(),
+        _buildNoAttendeeBody(),
+        _buildScanButton(),
+      ],
     );
   }
 
   @override
   Widget build(BuildContext context) {
+    _nfcService.NfcStream.asBroadcastStream().listen((id) =>
+        _onNfcChipScanned(context, id));
     return new Center(
-        child: _buildPage(),
+      child: _buildPage(),
     );
   }
 }

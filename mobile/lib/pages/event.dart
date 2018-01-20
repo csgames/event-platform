@@ -1,3 +1,4 @@
+import 'package:PolyHxApp/services/nfc.service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
@@ -17,15 +18,17 @@ class EventPage extends StatefulWidget {
   final EventsService _eventsService;
   final UsersService _usersService;
   final AttendeesService _attendeesService;
+  final NfcService _nfcService;
   final QRCodeReader _qrCodeReader;
 
   EventPage(this._eventsService, this._usersService,
-            this._attendeesService, this._qrCodeReader, {Key key})
+      this._attendeesService, this._nfcService, this._qrCodeReader, {Key key})
       : super(key: key);
 
   @override
-  _EventPageState createState() => new _EventPageState(_eventsService, _usersService,
-                                                       _attendeesService, _qrCodeReader);
+  _EventPageState createState() =>
+      new _EventPageState(_eventsService, _usersService,
+          _attendeesService, _nfcService, _qrCodeReader);
 }
 
 enum EventTabs { Info, Scan, Activities }
@@ -34,17 +37,20 @@ class _EventPageState extends State<EventPage> {
   final EventsService _eventsService;
   final UsersService _usersService;
   final AttendeesService _attendeesService;
+  final NfcService _nfcService;
   final QRCodeReader _qrCodeReader;
   int _currentTabIndex = 0;
 
   _EventPageState(this._eventsService, this._usersService,
-                  this._attendeesService, this._qrCodeReader);
+      this._attendeesService, this._nfcService, this._qrCodeReader);
 
   Widget _buildBody(Event event) {
     Widget body;
     switch (EventTabs.values[_currentTabIndex]) {
       case EventTabs.Scan:
-        body = new AttendeeRetrievalPage(_usersService, _attendeesService, _qrCodeReader, event);
+        body = new AttendeeRetrievalPage(
+            _usersService, _attendeesService, _nfcService, _qrCodeReader,
+            event);
         break;
       case EventTabs.Info:
         body = new EventInfoPage();
