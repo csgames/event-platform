@@ -1,31 +1,32 @@
 import 'package:http/http.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_redux/flutter_redux.dart';
 import 'package:qrcode_reader/QRCodeReader.dart';
-import 'package:PolyHxApp/pages/eventlist.dart';
-import 'package:PolyHxApp/redux/state.dart';
-import 'package:PolyHxApp/services/event-management.dart';
-import 'package:PolyHxApp/utils/constants.dart';
-import 'package:flutter/material.dart';
-import 'package:http/http.dart';
+import 'package:redux/redux.dart';
 import 'package:PolyHxApp/pages/event.dart';
+import 'package:PolyHxApp/pages/eventlist.dart';
 import 'package:PolyHxApp/pages/login.dart';
+import 'package:PolyHxApp/services/attendees.service.dart';
 import 'package:PolyHxApp/services/auth.service.dart';
-import 'package:PolyHxApp/services/event-management.dart';
+import 'package:PolyHxApp/services/events.service.dart';
 import 'package:PolyHxApp/services/token.service.dart';
+import 'package:PolyHxApp/services/users.service.dart';
 import 'package:PolyHxApp/utils/constants.dart';
 import 'package:PolyHxApp/utils/routes.dart';
-import 'package:PolyHxApp/redux/reducers/app-state-reducer.dart';
 import 'package:PolyHxApp/redux/middlewares/middlewares.dart';
-import 'package:redux/redux.dart';
-import 'package:flutter_redux/flutter_redux.dart';
+import 'package:PolyHxApp/redux/reducers/app-state-reducer.dart';
+import 'package:PolyHxApp/redux/state.dart';
 
 void main() {
   var client = new Client();
   var tokenService = new TokenService(client);
   var authService = new AuthService(client, tokenService);
-  var eventManagementService = new EventManagementService(client, tokenService);
+  var eventsService = new EventsService(client, tokenService);
+  var usersService = new UsersService(client, tokenService);
+  var attendeesService = new AttendeesService(client, tokenService);
   var qrCodeReader = new QRCodeReader();
-  runApp(new PolyHxApp(authService, tokenService, eventManagementService, qrCodeReader));
+  runApp(new PolyHxApp(authService, tokenService, eventsService,
+                       usersService, attendeesService, qrCodeReader));
 }
 
 class PolyHxApp extends StatelessWidget {
@@ -33,13 +34,15 @@ class PolyHxApp extends StatelessWidget {
 
   AuthService _authService;
   TokenService _tokenService;
-  EventManagementService _eventManagementService;
+  EventsService _eventsService;
+  UsersService _usersService;
+  AttendeesService _attendeesService;
   QRCodeReader _qrCodeReader;
 
-  PolyHxApp(this._authService, this._tokenService, this._eventManagementService, this._qrCodeReader) {
+  PolyHxApp(this._authService, this._tokenService, this._eventsService, this._usersService, this._attendeesService, this._qrCodeReader) {
     store = new Store<AppState>(appReducer,
         initialState: new AppState(),
-        middleware: createEventsMiddleware(_eventManagementService));
+        middleware: createEventsMiddleware(_eventsService));
   }
 
   @override
@@ -56,7 +59,7 @@ class PolyHxApp extends StatelessWidget {
               scaffoldBackgroundColor: Colors.white,
               textSelectionColor: Constants.POLYHX_RED,
             ),
-            home: new EventList(_tokenService, _eventManagementService),
+            home: new EventList(_tokenService, _eventsService),
             onGenerateRoute: (RouteSettings routeSettings) {
               var path = routeSettings.name.split('/');
               switch (path[0]) {
@@ -68,14 +71,16 @@ class PolyHxApp extends StatelessWidget {
                 case Routes.HOME:
                   return new MaterialPageRoute(
                       builder: (BuildContext context) =>
-                          new EventList(_tokenService, _eventManagementService),
+                          new EventList(_tokenService, _eventsService),
                       settings: routeSettings);
                 case Routes.EVENT:
                   return new MaterialPageRoute(
                       builder: (BuildContext context) =>
-                          new EventPage(_eventManagementService, _qrCodeReader),
+                          new EventPage(_eventsService, _usersService, _attendeesService, _qrCodeReader),
                       settings: routeSettings);
               }
-            }));
+            }
+        )
+    );
   }
 }

@@ -1,35 +1,34 @@
 import 'dart:async';
-
-import 'package:PolyHxApp/domain/activity.dart';
-import 'package:PolyHxApp/services/event-management.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter/src/material/scaffold.dart';
-import 'package:PolyHxApp/components/loadingspinner.dart';
 import 'package:intl/intl.dart';
+import 'package:PolyHxApp/components/loadingspinner.dart';
+import 'package:PolyHxApp/domain/activity.dart';
+import 'package:PolyHxApp/services/events.service.dart';
 
 class ActivitiesSchedulePage extends StatefulWidget {
-  final EventManagementService _eventManagementService;
+  final EventsService _eventsService;
 
-  ActivitiesSchedulePage(this._eventManagementService);
+  ActivitiesSchedulePage(this._eventsService);
 
   @override
   State<StatefulWidget> createState() =>
-      new _ActivitiesScheduleState(_eventManagementService);
+      new _ActivitiesScheduleState(_eventsService);
 }
 
 class _ActivitiesScheduleState extends State<ActivitiesSchedulePage>
     with SingleTickerProviderStateMixin {
 
-  final EventManagementService _eventManagementService;
+  final EventsService _eventsService;
   TabController _tabController;
 
-  _ActivitiesScheduleState(this._eventManagementService) {
+  _ActivitiesScheduleState(this._eventsService) {
 
   }
 
   Future<List<Activity>> fetchAllActivities() {
-    return _eventManagementService.getAllActivities();
+    return _eventsService.getAllActivities();
   }
 
   Widget _buildActivityCard(Activity a) {

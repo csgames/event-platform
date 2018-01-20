@@ -1,9 +1,9 @@
-import 'package:PolyHxApp/redux/actions/actions.dart';
 import 'package:redux/redux.dart';
+import 'package:PolyHxApp/redux/actions/actions.dart';
 import 'package:PolyHxApp/redux/state.dart';
-import 'package:PolyHxApp/services/event-management.dart';
+import 'package:PolyHxApp/services/events.service.dart';
 
-List<Middleware<AppState>> createEventsMiddleware(EventManagementService eventManagement) {
+List<Middleware<AppState>> createEventsMiddleware(EventsService eventManagement) {
   final loadEvents = _createLoadEvents(eventManagement);
   
   return combineTypedMiddleware([
@@ -11,7 +11,7 @@ List<Middleware<AppState>> createEventsMiddleware(EventManagementService eventMa
   ]);
 }
 
-Middleware<AppState> _createLoadEvents(EventManagementService eventManagement) {
+Middleware<AppState> _createLoadEvents(EventsService eventManagement) {
   return (Store<AppState> store, action, NextDispatcher next) {
     eventManagement.getAllEvents().then((events) {
       store.dispatch(new EventsLoadedAction(events));

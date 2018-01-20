@@ -1,32 +1,31 @@
 import 'dart:async';
+import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:flutter_redux/flutter_redux.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-
+import 'package:redux/redux.dart';
 import 'package:PolyHxApp/components/loadingspinner.dart';
 import 'package:PolyHxApp/components/pagetransformer/eventpageitem.dart';
 import 'package:PolyHxApp/components/pagetransformer/pagetransformer.dart';
 import 'package:PolyHxApp/domain/event.dart';
 import 'package:PolyHxApp/redux/actions/actions.dart';
 import 'package:PolyHxApp/redux/state.dart';
-import 'package:PolyHxApp/services/event-management.dart';
+import 'package:PolyHxApp/services/events.service.dart';
 import 'package:PolyHxApp/services/token.service.dart';
 import 'package:PolyHxApp/utils/routes.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:flutter_redux/flutter_redux.dart';
-import 'package:redux/redux.dart';
 
 class EventList extends StatelessWidget {
   final TokenService _tokenService;
-  final EventManagementService _eventManagementService;
+  final EventsService _eventsService;
 
-  EventList(this._tokenService, this._eventManagementService);
+  EventList(this._tokenService, this._eventsService);
 
   Future<bool> isLoggedIn() async {
     return _tokenService.validateTokens();
   }
 
   Future<List<Event>> fetchAllEvents() async {
-    return _eventManagementService.getAllEvents();
+    return _eventsService.getAllEvents();
   }
 
   Widget _buildEventCards() {

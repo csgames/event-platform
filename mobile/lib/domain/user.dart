@@ -18,18 +18,34 @@ class User {
     copy(user, this);
   }
 
+  User.fromMap(Map<String, dynamic> map) {
+    id = map['id'];
+    username = map['username'];
+    email = map['email'];
+    password = map['password'];
+    firstName = map['firstName'];
+    lastName = map['lastName'];
+    birthDate = map['birthDate'];
+    permissions = map['permissions'];
+    role = map['role'];
+    roleId = map['roleId'];
+    isActive = map['isActive'];
+    validated = map["validated"];
+  }
+
   static void copy(User from, User to) {
     to
+      ..id = from.id
+      ..username = from.username
+      ..email = from.email
+      ..password = from.password
       ..firstName = from.firstName
       ..lastName = from.lastName
       ..birthDate = from.birthDate
-      ..email = from.email
-      ..username = from.username
-      ..id = from.id
-      ..isActive = from.isActive
-      ..validated = from.validated
+      ..permissions = from.permissions
       ..role = from.role
       ..roleId = from.roleId
-      ..permissions = from.permissions;
+      ..isActive = from.isActive
+      ..validated = from.validated;
   }
 }

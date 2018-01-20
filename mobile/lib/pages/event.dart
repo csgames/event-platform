@@ -1,48 +1,56 @@
-import 'package:PolyHxApp/domain/event.dart';
-import 'package:PolyHxApp/pages/activities-schedule.dart';
-import 'package:PolyHxApp/pages/event-info.dart';
-import 'package:PolyHxApp/redux/state.dart';
-import 'package:PolyHxApp/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:qrcode_reader/QRCodeReader.dart';
-import 'package:PolyHxApp/pages/attendee-retrieval.dart';
-import 'package:PolyHxApp/services/event-management.dart';
 import 'package:redux/redux.dart';
+import 'package:PolyHxApp/domain/event.dart';
+import 'package:PolyHxApp/pages/activities-schedule.dart';
+import 'package:PolyHxApp/pages/attendee-retrieval.dart';
+import 'package:PolyHxApp/pages/event-info.dart';
+import 'package:PolyHxApp/redux/state.dart';
+import 'package:PolyHxApp/services/attendees.service.dart';
+import 'package:PolyHxApp/services/events.service.dart';
+import 'package:PolyHxApp/services/users.service.dart';
+import 'package:PolyHxApp/utils/constants.dart';
 
 class EventPage extends StatefulWidget {
-  final EventManagementService _eventManagementService;
+  final EventsService _eventsService;
+  final UsersService _usersService;
+  final AttendeesService _attendeesService;
   final QRCodeReader _qrCodeReader;
 
-  EventPage(this._eventManagementService, this._qrCodeReader, {Key key})
+  EventPage(this._eventsService, this._usersService,
+            this._attendeesService, this._qrCodeReader, {Key key})
       : super(key: key);
 
   @override
-  _EventPageState createState() =>
-      new _EventPageState(_eventManagementService, _qrCodeReader);
+  _EventPageState createState() => new _EventPageState(_eventsService, _usersService,
+                                                       _attendeesService, _qrCodeReader);
 }
 
 enum EventTabs { Info, Scan, Activities }
 
 class _EventPageState extends State<EventPage> {
-  final EventManagementService _eventManagementService;
+  final EventsService _eventsService;
+  final UsersService _usersService;
+  final AttendeesService _attendeesService;
   final QRCodeReader _qrCodeReader;
   int _currentTabIndex = 0;
 
-  _EventPageState(this._eventManagementService, this._qrCodeReader);
+  _EventPageState(this._eventsService, this._usersService,
+                  this._attendeesService, this._qrCodeReader);
 
-  Widget _buildBody() {
+  Widget _buildBody(Event event) {
     Widget body;
     switch (EventTabs.values[_currentTabIndex]) {
       case EventTabs.Scan:
-        body = new AttendeeRetrievalPage(_qrCodeReader);
+        body = new AttendeeRetrievalPage(_usersService, _attendeesService, _qrCodeReader, event);
         break;
       case EventTabs.Info:
         body = new EventInfoPage();
         break;
       case EventTabs.Activities:
-        body = new ActivitiesSchedulePage(_eventManagementService);
+        body = new ActivitiesSchedulePage(_eventsService);
         break;
       default:
         break;
@@ -78,7 +86,7 @@ class _EventPageState extends State<EventPage> {
         builder: (BuildContext context, Event event) {
           return new Scaffold(
             appBar: new AppBar(title: new Text(event.name)),
-            body: _buildBody(),
+            body: _buildBody(event),
             bottomNavigationBar: new BottomNavigationBar(
               fixedColor: Constants.POLYHX_RED,
               type: BottomNavigationBarType.shifting,
@@ -91,6 +99,7 @@ class _EventPageState extends State<EventPage> {
             ),
             resizeToAvoidBottomPadding: false,
           );
-        });
+        }
+    );
   }
 }
