@@ -51,6 +51,9 @@ class _ActivitiesScheduleState extends State<ActivitiesSchedulePage>
       dates[date] ??= [];
       dates[date].add(activity);
     }
+    for (var day in dates.keys) {
+      dates[day].sort((Activity a1, Activity a2) { return a1.beginDate.compareTo(a2.beginDate); });
+    }
     return dates;
   }
 
