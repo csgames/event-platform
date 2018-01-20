@@ -48,4 +48,16 @@ class AttendeesService {
       return null;
     }
   }
+
+  Future<bool> updateAttendeePublicId(Attendee attendee) async {
+    try {
+      final headers = {"Authorization": "Bearer ${_tokenService.AccessToken}"};
+      final response = await _http.put("${Environment.EVENT_MANAGEMENT_URL}/attendee/${attendee.id}/public_id/${attendee.publicId}", headers: headers);
+      return response.statusCode == 200;
+    }
+    catch (e) {
+      print('AttendeesService.updateAttendeePublicId(): $e');
+      return false;
+    }
+  }
 }
