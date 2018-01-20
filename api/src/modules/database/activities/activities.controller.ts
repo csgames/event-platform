@@ -33,7 +33,6 @@ export class ActivitiesController {
     @Get(':id/raffle')
     @Permissions('event_management:raffle:activity')
     async raffle(@Param('id') activityId: string): Promise<UserModel> {
-        console.log(activityId);
         let activity: Activities = await this.activitiesService.findById(activityId);
 
         if (!activity) {
