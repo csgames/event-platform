@@ -6,7 +6,7 @@ import { OnGatewayDisconnect, SubscribeMessage, WebSocketGateway, WebSocketServe
 export class MailGateway implements OnGatewayDisconnect {
 
     @WebSocketServer()
-    server: SocketIO.Server;
+    server: SocketIO.Namespace;
 
     public handleDisconnect(socket: SocketIO.Socket) {
         socket.leave('mail-status-changed');
