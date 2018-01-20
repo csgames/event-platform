@@ -17,6 +17,7 @@ import { AttendeesGuard, CreateAttendeeGuard } from './attendees.guard';
 import { CodeExceptionFilter } from '../../../filters/CodedError/code.filter';
 import { codeMap } from './attendees.exception';
 import { ApiUseTags } from '@nestjs/swagger';
+import { EventsService } from "../events/events.service";
 
 @ApiUseTags('Attendee')
 @Controller('attendee')

@@ -119,4 +119,23 @@ export class EventsController {
         return { count: attendees.length };
     }
 
+    @Put(':event_id/:attendee_id/present')
+    @HttpCode(200)
+    @Permissions('event_management:set-status:event')
+    async setAttendeeStatus(@Param('event_id') eventId: string, @Param('attendee_id') attendeeId: string) {
+        let event = await this.eventsService.findById(eventId);
+
+        if (!event) {
+            throw new HttpException(`Event ${eventId} not found.`, HttpStatus.NOT_FOUND);
+        }
+
+        let attendeeIndex = event.attendees.findIndex(attendee => attendee.attendee.toString() === attendeeId);
+
+        event.attendees[attendeeIndex].present = true;
+
+        await event.save();
+
+        return event;
+    }
+
 }
