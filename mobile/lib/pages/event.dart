@@ -1,26 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_redux/flutter_redux.dart';
 import 'package:qrcode_reader/QRCodeReader.dart';
+import 'package:redux/redux.dart';
 import 'package:PolyHxApp/domain/event.dart';
 import 'package:PolyHxApp/pages/attendee-retrieval.dart';
+import 'package:PolyHxApp/pages/event-info.dart';
+import 'package:PolyHxApp/redux/state.dart';
 import 'package:PolyHxApp/services/attendees.service.dart';
 import 'package:PolyHxApp/services/events.service.dart';
 import 'package:PolyHxApp/services/users.service.dart';
+import 'package:PolyHxApp/utils/constants.dart';
 
 class EventPage extends StatefulWidget {
-  final EventsService _eventManagementService;
+  final EventsService _eventsService;
   final UsersService _usersService;
   final AttendeesService _attendeesService;
   final QRCodeReader _qrCodeReader;
-  final String _eventId;
 
-  EventPage(this._eventManagementService, this._usersService,
-            this._attendeesService, this._qrCodeReader, this._eventId, {Key key})
+  EventPage(this._eventsService, this._usersService,
+            this._attendeesService, this._qrCodeReader, {Key key})
       : super(key: key);
 
   @override
-  _EventPageState createState() => new _EventPageState(_eventManagementService, _usersService,
-                                                       _attendeesService, _qrCodeReader, _eventId);
+  _EventPageState createState() => new _EventPageState(_eventsService, _usersService,
+                                                       _attendeesService, _qrCodeReader);
 }
 
 enum EventTabs { Info, Scan, Activities }
@@ -30,17 +34,19 @@ class _EventPageState extends State<EventPage> {
   final UsersService _usersService;
   final AttendeesService _attendeesService;
   final QRCodeReader _qrCodeReader;
-  final String _eventId;
-  int _currentTabIndex = 1;
+  int _currentTabIndex = 0;
 
   _EventPageState(this._eventsService, this._usersService,
-                  this._attendeesService, this._qrCodeReader, this._eventId);
+                  this._attendeesService, this._qrCodeReader);
 
   Widget _buildBody(Event event) {
     Widget body;
     switch (EventTabs.values[_currentTabIndex]) {
       case EventTabs.Scan:
         body = new AttendeeRetrievalPage(_usersService, _attendeesService, _qrCodeReader, event);
+        break;
+      case EventTabs.Info:
+        body = new EventInfoPage();
         break;
       default:
         break;
@@ -49,34 +55,46 @@ class _EventPageState extends State<EventPage> {
   }
 
   List<BottomNavigationBarItem> _buildTabItems() {
+    final textStyle = new TextStyle(color: Colors.white);
     return <BottomNavigationBarItem>[
       new BottomNavigationBarItem(
-        icon: new Icon(Icons.info_outline),
-        title: new Text('Info'),
+        backgroundColor: Constants.POLYHX_RED,
+        icon: new Icon(Icons.info_outline, color: Colors.white),
+        title: new Text('Info', style: textStyle),
       ),
       new BottomNavigationBarItem(
-        icon: new Icon(Icons.camera_alt),
-        title: new Text('Register'),
+        backgroundColor: Constants.POLYHX_RED,
+        icon: new Icon(Icons.camera_alt, color: Colors.white),
+        title: new Text('Register', style: textStyle),
       ),
       new BottomNavigationBarItem(
-        icon: new Icon(Icons.event),
-        title: new Text('Activities'),
+        backgroundColor: Constants.POLYHX_RED,
+        icon: new Icon(Icons.event, color: Colors.white),
+        title: new Text('Activities', style: textStyle),
       ),
     ];
   }
 
   @override
   Widget build(BuildContext context) {
-    var event = _eventsService.getEventByIdFromCache(_eventId);
-    return new Scaffold(
-      appBar: new AppBar(title: new Text(event.name)),
-      body: _buildBody(event),
-      bottomNavigationBar: new BottomNavigationBar(
-        currentIndex: _currentTabIndex,
-        onTap: (tabIndex) => setState(() { _currentTabIndex = tabIndex; }),
-        items: _buildTabItems(),
-      ),
-      resizeToAvoidBottomPadding: false,
+    return new StoreConnector<AppState, Event>(
+        converter: (Store<AppState> store) => store.state.currentEvent,
+        builder: (BuildContext context, Event event) {
+          return new Scaffold(
+            appBar: new AppBar(title: new Text(event.name)),
+            body: _buildBody(event),
+            bottomNavigationBar: new BottomNavigationBar(
+              fixedColor: Constants.POLYHX_RED,
+              type: BottomNavigationBarType.shifting,
+              currentIndex: _currentTabIndex,
+              onTap: (tabIndex) => setState(() {
+                    _currentTabIndex = tabIndex;
+                  }),
+              items: _buildTabItems(),
+            ),
+            resizeToAvoidBottomPadding: false,
+          );
+        }
     );
   }
 }
