@@ -111,8 +111,21 @@ class _AttendeeRetrievalPageState extends State<AttendeeRetrievalPage> {
     }
   }
 
-  _saveAttendeePublicId() async {
+  _saveAttendeePublicId(BuildContext context) async {
     bool saved = await _attendeesService.updateAttendeePublicId(_attendee);
+    Scaffold.of(context).showSnackBar(new SnackBar(
+      content: saved
+             ? new Text('Saved public ID successfully.',
+                        style: new TextStyle(color: Colors.white))
+             : new Text('An error occured while saving the public ID.',
+                        style: new TextStyle(color: Colors.red)),
+      action: new SnackBarAction(
+        label: 'OK',
+        onPressed: Scaffold
+            .of(context)
+            .hideCurrentSnackBar,
+      ),
+    ));
     setState(() {
       _user = null;
     });
@@ -202,20 +215,20 @@ class _AttendeeRetrievalPageState extends State<AttendeeRetrievalPage> {
     );
   }
 
-  Widget _buildAttendeeProfile() {
+  Widget _buildAttendeeProfile(BuildContext context) {
     return new Padding(
       padding: new EdgeInsets.fromLTRB(30.0, 20.0, 30.0, 20.0),
       child: new AttendeeProfilePage(
           _attendee, _user, _event.getRegistrationStatus(_attendee.id),
-          onDone: _saveAttendeePublicId,
+          onDone: () { _saveAttendeePublicId(context); },
           onCancel: _clearAttendee
       ),
     );
   }
 
-  Widget _buildPage() {
+  Widget _buildPage(BuildContext context) {
     return _attendee != null && _user != null
-        ? _buildAttendeeProfile()
+        ? _buildAttendeeProfile(context)
         : new Column(
       children: <Widget>[
         _buildSearchBar(),
@@ -230,7 +243,7 @@ class _AttendeeRetrievalPageState extends State<AttendeeRetrievalPage> {
     _nfcService.NfcStream.asBroadcastStream().listen((id) =>
         _onNfcTagScanned(context, id));
     return new Center(
-      child: _buildPage(),
+      child: _buildPage(context),
     );
   }
 }
