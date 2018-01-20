@@ -6,7 +6,7 @@ import 'package:PolyHxApp/utils/constants.dart';
 
 class UserProfile extends StatelessWidget {
   User _user;
-  List<Widget> children;
+  Widget content;
   Color color;
   double elevation;
   double opacity;
@@ -14,7 +14,7 @@ class UserProfile extends StatelessWidget {
 
   UserProfile(this._user,
       {
-        this.children,
+        this.content,
         this.color = Colors.white,
         this.elevation = 1.0,
         this.opacity = 1.0,
@@ -47,6 +47,9 @@ class UserProfile extends StatelessWidget {
             child: new Column(
               children: <Widget>[
                 _buildNameWidget(),
+                new Container(
+                  child: content,
+                ),
               ],
             ),
           ),
