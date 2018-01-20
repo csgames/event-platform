@@ -118,24 +118,55 @@ class _ActivityPageState extends State<ActivityPage> {
     }
   }
 
-  Widget _buildBody(BuildContext context) {
-    return new Center(
-        child: new Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            new PillButton(
-              onPressed: () { _doRaffle(context); },
-              child: new Padding(
-                padding: new EdgeInsets.fromLTRB(25.0, 15.0, 25.0, 15.0),
-                child: new Text('RAFFLE',
-                  style: new TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20.0,
-                  ),
+  Widget _buildBackground() {
+    return new Expanded(
+      child: new Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          new Icon(Icons.nfc,
+            size: 240.0,
+            color: Constants.POLYHX_GREY.withAlpha(144),
+          ),
+          new Text('Scan to Attend',
+              style: new TextStyle(
+                fontSize: 30.0,
+                fontWeight: FontWeight.w900,
+                color: Constants.POLYHX_GREY.withAlpha(144),
+              )
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildRaffleButton() {
+    return new Padding(
+        padding: new EdgeInsets.only(bottom: 70.0),
+        child: new Align(
+          alignment: Alignment.bottomCenter,
+          child: new PillButton(
+            onPressed: () { _doRaffle(context); },
+            child: new Padding(
+              padding: new EdgeInsets.fromLTRB(25.0, 15.0, 25.0, 15.0),
+              child: new Text('RAFFLE',
+                style: new TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20.0,
                 ),
               ),
             ),
+          )
+        )
+    );
+  }
+
+  Widget _buildBody(BuildContext context) {
+    return new Center(
+        child: new Column(
+          children: <Widget>[
+            _buildBackground(),
+            _buildRaffleButton(),
           ],
         ),
     );
