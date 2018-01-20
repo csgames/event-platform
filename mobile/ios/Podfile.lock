@@ -1,20 +1,26 @@
 PODS:
   - Flutter (1.0.0)
+  - qrcode_reader (0.0.1):
+    - Flutter
   - shared_preferences (0.0.1):
     - Flutter
 
 DEPENDENCIES:
   - Flutter (from `/Users/brandonroberge/flutter/bin/cache/artifacts/engine/ios`)
-  - shared_preferences (from `/Users/brandonroberge/.pub-cache/hosted/pub.dartlang.org/shared_preferences-0.3.0/ios`)
+  - qrcode_reader (from `/Users/brandonroberge/.pub-cache/hosted/pub.dartlang.org/qrcode_reader-0.3.2/ios`)
+  - shared_preferences (from `/Users/brandonroberge/.pub-cache/hosted/pub.dartlang.org/shared_preferences-0.3.1/ios`)
 
 EXTERNAL SOURCES:
   Flutter:
     :path: /Users/brandonroberge/flutter/bin/cache/artifacts/engine/ios
+  qrcode_reader:
+    :path: /Users/brandonroberge/.pub-cache/hosted/pub.dartlang.org/qrcode_reader-0.3.2/ios
   shared_preferences:
-    :path: /Users/brandonroberge/.pub-cache/hosted/pub.dartlang.org/shared_preferences-0.3.0/ios
+    :path: /Users/brandonroberge/.pub-cache/hosted/pub.dartlang.org/shared_preferences-0.3.1/ios
 
 SPEC CHECKSUMS:
   Flutter: d674e78c937094a75ac71dd77e921e840bea3dbf
+  qrcode_reader: 09b34d43b4c08fe5b63a6e56c96789bcea7b9148
   shared_preferences: 1feebfa37bb57264736e16865e7ffae7fc99b523
 
 PODFILE CHECKSUM: cc70c01bca487bebd110b87397f017f3b76a89f1

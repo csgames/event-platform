@@ -34,13 +34,13 @@ class EventInfoPage extends StatelessWidget {
               child: new Column(
             children: <Widget>[
               new Container(
-                  height: 600.0,
+                  height: MediaQuery.of(context).size.height,
                   child: new Stack(children: <Widget>[
                     _buildBackgroundCover(event),
                     new Center(
                         child: new Padding(
                             padding: const EdgeInsets.all(15.0),
-                            child: new Column(mainAxisAlignment: MainAxisAlignment.end, children: <Widget>[
+                            child: new Column(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
                               new EventImage(event),
                               new Padding(
                                   padding: const EdgeInsets.all(15.0),

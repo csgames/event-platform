@@ -4,6 +4,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:qrcode_reader/QRCodeReader.dart';
 import 'package:redux/redux.dart';
 import 'package:PolyHxApp/domain/event.dart';
+import 'package:PolyHxApp/pages/activities-schedule.dart';
 import 'package:PolyHxApp/pages/attendee-retrieval.dart';
 import 'package:PolyHxApp/pages/event-info.dart';
 import 'package:PolyHxApp/redux/state.dart';
@@ -48,6 +49,9 @@ class _EventPageState extends State<EventPage> {
       case EventTabs.Info:
         body = new EventInfoPage();
         break;
+      case EventTabs.Activities:
+        body = new ActivitiesSchedulePage(_eventsService);
+        break;
       default:
         break;
     }
@@ -87,7 +91,8 @@ class _EventPageState extends State<EventPage> {
               fixedColor: Constants.POLYHX_RED,
               type: BottomNavigationBarType.shifting,
               currentIndex: _currentTabIndex,
-              onTap: (tabIndex) => setState(() {
+              onTap: (tabIndex) =>
+                  setState(() {
                     _currentTabIndex = tabIndex;
                   }),
               items: _buildTabItems(),
