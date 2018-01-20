@@ -20,7 +20,7 @@ class UsersService {
       return responseMap["count"];
     }
     catch (e) {
-      print(e);
+      print('UsersService.getUsersCount(): $e');
       return null;
     }
   }
@@ -35,7 +35,7 @@ class UsersService {
       return users;
     }
     catch (e) {
-      print(e);
+      print('UsersService.getAllUsers(): $e');
       return null;
     }
   }
@@ -49,7 +49,7 @@ class UsersService {
       return user;
     }
     catch (e) {
-      print(e);
+      print('UsersService.getUser(): $e');
       return null;
     }
   }
@@ -63,7 +63,7 @@ class UsersService {
       return user;
     }
     catch (e) {
-      print(e);
+      print('UsersService.getUserByUsername(): $e');
       return null;
     }
   }
@@ -93,7 +93,7 @@ class UsersService {
       return true;
     }
     catch (e) {
-      print(e);
+      print('UsersService.updateUser(): $e');
       return false;
     }
   }
@@ -122,7 +122,7 @@ class UsersService {
       return true;
     }
     catch (e) {
-      print(e);
+      print('UsersService.createUser(): $e');
       return false;
     }
   }
