@@ -60,7 +60,7 @@ class AuthService {
       return true;
     }
     catch (e) {
-      print(e);
+      print('AuthService.login(): $e');
       return false;
     }
   }

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:PolyHxApp/components/gravatar.dart';
@@ -23,10 +24,6 @@ class AttendeeProfilePage extends StatelessWidget {
   VoidCallback onCancel;
 
   AttendeeProfilePage(this._attendee, this._user, this._registrationStatus, {this.onDone, this.onCancel});
-
-  _scanForNfcBracelet() async {
-
-  }
 
   Widget _buildAvatar() {
     return new Align(
@@ -58,21 +55,12 @@ class AttendeeProfilePage extends StatelessWidget {
                 ),
               ),
             ),
-            new Align(
-              alignment: Alignment.topRight,
-              child: new IconButton(
-                icon: new Icon(Icons.check),
-                iconSize: 36.0,
-                color: Colors.green,
-                onPressed: onDone,
-              ),
-           ),
          ],
         ),
     );
   }
 
-  Widget _buildAttendeeName() {
+  Widget _buildAttendeeNameWidget() {
     return new Padding(
       padding: new EdgeInsets.only(top: 40.0),
       child: new Text('${_user.firstName} ${_user.lastName}',
@@ -85,7 +73,7 @@ class AttendeeProfilePage extends StatelessWidget {
     );
   }
 
-  Widget _buildAttendeeStatus() {
+  Widget _buildAttendeeStatusWidget() {
     final STATUS_INFO = {
       RegistrationStatus.AwaitingConfirmation:  {
         'text': 'AWAITING CONFIRMATION',
@@ -116,18 +104,18 @@ class AttendeeProfilePage extends StatelessWidget {
     );
   }
 
-  Widget _buildShirtSize() {
+  Widget _buildShirtSizeWidget() {
     return new Expanded(
       child: new Stack(
         alignment: Alignment.center,
         children: <Widget>[
           new Image.asset('assets/tshirt.png',
-            width: 150.0,
+            width: 120.0,
           ),
           new Text(_SHIRT_SIZE_LETTERS[_attendee.shirtSize],
             style: new TextStyle(
               color: Constants.POLYHX_GREY,
-              fontSize: 30.0,
+              fontSize: 28.0,
               fontWeight: FontWeight.bold,
             ),
           ),
@@ -136,16 +124,16 @@ class AttendeeProfilePage extends StatelessWidget {
     );
   }
 
-  Widget _buildNfcButton() {
+  Widget _buildDoneButton(BuildContext context) {
     return new Padding(
         padding: new EdgeInsets.only(bottom: 30.0),
         child: new Align(
           alignment: Alignment.bottomCenter,
           child: new PillButton(
-            onPressed: _scanForNfcBracelet,
+            onPressed: onDone,
             child: new Padding(
               padding: new EdgeInsets.fromLTRB(25.0, 15.0, 25.0, 15.0),
-              child: new Text('PAIR NFC',
+              child: new Text('DONE',
                 style: new TextStyle(
                     color: Colors.white,
                     fontSize: 18.0,
@@ -158,7 +146,37 @@ class AttendeeProfilePage extends StatelessWidget {
     );
   }
 
-  Widget _buildProfileBody() {
+  Widget _buildPublicIdWidget() {
+    return new Padding(
+        padding: new EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 20.0),
+        child: new Align(
+          alignment: Alignment.bottomCenter,
+          child: new Column(
+            children: <Widget>[
+              new Padding(
+                padding: new EdgeInsets.only(bottom: 10.0),
+                child: new Text('Public ID:',
+                  style: new TextStyle(
+                    color: Constants.POLYHX_GREY,
+                    fontSize: 18.0,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              new Text(_attendee.publicId == null ? 'NOT ASSIGNED' : _attendee.publicId,
+                style: new TextStyle(
+                  color: Constants.POLYHX_GREY,
+                  fontSize: 14.0,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          )
+        ),
+    );
+  }
+
+  Widget _buildProfileBody(BuildContext context) {
     return new Padding(
       padding: new EdgeInsets.only(top: 40.0),
       child: new Material(
@@ -167,10 +185,11 @@ class AttendeeProfilePage extends StatelessWidget {
         child: new Column(
           children: <Widget>[
             _buildConfirmationButtons(),
-            _buildAttendeeName(),
-            _buildAttendeeStatus(),
-            _buildShirtSize(),
-            _buildNfcButton(),
+            _buildAttendeeNameWidget(),
+            _buildAttendeeStatusWidget(),
+            _buildShirtSizeWidget(),
+            _buildPublicIdWidget(),
+            _buildDoneButton(context),
           ],
         )
       ),
@@ -182,7 +201,7 @@ class AttendeeProfilePage extends StatelessWidget {
     return new Stack(
       fit: StackFit.expand,
       children: <Widget>[
-        _buildProfileBody(),
+        _buildProfileBody(context),
         _buildAvatar(),
       ],
     );
