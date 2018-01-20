@@ -52,7 +52,7 @@ class PolyHxApp extends StatelessWidget {
         child: new MaterialApp(
             title: 'PolyHx',
             theme: new ThemeData(
-              accentColor: Constants.POLYHX_GREY,
+              accentColor: Constants.POLYHX_RED,
               buttonColor: Constants.POLYHX_RED,
               hintColor: Constants.POLYHX_GREY,
               primaryColor: Constants.POLYHX_RED,
