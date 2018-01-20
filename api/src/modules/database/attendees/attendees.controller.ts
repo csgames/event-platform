@@ -145,4 +145,20 @@ export class AttendeesController {
                 }).then(this.appendCvMetadata.bind(this))
         };
     }
+
+    @Put(':attendee_id/public_id/:public_id')
+    @Permissions('event_management:set-public-id:attendee')
+    async setPublicId(@Param('attendee_id') attendeeId: string, @Param('public_id') publicId: string) {
+        let attendee: Attendees = await this.attendeesService.findById(attendeeId);
+
+        if (!attendee) {
+            throw new HttpException(`Attendee ${attendeeId} not found.`, HttpStatus.NOT_FOUND);
+        }
+
+        attendee.publicId = publicId;
+
+        await attendee.save();
+
+        return attendee;
+    }
 }

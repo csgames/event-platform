@@ -84,7 +84,7 @@ export class AttendeesService extends BaseService<Attendees, CreateAttendeeDto> 
                 school: {
                     $in: schoolIds
                 }
-            })
+            });
         }
 
         let userIds = [];
@@ -95,7 +95,7 @@ export class AttendeesService extends BaseService<Attendees, CreateAttendeeDto> 
                 userId: {
                     $in: userIds
                 }
-            })
+            });
         }
 
         let condition = {

@@ -1,5 +1,5 @@
 import * as express from "express";
-import { Body, Controller, Get, HttpException, HttpStatus, Param, Post, Req, UseGuards } from "@nestjs/common";
+import { Body, Controller, Get, HttpException, HttpStatus, Param, Post, Put, Req, UseGuards } from "@nestjs/common";
 import { ActivitiesService } from "./activities.service";
 import { CreateActivityDto } from "./activities.dto";
 import { Activities } from "./activities.model";
@@ -28,6 +28,33 @@ export class ActivitiesController {
     @Permissions('event_management:get-all:activity')
     async getAll(): Promise<Activities[]> {
         return await this.activitiesService.findAll();
+    }
+
+    @Put(':activity_id/:attendee_id/add')
+    @Permissions('event_management:add-attendee:activity')
+    async addAttendee(@Param('activity_id') activityId: string,
+                      @Param('attendee_id') attendeeId: string): Promise<Activities> {
+        let activity: Activities = await this.activitiesService.findById(activityId);
+
+        if (!activity) {
+            throw new HttpException(`Activity ${activityId} not found.`, HttpStatus.NOT_FOUND);
+        }
+
+        let attendee: Attendees = await this.attendeesService.findById(attendeeId);
+
+        if (!attendee) {
+            throw new HttpException(`Attendee ${attendeeId} not found.`, HttpStatus.NOT_FOUND);
+        }
+
+        if (activity.attendees.indexOf(attendeeId) > -1) {
+            throw new HttpException(`Attendee ${attendeeId} is already a participant to activity ${activityId}.`,
+                HttpStatus.EXPECTATION_FAILED);
+        }
+
+        activity.attendees.push(attendeeId);
+
+        await activity.save();
+        return activity;
     }
 
     @Get(':id/raffle')
