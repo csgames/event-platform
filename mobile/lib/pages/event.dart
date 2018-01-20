@@ -1,4 +1,5 @@
 import 'package:PolyHxApp/domain/event.dart';
+import 'package:PolyHxApp/pages/activities-schedule.dart';
 import 'package:PolyHxApp/pages/event-info.dart';
 import 'package:PolyHxApp/redux/state.dart';
 import 'package:PolyHxApp/utils/constants.dart';
@@ -14,10 +15,12 @@ class EventPage extends StatefulWidget {
   final EventManagementService _eventManagementService;
   final QRCodeReader _qrCodeReader;
 
-  EventPage(this._eventManagementService, this._qrCodeReader, {Key key}) : super(key: key);
+  EventPage(this._eventManagementService, this._qrCodeReader, {Key key})
+      : super(key: key);
 
   @override
-  _EventPageState createState() => new _EventPageState(_eventManagementService, _qrCodeReader);
+  _EventPageState createState() =>
+      new _EventPageState(_eventManagementService, _qrCodeReader);
 }
 
 enum EventTabs { Info, Scan, Activities }
@@ -37,6 +40,9 @@ class _EventPageState extends State<EventPage> {
         break;
       case EventTabs.Info:
         body = new EventInfoPage();
+        break;
+      case EventTabs.Activities:
+        body = new ActivitiesSchedulePage(_eventManagementService);
         break;
       default:
         break;
@@ -77,7 +83,8 @@ class _EventPageState extends State<EventPage> {
               fixedColor: Constants.POLYHX_RED,
               type: BottomNavigationBarType.shifting,
               currentIndex: _currentTabIndex,
-              onTap: (tabIndex) => setState(() {
+              onTap: (tabIndex) =>
+                  setState(() {
                     _currentTabIndex = tabIndex;
                   }),
               items: _buildTabItems(),

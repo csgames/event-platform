@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'package:PolyHxApp/components/loadingspinner.dart';
 import 'package:PolyHxApp/components/pagetransformer/eventpageitem.dart';
@@ -43,16 +44,21 @@ class EventList extends StatelessWidget {
                     itemCount: snapshot.data.length,
                     itemBuilder: (context, index) {
                       final item = snapshot.data[index];
-                      final pageVisibility = visibilityResolver.resolvePageVisibility(index);
+                      final pageVisibility = visibilityResolver
+                          .resolvePageVisibility(index);
                       return new StoreConnector<AppState, VoidCallback>(
-                          converter: (Store<AppState> store) => () => store.dispatch(new SetCurrentEventAction(item)),
-                          builder: (BuildContext context, VoidCallback setCurrentEvent) {
+                          converter: (Store<AppState> store) =>
+                              () =>
+                              store.dispatch(new SetCurrentEventAction(item)),
+                          builder: (BuildContext context,
+                              VoidCallback setCurrentEvent) {
                             return new EventPageItem(
                               item: item,
                               pageVisibility: pageVisibility,
                               onTap: () {
                                 setCurrentEvent();
-                                Navigator.of(context).pushNamed("${Routes.EVENT}");
+                                Navigator.of(context).pushNamed(
+                                    "${Routes.EVENT}");
                               },
                             );
                           });
@@ -79,7 +85,15 @@ class EventList extends StatelessWidget {
               return new Scaffold(
                 appBar: new AppBar(
                   title: new Text("Events"),
-                  leading: new IconButton(icon: new Icon(Icons.view_headline), color: Colors.white, onPressed: null),
+                  actions: <Widget>[new IconButton(
+                      icon: new Icon(FontAwesomeIcons.signOutAlt),
+                      color: Colors.white,
+                      onPressed: () {
+                        _tokenService.clear();
+                        Navigator.of(context).pushReplacementNamed(
+                            Routes.LOGIN);
+                      })
+                  ],
                 ),
                 body: new Center(
                   child: new SizedBox.fromSize(child: _buildEventCards()),
@@ -87,7 +101,8 @@ class EventList extends StatelessWidget {
               );
             } else {
               new Future.delayed(
-                  new Duration(milliseconds: 1), () => Navigator.of(context).pushReplacementNamed(Routes.LOGIN));
+                  new Duration(milliseconds: 1), () =>
+                  Navigator.of(context).pushReplacementNamed(Routes.LOGIN));
               return new Container();
             }
           }
