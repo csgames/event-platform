@@ -1,6 +1,9 @@
 import * as express from "express";
 import { ApiUseTags } from "@nestjs/swagger";
-import { Body, Controller, Get, Headers, Param, Post, Req, UseGuards, Put, UseFilters, HttpCode } from "@nestjs/common";
+import {
+    Body, Controller, Get, Headers, Param, Post, Req, UseGuards, Put, UseFilters, HttpCode,
+    HttpStatus, HttpException
+} from "@nestjs/common";
 import { EventsService } from "./events.service";
 import { CreateEventDto, SendConfirmEmailDto } from "./events.dto";
 import { Events } from "./events.model";
@@ -93,6 +96,27 @@ export class EventsController {
     @Permissions('event_management:get-all:event')
     async eventAttendeeQuery(@Param('id') eventId: string, @Body(new DataTablePipe()) body: DataTableInterface) {
         return await this.eventsService.getFilteredAttendees(eventId, body);
+    }
+
+    @Get(':id/vegetarian')
+    @HttpCode(200)
+    @Permissions('event_management:get-vegetarian:event')
+    async getVegetarianAttendees(@Param('id') eventId: string) {
+        let event = await this.eventsService.findById(eventId);
+
+        if (!event) {
+            throw new HttpException(`Event ${eventId} not found.`, HttpStatus.NOT_FOUND);
+        }
+
+        let attendeeIds = event.attendees.filter(attendee => attendee.present).map(attendee => attendee.attendee);
+
+        let attendees = await this.attendeesService.find({
+            _id: { $in: attendeeIds },
+            hasDietaryRestrictions: true,
+            dietaryRestrictions: { $regex: /^v/i }
+        });
+
+        return { count: attendees.length };
     }
 
 }
