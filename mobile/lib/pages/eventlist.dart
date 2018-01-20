@@ -67,6 +67,7 @@ class EventList extends StatelessWidget {
               );
             } else {
               print(snapshot.data);
+              return new Text('An error occured while loading events.');
             }
           }
         });
