@@ -4,32 +4,148 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter/src/material/scaffold.dart';
 import 'package:intl/intl.dart';
+import 'package:PolyHxApp/components/gravatar.dart';
 import 'package:PolyHxApp/components/loadingspinner.dart';
 import 'package:PolyHxApp/domain/activity.dart';
+import 'package:PolyHxApp/domain/attendee.dart';
+import 'package:PolyHxApp/domain/user.dart';
+import 'package:PolyHxApp/services/attendees.service.dart';
 import 'package:PolyHxApp/services/events.service.dart';
+import 'package:PolyHxApp/services/nfc.service.dart';
+import 'package:PolyHxApp/services/users.service.dart';
 
 class ActivitiesSchedulePage extends StatefulWidget {
   final EventsService _eventsService;
+  final AttendeesService _attendeesService;
+  final UsersService _usersService;
+  final NfcService _nfcService;
 
-  ActivitiesSchedulePage(this._eventsService);
+  ActivitiesSchedulePage(this._eventsService, this._attendeesService,
+                         this._usersService, this._nfcService);
 
   @override
   State<StatefulWidget> createState() =>
-      new _ActivitiesScheduleState(_eventsService);
+      new _ActivitiesScheduleState(_eventsService, _attendeesService,
+                                   _usersService, _nfcService);
 }
 
 class _ActivitiesScheduleState extends State<ActivitiesSchedulePage>
     with SingleTickerProviderStateMixin {
 
   final EventsService _eventsService;
+  final AttendeesService _attendeesService;
+  final UsersService _usersService;
+  final NfcService _nfcService;
+
   TabController _tabController;
+  Map<String, List<Activity>> _activitiesPerDay;
+  bool _isLoading = true;
 
-  _ActivitiesScheduleState(this._eventsService) {
+  String _attendeePublicId;
+  User _shownUser;
 
+
+  _ActivitiesScheduleState(this._eventsService, this._attendeesService,
+                           this._usersService, this._nfcService) {
+    _fetchAllActivities();
   }
 
-  Future<List<Activity>> fetchAllActivities() {
-    return _eventsService.getAllActivities();
+  _fetchAllActivities() async {
+    setState(() {
+      _isLoading = true;
+    });
+    var activities = await _eventsService.getAllActivities();
+    var activitiesPerDay = _getActivitiesPerDay(activities);
+    _tabController = new TabController(
+        length: activitiesPerDay.keys.length, vsync: this);
+    setState(() {
+      _activitiesPerDay = activitiesPerDay;
+      _isLoading = false;
+    });
+  }
+
+  Widget _buildAvatar() {
+    return new Align(
+      alignment: Alignment.topCenter,
+      child:  new Material(
+        elevation: 2.0,
+        borderRadius: new BorderRadius.circular(60.0),
+        child: new CircleAvatar(
+          backgroundImage: new Gravatar(_shownUser.username),
+          radius: 60.0,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildUserDialogBody() {
+    return new Padding(
+      padding: new EdgeInsets.only(top: 40.0),
+      child: new Opacity(
+        opacity: 0.75,
+        child: new Material(
+          elevation: 1.0,
+          borderRadius: new BorderRadius.circular(10.0),
+          child: new Center(
+            child: new Padding(
+              padding: new EdgeInsets.only(top: 60.0),
+              child: new Text('${_shownUser.firstName} ${_shownUser.lastName}',
+                style: new TextStyle(
+                  color: Constants.POLYHX_GREY,
+                  fontSize: 24.0,
+                  fontWeight: FontWeight.w900,
+                ),
+              ),
+            ),
+          ),
+        ),
+      )
+    );
+  }
+
+  Widget _buildUserDialog() {
+    if (_shownUser == null) {
+      return new Container();
+    }
+    return new Center(
+      child: new Container(
+        width: 300.0,
+        height: 200.0,
+        child: new Stack(
+          fit: StackFit.expand,
+          children: <Widget>[
+            _buildUserDialogBody(),
+            _buildAvatar(),
+          ],
+        )
+      ),
+    );
+  }
+
+  _setCurrentAttendee(BuildContext context, String publicId) async {
+    if (publicId == _attendeePublicId) {
+      return;
+    }
+    _attendeePublicId = publicId;
+    var attendee = await _attendeesService.getAttendeeByPublicId(_attendeePublicId);
+    if (attendee == null) {
+      return;
+    }
+    var user = await _usersService.getUser(attendee.userId);
+    if (user == null) {
+      return;
+    }
+    new Future.delayed(new Duration(seconds: 2), () {
+      if (user == _shownUser) {
+        _attendeePublicId = null;
+        setState(() {
+          _shownUser = null;
+        });
+      }
+    });
+    setState(() {
+      _shownUser = user;
+    });
   }
 
   Widget _buildActivityCard(Activity a) {
@@ -59,7 +175,17 @@ class _ActivitiesScheduleState extends State<ActivitiesSchedulePage>
                                         fontSize: 15.0
                                     )
                                 )
-                            )
+                            ),
+                            new Padding(
+                                padding: const EdgeInsets.fromLTRB(
+                                    0.0, 3.0, 0.0, 0.0),
+                                child: new Text(a.location,
+                                    style: new TextStyle(
+                                        fontWeight: FontWeight.w100,
+                                        fontSize: 15.0
+                                    )
+                                )
+                            ),
                           ]
                       )
                   )
@@ -79,50 +205,40 @@ class _ActivitiesScheduleState extends State<ActivitiesSchedulePage>
     return dates;
   }
 
+  Widget _buildPage(BuildContext context) {
+    return new Stack(
+      children: <Widget>[
+        new Column(
+          children: <Widget> [
+          new TabBar(
+            labelColor: Colors.black,
+            controller: _tabController,
+            tabs: _activitiesPerDay.keys.map((d) => new Tab(text: d)).toList()
+          ),
+          new Flexible(
+            child: new TabBarView(
+                controller: _tabController,
+                children: _activitiesPerDay.keys.map((d) =>
+                new SingleChildScrollView(
+                    child:
+                    new Column(
+                        children: _activitiesPerDay[d].map((a) =>
+                            _buildActivityCard(a)).toList()
+                    ))).toList()
+            )
+          )
+        ],
+      ),
+        _buildUserDialog(),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    return new FutureBuilder(
-        future: fetchAllActivities(),
-        builder: (BuildContext context,
-            AsyncSnapshot<List<Activity>> snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return new Scaffold(body: new Center(child: new LoadingSpinner()));
-          } else {
-            if (!snapshot.hasError && snapshot.data != null) {
-              var activitiesPerDay = _getActivitiesPerDay(snapshot.data);
-              if (_tabController != null) {
-                _tabController.dispose();
-              }
-              _tabController = new TabController(
-                  length: activitiesPerDay.keys.length, vsync: this);
-              var tabBar = new TabBar(
-                  labelColor: Colors.black,
-                  controller: _tabController,
-                  tabs: activitiesPerDay.keys.map((d) => new Tab(text: d))
-                      .toList()
-              );
-
-              return new Column(
-                children: [
-                  tabBar,
-                  new Flexible(
-                      child: new TabBarView(
-                          controller: _tabController,
-                          children: activitiesPerDay.keys.map((d) =>
-                          new SingleChildScrollView(
-                              child:
-                              new Column(
-                                  children: activitiesPerDay[d].map((a) =>
-                                      _buildActivityCard(a)).toList()
-                              ))).toList()
-                      )
-                  )
-                ],
-              );
-            } else {
-              return new Scaffold(body: new Center(child: new Text("Error")));
-            }
-          }
-        });
+    _nfcService.NfcStream.asBroadcastStream().listen((id) { _setCurrentAttendee(context, id); });
+    return _isLoading
+        ? new LoadingSpinner()
+        : _buildPage(context);
   }
 }

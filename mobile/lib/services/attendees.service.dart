@@ -49,10 +49,26 @@ class AttendeesService {
     }
   }
 
+  Future<Attendee> getAttendeeByPublicId(String publicId) async {
+    try {
+      final headers = {"Authorization": "Bearer ${_tokenService.AccessToken}"};
+      final response = await _http.get("${Environment.EVENT_MANAGEMENT_URL}/attendee/$publicId", headers: headers);
+      var responseMap = JSON.decode(response.body);
+      var attendee = new Attendee.fromMap(responseMap["attendee"]);
+      return attendee;
+    }
+    catch (e) {
+      print(e);
+      return null;
+    }
+  }
+
   Future<bool> updateAttendeePublicId(Attendee attendee) async {
     try {
       final headers = {"Authorization": "Bearer ${_tokenService.AccessToken}"};
-      final response = await _http.put("${Environment.EVENT_MANAGEMENT_URL}/attendee/${attendee.id}/public_id/${attendee.publicId}", headers: headers);
+      final response = await _http.put(
+          "${Environment.EVENT_MANAGEMENT_URL}/attendee/${attendee
+              .id}/public_id/${attendee.publicId}", headers: headers);
       return response.statusCode == 200;
     }
     catch (e) {

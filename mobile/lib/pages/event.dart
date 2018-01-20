@@ -56,7 +56,7 @@ class _EventPageState extends State<EventPage> {
         body = new EventInfoPage();
         break;
       case EventTabs.Activities:
-        body = new ActivitiesSchedulePage(_eventsService);
+        body = new ActivitiesSchedulePage(_eventsService, _attendeesService, _usersService, _nfcService);
         break;
       default:
         break;
