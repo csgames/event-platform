@@ -1,15 +1,15 @@
-import 'package:PolyHxApp/services/nfc.service.dart';
 import 'package:http/http.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:qrcode_reader/QRCodeReader.dart';
 import 'package:redux/redux.dart';
 import 'package:PolyHxApp/pages/event.dart';
-import 'package:PolyHxApp/pages/eventlist.dart';
+import 'package:PolyHxApp/pages/event-list.dart';
 import 'package:PolyHxApp/pages/login.dart';
 import 'package:PolyHxApp/services/attendees.service.dart';
 import 'package:PolyHxApp/services/auth.service.dart';
 import 'package:PolyHxApp/services/events.service.dart';
+import 'package:PolyHxApp/services/nfc.service.dart';
 import 'package:PolyHxApp/services/token.service.dart';
 import 'package:PolyHxApp/services/users.service.dart';
 import 'package:PolyHxApp/utils/constants.dart';

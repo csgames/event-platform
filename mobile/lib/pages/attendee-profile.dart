@@ -1,21 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:PolyHxApp/components/gravatar.dart';
-import 'package:PolyHxApp/components/pillbutton.dart';
+import 'package:PolyHxApp/components/circle-gravatar.dart';
+import 'package:PolyHxApp/components/pill-button.dart';
+import 'package:PolyHxApp/components/shirt-size-icon.dart';
 import 'package:PolyHxApp/domain/attendee.dart';
 import 'package:PolyHxApp/domain/event.dart';
 import 'package:PolyHxApp/domain/user.dart';
 import 'package:PolyHxApp/utils/constants.dart';
 
 class AttendeeProfilePage extends StatelessWidget {
-  static final Map<ShirtSize, String> _SHIRT_SIZE_LETTERS = {
-    ShirtSize.Small: 'S',
-    ShirtSize.Medium: 'M',
-    ShirtSize.Large: 'L',
-    ShirtSize.XLarge: 'XL',
-    ShirtSize.XXLarge: 'XXL',
-  };
-
   Attendee _attendee;
   User _user;
   RegistrationStatus _registrationStatus;
@@ -26,15 +19,8 @@ class AttendeeProfilePage extends StatelessWidget {
 
   Widget _buildAvatar() {
     return new Align(
-        alignment: Alignment.topCenter,
-        child:  new Material(
-          elevation: 2.0,
-          borderRadius: new BorderRadius.circular(60.0),
-          child: new CircleAvatar(
-            backgroundImage: new Gravatar(_user.username),
-            radius: 60.0,
-          ),
-        ),
+      alignment: Alignment.topCenter,
+      child: new CircleGravatar(_user.username),
     );
   }
 
@@ -105,21 +91,7 @@ class AttendeeProfilePage extends StatelessWidget {
 
   Widget _buildShirtSizeWidget() {
     return new Expanded(
-      child: new Stack(
-        alignment: Alignment.center,
-        children: <Widget>[
-          new Image.asset('assets/tshirt.png',
-            width: 120.0,
-          ),
-          new Text(_SHIRT_SIZE_LETTERS[_attendee.shirtSize],
-            style: new TextStyle(
-              color: Constants.POLYHX_GREY,
-              fontSize: 28.0,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ],
-      ),
+      child: new ShirtSizeIcon(_attendee.shirtSize),
     );
   }
 

@@ -1,71 +1,46 @@
-import 'dart:async';
-import 'package:PolyHxApp/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter/src/material/scaffold.dart';
 import 'package:intl/intl.dart';
-import 'package:PolyHxApp/components/loadingspinner.dart';
+import 'package:PolyHxApp/components/activity-card.dart';
+import 'package:PolyHxApp/components/loading-spinner.dart';
 import 'package:PolyHxApp/domain/activity.dart';
+import 'package:PolyHxApp/pages/activity.dart';
+import 'package:PolyHxApp/services/attendees.service.dart';
 import 'package:PolyHxApp/services/events.service.dart';
+import 'package:PolyHxApp/services/nfc.service.dart';
+import 'package:PolyHxApp/services/users.service.dart';
 
 class ActivitiesSchedulePage extends StatefulWidget {
   final EventsService _eventsService;
+  final AttendeesService _attendeesService;
+  final UsersService _usersService;
+  final NfcService _nfcService;
 
-  ActivitiesSchedulePage(this._eventsService);
+  ActivitiesSchedulePage(this._eventsService, this._attendeesService,
+                         this._usersService, this._nfcService);
 
   @override
   State<StatefulWidget> createState() =>
-      new _ActivitiesScheduleState(_eventsService);
+      new _ActivitiesScheduleState(_eventsService, _attendeesService,
+                                   _usersService, _nfcService);
 }
 
 class _ActivitiesScheduleState extends State<ActivitiesSchedulePage>
     with SingleTickerProviderStateMixin {
 
   final EventsService _eventsService;
+  final AttendeesService _attendeesService;
+  final UsersService _usersService;
+  final NfcService _nfcService;
+
   TabController _tabController;
+  Map<String, List<Activity>> _activitiesPerDay;
+  bool _isLoading = true;
 
-  _ActivitiesScheduleState(this._eventsService) {
 
-  }
-
-  Future<List<Activity>> fetchAllActivities() {
-    return _eventsService.getAllActivities();
-  }
-
-  Widget _buildActivityCard(Activity a) {
-    var formatter = new DateFormat.Hm('en_US');
-    var beginHour = formatter.format(a.beginDate);
-    var endHour = formatter.format(a.endDate);
-    return new Container(
-        margin: const EdgeInsets.fromLTRB(0.0, 5.0, 0.0, 5.0),
-        child: new Material(
-            elevation: 3.0,
-            child: new Row(
-                children: <Widget>[
-                  new Padding(
-                      padding: const EdgeInsets.all(20.0),
-                      child: new Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            new Text(a.name,
-                                style: new TextStyle(
-                                    fontSize: 20.0
-                                )
-                            ),
-                            new Padding(
-                                padding: const EdgeInsets.fromLTRB(0.0, 3.0, 0.0, 0.0),
-                                child: new Text("$beginHour - $endHour",
-                                    style: new TextStyle(
-                                        fontSize: 15.0
-                                    )
-                                )
-                            )
-                          ]
-                      )
-                  )
-                ])
-        )
-    );
+  _ActivitiesScheduleState(this._eventsService, this._attendeesService,
+                           this._usersService, this._nfcService) {
+    _fetchAllActivities();
   }
 
   Map<String, List<Activity>> _getActivitiesPerDay(List<Activity> activities) {
@@ -79,50 +54,63 @@ class _ActivitiesScheduleState extends State<ActivitiesSchedulePage>
     return dates;
   }
 
+  _fetchAllActivities() async {
+    setState(() {
+      _isLoading = true;
+    });
+    var activities = await _eventsService.getAllActivities();
+    var activitiesPerDay = _getActivitiesPerDay(activities);
+    _tabController = new TabController(
+        length: activitiesPerDay.keys.length,
+        vsync: this
+    );
+    setState(() {
+      _activitiesPerDay = activitiesPerDay;
+      _isLoading = false;
+    });
+  }
+
+  void _showActivity(BuildContext context, Activity activity) {
+    Navigator.of(context).push(new MaterialPageRoute<Null>(
+        builder: (BuildContext context) {
+          return new ActivityPage(_eventsService, _usersService,
+                                  _attendeesService, _nfcService, activity);
+        },
+        fullscreenDialog: true
+    ));
+  }
+
+  Widget _buildActivitiesList(BuildContext context) {
+    return new Column(
+      children: <Widget> [
+        new TabBar(
+          labelColor: Colors.black,
+          controller: _tabController,
+          tabs: _activitiesPerDay.keys.map((d) => new Tab(text: d)).toList(),
+        ),
+        new Flexible(
+          child: new TabBarView(
+            controller: _tabController,
+            children: _activitiesPerDay.keys.map((d) =>
+            new SingleChildScrollView(
+              child: new Column(
+                children: _activitiesPerDay[d].map((a) =>
+                new FlatButton(child: new ActivityCard(a),
+                    onPressed: () { _showActivity(context, a); })
+                ).toList(),
+              ),
+            ),
+            ).toList(),
+          ),
+        ),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    return new FutureBuilder(
-        future: fetchAllActivities(),
-        builder: (BuildContext context,
-            AsyncSnapshot<List<Activity>> snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return new Scaffold(body: new Center(child: new LoadingSpinner()));
-          } else {
-            if (!snapshot.hasError && snapshot.data != null) {
-              var activitiesPerDay = _getActivitiesPerDay(snapshot.data);
-              if (_tabController != null) {
-                _tabController.dispose();
-              }
-              _tabController = new TabController(
-                  length: activitiesPerDay.keys.length, vsync: this);
-              var tabBar = new TabBar(
-                  labelColor: Colors.black,
-                  controller: _tabController,
-                  tabs: activitiesPerDay.keys.map((d) => new Tab(text: d))
-                      .toList()
-              );
-
-              return new Column(
-                children: [
-                  tabBar,
-                  new Flexible(
-                      child: new TabBarView(
-                          controller: _tabController,
-                          children: activitiesPerDay.keys.map((d) =>
-                          new SingleChildScrollView(
-                              child:
-                              new Column(
-                                  children: activitiesPerDay[d].map((a) =>
-                                      _buildActivityCard(a)).toList()
-                              ))).toList()
-                      )
-                  )
-                ],
-              );
-            } else {
-              return new Scaffold(body: new Center(child: new Text("Error")));
-            }
-          }
-        });
+    return _isLoading
+        ? new LoadingSpinner()
+        : _buildActivitiesList(context);
   }
 }

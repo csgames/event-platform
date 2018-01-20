@@ -56,7 +56,7 @@ class _EventPageState extends State<EventPage> {
         body = new EventInfoPage();
         break;
       case EventTabs.Activities:
-        body = new ActivitiesSchedulePage(_eventsService);
+        body = new ActivitiesSchedulePage(_eventsService, _attendeesService, _usersService, _nfcService);
         break;
       default:
         break;
@@ -65,22 +65,18 @@ class _EventPageState extends State<EventPage> {
   }
 
   List<BottomNavigationBarItem> _buildTabItems() {
-    final textStyle = new TextStyle(color: Colors.white);
     return <BottomNavigationBarItem>[
       new BottomNavigationBarItem(
-        backgroundColor: Constants.POLYHX_RED,
-        icon: new Icon(Icons.info_outline, color: Colors.white),
-        title: new Text('Info', style: textStyle),
+        icon: new Icon(Icons.info_outline),
+        title: new Text('Info'),
       ),
       new BottomNavigationBarItem(
-        backgroundColor: Constants.POLYHX_RED,
-        icon: new Icon(Icons.camera_alt, color: Colors.white),
-        title: new Text('Register', style: textStyle),
+        icon: new Icon(Icons.camera_alt),
+        title: new Text('Register'),
       ),
       new BottomNavigationBarItem(
-        backgroundColor: Constants.POLYHX_RED,
-        icon: new Icon(Icons.event, color: Colors.white),
-        title: new Text('Activities', style: textStyle),
+        icon: new Icon(Icons.event),
+        title: new Text('Activities'),
       ),
     ];
   }
@@ -95,7 +91,7 @@ class _EventPageState extends State<EventPage> {
             body: _buildBody(event),
             bottomNavigationBar: new BottomNavigationBar(
               fixedColor: Constants.POLYHX_RED,
-              type: BottomNavigationBarType.shifting,
+              type: BottomNavigationBarType.fixed,
               currentIndex: _currentTabIndex,
               onTap: (tabIndex) =>
                   setState(() {
