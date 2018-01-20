@@ -1,12 +1,16 @@
-enum RegistrationStatus { NotRegistered, NotSelected, AwaitingConfirmation, Confirmed, Declined }
+enum RegistrationStatus { NotRegistered, NotSelected, AwaitingConfirmation, Confirmed, Declined, Present }
 
 class EventRegistration {
   String attendeeId;
   bool selected;
   bool confirmed;
   bool declined;
+  bool present;
 
   RegistrationStatus get Status {
+    if (present != null && present) {
+      return RegistrationStatus.Present;
+    }
     if (confirmed != null && confirmed) {
       return RegistrationStatus.Confirmed;
     }
@@ -31,6 +35,7 @@ class EventRegistration {
     selected = map['selected"'];
     confirmed = map['confirmed'];
     declined = map['declined'];
+    present = map['present'];
   }
 }
 

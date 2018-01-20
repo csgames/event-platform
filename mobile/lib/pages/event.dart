@@ -48,8 +48,8 @@ class _EventPageState extends State<EventPage> {
     Widget body;
     switch (EventTabs.values[_currentTabIndex]) {
       case EventTabs.Scan:
-        body = new AttendeeRetrievalPage(
-            _usersService, _attendeesService, _nfcService, _qrCodeReader,
+        body = new AttendeeRetrievalPage(_eventsService, _usersService,
+            _attendeesService, _nfcService, _qrCodeReader,
             event);
         break;
       case EventTabs.Info:

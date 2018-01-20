@@ -11,28 +11,31 @@ import 'package:PolyHxApp/domain/event.dart';
 import 'package:PolyHxApp/domain/user.dart';
 import 'package:PolyHxApp/pages/attendee-profile.dart';
 import 'package:PolyHxApp/services/attendees.service.dart';
+import 'package:PolyHxApp/services/events.service.dart';
 import 'package:PolyHxApp/services/users.service.dart';
 import 'package:PolyHxApp/utils/constants.dart';
 
 class AttendeeRetrievalPage extends StatefulWidget {
+  final EventsService _eventsService;
   final UsersService _usersService;
   final NfcService _nfcService;
   final AttendeesService _attendeesService;
   final QRCodeReader _qrCodeReader;
   final Event _event;
 
-  AttendeeRetrievalPage(this._usersService, this._attendeesService,
-      this._nfcService, this._qrCodeReader, this._event);
+  AttendeeRetrievalPage(this._eventsService, this._usersService,
+      this._attendeesService, this._nfcService, this._qrCodeReader, this._event);
 
   @override
   _AttendeeRetrievalPageState createState() =>
-      new _AttendeeRetrievalPageState(
-          _usersService, _attendeesService, _nfcService, _qrCodeReader, _event);
+      new _AttendeeRetrievalPageState(_eventsService, _usersService,
+          _attendeesService, _nfcService, _qrCodeReader, _event);
 }
 
 class _AttendeeRetrievalPageState extends State<AttendeeRetrievalPage> {
   static const platform = const MethodChannel('app.polyhx.io/nfc');
 
+  final EventsService _eventsService;
   final UsersService _usersService;
   final NfcService _nfcService;
   final AttendeesService _attendeesService;
@@ -43,8 +46,8 @@ class _AttendeeRetrievalPageState extends State<AttendeeRetrievalPage> {
   Attendee _attendee;
   bool _isLoading = false;
 
-  _AttendeeRetrievalPageState(this._usersService, this._attendeesService,
-      this._nfcService, this._qrCodeReader, this._event) {
+  _AttendeeRetrievalPageState(this._eventsService, this._usersService,
+      this._attendeesService, this._nfcService, this._qrCodeReader, this._event) {
   }
 
   _findAttendee(String username) async {
@@ -111,13 +114,14 @@ class _AttendeeRetrievalPageState extends State<AttendeeRetrievalPage> {
     }
   }
 
-  _saveAttendeePublicId(BuildContext context) async {
-    bool saved = await _attendeesService.updateAttendeePublicId(_attendee);
+  _saveAttendee(BuildContext context) async {
+    bool idSaved = await _attendeesService.updateAttendeePublicId(_attendee);
+    bool statusSaved = await _eventsService.setAttendeeAsPresent(_event.id, _attendee.id);
     Scaffold.of(context).showSnackBar(new SnackBar(
-      content: saved
-             ? new Text('Saved public ID successfully.',
+      content: idSaved && statusSaved
+             ? new Text('Saved attendee info successfully.',
                         style: new TextStyle(color: Colors.white))
-             : new Text('An error occured while saving the public ID.',
+             : new Text('An error occured while saving the attendee info.',
                         style: new TextStyle(color: Colors.red)),
       action: new SnackBarAction(
         label: 'OK',
@@ -220,7 +224,7 @@ class _AttendeeRetrievalPageState extends State<AttendeeRetrievalPage> {
       padding: new EdgeInsets.fromLTRB(30.0, 20.0, 30.0, 20.0),
       child: new AttendeeProfilePage(
           _attendee, _user, _event.getRegistrationStatus(_attendee.id),
-          onDone: () { _saveAttendeePublicId(context); },
+          onDone: () { _saveAttendee(context); },
           onCancel: _clearAttendee
       ),
     );
