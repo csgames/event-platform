@@ -28,7 +28,7 @@ class Attendee {
     '2x-large': ShirtSize.XXLarge,
   };
 
-
+  String id;
   String userId;
   String github;
   String linkedIn;
@@ -45,6 +45,7 @@ class Attendee {
   String publicId;
 
   Attendee({
+    this.id,
     this.userId,
     this.github,
     this.linkedIn,
@@ -62,6 +63,7 @@ class Attendee {
   });
 
   Attendee.fromMap(Map<String, dynamic> map) {
+    id = map["_id"];
     userId = map['userId'];
     github = map['github'];
     linkedIn = map['linkedIn'];
