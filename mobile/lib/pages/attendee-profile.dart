@@ -3,6 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:PolyHxApp/components/gravatar.dart';
 import 'package:PolyHxApp/components/pillbutton.dart';
 import 'package:PolyHxApp/domain/attendee.dart';
+import 'package:PolyHxApp/domain/event.dart';
 import 'package:PolyHxApp/domain/user.dart';
 import 'package:PolyHxApp/utils/constants.dart';
 
@@ -17,10 +18,11 @@ class AttendeeProfilePage extends StatelessWidget {
 
   Attendee _attendee;
   User _user;
+  RegistrationStatus _registrationStatus;
   VoidCallback onDone;
   VoidCallback onCancel;
 
-  AttendeeProfilePage(this._attendee, this._user, {this.onDone, this.onCancel});
+  AttendeeProfilePage(this._attendee, this._user, this._registrationStatus, {this.onDone, this.onCancel});
 
   _scanForNfcBracelet() async {
 
@@ -83,6 +85,57 @@ class AttendeeProfilePage extends StatelessWidget {
     );
   }
 
+  Widget _buildAttendeeStatus() {
+    final STATUS_INFO = {
+      RegistrationStatus.AwaitingConfirmation:  {
+        'text': 'AWAITING CONFIRMATION',
+        'color': Colors.yellow,
+      },
+      RegistrationStatus.Confirmed:  {
+        'text': 'CONFIRMED',
+        'color': Colors.green,
+      },
+      RegistrationStatus.Declined:  {
+        'text': 'DECLINED',
+        'color': Colors.red,
+      },
+      RegistrationStatus.NotSelected:  {
+        'text': 'NOT SELECTED',
+        'color': Colors.red,
+      },
+    };
+    return new Padding(
+      padding: new EdgeInsets.only(top: 20.0),
+      child: new Text('Status: ${STATUS_INFO[_registrationStatus]['text']}',
+          style: new TextStyle(
+            color: STATUS_INFO[_registrationStatus]['color'],
+            fontSize: 20.0,
+            fontWeight: FontWeight.w900,
+          )
+      ),
+    );
+  }
+
+  Widget _buildShirtSize() {
+    return new Expanded(
+      child: new Stack(
+        alignment: Alignment.center,
+        children: <Widget>[
+          new Image.asset('assets/tshirt.png',
+            width: 150.0,
+          ),
+          new Text(_SHIRT_SIZE_LETTERS[_attendee.shirtSize],
+            style: new TextStyle(
+              color: Constants.POLYHX_GREY,
+              fontSize: 30.0,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget _buildNfcButton() {
     return new Padding(
         padding: new EdgeInsets.only(bottom: 30.0),
@@ -115,23 +168,8 @@ class AttendeeProfilePage extends StatelessWidget {
           children: <Widget>[
             _buildConfirmationButtons(),
             _buildAttendeeName(),
-            new Expanded(
-              child: new Stack(
-                alignment: Alignment.center,
-                children: <Widget>[
-                  new Image.asset('assets/tshirt.png',
-                    width: 150.0,
-                  ),
-                  new Text(_SHIRT_SIZE_LETTERS[_attendee.shirtSize],
-                    style: new TextStyle(
-                        color: Constants.POLYHX_GREY,
-                        fontSize: 30.0,
-                        fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ],
-              ),
-            ),
+            _buildAttendeeStatus(),
+            _buildShirtSize(),
             _buildNfcButton(),
           ],
         )

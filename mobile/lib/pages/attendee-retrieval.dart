@@ -5,49 +5,54 @@ import 'package:PolyHxApp/components/loadingspinner.dart';
 import 'package:PolyHxApp/components/pillbutton.dart';
 import 'package:PolyHxApp/components/pilltextfield.dart';
 import 'package:PolyHxApp/domain/attendee.dart';
+import 'package:PolyHxApp/domain/event.dart';
 import 'package:PolyHxApp/domain/user.dart';
 import 'package:PolyHxApp/pages/attendee-profile.dart';
 import 'package:PolyHxApp/services/attendees.service.dart';
-import 'package:PolyHxApp/services/events.service.dart';
 import 'package:PolyHxApp/services/users.service.dart';
 import 'package:PolyHxApp/utils/constants.dart';
 
 class AttendeeRetrievalPage extends StatefulWidget {
   final UsersService _usersService;
   final AttendeesService _attendeesService;
-  final EventsService _eventsService;
   final QRCodeReader _qrCodeReader;
+  final Event _event;
 
-  AttendeeRetrievalPage(this._usersService, this._attendeesService, this._eventsService, this._qrCodeReader);
+  AttendeeRetrievalPage(this._usersService, this._attendeesService, this._qrCodeReader, this._event);
 
   @override
-  _AttendeeRetrievalPageState createState() => new _AttendeeRetrievalPageState(_usersService, _attendeesService, _eventsService, _qrCodeReader);
+  _AttendeeRetrievalPageState createState() => new _AttendeeRetrievalPageState(_usersService, _attendeesService, _qrCodeReader, _event);
 }
 
 class _AttendeeRetrievalPageState extends State<AttendeeRetrievalPage> {
   final UsersService _usersService;
   final AttendeesService _attendeesService;
-  final EventsService _eventsService;
   final QRCodeReader _qrCodeReader;
+  final Event _event;
 
   User _user;
   Attendee _attendee;
   bool _isLoading = false;
 
-  _AttendeeRetrievalPageState(this._usersService, this._attendeesService, this._eventsService, this._qrCodeReader);
+  _AttendeeRetrievalPageState(this._usersService, this._attendeesService, this._qrCodeReader, this._event);
 
   _findAttendee(String username) async {
     setState(() {_isLoading = true; });
     var user = await _usersService.getUserByUsername(username);
     if (user == null) {
       setState(() { _isLoading = false; });
-      showDialog(context: context, child: _buildUserNotFoundDialog(username));
+      showDialog(context: context, child: _buildAlertDialog('User Not Found', 'No user with email address $username could be found.'));
       return;
     }
     var attendee = await _attendeesService.getAttendeeByUserId(user.id);
     if (attendee == null) {
       setState(() { _isLoading = false; });
-      showDialog(context: context, child: _buildAttendeeNotFoundDialog(username));
+      showDialog(context: context, child: _buildAlertDialog('Attendee Not Found', 'No attendee with email address $username could be found.'));
+      return;
+    }
+    if (!_event.isRegistered(attendee.id)) {
+      setState(() { _isLoading = false; });
+      showDialog(context: context, child: _buildAlertDialog('Attendee not registered', 'User $username is not registered to this event.'));
       return;
     }
     setState(() {
@@ -74,28 +79,10 @@ class _AttendeeRetrievalPageState extends State<AttendeeRetrievalPage> {
     });
   }
 
-  Widget _buildUserNotFoundDialog(String username) {
+  Widget _buildAlertDialog(String title, String description) {
     return new AlertDialog(
-      title: new Text('User Not Found'),
-      content: new Text('No user with email address $username could be found.'),
-      actions: <Widget>[
-        new FlatButton(
-          child: new Text('OK',
-              style: new TextStyle(
-                  color: Colors.red,
-                  fontSize: 18.0,
-              )
-          ),
-          onPressed: Navigator.of(context).pop,
-        ),
-      ],
-    );
-  }
-
-  Widget _buildAttendeeNotFoundDialog(String username) {
-    return new AlertDialog(
-      title: new Text('Attendee Not Found'),
-      content: new Text('User $username is not a registered attendee for this event.'),
+      title: new Text(title),
+      content: new Text(description),
       actions: <Widget>[
         new FlatButton(
           child: new Text('OK',
@@ -109,6 +96,7 @@ class _AttendeeRetrievalPageState extends State<AttendeeRetrievalPage> {
       ],
     );
   }
+
 
   Widget _buildSearchBar() {
     return new Padding(
@@ -170,7 +158,7 @@ class _AttendeeRetrievalPageState extends State<AttendeeRetrievalPage> {
   Widget _buildAttendeeProfile() {
     return new Padding(
       padding: new EdgeInsets.fromLTRB(30.0, 20.0, 30.0, 20.0),
-      child: new AttendeeProfilePage(_attendee, _user,
+      child: new AttendeeProfilePage(_attendee, _user, _event.getRegistrationStatus(_attendee.id),
           onDone: _saveAttendee,
           onCancel: _clearAttendee
       ),

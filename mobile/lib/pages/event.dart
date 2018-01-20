@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:qrcode_reader/QRCodeReader.dart';
+import 'package:PolyHxApp/domain/event.dart';
 import 'package:PolyHxApp/pages/attendee-retrieval.dart';
 import 'package:PolyHxApp/services/attendees.service.dart';
 import 'package:PolyHxApp/services/events.service.dart';
@@ -35,11 +36,11 @@ class _EventPageState extends State<EventPage> {
   _EventPageState(this._eventsService, this._usersService,
                   this._attendeesService, this._qrCodeReader, this._eventId);
 
-  Widget _buildBody() {
+  Widget _buildBody(Event event) {
     Widget body;
     switch (EventTabs.values[_currentTabIndex]) {
       case EventTabs.Scan:
-        body = new AttendeeRetrievalPage(_usersService, _attendeesService, _eventsService, _qrCodeReader);
+        body = new AttendeeRetrievalPage(_usersService, _attendeesService, _qrCodeReader, event);
         break;
       default:
         break;
@@ -69,7 +70,7 @@ class _EventPageState extends State<EventPage> {
     var event = _eventsService.getEventByIdFromCache(_eventId);
     return new Scaffold(
       appBar: new AppBar(title: new Text(event.name)),
-      body: _buildBody(),
+      body: _buildBody(event),
       bottomNavigationBar: new BottomNavigationBar(
         currentIndex: _currentTabIndex,
         onTap: (tabIndex) => setState(() { _currentTabIndex = tabIndex; }),
