@@ -153,6 +153,11 @@ class _AttendeeRetrievalPageState extends State<AttendeeRetrievalPage> {
             .hideCurrentSnackBar,
       ),
     ));
+    if (idSaved && statusSaved) {
+      setState(() {
+        _hasScannedTag = true;
+      });
+    }
   }
 
   void _clearAttendee() {
