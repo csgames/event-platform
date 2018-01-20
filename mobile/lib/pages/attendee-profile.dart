@@ -76,6 +76,10 @@ class AttendeeProfilePage extends StatelessWidget {
         'text': 'NOT SELECTED',
         'color': Colors.red,
       },
+      RegistrationStatus.Present: {
+        'text': 'PRESENT',
+        'color': Colors.green,
+      },
     };
     return new Padding(
       padding: new EdgeInsets.only(top: 20.0),
