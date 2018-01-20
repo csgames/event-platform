@@ -15,7 +15,9 @@ class AttendeeProfilePage extends StatelessWidget {
   VoidCallback onDone;
   VoidCallback onCancel;
 
-  AttendeeProfilePage(this._attendee, this._user, this._registrationStatus, {this.onDone, this.onCancel});
+  bool _doneEnabled = false;
+
+  AttendeeProfilePage(this._attendee, this._user, this._registrationStatus, this._doneEnabled, {this.onDone, this.onCancel});
 
   Widget _buildAvatar() {
     return new Align(
@@ -105,10 +107,11 @@ class AttendeeProfilePage extends StatelessWidget {
         child: new Align(
           alignment: Alignment.bottomCenter,
           child: new PillButton(
+            enabled: _doneEnabled,
             onPressed: onDone,
             child: new Padding(
               padding: new EdgeInsets.fromLTRB(25.0, 15.0, 25.0, 15.0),
-              child: new Text('DONE',
+              child: new Text(_doneEnabled ? 'DONE' : 'NO TAG FOUND...',
                 style: new TextStyle(
                     color: Colors.white,
                     fontSize: 18.0,

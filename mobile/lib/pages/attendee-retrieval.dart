@@ -1,4 +1,4 @@
-import 'package:PolyHxApp/services/nfc.service.dart';
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
@@ -12,6 +12,7 @@ import 'package:PolyHxApp/domain/user.dart';
 import 'package:PolyHxApp/pages/attendee-profile.dart';
 import 'package:PolyHxApp/services/attendees.service.dart';
 import 'package:PolyHxApp/services/events.service.dart';
+import 'package:PolyHxApp/services/nfc.service.dart';
 import 'package:PolyHxApp/services/users.service.dart';
 import 'package:PolyHxApp/utils/constants.dart';
 
@@ -45,6 +46,7 @@ class _AttendeeRetrievalPageState extends State<AttendeeRetrievalPage> {
   User _user;
   Attendee _attendee;
   bool _isLoading = false;
+  bool _hasScannedTag = false;
   String _lastScannedTag;
 
   _AttendeeRetrievalPageState(this._eventsService, this._usersService,
@@ -128,6 +130,10 @@ class _AttendeeRetrievalPageState extends State<AttendeeRetrievalPage> {
         ),
       ),
       );
+      new Future.delayed(new Duration(seconds: 2), () { _lastScannedTag = null; });
+      setState(() {
+        _hasScannedTag = true;
+      });
     }
   }
 
@@ -152,6 +158,8 @@ class _AttendeeRetrievalPageState extends State<AttendeeRetrievalPage> {
   void _clearAttendee() {
     setState(() {
       _user = null;
+      _hasScannedTag = false;
+      _lastScannedTag = null;
     });
   }
 
@@ -237,7 +245,7 @@ class _AttendeeRetrievalPageState extends State<AttendeeRetrievalPage> {
     return new Padding(
       padding: new EdgeInsets.fromLTRB(30.0, 20.0, 30.0, 20.0),
       child: new AttendeeProfilePage(
-          _attendee, _user, _event.getRegistrationStatus(_attendee.id),
+          _attendee, _user, _event.getRegistrationStatus(_attendee.id), _hasScannedTag,
           onDone: _clearAttendee,
           onCancel: _clearAttendee
       ),
