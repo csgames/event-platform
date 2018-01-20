@@ -56,8 +56,7 @@ class EventList extends StatelessWidget {
                               pageVisibility: pageVisibility,
                               onTap: () {
                                 setCurrentEvent();
-                                Navigator.of(context).pushNamed(
-                                    "${Routes.EVENT}");
+                                Navigator.of(context).pushNamed(Routes.EVENT);
                               },
                             );
                           });
