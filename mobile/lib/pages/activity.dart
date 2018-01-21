@@ -64,6 +64,26 @@ class _ActivityPageState extends State<ActivityPage> {
     );
   }
 
+  Widget _buildTagNotBoundDialog() {
+    return new AlertDialog(
+      title: new Text('Tag not bound'),
+      content: new Text('The scanned NFC tag is not bound to an attendee.'),
+      actions: <Widget>[
+        new FlatButton(
+          child: new Text('OK',
+              style: new TextStyle(
+                color: Colors.red,
+                fontSize: 18.0,
+              )
+          ),
+          onPressed: Navigator
+              .of(context)
+              .pop,
+        ),
+      ],
+    );
+  }
+
   _addAttendee(BuildContext context, String publicId) async {
     if (publicId == _attendeePublicId) {
       return;
@@ -71,6 +91,13 @@ class _ActivityPageState extends State<ActivityPage> {
     _attendeePublicId = publicId;
     var attendee = await _attendeesService.getAttendeeByPublicId(_attendeePublicId);
     if (attendee == null) {
+      Widget errorDialog = _buildTagNotBoundDialog();
+      new Future.delayed(new Duration(seconds: 1), () {
+        if (publicId == _attendeePublicId) {
+          _attendeePublicId = null;
+        }
+      });
+      showDialog(context: context, child: errorDialog);
       return;
     }
     var user = await _usersService.getUser(attendee.userId);
@@ -78,14 +105,14 @@ class _ActivityPageState extends State<ActivityPage> {
       return;
     }
     bool wasAdded = await _eventsService.addAttendeeToActivity(attendee.id, _activity.id);
-    Widget dialog = _buildUserDialog(user, !wasAdded);
+    Widget successDialog = _buildUserDialog(user, !wasAdded);
     new Future.delayed(new Duration(seconds: 2), () {
       if (publicId == _attendeePublicId) {
         _attendeePublicId = null;
         Navigator.of(context).pop();
       }
     });
-    showDialog(context: context, child: dialog);
+    showDialog(context: context, child: successDialog);
   }
 
   Widget _buildWinnerDialog(User winner, VoidCallback onDone) {
