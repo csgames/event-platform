@@ -83,13 +83,19 @@ class _ActivitiesScheduleState extends State<ActivitiesSchedulePage>
     ));
   }
 
+  List<Widget> _buildTabs() {
+    List<String> days = _activitiesPerDay.keys.toList();
+    days.sort((String day1, String day2) { return day1.compareTo(day2); });
+    return days.map((d) => new Tab(text: d)).toList();
+  }
+
   Widget _buildActivitiesList(BuildContext context) {
     return new Column(
       children: <Widget> [
         new TabBar(
           labelColor: Colors.black,
           controller: _tabController,
-          tabs: _activitiesPerDay.keys.map((d) => new Tab(text: d)).toList(),
+          tabs: _buildTabs(),
         ),
         new Flexible(
           child: new TabBarView(
