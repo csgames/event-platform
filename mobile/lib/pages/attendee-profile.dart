@@ -111,7 +111,7 @@ class AttendeeProfilePage extends StatelessWidget {
             onPressed: onDone,
             child: new Padding(
               padding: new EdgeInsets.fromLTRB(25.0, 15.0, 25.0, 15.0),
-              child: new Text(_doneEnabled ? 'DONE' : 'NO TAG FOUND...',
+              child: new Text(_doneEnabled ? 'DONE' : 'SCANNING FOR TAG...',
                 style: new TextStyle(
                     color: Colors.white,
                     fontSize: 18.0,
