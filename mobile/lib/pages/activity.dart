@@ -104,8 +104,8 @@ class _ActivityPageState extends State<ActivityPage> {
     if (user == null) {
       return;
     }
-    bool wasAdded = await _eventsService.addAttendeeToActivity(attendee.id, _activity.id);
-    Widget successDialog = _buildUserDialog(user, !wasAdded);
+    var activity = await _eventsService.addAttendeeToActivity(attendee.id, _activity.id);
+    Widget successDialog = _buildUserDialog(user, activity == null);
     new Future.delayed(new Duration(seconds: 2), () {
       if (publicId == _attendeePublicId) {
         _attendeePublicId = null;
@@ -113,6 +113,11 @@ class _ActivityPageState extends State<ActivityPage> {
       }
     });
     showDialog(context: context, child: successDialog);
+    if (activity != null) {
+      setState(() {
+        _activity = activity;
+      });
+    }
   }
 
   Widget _buildWinnerDialog(User winner, VoidCallback onDone) {
@@ -189,7 +194,7 @@ class _ActivityPageState extends State<ActivityPage> {
 
   Widget _buildRaffleButton() {
     return new Padding(
-        padding: new EdgeInsets.only(bottom: 70.0),
+        padding: new EdgeInsets.symmetric(vertical: 50.0),
         child: new Align(
           alignment: Alignment.bottomCenter,
           child: new PillButton(
@@ -209,10 +214,38 @@ class _ActivityPageState extends State<ActivityPage> {
     );
   }
 
+  Widget _buildAttendeeCountWidget() {
+    return new Column(
+      children: <Widget>[
+        new Padding(
+          padding: new EdgeInsets.only(top: 30.0),
+          child: new Text('Attendee count',
+            style: new TextStyle(
+              color: Constants.POLYHX_GREY.withAlpha(200),
+              fontSize: 34.0,
+              fontWeight: FontWeight.w900,
+            ),
+          ),
+        ),
+        new Padding(
+          padding: new EdgeInsets.only(top: 10.0),
+          child: new Text(_activity.attendees?.length?.toString() ?? '0',
+            style: new TextStyle(
+              color: Constants.POLYHX_GREY.withAlpha(200),
+              fontSize: 34.0,
+              fontWeight: FontWeight.w900,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
   Widget _buildBody(BuildContext context) {
     return new Center(
         child: new Column(
           children: <Widget>[
+            _buildAttendeeCountWidget(),
             _buildBackground(),
             _buildRaffleButton(),
           ],

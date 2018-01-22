@@ -15,11 +15,12 @@ class Activity {
     this.attendees
   });
 
-  Activity.fromMap(Map<String, String> map) {
+  Activity.fromMap(Map<String, dynamic> map) {
     id = map['_id'];
     name = map['name'];
     beginDate = DateTime.parse(map['beginDate']);
     endDate = DateTime.parse(map['endDate']);
     location = map['location'];
+    attendees = map['attendees'];
   }
 }
