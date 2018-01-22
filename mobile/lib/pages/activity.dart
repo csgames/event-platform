@@ -107,10 +107,8 @@ class _ActivityPageState extends State<ActivityPage> {
     var activity = await _eventsService.addAttendeeToActivity(attendee.id, _activity.id);
     Widget successDialog = _buildUserDialog(user, activity == null);
     new Future.delayed(new Duration(seconds: 2), () {
-      if (publicId == _attendeePublicId) {
-        _attendeePublicId = null;
-        Navigator.of(context).pop();
-      }
+      _attendeePublicId = null;
+      Navigator.of(context).pop();
     });
     showDialog(context: context, child: successDialog);
     if (activity != null) {
