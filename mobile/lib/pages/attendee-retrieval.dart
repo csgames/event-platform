@@ -43,21 +43,14 @@ class _AttendeeRetrievalPageState extends State<AttendeeRetrievalPage> {
   final QRCodeReader _qrCodeReader;
   final Event _event;
 
-  final _textFieldFocusNode = new FocusNode();
   User _user;
   Attendee _attendee;
-  bool _isTextBarFocused = false;
   bool _isLoading = false;
   bool _hasScannedTag = false;
   String _lastScannedTag;
 
   _AttendeeRetrievalPageState(this._eventsService, this._usersService,
       this._attendeesService, this._nfcService, this._qrCodeReader, this._event) {
-    _textFieldFocusNode.addListener(() {
-      setState(() {
-      _isTextBarFocused = !_isTextBarFocused;
-      });
-    });
   }
 
   _findAttendee(String username) async {
@@ -200,7 +193,6 @@ class _AttendeeRetrievalPageState extends State<AttendeeRetrievalPage> {
     return new Padding(
       padding: new EdgeInsets.all(20.0),
       child: new PillTextField(
-        focusNode: _textFieldFocusNode,
         keyboardType: TextInputType.emailAddress,
         onSubmitted: (username) => _findAttendee(username),
         decoration: new InputDecoration(
@@ -235,9 +227,7 @@ class _AttendeeRetrievalPageState extends State<AttendeeRetrievalPage> {
   }
 
   Widget _buildScanButton() {
-    return _isTextBarFocused
-        ? new Container()
-        : new Padding(
+    return new Padding(
       padding: new EdgeInsets.symmetric(vertical: 50.0),
       child: new Align(
         alignment: Alignment.bottomCenter,
