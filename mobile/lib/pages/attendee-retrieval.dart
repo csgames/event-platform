@@ -1,4 +1,4 @@
-import 'package:PolyHxApp/services/nfc.service.dart';
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
@@ -12,6 +12,7 @@ import 'package:PolyHxApp/domain/user.dart';
 import 'package:PolyHxApp/pages/attendee-profile.dart';
 import 'package:PolyHxApp/services/attendees.service.dart';
 import 'package:PolyHxApp/services/events.service.dart';
+import 'package:PolyHxApp/services/nfc.service.dart';
 import 'package:PolyHxApp/services/users.service.dart';
 import 'package:PolyHxApp/utils/constants.dart';
 
@@ -42,12 +43,21 @@ class _AttendeeRetrievalPageState extends State<AttendeeRetrievalPage> {
   final QRCodeReader _qrCodeReader;
   final Event _event;
 
+  final _textFieldFocusNode = new FocusNode();
   User _user;
   Attendee _attendee;
+  bool _isTextBarFocused = false;
   bool _isLoading = false;
+  bool _hasScannedTag = false;
+  String _lastScannedTag;
 
   _AttendeeRetrievalPageState(this._eventsService, this._usersService,
       this._attendeesService, this._nfcService, this._qrCodeReader, this._event) {
+    _textFieldFocusNode.addListener(() {
+      setState(() {
+      _isTextBarFocused = !_isTextBarFocused;
+      });
+    });
   }
 
   _findAttendee(String username) async {
@@ -99,6 +109,7 @@ class _AttendeeRetrievalPageState extends State<AttendeeRetrievalPage> {
 
   _onNfcTagScanned(BuildContext context, String nfcId) async {
     if (nfcId != _attendee.publicId) {
+      _lastScannedTag = nfcId;
       setState(() {
         _attendee.publicId = nfcId;
       });
@@ -111,6 +122,25 @@ class _AttendeeRetrievalPageState extends State<AttendeeRetrievalPage> {
               .hideCurrentSnackBar,
         ),
       ));
+      _saveAttendee(context);
+    }
+    else if (nfcId != _lastScannedTag){
+      _lastScannedTag = nfcId;
+      Scaffold.of(context).showSnackBar(new SnackBar(
+          content: new Text('Attendee already assigned to this tag.',
+          style: new TextStyle(color: Colors.white)),
+        action: new SnackBarAction(
+        label: 'OK',
+        onPressed: Scaffold
+        .of(context)
+        .hideCurrentSnackBar,
+        ),
+      ),
+      );
+      new Future.delayed(new Duration(seconds: 2), () { _lastScannedTag = null; });
+      setState(() {
+        _hasScannedTag = true;
+      });
     }
   }
 
@@ -130,14 +160,18 @@ class _AttendeeRetrievalPageState extends State<AttendeeRetrievalPage> {
             .hideCurrentSnackBar,
       ),
     ));
-    setState(() {
-      _user = null;
-    });
+    if (idSaved && statusSaved) {
+      setState(() {
+        _hasScannedTag = true;
+      });
+    }
   }
 
   void _clearAttendee() {
     setState(() {
       _user = null;
+      _hasScannedTag = false;
+      _lastScannedTag = null;
     });
   }
 
@@ -166,6 +200,7 @@ class _AttendeeRetrievalPageState extends State<AttendeeRetrievalPage> {
     return new Padding(
       padding: new EdgeInsets.all(20.0),
       child: new PillTextField(
+        focusNode: _textFieldFocusNode,
         keyboardType: TextInputType.emailAddress,
         onSubmitted: (username) => _findAttendee(username),
         decoration: new InputDecoration(
@@ -200,7 +235,9 @@ class _AttendeeRetrievalPageState extends State<AttendeeRetrievalPage> {
   }
 
   Widget _buildScanButton() {
-    return new Padding(
+    return _isTextBarFocused
+        ? new Container()
+        : new Padding(
       padding: new EdgeInsets.symmetric(vertical: 50.0),
       child: new Align(
         alignment: Alignment.bottomCenter,
@@ -223,8 +260,8 @@ class _AttendeeRetrievalPageState extends State<AttendeeRetrievalPage> {
     return new Padding(
       padding: new EdgeInsets.fromLTRB(30.0, 20.0, 30.0, 20.0),
       child: new AttendeeProfilePage(
-          _attendee, _user, _event.getRegistrationStatus(_attendee.id),
-          onDone: () { _saveAttendee(context); },
+          _attendee, _user, _event.getRegistrationStatus(_attendee.id), _hasScannedTag,
+          onDone: _clearAttendee,
           onCancel: _clearAttendee
       ),
     );

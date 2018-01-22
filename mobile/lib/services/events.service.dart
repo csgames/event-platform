@@ -49,16 +49,17 @@ class EventsService {
     return res.map((a) => new Activity.fromMap(a)).toList();
   }
 
-  Future<bool> addAttendeeToActivity(String attendeeId, String activityId) async {
+  Future<Activity> addAttendeeToActivity(String attendeeId, String activityId) async {
     try {
       final headers = {'Authorization': 'Bearer ${_tokenService.AccessToken}'};
       final response = await _http.put('${Environment.EVENT_MANAGEMENT_URL}/activity/$activityId/$attendeeId/add',
           headers: headers);
-      return response.statusCode == 200;
+      final responseMap = JSON.decode(response.body);
+      return new Activity.fromMap(responseMap);
     }
     catch (e) {
       print('AttendeesService.addAttendeeToActivity(): $e');
-      return false;
+      return null;
     }
   }
 
