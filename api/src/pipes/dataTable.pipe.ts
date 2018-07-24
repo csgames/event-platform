@@ -1,11 +1,11 @@
-import { PipeTransform, Pipe, ArgumentMetadata } from '@nestjs/common';
+import { PipeTransform, ArgumentMetadata, Injectable } from '@nestjs/common';
 import {
     DataTableColumnInterface, DataTableInterface, DataTableOrderInterface,
     DataTableSearchInterface
 } from "../interfaces/dataTable.interface";
 import { QBRule, QueryBuilder } from "../interfaces/queryBuilder";
 
-@Pipe()
+@Injectable()
 export class DataTablePipe implements PipeTransform<any> {
     public transform(value: DataTableInterface, metadata: ArgumentMetadata) {
         let data: Partial<DataTableInterface> = {};

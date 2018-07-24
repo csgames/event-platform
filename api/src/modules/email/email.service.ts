@@ -1,5 +1,4 @@
-import { Component } from "@nestjs/common";
-import { HttpException } from "@nestjs/core";
+import { HttpException, Injectable } from "@nestjs/common";
 let nodeFetch = require("node-fetch");
 import { Response } from "node-fetch";
 import * as querystring from "querystring";
@@ -15,7 +14,7 @@ export interface Email {
     variables?: { [key: string]: string } | string;
 }
 
-@Component()
+@Injectable()
 export class EmailService {
 
     private sendEmailUrl = process.env.EMAIL_SERVICE_URL + "/email/";

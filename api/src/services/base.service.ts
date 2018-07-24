@@ -1,8 +1,6 @@
 import { Model, Document, ModelPopulateOptions } from "mongoose";
-import { HttpException } from "@nestjs/core";
-import { HttpStatus } from "@nestjs/common";
+import { HttpException, HttpStatus } from "@nestjs/common";
 import { MongoError } from "mongodb";
-import { async } from "rxjs/scheduler/async";
 
 export class BaseService<T extends Document, Dto> {
     constructor(private readonly model: Model<T>) { }

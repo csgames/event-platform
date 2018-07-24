@@ -9,7 +9,7 @@ import { ActivitiesModule } from "./database/activities/activities.module";
 import { NotificationsModule } from "./database/notifications/notifications.module";
 
 @Module({
-    modules: [
+    imports: [
         ActivitiesModule,
         AttendeesModule,
         EventsModule,
@@ -18,7 +18,7 @@ import { NotificationsModule } from "./database/notifications/notifications.modu
         SchoolsModule,
         TeamsModule
     ],
-    components: [
+    providers: [
         MailGateway
     ],
     exports: [
