@@ -1,12 +1,12 @@
 import { Module } from "@nestjs/common";
-import { databaseProviders } from "./database.providers";
+import { MongooseModule } from "@nestjs/mongoose";
 
 @Module({
-    providers: [
-        ...databaseProviders
-    ],
-    exports: [
-        ...databaseProviders
+    imports: [
+        MongooseModule.forRoot("mongodb://" + process.env.DB_USERNAME + ":" + process.env.DB_PASSWORD +
+            "@" + process.env.DB_ADDRESS, {
+            useMongoClient: true
+        })
     ]
 })
 export class DatabaseModule {

@@ -1,4 +1,3 @@
-import * as express from "express";
 import { Body, Controller, Get, HttpException, HttpStatus, Param, Post, Put, Req, UseGuards } from "@nestjs/common";
 import { ActivitiesService } from "./activities.service";
 import { CreateActivityDto } from "./activities.dto";
@@ -20,7 +19,7 @@ export class ActivitiesController {
 
     @Post()
     @Permissions('event_management:create:activity')
-    async create(@Req() req: express.Request, @Body(new ValidationPipe()) createActivityDto: CreateActivityDto) {
+    async create(@Body(new ValidationPipe()) createActivityDto: CreateActivityDto) {
         await this.activitiesService.create(createActivityDto);
     }
 
