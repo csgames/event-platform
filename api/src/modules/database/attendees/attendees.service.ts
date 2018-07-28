@@ -1,5 +1,6 @@
+import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
-import { Component, Inject } from "@nestjs/common";
+import { Injectable } from "@nestjs/common";
 import { Attendees } from "./attendees.model";
 import { BaseService } from "../../../services/base.service";
 import { CreateAttendeeDto } from "./attendees.dto";
@@ -15,10 +16,11 @@ interface AttendeeDtInterface extends Attendees {
     birthDate: string;
 }
 
-@Component()
+@Injectable()
 export class AttendeesService extends BaseService<Attendees, CreateAttendeeDto> {
-    constructor(@Inject("AttendeesModelToken") private readonly attendeesModel: Model<Attendees>,
-                private readonly schoolService: SchoolsService, private readonly stsService: STSService) {
+    constructor(@InjectModel("attendees") private readonly attendeesModel: Model<Attendees>,
+                private readonly schoolService: SchoolsService,
+                private readonly stsService: STSService) {
         super(attendeesModel);
     }
 

@@ -1,14 +1,16 @@
 import * as express from 'express';
-import { Guard, CanActivate, ExecutionContext } from '@nestjs/common';
+import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import { AttendeesService } from "./attendees.service";
 import { CodeException } from "../../../filters/CodedError/code.exception";
 import { Code } from "./attendees.exception";
 
-@Guard()
+@Injectable()
 export class CreateAttendeeGuard implements CanActivate {
     constructor(private readonly attendeeService: AttendeesService) { }
 
-    async canActivate(req: express.Request, context: ExecutionContext): Promise<boolean> {
+    async canActivate(context: ExecutionContext): Promise<boolean> {
+        const req = context.switchToHttp().getRequest<express.Request>();
+
         if (req.header("token-claim-role") !== 'attendee') {
             throw new CodeException(Code.USER_NOT_ATTENDEE);
         }
@@ -30,9 +32,11 @@ export class CreateAttendeeGuard implements CanActivate {
     }
 }
 
-@Guard()
+@Injectable()
 export class AttendeesGuard implements CanActivate {
-    canActivate(req: express.Request, context: ExecutionContext): boolean {
+    canActivate(context: ExecutionContext): boolean {
+        const req = context.switchToHttp().getRequest<express.Request>();
+
         if (req.header("token-claim-role") !== 'attendee') {
             throw new CodeException(Code.USER_NOT_ATTENDEE);
         }
