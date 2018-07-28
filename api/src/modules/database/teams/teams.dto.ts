@@ -1,8 +1,5 @@
-import {
-    IsString, IsNotEmpty, ArrayMinSize, ArrayMaxSize, IsArray, IsMongoId, ArrayUnique,
-    IsOptional
-} from "class-validator";
 import { ApiModelProperty } from "@nestjs/swagger";
+import { IsMongoId, IsNotEmpty, IsString } from "class-validator";
 
 export class CreateOrJoinTeamDto {
 

@@ -1,18 +1,30 @@
 import { Module } from "@nestjs/common";
-import { TeamsController } from "./teams.controller";
-import { teamsProviders } from "./teams.providers";
-import { TeamsService } from "./teams.service";
-import { AttendeesModule } from "../attendees/attendees.module";
-import { DatabaseModule } from "../database.module";
+import { MongooseModule } from "@nestjs/mongoose";
 import { STSModule } from "../../sts/sts.module";
+import { AttendeesModule } from "../attendees/attendees.module";
 import { EventsModule } from "../events/events.module";
+import { TeamsController } from "./teams.controller";
+import { TeamsSchema } from "./teams.model";
+import { TeamsService } from "./teams.service";
 
 @Module({
-    modules: [EventsModule, AttendeesModule, DatabaseModule, STSModule],
-    controllers: [TeamsController],
-    components: [
-        TeamsService,
-        ...teamsProviders
+    imports: [
+        MongooseModule.forFeature([{
+            name: "teams",
+            schema: TeamsSchema
+        }]),
+        EventsModule,
+        AttendeesModule,
+        STSModule
+    ],
+    controllers: [
+        TeamsController
+    ],
+    providers: [
+        TeamsService
+    ],
+    exports: [
+        TeamsService
     ]
 })
 export class TeamsModule {

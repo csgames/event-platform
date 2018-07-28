@@ -40,7 +40,7 @@ export class TeamsController {
     @Get('info')
     @Permissions('event_management:get:team')
     async getInfo(@Headers('token-claim-user_id') userId: string): Promise<Teams> {
-        const attendee = await this.attendeesService.findOne({userId: userId});
+        const attendee = await this.attendeesService.findOne({ userId: userId });
 
         if (!attendee) {
             return null;
@@ -57,7 +57,7 @@ export class TeamsController {
             return null;
         }
 
-        for (let a of team.attendees as (Attendees & {status: string})[]) {
+        for (let a of team.attendees as (Attendees & { status: string })[]) {
             a.user = (await this.stsService.getUser(a.userId)).user;
             a.status = await this.eventsService.getAttendeeStatus(a._id, team.event as string);
         }
@@ -82,7 +82,7 @@ export class TeamsController {
     @Delete(":id")
     @Permissions('event_management:leave:team')
     public async leave(@Headers('token-claim-user_id') userId: string, @Param('id') teamId: string) {
-        const attendee = await this.attendeesService.findOne({userId: userId});
-        return this.teamsService.leave({teamId, attendeeId: attendee._id});
+        const attendee = await this.attendeesService.findOne({ userId: userId });
+        return this.teamsService.leave({ teamId, attendeeId: attendee._id });
     }
 }
