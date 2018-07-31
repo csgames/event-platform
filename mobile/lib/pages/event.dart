@@ -2,7 +2,7 @@ import 'package:PolyHxApp/services/nfc.service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:qrcode_reader/QRCodeReader.dart';
+import 'package:qr_reader/qr_reader.dart';
 import 'package:redux/redux.dart';
 import 'package:PolyHxApp/domain/event.dart';
 import 'package:PolyHxApp/pages/activities-schedule.dart';
@@ -27,7 +27,7 @@ class EventPage extends StatefulWidget {
 
   @override
   _EventPageState createState() =>
-      new _EventPageState(_eventsService, _usersService,
+      _EventPageState(_eventsService, _usersService,
           _attendeesService, _nfcService, _qrCodeReader);
 }
 
@@ -48,15 +48,15 @@ class _EventPageState extends State<EventPage> {
     Widget body;
     switch (EventTabs.values[_currentTabIndex]) {
       case EventTabs.Scan:
-        body = new AttendeeRetrievalPage(_eventsService, _usersService,
+        body = AttendeeRetrievalPage(_eventsService, _usersService,
             _attendeesService, _nfcService, _qrCodeReader,
             event);
         break;
       case EventTabs.Info:
-        body = new EventInfoPage();
+        body = EventInfoPage();
         break;
       case EventTabs.Activities:
-        body = new ActivitiesSchedulePage(_eventsService, _attendeesService, _usersService, _nfcService);
+        body = ActivitiesSchedulePage(_eventsService, _attendeesService, _usersService, _nfcService);
         break;
       default:
         break;
@@ -66,31 +66,31 @@ class _EventPageState extends State<EventPage> {
 
   List<BottomNavigationBarItem> _buildTabItems() {
     return <BottomNavigationBarItem>[
-      new BottomNavigationBarItem(
-        icon: new Icon(Icons.info_outline),
-        title: new Text('Info'),
+      BottomNavigationBarItem(
+        icon: Icon(Icons.info_outline),
+        title: Text('Info'),
       ),
-      new BottomNavigationBarItem(
-        icon: new Icon(Icons.camera_alt),
-        title: new Text('Register'),
+      BottomNavigationBarItem(
+        icon: Icon(Icons.camera_alt),
+        title: Text('Register'),
       ),
-      new BottomNavigationBarItem(
-        icon: new Icon(Icons.event),
-        title: new Text('Activities'),
+      BottomNavigationBarItem(
+        icon: Icon(Icons.event),
+        title: Text('Activities'),
       ),
     ];
   }
 
   @override
   Widget build(BuildContext context) {
-    return new StoreConnector<AppState, Event>(
+    return StoreConnector<AppState, Event>(
         converter: (Store<AppState> store) => store.state.currentEvent,
         builder: (BuildContext context, Event event) {
-          return new Scaffold(
-            appBar: new AppBar(title: new Text(event.name)),
+          return Scaffold(
+            appBar: AppBar(title: Text(event.name)),
             body: _buildBody(event),
-            bottomNavigationBar: new BottomNavigationBar(
-              fixedColor: Constants.POLYHX_RED,
+            bottomNavigationBar: BottomNavigationBar(
+              fixedColor: Constants.polyhxRed,
               type: BottomNavigationBarType.fixed,
               currentIndex: _currentTabIndex,
               onTap: (tabIndex) =>

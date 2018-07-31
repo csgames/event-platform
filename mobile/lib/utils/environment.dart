@@ -1,6 +1,6 @@
 class Environment {
-  static final STS_URL = 'https://identity.staging.polyhx.io';
-  static final STS_CLIENT_ID = 'polyhx_mobile_app';
-  static final STS_CLIENT_SECRET = 'KCd5AX8ZkGuMmRuY';
-  static final EVENT_MANAGEMENT_URL = 'https://api.staging.polyhx.io';
+  static final stsUrl = 'https://identity.staging.polyhx.io';
+  static final stsClientId = 'polyhx_mobile_app';
+  static final stsClientSecret = 'KCd5AX8ZkGuMmRuY';
+  static final eventManagementUrl = 'https://api.staging.polyhx.io';
 }

@@ -2,12 +2,12 @@ name: PolyHxApp
 description: Official PolyHx Mobile App
 
 dependencies:
-  shared_preferences:
+  shared_preferences: ^0.4.2
   intl:
-  redux:
+  redux: ^3.0.0
   flutter_redux:
   font_awesome_flutter: 6.0.0
-  qrcode_reader: ^0.3.2
+  qr_reader: ^0.1.3
   cupertino_icons: ^0.1.0
   flutter:
     sdk: flutter

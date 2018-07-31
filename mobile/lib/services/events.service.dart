@@ -17,10 +17,10 @@ class EventsService {
 
   Future<List<Event>> getAllEvents() async {
     try {
-      final response = await _http.get('${Environment.EVENT_MANAGEMENT_URL}/event',
-          headers: {'Authorization': 'Bearer ${_tokenService.AccessToken}'});
-      final responseMap = JSON.decode(response.body);
-      _eventsCache = responseMap.map((e) => new Event.fromMap(e)).toList();
+      final response = await _http.get('${Environment.eventManagementUrl}/event',
+          headers: {'Authorization': 'Bearer ${_tokenService.accessToken}'});
+      final responseMap = json.decode(response.body);
+      _eventsCache = List.castFrom<dynamic, Event>(responseMap.map((e) => Event.fromMap(e)).toList());
       return _eventsCache;
     }
     catch (e) {
@@ -31,10 +31,10 @@ class EventsService {
 
   Future<Event> getEventById(String id) async {
     try {
-      final response = await _http.get('${Environment.EVENT_MANAGEMENT_URL}/event/$id',
-          headers: {'Authorization': 'Bearer ${_tokenService.AccessToken}'});
-      final responseMap = JSON.decode(response.body);
-      return new Event.fromMap(responseMap['event']);
+      final response = await _http.get('${Environment.eventManagementUrl}/event/$id',
+          headers: {'Authorization': 'Bearer ${_tokenService.accessToken}'});
+      final responseMap = json.decode(response.body);
+      return Event.fromMap(responseMap['event']);
     }
     catch (e) {
       print('EventsService.getEventById(): $e');
@@ -43,19 +43,19 @@ class EventsService {
   }
 
   Future<List<Activity>> getAllActivities() async {
-    final res = await _http.get('${Environment.EVENT_MANAGEMENT_URL}/activity',
-        headers: {'Authorization': 'Bearer ${_tokenService.AccessToken}'})
-        .then((r) => JSON.decode(r.body));
-    return res.map((a) => new Activity.fromMap(a)).toList();
+    final res = await _http.get('${Environment.eventManagementUrl}/activity',
+        headers: {'Authorization': 'Bearer ${_tokenService.accessToken}'})
+        .then((r) => json.decode(r.body));
+    return List.castFrom<dynamic, Activity>(res.map((a) => Activity.fromMap(a)).toList());
   }
 
   Future<Activity> addAttendeeToActivity(String attendeeId, String activityId) async {
     try {
-      final headers = {'Authorization': 'Bearer ${_tokenService.AccessToken}'};
-      final response = await _http.put('${Environment.EVENT_MANAGEMENT_URL}/activity/$activityId/$attendeeId/add',
+      final headers = {'Authorization': 'Bearer ${_tokenService.accessToken}'};
+      final response = await _http.put('${Environment.eventManagementUrl}/activity/$activityId/$attendeeId/add',
           headers: headers);
-      final responseMap = JSON.decode(response.body);
-      return new Activity.fromMap(responseMap);
+      final responseMap = json.decode(response.body);
+      return Activity.fromMap(responseMap);
     }
     catch (e) {
       print('AttendeesService.addAttendeeToActivity(): $e');
@@ -65,10 +65,10 @@ class EventsService {
 
   Future<User> doRaffle(String activityId) async {
     try {
-      final response = await _http.get('${Environment.EVENT_MANAGEMENT_URL}/activity/$activityId/raffle',
-          headers: {'Authorization': 'Bearer ${_tokenService.AccessToken}'});
-      final responseMap = JSON.decode(response.body);
-      return new User.fromMap(responseMap);
+      final response = await _http.get('${Environment.eventManagementUrl}/activity/$activityId/raffle',
+          headers: {'Authorization': 'Bearer ${_tokenService.accessToken}'});
+      final responseMap = json.decode(response.body);
+      return User.fromMap(responseMap);
     }
     catch (e) {
       print('EventsService.doRaffle(): $e');
@@ -78,8 +78,8 @@ class EventsService {
 
   Future<bool> setAttendeeAsPresent(String eventId, String attendeeId) async {
     try {
-      final headers = {'Authorization': 'Bearer ${_tokenService.AccessToken}'};
-      final response = await _http.put('${Environment.EVENT_MANAGEMENT_URL}/event/$eventId/$attendeeId/present',
+      final headers = {'Authorization': 'Bearer ${_tokenService.accessToken}'};
+      final response = await _http.put('${Environment.eventManagementUrl}/event/$eventId/$attendeeId/present',
           headers: headers);
       return response.statusCode == 200;
     }

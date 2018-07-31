@@ -8,11 +8,11 @@ import 'package:redux/redux.dart';
 
 class EventInfoPage extends StatelessWidget {
   Widget _buildBackgroundCover(Event event) {
-    return new Stack(fit: StackFit.expand, children: <Widget>[
-      new Image.network(event.coverUrl, fit: BoxFit.cover),
-      new DecoratedBox(
-        decoration: new BoxDecoration(
-          gradient: new LinearGradient(
+    return Stack(fit: StackFit.expand, children: <Widget>[
+      Image.network(event.coverUrl, fit: BoxFit.cover),
+      DecoratedBox(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
             begin: FractionalOffset.bottomCenter,
             end: FractionalOffset.topCenter,
             colors: [
@@ -27,29 +27,29 @@ class EventInfoPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return new StoreConnector<AppState, Event>(
+    return StoreConnector<AppState, Event>(
         converter: (Store<AppState> store) => store.state.currentEvent,
         builder: (BuildContext context, Event event) {
-          return new SingleChildScrollView(
-              child: new Column(
+          return SingleChildScrollView(
+              child: Column(
             children: <Widget>[
-              new Container(
+              Container(
                   height: MediaQuery.of(context).size.height,
-                  child: new Stack(children: <Widget>[
+                  child: Stack(children: <Widget>[
                     _buildBackgroundCover(event),
-                    new Center(
-                        child: new Padding(
+                    Center(
+                        child: Padding(
                             padding: const EdgeInsets.all(15.0),
-                            child: new Column(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
-                              new EventImage(event),
-                              new Padding(
+                            child: Column(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
+                              EventImage(event),
+                              Padding(
                                   padding: const EdgeInsets.all(15.0),
                                   child:
-                                      new Text(event.name, style: new TextStyle(color: Colors.white, fontSize: 30.0))),
-                              new Padding(
+                                      Text(event.name, style: TextStyle(color: Colors.white, fontSize: 30.0))),
+                              Padding(
                                   padding: const EdgeInsets.all(10.0),
-                                  child: new Text(event.details['fr'],
-                                      textAlign: TextAlign.justify, style: new TextStyle(color: Colors.white))),
+                                  child: Text(event.details['fr'],
+                                      textAlign: TextAlign.justify, style: TextStyle(color: Colors.white))),
                             ])))
                   ]))
             ],

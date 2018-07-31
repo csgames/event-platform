@@ -2,9 +2,6 @@ import 'dart:async';
 import 'package:PolyHxApp/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter/src/material/scaffold.dart';
-import 'package:intl/intl.dart';
-import 'package:PolyHxApp/components/loading-spinner.dart';
 import 'package:PolyHxApp/components/pill-button.dart';
 import 'package:PolyHxApp/components/user-profile.dart';
 import 'package:PolyHxApp/domain/activity.dart';
@@ -19,14 +16,14 @@ class ActivityPage extends StatefulWidget {
   final UsersService _usersService;
   final AttendeesService _attendeesService;
   final NfcService _nfcService;
-  Activity _activity;
+  final Activity _activity;
 
   ActivityPage(this._eventsService, this._usersService,
                this._attendeesService, this._nfcService, this._activity);
 
   @override
   State<StatefulWidget> createState() =>
-      new _ActivityPageState(_eventsService, _usersService,
+      _ActivityPageState(_eventsService, _usersService,
                              _attendeesService, _nfcService, _activity);
 }
 
@@ -43,16 +40,16 @@ class _ActivityPageState extends State<ActivityPage> {
                      this._attendeesService, this._nfcService, this._activity);
 
   Widget _buildUserDialog(User user, bool isAlreadyAttending) {
-    return new Center(
-      child: new Container(
+    return Center(
+      child: Container(
           width: 300.0,
           height: 250.0,
-          child: new UserProfile(user,
+          child: UserProfile(user,
               opacity: 0.9,
-              content: new Padding(
-                padding: new EdgeInsets.only(top: 20.0),
-                  child: new Text(isAlreadyAttending ? 'Already Attending' : 'Signep Up!',
-                      style: new TextStyle(
+              content: Padding(
+                padding: EdgeInsets.only(top: 20.0),
+                  child: Text(isAlreadyAttending ? 'Already Attending' : 'Signep Up!',
+                      style: TextStyle(
                         color: isAlreadyAttending ? Colors.red : Colors.green,
                         fontWeight: FontWeight.w700,
                         fontSize: 24.0,
@@ -65,13 +62,13 @@ class _ActivityPageState extends State<ActivityPage> {
   }
 
   Widget _buildTagNotBoundDialog() {
-    return new AlertDialog(
-      title: new Text('Tag not bound'),
-      content: new Text('The scanned NFC tag is not bound to an attendee.'),
+    return AlertDialog(
+      title: Text('Tag not bound'),
+      content: Text('The scanned NFC tag is not bound to an attendee.'),
       actions: <Widget>[
-        new FlatButton(
-          child: new Text('OK',
-              style: new TextStyle(
+        FlatButton(
+          child: Text('OK',
+              style: TextStyle(
                 color: Colors.red,
                 fontSize: 18.0,
               )
@@ -92,12 +89,12 @@ class _ActivityPageState extends State<ActivityPage> {
     var attendee = await _attendeesService.getAttendeeByPublicId(_attendeePublicId);
     if (attendee == null) {
       Widget errorDialog = _buildTagNotBoundDialog();
-      new Future.delayed(new Duration(seconds: 1), () {
+      Future.delayed(Duration(seconds: 1), () {
         if (publicId == _attendeePublicId) {
           _attendeePublicId = null;
         }
       });
-      showDialog(context: context, child: errorDialog);
+      showDialog(context: context, builder: (_) => errorDialog);
       return;
     }
     var user = await _usersService.getUser(attendee.userId);
@@ -106,11 +103,11 @@ class _ActivityPageState extends State<ActivityPage> {
     }
     var activity = await _eventsService.addAttendeeToActivity(attendee.id, _activity.id);
     Widget successDialog = _buildUserDialog(user, activity == null);
-    new Future.delayed(new Duration(seconds: 2), () {
+    Future.delayed(Duration(seconds: 2), () {
       _attendeePublicId = null;
       Navigator.of(context).pop();
     });
-    showDialog(context: context, child: successDialog);
+    showDialog(context: context, builder: (_) => successDialog);
     if (activity != null) {
       setState(() {
         _activity = activity;
@@ -119,33 +116,33 @@ class _ActivityPageState extends State<ActivityPage> {
   }
 
   Widget _buildWinnerDialog(User winner, VoidCallback onDone) {
-    return new Center(
-      child: new Container(
+    return Center(
+      child: Container(
         width: 300.0,
         height: 300.0,
-        child: new UserProfile(winner,
+        child: UserProfile(winner,
             opacity: 0.85,
-            content: new Padding(
-              padding: new EdgeInsets.symmetric(vertical: 10.0),
-              child: new Column(
+            content: Padding(
+              padding: EdgeInsets.symmetric(vertical: 10.0),
+              child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
-                  new Padding(
-                    padding: new EdgeInsets.only(bottom: 20.0),
-                    child: new Text('Winner!',
-                      style: new TextStyle(
+                  Padding(
+                    padding: EdgeInsets.only(bottom: 20.0),
+                    child: Text('Winner!',
+                      style: TextStyle(
                         color: Colors.lightBlue,
                         fontWeight: FontWeight.w700,
                         fontSize: 28.0,
                       ),
                     ),
                   ),
-                  new PillButton(
+                  PillButton(
                     onPressed: onDone,
-                    child: new Padding(
-                      padding: new EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-                      child: new Text('Done',
-                        style: new TextStyle(
+                    child: Padding(
+                      padding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+                      child: Text('Done',
+                        style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
                           fontSize: 20.0,
@@ -165,24 +162,24 @@ class _ActivityPageState extends State<ActivityPage> {
     var winner = await _eventsService.doRaffle(_activity.id);
     if (winner != null && winner.username != null) {
       var dialog = _buildWinnerDialog(winner, Navigator.of(context).pop);
-      showDialog(context: context, child: dialog, barrierDismissible: false);
+      showDialog(context: context, builder: (_) => dialog, barrierDismissible: false);
     }
   }
 
   Widget _buildBackground() {
-    return new Expanded(
-      child: new Column(
+    return Expanded(
+      child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          new Icon(Icons.nfc,
+          Icon(Icons.nfc,
             size: 240.0,
-            color: Constants.POLYHX_GREY.withAlpha(144),
+            color: Constants.polyhxGrey.withAlpha(144),
           ),
-          new Text('Scan to Attend',
-              style: new TextStyle(
+          Text('Scan to Attend',
+              style: TextStyle(
                 fontSize: 30.0,
                 fontWeight: FontWeight.w900,
-                color: Constants.POLYHX_GREY.withAlpha(144),
+                color: Constants.polyhxGrey.withAlpha(144),
               )
           ),
         ],
@@ -191,16 +188,16 @@ class _ActivityPageState extends State<ActivityPage> {
   }
 
   Widget _buildRaffleButton() {
-    return new Padding(
-        padding: new EdgeInsets.symmetric(vertical: 50.0),
-        child: new Align(
+    return Padding(
+        padding: EdgeInsets.symmetric(vertical: 50.0),
+        child: Align(
           alignment: Alignment.bottomCenter,
-          child: new PillButton(
+          child: PillButton(
             onPressed: () { _doRaffle(context); },
-            child: new Padding(
-              padding: new EdgeInsets.fromLTRB(25.0, 15.0, 25.0, 15.0),
-              child: new Text('RAFFLE',
-                style: new TextStyle(
+            child: Padding(
+              padding: EdgeInsets.fromLTRB(25.0, 15.0, 25.0, 15.0),
+              child: Text('RAFFLE',
+                style: TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
                   fontSize: 20.0,
@@ -213,23 +210,23 @@ class _ActivityPageState extends State<ActivityPage> {
   }
 
   Widget _buildAttendeeCountWidget() {
-    return new Column(
+    return Column(
       children: <Widget>[
-        new Padding(
-          padding: new EdgeInsets.only(top: 30.0),
-          child: new Text('Attendee count',
-            style: new TextStyle(
-              color: Constants.POLYHX_GREY.withAlpha(200),
+        Padding(
+          padding: EdgeInsets.only(top: 30.0),
+          child: Text('Attendee count',
+            style: TextStyle(
+              color: Constants.polyhxGrey.withAlpha(200),
               fontSize: 34.0,
               fontWeight: FontWeight.w900,
             ),
           ),
         ),
-        new Padding(
-          padding: new EdgeInsets.only(top: 10.0),
-          child: new Text(_activity.attendees?.length?.toString() ?? '0',
-            style: new TextStyle(
-              color: Constants.POLYHX_GREY.withAlpha(200),
+        Padding(
+          padding: EdgeInsets.only(top: 10.0),
+          child: Text(_activity.attendees?.length?.toString() ?? '0',
+            style: TextStyle(
+              color: Constants.polyhxGrey.withAlpha(200),
               fontSize: 34.0,
               fontWeight: FontWeight.w900,
             ),
@@ -240,8 +237,8 @@ class _ActivityPageState extends State<ActivityPage> {
   }
 
   Widget _buildBody(BuildContext context) {
-    return new Center(
-        child: new Column(
+    return Center(
+        child: Column(
           children: <Widget>[
             _buildAttendeeCountWidget(),
             _buildBackground(),
@@ -253,9 +250,9 @@ class _ActivityPageState extends State<ActivityPage> {
 
   @override
   Widget build(BuildContext context) {
-    _nfcService.NfcStream.asBroadcastStream().listen((id) { _addAttendee(context, id); });
-    return new Scaffold(
-      appBar: new AppBar(title: new Text(_activity.name)),
+    _nfcService.nfcStream.asBroadcastStream().listen((id) { _addAttendee(context, id); });
+    return Scaffold(
+      appBar: AppBar(title: Text(_activity.name)),
       body: _buildBody(context),
       resizeToAvoidBottomPadding: false,
     );

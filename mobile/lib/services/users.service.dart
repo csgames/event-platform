@@ -10,13 +10,13 @@ class UsersService {
   final Client _http;
   final TokenService _tokenService;
 
-  UsersService(this._http, this._tokenService) {}
+  UsersService(this._http, this._tokenService);
 
   Future<num> getUsersCount() async {
     try {
-      final headers = {"Authorization": "Bearer ${_tokenService.AccessToken}"};
-      final response = await _http.get("${Environment.STS_URL}/user/count", headers: headers);
-      final responseMap = JSON.decode(response.body);
+      final headers = {"Authorization": "Bearer ${_tokenService.accessToken}"};
+      final response = await _http.get("${Environment.stsUrl}/user/count", headers: headers);
+      final responseMap = json.decode(response.body);
       return responseMap["count"];
     }
     catch (e) {
@@ -27,11 +27,11 @@ class UsersService {
 
   Future<List<User>> getAllUsers() async {
     try {
-      final headers = {"Authorization": "Bearer ${_tokenService.AccessToken}"};
-      final response = await _http.get("${Environment.STS_URL}/user", headers: headers);
-      final responseMap = JSON.decode(response.body);
+      final headers = {"Authorization": "Bearer ${_tokenService.accessToken}"};
+      final response = await _http.get("${Environment.stsUrl}/user", headers: headers);
+      final responseMap = json.decode(response.body);
       List<User> users = [];
-      responseMap["users"].forEach((userMap) => users.add(new User.fromMap(userMap)));
+      responseMap["users"].forEach((userMap) => users.add(User.fromMap(userMap)));
       return users;
     }
     catch (e) {
@@ -42,10 +42,10 @@ class UsersService {
 
   Future<User> getUser(String id) async {
     try {
-      final headers = {"Authorization": "Bearer ${_tokenService.AccessToken}"};
-      final response = await _http.get("${Environment.STS_URL}/user/$id", headers: headers);
-      var responseMap = JSON.decode(response.body);
-      var user = new User.fromMap(responseMap["user"]);
+      final headers = {"Authorization": "Bearer ${_tokenService.accessToken}"};
+      final response = await _http.get("${Environment.stsUrl}/user/$id", headers: headers);
+      var responseMap = json.decode(response.body);
+      var user = User.fromMap(responseMap["user"]);
       return user;
     }
     catch (e) {
@@ -56,10 +56,10 @@ class UsersService {
 
   Future<User> getUserByUsername(String username) async {
     try {
-      final headers = {"Authorization": "Bearer ${_tokenService.AccessToken}"};
-      final response = await _http.get("${Environment.STS_URL}/user/username/$username", headers: headers);
-      final responseMap = JSON.decode(response.body);
-      var user = new User.fromMap(responseMap["user"]);
+      final headers = {"Authorization": "Bearer ${_tokenService.accessToken}"};
+      final response = await _http.get("${Environment.stsUrl}/user/username/$username", headers: headers);
+      final responseMap = json.decode(response.body);
+      var user = User.fromMap(responseMap["user"]);
       return user;
     }
     catch (e) {
@@ -70,7 +70,7 @@ class UsersService {
 
   Future<bool> updateUser(User user) async {
     try {
-      var body = new UrlEncodedParams()
+      var body = UrlEncodedParams()
         ..set('id', user.id)
         ..set('username', user.username)
         ..set('password', user.password)
@@ -83,13 +83,13 @@ class UsersService {
         ..set('firstName', user.firstName);
 
       final headers = {
-        "Authorization": "Bearer ${_tokenService.AccessToken}",
+        "Authorization": "Bearer ${_tokenService.accessToken}",
         "Content-Type": "application/x-www-form-urlencoded"
       };
-      final response = await _http.put("${Environment.STS_URL}/user/admin/${user.id}",
+      final response = await _http.put("${Environment.stsUrl}/user/admin/${user.id}",
                body: body.toString(), headers: headers
       );
-      final responseMap = JSON.decode(response.body);
+      final responseMap = json.decode(response.body);
       return true;
     }
     catch (e) {
@@ -100,7 +100,7 @@ class UsersService {
 
   Future<bool> createUser(User user) async {
     try {
-      var body = new UrlEncodedParams()
+      var body = UrlEncodedParams()
         ..set('username', user.username)
         ..set('password', user.password)
         ..set('email', user.email)
@@ -112,13 +112,13 @@ class UsersService {
         ..set('roleId', user.roleId);
 
       final headers = {
-        "Authorization": "Bearer ${_tokenService.AccessToken}",
+        "Authorization": "Bearer ${_tokenService.accessToken}",
         "Content-Type": "application/x-www-form-urlencoded"
       };
-      final response = await _http.post("${Environment.STS_URL}/user",
+      final response = await _http.post("${Environment.stsUrl}/user",
           body: body.toString(), headers: headers
       );
-      final responseMap =  JSON.decode(response.body);
+      final responseMap =  json.decode(response.body);
       return true;
     }
     catch (e) {

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
 class PillButton extends StatelessWidget {
-  Color color;
-  VoidCallback onPressed;
-  Widget child;
-  bool enabled;
+  final Color color;
+  final VoidCallback onPressed;
+  final Widget child;
+  final bool enabled;
 
-  double elevation;
+  final double elevation;
 
   PillButton({
     this.color,
@@ -18,10 +18,10 @@ class PillButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return new Material(
-      borderRadius: new BorderRadius.circular(30.0),
+    return Material(
+      borderRadius: BorderRadius.circular(30.0),
       elevation: elevation,
-      child: new RaisedButton(
+      child: RaisedButton(
         color: color,
         onPressed: enabled ? onPressed : null,
         child: child,

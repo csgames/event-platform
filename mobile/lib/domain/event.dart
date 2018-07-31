@@ -7,7 +7,7 @@ class EventRegistration {
   bool declined;
   bool present;
 
-  RegistrationStatus get Status {
+  RegistrationStatus get status {
     if (present != null && present) {
       return RegistrationStatus.Present;
     }
@@ -70,8 +70,8 @@ class Event {
     imageUrl = map['imageUrl'];
     coverUrl = map['coverUrl'];
     website = map['website'];
-    details = map['details'];
-    attendees = map['attendees'].map((registration) => new EventRegistration.fromMap(registration)).toList();
+    details = Map.castFrom<String, dynamic, String, String>(map['details']);
+    attendees = List.castFrom<dynamic, EventRegistration>(map['attendees'].map((registration) => EventRegistration.fromMap(registration)).toList());
   }
 
   bool isRegistered(String attendeeId) {
@@ -83,6 +83,6 @@ class Event {
     if (registration == null) {
       return RegistrationStatus.NotRegistered;
     }
-    return registration.Status;
+    return registration.status;
   }
 }

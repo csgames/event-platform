@@ -5,12 +5,12 @@ import 'package:PolyHxApp/domain/user.dart';
 import 'package:PolyHxApp/utils/constants.dart';
 
 class UserProfile extends StatelessWidget {
-  User _user;
-  Widget content;
-  Color color;
-  double elevation;
-  double opacity;
-  StackFit fit;
+  final User _user;
+  final Widget content;
+  final Color color;
+  final double elevation;
+  final double opacity;
+  final StackFit fit;
 
   UserProfile(this._user,
       {
@@ -22,12 +22,12 @@ class UserProfile extends StatelessWidget {
       });
 
   Widget _buildNameWidget() {
-    return new Center(
-      child: new Padding(
-        padding: new EdgeInsets.only(top: 100.0),
-        child: new Text('${_user.firstName} ${_user.lastName}',
-          style: new TextStyle(
-            color: Constants.POLYHX_GREY,
+    return Center(
+      child: Padding(
+        padding: EdgeInsets.only(top: 100.0),
+        child: Text('${_user.firstName} ${_user.lastName}',
+          style: TextStyle(
+            color: Constants.polyhxGrey,
             fontSize: 24.0,
             fontWeight: FontWeight.w900,
           ),
@@ -37,17 +37,17 @@ class UserProfile extends StatelessWidget {
   }
 
   Widget _buildBody() {
-    return new Padding(
-        padding: new EdgeInsets.only(top: 40.0),
-        child: new Opacity(
+    return Padding(
+        padding: EdgeInsets.only(top: 40.0),
+        child: Opacity(
           opacity: opacity,
-          child: new Material(
+          child: Material(
             elevation: elevation,
-            borderRadius: new BorderRadius.circular(10.0),
-            child: new Column(
+            borderRadius: BorderRadius.circular(10.0),
+            child: Column(
               children: <Widget>[
                 _buildNameWidget(),
-                new Container(
+                Container(
                   child: content,
                 ),
               ],
@@ -58,15 +58,15 @@ class UserProfile extends StatelessWidget {
   }
 
   Widget _buildAvatar() {
-    return new Align(
+    return Align(
       alignment: Alignment.topCenter,
-      child: new CircleGravatar(_user.username),
+      child: CircleGravatar(_user.username),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    return new Stack(
+    return Stack(
       fit: fit,
       children: <Widget>[
         _buildBody(),

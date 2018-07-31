@@ -11,22 +11,22 @@ class AuthService {
   final TokenService _tokenService;
 
   User _currentUser;
-  User get CurrentUser => _currentUser;
+  User get currentUser => _currentUser;
 
   bool loggedIn;
 
   AuthService(this._http, this._tokenService) {
     checkLoggedIn();
-    if (_tokenService.TokenPayload != null) {
+    if (_tokenService.tokenPayload != null) {
       updateCurrentUser();
     }
   }
 
   void updateCurrentUser() {
-    var payload = _tokenService.TokenPayload;
-    this._currentUser = new User()
+    var payload = _tokenService.tokenPayload;
+    this._currentUser = User()
       ..id = payload["user_id"]
-      ..permissions = JSON.decode(payload["permissions"])
+      ..permissions = List.castFrom<dynamic, String>(json.decode(payload["permissions"]))
       ..firstName = payload["firstname"]
       ..lastName = payload["lastname"]
       ..role = payload["role"]
@@ -40,10 +40,10 @@ class AuthService {
   }
 
   Future<bool> login(String email, String password) async {
-    String url = '${Environment.STS_URL}/connect/token';
-    var body = new UrlEncodedParams()
-      ..set('client_id', Environment.STS_CLIENT_ID)
-      ..set('client_secret', Environment.STS_CLIENT_SECRET)
+    String url = '${Environment.stsUrl}/connect/token';
+    var body = UrlEncodedParams()
+      ..set('client_id', Environment.stsClientId)
+      ..set('client_secret', Environment.stsClientSecret)
       ..set('scope', 'sts_api+offline_access')
       ..set('grant_type', 'password')
       ..set('username', email)
@@ -51,10 +51,10 @@ class AuthService {
     var headers = { 'Content-Type': 'application/x-www-form-urlencoded' };
     try {
       var response = await _http.post(url, body: body.toString(), headers: headers);
-      Map responseBody = JSON.decode(response.body);
+      Map responseBody = json.decode(response.body);
       _tokenService.setup(responseBody['access_token'], responseBody['refresh_token']);
       await _tokenService.validateTokens();
-      if (_tokenService.TokenPayload != null) {
+      if (_tokenService.tokenPayload != null) {
         updateCurrentUser();
       }
       return true;

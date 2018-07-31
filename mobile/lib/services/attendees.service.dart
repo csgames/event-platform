@@ -4,17 +4,16 @@ import 'package:http/http.dart';
 import 'package:PolyHxApp/domain/attendee.dart';
 import 'package:PolyHxApp/services/token.service.dart';
 import 'package:PolyHxApp/utils//environment.dart';
-import 'package:PolyHxApp/utils/url-encoded-params.dart';
 
 class AttendeesService {
-  static final Map<Degree, String> _DEGREES = {
+  static final Map<Degree, String> _degrees = {
     Degree.Cegep: 'cegep',
     Degree.Bachelor: 'bachelor',
     Degree.Master: 'master',
     Degree.PhD: 'phd',
   };
 
-  static final Map<Gender, String> _GENDERS = {
+  static final Map<Gender, String> _genders = {
     Gender.Male: 'male',
     Gender.Female: 'female',
     Gender.Other: 'other',
@@ -22,7 +21,7 @@ class AttendeesService {
   };
 
 
-  static final Map<ShirtSize, String> _SHIRT_SIZES = {
+  static final Map<ShirtSize, String> _shirtSizes = {
     ShirtSize.Small: 'small',
     ShirtSize.Medium: 'medium',
     ShirtSize.Large: 'large',
@@ -37,10 +36,10 @@ class AttendeesService {
 
   Future<Attendee> getAttendeeByUserId(String userId) async {
     try {
-      final headers = {"Authorization": "Bearer ${_tokenService.AccessToken}"};
-      final response = await _http.get("${Environment.EVENT_MANAGEMENT_URL}/attendee/user/$userId", headers: headers);
-      var responseMap = JSON.decode(response.body);
-      var attendee = new Attendee.fromMap(responseMap["attendee"]);
+      final headers = {"Authorization": "Bearer ${_tokenService.accessToken}"};
+      final response = await _http.get("${Environment.eventManagementUrl}/attendee/user/$userId", headers: headers);
+      var responseMap = json.decode(response.body);
+      var attendee = Attendee.fromMap(responseMap["attendee"]);
       return attendee;
     }
     catch (e) {
@@ -51,10 +50,10 @@ class AttendeesService {
 
   Future<Attendee> getAttendeeByPublicId(String publicId) async {
     try {
-      final headers = {"Authorization": "Bearer ${_tokenService.AccessToken}"};
-      final response = await _http.get("${Environment.EVENT_MANAGEMENT_URL}/attendee/$publicId", headers: headers);
-      var responseMap = JSON.decode(response.body);
-      var attendee = new Attendee.fromMap(responseMap["attendee"]);
+      final headers = {"Authorization": "Bearer ${_tokenService.accessToken}"};
+      final response = await _http.get("${Environment.eventManagementUrl}/attendee/$publicId", headers: headers);
+      var responseMap = json.decode(response.body);
+      var attendee = Attendee.fromMap(responseMap["attendee"]);
       return attendee;
     }
     catch (e) {
@@ -65,9 +64,9 @@ class AttendeesService {
 
   Future<bool> updateAttendeePublicId(Attendee attendee) async {
     try {
-      final headers = {"Authorization": "Bearer ${_tokenService.AccessToken}"};
+      final headers = {"Authorization": "Bearer ${_tokenService.accessToken}"};
       final response = await _http.put(
-          "${Environment.EVENT_MANAGEMENT_URL}/attendee/${attendee
+          "${Environment.eventManagementUrl}/attendee/${attendee
               .id}/public_id/${attendee.publicId}", headers: headers);
       return response.statusCode == 200;
     }

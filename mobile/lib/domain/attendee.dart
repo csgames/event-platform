@@ -5,14 +5,14 @@ enum Gender { Male, Female, Other, NoAnswer }
 enum ShirtSize { Small, Medium, Large, XLarge, XXLarge, Invalid }
 
 class Attendee {
-  static final Map<String, Degree> _DEGREES = {
+  static final Map<String, Degree> _degrees = {
     'cegep': Degree.Cegep,
     'bachelor': Degree.Bachelor,
     'master': Degree.Master,
     'phd': Degree.PhD,
   };
 
-  static final Map<String, Gender> _GENDERS = {
+  static final Map<String, Gender> _genders = {
     'male': Gender.Male,
     'female': Gender.Female,
     'other': Gender.Other,
@@ -20,7 +20,7 @@ class Attendee {
   };
 
 
-  static final Map<String, ShirtSize> _SHIRT_SIZES = {
+  static final Map<String, ShirtSize> _shirtSizes = {
     'small': ShirtSize.Small,
     'medium': ShirtSize.Medium,
     'large': ShirtSize.Large,
@@ -69,9 +69,9 @@ class Attendee {
     linkedIn = map['linkedIn'];
     cv = map['cv'];
     website = map['website'];
-    degree = _DEGREES[map['degree']];
-    gender = _GENDERS[map['gender']];
-    shirtSize = _SHIRT_SIZES[map['tshirt']];
+    degree = _degrees[map['degree']];
+    gender = _genders[map['gender']];
+    shirtSize = _shirtSizes[map['tshirt']];
     phoneNumber = map['phoneNumber'];
     acceptSmsNotification = map['acceptSMSNotification'];
     hasDietaryRestrictions = map['hasDietaryRestrictions'];

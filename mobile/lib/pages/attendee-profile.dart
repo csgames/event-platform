@@ -9,33 +9,32 @@ import 'package:PolyHxApp/domain/user.dart';
 import 'package:PolyHxApp/utils/constants.dart';
 
 class AttendeeProfilePage extends StatelessWidget {
-  Attendee _attendee;
-  User _user;
-  RegistrationStatus _registrationStatus;
-  VoidCallback onDone;
-  VoidCallback onCancel;
-
-  bool _doneEnabled = false;
+  final Attendee _attendee;
+  final User _user;
+  final RegistrationStatus _registrationStatus;
+  final VoidCallback onDone;
+  final VoidCallback onCancel;
+  final bool _doneEnabled;
 
   AttendeeProfilePage(this._attendee, this._user, this._registrationStatus, this._doneEnabled, {this.onDone, this.onCancel});
 
   Widget _buildAvatar() {
-    return new Align(
+    return Align(
       alignment: Alignment.topCenter,
-      child: new CircleGravatar(_user.username),
+      child: CircleGravatar(_user.username),
     );
   }
 
   Widget _buildConfirmationButtons() {
-    return new Padding(
-        padding: new EdgeInsets.symmetric(horizontal: 10.0),
-        child: new Row(
+    return Padding(
+        padding: EdgeInsets.symmetric(horizontal: 10.0),
+        child: Row(
           children: <Widget>[
-            new Expanded(
-              child: new Align(
+            Expanded(
+              child: Align(
                 alignment: Alignment.topLeft,
-                child: new IconButton(
-                  icon: new Icon(Icons.clear),
+                child: IconButton(
+                  icon: Icon(Icons.clear),
                   iconSize: 36.0,
                   color: Colors.red,
                   onPressed: onCancel,
@@ -48,11 +47,11 @@ class AttendeeProfilePage extends StatelessWidget {
   }
 
   Widget _buildAttendeeNameWidget() {
-    return new Padding(
-      padding: new EdgeInsets.only(top: 100.0),
-      child: new Text('${_user.firstName} ${_user.lastName}',
-          style: new TextStyle(
-            color: Constants.POLYHX_GREY,
+    return Padding(
+      padding: EdgeInsets.only(top: 100.0),
+      child: Text('${_user.firstName} ${_user.lastName}',
+          style: TextStyle(
+            color: Constants.polyhxGrey,
             fontSize: 24.0,
             fontWeight: FontWeight.w900,
           )
@@ -61,7 +60,7 @@ class AttendeeProfilePage extends StatelessWidget {
   }
 
   Widget _buildAttendeeStatusWidget() {
-    final STATUS_INFO = {
+    final statusInfo = {
       RegistrationStatus.AwaitingConfirmation:  {
         'text': 'AWAITING CONFIRMATION',
         'color': Colors.yellow,
@@ -83,11 +82,11 @@ class AttendeeProfilePage extends StatelessWidget {
         'color': Colors.green,
       },
     };
-    return new Padding(
-      padding: new EdgeInsets.only(top: 20.0),
-      child: new Text('Status: ${STATUS_INFO[_registrationStatus]['text']}',
-          style: new TextStyle(
-            color: STATUS_INFO[_registrationStatus]['color'],
+    return Padding(
+      padding: EdgeInsets.only(top: 20.0),
+      child: Text('Status: ${statusInfo[_registrationStatus]['text']}',
+          style: TextStyle(
+            color: statusInfo[_registrationStatus]['color'],
             fontSize: 20.0,
             fontWeight: FontWeight.w900,
           )
@@ -96,23 +95,23 @@ class AttendeeProfilePage extends StatelessWidget {
   }
 
   Widget _buildShirtSizeWidget() {
-    return new Expanded(
-      child: new ShirtSizeIcon(_attendee.shirtSize),
+    return Expanded(
+      child: ShirtSizeIcon(_attendee.shirtSize),
     );
   }
 
   Widget _buildDoneButton(BuildContext context) {
-    return new Padding(
-        padding: new EdgeInsets.only(bottom: 30.0),
-        child: new Align(
+    return Padding(
+        padding: EdgeInsets.only(bottom: 30.0),
+        child: Align(
           alignment: Alignment.bottomCenter,
-          child: new PillButton(
+          child: PillButton(
             enabled: _doneEnabled,
             onPressed: onDone,
-            child: new Padding(
-              padding: new EdgeInsets.fromLTRB(25.0, 15.0, 25.0, 15.0),
-              child: new Text(_doneEnabled ? 'DONE' : 'SCANNING FOR TAG...',
-                style: new TextStyle(
+            child: Padding(
+              padding: EdgeInsets.fromLTRB(25.0, 15.0, 25.0, 15.0),
+              child: Text(_doneEnabled ? 'DONE' : 'SCANNING FOR TAG...',
+                style: TextStyle(
                     color: Colors.white,
                     fontSize: 18.0,
                     fontWeight: FontWeight.bold,
@@ -125,25 +124,25 @@ class AttendeeProfilePage extends StatelessWidget {
   }
 
   Widget _buildPublicIdWidget() {
-    return new Padding(
-        padding: new EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 20.0),
-        child: new Align(
+    return Padding(
+        padding: EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 20.0),
+        child: Align(
           alignment: Alignment.bottomCenter,
-          child: new Column(
+          child: Column(
             children: <Widget>[
-              new Padding(
-                padding: new EdgeInsets.only(bottom: 10.0),
-                child: new Text('Public ID:',
-                  style: new TextStyle(
-                    color: Constants.POLYHX_GREY,
+              Padding(
+                padding: EdgeInsets.only(bottom: 10.0),
+                child: Text('Public ID:',
+                  style: TextStyle(
+                    color: Constants.polyhxGrey,
                     fontSize: 18.0,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
               ),
-              new Text(_attendee.publicId == null ? 'NOT ASSIGNED' : _attendee.publicId,
-                style: new TextStyle(
-                  color: Constants.POLYHX_GREY,
+              Text(_attendee.publicId == null ? 'NOT ASSIGNED' : _attendee.publicId,
+                style: TextStyle(
+                  color: Constants.polyhxGrey,
                   fontSize: 14.0,
                   fontWeight: FontWeight.bold,
                 ),
@@ -155,12 +154,12 @@ class AttendeeProfilePage extends StatelessWidget {
   }
 
   Widget _buildProfileBody(BuildContext context) {
-    return new Padding(
-      padding: new EdgeInsets.only(top: 40.0),
-      child: new Material(
+    return Padding(
+      padding: EdgeInsets.only(top: 40.0),
+      child: Material(
         elevation: 1.0,
-        borderRadius: new BorderRadius.circular(10.0),
-        child: new Column(
+        borderRadius: BorderRadius.circular(10.0),
+        child: Column(
           children: <Widget>[
             _buildAttendeeNameWidget(),
             _buildAttendeeStatusWidget(),
@@ -175,7 +174,7 @@ class AttendeeProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return new Stack(
+    return Stack(
       fit: StackFit.expand,
       children: <Widget>[
         _buildProfileBody(context),

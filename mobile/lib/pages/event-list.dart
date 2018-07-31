@@ -29,29 +29,29 @@ class EventList extends StatelessWidget {
   }
 
   Widget _buildEventCards() {
-    return new FutureBuilder(
+    return FutureBuilder(
         future: fetchAllEvents(),
         builder: (BuildContext context, AsyncSnapshot<List<Event>> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return new Scaffold(body: new Center(child: new LoadingSpinner()));
+            return Scaffold(body: Center(child: LoadingSpinner()));
           } else {
             if (!snapshot.hasError && snapshot.data != null) {
-              return new PageTransformer(
+              return PageTransformer(
                 pageViewBuilder: (context, visibilityResolver) {
-                  return new PageView.builder(
-                    controller: new PageController(viewportFraction: 0.85),
+                  return PageView.builder(
+                    controller: PageController(viewportFraction: 0.85),
                     itemCount: snapshot.data.length,
                     itemBuilder: (context, index) {
                       final item = snapshot.data[index];
                       final pageVisibility = visibilityResolver
                           .resolvePageVisibility(index);
-                      return new StoreConnector<AppState, VoidCallback>(
+                      return StoreConnector<AppState, VoidCallback>(
                           converter: (Store<AppState> store) =>
                               () =>
-                              store.dispatch(new SetCurrentEventAction(item)),
+                              store.dispatch(SetCurrentEventAction(item)),
                           builder: (BuildContext context,
                               VoidCallback setCurrentEvent) {
-                            return new EventPageItem(
+                            return EventPageItem(
                               item: item,
                               pageVisibility: pageVisibility,
                               onTap: () {
@@ -66,7 +66,7 @@ class EventList extends StatelessWidget {
               );
             } else {
               print(snapshot.data);
-              return new Text('An error occured while loading events.');
+              return Text('An error occured while loading events.');
             }
           }
         });
@@ -74,18 +74,18 @@ class EventList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return new FutureBuilder(
+    return FutureBuilder(
         future: isLoggedIn(),
         builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return new Scaffold(body: new Center(child: new LoadingSpinner()));
+            return Scaffold(body: Center(child: LoadingSpinner()));
           } else {
             if (!snapshot.hasError && snapshot.data != null && snapshot.data) {
-              return new Scaffold(
-                appBar: new AppBar(
-                  title: new Text("Events"),
-                  actions: <Widget>[new IconButton(
-                      icon: new Icon(FontAwesomeIcons.signOutAlt),
+              return Scaffold(
+                appBar: AppBar(
+                  title: Text("Events"),
+                  actions: <Widget>[IconButton(
+                      icon: Icon(FontAwesomeIcons.signOutAlt),
                       color: Colors.white,
                       onPressed: () {
                         _tokenService.clear();
@@ -94,15 +94,15 @@ class EventList extends StatelessWidget {
                       })
                   ],
                 ),
-                body: new Center(
-                  child: new SizedBox.fromSize(child: _buildEventCards()),
+                body: Center(
+                  child: SizedBox.fromSize(child: _buildEventCards()),
                 ),
               );
             } else {
-              new Future.delayed(
-                  new Duration(milliseconds: 1), () =>
+              Future.delayed(
+                  Duration(milliseconds: 1), () =>
                   Navigator.of(context).pushReplacementNamed(Routes.LOGIN));
-              return new Container();
+              return Container();
             }
           }
         });

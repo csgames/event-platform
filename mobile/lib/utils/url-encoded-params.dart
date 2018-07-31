@@ -1,6 +1,6 @@
 class UrlEncodedParams {
-  Map<String, String> _params = new Map();
-  Map<String, List<String>> _paramsList = new Map();
+  Map<String, String> _params = Map();
+  Map<String, List<String>> _paramsList = Map();
 
   void set(String key, String value) {
     _params[key] = value;

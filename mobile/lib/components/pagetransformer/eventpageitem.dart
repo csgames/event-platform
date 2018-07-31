@@ -23,11 +23,11 @@ class EventPageItem extends StatelessWidget {
   }) {
     final double xTranslation = pageVisibility.pagePosition * translationFactor;
 
-    return new Opacity(
+    return Opacity(
       opacity: pageVisibility.visibleFraction,
-      child: new Transform(
+      child: Transform(
         alignment: FractionalOffset.topLeft,
-        transform: new Matrix4.translationValues(
+        transform: Matrix4.translationValues(
           xTranslation,
           0.0,
           0.0,
@@ -42,9 +42,9 @@ class EventPageItem extends StatelessWidget {
 
     final titleText = _applyTextEffects(
       translationFactor: 200.0,
-      child: new Padding(
+      child: Padding(
         padding: const EdgeInsets.only(top: 16.0),
-        child: new Text(
+        child: Text(
           item.name,
           style: textTheme.title.copyWith(color: Colors.white, fontWeight: FontWeight.bold),
           textAlign: TextAlign.center,
@@ -52,26 +52,26 @@ class EventPageItem extends StatelessWidget {
       ),
     );
 
-    final eventImage = new EventImage(item);
+    final eventImage = EventImage(item);
 
-    var formatter = new DateFormat.yMMMMd('en_US');
+    var formatter = DateFormat.yMMMMd('en_US');
 
     final eventDates = _applyTextEffects(
         translationFactor: 200.0,
-        child: new Padding(
+        child: Padding(
             padding: const EdgeInsets.only(top: 16.0),
-            child: new Text(
+            child: Text(
               "${formatter.format(item.beginDate)} - ${formatter.format(
                   item.endDate)}",
               style: textTheme.subhead.copyWith(color: Colors.white, fontWeight: FontWeight.normal),
               textAlign: TextAlign.center,
             )));
 
-    return new Positioned(
+    return Positioned(
       bottom: 56.0,
       left: 32.0,
       right: 32.0,
-      child: new Column(
+      child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [eventImage, titleText, eventDates],
       ),
@@ -80,18 +80,18 @@ class EventPageItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final image = new Image.network(
+    final image = Image.network(
       item.coverUrl,
       fit: BoxFit.cover,
-      alignment: new FractionalOffset(
+      alignment: FractionalOffset(
         0.5 + (pageVisibility.pagePosition / 3),
         0.5,
       ),
     );
 
-    final imageOverlayGradient = new DecoratedBox(
-      decoration: new BoxDecoration(
-        gradient: new LinearGradient(
+    final imageOverlayGradient = DecoratedBox(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
           begin: FractionalOffset.bottomCenter,
           end: FractionalOffset.topCenter,
           colors: [
@@ -102,17 +102,17 @@ class EventPageItem extends StatelessWidget {
       ),
     );
 
-    return new GestureDetector(
+    return GestureDetector(
         onTap: onTap,
-        child: new Padding(
+        child: Padding(
           padding: const EdgeInsets.symmetric(
             vertical: 30.0,
             horizontal: 8.0,
           ),
-          child: new Material(
+          child: Material(
             elevation: 4.0,
-            borderRadius: new BorderRadius.circular(8.0),
-            child: new Stack(
+            borderRadius: BorderRadius.circular(8.0),
+            child: Stack(
               fit: StackFit.expand,
               children: [
                 image,

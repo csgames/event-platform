@@ -1,7 +1,6 @@
 import 'package:PolyHxApp/domain/event.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter/src/material/material.dart';
-import 'package:flutter/src/material/colors.dart';
 
 class EventImage extends StatelessWidget {
   final Event _event;
@@ -10,23 +9,23 @@ class EventImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return new Hero(
+    return Hero(
         tag: 'event-image-${_event.id}',
-        child: new Material(
+        child: Material(
             elevation: 4.0,
-            borderRadius: new BorderRadius.circular(2.0),
-            child: new Container(
-                decoration: new BoxDecoration(
-                    border: new Border.all(
+            borderRadius: BorderRadius.circular(2.0),
+            child: Container(
+                decoration: BoxDecoration(
+                    border: Border.all(
                       color: Colors.white,
                       width: 2.0,
                     )),
-                child: new Image.network(
+                child: Image.network(
                   _event.imageUrl,
                   fit: BoxFit.cover,
                   width: 250.0,
                   height: 250.0,
-//                  alignment: new FractionalOffset(
+//                  alignment: FractionalOffset(
 //                    0.5 + (pageVisibility.pagePosition / 3),
 //                    0.5,
 //                  ),

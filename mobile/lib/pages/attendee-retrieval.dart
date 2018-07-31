@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
-import 'package:qrcode_reader/QRCodeReader.dart';
+import 'package:qr_reader/qr_reader.dart';
 import 'package:PolyHxApp/components/loading-spinner.dart';
 import 'package:PolyHxApp/components/pill-button.dart';
 import 'package:PolyHxApp/components/pill-textfield.dart';
@@ -29,7 +29,7 @@ class AttendeeRetrievalPage extends StatefulWidget {
 
   @override
   _AttendeeRetrievalPageState createState() =>
-      new _AttendeeRetrievalPageState(_eventsService, _usersService,
+      _AttendeeRetrievalPageState(_eventsService, _usersService,
           _attendeesService, _nfcService, _qrCodeReader, _event);
 }
 
@@ -50,8 +50,7 @@ class _AttendeeRetrievalPageState extends State<AttendeeRetrievalPage> {
   String _lastScannedTag;
 
   _AttendeeRetrievalPageState(this._eventsService, this._usersService,
-      this._attendeesService, this._nfcService, this._qrCodeReader, this._event) {
-  }
+      this._attendeesService, this._nfcService, this._qrCodeReader, this._event);
 
   _findAttendee(String username) async {
     setState(() {
@@ -63,7 +62,7 @@ class _AttendeeRetrievalPageState extends State<AttendeeRetrievalPage> {
         _isLoading = false;
       });
       showDialog(context: context,
-          child: _buildAlertDialog('User Not Found',
+          builder: (_) => _buildAlertDialog('User Not Found',
               'No user with email address $username could be found.'));
       return;
     }
@@ -73,7 +72,7 @@ class _AttendeeRetrievalPageState extends State<AttendeeRetrievalPage> {
         _isLoading = false;
       });
       showDialog(context: context,
-          child: _buildAlertDialog('Attendee Not Found',
+          builder: (_) => _buildAlertDialog('Attendee Not Found',
               'No attendee with email address $username could be found.'));
       return;
     }
@@ -82,7 +81,7 @@ class _AttendeeRetrievalPageState extends State<AttendeeRetrievalPage> {
         _isLoading = false;
       });
       showDialog(context: context,
-          child: _buildAlertDialog('Attendee not registered',
+          builder: (_) => _buildAlertDialog('Attendee not registered',
               'User $username is not registered to this event.'));
       return;
     }
@@ -106,9 +105,9 @@ class _AttendeeRetrievalPageState extends State<AttendeeRetrievalPage> {
       setState(() {
         _attendee.publicId = nfcId;
       });
-      Scaffold.of(context).showSnackBar(new SnackBar(
-        content: new Text('NFC scanned: $nfcId'),
-        action: new SnackBarAction(
+      Scaffold.of(context).showSnackBar(SnackBar(
+        content: Text('NFC scanned: $nfcId'),
+        action: SnackBarAction(
           label: 'OK',
           onPressed: Scaffold
               .of(context)
@@ -119,10 +118,10 @@ class _AttendeeRetrievalPageState extends State<AttendeeRetrievalPage> {
     }
     else if (nfcId != _lastScannedTag){
       _lastScannedTag = nfcId;
-      Scaffold.of(context).showSnackBar(new SnackBar(
-          content: new Text('Attendee already assigned to this tag.',
-          style: new TextStyle(color: Colors.white)),
-        action: new SnackBarAction(
+      Scaffold.of(context).showSnackBar(SnackBar(
+          content: Text('Attendee already assigned to this tag.',
+          style: TextStyle(color: Colors.white)),
+        action: SnackBarAction(
         label: 'OK',
         onPressed: Scaffold
         .of(context)
@@ -130,7 +129,7 @@ class _AttendeeRetrievalPageState extends State<AttendeeRetrievalPage> {
         ),
       ),
       );
-      new Future.delayed(new Duration(seconds: 2), () { _lastScannedTag = null; });
+      Future.delayed(Duration(seconds: 2), () { _lastScannedTag = null; });
       setState(() {
         _hasScannedTag = true;
       });
@@ -140,13 +139,13 @@ class _AttendeeRetrievalPageState extends State<AttendeeRetrievalPage> {
   _saveAttendee(BuildContext context) async {
     bool idSaved = await _attendeesService.updateAttendeePublicId(_attendee);
     bool statusSaved = await _eventsService.setAttendeeAsPresent(_event.id, _attendee.id);
-    Scaffold.of(context).showSnackBar(new SnackBar(
+    Scaffold.of(context).showSnackBar(SnackBar(
       content: idSaved && statusSaved
-             ? new Text('Saved attendee info successfully.',
-                        style: new TextStyle(color: Colors.white))
-             : new Text('An error occured while saving the attendee info.',
-                        style: new TextStyle(color: Colors.red)),
-      action: new SnackBarAction(
+             ? Text('Saved attendee info successfully.',
+                        style: TextStyle(color: Colors.white))
+             : Text('An error occured while saving the attendee info.',
+                        style: TextStyle(color: Colors.red)),
+      action: SnackBarAction(
         label: 'OK',
         onPressed: Scaffold
             .of(context)
@@ -169,13 +168,13 @@ class _AttendeeRetrievalPageState extends State<AttendeeRetrievalPage> {
   }
 
   Widget _buildAlertDialog(String title, String description) {
-    return new AlertDialog(
-      title: new Text(title),
-      content: new Text(description),
+    return AlertDialog(
+      title: Text(title),
+      content: Text(description),
       actions: <Widget>[
-        new FlatButton(
-          child: new Text('OK',
-              style: new TextStyle(
+        FlatButton(
+          child: Text('OK',
+              style: TextStyle(
                 color: Colors.red,
                 fontSize: 18.0,
               )
@@ -190,14 +189,14 @@ class _AttendeeRetrievalPageState extends State<AttendeeRetrievalPage> {
 
 
   Widget _buildSearchBar() {
-    return new Padding(
-      padding: new EdgeInsets.all(20.0),
-      child: new PillTextField(
+    return Padding(
+      padding: EdgeInsets.all(20.0),
+      child: PillTextField(
         keyboardType: TextInputType.emailAddress,
         onSubmitted: (username) => _findAttendee(username),
-        decoration: new InputDecoration(
-          icon: new Icon(Icons.search, color: Constants.POLYHX_RED),
-          hideDivider: true,
+        decoration: InputDecoration(
+          icon: Icon(Icons.search, color: Constants.polyhxRed),
+          border: null,
         ),
       ),
     );
@@ -205,20 +204,20 @@ class _AttendeeRetrievalPageState extends State<AttendeeRetrievalPage> {
 
   Widget _buildNoAttendeeBody() {
     return _isLoading
-        ? new Expanded(child: new LoadingSpinner())
-        : new Expanded(
-      child: new Column(
+        ? Expanded(child: LoadingSpinner())
+        : Expanded(
+      child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          new Icon(Icons.person,
+          Icon(Icons.person,
             size: 240.0,
-            color: Constants.POLYHX_GREY.withAlpha(144),
+            color: Constants.polyhxGrey.withAlpha(144),
           ),
-          new Text('Register attendee',
-              style: new TextStyle(
+          Text('Register attendee',
+              style: TextStyle(
                 fontSize: 30.0,
                 fontWeight: FontWeight.w900,
-                color: Constants.POLYHX_GREY.withAlpha(144),
+                color: Constants.polyhxGrey.withAlpha(144),
               )
           ),
         ],
@@ -227,14 +226,14 @@ class _AttendeeRetrievalPageState extends State<AttendeeRetrievalPage> {
   }
 
   Widget _buildScanButton() {
-    return new Padding(
-      padding: new EdgeInsets.symmetric(vertical: 50.0),
-      child: new Align(
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: 50.0),
+      child: Align(
         alignment: Alignment.bottomCenter,
-        child: new PillButton(
-          child: new Padding(
-            padding: new EdgeInsets.fromLTRB(35.0, 10.0, 35.0, 10.0),
-            child: new Icon(Icons.camera_alt,
+        child: PillButton(
+          child: Padding(
+            padding: EdgeInsets.fromLTRB(35.0, 10.0, 35.0, 10.0),
+            child: Icon(Icons.camera_alt,
               color: Colors.white,
               size: 40.0,
             ),
@@ -247,9 +246,9 @@ class _AttendeeRetrievalPageState extends State<AttendeeRetrievalPage> {
   }
 
   Widget _buildAttendeeProfile(BuildContext context) {
-    return new Padding(
-      padding: new EdgeInsets.fromLTRB(30.0, 20.0, 30.0, 20.0),
-      child: new AttendeeProfilePage(
+    return Padding(
+      padding: EdgeInsets.fromLTRB(30.0, 20.0, 30.0, 20.0),
+      child: AttendeeProfilePage(
           _attendee, _user, _event.getRegistrationStatus(_attendee.id), _hasScannedTag,
           onDone: _clearAttendee,
           onCancel: _clearAttendee
@@ -260,7 +259,7 @@ class _AttendeeRetrievalPageState extends State<AttendeeRetrievalPage> {
   Widget _buildPage(BuildContext context) {
     return _attendee != null && _user != null
         ? _buildAttendeeProfile(context)
-        : new Column(
+        : Column(
       children: <Widget>[
         _buildSearchBar(),
         _buildNoAttendeeBody(),
@@ -271,9 +270,9 @@ class _AttendeeRetrievalPageState extends State<AttendeeRetrievalPage> {
 
   @override
   Widget build(BuildContext context) {
-    _nfcService.NfcStream.asBroadcastStream().listen((id) =>
+    _nfcService.nfcStream.asBroadcastStream().listen((id) =>
         _onNfcTagScanned(context, id));
-    return new Center(
+    return Center(
       child: _buildPage(context),
     );
   }

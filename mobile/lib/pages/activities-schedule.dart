@@ -21,7 +21,7 @@ class ActivitiesSchedulePage extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() =>
-      new _ActivitiesScheduleState(_eventsService, _attendeesService,
+      _ActivitiesScheduleState(_eventsService, _attendeesService,
                                    _usersService, _nfcService);
 }
 
@@ -44,7 +44,7 @@ class _ActivitiesScheduleState extends State<ActivitiesSchedulePage>
   }
 
   Map<String, List<Activity>> _getActivitiesPerDay(List<Activity> activities) {
-    var formatter = new DateFormat.MMMMd('en_US');
+    var formatter = DateFormat.MMMMd('en_US');
     Map<String, List<Activity>> dates = {};
     for (var activity in activities) {
       var date = formatter.format(activity.beginDate);
@@ -63,7 +63,7 @@ class _ActivitiesScheduleState extends State<ActivitiesSchedulePage>
     });
     var activities = await _eventsService.getAllActivities();
     var activitiesPerDay = _getActivitiesPerDay(activities);
-    _tabController = new TabController(
+    _tabController = TabController(
         length: activitiesPerDay.keys.length,
         vsync: this
     );
@@ -74,9 +74,9 @@ class _ActivitiesScheduleState extends State<ActivitiesSchedulePage>
   }
 
   void _showActivity(BuildContext context, Activity activity) {
-    Navigator.of(context).push(new MaterialPageRoute<Null>(
+    Navigator.of(context).push(MaterialPageRoute<Null>(
         builder: (BuildContext context) {
-          return new ActivityPage(_eventsService, _usersService,
+          return ActivityPage(_eventsService, _usersService,
                                   _attendeesService, _nfcService, activity);
         },
         fullscreenDialog: true
@@ -86,25 +86,25 @@ class _ActivitiesScheduleState extends State<ActivitiesSchedulePage>
   List<Widget> _buildTabs() {
     List<String> days = _activitiesPerDay.keys.toList();
     days.sort((String day1, String day2) { return day1.compareTo(day2); });
-    return days.map((d) => new Tab(text: d)).toList();
+    return days.map((d) => Tab(text: d)).toList();
   }
 
   Widget _buildActivitiesList(BuildContext context) {
-    return new Column(
+    return Column(
       children: <Widget> [
-        new TabBar(
+        TabBar(
           labelColor: Colors.black,
           controller: _tabController,
           tabs: _buildTabs(),
         ),
-        new Flexible(
-          child: new TabBarView(
+        Flexible(
+          child: TabBarView(
             controller: _tabController,
             children: _activitiesPerDay.keys.map((d) =>
-            new SingleChildScrollView(
-              child: new Column(
+            SingleChildScrollView(
+              child: Column(
                 children: _activitiesPerDay[d].map((a) =>
-                new FlatButton(child: new ActivityCard(a),
+                FlatButton(child: ActivityCard(a),
                     onPressed: () { _showActivity(context, a); })
                 ).toList(),
               ),
@@ -119,7 +119,7 @@ class _ActivitiesScheduleState extends State<ActivitiesSchedulePage>
   @override
   Widget build(BuildContext context) {
     return _isLoading
-        ? new LoadingSpinner()
+        ? LoadingSpinner()
         : _buildActivitiesList(context);
   }
 }

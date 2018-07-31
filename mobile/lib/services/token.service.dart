@@ -17,7 +17,7 @@ class TokenService {
     _prefs = await SharedPreferences.getInstance();
   }
 
-  void set AccessToken(String accessToken) {
+  set accessToken(String accessToken) {
     if (accessToken == null) {
       _prefs?.remove('access_token');
     } else {
@@ -25,11 +25,11 @@ class TokenService {
     }
   }
 
-  String get AccessToken {
+  String get accessToken {
     return _prefs?.getString('access_token');
   }
 
-  void set RefreshToken(String refreshToken) {
+  set refreshToken(String refreshToken) {
     if (refreshToken == null) {
       _prefs?.remove('refresh_token');
     } else {
@@ -37,17 +37,17 @@ class TokenService {
     }
   }
 
-  String get RefreshToken {
+  String get refreshToken {
     return _prefs?.getString('refresh_token');
   }
 
-  Map get TokenPayload {
-    var accessToken = AccessToken;
-    if (accessToken == null) {
+  Map get tokenPayload {
+    var token = accessToken;
+    if (token == null) {
       return null;
     }
 
-    String payload = accessToken.split('.')[1];
+    String payload = token.split('.')[1];
     int padding = payload.length % 4;
 
     if (padding == 1 || padding == 3) {
@@ -57,27 +57,27 @@ class TokenService {
       payload += '==';
     }
 
-    List<int> base64Bytes = BASE64.decode(payload);
-    String payloadStr = UTF8.decode(base64Bytes);
-    return JSON.decode(payloadStr);
+    List<int> base64Bytes = base64.decode(payload);
+    String payloadStr = utf8.decode(base64Bytes);
+    return json.decode(payloadStr);
   }
 
-  void setup(String accessToken, String refreshToken) {
-    AccessToken = accessToken;
-    RefreshToken = refreshToken;
+  void setup(String __accessToken, String __refreshToken) {
+    accessToken = __accessToken;
+    refreshToken = __refreshToken;
   }
 
   Future<bool> validateTokens() async {
     await init();
-    if (AccessToken == null) return false;
-    var payload = TokenPayload;
+    if (accessToken == null) return false;
+    var payload = tokenPayload;
     num exp = payload["exp"];
-    num now = new DateTime.now().millisecondsSinceEpoch / 1000;
+    num now = DateTime.now().millisecondsSinceEpoch / 1000;
     if (now >= exp) {
-      if (RefreshToken == null) return false;
+      if (refreshToken == null) return false;
       String newToken = await refreshAccessToken();
       if (newToken != null) {
-        AccessToken = newToken;
+        accessToken = newToken;
       }
       return newToken != null;
     }
@@ -85,23 +85,23 @@ class TokenService {
   }
 
   void clear() {
-    AccessToken = null;
-    RefreshToken = null;
+    accessToken = null;
+    refreshToken = null;
   }
 
   Future<String> refreshAccessToken() async {
-    String url = '${Environment.STS_URL}/connect/token';
-    var body = new UrlEncodedParams()
-      ..set('client_id', Environment.STS_CLIENT_ID)
-      ..set('client_secret', Environment.STS_CLIENT_SECRET)
+    String url = '${Environment.stsUrl}/connect/token';
+    var body = UrlEncodedParams()
+      ..set('client_id', Environment.stsClientId)
+      ..set('client_secret', Environment.stsClientSecret)
       ..set('scope', 'sts_api')
       ..set('grant_type', 'refresh_token')
-      ..set('refresh_token', RefreshToken);
+      ..set('refresh_token', refreshToken);
     var headers = {'Content-Type': 'application/x-www-form-urlencoded'};
     try {
       var response =
           await _http.post(url, body: body.toString(), headers: headers);
-      Map responseBody = JSON.decode(response.body);
+      Map responseBody = json.decode(response.body);
       return responseBody['access_token'];
     } catch (e) {
       return null;

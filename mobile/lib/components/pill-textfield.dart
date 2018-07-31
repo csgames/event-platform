@@ -1,25 +1,25 @@
 import 'package:flutter/material.dart';
 
 class PillTextField extends StatelessWidget {
-  Key key;
-  TextEditingController controller;
-  FocusNode focusNode;
-  InputDecoration decoration;
-  TextInputType keyboardType;
-  TextStyle style;
-  TextAlign textAlign;
-  bool autofocus;
-  bool obscureText;
-  bool autocorrect;
-  int maxLines;
-  int maxLength;
-  bool maxLengthEnforced;
-  ValueChanged<String> onChanged;
-  ValueChanged<String> onSubmitted;
-  List inputFormatters;
+  final Key key;
+  final TextEditingController controller;
+  final FocusNode focusNode;
+  final InputDecoration decoration;
+  final TextInputType keyboardType;
+  final TextStyle style;
+  final TextAlign textAlign;
+  final bool autofocus;
+  final bool obscureText;
+  final bool autocorrect;
+  final int maxLines;
+  final int maxLength;
+  final bool maxLengthEnforced;
+  final ValueChanged<String> onChanged;
+  final ValueChanged<String> onSubmitted;
+  final List inputFormatters;
 
-  Color color;
-  double elevation;
+  final Color color;
+  final double elevation;
 
   PillTextField({
     this.key,
@@ -44,10 +44,10 @@ class PillTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return new Material(
-      borderRadius: new BorderRadius.circular(30.0),
+    return Material(
+      borderRadius: BorderRadius.circular(30.0),
       elevation: elevation,
-      child: new TextField(
+      child: TextField(
         key: key,
         controller: controller,
         focusNode: focusNode,

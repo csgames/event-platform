@@ -1,5 +1,4 @@
 import 'package:PolyHxApp/domain/event.dart';
-import 'package:PolyHxApp/domain/user.dart';
 
 class LoadEventsAction {}
 

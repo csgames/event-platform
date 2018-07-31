@@ -1,13 +1,12 @@
 import 'dart:async';
-
-import 'package:flutter/src/services/platform_channel.dart';
+import 'package:flutter/services.dart';
 
 class NfcService {
   static const platform = const MethodChannel('app.polyhx.io/nfc');
 
-  StreamController<String> _controller = new StreamController<String>.broadcast();
+  StreamController<String> _controller = StreamController<String>.broadcast();
 
-  Stream<String> get NfcStream => _controller.stream;
+  Stream<String> get nfcStream => _controller.stream;
   
   NfcService() {
     platform.setMethodCallHandler((call) {

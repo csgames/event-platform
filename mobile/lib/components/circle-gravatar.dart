@@ -3,19 +3,19 @@ import 'package:flutter/widgets.dart';
 import 'package:PolyHxApp/components/gravatar.dart';
 
 class CircleGravatar extends StatelessWidget {
-  String _username;
-  double elevation;
-  double radius;
+  final String _username;
+  final double elevation;
+  final double radius;
 
   CircleGravatar(this._username, { this.elevation = 2.0, this.radius = 60.0 });
 
   @override
   Widget build(BuildContext context) {
-    return new Material(
+    return Material(
       elevation: elevation,
-      borderRadius: new BorderRadius.circular(radius),
-      child: new CircleAvatar(
-        backgroundImage: new Gravatar(_username),
+      borderRadius: BorderRadius.circular(radius),
+      child: CircleAvatar(
+        backgroundImage: Gravatar(_username),
         radius: radius,
       ),
     );

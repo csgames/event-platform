@@ -1,7 +1,7 @@
 import 'package:http/http.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:qrcode_reader/QRCodeReader.dart';
+import 'package:qr_reader/qr_reader.dart';
 import 'package:redux/redux.dart';
 import 'package:PolyHxApp/pages/event.dart';
 import 'package:PolyHxApp/pages/event-list.dart';
@@ -19,75 +19,75 @@ import 'package:PolyHxApp/redux/reducers/app-state-reducer.dart';
 import 'package:PolyHxApp/redux/state.dart';
 
 void main() {
-  var client = new Client();
-  var tokenService = new TokenService(client);
-  var authService = new AuthService(client, tokenService);
-  var eventsService = new EventsService(client, tokenService);
-  var usersService = new UsersService(client, tokenService);
-  var attendeesService = new AttendeesService(client, tokenService);
-  var nfcService = new NfcService();
-  var qrCodeReader = new QRCodeReader();
-  runApp(new PolyHxApp(
+  var client = Client();
+  var tokenService = TokenService(client);
+  var authService = AuthService(client, tokenService);
+  var eventsService = EventsService(client, tokenService);
+  var usersService = UsersService(client, tokenService);
+  var attendeesService = AttendeesService(client, tokenService);
+  var nfcService = NfcService();
+  var qrCodeReader = QRCodeReader();
+  var store = Store<AppState>(appReducer,
+      initialState: AppState(),
+      middleware: createEventsMiddleware(eventsService));
+  runApp(PolyHxApp(
       authService,
       tokenService,
       eventsService,
       usersService,
       attendeesService,
       nfcService,
-      qrCodeReader));
+      qrCodeReader,
+      store
+  ));
 }
 
 class PolyHxApp extends StatelessWidget {
-  Store<AppState> store;
-
-  AuthService _authService;
-  TokenService _tokenService;
-  EventsService _eventsService;
-  UsersService _usersService;
-  AttendeesService _attendeesService;
-  NfcService _nfcService;
-  QRCodeReader _qrCodeReader;
+  final Store<AppState> store;
+  final AuthService _authService;
+  final TokenService _tokenService;
+  final EventsService _eventsService;
+  final UsersService _usersService;
+  final AttendeesService _attendeesService;
+  final NfcService _nfcService;
+  final QRCodeReader _qrCodeReader;
 
   PolyHxApp(this._authService, this._tokenService, this._eventsService,
       this._usersService, this._attendeesService, this._nfcService,
-      this._qrCodeReader) {
-    store = new Store<AppState>(appReducer,
-        initialState: new AppState(),
-        middleware: createEventsMiddleware(_eventsService));
-  }
+      this._qrCodeReader, this.store);
 
   @override
   Widget build(BuildContext context) {
-    return new StoreProvider(
+    return StoreProvider(
         store: store,
-        child: new MaterialApp(
+        child: MaterialApp(
             title: 'PolyHx',
-            theme: new ThemeData(
+            theme: ThemeData(
               accentColor: Colors.lightBlue,
-              buttonColor: Constants.POLYHX_RED,
-              hintColor: Constants.POLYHX_GREY,
-              primaryColor: Constants.POLYHX_RED,
+              buttonColor: Constants.polyhxRed,
+              hintColor: Constants.polyhxGrey,
+              primaryColor: Constants.polyhxRed,
               scaffoldBackgroundColor: Colors.white,
-              textSelectionColor: Constants.POLYHX_RED,
+              textSelectionColor: Constants.polyhxRed,
             ),
-            home: new EventList(_tokenService, _eventsService),
+            home: EventList(_tokenService, _eventsService),
             onGenerateRoute: (RouteSettings routeSettings) {
               var path = routeSettings.name.split('/');
               switch (path[0]) {
                 case Routes.LOGIN:
-                  return new MaterialPageRoute(
+                  return MaterialPageRoute(
                       builder: (BuildContext context) =>
-                      new LoginPage(_authService),
+                      LoginPage(_authService),
                       settings: routeSettings);
                 case Routes.HOME:
-                  return new MaterialPageRoute(
+                  return MaterialPageRoute(
                       builder: (BuildContext context) =>
-                      new EventList(_tokenService, _eventsService),
+                      EventList(_tokenService, _eventsService),
                       settings: routeSettings);
                 case Routes.EVENT:
-                  return new MaterialPageRoute(
+                  return MaterialPageRoute(
                       builder: (BuildContext context) =>
-                      new EventPage(
+                      EventPage(
                           _eventsService, _usersService, _attendeesService,
                           _nfcService, _qrCodeReader),
                       settings: routeSettings);

@@ -21,6 +21,6 @@ class Activity {
     beginDate = DateTime.parse(map['beginDate']);
     endDate = DateTime.parse(map['endDate']);
     location = map['location'];
-    attendees = map['attendees'];
+    attendees = List.castFrom<dynamic, String>(map['attendees']);
   }
 }

@@ -10,38 +10,38 @@ class ActivityCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var formatter = new DateFormat.Hm('en_US');
+    var formatter = DateFormat.Hm('en_US');
     var beginHour = formatter.format(_activity.beginDate);
     var endHour = formatter.format(_activity.endDate);
-    return new Container(
+    return Container(
         margin: const EdgeInsets.fromLTRB(0.0, 5.0, 0.0, 5.0),
-        child: new Material(
+        child: Material(
             elevation: 3.0,
-            child: new Row(
+            child: Row(
                 children: <Widget>[
-                  new Padding(
+                  Padding(
                       padding: const EdgeInsets.all(20.0),
-                      child: new Column(
+                      child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
-                            new Text(_activity.name,
-                                style: new TextStyle(
+                            Text(_activity.name,
+                                style: TextStyle(
                                     fontSize: 20.0
                                 ),
                             ),
-                            new Padding(
+                            Padding(
                                 padding: const EdgeInsets.fromLTRB(0.0, 3.0, 0.0, 0.0),
-                                child: new Text("$beginHour - $endHour",
-                                    style: new TextStyle(
+                                child: Text("$beginHour - $endHour",
+                                    style: TextStyle(
                                         fontSize: 15.0
                                     ),
                                 ),
                             ),
-                            new Padding(
+                            Padding(
                                 padding: const EdgeInsets.fromLTRB(
                                     0.0, 3.0, 0.0, 0.0),
-                                child: new Text(_activity.location,
-                                    style: new TextStyle(
+                                child: Text(_activity.location,
+                                    style: TextStyle(
                                         fontWeight: FontWeight.w100,
                                         fontSize: 15.0
                                     ),
