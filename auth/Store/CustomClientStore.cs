@@ -23,6 +23,10 @@ namespace STS.Store
             return Task.Run(() =>
             {
                 var client = _dbRepository.Single<Client>(c => c.ClientId == clientId);
+
+                if (client == null)
+                    return null;
+
                 client.Properties.TryGetValue("permissions", out var permissions);
                 if (permissions == null) return client;
                 var deserializedPermissions = JsonConvert.DeserializeObject<List<string>>(permissions);
