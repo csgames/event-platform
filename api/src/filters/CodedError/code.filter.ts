@@ -1,5 +1,5 @@
 // Filter for coded errors. This is used to have more distinguishable error code unlike HttpStatus.
-import { Catch, ExceptionFilter } from "@nestjs/common";
+import { ArgumentsHost, Catch, ExceptionFilter } from '@nestjs/common';
 import { CodeException } from "./code.exception";
 
 export interface ErrorStatus {
@@ -19,7 +19,9 @@ export class CodeExceptionFilter implements ExceptionFilter {
     constructor(private codeMap: CodeMap) {
     }
 
-    catch(exception: CodeException, response) {
+    catch(exception: CodeException, host: ArgumentsHost) {
+        const ctx = host.switchToHttp();
+        const response = ctx.getResponse();
         const code: number = exception.code;
         const errorStatus: ErrorStatus = this.codeMap[code];
 

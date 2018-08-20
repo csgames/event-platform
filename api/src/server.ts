@@ -22,9 +22,7 @@ async function bootstrap() {
     });
 
     const nestApp = await NestFactory.create(ApplicationModule, app, {
-        cors: {
-            preflightContinue: true
-        },
+        cors: true,
         bodyParser: true
     });
 
