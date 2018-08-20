@@ -1,12 +1,13 @@
-import { Component, Inject } from "@nestjs/common";
+import { Injectable } from "@nestjs/common";
+import { InjectModel } from "@nestjs/mongoose";
 import { Model, Types } from "mongoose";
 import { CodeException } from "../../../filters/CodedError/code.exception";
 import { BaseService } from "../../../services/base.service";
-import { AttendeesService } from "../attendees/attendees.service";
 import { Attendees } from "../attendees/attendees.model";
+import { AttendeesService } from "../attendees/attendees.service";
 import { CreateOrJoinTeamDto, JoinOrLeaveTeamDto } from "./teams.dto";
-import { Teams } from "./teams.model";
 import { Code } from "./teams.exception";
+import { Teams } from "./teams.model";
 
 // TODO: Add team_size field in event and use that to check team size when joining.
 const MAX_TEAM_SIZE = 4;
@@ -16,16 +17,16 @@ interface LeaveTeamResponse {
     team: Teams;
 }
 
-@Component()
+@Injectable()
 export class TeamsService extends BaseService<Teams, CreateOrJoinTeamDto> {
-    constructor(@Inject("TeamsModelToken") private readonly teamsModel: Model<Teams>,
+    constructor(@InjectModel("teams") private readonly teamsModel: Model<Teams>,
                 private readonly attendeesService: AttendeesService) {
         super(teamsModel);
     }
 
     public async createOrJoin(createOrJoinTeamDto: CreateOrJoinTeamDto, userId: string): Promise<Teams> {
-        const team = await this.findOne({name: createOrJoinTeamDto.name});
-        const attendee = await this.attendeesService.findOne({userId: userId});
+        const team = await this.findOne({ name: createOrJoinTeamDto.name });
+        const attendee = await this.attendeesService.findOne({ userId });
         if (!attendee) {
             throw new CodeException(Code.ATTENDEE_NOT_FOUND);
         }
@@ -50,7 +51,7 @@ export class TeamsService extends BaseService<Teams, CreateOrJoinTeamDto> {
     }
 
     public async join(joinTeamDto: JoinOrLeaveTeamDto): Promise<Teams> {
-        let team: Teams = await this.findOne({_id: joinTeamDto.teamId});
+        let team: Teams = await this.findOne({ _id: joinTeamDto.teamId });
         if (!team) {
             throw new CodeException(Code.TEAM_NOT_FOUND);
         }
@@ -72,12 +73,12 @@ export class TeamsService extends BaseService<Teams, CreateOrJoinTeamDto> {
     }
 
     public async leave(leaveTeamDto: JoinOrLeaveTeamDto): Promise<LeaveTeamResponse> {
-        let attendee: Attendees = await this.attendeesService.findOne({_id: leaveTeamDto.attendeeId});
+        let attendee: Attendees = await this.attendeesService.findOne({ _id: leaveTeamDto.attendeeId });
         if (!attendee) {
             throw new CodeException(Code.ATTENDEE_NOT_FOUND);
         }
 
-        let team: Teams = await this.findOne({_id: leaveTeamDto.teamId});
+        let team: Teams = await this.findOne({ _id: leaveTeamDto.teamId });
         if (!team) {
             throw new CodeException(Code.TEAM_NOT_FOUND);
         }

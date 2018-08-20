@@ -4,9 +4,15 @@ import { RegistrationController } from "./registration.controller";
 import { RegistrationService } from "./registration.service";
 
 @Module({
-    modules: [ STSModule ],
-    controllers: [ RegistrationController ],
-    components: [ RegistrationService ]
+    imports: [
+        STSModule
+    ],
+    controllers: [
+        RegistrationController
+    ],
+    providers: [
+        RegistrationService
+    ]
 })
 export class RegistrationModule {
 }

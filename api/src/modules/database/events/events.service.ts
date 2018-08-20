@@ -1,5 +1,6 @@
+import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
-import { Component, HttpStatus, Inject } from "@nestjs/common";
+import { HttpStatus, Injectable, NotFoundException } from "@nestjs/common";
 import { CreateEventDto } from "./events.dto";
 import { Events } from "./events.model";
 import { BaseService } from "../../../services/base.service";
@@ -7,14 +8,13 @@ import { AttendeesService } from "../attendees/attendees.service";
 import { CodeException } from "../../../filters/CodedError/code.exception";
 import { Code } from "./events.exception";
 import { DataTableInterface, DataTableReturnInterface } from "../../../interfaces/dataTable.interface";
-import { HttpException } from "@nestjs/core";
 import { GetAllWithIdsResponse } from "@polyhx/nest-services/modules/sts/sts.service";
 import { EmailService } from "../../email/email.service";
 import { STSService } from "@polyhx/nest-services";
 
-@Component()
+@Injectable()
 export class EventsService extends BaseService<Events, CreateEventDto> {
-    constructor(@Inject("EventsModelToken") private readonly eventsModel: Model<Events>,
+    constructor(@InjectModel("events") private readonly eventsModel: Model<Events>,
                 private attendeeService: AttendeesService,
                 private emailService: EmailService,
                 private stsService: STSService) {
@@ -22,7 +22,7 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
     }
 
     async addAttendee(eventId: string, userId: string) {
-        let attendee = await this.attendeeService.findOne({userId});
+        let attendee = await this.attendeeService.findOne({ userId });
 
         if (!attendee) {
             throw new CodeException(Code.USER_NOT_ATTENDEE);
@@ -49,7 +49,7 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
     }
 
     async confirmAttendee(eventId: string, userId: string, attending: boolean) {
-        let attendee = await this.attendeeService.findOne({userId});
+        let attendee = await this.attendeeService.findOne({ userId });
 
         if (!attendee) {
             throw new CodeException(Code.USER_NOT_ATTENDEE);
@@ -80,7 +80,7 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
     }
 
     async hasAttendeeForUser(eventId: string, userId: string) {
-        let attendee = await this.attendeeService.findOne({userId});
+        let attendee = await this.attendeeService.findOne({ userId });
 
         if (!attendee) {
             throw new CodeException(Code.USER_NOT_ATTENDEE);
@@ -99,7 +99,7 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
     }
 
     async getAttendeeStatus(attendeeId: string, eventId: string) {
-        const event = await this.findOne({_id: eventId});
+        const event = await this.findOne({ _id: eventId });
         const status = event.attendees.find(a => a.attendee.toString() === attendeeId.toString());
         if (!status) {
             return 'not-registered';
@@ -117,12 +117,14 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
         }
     }
 
-    // From the attendees of a specified event (null-checked), filters them and returns the result as a promise of
-    // DataTableReturnInterface.
+    /**
+     * From the attendees of a specified event (null-checked), filters them and returns the result as a promise of
+     * DataTableReturnInterface.
+     */
     async getFilteredAttendees(eventId: string, filter: DataTableInterface): Promise<DataTableReturnInterface> {
-        const event: Events = await this.findOne({_id: eventId});
+        const event: Events = await this.findOne({ _id: eventId });
         if (!event) {
-            throw new HttpException(`Event not found. (EventId: ${eventId})`, HttpStatus.NOT_FOUND);
+            throw new NotFoundException(`Event not found. (EventId: ${eventId})`);
         }
 
         let selected = false;
@@ -214,8 +216,8 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
 
         for (let attendee of res.data) {
             let a = event.attendees[
-                event.attendees.findIndex( value => value.attendee.toString() === attendee._id.toString())
-                ];
+                event.attendees.findIndex(value => value.attendee.toString() === attendee._id.toString())
+            ];
 
             if (a.confirmed) {
                 attendee.status = "confirmed";
@@ -240,7 +242,7 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
             try {
                 await this.emailService.sendEmail({
                     from: "PolyHx <info@polyhx.io>",
-                    to: [ user.username ],
+                    to: [user.username],
                     subject: "Hackatown 2018 - Selection",
                     text: "Hackatown 2018 - Selection",
                     html: "<h1>Congrats</h1>",

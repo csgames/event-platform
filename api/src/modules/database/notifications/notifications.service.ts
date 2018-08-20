@@ -1,11 +1,12 @@
-import * as Nexmo from "nexmo";
-import { Component, Inject } from "@nestjs/common";
+import { Injectable } from "@nestjs/common";
+import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
+import * as Nexmo from "nexmo";
 import { BaseService } from "../../../services/base.service";
-import { CreateNotificationsDto } from "./notifications.dto";
-import { Notifications } from "./notifications.model";
 import { AttendeesService } from "../attendees/attendees.service";
+import { CreateNotificationsDto } from "./notifications.dto";
 import { NotificationGateway } from "./notifications.gateway";
+import { Notifications } from "./notifications.model";
 
 // TODO: Add Notification_size field in event and use that to check Notification size when joining.
 const MAX_Notification_SIZE = 4;
@@ -15,11 +16,11 @@ interface LeaveNotificationResponse {
     Notification: Notifications;
 }
 
-@Component()
+@Injectable()
 export class NotificationsService extends BaseService<Notifications, CreateNotificationsDto> {
     private nexmo: any;
 
-    constructor(@Inject("NotificationsModelToken") private readonly notificationModel: Model<Notifications>,
+    constructor(@InjectModel("notifications") private readonly notificationModel: Model<Notifications>,
                 private readonly attendeeService: AttendeesService,
                 private readonly gateway: NotificationGateway) {
         super(notificationModel);

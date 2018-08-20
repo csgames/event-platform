@@ -1,22 +1,23 @@
 import * as express from 'express';
-import { Guard, CanActivate, ExecutionContext, HttpStatus } from '@nestjs/common';
-import { Reflector, HttpException } from '@nestjs/core';
+import { CanActivate, ExecutionContext, HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { Reflector } from '@nestjs/core';
 
-@Guard()
+@Injectable()
 export class PermissionsGuard implements CanActivate {
     constructor(private readonly reflector: Reflector) {
     }
 
-    canActivate(req: express.Request, context: ExecutionContext): boolean {
+    public canActivate(context: ExecutionContext): boolean {
         let userPermissions;
 
+        const req = context.switchToHttp().getRequest<express.Request>();
         try {
             userPermissions = JSON.parse(req.header("token-claim-permissions"));
         } catch (err) {
             throw new HttpException("Invalid permissions claim", HttpStatus.BAD_REQUEST);
         }
 
-        const permissions = this.reflector.get<string[]>('permissions', context.handler);
+        const permissions = this.reflector.get<string[]>('permissions', context.getHandler());
 
         if (!permissions) {
             return true;

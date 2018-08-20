@@ -1,9 +1,8 @@
-import { Component, HttpStatus } from "@nestjs/common";
+import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { STSService } from "../sts/sts.service";
-import { HttpException } from "@nestjs/core";
 import { UserModel } from "../sts/user.model";
 
-@Component()
+@Injectable()
 export class RegistrationService {
     private roles;
 

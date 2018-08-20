@@ -1,20 +1,31 @@
 import { Module } from "@nestjs/common";
+import { MongooseModule } from "@nestjs/mongoose";
 import { EventsController } from "./events.controller";
+import { EventsSchema } from "./events.model";
 import { EventsService } from "./events.service";
-import { eventsProviders } from "./events.providers";
-import { DatabaseModule } from "../database.module";
 import { AttendeesModule } from "../attendees/attendees.module";
 import { STSModule } from "@polyhx/nest-services";
 import { EmailModule } from "../../email/email.module";
 
 @Module({
-    modules: [AttendeesModule, DatabaseModule, EmailModule, STSModule],
-    controllers: [EventsController],
-    components: [
-        EventsService,
-        ...eventsProviders
+    imports: [
+        MongooseModule.forFeature([{
+            name: "events",
+            schema: EventsSchema
+        }]),
+        AttendeesModule,
+        EmailModule,
+        STSModule
     ],
-    exports: [ EventsService ]
+    controllers: [
+        EventsController
+    ],
+    providers: [
+        EventsService
+    ],
+    exports: [
+        EventsService
+    ]
 })
 export class EventsModule {
 }

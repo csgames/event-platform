@@ -1,23 +1,20 @@
-import { Request } from 'express';
 import {
-    Body, Controller, Get, Headers, HttpStatus, Param, Post, Put, Req, UseFilters,
-    UseGuards
+    BadRequestException, Body, Controller, Get, Headers, NotFoundException, Param, Post, Put, UploadedFile,
+    UseFilters, UseGuards
 } from '@nestjs/common';
+import { ApiUseTags } from '@nestjs/swagger';
 import { StorageService } from '@polyhx/nest-services';
-import { AttendeesService } from './attendees.service';
-import { ValidationPipe } from '../../../pipes/validation.pipe';
-import { PermissionsGuard } from '../../../guards/permission.guard';
 import { Permissions } from '../../../decorators/permission.decorator';
-import { HttpException } from '@nestjs/core';
+import { CodeExceptionFilter } from '../../../filters/CodedError/code.filter';
+import { PermissionsGuard } from '../../../guards/permission.guard';
+import { ValidationPipe } from '../../../pipes/validation.pipe';
+import { Schools } from '../schools/schools.model';
 import { SchoolsService } from '../schools/schools.service';
 import { CreateAttendeeDto, UpdateAttendeeDto } from './attendees.dto';
-import { Attendees } from './attendees.model';
-import { Schools } from '../schools/schools.model';
-import { AttendeesGuard, CreateAttendeeGuard } from './attendees.guard';
-import { CodeExceptionFilter } from '../../../filters/CodedError/code.filter';
 import { codeMap } from './attendees.exception';
-import { ApiUseTags } from '@nestjs/swagger';
-import { EventsService } from "../events/events.service";
+import { AttendeesGuard, CreateAttendeeGuard } from './attendees.guard';
+import { Attendees } from './attendees.model';
+import { AttendeesService } from './attendees.service';
 
 @ApiUseTags('Attendee')
 @Controller('attendee')
@@ -34,11 +31,11 @@ export class AttendeesController {
         try {
             school = await this.schoolService.findOne({name});
         } catch (err) {
-            throw new HttpException('School Invalid', HttpStatus.BAD_REQUEST);
+            throw new BadRequestException('School Invalid');
         }
 
         if (!school) {
-            throw new HttpException('School Invalid', HttpStatus.BAD_REQUEST);
+            throw new BadRequestException('School Invalid');
         }
 
         return school;
@@ -55,17 +52,17 @@ export class AttendeesController {
 
     @Post()
     @UseGuards(CreateAttendeeGuard)
-    async create(@Req() req: Request, @Headers('token-claim-user_id') userId: string,
+    async create(@UploadedFile() file, @Headers('token-claim-user_id') userId: string,
                  @Body(new ValidationPipe()) value: CreateAttendeeDto) {
-        if (req.file) {
-            value.cv = await this.storageService.upload(req.file);
+        if (file) {
+            value.cv = await this.storageService.upload(file);
         }
         let attendee: Partial<Attendees> = value;
-        attendee = Object.assign(attendee, {userId, school: (await this.getSchool(value.school))._id});
+        attendee = Object.assign(attendee, { userId, school: (await this.getSchool(value.school))._id });
         return {
             attendee: await this.attendeesService.create(attendee)
                 .then(async a => {
-                    return await a.populate({path: 'school'}).execPopulate();
+                    return await a.populate({ path: 'school' }).execPopulate();
                 }).then(this.appendCvMetadata.bind(this))
         };
     }
@@ -73,15 +70,19 @@ export class AttendeesController {
     @Get()
     @Permissions('event_management:get-all:attendee')
     async getAll() {
-        return {attendees: await this.attendeesService.findAll()};
+        return {
+            attendees: await this.attendeesService.findAll()
+        };
     }
 
     @Get('info')
     @UseGuards(AttendeesGuard)
     async getInfo(@Headers('token-claim-user_id') userId: string) {
-        let attendee = await this.attendeesService.findOne({userId}, {path: 'school'});
+        let attendee = await this.attendeesService.findOne({ userId }, { path: 'school' });
         if (attendee) {
-            return {attendee: await this.appendCvMetadata(attendee)};
+            return {
+                attendee: await this.appendCvMetadata(attendee)
+            };
         }
         return {
             attendee: attendee
@@ -91,11 +92,11 @@ export class AttendeesController {
     @Get('cv/url')
     @UseGuards(AttendeesGuard)
     async getCvUrl(@Headers('token-claim-user_id') userId: string) {
-        let attendee = await this.attendeesService.findOne({userId});
+        let attendee = await this.attendeesService.findOne({ userId });
         if (attendee.cv) {
-            return {url: await this.storageService.getDownloadUrl(attendee.cv)};
+            return { url: await this.storageService.getDownloadUrl(attendee.cv) };
         } else {
-            throw new HttpException('Attendee has no cv.', HttpStatus.NOT_FOUND);
+            throw new BadRequestException('Attendee has no cv.');
         }
     }
 
@@ -121,16 +122,16 @@ export class AttendeesController {
 
     @Put()
     @UseGuards(AttendeesGuard)
-    async update(@Req() req: Request, @Headers('token-claim-user_id') userId: string,
+    async update(@UploadedFile() file, @Headers('token-claim-user_id') userId: string,
                  @Body(new ValidationPipe()) value: UpdateAttendeeDto) {
-        if (req.file) {
-            let previousCv = (await this.attendeesService.findOne({userId})).cv;
+        if (file) {
+            let previousCv = (await this.attendeesService.findOne({ userId })).cv;
             if (previousCv) {
                 await this.storageService.delete(previousCv);
             }
-            value.cv = await this.storageService.upload(req.file);
+            value.cv = await this.storageService.upload(file);
         } else if (value.cv === 'null') {
-            await this.storageService.delete((await this.attendeesService.findOne({userId})).cv);
+            await this.storageService.delete((await this.attendeesService.findOne({ userId })).cv);
             value.cv = null;
         } else {
             delete value.cv;
@@ -140,9 +141,9 @@ export class AttendeesController {
             attendee.school = (await this.getSchool(value.school))._id;
         }
         return {
-            attendee: await this.attendeesService.update({userId}, attendee)
+            attendee: await this.attendeesService.update({ userId }, attendee)
                 .then(async a => {
-                    return await this.attendeesService.findOne({userId}, {path: 'school'});
+                    return await this.attendeesService.findOne({ userId }, { path: 'school' });
                 }).then(this.appendCvMetadata.bind(this))
         };
     }
@@ -153,7 +154,7 @@ export class AttendeesController {
         let attendee: Attendees = await this.attendeesService.findById(attendeeId);
 
         if (!attendee) {
-            throw new HttpException(`Attendee ${attendeeId} not found.`, HttpStatus.NOT_FOUND);
+            throw new NotFoundException(`Attendee ${attendeeId} not found.`);
         }
 
         attendee.publicId = publicId;

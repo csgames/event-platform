@@ -1,8 +1,6 @@
-import * as express from "express";
 import { ApiUseTags } from "@nestjs/swagger";
 import {
-    Body, Controller, Get, Headers, Param, Post, Req, UseGuards, Put, UseFilters, HttpCode,
-    HttpStatus, HttpException
+    Body, Controller, Get, Headers, Param, Post, UseGuards, Put, UseFilters, HttpCode, NotFoundException
 } from "@nestjs/common";
 import { EventsService } from "./events.service";
 import { CreateEventDto, SendConfirmEmailDto } from "./events.dto";
@@ -28,7 +26,7 @@ export class EventsController {
 
     @Post()
     @Permissions('event_management:create:event')
-    async create(@Req() req: express.Request, @Body(new ValidationPipe()) createEventDto: CreateEventDto) {
+    async create(@Body(new ValidationPipe()) createEventDto: CreateEventDto) {
         await this.eventsService.create(createEventDto);
     }
 
@@ -39,9 +37,8 @@ export class EventsController {
         return {};
     }
 
-
     @Post(':id/confirm')
-    async confirm(@Req() req: express.Request, @Headers('token-claim-user_id') userId: string,
+    async confirm(@Headers('token-claim-user_id') userId: string,
                   @Param('id') eventId: string, @Body('attending') attending: boolean) {
         await this.eventsService.confirmAttendee(eventId, userId, attending);
     }
@@ -56,7 +53,7 @@ export class EventsController {
     @Get(':id/status')
     @Permissions('event_management:get-status:event')
     async getAttendeeStatus(@Headers('token-claim-user_id') userId: string, @Param('id') eventId: string) {
-        const attendee = await this.attendeesService.findOne({userId});
+        const attendee = await this.attendeesService.findOne({ userId });
 
         if (!attendee) {
             return {
@@ -88,7 +85,7 @@ export class EventsController {
     @Get(':id/attendee')
     @UseGuards(AttendeesGuard)
     async hasAttendee(@Headers('token-claim-user_id') userId: string, @Param('id') eventId: string) {
-        return {registered: await this.eventsService.hasAttendeeForUser(eventId, userId)};
+        return { registered: await this.eventsService.hasAttendeeForUser(eventId, userId) };
     }
 
     @Post(':id/attendee/filter')
@@ -105,7 +102,7 @@ export class EventsController {
         let event = await this.eventsService.findById(eventId);
 
         if (!event) {
-            throw new HttpException(`Event ${eventId} not found.`, HttpStatus.NOT_FOUND);
+            throw new NotFoundException(`Event ${eventId} not found.`);
         }
 
         let attendeeIds = event.attendees.filter(attendee => attendee.present).map(attendee => attendee.attendee);
@@ -126,7 +123,7 @@ export class EventsController {
         let event = await this.eventsService.findById(eventId);
 
         if (!event) {
-            throw new HttpException(`Event ${eventId} not found.`, HttpStatus.NOT_FOUND);
+            throw new NotFoundException(`Event ${eventId} not found.`);
         }
 
         let attendeeIndex = event.attendees.findIndex(attendee => attendee.attendee.toString() === attendeeId);
@@ -137,5 +134,4 @@ export class EventsController {
 
         return event;
     }
-
 }

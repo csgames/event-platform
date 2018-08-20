@@ -1,7 +1,7 @@
-import { Body, Controller, HttpStatus, Param, Post, Req } from "@nestjs/common";
+import { Body, Controller, Post } from "@nestjs/common";
 import { ValidationPipe } from "../../pipes/validation.pipe";
-import { CreateUserDto } from "./user.dto";
 import { RegistrationService } from "./registration.service";
+import { CreateUserDto } from "./user.dto";
 
 @Controller("register")
 export class RegistrationController {

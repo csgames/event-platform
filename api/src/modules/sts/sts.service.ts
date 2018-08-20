@@ -1,9 +1,8 @@
-import { Component, HttpStatus } from "@nestjs/common";
+import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import fetch from "node-fetch";
 import { Response } from "node-fetch";
 import * as querystring from "querystring";
 import { UserModel } from "./user.model";
-import { HttpException } from "@nestjs/core";
 
 export interface RegisterUserResponse {
     success: boolean;
@@ -15,7 +14,7 @@ export interface GetAllRolesResponse {
     roles: [{ id: string, name: string }];
 }
 
-@Component()
+@Injectable()
 export class STSService {
     private STS_URL = process.env.STS_URL;
     private STS_CLIENT_ID = process.env.STS_CLIENT_ID;
