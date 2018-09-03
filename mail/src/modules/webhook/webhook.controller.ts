@@ -1,4 +1,4 @@
-import { Body, Controller, HttpCode, Post, UseGuards } from "@nestjs/common";
+import { Body, Controller, HttpCode, HttpStatus, Post, UseGuards } from '@nestjs/common';
 import { WebHookService } from "./webhook.service";
 import { WebHookPipe } from "./webhook.pipe";
 import { DeliveredWebHook, DroppedWebHook } from "./webhook.interface";
@@ -10,13 +10,13 @@ export class WebHookController {
     constructor(private readonly webHookService: WebHookService) {}
 
     @Post('delivered')
-    @HttpCode(200)
+    @HttpCode(HttpStatus.OK)
     async onDelivered(@Body(new WebHookPipe()) deliveredWebHook: DeliveredWebHook) {
         return { success: await this.webHookService.updateStatus(deliveredWebHook)};
     }
 
     @Post('dropped')
-    @HttpCode(200)
+    @HttpCode(HttpStatus.OK)
     async onDropped(@Body(new WebHookPipe()) droppedWebHook: DroppedWebHook) {
         return { success: await this.webHookService.updateStatus(droppedWebHook)};
     }

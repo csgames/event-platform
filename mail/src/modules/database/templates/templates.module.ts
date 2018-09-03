@@ -5,10 +5,18 @@ import { MongooseModule } from "@nestjs/mongoose";
 import { TemplatesSchema } from "./templates.model";
 
 @Module({
-    imports: [ MongooseModule.forFeature([{ name: 'Template', schema: TemplatesSchema }]) ],
-    controllers: [ TemplatesController ],
-    components: [ TemplatesService ],
-    exports: [ TemplatesService ]
+    imports: [
+        MongooseModule.forFeature([{ name: 'Template', schema: TemplatesSchema }])
+    ],
+    controllers: [
+        TemplatesController
+    ],
+    providers: [
+        TemplatesService
+    ],
+    exports: [
+        TemplatesService
+    ]
 })
 export class TemplatesModule {
 }

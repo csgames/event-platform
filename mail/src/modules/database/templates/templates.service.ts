@@ -1,12 +1,12 @@
-import { Component } from "@nestjs/common";
+import { Injectable } from "@nestjs/common";
 import { Model } from "mongoose";
-import { Template, TemplatesSchema } from "./templates.model";
+import { Template } from "./templates.model";
 import { CreateTemplateDto, UpdateTemplateDto } from "./templates.dto";
 import { InjectModel } from "@nestjs/mongoose";
 
-@Component()
+@Injectable()
 export class TemplatesService {
-    constructor(@InjectModel(TemplatesSchema) private readonly templatesModel: Model<Template>) {
+    constructor(@InjectModel("Template") private readonly templatesModel: Model<Template>) {
     }
 
     async create(createTemplateDto: CreateTemplateDto) {

@@ -3,7 +3,7 @@ import { EmailModule } from "./email/email.module";
 import { TemplatesModule } from "./templates/templates.module";
 
 @Module({
-    modules: [
+    imports: [
         EmailModule,
         TemplatesModule
     ]

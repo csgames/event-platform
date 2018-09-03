@@ -1,9 +1,10 @@
-import { Guard, CanActivate, ExecutionContext } from '@nestjs/common';
+import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import * as crypto from "crypto";
 
-@Guard()
+@Injectable()
 export class WebHookGuard implements CanActivate {
-    canActivate(req, context: ExecutionContext): boolean {
+    canActivate(context: ExecutionContext): boolean {
+        const req = context.switchToHttp().getRequest();
         if (!req.body.timestamp || !req.body.signature) {
             return false;
         }

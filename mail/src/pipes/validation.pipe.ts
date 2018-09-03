@@ -1,9 +1,8 @@
-import { HttpException } from '@nestjs/core';
-import { ArgumentMetadata, HttpStatus, Pipe, PipeTransform } from '@nestjs/common';
+import { ArgumentMetadata, HttpException, HttpStatus, Injectable, PipeTransform } from '@nestjs/common';
 import { validate } from 'class-validator';
 import { plainToClass } from 'class-transformer';
 
-@Pipe()
+@Injectable()
 export class ValidationPipe implements PipeTransform<any> {
     async transform(value, metadata: ArgumentMetadata) {
         const { metatype } = metadata;

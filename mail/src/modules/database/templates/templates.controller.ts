@@ -1,5 +1,4 @@
-import * as express from "express";
-import { Body, Controller, Delete, Get, Param, Post, Put, Req, UseGuards } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from "@nestjs/common";
 import { TemplatesService } from "./templates.service";
 import { CreateTemplateDto, UpdateTemplateDto } from "./templates.dto";
 import { Template } from "./templates.model";
@@ -8,14 +7,14 @@ import { PermissionsGuard } from "../../../guards/permission.guard";
 import { Permissions } from "../../../decorators/permission.decorator";
 
 @Controller("template")
-//@UseGuards(PermissionsGuard)
+@UseGuards(PermissionsGuard)
 export class TemplatesController {
     constructor(private readonly templatesService: TemplatesService) {
     }
 
     @Post()
     @Permissions("mail_service:create:template")
-    async create(@Req() req: express.Request, @Body(new ValidationPipe()) createTemplateDto: CreateTemplateDto) {
+    async create(@Body(new ValidationPipe()) createTemplateDto: CreateTemplateDto) {
         await this.templatesService.create(createTemplateDto);
     }
 

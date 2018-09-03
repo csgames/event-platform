@@ -10,9 +10,15 @@ import { EmailSchema } from "./email.model";
         MongooseModule.forFeature([{ name: 'Mail', schema: EmailSchema }]),
         TemplatesModule
     ],
-    controllers: [ EmailController ],
-    components: [ EmailService ],
-    exports: [ EmailService ]
+    controllers: [
+        EmailController
+    ],
+    providers: [
+        EmailService
+    ],
+    exports: [
+        EmailService
+    ]
 })
 export class EmailModule {
 }

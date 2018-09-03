@@ -1,8 +1,7 @@
-import { ArgumentMetadata, HttpStatus, Pipe, PipeTransform } from '@nestjs/common';
+import { ArgumentMetadata, HttpException, HttpStatus, Injectable, PipeTransform } from '@nestjs/common';
 import { DeliveredWebHook, DroppedWebHook, MessageHeader } from "./webhook.interface";
-import { HttpException } from "@nestjs/core";
 
-@Pipe()
+@Injectable()
 export class WebHookPipe implements PipeTransform<any> {
     async transform(body, metadata: ArgumentMetadata) {
         if (!body.event) {

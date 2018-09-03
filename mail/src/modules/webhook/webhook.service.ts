@@ -1,10 +1,10 @@
-import { Component } from "@nestjs/common";
+import { Injectable } from '@nestjs/common';
 import * as io from "socket.io-client";
 import { STSService } from "@polyhx/nest-services";
 import { EmailService } from "../database/email/email.service";
 import { DeliveredWebHook, DroppedWebHook } from "./webhook.interface";
 
-@Component()
+@Injectable()
 export class WebHookService {
     private socket: SocketIOClient.Socket;
 

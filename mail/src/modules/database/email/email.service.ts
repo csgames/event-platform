@@ -1,20 +1,19 @@
-import { Component, HttpStatus } from "@nestjs/common";
+import { Injectable, HttpStatus, HttpException } from '@nestjs/common';
 import * as _mailgun from "mailgun-js";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
-import { Email, EmailSchema } from "./email.model";
+import { Email } from "./email.model";
 import { dtoToMailgunReadable, EmailSendDto } from "./email.dto";
-import { HttpException } from "@nestjs/core";
 import { Template } from "../templates/templates.model";
 import { TemplatesService } from "../templates/templates.service";
 import { DeliveredWebHook, DroppedWebHook } from "../../webhook/webhook.interface";
 
-@Component()
+@Injectable()
 export class EmailService {
 
     private readonly mailgun;
 
-    constructor(@InjectModel(EmailSchema) private readonly emailModel: Model<Email>,
+    constructor(@InjectModel("Mail") private readonly emailModel: Model<Email>,
                 private readonly templatesService: TemplatesService) {
         this.mailgun = new _mailgun({ apiKey: process.env.MAILGUN_API_KEY, domain: process.env.MAILGUN_DOMAIN });
     }

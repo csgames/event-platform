@@ -5,9 +5,16 @@ import { STSModule } from "@polyhx/nest-services";
 import { WebHookService } from "./webhook.service";
 
 @Module({
-    modules: [ EmailModule, STSModule ],
-    components: [ WebHookService ],
-    controllers: [ WebHookController ]
+    imports: [
+        EmailModule,
+        STSModule
+    ],
+    providers: [
+        WebHookService
+    ],
+    controllers: [
+        WebHookController
+    ]
 })
 export class WebHookModule {
 }
