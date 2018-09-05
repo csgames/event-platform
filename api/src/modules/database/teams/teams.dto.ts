@@ -22,4 +22,8 @@ export class JoinOrLeaveTeamDto {
     @IsMongoId()
     @ApiModelProperty({ required: true })
     teamId: string;
+
+    @IsMongoId()
+    @ApiModelProperty({ required: true })
+    event: string;
 }
