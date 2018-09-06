@@ -131,7 +131,10 @@ export class AttendeesController {
             }
             value.cv = await this.storageService.upload(file);
         } else if (value.cv === 'null') {
-            await this.storageService.delete((await this.attendeesService.findOne({ userId })).cv);
+            const attendee = await this.attendeesService.findOne({ userId });
+            if (attendee.cv) {
+                await this.storageService.delete(attendee.cv);
+            }
             value.cv = null;
         } else {
             delete value.cv;

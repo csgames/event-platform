@@ -61,7 +61,7 @@ export const EventsSchema = new mongoose.Schema({
         required: true
     },
     details: {
-        type: String,
+        type: Object,
         required: true
     },
     beginDate: {

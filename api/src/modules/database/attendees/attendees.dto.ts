@@ -45,6 +45,26 @@ export class CreateAttendeeDto {
     @IsNotEmpty()
     @ApiModelProperty({ required: true })
     school: string;
+
+    @IsOptional()
+    @IsString()
+    @ApiModelProperty()
+    phoneNumber: string;
+
+    @IsOptional()
+    @IsBoolean()
+    @ApiModelProperty()
+    acceptSMSNotifications: boolean;
+
+    @IsOptional()
+    @IsBoolean()
+    @ApiModelProperty()
+    hasDietaryRestrictions: boolean;
+
+    @IsOptional()
+    @IsString()
+    @ApiModelProperty()
+    dietaryRestrictions: string;
 }
 
 export class UpdateAttendeeDto {
