@@ -1,13 +1,24 @@
-import { IsString, IsNotEmpty, IsDate, IsArray, IsOptional, ArrayUnique, IsBoolean } from 'class-validator';
-import { EventRegistrations } from "./events.model";
-import { ApiModelProperty } from "@nestjs/swagger";
+import {
+    ArrayUnique, IsArray, IsDate, IsDefined, IsIn, IsNotEmpty, IsNumber, IsOptional, IsString
+} from 'class-validator';
+import { EventRegistrations } from './events.model';
+import { ApiModelProperty } from '@nestjs/swagger';
 
 export class CreateEventDto {
+    @IsString()
+    @IsNotEmpty()
+    @IsIn(['mlh', 'lhgames'])
+    @ApiModelProperty({ required: true })
+    type: string;
 
     @IsString()
     @IsNotEmpty()
     @ApiModelProperty({ required: true })
     name: string;
+
+    @IsDefined()
+    @ApiModelProperty({ required: true })
+    details: object;
 
     @IsDate()
     @IsNotEmpty()
@@ -60,6 +71,11 @@ export class CreateEventDto {
     @IsString()
     @ApiModelProperty()
     locationAddress: string;
+
+    @IsOptional()
+    @IsNumber()
+    @ApiModelProperty()
+    maxTeamMembers: number;
 }
 
 export class SendConfirmEmailDto {

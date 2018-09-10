@@ -1,17 +1,19 @@
-import { Body, Controller, Get, Param, Post, Headers, UseFilters, UseGuards, Delete } from "@nestjs/common";
-import { Permissions } from "../../../decorators/permission.decorator";
-import { PermissionsGuard } from "../../../guards/permission.guard";
-import { ValidationPipe } from "../../../pipes/validation.pipe";
-import { CodeExceptionFilter } from "../../../filters/CodedError/code.filter";
-import { CreateOrJoinTeamDto } from "./teams.dto";
-import { Teams } from "./teams.model";
-import { TeamsService } from "./teams.service";
-import { codeMap } from "./teams.exception";
-import { AttendeesService } from "../attendees/attendees.service";
-import { STSService } from "@polyhx/nest-services";
-import { Attendees } from "../attendees/attendees.model";
-import { EventsService } from "../events/events.service";
-import { ApiUseTags } from "@nestjs/swagger";
+import {
+    BadRequestException, Body, Controller, Delete, Get, Headers, Param, Post, Query, UseFilters, UseGuards
+} from '@nestjs/common';
+import { Permissions } from '../../../decorators/permission.decorator';
+import { PermissionsGuard } from '../../../guards/permission.guard';
+import { ValidationPipe } from '../../../pipes/validation.pipe';
+import { CodeExceptionFilter } from '../../../filters/CodedError/code.filter';
+import { CreateOrJoinTeamDto } from './teams.dto';
+import { Teams } from './teams.model';
+import { TeamsService } from './teams.service';
+import { codeMap } from './teams.exception';
+import { AttendeesService } from '../attendees/attendees.service';
+import { STSService } from '@polyhx/nest-services';
+import { Attendees } from '../attendees/attendees.model';
+import { EventsService } from '../events/events.service';
+import { ApiUseTags } from '@nestjs/swagger';
 
 @ApiUseTags('Team')
 @Controller("team")
@@ -39,15 +41,19 @@ export class TeamsController {
 
     @Get('info')
     @Permissions('event_management:get:team')
-    async getInfo(@Headers('token-claim-user_id') userId: string): Promise<Teams> {
-        const attendee = await this.attendeesService.findOne({ userId: userId });
+    async getInfo(@Headers('token-claim-user_id') userId: string, @Query('event') event: string): Promise<Teams> {
+        if (!event) {
+            throw new BadRequestException("Event not specified");
+        }
 
+        const attendee = await this.attendeesService.findOne({ userId: userId });
         if (!attendee) {
             return null;
         }
 
         const team = await this.teamsService.findOneLean({
-            attendees: attendee._id
+            attendees: attendee._id,
+            event
         }, {
             path: 'attendees',
             model: 'attendees'
@@ -83,6 +89,6 @@ export class TeamsController {
     @Permissions('event_management:leave:team')
     public async leave(@Headers('token-claim-user_id') userId: string, @Param('id') teamId: string) {
         const attendee = await this.attendeesService.findOne({ userId: userId });
-        return this.teamsService.leave({ teamId, attendeeId: attendee._id });
+        return this.teamsService.leave({ teamId, attendeeId: attendee._id, event: null });
     }
 }

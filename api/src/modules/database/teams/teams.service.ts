@@ -8,9 +8,8 @@ import { AttendeesService } from "../attendees/attendees.service";
 import { CreateOrJoinTeamDto, JoinOrLeaveTeamDto } from "./teams.dto";
 import { Code } from "./teams.exception";
 import { Teams } from "./teams.model";
-
-// TODO: Add team_size field in event and use that to check team size when joining.
-const MAX_TEAM_SIZE = 4;
+import { Events } from '../events/events.model';
+import { EventsService } from '../events/events.service';
 
 interface LeaveTeamResponse {
     deleted: boolean;
@@ -20,7 +19,8 @@ interface LeaveTeamResponse {
 @Injectable()
 export class TeamsService extends BaseService<Teams, CreateOrJoinTeamDto> {
     constructor(@InjectModel("teams") private readonly teamsModel: Model<Teams>,
-                private readonly attendeesService: AttendeesService) {
+                private readonly attendeesService: AttendeesService,
+                private readonly eventsService: EventsService) {
         super(teamsModel);
     }
 
@@ -39,7 +39,8 @@ export class TeamsService extends BaseService<Teams, CreateOrJoinTeamDto> {
         if (team) {
             return this.join({
                 attendeeId: attendee._id,
-                teamId: team._id
+                teamId: team._id,
+                event: createOrJoinTeamDto.event
             });
         } else {
             return this.create({
@@ -52,11 +53,14 @@ export class TeamsService extends BaseService<Teams, CreateOrJoinTeamDto> {
 
     public async join(joinTeamDto: JoinOrLeaveTeamDto): Promise<Teams> {
         let team: Teams = await this.findOne({ _id: joinTeamDto.teamId });
+        let event: Events = await this.eventsService.findOne({
+            _id: joinTeamDto.event
+        });
         if (!team) {
             throw new CodeException(Code.TEAM_NOT_FOUND);
         }
 
-        if (team.attendees.length >= MAX_TEAM_SIZE) {
+        if (team.attendees.length >= event.maxTeamMembers) {
             throw new CodeException(Code.TEAM_FULL);
         }
 

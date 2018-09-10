@@ -1,6 +1,6 @@
-import * as mongoose from "mongoose";
-import { Activities } from "../activities/activities.model";
-import { Attendees } from "../attendees/attendees.model";
+import * as mongoose from 'mongoose';
+import { Activities } from '../activities/activities.model';
+import { Attendees } from '../attendees/attendees.model';
 
 export interface EventRegistrations extends mongoose.Document {
     attendee: (Attendees | mongoose.Types.ObjectId | string);
@@ -34,7 +34,9 @@ export const EventRegistrationsSchema = new mongoose.Schema({
 });
 
 export interface Events extends mongoose.Document {
+    readonly type: string;
     readonly name: string;
+    readonly details: object;
     readonly beginDate: Date;
     readonly endDate: Date;
     readonly activities: (Activities | mongoose.Types.ObjectId | string)[];
@@ -45,12 +47,21 @@ export interface Events extends mongoose.Document {
     readonly facebookEvent: string;
     readonly locationName: string;
     readonly locationAddress: string;
+    readonly maxTeamMembers: number;
 }
 
 export const EventsSchema = new mongoose.Schema({
+    type: {
+        type: String,
+        enum: ['mlh', 'lhgames']
+    },
     name: {
         type: String,
         unique: true,
+        required: true
+    },
+    details: {
+        type: Object,
         required: true
     },
     beginDate: {
@@ -83,5 +94,9 @@ export const EventsSchema = new mongoose.Schema({
     },
     locationAddress: {
         type: String
+    },
+    maxTeamMembers: {
+        type: Number,
+        default: 4
     }
 });
