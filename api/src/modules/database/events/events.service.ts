@@ -1,6 +1,7 @@
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
 import { HttpStatus, Injectable, NotFoundException } from "@nestjs/common";
+import { ActivitiesService } from '../activities/activities.service';
 import { CreateEventDto } from "./events.dto";
 import { Events } from "./events.model";
 import { BaseService } from "../../../services/base.service";
@@ -17,7 +18,8 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
     constructor(@InjectModel("events") private readonly eventsModel: Model<Events>,
                 private attendeeService: AttendeesService,
                 private emailService: EmailService,
-                private stsService: STSService) {
+                private stsService: STSService,
+                private activitiesService: ActivitiesService) {
         super(eventsModel);
     }
 
@@ -271,5 +273,14 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
         }
 
         return { };
+    }
+
+    async getFilteredActivities(eventId: string, filter: DataTableInterface): Promise<DataTableReturnInterface> {
+        const event: Events = await this.findOne({ _id: eventId });
+        if (!event) {
+            throw new NotFoundException(`Event not found. (EventId: ${eventId})`);
+        }
+
+        return this.activitiesService.filterFrom(event.activities as string[], filter);
     }
 }

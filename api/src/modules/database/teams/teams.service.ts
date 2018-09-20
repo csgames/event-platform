@@ -9,6 +9,8 @@ import { CreateOrJoinTeamDto, JoinOrLeaveTeamDto } from './teams.dto';
 import { Code } from './teams.exception';
 import { Teams } from './teams.model';
 import { EVENT_TYPE_LH_GAMES, Events } from '../events/events.model';
+import { DataTableInterface, DataTableReturnInterface } from '../../../interfaces/dataTable.interface';
+import { Schools } from '../schools/schools.model';
 import { EventsService } from '../events/events.service';
 import { LHGamesService } from '../../lhgames/lhgames.service';
 
@@ -114,5 +116,28 @@ export class TeamsService extends BaseService<Teams, CreateOrJoinTeamDto> {
 
         // Else save new team.
         return {deleted: false, team: await team.save()};
+    }
+
+    public async getFilteredTeam(eventId: string, filter: DataTableInterface) {
+        const query = this.teamsModel.find({
+            event: eventId
+        });
+        const data: DataTableReturnInterface = <DataTableReturnInterface> {
+            draw: filter.draw,
+            recordsTotal: await query.count().exec()
+        };
+
+        let sort = filter.columns[filter.order[0].column].name;
+        sort = (filter.order[0].dir === 'asc' ? '+' : '-') + sort;
+
+        const teams = await query.find().sort(sort)
+            .limit(filter.length)
+            .skip(filter.start)
+            .exec();
+
+        data.data = teams;
+        data.recordsFiltered = data.recordsTotal;
+
+        return data;
     }
 }

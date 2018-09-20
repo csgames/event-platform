@@ -14,7 +14,7 @@ import { STSModule } from '@polyhx/nest-services';
             name: 'teams',
             schema: TeamsSchema
         }]),
-        EventsModule,
+        forwardRef(() => EventsModule),
         AttendeesModule,
         STSModule,
         LHGamesModule

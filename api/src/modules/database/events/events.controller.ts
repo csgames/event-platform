@@ -1,19 +1,20 @@
 import { ApiUseTags } from '@nestjs/swagger';
 import {
     Body, Controller, Get, Headers, Param, Post, UseGuards, Put, UseFilters, HttpCode, NotFoundException
-} from '@nestjs/common';
-import { EventsService } from './events.service';
-import { CreateEventDto, SendConfirmEmailDto } from './events.dto';
-import { Events } from './events.model';
-import { ValidationPipe } from '../../../pipes/validation.pipe';
-import { PermissionsGuard } from '../../../guards/permission.guard';
-import { Permissions } from '../../../decorators/permission.decorator';
-import { CodeExceptionFilter } from '../../../filters/CodedError/code.filter';
-import { codeMap } from './events.exception';
-import { AttendeesGuard } from '../attendees/attendees.guard';
-import { AttendeesService } from '../attendees/attendees.service';
-import { DataTablePipe } from '../../../pipes/dataTable.pipe';
-import { DataTableInterface } from '../../../interfaces/dataTable.interface';
+} from "@nestjs/common";
+import { TeamsService } from '../teams/teams.service';
+import { EventsService } from "./events.service";
+import { CreateEventDto, SendConfirmEmailDto } from "./events.dto";
+import { Events } from "./events.model";
+import { ValidationPipe } from "../../../pipes/validation.pipe";
+import { PermissionsGuard } from "../../../guards/permission.guard";
+import { Permissions } from "../../../decorators/permission.decorator";
+import { CodeExceptionFilter } from "../../../filters/CodedError/code.filter";
+import { codeMap } from "./events.exception";
+import { AttendeesGuard } from "../attendees/attendees.guard";
+import { AttendeesService } from "../attendees/attendees.service";
+import { DataTablePipe } from "../../../pipes/dataTable.pipe";
+import { DataTableInterface } from "../../../interfaces/dataTable.interface";
 
 @ApiUseTags('Event')
 @Controller('event')
@@ -21,7 +22,8 @@ import { DataTableInterface } from '../../../interfaces/dataTable.interface';
 @UseFilters(new CodeExceptionFilter(codeMap))
 export class EventsController {
     constructor(private attendeesService: AttendeesService,
-                private eventsService: EventsService) {
+                private eventsService: EventsService,
+                private teamsService: TeamsService) {
     }
 
     @Post()
@@ -133,5 +135,19 @@ export class EventsController {
         await event.save();
 
         return event;
+    }
+
+    @Post(':id/team/filter')
+    @HttpCode(200)
+    @Permissions('event_management:get-all:event')
+    async eventTeamQuery(@Param('id') eventId: string, @Body(new DataTablePipe()) body: DataTableInterface) {
+        return await this.teamsService.getFilteredTeam(eventId, body);
+    }
+
+    @Post(':id/activity/filter')
+    @HttpCode(200)
+    @Permissions('event_management:get-all:event')
+    async eventActivityQuery(@Param('id') eventId: string, @Body(new DataTablePipe()) body: DataTableInterface) {
+        return await this.eventsService.getFilteredActivities(eventId, body);
     }
 }

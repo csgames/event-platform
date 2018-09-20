@@ -1,5 +1,7 @@
-import { Module } from "@nestjs/common";
+import { forwardRef, Module } from '@nestjs/common';
 import { MongooseModule } from "@nestjs/mongoose";
+import { ActivitiesModule } from '../activities/activities.module';
+import { TeamsModule } from '../teams/teams.module';
 import { EventsController } from "./events.controller";
 import { EventsSchema } from "./events.model";
 import { EventsService } from "./events.service";
@@ -13,9 +15,11 @@ import { EmailModule } from "../../email/email.module";
             name: "events",
             schema: EventsSchema
         }]),
+        ActivitiesModule,
         AttendeesModule,
         EmailModule,
-        STSModule
+        STSModule,
+        forwardRef(() => TeamsModule)
     ],
     controllers: [
         EventsController
