@@ -1,22 +1,22 @@
-import { ApiUseTags } from "@nestjs/swagger";
+import { ApiUseTags } from '@nestjs/swagger';
 import {
     Body, Controller, Get, Headers, Param, Post, UseGuards, Put, UseFilters, HttpCode, NotFoundException
-} from "@nestjs/common";
-import { EventsService } from "./events.service";
-import { CreateEventDto, SendConfirmEmailDto } from "./events.dto";
-import { Events } from "./events.model";
-import { ValidationPipe } from "../../../pipes/validation.pipe";
-import { PermissionsGuard } from "../../../guards/permission.guard";
-import { Permissions } from "../../../decorators/permission.decorator";
-import { CodeExceptionFilter } from "../../../filters/CodedError/code.filter";
-import { codeMap } from "./events.exception";
-import { AttendeesGuard } from "../attendees/attendees.guard";
-import { AttendeesService } from "../attendees/attendees.service";
-import { DataTablePipe } from "../../../pipes/dataTable.pipe";
-import { DataTableInterface } from "../../../interfaces/dataTable.interface";
+} from '@nestjs/common';
+import { EventsService } from './events.service';
+import { CreateEventDto, SendConfirmEmailDto } from './events.dto';
+import { Events } from './events.model';
+import { ValidationPipe } from '../../../pipes/validation.pipe';
+import { PermissionsGuard } from '../../../guards/permission.guard';
+import { Permissions } from '../../../decorators/permission.decorator';
+import { CodeExceptionFilter } from '../../../filters/CodedError/code.filter';
+import { codeMap } from './events.exception';
+import { AttendeesGuard } from '../attendees/attendees.guard';
+import { AttendeesService } from '../attendees/attendees.service';
+import { DataTablePipe } from '../../../pipes/dataTable.pipe';
+import { DataTableInterface } from '../../../interfaces/dataTable.interface';
 
 @ApiUseTags('Event')
-@Controller("event")
+@Controller('event')
 @UseGuards(PermissionsGuard)
 @UseFilters(new CodeExceptionFilter(codeMap))
 export class EventsController {
@@ -53,7 +53,7 @@ export class EventsController {
     @Get(':id/status')
     @Permissions('event_management:get-status:event')
     async getAttendeeStatus(@Headers('token-claim-user_id') userId: string, @Param('id') eventId: string) {
-        const attendee = await this.attendeesService.findOne({ userId });
+        const attendee = await this.attendeesService.findOne({userId});
 
         if (!attendee) {
             return {
@@ -85,7 +85,7 @@ export class EventsController {
     @Get(':id/attendee')
     @UseGuards(AttendeesGuard)
     async hasAttendee(@Headers('token-claim-user_id') userId: string, @Param('id') eventId: string) {
-        return { registered: await this.eventsService.hasAttendeeForUser(eventId, userId) };
+        return {registered: await this.eventsService.hasAttendeeForUser(eventId, userId)};
     }
 
     @Post(':id/attendee/filter')
@@ -108,12 +108,12 @@ export class EventsController {
         let attendeeIds = event.attendees.filter(attendee => attendee.present).map(attendee => attendee.attendee);
 
         let attendees = await this.attendeesService.find({
-            _id: { $in: attendeeIds },
+            _id: {$in: attendeeIds},
             hasDietaryRestrictions: true,
-            dietaryRestrictions: { $regex: /^v/i }
+            dietaryRestrictions: {$regex: /^v/i}
         });
 
-        return { count: attendees.length };
+        return {count: attendees.length};
     }
 
     @Put(':event_id/:attendee_id/present')
