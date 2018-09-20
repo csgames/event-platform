@@ -20,6 +20,9 @@ import { STSModule } from "@polyhx/nest-services";
     ],
     providers: [
         ActivitiesService
+    ],
+    exports: [
+        ActivitiesService
     ]
 })
 export class ActivitiesModule {
