@@ -2,9 +2,11 @@ import { Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model, Types } from "mongoose";
 import { CodeException } from "../../../filters/CodedError/code.exception";
+import { DataTableInterface, DataTableReturnInterface } from '../../../interfaces/dataTable.interface';
 import { BaseService } from "../../../services/base.service";
 import { Attendees } from "../attendees/attendees.model";
 import { AttendeesService } from "../attendees/attendees.service";
+import { Schools } from '../schools/schools.model';
 import { CreateOrJoinTeamDto, JoinOrLeaveTeamDto } from "./teams.dto";
 import { Code } from "./teams.exception";
 import { Teams } from "./teams.model";
@@ -101,5 +103,28 @@ export class TeamsService extends BaseService<Teams, CreateOrJoinTeamDto> {
 
         // Else save new team.
         return {deleted: false, team: await team.save()};
+    }
+
+    public async getFilteredTeam(eventId: string, filter: DataTableInterface) {
+        const query = this.teamsModel.find({
+            event: eventId
+        });
+        const data: DataTableReturnInterface = <DataTableReturnInterface> {
+            draw: filter.draw,
+            recordsTotal: await query.count().exec()
+        };
+
+        let sort = filter.columns[filter.order[0].column].name;
+        sort = (filter.order[0].dir === 'asc' ? '+' : '-') + sort;
+
+        const teams = await query.find().sort(sort)
+            .limit(filter.length)
+            .skip(filter.start)
+            .exec();
+
+        data.data = teams;
+        data.recordsFiltered = data.recordsTotal;
+
+        return data;
     }
 }

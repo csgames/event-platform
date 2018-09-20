@@ -1,4 +1,4 @@
-import { Module } from "@nestjs/common";
+import { forwardRef, Module } from '@nestjs/common';
 import { MongooseModule } from "@nestjs/mongoose";
 import { STSModule } from "../../sts/sts.module";
 import { AttendeesModule } from "../attendees/attendees.module";
@@ -13,7 +13,7 @@ import { TeamsService } from "./teams.service";
             name: "teams",
             schema: TeamsSchema
         }]),
-        EventsModule,
+        forwardRef(() => EventsModule),
         AttendeesModule,
         STSModule
     ],
