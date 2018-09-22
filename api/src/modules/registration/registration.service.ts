@@ -1,6 +1,5 @@
 import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
-import { UserModel } from "../sts/user.model";
-import { STSService } from '@polyhx/nest-services';
+import { STSService, UserModel } from '@polyhx/nest-services';
 
 @Injectable()
 export class RegistrationService {
