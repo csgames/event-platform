@@ -1,5 +1,5 @@
-import { IsString, IsNotEmpty, IsDate, IsArray, IsOptional, ArrayUnique } from "class-validator";
-import { ApiModelProperty } from "@nestjs/swagger";
+import { ApiModelProperty } from '@nestjs/swagger';
+import { ArrayUnique, IsArray, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
 export class CreateActivityDto {
 
@@ -8,15 +8,13 @@ export class CreateActivityDto {
     @ApiModelProperty({ required: true })
     name: string;
 
-    @IsDate()
     @IsNotEmpty()
     @ApiModelProperty({ required: true })
-    beginDate: Date;
+    beginDate: string;
 
-    @IsDate()
     @IsNotEmpty()
     @ApiModelProperty({ required: true })
-    endDate: Date;
+    endDate: string;
 
     @IsString()
     @IsNotEmpty()

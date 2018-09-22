@@ -20,15 +20,85 @@ export class CreateEventDto {
     @ApiModelProperty({ required: true })
     details: object;
 
-    @IsDate()
     @IsNotEmpty()
     @ApiModelProperty({ required: true })
-    beginDate: Date;
+    beginDate: string;
 
-    @IsDate()
     @IsNotEmpty()
     @ApiModelProperty({ required: true })
-    endDate: Date;
+    endDate: string;
+
+    @IsOptional()
+    @IsArray()
+    @ArrayUnique()
+    @ApiModelProperty()
+    activities: string[];
+
+    @IsOptional()
+    @IsArray()
+    @ArrayUnique()
+    @ApiModelProperty()
+    attendees: EventRegistrations[];
+
+    @IsOptional()
+    @IsString()
+    @ApiModelProperty()
+    imageUrl: string;
+
+    @IsOptional()
+    @IsString()
+    @ApiModelProperty()
+    coverUrl: string;
+
+    @IsOptional()
+    @IsString()
+    @ApiModelProperty()
+    website: string;
+
+    @IsOptional()
+    @IsString()
+    @ApiModelProperty()
+    facebookEvent: string;
+
+    @IsOptional()
+    @IsString()
+    @ApiModelProperty()
+    locationName: string;
+
+    @IsOptional()
+    @IsString()
+    @ApiModelProperty()
+    locationAddress: string;
+
+    @IsOptional()
+    @IsNumber()
+    @ApiModelProperty()
+    maxTeamMembers: number;
+}
+
+export class UpdateEventDto {
+    @IsOptional()
+    @IsString()
+    @IsIn(['mlh', 'lhgames'])
+    @ApiModelProperty()
+    type: string;
+
+    @IsOptional()
+    @IsString()
+    @ApiModelProperty()
+    name: string;
+
+    @IsOptional()
+    @ApiModelProperty()
+    details: object;
+
+    @IsOptional()
+    @ApiModelProperty()
+    beginDate: string;
+
+    @IsOptional()
+    @ApiModelProperty()
+    endDate: string;
 
     @IsOptional()
     @IsArray()
@@ -82,4 +152,12 @@ export class SendConfirmEmailDto {
     @IsArray()
     @ArrayUnique()
     userIds: string[];
+
+    @IsNotEmpty()
+    @IsString()
+    title: string;
+
+    @IsNotEmpty()
+    @IsString()
+    template: string;
 }

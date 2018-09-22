@@ -2,6 +2,9 @@ import * as mongoose from 'mongoose';
 import { Activities } from '../activities/activities.model';
 import { Attendees } from '../attendees/attendees.model';
 
+export const EVENT_TYPE_LH_GAMES = 'lhgames';
+export const EVENT_TYPE_MLH = 'mlh';
+
 export interface EventRegistrations extends mongoose.Document {
     attendee: (Attendees | mongoose.Types.ObjectId | string);
     selected: boolean;
@@ -37,8 +40,8 @@ export interface Events extends mongoose.Document {
     readonly type: string;
     readonly name: string;
     readonly details: object;
-    readonly beginDate: Date;
-    readonly endDate: Date;
+    readonly beginDate: Date | string;
+    readonly endDate: Date | string;
     readonly activities: (Activities | mongoose.Types.ObjectId | string)[];
     readonly attendees: EventRegistrations[];
     readonly imageUrl: string;
@@ -53,7 +56,7 @@ export interface Events extends mongoose.Document {
 export const EventsSchema = new mongoose.Schema({
     type: {
         type: String,
-        enum: ['mlh', 'lhgames']
+        enum: [EVENT_TYPE_LH_GAMES, EVENT_TYPE_MLH]
     },
     name: {
         type: String,

@@ -3,8 +3,8 @@ import { Attendees } from "../attendees/attendees.model";
 
 export interface Activities extends mongoose.Document {
     readonly name: string;
-    readonly beginDate: Date;
-    readonly endDate: Date;
+    readonly beginDate: Date | string;
+    readonly endDate: Date | string;
     readonly location: string;
     readonly attendees: (Attendees | mongoose.Types.ObjectId | string)[];
 }

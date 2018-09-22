@@ -16,7 +16,7 @@ import { EventsService } from '../events/events.service';
 import { ApiUseTags } from '@nestjs/swagger';
 
 @ApiUseTags('Team')
-@Controller("team")
+@Controller('team')
 @UseGuards(PermissionsGuard)
 @UseFilters(new CodeExceptionFilter(codeMap))
 export class TeamsController {
@@ -43,10 +43,10 @@ export class TeamsController {
     @Permissions('event_management:get:team')
     async getInfo(@Headers('token-claim-user_id') userId: string, @Query('event') event: string): Promise<Teams> {
         if (!event) {
-            throw new BadRequestException("Event not specified");
+            throw new BadRequestException('Event not specified');
         }
 
-        const attendee = await this.attendeesService.findOne({ userId: userId });
+        const attendee = await this.attendeesService.findOne({userId: userId});
         if (!attendee) {
             return null;
         }
@@ -64,7 +64,7 @@ export class TeamsController {
         }
 
         for (let a of team.attendees as (Attendees & { status: string })[]) {
-            a.user = (await this.stsService.getUser(a.userId)).user;
+            a.user = (await this.stsService.getAllWithIds([a.userId])).users[0];
             a.status = await this.eventsService.getAttendeeStatus(a._id, team.event as string);
         }
         return team;
@@ -80,15 +80,15 @@ export class TeamsController {
             model: 'attendees'
         });
         for (let a of team.attendees as Attendees[]) {
-            a.user = (await this.stsService.getUser(a.userId)).user;
+            a.user = (await this.stsService.getAllWithIds([a.userId])).users[0];
         }
         return team;
     }
 
-    @Delete(":id")
+    @Delete(':id')
     @Permissions('event_management:leave:team')
     public async leave(@Headers('token-claim-user_id') userId: string, @Param('id') teamId: string) {
-        const attendee = await this.attendeesService.findOne({ userId: userId });
-        return this.teamsService.leave({ teamId, attendeeId: attendee._id, event: null });
+        const attendee = await this.attendeesService.findOne({userId: userId});
+        return this.teamsService.leave({teamId, attendeeId: attendee._id, event: null});
     }
 }
