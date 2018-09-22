@@ -1,8 +1,9 @@
-import { HttpException, Injectable } from "@nestjs/common";
-let nodeFetch = require("node-fetch");
-import { Response } from "node-fetch";
-import * as querystring from "querystring";
-import { STSService } from "@polyhx/nest-services";
+import { HttpException, Injectable } from '@nestjs/common';
+
+let nodeFetch = require('node-fetch');
+import { Response } from 'node-fetch';
+import * as querystring from 'querystring';
+import { STSService } from '@polyhx/nest-services';
 
 export interface Email {
     from: string;
@@ -17,14 +18,14 @@ export interface Email {
 @Injectable()
 export class EmailService {
 
-    private sendEmailUrl = process.env.EMAIL_SERVICE_URL + "/email/";
+    private sendEmailUrl = process.env.EMAIL_SERVICE_URL + '/email/';
 
     constructor(private stsService: STSService) {
     }
 
     public async sendEmail(email: Email) {
         if (!email) {
-            throw new Error("Email is null");
+            throw new Error('Email is null');
         }
 
         if (email.variables) {
@@ -35,15 +36,15 @@ export class EmailService {
         let res: Response;
         try {
             res = await nodeFetch(this.sendEmailUrl, {
-                method: "POST",
+                method: 'POST',
                 headers: {
-                    "Authorization": `Bearer ${await this.stsService.getCurrentAccessToken()}`,
-                    "Content-Type": "application/x-www-form-urlencoded"
+                    'Authorization': `Bearer ${await this.stsService.getCurrentAccessToken()}`,
+                    'Content-Type': 'application/x-www-form-urlencoded'
                 },
                 body: body
             });
         } catch (e) {
-            throw new Error("Failed to execute node fetch to email service.");
+            throw new Error('Failed to execute node fetch to email service.');
         }
 
         if (!res.ok) {

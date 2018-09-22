@@ -18,7 +18,7 @@ import { Events } from './events.model';
 import { EventsService } from './events.service';
 
 @ApiUseTags('Event')
-@Controller("event")
+@Controller('event')
 @UseGuards(PermissionsGuard)
 @UseFilters(new CodeExceptionFilter(codeMap))
 export class EventsController {
@@ -56,7 +56,7 @@ export class EventsController {
     @Get(':id/status')
     @Permissions('event_management:get-status:event')
     async getAttendeeStatus(@Headers('token-claim-user_id') userId: string, @Param('id') eventId: string) {
-        const attendee = await this.attendeesService.findOne({ userId });
+        const attendee = await this.attendeesService.findOne({userId});
 
         if (!attendee) {
             return {
@@ -88,7 +88,7 @@ export class EventsController {
     @Get(':id/attendee')
     @UseGuards(AttendeesGuard)
     async hasAttendee(@Headers('token-claim-user_id') userId: string, @Param('id') eventId: string) {
-        return { registered: await this.eventsService.hasAttendeeForUser(eventId, userId) };
+        return {registered: await this.eventsService.hasAttendeeForUser(eventId, userId)};
     }
 
     @Post(':id/attendee/filter')
@@ -111,12 +111,12 @@ export class EventsController {
         let attendeeIds = event.attendees.filter(attendee => attendee.present).map(attendee => attendee.attendee);
 
         let attendees = await this.attendeesService.find({
-            _id: { $in: attendeeIds },
+            _id: {$in: attendeeIds},
             hasDietaryRestrictions: true,
-            dietaryRestrictions: { $regex: /^v/i }
+            dietaryRestrictions: {$regex: /^v/i}
         });
 
-        return { count: attendees.length };
+        return {count: attendees.length};
     }
 
     @Put(':event_id/:attendee_id/present')
