@@ -1,20 +1,21 @@
-import { ApiUseTags } from "@nestjs/swagger";
 import {
-    Body, Controller, Get, Headers, Param, Post, UseGuards, Put, UseFilters, HttpCode, NotFoundException
-} from "@nestjs/common";
+    Body, Controller, Get, Headers, HttpCode, NotFoundException, Param, Post, Put, UseFilters, UseGuards
+} from '@nestjs/common';
+import { ApiUseTags } from '@nestjs/swagger';
+import { Permissions } from '../../../decorators/permission.decorator';
+import { CodeExceptionFilter } from '../../../filters/CodedError/code.filter';
+import { PermissionsGuard } from '../../../guards/permission.guard';
+import { DataTableInterface } from '../../../interfaces/dataTable.interface';
+import { DataTablePipe } from '../../../pipes/dataTable.pipe';
+import { ValidationPipe } from '../../../pipes/validation.pipe';
+import { CreateActivityDto } from '../activities/activities.dto';
+import { AttendeesGuard } from '../attendees/attendees.guard';
+import { AttendeesService } from '../attendees/attendees.service';
 import { TeamsService } from '../teams/teams.service';
-import { EventsService } from "./events.service";
-import { CreateEventDto, SendConfirmEmailDto } from "./events.dto";
-import { Events } from "./events.model";
-import { ValidationPipe } from "../../../pipes/validation.pipe";
-import { PermissionsGuard } from "../../../guards/permission.guard";
-import { Permissions } from "../../../decorators/permission.decorator";
-import { CodeExceptionFilter } from "../../../filters/CodedError/code.filter";
-import { codeMap } from "./events.exception";
-import { AttendeesGuard } from "../attendees/attendees.guard";
-import { AttendeesService } from "../attendees/attendees.service";
-import { DataTablePipe } from "../../../pipes/dataTable.pipe";
-import { DataTableInterface } from "../../../interfaces/dataTable.interface";
+import { CreateEventDto, SendConfirmEmailDto, UpdateEventDto } from './events.dto';
+import { codeMap } from './events.exception';
+import { Events } from './events.model';
+import { EventsService } from './events.service';
 
 @ApiUseTags('Event')
 @Controller("event")
@@ -135,6 +136,22 @@ export class EventsController {
         await event.save();
 
         return event;
+    }
+
+    @Put(':id')
+    @Permissions('event_management:update:event')
+    async update(@Param('id') id: string, @Body(new ValidationPipe()) event: UpdateEventDto) {
+        await this.eventsService.update({
+            _id: id
+        }, event);
+
+        return;
+    }
+
+    @Put(':id/activity')
+    @Permissions('event_management:update:event')
+    async addActivity(@Param('id') id: string, @Body(new ValidationPipe()) activity: CreateActivityDto) {
+        await this.eventsService.createActivity(id, activity);
     }
 
     @Post(':id/team/filter')

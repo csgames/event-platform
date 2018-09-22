@@ -1,17 +1,19 @@
-import { InjectModel } from "@nestjs/mongoose";
-import { Model } from "mongoose";
-import { HttpStatus, Injectable, NotFoundException } from "@nestjs/common";
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
+import { STSService } from '@polyhx/nest-services';
+import { GetAllWithIdsResponse } from '@polyhx/nest-services/modules/sts/sts.service';
+import { Model } from 'mongoose';
+import { CodeException } from '../../../filters/CodedError/code.exception';
+import { DataTableInterface, DataTableReturnInterface } from '../../../interfaces/dataTable.interface';
+import { BaseService } from '../../../services/base.service';
+import { EmailService } from '../../email/email.service';
+import { CreateActivityDto } from '../activities/activities.dto';
+import { Activities } from '../activities/activities.model';
 import { ActivitiesService } from '../activities/activities.service';
-import { CreateEventDto } from "./events.dto";
-import { Events } from "./events.model";
-import { BaseService } from "../../../services/base.service";
-import { AttendeesService } from "../attendees/attendees.service";
-import { CodeException } from "../../../filters/CodedError/code.exception";
-import { Code } from "./events.exception";
-import { DataTableInterface, DataTableReturnInterface } from "../../../interfaces/dataTable.interface";
-import { GetAllWithIdsResponse } from "@polyhx/nest-services/modules/sts/sts.service";
-import { EmailService } from "../../email/email.service";
-import { STSService } from "@polyhx/nest-services";
+import { AttendeesService } from '../attendees/attendees.service';
+import { CreateEventDto } from './events.dto';
+import { Code } from './events.exception';
+import { Events } from './events.model';
 
 @Injectable()
 export class EventsService extends BaseService<Events, CreateEventDto> {
@@ -282,5 +284,16 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
         }
 
         return this.activitiesService.filterFrom(event.activities as string[], filter);
+    }
+
+    async createActivity(id: string, dto: CreateActivityDto) {
+        const event = await this.findById(id);
+        if (!event) {
+            throw new NotFoundException("No event found");
+        }
+
+        const activity = await this.activitiesService.create(dto);
+        event.activities.push(activity._id);
+        return await event.save();
     }
 }

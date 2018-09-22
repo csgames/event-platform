@@ -37,8 +37,8 @@ export interface Events extends mongoose.Document {
     readonly type: string;
     readonly name: string;
     readonly details: object;
-    readonly beginDate: Date;
-    readonly endDate: Date;
+    readonly beginDate: Date | string;
+    readonly endDate: Date | string;
     readonly activities: (Activities | mongoose.Types.ObjectId | string)[];
     readonly attendees: EventRegistrations[];
     readonly imageUrl: string;
