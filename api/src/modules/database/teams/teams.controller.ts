@@ -51,7 +51,7 @@ export class TeamsController {
 
     @Get('event/:eventId/user/:userId')
     @Permissions('event_management:get:team')
-    async getTeamByUserAndEvent(@Param('eventId') eventId: string, @Param('userId') userId: string): Promise<Teams> {
+    async getTeamByUserAndEvent(@Param('eventId') event: string, @Param('userId') userId: string): Promise<Teams> {
         if (!event) {
             throw new BadRequestException('Event not specified');
         }
