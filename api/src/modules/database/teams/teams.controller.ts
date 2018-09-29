@@ -46,6 +46,12 @@ export class TeamsController {
     @Get('info')
     @Permissions('event_management:get:team')
     async getInfo(@Headers('token-claim-user_id') userId: string, @Query('event') event: string): Promise<Teams> {
+        return this.getTeamByUserAndEvent(event, userId);
+    }
+
+    @Get('event/:eventId/user/:userId')
+    @Permissions('event_management:get:team')
+    async getTeamByUserAndEvent(@Param('eventId') eventId: string, @Param('userId') userId: string): Promise<Teams> {
         if (!event) {
             throw new BadRequestException('Event not specified');
         }
@@ -92,7 +98,7 @@ export class TeamsController {
     @Put(':id/lhgames')
     @Permissions('event_management:update-lhgames:team')
     updateLHGamesTeam(@Param('id') teamId: string, @Headers('token-claim-user_id') userId: string,
-                            @Body(new ValidationPipe()) updateLHGamesTeamDto: UpdateLHGamesTeamDto): Promise<void> {
+                      @Body(new ValidationPipe()) updateLHGamesTeamDto: UpdateLHGamesTeamDto): Promise<void> {
         return this.teamsService.updateLHGamesTeam(userId, teamId, updateLHGamesTeamDto);
     }
 
