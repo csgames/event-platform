@@ -152,12 +152,4 @@ export class SendConfirmEmailDto {
     @IsArray()
     @ArrayUnique()
     userIds: string[];
-
-    @IsNotEmpty()
-    @IsString()
-    title: string;
-
-    @IsNotEmpty()
-    @IsString()
-    template: string;
 }

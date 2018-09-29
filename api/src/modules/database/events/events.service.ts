@@ -8,7 +8,6 @@ import { DataTableInterface, DataTableReturnInterface } from '../../../interface
 import { BaseService } from '../../../services/base.service';
 import { EmailService } from '../../email/email.service';
 import { CreateActivityDto } from '../activities/activities.dto';
-import { Activities } from '../activities/activities.model';
 import { ActivitiesService } from '../activities/activities.service';
 import { AttendeesService } from '../attendees/attendees.service';
 import { CreateEventDto } from './events.dto';
@@ -104,6 +103,10 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
 
     async getAttendeeStatus(attendeeId: string, eventId: string) {
         const event = await this.findOne({ _id: eventId });
+        return this.getAttendeeStatusFromEvent(attendeeId, event);
+    }
+
+    public getAttendeeStatusFromEvent(attendeeId: string, event: Events) {
         const status = event.attendees.find(a => a.attendee.toString() === attendeeId.toString());
         if (!status) {
             return 'not-registered';
@@ -240,17 +243,17 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
     }
 
     async selectAttendees(eventId, userIds: string[]) {
-        let res: GetAllWithIdsResponse = await this.stsService.getAllWithIds(userIds);
+        const res: GetAllWithIdsResponse = await this.stsService.getAllWithIds(userIds);
 
-        for (let user of res.users) {
+        for (const user of res.users) {
             try {
                 await this.emailService.sendEmail({
                     from: "PolyHx <info@polyhx.io>",
                     to: [user.username],
-                    subject: "Hackatown 2018 - Selection",
-                    text: "Hackatown 2018 - Selection",
+                    subject: "LHGames 2018 - Selection",
+                    text: "LHGames 2018 - Selection",
                     html: "<h1>Congrats</h1>",
-                    template: "hackatown2018-selection",
+                    template: "lhgames2018-selection",
                     variables: {
                         name: user.firstName
                     }
@@ -260,12 +263,12 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
             }
         }
 
-        let attendees = await this.attendeeService.find({
+        const attendees = await this.attendeeService.find({
             userId: {
                 $in: userIds
             }
         });
-        for (let attendee of attendees) {
+        for (const attendee of attendees) {
             await this.eventsModel.update({
                 "_id": eventId,
                 "attendees.attendee": attendee._id

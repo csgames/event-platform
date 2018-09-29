@@ -1,11 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
+import { STSService } from '@polyhx/nest-services';
 import { Model, Types } from 'mongoose';
 import { CodeException } from '../../../filters/CodedError/code.exception';
 import { BaseService } from '../../../services/base.service';
+import { EmailService } from '../../email/email.service';
 import { Attendees } from '../attendees/attendees.model';
 import { AttendeesService } from '../attendees/attendees.service';
-import { CreateOrJoinTeamDto, JoinOrLeaveTeamDto } from './teams.dto';
+import { CreateOrJoinTeamDto, JoinOrLeaveTeamDto, UpdateLHGamesTeamDto } from './teams.dto';
 import { Code } from './teams.exception';
 import { Teams } from './teams.model';
 import { EVENT_TYPE_LH_GAMES, Events } from '../events/events.model';
@@ -24,7 +26,9 @@ export class TeamsService extends BaseService<Teams, CreateOrJoinTeamDto> {
     constructor(@InjectModel('teams') private readonly teamsModel: Model<Teams>,
                 private readonly attendeesService: AttendeesService,
                 private readonly lhGamesService: LHGamesService,
-                private readonly eventsService: EventsService) {
+                private readonly eventsService: EventsService,
+                private emailService: EmailService,
+                private stsService: STSService) {
         super(teamsModel);
     }
 
@@ -118,26 +122,43 @@ export class TeamsService extends BaseService<Teams, CreateOrJoinTeamDto> {
         return {deleted: false, team: await team.save()};
     }
 
-    public async getFilteredTeam(eventId: string, filter: DataTableInterface) {
-        const query = this.teamsModel.find({
+    public async getTeamFromEvent(eventId: string) {
+        const teams = await this.teamsModel.find({
             event: eventId
+        }).lean().populate({
+            model: 'attendees',
+            path: 'attendees'
+        }).exec() as Teams[];
+        const userId: string[] = [];
+        teams.forEach(team => {
+            userId.push(...(team.attendees as Attendees[]).map(a => a.userId));
         });
-        const data: DataTableReturnInterface = <DataTableReturnInterface> {
-            draw: filter.draw,
-            recordsTotal: await query.count().exec()
-        };
 
-        let sort = filter.columns[filter.order[0].column].name;
-        sort = (filter.order[0].dir === 'asc' ? '+' : '-') + sort;
+        const event = await this.eventsService.findOne({
+            _id: eventId
+        });
+        const res = await this.stsService.getAllWithIds(userId);
+        for (const team of teams) {
+            for (const attendee of team.attendees as (Attendees & { status: string })[]) {
+                attendee.status = this.eventsService.getAttendeeStatusFromEvent(attendee._id, event);
+                attendee.user = res.users.find(value => value.id === attendee.userId);
+            }
+        }
 
-        const teams = await query.find().sort(sort)
-            .limit(filter.length)
-            .skip(filter.start)
-            .exec();
+        return teams;
+    }
 
-        data.data = teams;
-        data.recordsFiltered = data.recordsTotal;
+    async updateLHGamesTeam(userId: string, teamId: string, updateLHGamesTeamDto: UpdateLHGamesTeamDto) {
+        const attendee = await this.attendeesService.findOne({userId});
+        const attendeeTeam: Teams = await this.findOne({
+            attendees: attendee._id, _id: teamId
+        });
+        if (!attendeeTeam) {
+            throw new CodeException(Code.ATTENDEE_NOT_IN_TEAM);
+        }
 
-        return data;
+        await this.lhGamesService.updateTeam(teamId, {
+            programmingLanguage: updateLHGamesTeamDto.programmingLanguage
+        });
     }
 }

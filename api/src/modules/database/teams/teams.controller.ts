@@ -1,11 +1,11 @@
 import {
-    BadRequestException, Body, Controller, Delete, Get, Headers, Param, Post, Query, UseFilters, UseGuards
+    BadRequestException, Body, Controller, Delete, Get, Headers, Param, Post, Put, Query, UseFilters, UseGuards
 } from '@nestjs/common';
 import { Permissions } from '../../../decorators/permission.decorator';
 import { PermissionsGuard } from '../../../guards/permission.guard';
 import { ValidationPipe } from '../../../pipes/validation.pipe';
 import { CodeExceptionFilter } from '../../../filters/CodedError/code.filter';
-import { CreateOrJoinTeamDto } from './teams.dto';
+import { CreateOrJoinTeamDto, UpdateLHGamesTeamDto } from './teams.dto';
 import { Teams } from './teams.model';
 import { TeamsService } from './teams.service';
 import { codeMap } from './teams.exception';
@@ -14,6 +14,7 @@ import { STSService } from '@polyhx/nest-services';
 import { Attendees } from '../attendees/attendees.model';
 import { EventsService } from '../events/events.service';
 import { ApiUseTags } from '@nestjs/swagger';
+import { LHGamesService } from "../../lhgames/lhgames.service";
 
 @ApiUseTags('Team')
 @Controller('team')
@@ -36,7 +37,10 @@ export class TeamsController {
     @Get()
     @Permissions('event_management:get-all:team')
     async getAll(): Promise<Teams[]> {
-        return this.teamsService.findAll();
+        return this.teamsService.findAll({
+            path: 'attendees',
+            model: 'attendees'
+        });
     }
 
     @Get('info')
@@ -83,6 +87,13 @@ export class TeamsController {
             a.user = (await this.stsService.getAllWithIds([a.userId])).users[0];
         }
         return team;
+    }
+
+    @Put(':id/lhgames')
+    @Permissions('event_management:update-lhgames:team')
+    updateLHGamesTeam(@Param('id') teamId: string, @Headers('token-claim-user_id') userId: string,
+                            @Body(new ValidationPipe()) updateLHGamesTeamDto: UpdateLHGamesTeamDto): Promise<void> {
+        return this.teamsService.updateLHGamesTeam(userId, teamId, updateLHGamesTeamDto);
     }
 
     @Delete(':id')
