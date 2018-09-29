@@ -154,11 +154,10 @@ export class EventsController {
         await this.eventsService.createActivity(id, activity);
     }
 
-    @Post(':id/team/filter')
-    @HttpCode(200)
+    @Get(':id/team')
     @Permissions('event_management:get-all:event')
-    async eventTeamQuery(@Param('id') eventId: string, @Body(new DataTablePipe()) body: DataTableInterface) {
-        return await this.teamsService.getFilteredTeam(eventId, body);
+    async eventTeamQuery(@Param('id') eventId: string) {
+        return await this.teamsService.getTeamFromEvent(eventId);
     }
 
     @Post(':id/activity/filter')

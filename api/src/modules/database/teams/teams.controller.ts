@@ -36,7 +36,10 @@ export class TeamsController {
     @Get()
     @Permissions('event_management:get-all:team')
     async getAll(): Promise<Teams[]> {
-        return this.teamsService.findAll();
+        return this.teamsService.findAll({
+            path: 'attendees',
+            model: 'attendees'
+        });
     }
 
     @Get('info')
