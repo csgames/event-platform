@@ -62,7 +62,7 @@ export class BaseService<T extends Document, Dto> {
         }
     }
 
-    async update(condition: Object, data: Partial<T> | any): Promise<any> {
+    async update(condition: Object, data: Partial<T>): Promise<any> {
         return this.model.update(condition, <T>data).exec();
     }
 
