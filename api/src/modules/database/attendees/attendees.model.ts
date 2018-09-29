@@ -1,7 +1,7 @@
 import * as mongoose from "mongoose";
 import * as uuid from "uuid";
 import { Schools } from "../schools/schools.model";
-import { UserModel } from "../../sts/user.model";
+import { UserModel } from '@polyhx/nest-services';
 
 export interface Attendees extends mongoose.Document {
     userId: string;
