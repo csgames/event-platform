@@ -14,7 +14,6 @@ export class LHGamesService {
 
     async createTeam(teamId: string) {
         try {
-            console.log(await this.stsService.getCurrentAccessToken());
             const res: Response = await nodeFetch(`${this.lhGamesApiUrl}/team`, {
                 method: 'POST',
                 headers: {
@@ -27,7 +26,7 @@ export class LHGamesService {
             });
             console.log(res);
         } catch (e) {
-            throw new Error('Failed create a team on LH Games API.');
+            throw new Error('Failed to create a team on LH Games API.');
         }
     }
 
@@ -41,7 +40,22 @@ export class LHGamesService {
                 }
             });
         } catch (e) {
-            throw new Error('Failed delete a team on LH Games API.');
+            throw new Error('Failed to delete a team on LH Games API.');
+        }
+    }
+
+    async updateTeam(id: string, updateFields: any) {
+        try {
+            const res: Response = await nodeFetch(`${this.lhGamesApiUrl}/team/${id}`, {
+                method: 'PUT',
+                headers: {
+                    'Authorization': `Bearer ${await this.stsService.getCurrentAccessToken()}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(updateFields)
+            });
+        } catch (e) {
+            throw new Error('Failed to update a team on LH Games API.');
         }
     }
 }

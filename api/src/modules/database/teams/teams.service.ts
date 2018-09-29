@@ -7,7 +7,7 @@ import { BaseService } from '../../../services/base.service';
 import { EmailService } from '../../email/email.service';
 import { Attendees } from '../attendees/attendees.model';
 import { AttendeesService } from '../attendees/attendees.service';
-import { CreateOrJoinTeamDto, JoinOrLeaveTeamDto } from './teams.dto';
+import { CreateOrJoinTeamDto, JoinOrLeaveTeamDto, UpdateLHGamesTeamDto } from './teams.dto';
 import { Code } from './teams.exception';
 import { Teams } from './teams.model';
 import { EVENT_TYPE_LH_GAMES, Events } from '../events/events.model';
@@ -146,5 +146,19 @@ export class TeamsService extends BaseService<Teams, CreateOrJoinTeamDto> {
         }
 
         return teams;
+    }
+
+    async updateLHGamesTeam(userId: string, teamId: string, updateLHGamesTeamDto: UpdateLHGamesTeamDto) {
+        const attendee = await this.attendeesService.findOne({userId});
+        const attendeeTeam: Teams = await this.findOne({
+            attendees: attendee._id, _id: teamId
+        });
+        if (!attendeeTeam) {
+            throw new CodeException(Code.ATTENDEE_NOT_IN_TEAM);
+        }
+
+        await this.lhGamesService.updateTeam(teamId, {
+            programmingLanguage: updateLHGamesTeamDto.programmingLanguage
+        });
     }
 }
