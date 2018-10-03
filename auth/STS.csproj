@@ -10,6 +10,7 @@
     <PackageReference Include="BCrypt.Net-Core" Version="1.4.0" />
     <PackageReference Include="DotNetEnv" Version="1.0.1" />
     <PackageReference Include="IdentityServer4" Version="2.0.0-rc1-update1" />
+    <PackageReference Include="JWT" Version="5.0.0-beta4" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.0" />
     <PackageReference Include="MongoDB.Bson" Version="2.4.4" />
     <PackageReference Include="MongoDB.Driver" Version="2.4.4" />

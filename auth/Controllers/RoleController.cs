@@ -76,7 +76,7 @@ namespace STS.Controllers
         [Authorize]
         [RequiresPermissions("sts:create:role")]
         [HttpPost]
-        public Task<IActionResult> Create(RoleInput input)
+        public Task<IActionResult> Create([FromBody] RoleInput input)
         {
             return Task.Run<IActionResult>(() =>
             {
@@ -107,7 +107,7 @@ namespace STS.Controllers
         [Authorize]
         [RequiresPermissions("sts:update:role")]
         [HttpPut("{id}")]
-        public Task<IActionResult> Update(string id, RoleInput input)
+        public Task<IActionResult> Update(string id, [FromBody] RoleInput input)
         {
             return Task.Run<IActionResult>(() =>
             {
@@ -150,6 +150,38 @@ namespace STS.Controllers
                 _db.Delete<Role>(r => r.Id == id);
                 
                 return Ok(new {success = true});
+            });
+        }
+
+        [Authorize]
+        [RequiresPermissions("sts:get-all:role")]
+        [HttpPost("filter")]
+        public Task<IActionResult> Filter([FromBody] FilterInput input)
+        {
+            return Task.Run<IActionResult>(() =>
+            {
+                var count = _db.All<Role>()
+                    .ToList()
+                    .Count;
+                var data = _db.All<Role>()
+                    .Skip(input.Size * (input.Start - 1))
+                    .Take(input.Size)
+                    .Select(x => new FilteredRole
+                    {
+                        Id = x.Id,
+                        Name = x.Name,
+                        Permissions = x.Permissions.Length
+                    })
+                    .ToArray();
+                return Ok(new
+                {
+                    success = true,
+                    result = new FilteredData<FilteredRole>
+                    {
+                        Total = count,
+                        Data = data
+                    }
+                });
             });
         }
     }
