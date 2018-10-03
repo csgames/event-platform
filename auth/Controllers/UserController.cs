@@ -79,6 +79,7 @@ namespace STS.Controllers
                 {
                     return new StatusCodeResult((int) HttpStatusCode.Conflict);
                 }
+
                 try
                 {
                     var hashedPassword = BCrypt.Net.BCrypt.HashPassword(input.Password);
@@ -234,7 +235,7 @@ namespace STS.Controllers
                 });
             });
         }
-        
+
         [Authorize]
         [RequiresPermissions("sts:get-all:user")]
         [HttpPost("query")]
@@ -274,6 +275,7 @@ namespace STS.Controllers
                     Console.WriteLine(input);
                     return BadRequest();
                 }
+
                 var user = _db.Single<User>(u => u.Username == input.Username.ToLower());
                 if (user != null)
                 {
@@ -382,6 +384,7 @@ namespace STS.Controllers
                 {
                     return NotFound();
                 }
+
                 return Ok(new
                 {
                     users
@@ -429,6 +432,8 @@ namespace STS.Controllers
                 try
                 {
                     var dic = input.ToDictionary();
+                    dic["OldPassword"] = null;
+                    dic["NewPassword"] = null;
 
                     // If changing the password.
                     if (input.NewPassword != null)
@@ -449,6 +454,7 @@ namespace STS.Controllers
                                 code = ErrorCode.WrongOldPasswordError
                             });
                         }
+
                         dic["Password"] = BCrypt.Net.BCrypt.HashPassword(input.NewPassword);
                     }
 
@@ -507,6 +513,7 @@ namespace STS.Controllers
                                 Message = "Password not valid"
                             });
                         }
+
                         dic["Password"] = BCrypt.Net.BCrypt.HashPassword(input.Password);
                     }
 
