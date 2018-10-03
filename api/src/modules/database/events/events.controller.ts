@@ -93,7 +93,7 @@ export class EventsController {
 
     @Post(':id/attendee/filter')
     @HttpCode(200)
-    @Permissions('event_management:get-all:event')
+    @Permissions('event_management:get-all:attendee')
     async eventAttendeeQuery(@Param('id') eventId: string, @Body(new DataTablePipe()) body: DataTableInterface) {
         return await this.eventsService.getFilteredAttendees(eventId, body);
     }
@@ -155,14 +155,14 @@ export class EventsController {
     }
 
     @Get(':id/team')
-    @Permissions('event_management:get-all:event')
+    @Permissions('event_management:get-all:team')
     async eventTeamQuery(@Param('id') eventId: string) {
         return await this.teamsService.getTeamFromEvent(eventId);
     }
 
     @Post(':id/activity/filter')
     @HttpCode(200)
-    @Permissions('event_management:get-all:event')
+    @Permissions('event_management:get-all:activity')
     async eventActivityQuery(@Param('id') eventId: string, @Body(new DataTablePipe()) body: DataTableInterface) {
         return await this.eventsService.getFilteredActivities(eventId, body);
     }
