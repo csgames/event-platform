@@ -1,13 +1,13 @@
-import { Body, Controller, Get, HttpException, HttpStatus, Param, Post, Put, Req, UseGuards } from "@nestjs/common";
-import { ActivitiesService } from "./activities.service";
-import { CreateActivityDto } from "./activities.dto";
-import { Activities } from "./activities.model";
-import { ValidationPipe } from "../../../pipes/validation.pipe";
-import { PermissionsGuard } from "../../../guards/permission.guard";
-import { Permissions } from "../../../decorators/permission.decorator";
-import { Attendees } from "../attendees/attendees.model";
-import { AttendeesService } from "../attendees/attendees.service";
-import { STSService, UserModel } from "@polyhx/nest-services";
+import { Body, Controller, Get, HttpException, HttpStatus, Param, Post, Put, UseGuards } from '@nestjs/common';
+import { STSService, UserModel } from '@polyhx/nest-services';
+import { Permissions } from '../../../decorators/permission.decorator';
+import { PermissionsGuard } from '../../../guards/permission.guard';
+import { ValidationPipe } from '../../../pipes/validation.pipe';
+import { Attendees } from '../attendees/attendees.model';
+import { AttendeesService } from '../attendees/attendees.service';
+import { CreateActivityDto } from './activities.dto';
+import { Activities } from './activities.model';
+import { ActivitiesService } from './activities.service';
 
 @Controller("activity")
 @UseGuards(PermissionsGuard)
@@ -75,7 +75,7 @@ export class ActivitiesController {
 
         let attendee = await this.attendeesService.findById(attendees[winnerId]);
 
-        return (await this.stsService.getUser(attendee.userId)).user;
+        return (await this.stsService.getAllWithIds([attendee.userId])).users[0];
     }
 
     private getRandomIndex(size: number) {
