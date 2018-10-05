@@ -14,7 +14,7 @@ import { STSService } from '@polyhx/nest-services';
 import { Attendees } from '../attendees/attendees.model';
 import { EventsService } from '../events/events.service';
 import { ApiUseTags } from '@nestjs/swagger';
-import { LHGamesService } from "../../lhgames/lhgames.service";
+import { LHGamesService } from '../../lhgames/lhgames.service';
 
 @ApiUseTags('Team')
 @Controller('team')
@@ -89,8 +89,9 @@ export class TeamsController {
             path: 'attendees',
             model: 'attendees'
         });
-        for (let a of team.attendees as Attendees[]) {
+        for (let a of team.attendees as (Attendees & { status: string })[]) {
             a.user = (await this.stsService.getAllWithIds([a.userId])).users[0];
+            a.status = await this.eventsService.getAttendeeStatus(a._id, team.event as string);
         }
         return team;
     }
