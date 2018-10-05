@@ -299,4 +299,17 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
         event.activities.push(activity._id);
         return await event.save();
     }
+
+    async getActivities(eventId: string) {
+        const event = await this.findById(eventId);
+        if (!event) {
+            throw new NotFoundException("No event found");
+        }
+
+        return await this.activitiesService.find({
+            _id: {
+                $in: event.activities
+            }
+        });
+    }
 }

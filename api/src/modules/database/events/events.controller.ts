@@ -123,15 +123,16 @@ export class EventsController {
     @HttpCode(200)
     @Permissions('event_management:set-status:event')
     async setAttendeeStatus(@Param('event_id') eventId: string, @Param('attendee_id') attendeeId: string) {
-        let event = await this.eventsService.findById(eventId);
+        const event = await this.eventsService.findById(eventId);
 
         if (!event) {
             throw new NotFoundException(`Event ${eventId} not found.`);
         }
 
-        let attendeeIndex = event.attendees.findIndex(attendee => attendee.attendee.toString() === attendeeId);
+        const attendeeIndex = event.attendees.findIndex(attendee => attendee.attendee.toString() === attendeeId);
 
         event.attendees[attendeeIndex].present = true;
+        await this.teamsService.setTeamToPresent(eventId, attendeeId);
 
         await event.save();
 
@@ -165,5 +166,11 @@ export class EventsController {
     @Permissions('event_management:get-all:activity')
     async eventActivityQuery(@Param('id') eventId: string, @Body(new DataTablePipe()) body: DataTableInterface) {
         return await this.eventsService.getFilteredActivities(eventId, body);
+    }
+
+    @Get(':id/activity')
+    @Permissions('event_management:get-all:activity')
+    async getActivity(@Param('id') eventId: string) {
+        return await this.eventsService.getActivities(eventId);
     }
 }

@@ -6,6 +6,7 @@ export interface Teams extends mongoose.Document {
     name: string;
     attendees: (Attendees | mongoose.Types.ObjectId | string)[];
     event: Events | mongoose.Types.ObjectId | string;
+    present: boolean;
 }
 
 export const TeamsSchema = new mongoose.Schema({
@@ -24,4 +25,8 @@ export const TeamsSchema = new mongoose.Schema({
         required: true,
         ref: 'events'
     },
+    present: {
+        type: Boolean,
+        required: false
+    }
 });
