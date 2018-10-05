@@ -167,4 +167,10 @@ export class EventsController {
     async eventActivityQuery(@Param('id') eventId: string, @Body(new DataTablePipe()) body: DataTableInterface) {
         return await this.eventsService.getFilteredActivities(eventId, body);
     }
+
+    @Get(':id/activity')
+    @Permissions('event_management:get-all:activity')
+    async getActivity(@Param('id') eventId: string) {
+        return await this.eventsService.getActivities(eventId);
+    }
 }
