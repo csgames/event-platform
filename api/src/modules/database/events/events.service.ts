@@ -13,10 +13,13 @@ import { AttendeesService } from '../attendees/attendees.service';
 import { CreateEventDto } from './events.dto';
 import { Code } from './events.exception';
 import { Events } from './events.model';
+import { TeamsService } from '../teams/teams.service';
+import { Teams } from '../teams/teams.model';
 
 @Injectable()
 export class EventsService extends BaseService<Events, CreateEventDto> {
     constructor(@InjectModel('events') private readonly eventsModel: Model<Events>,
+                @InjectModel('teams') private readonly teamsModel: Model<Teams>,
                 private attendeeService: AttendeesService,
                 private emailService: EmailService,
                 private stsService: STSService,
@@ -316,6 +319,7 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
     async getStats(eventId: string) {
         const event = await this.findById(eventId);
         const activities = await this.getActivities(eventId);
+        const teams = await this.teamsModel.find({event: eventId});
 
         const stats = {};
         stats['registered'] = event.attendees.length;
@@ -323,6 +327,7 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
         stats['confirmed'] = event.attendees.filter(a => a.confirmed).length;
         stats['declined'] = event.attendees.filter(a => a.declined).length;
         stats['present'] = event.attendees.filter(a => a.present).length;
+        stats['present_teams'] = teams.filter(t => t.present).length;
 
         stats['activities'] = activities.reduce((acc, a) => Object.assign(acc, {[a.name]: a.attendees.length}), {});
 
