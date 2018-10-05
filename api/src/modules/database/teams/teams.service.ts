@@ -149,7 +149,7 @@ export class TeamsService extends BaseService<Teams, CreateOrJoinTeamDto> {
     }
 
     async updateLHGamesTeam(userId: string, teamId: string, updateLHGamesTeamDto: UpdateLHGamesTeamDto) {
-        const attendee = await this.attendeesService.findOne({userId});
+        const attendee = await this.attendeesService.findOne({ userId });
         const attendeeTeam: Teams = await this.findOne({
             attendees: attendee._id, _id: teamId
         });
@@ -160,5 +160,14 @@ export class TeamsService extends BaseService<Teams, CreateOrJoinTeamDto> {
         await this.lhGamesService.updateTeam(teamId, {
             programmingLanguage: updateLHGamesTeamDto.programmingLanguage
         });
+    }
+
+    async setTeamToPresent(eventId: string, attendeeId: string) {
+        const team = await this.teamsModel.findOne({
+            event: eventId,
+            attendees: attendeeId
+        });
+        team.present = true;
+        await team.save();
     }
 }
