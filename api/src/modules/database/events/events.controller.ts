@@ -173,4 +173,10 @@ export class EventsController {
     async getActivity(@Param('id') eventId: string) {
         return await this.eventsService.getActivities(eventId);
     }
+
+    @Get(':id/stats')
+    @Permissions('event_management:get-stats:event')
+    getStats(@Param('id') eventId: string) {
+        return this.eventsService.getStats(eventId);
+    }
 }

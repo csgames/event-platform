@@ -16,7 +16,7 @@ import { Events } from './events.model';
 
 @Injectable()
 export class EventsService extends BaseService<Events, CreateEventDto> {
-    constructor(@InjectModel("events") private readonly eventsModel: Model<Events>,
+    constructor(@InjectModel('events') private readonly eventsModel: Model<Events>,
                 private attendeeService: AttendeesService,
                 private emailService: EmailService,
                 private stsService: STSService,
@@ -25,7 +25,7 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
     }
 
     async addAttendee(eventId: string, userId: string) {
-        let attendee = await this.attendeeService.findOne({ userId });
+        let attendee = await this.attendeeService.findOne({userId});
 
         if (!attendee) {
             throw new CodeException(Code.USER_NOT_ATTENDEE);
@@ -33,7 +33,7 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
 
         const attendeeAlreadyRegistered = (await this.eventsModel.count({
             _id: eventId,
-            "attendees.attendee": attendee._id
+            'attendees.attendee': attendee._id
         }).exec()) > 0;
 
         if (attendeeAlreadyRegistered) {
@@ -52,7 +52,7 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
     }
 
     async confirmAttendee(eventId: string, userId: string, attending: boolean) {
-        let attendee = await this.attendeeService.findOne({ userId });
+        let attendee = await this.attendeeService.findOne({userId});
 
         if (!attendee) {
             throw new CodeException(Code.USER_NOT_ATTENDEE);
@@ -83,7 +83,7 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
     }
 
     async hasAttendeeForUser(eventId: string, userId: string) {
-        let attendee = await this.attendeeService.findOne({ userId });
+        let attendee = await this.attendeeService.findOne({userId});
 
         if (!attendee) {
             throw new CodeException(Code.USER_NOT_ATTENDEE);
@@ -95,14 +95,14 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
     async hasAttendee(eventId: string, attendeeId: string) {
         const occurrencesOfAttendee = await this.eventsModel.count({
             _id: eventId,
-            "attendees.attendee": attendeeId
+            'attendees.attendee': attendeeId
         }).exec();
 
         return occurrencesOfAttendee > 0;
     }
 
     async getAttendeeStatus(attendeeId: string, eventId: string) {
-        const event = await this.findOne({ _id: eventId });
+        const event = await this.findOne({_id: eventId});
         return this.getAttendeeStatusFromEvent(attendeeId, event);
     }
 
@@ -129,7 +129,7 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
      * DataTableReturnInterface.
      */
     async getFilteredAttendees(eventId: string, filter: DataTableInterface): Promise<DataTableReturnInterface> {
-        const event: Events = await this.findOne({ _id: eventId });
+        const event: Events = await this.findOne({_id: eventId});
         if (!event) {
             throw new NotFoundException(`Event not found. (EventId: ${eventId})`);
         }
@@ -168,7 +168,7 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
                     }
 
                     if ((declined && attendee.declined === declinedValue)) {
-                            return attendee.attendee.toString();
+                        return attendee.attendee.toString();
                     }
                 }
 
@@ -195,7 +195,7 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
                     return attendee.attendee.toString();
                 }
 
-            }  else if ((declined && attendee.declined === declinedValue)) {
+            } else if ((declined && attendee.declined === declinedValue)) {
                 if (!selected && !confirmed) {
                     return attendee.attendee.toString();
                 }
@@ -224,18 +224,18 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
         for (let attendee of res.data) {
             let a = event.attendees[
                 event.attendees.findIndex(value => value.attendee.toString() === attendee._id.toString())
-            ];
+                ];
 
             if (a.confirmed) {
-                attendee.status = "confirmed";
+                attendee.status = 'confirmed';
             } else if (a.declined) {
-                attendee.status = "declined";
+                attendee.status = 'declined';
             } else if (a.selected) {
-                attendee.status = "selected";
+                attendee.status = 'selected';
             } else if (a.present) {
-                attendee.status = "present";
+                attendee.status = 'present';
             } else {
-                attendee.status = "registered";
+                attendee.status = 'registered';
             }
         }
 
@@ -248,12 +248,12 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
         for (const user of res.users) {
             try {
                 await this.emailService.sendEmail({
-                    from: "PolyHx <info@polyhx.io>",
+                    from: 'PolyHx <info@polyhx.io>',
                     to: [user.username],
-                    subject: "LHGames 2018 - Selection",
-                    text: "LHGames 2018 - Selection",
-                    html: "<h1>Congrats</h1>",
-                    template: "lhgames2018-selection",
+                    subject: 'LHGames 2018 - Selection',
+                    text: 'LHGames 2018 - Selection',
+                    html: '<h1>Congrats</h1>',
+                    template: 'lhgames2018-selection',
                     variables: {
                         name: user.firstName
                     }
@@ -270,18 +270,18 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
         });
         for (const attendee of attendees) {
             await this.eventsModel.update({
-                "_id": eventId,
-                "attendees.attendee": attendee._id
+                '_id': eventId,
+                'attendees.attendee': attendee._id
             }, {
-                "attendees.$.selected": true
+                'attendees.$.selected': true
             }).exec();
         }
 
-        return { };
+        return {};
     }
 
     async getFilteredActivities(eventId: string, filter: DataTableInterface): Promise<DataTableReturnInterface> {
-        const event: Events = await this.findOne({ _id: eventId });
+        const event: Events = await this.findOne({_id: eventId});
         if (!event) {
             throw new NotFoundException(`Event not found. (EventId: ${eventId})`);
         }
@@ -292,7 +292,7 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
     async createActivity(id: string, dto: CreateActivityDto) {
         const event = await this.findById(id);
         if (!event) {
-            throw new NotFoundException("No event found");
+            throw new NotFoundException('No event found');
         }
 
         const activity = await this.activitiesService.create(dto);
@@ -303,7 +303,7 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
     async getActivities(eventId: string) {
         const event = await this.findById(eventId);
         if (!event) {
-            throw new NotFoundException("No event found");
+            throw new NotFoundException('No event found');
         }
 
         return await this.activitiesService.find({
@@ -311,5 +311,21 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
                 $in: event.activities
             }
         });
+    }
+
+    async getStats(eventId: string) {
+        const event = await this.findById(eventId);
+        const activities = await this.getActivities(eventId);
+
+        const stats = {};
+        stats['registered'] = event.attendees.length;
+        stats['selected'] = event.attendees.filter(a => a.selected).length;
+        stats['confirmed'] = event.attendees.filter(a => a.confirmed).length;
+        stats['declined'] = event.attendees.filter(a => a.declined).length;
+        stats['present'] = event.attendees.filter(a => a.present).length;
+
+        stats['activities'] = activities.reduce((acc, a) => Object.assign(acc, {[a.name]: a.attendees.length}), {});
+
+        return stats;
     }
 }
