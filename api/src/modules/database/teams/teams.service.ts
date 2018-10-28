@@ -167,7 +167,9 @@ export class TeamsService extends BaseService<Teams, CreateOrJoinTeamDto> {
             event: eventId,
             attendees: attendeeId
         });
-        team.present = true;
-        await team.save();
+        if (team) {
+            team.present = true;
+            await team.save();
+        }
     }
 }
