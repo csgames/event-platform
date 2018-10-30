@@ -56,6 +56,7 @@ class UsersService {
 
   Future<User> getUserByUsername(String username) async {
     try {
+      username = username.toLowerCase();
       final headers = {"Authorization": "Bearer ${_tokenService.accessToken}"};
       final response = await _http.get("${Environment.stsUrl}/user/username/$username", headers: headers);
       final responseMap = json.decode(response.body);

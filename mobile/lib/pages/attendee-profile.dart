@@ -25,31 +25,12 @@ class AttendeeProfilePage extends StatelessWidget {
     );
   }
 
-  Widget _buildConfirmationButtons() {
-    return Padding(
-        padding: EdgeInsets.symmetric(horizontal: 10.0),
-        child: Row(
-          children: <Widget>[
-            Expanded(
-              child: Align(
-                alignment: Alignment.topLeft,
-                child: IconButton(
-                  icon: Icon(Icons.clear),
-                  iconSize: 36.0,
-                  color: Colors.red,
-                  onPressed: onCancel,
-                ),
-              ),
-            ),
-         ],
-        ),
-    );
-  }
-
   Widget _buildAttendeeNameWidget() {
     return Padding(
       padding: EdgeInsets.only(top: 100.0),
-      child: Text('${_user.firstName} ${_user.lastName}',
+      child: 
+        Text(
+          '${_user.firstName} ${_user.lastName}',
           style: TextStyle(
             color: Constants.polyhxGrey,
             fontSize: 24.0,
@@ -84,7 +65,9 @@ class AttendeeProfilePage extends StatelessWidget {
     };
     return Padding(
       padding: EdgeInsets.only(top: 20.0),
-      child: Text('Status: ${statusInfo[_registrationStatus]['text']}',
+      child: 
+        Text(
+          'Status: ${statusInfo[_registrationStatus]['text']}',
           style: TextStyle(
             color: statusInfo[_registrationStatus]['color'],
             fontSize: 20.0,

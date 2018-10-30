@@ -39,7 +39,7 @@ class PillTextField extends StatelessWidget {
     this.onSubmitted,
     this.inputFormatters,
     this.color,
-    this.elevation = 2.0,
+    this.elevation = 2.0
   });
 
   @override
@@ -63,9 +63,8 @@ class PillTextField extends StatelessWidget {
         maxLengthEnforced: maxLengthEnforced,
         onChanged: onChanged,
         onSubmitted: onSubmitted,
-        inputFormatters: inputFormatters,
-      ),
+        inputFormatters: inputFormatters
+      )
     );
   }
-
 }

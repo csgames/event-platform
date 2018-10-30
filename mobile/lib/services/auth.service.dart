@@ -39,7 +39,7 @@ class AuthService {
     loggedIn = await _tokenService.validateTokens();
   }
 
-  Future<bool> login(String email, String password) async {
+  Future<void> login(String email, String password) async {
     String url = '${Environment.stsUrl}/connect/token';
     var body = UrlEncodedParams()
       ..set('client_id', Environment.stsClientId)
@@ -49,19 +49,12 @@ class AuthService {
       ..set('username', email)
       ..set('password', password);
     var headers = { 'Content-Type': 'application/x-www-form-urlencoded' };
-    try {
-      var response = await _http.post(url, body: body.toString(), headers: headers);
-      Map responseBody = json.decode(response.body);
-      _tokenService.setup(responseBody['access_token'], responseBody['refresh_token']);
-      await _tokenService.validateTokens();
-      if (_tokenService.tokenPayload != null) {
-        updateCurrentUser();
-      }
-      return true;
-    }
-    catch (e) {
-      print('AuthService.login(): $e');
-      return false;
+    var response = await _http.post(url, body: body.toString(), headers: headers);
+    Map responseBody = json.decode(response.body);
+    _tokenService.setup(responseBody['access_token'], responseBody['refresh_token']);
+    if (!await _tokenService.validateTokens()) throw('Unauthenticated');
+    if (_tokenService.tokenPayload != null) {
+      updateCurrentUser();
     }
   }
 

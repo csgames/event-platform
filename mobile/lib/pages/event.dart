@@ -1,62 +1,41 @@
-import 'package:PolyHxApp/services/nfc.service.dart';
+import 'package:PolyHxApp/redux/actions/activities-schedule-actions.dart';
+import 'package:PolyHxApp/redux/actions/attendee-retrieval-actions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:qr_reader/qr_reader.dart';
-import 'package:redux/redux.dart';
 import 'package:PolyHxApp/domain/event.dart';
 import 'package:PolyHxApp/pages/activities-schedule.dart';
 import 'package:PolyHxApp/pages/attendee-retrieval.dart';
 import 'package:PolyHxApp/pages/event-info.dart';
 import 'package:PolyHxApp/redux/state.dart';
-import 'package:PolyHxApp/services/attendees.service.dart';
-import 'package:PolyHxApp/services/events.service.dart';
-import 'package:PolyHxApp/services/users.service.dart';
 import 'package:PolyHxApp/utils/constants.dart';
+import 'package:redux/redux.dart';
 
 class EventPage extends StatefulWidget {
-  final EventsService _eventsService;
-  final UsersService _usersService;
-  final AttendeesService _attendeesService;
-  final NfcService _nfcService;
-  final QRCodeReader _qrCodeReader;
-
-  EventPage(this._eventsService, this._usersService,
-      this._attendeesService, this._nfcService, this._qrCodeReader, {Key key})
-      : super(key: key);
+  EventPage({Key key}) : super(key: key);
 
   @override
-  _EventPageState createState() =>
-      _EventPageState(_eventsService, _usersService,
-          _attendeesService, _nfcService, _qrCodeReader);
+  _EventPageState createState() => _EventPageState();
 }
 
 enum EventTabs { Info, Scan, Activities }
 
 class _EventPageState extends State<EventPage> {
-  final EventsService _eventsService;
-  final UsersService _usersService;
-  final AttendeesService _attendeesService;
-  final NfcService _nfcService;
-  final QRCodeReader _qrCodeReader;
   int _currentTabIndex = 0;
 
-  _EventPageState(this._eventsService, this._usersService,
-      this._attendeesService, this._nfcService, this._qrCodeReader);
+  _EventPageState();
 
-  Widget _buildBody(Event event) {
+  Widget _buildBody(_EventPageViewModel model) {
     Widget body;
     switch (EventTabs.values[_currentTabIndex]) {
       case EventTabs.Scan:
-        body = AttendeeRetrievalPage(_eventsService, _usersService,
-            _attendeesService, _nfcService, _qrCodeReader,
-            event);
+        body = AttendeeRetrievalPage(model.event);
         break;
       case EventTabs.Info:
         body = EventInfoPage();
         break;
       case EventTabs.Activities:
-        body = ActivitiesSchedulePage(_eventsService, _attendeesService, _usersService, _nfcService);
+        body = ActivitiesSchedulePage(model.event.id);
         break;
       default:
         break;
@@ -64,44 +43,64 @@ class _EventPageState extends State<EventPage> {
     return body;
   }
 
+  Future<bool> _reset(_EventPageViewModel model) async {
+    model.resetAttendeeRetrieval();
+    model.resetSchedule();
+    return true;
+  }
+
   List<BottomNavigationBarItem> _buildTabItems() {
     return <BottomNavigationBarItem>[
       BottomNavigationBarItem(
         icon: Icon(Icons.info_outline),
-        title: Text('Info'),
+        title: Text('Info')
       ),
       BottomNavigationBarItem(
         icon: Icon(Icons.camera_alt),
-        title: Text('Register'),
+        title: Text('Register')
       ),
       BottomNavigationBarItem(
         icon: Icon(Icons.event),
-        title: Text('Activities'),
-      ),
+        title: Text('Activities')
+      )
     ];
   }
 
   @override
   Widget build(BuildContext context) {
-    return StoreConnector<AppState, Event>(
-        converter: (Store<AppState> store) => store.state.currentEvent,
-        builder: (BuildContext context, Event event) {
-          return Scaffold(
-            appBar: AppBar(title: Text(event.name)),
-            body: _buildBody(event),
+    return StoreConnector<AppState, _EventPageViewModel>(
+      converter: (store) => _EventPageViewModel.fromStore(store),
+      builder: (BuildContext context, _EventPageViewModel model) {
+        return WillPopScope(
+          onWillPop: () => _reset(model),
+          child: Scaffold(
+            appBar: AppBar(title: Text(model.event.name)),
+            body: _buildBody(model),
+            resizeToAvoidBottomPadding: false,
             bottomNavigationBar: BottomNavigationBar(
               fixedColor: Constants.polyhxRed,
               type: BottomNavigationBarType.fixed,
               currentIndex: _currentTabIndex,
-              onTap: (tabIndex) =>
-                  setState(() {
-                    _currentTabIndex = tabIndex;
-                  }),
               items: _buildTabItems(),
-            ),
-            resizeToAvoidBottomPadding: false,
-          );
-        }
+              onTap: (tabIndex) => setState(() => _currentTabIndex = tabIndex)
+            )
+          )
+        );
+      }
     );
+  }
+}
+
+class _EventPageViewModel {
+  Event event;
+  Function resetSchedule;
+  Function resetAttendeeRetrieval;
+
+  _EventPageViewModel(this.event, this.resetSchedule, this.resetAttendeeRetrieval);
+
+  _EventPageViewModel.fromStore(Store<AppState> store) {
+    event = store.state.currentEvent;
+    resetSchedule = () => store.dispatch(ResetScheduleAction());
+    resetAttendeeRetrieval = () => store.dispatch(ResetAction());
   }
 }

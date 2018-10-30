@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:PolyHxApp/domain/event.dart';
 
 class LoadEventsAction {}
@@ -15,3 +17,14 @@ class SetCurrentEventAction {
 
   SetCurrentEventAction(this.event);
 }
+
+class ResetAction {}
+
+class IsLoggedInAction {
+  final Completer completer;
+
+  IsLoggedInAction({Completer completer})
+    : this.completer = completer ?? Completer();
+}
+
+class InitAction {}

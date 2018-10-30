@@ -47,7 +47,7 @@ class Event {
   String imageUrl;
   String coverUrl;
   String website;
-  Map<String, String> details;
+  Map<String, dynamic> details;
   List<EventRegistration> attendees;
 
   Event({
@@ -62,7 +62,7 @@ class Event {
     this.attendees,
   });
 
-  Event.fromMap(Map<String, dynamic> map) {
+  Event.fromMap(Map<dynamic, dynamic> map) {
     id = map['_id'];
     name = map['name'];
     beginDate = DateTime.parse(map['beginDate']);

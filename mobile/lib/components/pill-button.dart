@@ -13,7 +13,7 @@ class PillButton extends StatelessWidget {
     this.onPressed,
     this.child,
     this.enabled = true,
-    this.elevation = 2.0,
+    this.elevation = 2.0
   });
 
   @override
@@ -25,7 +25,8 @@ class PillButton extends StatelessWidget {
         color: color,
         onPressed: enabled ? onPressed : null,
         child: child,
-      ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0))
+      )
     );
   }
 }

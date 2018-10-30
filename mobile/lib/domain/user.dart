@@ -6,7 +6,7 @@ class User {
   String firstName;
   String lastName;
   String birthDate;
-  List<String> permissions;
+  List<dynamic> permissions;
   String role;
   String roleId;
   bool isActive;
