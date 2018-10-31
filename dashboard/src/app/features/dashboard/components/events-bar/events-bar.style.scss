@@ -1,5 +1,39 @@
 .events-bar-wrapper {
     width: 64px;
     height: 100%;
+    padding-top: 20px;
     background-color: #0D5899;
+    position: relative;
+}
+
+.event {
+    width: 46px;
+    height: auto;
+    margin: 0 9px;
+    border-radius: 8px;
+    background-color: white;
+}
+
+.event.active {
+    box-shadow: #F5F4F0 0 0 10px;
+}
+
+.event:hover {
+    box-shadow: #F5F4F0 0 0 10px;
+    cursor: pointer;
+}
+
+.event img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+}
+
+.year {
+    color: #ffffff;
+    width: 100%;
+    text-align: center;
+    font-family: Metropolis, sans-serif;
+    user-select: none;
+    font-size: 12px;
 }
