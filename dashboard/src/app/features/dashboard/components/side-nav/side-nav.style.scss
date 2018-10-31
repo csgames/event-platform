@@ -1,0 +1,45 @@
+.side-nav-wrapper {
+    width: 240px;
+    height: 100%;
+    background-color: #EBEAE7;
+    box-shadow: rgba(0, 0, 0, 0.2) 4px 0 8px;
+}
+
+.logo {
+    width: 200px;
+    margin: 40px 20px;
+    height: auto;
+}
+
+.navigation {
+    list-style: none;
+    margin: 0 10px;
+    padding: 0;
+}
+
+.navigation li {
+    height: 34px;
+    margin-top: 5px;
+    padding: 5px 20px;
+    border-radius: 4px;
+}
+
+.navigation a {
+    color: #4A4A4A;
+}
+
+.navigation li a:hover {
+    text-decoration: none;
+}
+
+.navigation li:hover {
+    background-color: #D8D8D8;
+}
+
+.navigation li.active {
+    background-color: #0D5899;
+}
+
+.navigation li.active > a {
+    color: white;
+}
