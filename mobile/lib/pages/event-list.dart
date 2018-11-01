@@ -1,4 +1,5 @@
 import 'package:PolyHxApp/redux/actions/login-actions.dart';
+import 'package:PolyHxApp/services/localization.service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
@@ -13,6 +14,8 @@ import 'package:PolyHxApp/utils/routes.dart';
 import 'package:redux/redux.dart';
 
 class EventList extends StatelessWidget {
+  Map<String, dynamic> _values;
+
   Widget _buildEventCards(_EventListPageViewModel model) {
     if (!model.hasErrors) {
       return PageTransformer(
@@ -41,7 +44,7 @@ class EventList extends StatelessWidget {
         }
       );
     } else {
-      return Text('An error occured while loading events.');
+      return Text(_values['error']);
     }
   }
 
@@ -49,7 +52,8 @@ class EventList extends StatelessWidget {
   Widget build(BuildContext context) {
     return StoreConnector<AppState, _EventListPageViewModel>(
       onInit: (store) async {
-        var action = IsLoggedInAction();
+        _values = LocalizationService.of(context).eventList;
+        IsLoggedInAction action = IsLoggedInAction();
         store.dispatch(action);
         action.completer.future.then((isLoggedIn) {
           final eventState = store.state.eventState;
@@ -66,7 +70,7 @@ class EventList extends StatelessWidget {
           ? Scaffold(body: Center(child: LoadingSpinner()))
           : Scaffold(
               appBar: AppBar(
-                title: Text("Events"),
+                title: Text(_values == null ? LocalizationService.of(context).eventList['title'] : _values['title']),
                 actions: <Widget>[
                   IconButton(
                     icon: Icon(FontAwesomeIcons.signOutAlt),

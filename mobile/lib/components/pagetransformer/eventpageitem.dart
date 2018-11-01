@@ -1,6 +1,7 @@
 import 'package:PolyHxApp/components/event-image.dart';
 import 'package:PolyHxApp/components/pagetransformer/pagetransformer.dart';
 import 'package:PolyHxApp/domain/event.dart';
+import 'package:PolyHxApp/services/localization.service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:meta/meta.dart';
@@ -53,8 +54,8 @@ class EventPageItem extends StatelessWidget {
     );
 
     final eventImage = EventImage(item);
-
-    var formatter = DateFormat.yMMMMd('en_US');
+    String code = LocalizationService.of(context).code;
+    var formatter = DateFormat.yMMMMd(code);
 
     final eventDates = _applyTextEffects(
         translationFactor: 200.0,

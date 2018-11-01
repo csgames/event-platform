@@ -1,3 +1,4 @@
+import 'package:PolyHxApp/delegates/localization.delegate.dart';
 import 'package:PolyHxApp/redux/middlewares/activities-schedule-middleware.dart';
 import 'package:PolyHxApp/redux/middlewares/activity-middleware.dart';
 import 'package:PolyHxApp/redux/middlewares/attendee-retrieval-middleware.dart';
@@ -10,6 +11,7 @@ import 'package:PolyHxApp/redux/states/login-state.dart';
 import 'package:PolyHxApp/services/schedule.service.dart';
 import 'package:http/http.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:qr_reader/qr_reader.dart';
 import 'package:redux/redux.dart';
@@ -80,7 +82,7 @@ class PolyHxApp extends StatelessWidget {
         ),
         home: EventList(),
         onGenerateRoute: (RouteSettings routeSettings) {
-          var path = routeSettings.name.split('/')[0];
+          String path = routeSettings.name.split('/')[0];
           switch (path) {
             case Routes.LOGIN:
               return MaterialPageRoute(
@@ -98,7 +100,13 @@ class PolyHxApp extends StatelessWidget {
                 settings: routeSettings
               );
           }
-        }
+        },
+        localizationsDelegates: [
+          LanguageDelegate(),
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate
+        ],
+        supportedLocales: [Locale('en', 'CA'), Locale('fr', 'CA')]
       )
     );
   }

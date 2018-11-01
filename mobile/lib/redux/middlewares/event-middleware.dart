@@ -21,7 +21,7 @@ class EventMiddleware implements EpicClass<AppState> {
         .switchMap((_) => _fetchEvents()),
       Observable(actions)
         .ofType(TypeToken<IsLoggedInAction>())
-        .switchMap((action) => _checkLogin(action.completer, store))
+        .switchMap((action) => _checkLogin(action.completer))
     ]);
   }
 
@@ -34,7 +34,7 @@ class EventMiddleware implements EpicClass<AppState> {
     }
   }
 
-  Stream<dynamic> _checkLogin(Completer completer, EpicStore<AppState> store) async* {
+  Stream<dynamic> _checkLogin(Completer completer) async* {
     bool result = await this._tokenService.validateTokens();
     completer.complete(result);
     yield InitAction();

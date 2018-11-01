@@ -36,7 +36,7 @@ class ActivityMiddleware implements EpicClass<AppState> {
       Observable(actions)
         .ofType(TypeToken<InitAction>())
         .debounce(Duration(milliseconds: 500))
-        .switchMap((action) => _listen(action.activityId))
+        .switchMap((action) => _listen(action.activityId, action.errorMessages))
     ]);
   }
 
@@ -49,7 +49,7 @@ class ActivityMiddleware implements EpicClass<AppState> {
     }
   }
 
-  Stream<dynamic> _listen(String activityId) async* {
+  Stream<dynamic> _listen(String activityId, Map<String, String> errorMessages) async* {
     await for (String id in _nfcService.nfcStream.asBroadcastStream()) {
       if (id == _attendeePublicId) {
         return;
@@ -59,13 +59,13 @@ class ActivityMiddleware implements EpicClass<AppState> {
       Attendee attendee = await _attendeesService.getAttendeeByPublicId(_attendeePublicId);
       if (attendee == null) {
         _attendeePublicId = null;
-        yield ScanError('Tag not bound', 'The scanned NFC tag is not bound to an attendee.');
+        yield ScanError(errorMessages['tag-title'], errorMessages['tag-desc']);
         return;
       }
 
       User user = await _usersService.getUser(attendee.userId);
       if (user == null) {
-        yield ScanError('User not found', 'The user does not exist.');
+        yield ScanError(errorMessages['user-title'], errorMessages['user-desc']);
         return;
       }
 

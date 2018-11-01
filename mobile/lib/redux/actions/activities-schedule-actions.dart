@@ -2,8 +2,9 @@ import 'package:PolyHxApp/domain/activity.dart';
 
 class LoadActivitiesScheduleAction {
   final String eventId;
+  final String code;
 
-  LoadActivitiesScheduleAction(this.eventId);
+  LoadActivitiesScheduleAction(this.eventId, this.code);
 }
 
 class ActivitiesScheduleLoadedAction {

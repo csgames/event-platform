@@ -1,5 +1,6 @@
 import 'package:PolyHxApp/redux/actions/activities-schedule-actions.dart';
 import 'package:PolyHxApp/redux/actions/attendee-retrieval-actions.dart';
+import 'package:PolyHxApp/services/localization.service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
@@ -22,8 +23,7 @@ enum EventTabs { Info, Scan, Activities }
 
 class _EventPageState extends State<EventPage> {
   int _currentTabIndex = 0;
-
-  _EventPageState();
+  Map<String, dynamic> _values;
 
   Widget _buildBody(_EventPageViewModel model) {
     Widget body;
@@ -53,15 +53,15 @@ class _EventPageState extends State<EventPage> {
     return <BottomNavigationBarItem>[
       BottomNavigationBarItem(
         icon: Icon(Icons.info_outline),
-        title: Text('Info')
+        title: Text(_values['info'])
       ),
       BottomNavigationBarItem(
         icon: Icon(Icons.camera_alt),
-        title: Text('Register')
+        title: Text(_values['register'])
       ),
       BottomNavigationBarItem(
         icon: Icon(Icons.event),
-        title: Text('Activities')
+        title: Text(_values['activities'])
       )
     ];
   }
@@ -69,6 +69,7 @@ class _EventPageState extends State<EventPage> {
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, _EventPageViewModel>(
+      onInit: (_) => _values = LocalizationService.of(context).event,
       converter: (store) => _EventPageViewModel.fromStore(store),
       builder: (BuildContext context, _EventPageViewModel model) {
         return WillPopScope(

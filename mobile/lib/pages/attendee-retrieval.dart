@@ -1,5 +1,6 @@
 import 'package:PolyHxApp/redux/actions/attendee-retrieval-actions.dart';
 import 'package:PolyHxApp/redux/state.dart';
+import 'package:PolyHxApp/services/localization.service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
@@ -27,6 +28,7 @@ class _AttendeeRetrievalPageState extends State<AttendeeRetrievalPage> {
   static const platform = const MethodChannel('app.polyhx.io/nfc');
 
   final Event _event;
+  Map<String, dynamic> _values;
   bool _isErrorDialogOpen = false;
   bool _isSnackBarOpen = false;
   bool _isInit = false;
@@ -63,7 +65,7 @@ class _AttendeeRetrievalPageState extends State<AttendeeRetrievalPage> {
       padding: EdgeInsets.all(20.0),
       child: PillTextField(
         keyboardType: TextInputType.emailAddress,
-        onSubmitted: (username) => model.search(username, _event),
+        onSubmitted: (username) => model.search(username, _event, _values['errors']),
         decoration: InputDecoration(
           prefixIcon: Icon(
             Icons.search,
@@ -87,7 +89,7 @@ class _AttendeeRetrievalPageState extends State<AttendeeRetrievalPage> {
               color: Constants.polyhxGrey.withAlpha(144),
             ),
             Text(
-              'Register attendee',
+              _values['register'],
               style: TextStyle(
                 fontSize: 30.0,
                 fontWeight: FontWeight.w900,
@@ -114,7 +116,7 @@ class _AttendeeRetrievalPageState extends State<AttendeeRetrievalPage> {
             )
           ),
           enabled: !model.isLoading,
-          onPressed: () => model.scan(_event)
+          onPressed: () => model.scan(_event, _values['errors'])
         )
       )
     );
@@ -128,6 +130,7 @@ class _AttendeeRetrievalPageState extends State<AttendeeRetrievalPage> {
         model.user,
         _event.getRegistrationStatus(model.attendee.id),
         model.isScanned && !model.hasErrors && model.idSaved && model.statusSaved,
+        LocalizationService.of(context).attendeeProfile,
         onDone: () {
           model.reset();
           _isInit = false;
@@ -155,6 +158,7 @@ class _AttendeeRetrievalPageState extends State<AttendeeRetrievalPage> {
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, _AttendeeRetrievalViewModel>(
+      onInit: (_) => _values = LocalizationService.of(context).attendeeRetrieval,
       converter: (store) => _AttendeeRetrievalViewModel.fromStore(store),
       builder: (context, model) => Center(child: _buildPage(context, model)),
       onDidChange: (model) {
@@ -167,11 +171,11 @@ class _AttendeeRetrievalPageState extends State<AttendeeRetrievalPage> {
             SnackBar(
               content: model.idSaved && model.statusSaved
                 ? Text(
-                  'Saved attendee info successfully.',
+                  _values['saved'],
                   style: TextStyle(color: Colors.white)
                 )
                 : Text(
-                  'An error occured while saving the attendee info.',
+                  _values['errors']['save'],
                   style: TextStyle(color: Colors.red)
                 ),
               action: SnackBarAction(
@@ -203,7 +207,7 @@ class _AttendeeRetrievalPageState extends State<AttendeeRetrievalPage> {
           Scaffold.of(context).showSnackBar(
             SnackBar(
               content: Text(
-                'Attendee already assigned to this tag.',
+                _values['errors']['tag'],
                 style: TextStyle(color: Colors.white)
               ),
               action: SnackBarAction(
@@ -262,8 +266,8 @@ class _AttendeeRetrievalViewModel {
     attendee = store.state.attendeeRetrievalState.attendee;
     user = store.state.attendeeRetrievalState.user;
     init = () => store.dispatch(InitAction());
-    search = (username, event) => store.dispatch(SearchAction(username, event));
-    scan = (event) => store.dispatch(ScanAction(event));
+    search = (username, event, errorMessages) => store.dispatch(SearchAction(username, event, errorMessages));
+    scan = (event, errorMessages) => store.dispatch(ScanAction(event, errorMessages));
     reset = () => store.dispatch(ResetAction());
     clean = (attendee, user) => store.dispatch(CleanAction(attendee, user));  
   }

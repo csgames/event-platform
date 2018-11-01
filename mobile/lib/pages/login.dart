@@ -1,5 +1,6 @@
 import 'package:PolyHxApp/redux/actions/login-actions.dart';
 import 'package:PolyHxApp/redux/state.dart';
+import 'package:PolyHxApp/services/localization.service.dart';
 import 'package:flutter/material.dart';
 import 'package:PolyHxApp/components/loading-spinner.dart';
 import 'package:PolyHxApp/utils/constants.dart';
@@ -16,6 +17,7 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
+  Map<String, dynamic> _values;
   String _email;
   String _password;
 
@@ -30,7 +32,7 @@ class _LoginPageState extends State<LoginPage> {
               style: TextStyle(color: Constants.polyhxGrey),
               keyboardType: TextInputType.emailAddress,
               decoration: InputDecoration(
-                labelText: 'Email',
+                labelText: _values['email'],
                 icon: Icon(Icons.person_outline, color: Constants.polyhxGrey)
               ),
               onSaved: (val) => _email = val
@@ -41,7 +43,7 @@ class _LoginPageState extends State<LoginPage> {
             child: TextFormField(
               style: TextStyle(color: Constants.polyhxGrey),
               decoration: InputDecoration(
-                labelText: 'Password',
+                labelText: _values['pwd'],
                 icon: Icon(Icons.lock_outline, color: Constants.polyhxGrey)
               ),
               onSaved: (val) => _password = val,
@@ -55,9 +57,9 @@ class _LoginPageState extends State<LoginPage> {
             },
             enabled: !model.isLoading,
             child: Padding(
-              padding: EdgeInsets.fromLTRB(25.0, 10.0, 25.0, 10.0),
+              padding: EdgeInsets.fromLTRB(25.0, 12.5, 25.0, 12.5),
               child: Text(
-                'Login',
+                _values['login'],
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 20.0,
@@ -80,6 +82,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, _LoginPageViewModel>(
+      onInit: (_) => _values = LocalizationService.of(context).login,
       converter: (store) => _LoginPageViewModel.fromStore(store),
       builder: (BuildContext context, _LoginPageViewModel loginPageViewModel) {
         return Scaffold(
@@ -96,15 +99,22 @@ class _LoginPageState extends State<LoginPage> {
                 child: Stack(
                   children: <Widget>[
                     Container(
-                        color: Colors.transparent,
-                        margin: EdgeInsets.all(15.0),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Image.asset('assets/logo.png', fit: BoxFit.contain),
-                            Container(width: 340.0, child: buildLoginForm(loginPageViewModel)),
-                          ])
-                        ),
+                      color: Colors.transparent,
+                      margin: EdgeInsets.all(15.0),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Image.asset(
+                            'assets/logo.png',
+                            fit: BoxFit.contain
+                          ),
+                          Container(
+                            width: 340.0,
+                            child: buildLoginForm(loginPageViewModel)
+                          )
+                        ]
+                      )
+                    ),
                     loginPageViewModel.isLoading ? LoadingSpinner() : Container()
                   ]
                 )

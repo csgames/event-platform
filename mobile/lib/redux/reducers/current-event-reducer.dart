@@ -6,6 +6,6 @@ final currentEventReducer = combineReducers<Event>([
   TypedReducer<Event, SetCurrentEventAction>(_setCurrentEvent)
 ]);
  
-Event _setCurrentEvent(event, SetCurrentEventAction action) {
+Event _setCurrentEvent(_, SetCurrentEventAction action) {
   return action.event;
 }

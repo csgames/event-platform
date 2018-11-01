@@ -15,8 +15,9 @@ class AttendeeProfilePage extends StatelessWidget {
   final VoidCallback onDone;
   final VoidCallback onCancel;
   final bool _doneEnabled;
+  final Map<String, dynamic> _values;
 
-  AttendeeProfilePage(this._attendee, this._user, this._registrationStatus, this._doneEnabled, {this.onDone, this.onCancel});
+  AttendeeProfilePage(this._attendee, this._user, this._registrationStatus, this._doneEnabled, this._values, {this.onDone, this.onCancel});
 
   Widget _buildAvatar() {
     return Align(
@@ -34,7 +35,7 @@ class AttendeeProfilePage extends StatelessWidget {
           style: TextStyle(
             color: Constants.polyhxGrey,
             fontSize: 24.0,
-            fontWeight: FontWeight.w900,
+            fontWeight: FontWeight.w900
           )
       ),
     );
@@ -43,100 +44,101 @@ class AttendeeProfilePage extends StatelessWidget {
   Widget _buildAttendeeStatusWidget() {
     final statusInfo = {
       RegistrationStatus.AwaitingConfirmation:  {
-        'text': 'AWAITING CONFIRMATION',
-        'color': Colors.yellow,
+        'text': _values['awaiting'],
+        'color': Colors.yellow
       },
       RegistrationStatus.Confirmed:  {
-        'text': 'CONFIRMED',
-        'color': Colors.green,
+        'text': _values['confirmed'],
+        'color': Colors.green
       },
       RegistrationStatus.Declined:  {
-        'text': 'DECLINED',
-        'color': Colors.red,
+        'text': _values['declined'],
+        'color': Colors.red
       },
       RegistrationStatus.NotSelected:  {
-        'text': 'NOT SELECTED',
-        'color': Colors.red,
+        'text': _values['not-selected'],
+        'color': Colors.red
       },
       RegistrationStatus.Present: {
-        'text': 'PRESENT',
-        'color': Colors.green,
+        'text': _values['present'],
+        'color': Colors.green
       },
     };
     return Padding(
       padding: EdgeInsets.only(top: 20.0),
       child: 
         Text(
-          'Status: ${statusInfo[_registrationStatus]['text']}',
+          _values['status'] + statusInfo[_registrationStatus]['text'],
           style: TextStyle(
             color: statusInfo[_registrationStatus]['color'],
             fontSize: 20.0,
-            fontWeight: FontWeight.w900,
+            fontWeight: FontWeight.w900
           )
-      ),
+      )
     );
   }
 
   Widget _buildShirtSizeWidget() {
     return Expanded(
-      child: ShirtSizeIcon(_attendee.shirtSize),
+      child: ShirtSizeIcon(_attendee.shirtSize)
     );
   }
 
-  Widget _buildDoneButton(BuildContext context) {
+  Widget _buildDoneButton() {
     return Padding(
-        padding: EdgeInsets.only(bottom: 30.0),
-        child: Align(
-          alignment: Alignment.bottomCenter,
-          child: PillButton(
-            enabled: _doneEnabled,
-            onPressed: onDone,
-            child: Padding(
-              padding: EdgeInsets.fromLTRB(25.0, 15.0, 25.0, 15.0),
-              child: Text(_doneEnabled ? 'DONE' : 'SCANNING FOR TAG...',
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 18.0,
-                    fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-          ),
+      padding: EdgeInsets.only(bottom: 30.0),
+      child: Align(
+        alignment: Alignment.bottomCenter,
+        child: PillButton(
+          enabled: _doneEnabled,
+          onPressed: onDone,
+          child: Padding(
+            padding: EdgeInsets.fromLTRB(25.0, 15.0, 25.0, 15.0),
+            child: Text(
+              _doneEnabled ? _values['done'] : _values['scanning'],
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 18.0,
+                fontWeight: FontWeight.bold
+              )
+            )
+          )
         )
+      )
     );
   }
 
   Widget _buildPublicIdWidget() {
     return Padding(
-        padding: EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 20.0),
-        child: Align(
-          alignment: Alignment.bottomCenter,
-          child: Column(
-            children: <Widget>[
-              Padding(
-                padding: EdgeInsets.only(bottom: 10.0),
-                child: Text('Public ID:',
-                  style: TextStyle(
-                    color: Constants.polyhxGrey,
-                    fontSize: 18.0,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-              Text(_attendee.publicId == null ? 'NOT ASSIGNED' : _attendee.publicId,
+      padding: EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 20.0),
+      child: Align(
+        alignment: Alignment.bottomCenter,
+        child: Column(
+          children: <Widget>[
+            Padding(
+              padding: EdgeInsets.only(bottom: 10.0),
+              child: Text(_values['id'],
                 style: TextStyle(
                   color: Constants.polyhxGrey,
-                  fontSize: 14.0,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ],
-          )
-        ),
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.bold
+                )
+              )
+            ),
+            Text(_attendee.publicId == null ? _values['unassigned'] : _attendee.publicId,
+              style: TextStyle(
+                color: Constants.polyhxGrey,
+                fontSize: 14.0,
+                fontWeight: FontWeight.bold
+              )
+            )
+          ]
+        )
+      )
     );
   }
 
-  Widget _buildProfileBody(BuildContext context) {
+  Widget _buildProfileBody() {
     return Padding(
       padding: EdgeInsets.only(top: 40.0),
       child: Material(
@@ -148,10 +150,10 @@ class AttendeeProfilePage extends StatelessWidget {
             _buildAttendeeStatusWidget(),
             _buildShirtSizeWidget(),
             _buildPublicIdWidget(),
-            _buildDoneButton(context),
-          ],
+            _buildDoneButton()
+          ]
         )
-      ),
+      )
     );
   }
 
@@ -160,9 +162,9 @@ class AttendeeProfilePage extends StatelessWidget {
     return Stack(
       fit: StackFit.expand,
       children: <Widget>[
-        _buildProfileBody(context),
-        _buildAvatar(),
-      ],
+        _buildProfileBody(),
+        _buildAvatar()
+      ]
     );
   }
 }

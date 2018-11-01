@@ -11,6 +11,8 @@ dependencies:
   cupertino_icons: ^0.1.0
   flutter:
     sdk: flutter
+  flutter_localizations:
+    sdk: flutter
   rxdart: ^0.18.1
   redux_epics: ^0.10.0
 

@@ -19,8 +19,9 @@ class ResetActivity {}
 
 class InitAction {
   final String activityId;
+  final Map<String, String> errorMessages;
 
-  InitAction(this.activityId);
+  InitAction(this.activityId, this.errorMessages);
 }
 
 class ScanError {

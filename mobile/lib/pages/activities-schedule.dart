@@ -1,6 +1,7 @@
 import 'package:PolyHxApp/redux/actions/activities-schedule-actions.dart';
 import 'package:PolyHxApp/redux/state.dart';
 import 'package:PolyHxApp/redux/states/activities-schedule-state.dart';
+import 'package:PolyHxApp/services/localization.service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
@@ -84,7 +85,7 @@ class _ActivitiesScheduleState extends State<ActivitiesSchedulePage> with Ticker
       onInit: (store) {
         final state = store.state.activitiesScheduleState;
         if (state.activities.isEmpty && !state.isLoading && !state.hasErrors) {
-          store.dispatch(LoadActivitiesScheduleAction(_eventId));
+          store.dispatch(LoadActivitiesScheduleAction(_eventId, LocalizationService.of(context).code));
         }
       },
       converter: (store) => store.state.activitiesScheduleState,

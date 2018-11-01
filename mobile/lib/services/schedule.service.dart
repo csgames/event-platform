@@ -2,8 +2,8 @@ import 'package:PolyHxApp/domain/activity.dart';
 import 'package:intl/intl.dart';
 
 class ScheduleService {
-  Map<String, List<Activity>> getActivitiesPerDay(List<Activity> activities) {
-    var formatter = DateFormat.MMMMd('en_US');
+  Map<String, List<Activity>> getActivitiesPerDay(List<Activity> activities, String code) {
+    var formatter = DateFormat.MMMMd(code);
     Map<String, List<Activity>> dates = {};
     for (var activity in activities) {
       var date = formatter.format(activity.beginDate);

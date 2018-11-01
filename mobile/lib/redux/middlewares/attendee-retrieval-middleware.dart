@@ -21,7 +21,6 @@ class AttendeeRetrievalMiddleware implements EpicClass<AppState> {
   final QRCodeReader _qrCodeReader;
   
   String _lastScannedTag;
-
   Attendee _attendee;
   Event _event;
   User _user;
@@ -43,10 +42,10 @@ class AttendeeRetrievalMiddleware implements EpicClass<AppState> {
         .switchMap((_) => _listen()),
       Observable(actions)
         .ofType(TypeToken<SearchAction>())
-        .switchMap((action) => _search(action.username, action.event)),
+        .switchMap((action) => _search(action.username, action.event, action.errorMessages)),
       Observable(actions)
         .ofType(TypeToken<ScanAction>())
-        .switchMap((action) => _scan(action.event)),
+        .switchMap((action) => _scan(action.event, action.errorMessages)),
       Observable(actions)
         .ofType(TypeToken<ResetAction>())
         .switchMap((action) => _reset())
@@ -69,43 +68,35 @@ class AttendeeRetrievalMiddleware implements EpicClass<AppState> {
     }
   }
 
-  Stream<dynamic> _search(String username, Event event) async* {
+  Stream<dynamic> _search(String username, Event event, Map<String, String> errorMessages) async* {
     _event = event;
     _user = await _usersService.getUserByUsername(username);
     if (_user == null) {
-      String title = 'User Not Found';
-      String description = 'No user with email address $username could be found.';
-      yield ErrorAction(title, description);
+      yield ErrorAction(errorMessages['user-title'], errorMessages['user-desc'] + username);
       return;
     }
     _attendee = await _attendeesService.getAttendeeByUserId(_user.id);
     if (_attendee == null) {
-      String title = 'Attendee Not Found';
-      String description = 'No attendee with email address $username could be found.';
-      yield ErrorAction(title, description);
+      yield ErrorAction(errorMessages['attendee-title'], errorMessages['attendee-desc'] + username);
       return;
     }
     if (!_event.isRegistered(_attendee.id)) {
-      String title = 'Attendee not registered';
-      String description = 'User $username is not registered to this event.';
-      yield ErrorAction(title, description);
+      yield ErrorAction(errorMessages['register-title'], username + errorMessages['register-desc']);
       return;
     }
     yield SearchCompletedAction(_attendee, _user);
     return;
   }
 
-  Stream<dynamic> _scan(Event event) async* {
+  Stream<dynamic> _scan(Event event, Map<String, String> errorMessages) async* {
     try {
       String username = await _qrCodeReader.scan();
       if (username != null) {
-        yield SearchAction(username, event);
+        yield SearchAction(username, event, errorMessages);
       }
     } catch (err) {
-      print(err);
-      String title = 'Permission';
-      String description = 'You don\'t have the user permission to access the camera.';
-      yield ErrorAction(title, description);
+      print('An error occured while trying to scan for qr code: $err');
+      yield ErrorAction(errorMessages['permission-title'], errorMessages['permission-desc']);
     }
   }
 

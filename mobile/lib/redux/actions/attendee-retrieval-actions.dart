@@ -31,14 +31,16 @@ class NfcAlreadyAssignedAction {
 class SearchAction {
   final String username;
   final Event event;
+  final Map<String, String> errorMessages;
 
-  SearchAction(this.username, this.event);
+  SearchAction(this.username, this.event, this.errorMessages);
 }
 
 class ScanAction {
   final Event event;
+  final Map<String, String> errorMessages;
 
-  ScanAction(this.event);
+  ScanAction(this.event, this.errorMessages);
 }
 
 class ErrorAction {

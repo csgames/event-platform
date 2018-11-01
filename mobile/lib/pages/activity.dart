@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:PolyHxApp/components/loading-spinner.dart';
 import 'package:PolyHxApp/redux/actions/activity-actions.dart';
 import 'package:PolyHxApp/redux/state.dart';
+import 'package:PolyHxApp/services/localization.service.dart';
 import 'package:PolyHxApp/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -23,6 +24,7 @@ class ActivityPage extends StatefulWidget {
 
 class _ActivityPageState extends State<ActivityPage> {
   Activity _activity;
+  Map<String, dynamic> _values;
   bool _isRaffleDialogOpen = false;
   bool _isErrorDialogOpen = false;
   bool _isScannedDialogOpen = false;
@@ -40,7 +42,7 @@ class _ActivityPageState extends State<ActivityPage> {
           content: Padding(
             padding: EdgeInsets.only(top: 20.0),
             child: Text(
-              isAlreadyAttending ? 'Already Attending' : 'Signep Up!',
+              isAlreadyAttending ? _values['already'] : _values['signed'],
               style: TextStyle(
                 color: isAlreadyAttending ? Colors.red : Colors.green,
                 fontWeight: FontWeight.w700,
@@ -92,7 +94,7 @@ class _ActivityPageState extends State<ActivityPage> {
                 Padding(
                   padding: EdgeInsets.only(bottom: 20.0),
                   child: Text(
-                    'Winner!',
+                    _values['winner'],
                     style: TextStyle(
                       color: Colors.lightBlue,
                       fontWeight: FontWeight.w700,
@@ -107,9 +109,9 @@ class _ActivityPageState extends State<ActivityPage> {
                     _isRaffleDialogOpen = false;
                   },
                   child: Padding(
-                    padding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+                    padding: EdgeInsets.fromLTRB(25.0, 12.5, 25.0, 12.5),
                     child: Text(
-                      'Done',
+                      _values['done'],
                       style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
@@ -137,7 +139,7 @@ class _ActivityPageState extends State<ActivityPage> {
             color: Constants.polyhxGrey.withAlpha(144)
           ),
           Text(
-            'Scan to Attend',
+            _values['scan'],
             style: TextStyle(
               fontSize: 30.0,
               fontWeight: FontWeight.w900,
@@ -159,7 +161,7 @@ class _ActivityPageState extends State<ActivityPage> {
           child: Padding(
             padding: EdgeInsets.fromLTRB(25.0, 15.0, 25.0, 15.0),
             child: Text(
-              'RAFFLE',
+              _values['raffle'],
               style: TextStyle(
                 color: Colors.white,
                 fontWeight: FontWeight.bold,
@@ -178,7 +180,7 @@ class _ActivityPageState extends State<ActivityPage> {
         Padding(
           padding: EdgeInsets.only(top: 30.0),
           child: Text(
-            'Attendee count',
+            _values['count'],
             style: TextStyle(
               color: Constants.polyhxGrey.withAlpha(200),
               fontSize: 34.0,
@@ -216,7 +218,10 @@ class _ActivityPageState extends State<ActivityPage> {
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, _ActivityPageViewModel>(
-      onInit: (store) => store.dispatch(InitAction(_activity.id)),
+      onInit: (store) {
+        _values = LocalizationService.of(context).activity;
+        store.dispatch(InitAction(_activity.id, _values['errors']));
+      },
       converter: (store) => _ActivityPageViewModel.fromStore(store),
       builder: (BuildContext context, _ActivityPageViewModel model) {
         return Scaffold(
@@ -236,7 +241,7 @@ class _ActivityPageState extends State<ActivityPage> {
         if (model.hasErrors && model.errorContent != null && !_isErrorDialogOpen) {
           _isErrorDialogOpen = true;
           showDialog(context: context, builder: (_) => _buildTagNotBoundDialog(model), barrierDismissible: false);
-          model.init(_activity.id);
+          model.init(_activity.id, _values['errors']);
         }
 
         if (model.isScanned && !_isScannedDialogOpen) {
@@ -246,7 +251,7 @@ class _ActivityPageState extends State<ActivityPage> {
               this._activity = model.activity;
             });
           }
-          model.init(_activity.id);
+          model.init(_activity.id, _values['errors']);
           Future.delayed(Duration(seconds: 2), () {
             Navigator.pop(context);
             model.reset();
@@ -297,6 +302,6 @@ class _ActivityPageViewModel {
     activity = store.state.activityState.activity;
     raffle = (id) => store.dispatch(RaffleAction(id));
     reset = () => store.dispatch(ResetActivity());
-    init = (id) => store.dispatch(InitAction(id));
+    init = (id, errorMessages) => store.dispatch(InitAction(id, errorMessages));
   }
 }

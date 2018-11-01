@@ -1,3 +1,4 @@
+import 'package:PolyHxApp/domain/attendee.dart';
 import 'package:PolyHxApp/domain/event.dart';
 import 'package:PolyHxApp/redux/states/activities-schedule-state.dart';
 import 'package:PolyHxApp/redux/states/activity-state.dart';
@@ -8,19 +9,19 @@ import 'package:meta/meta.dart';
 
 @immutable
 class AppState {
-  final EventState eventState;
   final Event currentEvent;
+  final EventState eventState;
   final LoginState loginState;
-  final ActivitiesScheduleState activitiesScheduleState;
   final ActivityState activityState;
   final AttendeeRetrievalState attendeeRetrievalState;
+  final ActivitiesScheduleState activitiesScheduleState;
 
   AppState({
     this.eventState,
-    this.currentEvent,
     this.loginState,
-    this.activitiesScheduleState,
+    this.currentEvent,
     this.activityState,
-    this.attendeeRetrievalState
+    this.attendeeRetrievalState,
+    this.activitiesScheduleState
   });
 }
