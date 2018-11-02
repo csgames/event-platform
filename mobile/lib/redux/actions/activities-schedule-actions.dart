@@ -8,7 +8,7 @@ class LoadActivitiesScheduleAction {
 }
 
 class ActivitiesScheduleLoadedAction {
-  final Map<String, List<Activity>> activities;
+  final Map<String, Map<String, List<Activity>>> activities;
 
   ActivitiesScheduleLoadedAction(this.activities);
 }

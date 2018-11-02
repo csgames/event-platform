@@ -26,7 +26,7 @@ class ActivitiesScheduleMiddleware implements EpicClass<AppState> {
   Stream<dynamic> _fetchActivities(String eventId, String code) async* {
     try {
       List<Activity> activities = await this.eventsService.getActivitiesForEvent(eventId);
-      Map<String, List<Activity>> activitiesPerDay = scheduleService.getActivitiesPerDay(activities, code);
+      Map<String, Map<String, List<Activity>>> activitiesPerDay = scheduleService.getActivitiesPerDay(activities, code);
       yield ActivitiesScheduleLoadedAction(activitiesPerDay);
     } catch (err) {
       print('An error occured while getting the activities: $err');

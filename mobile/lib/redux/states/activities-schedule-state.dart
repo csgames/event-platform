@@ -3,7 +3,7 @@ import 'package:meta/meta.dart';
 
 @immutable
 class ActivitiesScheduleState {
-  final Map<String, List<Activity>> activities;
+  final Map<String, Map<String, List<Activity>>> activities;
   final bool isLoading;
   final bool hasErrors;
 

@@ -1,3 +1,4 @@
+import 'package:PolyHxApp/services/localization.service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
@@ -10,12 +11,14 @@ class ActivityCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var formatter = DateFormat.Hm('en_US');
+    String code = LocalizationService.of(context).code;
+    var formatter = DateFormat.Hm(code);
     var beginHour = formatter.format(_activity.beginDate);
     var endHour = formatter.format(_activity.endDate);
     return Container(
         margin: const EdgeInsets.fromLTRB(0.0, 5.0, 0.0, 5.0),
         child: Material(
+            borderRadius: BorderRadius.circular(15.0),
             elevation: 3.0,
             child: Row(
                 children: <Widget>[

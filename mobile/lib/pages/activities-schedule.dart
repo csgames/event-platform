@@ -1,3 +1,4 @@
+import 'package:PolyHxApp/components/time-card.dart';
 import 'package:PolyHxApp/redux/actions/activities-schedule-actions.dart';
 import 'package:PolyHxApp/redux/state.dart';
 import 'package:PolyHxApp/redux/states/activities-schedule-state.dart';
@@ -22,7 +23,7 @@ class ActivitiesSchedulePage extends StatefulWidget {
 class _ActivitiesScheduleState extends State<ActivitiesSchedulePage> with TickerProviderStateMixin {
   String _eventId;
   TabController _tabController;
-  Map<String, List<Activity>> _activities;
+  Map<String, Map<String, List<Activity>>> _activities;
 
   _ActivitiesScheduleState(this._eventId);
 
@@ -46,13 +47,13 @@ class _ActivitiesScheduleState extends State<ActivitiesSchedulePage> with Ticker
     if (state.activities.keys.length != 0) {
       _activities = state.activities;
       _tabController = TabController(
-          length: _activities.keys.length,
-          vsync: this
+        length: _activities.keys.length,
+        vsync: this
       );
     }
     if (_tabController == null) return Container();
     return Column(
-      children: <Widget> [
+      children: <Widget>[
         TabBar(
           labelColor: Colors.black,
           controller: _tabController,
@@ -64,10 +65,21 @@ class _ActivitiesScheduleState extends State<ActivitiesSchedulePage> with Ticker
             children: _activities.keys.map((d) =>
               SingleChildScrollView(
                 child: Column(
-                  children: _activities[d].map((a) =>
-                    FlatButton(
-                      child: ActivityCard(a),
-                      onPressed: () => _showActivity(a)
+                  children: _activities[d].keys.map((t) =>
+                    Container(
+                      child: Column(
+                        children: <Widget>[
+                          TimeCard(t),
+                          Column(
+                              children: _activities[d][t].map((a) => 
+                                FlatButton(
+                                  child: ActivityCard(a),
+                                  onPressed: () => _showActivity(a)
+                                )
+                              ).toList()
+                          )
+                        ]
+                      )
                     )
                   ).toList()
                 )
