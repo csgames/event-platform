@@ -27,3 +27,11 @@ flutter:
   assets:
     - assets/logo.png
     - assets/tshirt.png
+
+  fonts:
+    - family: Raleway
+      fonts:
+        - asset: fonts/Raleway-Regular.ttf
+    - family: Flipbash
+      fonts:
+        - asset: fonts/Flipbash.otf

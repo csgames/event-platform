@@ -9,9 +9,42 @@ Map<String, dynamic> en = {
     'register': 'Register',
     'activities': 'Activities'
   },
+  'event-info': {
+    'title': 'GUIDE',
+    'bring': 'What to bring?',
+    'parking': 'Parking',
+    'restaurant': 'Restaurant',
+    'hotel': 'Hotel'
+  },
   'event-list': {
     'title': 'Events',
     'error': 'An error occured while loading events.'
+  },
+  'bring': {
+    'guide': 'GUIDE',
+    'title': 'What to bring?',
+    'card': 'Student card',
+    'pc': 'Portable computer & charger',
+    'phone': 'Phone & charger',
+    'headphones': 'Headphones',
+    'deodorant': 'Deodorant',
+    'brush': 'Toothbrush & toothpaste',
+    'hoodie': 'Hoodie',
+    'hygiene': 'Hygiene kit',
+    'sleeping': 'Sleeping bad & pillow',
+    'tylenol': 'Tylenol/Advil for headaches'
+  },
+  'parking': {
+    'guide': 'GUIDE',
+    'title': 'Parking'
+  },
+  'restaurant': {
+    'guide': 'GUIDE',
+    'title': 'Restaurant'
+  },
+  'hotel': {
+    'guide': 'GUIDE',
+    'title': 'Hotel'
   },
   'attendee-retrieval': {
     'register': 'Register attendee',

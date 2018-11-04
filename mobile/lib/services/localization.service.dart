@@ -44,4 +44,24 @@ class LocalizationService {
   Map<String, dynamic> get attendeeProfile {
     return values['attendee-profile'];
   }
+
+  Map<String, dynamic> get eventInfo {
+    return values['event-info'];
+  }
+
+  Map<String, dynamic> get bring {
+    return values['bring'];
+  }
+
+  Map<String, dynamic> get parking {
+    return values['parking'];
+  }
+
+  Map<String, dynamic> get restaurant {
+    return values['restaurant'];
+  }
+
+  Map<String, dynamic> get hotel {
+    return values['hotel'];
+  }
 }

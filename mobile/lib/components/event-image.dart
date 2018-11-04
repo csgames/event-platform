@@ -24,11 +24,7 @@ class EventImage extends StatelessWidget {
                   _event.imageUrl,
                   fit: BoxFit.cover,
                   width: 250.0,
-                  height: 250.0,
-//                  alignment: FractionalOffset(
-//                    0.5 + (pageVisibility.pagePosition / 3),
-//                    0.5,
-//                  ),
+                  height: 250.0
                 )
             )
         )
