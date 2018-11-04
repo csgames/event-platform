@@ -93,7 +93,7 @@ export class EventsController {
 
     @Post(':id/attendee/filter')
     @HttpCode(200)
-    @Permissions('event_management:get-all:event')
+    @Permissions('event_management:get-all:attendee')
     async eventAttendeeQuery(@Param('id') eventId: string, @Body(new DataTablePipe()) body: DataTableInterface) {
         return await this.eventsService.getFilteredAttendees(eventId, body);
     }
@@ -123,15 +123,16 @@ export class EventsController {
     @HttpCode(200)
     @Permissions('event_management:set-status:event')
     async setAttendeeStatus(@Param('event_id') eventId: string, @Param('attendee_id') attendeeId: string) {
-        let event = await this.eventsService.findById(eventId);
+        const event = await this.eventsService.findById(eventId);
 
         if (!event) {
             throw new NotFoundException(`Event ${eventId} not found.`);
         }
 
-        let attendeeIndex = event.attendees.findIndex(attendee => attendee.attendee.toString() === attendeeId);
+        const attendeeIndex = event.attendees.findIndex(attendee => attendee.attendee.toString() === attendeeId);
 
         event.attendees[attendeeIndex].present = true;
+        await this.teamsService.setTeamToPresent(eventId, attendeeId);
 
         await event.save();
 
@@ -155,15 +156,27 @@ export class EventsController {
     }
 
     @Get(':id/team')
-    @Permissions('event_management:get-all:event')
+    @Permissions('event_management:get-all:team')
     async eventTeamQuery(@Param('id') eventId: string) {
         return await this.teamsService.getTeamFromEvent(eventId);
     }
 
     @Post(':id/activity/filter')
     @HttpCode(200)
-    @Permissions('event_management:get-all:event')
+    @Permissions('event_management:get-all:activity')
     async eventActivityQuery(@Param('id') eventId: string, @Body(new DataTablePipe()) body: DataTableInterface) {
         return await this.eventsService.getFilteredActivities(eventId, body);
+    }
+
+    @Get(':id/activity')
+    @Permissions('event_management:get-all:activity')
+    async getActivity(@Param('id') eventId: string) {
+        return await this.eventsService.getActivities(eventId);
+    }
+
+    @Get(':id/stats')
+    @Permissions('event_management:get-stats:event')
+    getStats(@Param('id') eventId: string) {
+        return this.eventsService.getStats(eventId);
     }
 }
