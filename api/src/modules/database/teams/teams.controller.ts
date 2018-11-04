@@ -1,6 +1,7 @@
 import {
     BadRequestException, Body, Controller, Delete, Get, Headers, Param, Post, Put, Query, UseFilters, UseGuards
 } from '@nestjs/common';
+import { PublicRoute } from 'nestjs-jwt2';
 import { Permissions } from '../../../decorators/permission.decorator';
 import { PermissionsGuard } from '../../../guards/permission.guard';
 import { ValidationPipe } from '../../../pipes/validation.pipe';

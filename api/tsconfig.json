@@ -9,10 +9,10 @@
     "sourceMap": true,
     "outDir": "build"
   },
+  "include": [
+    "src/**/*.ts"
+  ],
   "exclude": [
     "node_modules"
-  ],
-  "types": [
-    "jasmine"
   ]
 }

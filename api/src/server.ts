@@ -1,3 +1,4 @@
+import { IoAdapter } from '@nestjs/websockets';
 import { StorageService } from "@polyhx/nest-services";
 
 require("dotenv").config();
@@ -21,31 +22,31 @@ async function bootstrap() {
         next();
     });
 
-    const nestApp = await NestFactory.create(ApplicationModule, app, {
-        cors: true,
-        bodyParser: true
-    });
-
-    const packageJson = require('../package.json');
-    const options = new DocumentBuilder()
-        .setTitle('Event Management API')
-        .setDescription(packageJson.description)
-        .setVersion(packageJson.version)
-        .addTag('Attendee')
-        .addTag('Event')
-        .addTag('School')
-        .addTag('Team')
-        .setSchemes('http', 'https')
-        .addBearerAuth()
-        .setSchemes('http', 'https')
-        .build();
     try {
+        const nestApp = await NestFactory.create(ApplicationModule, app, {
+            cors: true,
+            bodyParser: true
+        });
+        const packageJson = require('../package.json');
+        const options = new DocumentBuilder()
+            .setTitle('Event Management API')
+            .setDescription(packageJson.description)
+            .setVersion(packageJson.version)
+            .addTag('Attendee')
+            .addTag('Event')
+            .addTag('School')
+            .addTag('Team')
+            .setSchemes('http', 'https')
+            .addBearerAuth()
+            .setSchemes('http', 'https')
+            .build();
         const document = SwaggerModule.createDocument(nestApp, options);
         SwaggerModule.setup('/docs', nestApp, document);
-    } catch (err) {
-        console.log(err);
+        nestApp.useWebSocketAdapter(new IoAdapter());
+        await nestApp.listen(Number(process.env.PORT));
+    } catch (e) {
+        console.log(e);
     }
-    await nestApp.listen(Number(process.env.PORT));
 }
 
 bootstrap();

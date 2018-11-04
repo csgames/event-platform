@@ -55,6 +55,7 @@ export class LHGamesService {
                 body: JSON.stringify(updateFields)
             });
         } catch (e) {
+            console.log(e);
             throw new Error('Failed to update a team on LH Games API.');
         }
     }
