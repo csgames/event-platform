@@ -1,4 +1,5 @@
 import 'package:PolyHxApp/redux/actions/login-actions.dart';
+import 'package:PolyHxApp/redux/actions/profile-actions.dart';
 import 'package:PolyHxApp/services/localization.service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -59,6 +60,7 @@ class EventList extends StatelessWidget {
           final eventState = store.state.eventState;
           if (isLoggedIn && eventState.events.isEmpty && !eventState.hasErrors) {
             store.dispatch(LoadEventsAction());
+            store.dispatch(GetCurrentUserAction());
           } else if (!isLoggedIn) {
             Navigator.pushReplacementNamed(context, Routes.LOGIN);
           }

@@ -3,6 +3,7 @@ import 'package:PolyHxApp/redux/middlewares/activities-schedule-middleware.dart'
 import 'package:PolyHxApp/redux/middlewares/activity-middleware.dart';
 import 'package:PolyHxApp/redux/middlewares/attendee-retrieval-middleware.dart';
 import 'package:PolyHxApp/redux/middlewares/login-middleware.dart';
+import 'package:PolyHxApp/redux/middlewares/profile-middleware.dart';
 import 'package:PolyHxApp/redux/states/activities-schedule-state.dart';
 import 'package:PolyHxApp/redux/states/activity-state.dart';
 import 'package:PolyHxApp/redux/states/attendee-retrieval-state.dart';
@@ -52,6 +53,7 @@ void main() {
     ),
     middleware: [
       EpicMiddleware<AppState>(LoginMiddleware(authService)),
+      EpicMiddleware<AppState>(ProfileMiddleware(tokenService)),
       EpicMiddleware<AppState>(EventMiddleware(eventsService, tokenService)),
       EpicMiddleware<AppState>(ActivitiesScheduleMiddleware(eventsService, scheduleService)),
       EpicMiddleware<AppState>(ActivityMiddleware(eventsService, nfcService, attendeesService, usersService)),

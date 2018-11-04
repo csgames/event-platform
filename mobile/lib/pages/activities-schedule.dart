@@ -24,6 +24,7 @@ class _ActivitiesScheduleState extends State<ActivitiesSchedulePage> with Ticker
   String _eventId;
   TabController _tabController;
   Map<String, Map<String, List<Activity>>> _activities;
+  int currentTabIndex = 0;
 
   _ActivitiesScheduleState(this._eventId);
 
@@ -43,13 +44,19 @@ class _ActivitiesScheduleState extends State<ActivitiesSchedulePage> with Ticker
     return days.map((d) => Tab(text: d)).toList();
   }
 
+  void _handleTabSelection() {
+    setState(() => currentTabIndex = _tabController.index);
+  }
+
   Widget _buildActivitiesList(BuildContext context, ActivitiesScheduleState state) {
     if (state.activities.keys.length != 0) {
       _activities = state.activities;
       _tabController = TabController(
         length: _activities.keys.length,
-        vsync: this
+        vsync: this,
+        initialIndex: currentTabIndex,
       );
+      _tabController.addListener(_handleTabSelection);
     }
     if (_tabController == null) return Container();
     return Column(

@@ -1,3 +1,5 @@
+import 'package:PolyHxApp/domain/user.dart';
+import 'package:PolyHxApp/pages/profile.dart';
 import 'package:PolyHxApp/redux/actions/activities-schedule-actions.dart';
 import 'package:PolyHxApp/redux/actions/attendee-retrieval-actions.dart';
 import 'package:PolyHxApp/services/localization.service.dart';
@@ -10,6 +12,7 @@ import 'package:PolyHxApp/pages/attendee-retrieval.dart';
 import 'package:PolyHxApp/pages/event-info.dart';
 import 'package:PolyHxApp/redux/state.dart';
 import 'package:PolyHxApp/utils/constants.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:redux/redux.dart';
 
 class EventPage extends StatefulWidget {
@@ -19,7 +22,7 @@ class EventPage extends StatefulWidget {
   _EventPageState createState() => _EventPageState();
 }
 
-enum EventTabs { Info, Scan, Activities }
+enum EventTabs { Info, Scan, Activities, Profile }
 
 class _EventPageState extends State<EventPage> {
   int _currentTabIndex = 0;
@@ -37,6 +40,9 @@ class _EventPageState extends State<EventPage> {
       case EventTabs.Activities:
         body = ActivitiesSchedulePage(model.event.id);
         break;
+      case EventTabs.Profile:
+        body = ProfilePage();
+        break;
       default:
         break;
     }
@@ -52,7 +58,7 @@ class _EventPageState extends State<EventPage> {
   List<BottomNavigationBarItem> _buildTabItems() {
     return <BottomNavigationBarItem>[
       BottomNavigationBarItem(
-        icon: Icon(Icons.info_outline),
+        icon: Icon(FontAwesomeIcons.book),
         title: Text(_values['info'])
       ),
       BottomNavigationBarItem(
@@ -62,6 +68,10 @@ class _EventPageState extends State<EventPage> {
       BottomNavigationBarItem(
         icon: Icon(Icons.event),
         title: Text(_values['activities'])
+      ),
+      BottomNavigationBarItem(
+        icon: Icon(FontAwesomeIcons.userAlt),
+        title: Text(_values['profile'])
       )
     ];
   }

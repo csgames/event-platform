@@ -7,7 +7,12 @@ Map<String, dynamic> en = {
   'event': {
     'info': 'Info',
     'register': 'Register',
-    'activities': 'Activities'
+    'activities': 'Activities',
+    'profile': 'Profile'
+  },
+  'profile': {
+    'title': 'PROFILE',
+    'scan': 'Scan'
   },
   'event-info': {
     'title': 'GUIDE',

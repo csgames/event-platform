@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:PolyHxApp/domain/user.dart';
 import 'package:http/http.dart';
 import 'package:PolyHxApp/utils/environment.dart';
 import 'package:PolyHxApp/utils/url-encoded-params.dart';
@@ -82,6 +83,11 @@ class TokenService {
       return newToken != null;
     }
     return true;
+  }
+
+  User getCurrentUser() {
+    if (tokenPayload == null) return null;
+    return User.fromToken(tokenPayload);
   }
 
   void clear() {

@@ -64,4 +64,8 @@ class LocalizationService {
   Map<String, dynamic> get hotel {
     return values['hotel'];
   }
+
+  Map<String, dynamic> get profile {
+    return values['profile'];
+  }
 }

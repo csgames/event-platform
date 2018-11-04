@@ -33,6 +33,12 @@ class User {
     validated = map["validated"];
   }
 
+  User.fromToken(Map<String, dynamic> token) {
+    firstName = token['firstname'];
+    lastName = token['lastname'];
+    username = token['name'];
+  }
+
   static void copy(User from, User to) {
     to
       ..id = from.id
