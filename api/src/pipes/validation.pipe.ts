@@ -20,7 +20,7 @@ export class ValidationPipe implements PipeTransform<any> {
         const object = plainToClass(metatype, this.rebuildObjectIfBroken(value));
         const errors = await validate(object);
         if (errors.length > 0) {
-            throw new HttpException("",
+            throw new HttpException({ message: 'Validation failed', fields: errors.map(e => e.property) },
                 HttpStatus.PRECONDITION_FAILED);
         }
         return value;

@@ -1,21 +1,19 @@
 import {
     BadRequestException, Body, Controller, Delete, Get, Headers, Param, Post, Put, Query, UseFilters, UseGuards
 } from '@nestjs/common';
-import { PublicRoute } from 'nestjs-jwt2';
+import { ApiUseTags } from '@nestjs/swagger';
+import { STSService } from '@polyhx/nest-services';
 import { Permissions } from '../../../decorators/permission.decorator';
+import { CodeExceptionFilter } from '../../../filters/CodedError/code.filter';
 import { PermissionsGuard } from '../../../guards/permission.guard';
 import { ValidationPipe } from '../../../pipes/validation.pipe';
-import { CodeExceptionFilter } from '../../../filters/CodedError/code.filter';
+import { Attendees } from '../attendees/attendees.model';
+import { AttendeesService } from '../attendees/attendees.service';
+import { EventsService } from '../events/events.service';
 import { CreateOrJoinTeamDto, UpdateLHGamesTeamDto } from './teams.dto';
+import { codeMap } from './teams.exception';
 import { Teams } from './teams.model';
 import { TeamsService } from './teams.service';
-import { codeMap } from './teams.exception';
-import { AttendeesService } from '../attendees/attendees.service';
-import { STSService } from '@polyhx/nest-services';
-import { Attendees } from '../attendees/attendees.model';
-import { EventsService } from '../events/events.service';
-import { ApiUseTags } from '@nestjs/swagger';
-import { LHGamesService } from '../../lhgames/lhgames.service';
 
 @ApiUseTags('Team')
 @Controller('team')
