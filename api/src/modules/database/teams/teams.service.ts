@@ -132,14 +132,16 @@ export class TeamsService extends BaseService<Teams, CreateOrJoinTeamDto> {
     }
 
     public async setTeamToPresent(eventId: string, attendeeId: string) {
-        const team = await this.teamsModel.findOne({
+        const team = await this.findOne({
             event: eventId,
             attendees: attendeeId
         });
         if (team) {
             team.present = true;
-            await team.save();
+            return await team.save();
         }
+
+        return null;
     }
 
     private async join(team: Teams, eventId: string, attendeeId: string): Promise<Teams> {

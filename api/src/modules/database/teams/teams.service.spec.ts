@@ -27,7 +27,7 @@ class FakeTeams implements Teams {
         if (condition.name === 'This team exist' || condition.attendees === '5bde6ec00000000000000000'
             || condition._id === '5bde6ec00000000000000001') {
             return new FakeDocumentQuery(new FakeTeams({
-                _id: "5bde6ec00000000000000001",
+                _id: '5bde6ec00000000000000001',
                 name: 'This team exist',
                 attendees: ['5bde6ec00000000000000000'],
                 event: '',
@@ -35,7 +35,7 @@ class FakeTeams implements Teams {
             } as Teams));
         } else if (condition._id === '5bde6ec00000000000000002') {
             return new FakeDocumentQuery(new FakeTeams({
-                _id: "5bde6ec00000000000000001",
+                _id: '5bde6ec00000000000000001',
                 name: 'This team exist with more than one member',
                 attendees: ['5bde6ec00000000000000000', '5bde6ec00000000000000001'],
                 event: '',
@@ -52,7 +52,7 @@ class FakeTeams implements Teams {
     // @ts-ignore
     public save(): Promise<FakeTeams> {
         if (!this._id) {
-            this._id = "5bde6ec00000000000000000";
+            this._id = '5bde6ec00000000000000000';
         }
         return Promise.resolve(this);
     }
@@ -169,7 +169,7 @@ describe('TeamsService', () => {
         });
     });
 
-    describe("leave", () => {
+    describe('leave', () => {
         it('Should throw a ATTENDEE_NOT_FOUND CodeException if the attendee does\'t exist', async () => {
             attendeesService.reset();
             attendeesService.setup(x => x.findOne(It.isAny())).returns(() => Promise.resolve(null));
@@ -267,6 +267,18 @@ describe('TeamsService', () => {
             } catch (e) {
                 fail('Should not throw any exceptions');
             }
+        });
+    });
+
+    describe('setTeamToPresent', () => {
+        it('Should returns null if team does\'t exist', async () => {
+            const res = await teamsService.setTeamToPresent("5bde6ec0000000000000000", "5bde6ec00000000000000001");
+            expect(res).to.be.null;
+        });
+        it('Should returns the updated team if the team exist', async () => {
+            const res = await teamsService.setTeamToPresent("5bde6ec0000000000000000", "5bde6ec00000000000000000");
+            expect(res).to.be.not.null;
+            expect(res.present).to.be.true;
         });
     });
 });
