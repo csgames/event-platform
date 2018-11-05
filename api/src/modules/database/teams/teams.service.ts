@@ -7,12 +7,10 @@ import { BaseService } from '../../../services/base.service';
 import { EmailService } from '../../email/email.service';
 import { Attendees } from '../attendees/attendees.model';
 import { AttendeesService } from '../attendees/attendees.service';
-import { CreateOrJoinTeamDto, JoinOrLeaveTeamDto, UpdateLHGamesTeamDto } from './teams.dto';
+import { CreateOrJoinTeamDto, LeaveTeamDto, UpdateLHGamesTeamDto } from './teams.dto';
 import { Code } from './teams.exception';
 import { Teams } from './teams.model';
 import { EVENT_TYPE_LH_GAMES, Events } from '../events/events.model';
-import { DataTableInterface, DataTableReturnInterface } from '../../../interfaces/dataTable.interface';
-import { Schools } from '../schools/schools.model';
 import { EventsService } from '../events/events.service';
 import { LHGamesService } from '../../lhgames/lhgames.service';
 
@@ -45,11 +43,7 @@ export class TeamsService extends BaseService<Teams, CreateOrJoinTeamDto> {
             throw new CodeException(Code.ATTENDEE_HAS_TEAM);
         }
         if (team) {
-            return this.join({
-                attendeeId: attendee._id,
-                teamId: team._id,
-                event: createOrJoinTeamDto.event
-            });
+            return this.join(team, createOrJoinTeamDto.event, attendee._id);
         } else {
             const team = await this.create({
                 name: createOrJoinTeamDto.name,
@@ -64,32 +58,7 @@ export class TeamsService extends BaseService<Teams, CreateOrJoinTeamDto> {
         }
     }
 
-    public async join(joinTeamDto: JoinOrLeaveTeamDto): Promise<Teams> {
-        let team: Teams = await this.findOne({_id: joinTeamDto.teamId});
-        let event: Events = await this.eventsService.findOne({
-            _id: joinTeamDto.event
-        });
-        if (!team) {
-            throw new CodeException(Code.TEAM_NOT_FOUND);
-        }
-
-        if (team.attendees.length >= event.maxTeamMembers) {
-            throw new CodeException(Code.TEAM_FULL);
-        }
-
-        let attendeeTeam: Teams = await this.findOne({
-            attendees: joinTeamDto.attendeeId, event: team.event
-        });
-        if (attendeeTeam) {
-            throw new CodeException(Code.ATTENDEE_HAS_TEAM);
-        }
-
-        team.attendees.push(Types.ObjectId(joinTeamDto.attendeeId));
-
-        return team.save();
-    }
-
-    public async leave(leaveTeamDto: JoinOrLeaveTeamDto): Promise<LeaveTeamResponse> {
+    public async leave(leaveTeamDto: LeaveTeamDto): Promise<LeaveTeamResponse> {
         let attendee: Attendees = await this.attendeesService.findOne({_id: leaveTeamDto.attendeeId});
         if (!attendee) {
             throw new CodeException(Code.ATTENDEE_NOT_FOUND);
@@ -148,7 +117,7 @@ export class TeamsService extends BaseService<Teams, CreateOrJoinTeamDto> {
         return teams;
     }
 
-    async updateLHGamesTeam(userId: string, teamId: string, updateLHGamesTeamDto: UpdateLHGamesTeamDto) {
+    public async updateLHGamesTeam(userId: string, teamId: string, updateLHGamesTeamDto: UpdateLHGamesTeamDto) {
         const attendee = await this.attendeesService.findOne({ userId });
         const attendeeTeam: Teams = await this.findOne({
             attendees: attendee._id, _id: teamId
@@ -162,7 +131,7 @@ export class TeamsService extends BaseService<Teams, CreateOrJoinTeamDto> {
         });
     }
 
-    async setTeamToPresent(eventId: string, attendeeId: string) {
+    public async setTeamToPresent(eventId: string, attendeeId: string) {
         const team = await this.teamsModel.findOne({
             event: eventId,
             attendees: attendeeId
@@ -171,5 +140,18 @@ export class TeamsService extends BaseService<Teams, CreateOrJoinTeamDto> {
             team.present = true;
             await team.save();
         }
+    }
+
+    private async join(team: Teams, eventId: string, attendeeId: string): Promise<Teams> {
+        let event: Events = await this.eventsService.findOne({
+            _id: eventId
+        });
+        if (team.attendees.length >= event.maxTeamMembers) {
+            throw new CodeException(Code.TEAM_FULL);
+        }
+
+        team.attendees.push(Types.ObjectId(attendeeId));
+
+        return team.save();
     }
 }

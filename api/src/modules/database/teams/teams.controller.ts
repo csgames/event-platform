@@ -106,6 +106,6 @@ export class TeamsController {
     @Permissions('event_management:leave:team')
     public async leave(@Headers('token-claim-user_id') userId: string, @Param('id') teamId: string) {
         const attendee = await this.attendeesService.findOne({userId: userId});
-        return this.teamsService.leave({teamId, attendeeId: attendee._id, event: null});
+        return this.teamsService.leave({teamId, attendeeId: attendee._id});
     }
 }

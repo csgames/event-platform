@@ -8,6 +8,7 @@ jobs:
     docker:
       # specify the version you desire here
       - image: circleci/node:8.8.1
+      - image: docker:17.05.0-ce-git
 
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
@@ -18,6 +19,7 @@ jobs:
 
     steps:
       - checkout
+      - setup_remote_docker
 
       # Download and cache dependencies
       - restore_cache:
@@ -35,3 +37,5 @@ jobs:
 
       - run: npm run build
       - run: npm t
+
+      - run: docker build -t polyhx/event-management:latest

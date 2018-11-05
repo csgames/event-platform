@@ -1,5 +1,7 @@
 import { Module } from "@nestjs/common";
 import { MongooseModule } from "@nestjs/mongoose";
+import { ConfigModule } from '../configs/config.module';
+import { MongooseConfigService } from '../configs/mongo-config.service';
 import { ActivitiesModule } from "./activities/activities.module";
 import { AttendeesModule } from "./attendees/attendees.module";
 import { EventsModule } from "./events/events.module";
@@ -9,9 +11,9 @@ import { TeamsModule } from "./teams/teams.module";
 
 @Module({
     imports: [
-        MongooseModule.forRoot("mongodb://" + process.env.DB_USERNAME + ":" + process.env.DB_PASSWORD +
-            "@" + process.env.DB_ADDRESS, {
-            useMongoClient: true
+        MongooseModule.forRootAsync({
+            imports: [ConfigModule],
+            useExisting: MongooseConfigService
         }),
         ActivitiesModule,
         AttendeesModule,

@@ -13,7 +13,7 @@ export class CreateOrJoinTeamDto {
     event: string;
 }
 
-export class JoinOrLeaveTeamDto {
+export class LeaveTeamDto {
 
     @IsMongoId()
     @ApiModelProperty({required: true})
@@ -22,10 +22,6 @@ export class JoinOrLeaveTeamDto {
     @IsMongoId()
     @ApiModelProperty({required: true})
     teamId: string;
-
-    @IsMongoId()
-    @ApiModelProperty({required: true})
-    event: string;
 }
 
 export class UpdateLHGamesTeamDto {
