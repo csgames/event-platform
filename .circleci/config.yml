@@ -4,16 +4,10 @@
 #
 version: 2
 jobs:
-  build:
+  test:
     docker:
       # specify the version you desire here
       - image: circleci/node:8.8.1
-      - image: docker:17.05.0-ce-git
-
-      # Specify service dependencies here if necessary
-      # CircleCI maintains a library of pre-built images
-      # documented at https://circleci.com/docs/2.0/circleci-images/
-      # - image: circleci/mongo:3.4.4
 
     working_directory: ~/repo
 
@@ -21,28 +15,36 @@ jobs:
       - checkout
       - setup_remote_docker
 
-      # Download and cache dependencies
-      - restore_cache:
-          keys:
-          - v1-dependencies-{{ checksum "package.json" }}
-          # fallback to using the latest cache if no exact match is found
-          - v1-dependencies-
+        # Download and cache dependencies
+        - restore_cache:
+            keys:
+            - v1-dependencies-{{ checksum "package.json" }}
+            # fallback to using the latest cache if no exact match is found
+            - v1-dependencies-
 
-      - run:
-          name: Install dependencies
-          command: npm install
+        - run:
+            name: Install dependencies
+            command: npm install
 
-      - save_cache:
-          paths:
+        - save_cache:
+            paths:
             - node_modules
-          key: v1-dependencies-{{ checksum "package.json" }}
+            key: v1-dependencies-{{ checksum "package.json" }}
 
-      - run:
-          name: Building application
-          command: npm run build
-      - run:
-          name: Runnig tests
-          command: npm t
+        - run:
+            name: Building application
+            command: npm run build
+        - run:
+            name: Runnig tests
+            command: npm t
+  build-staging:
+    docker:
+      # specify the version you desire here
+      - image: docker:17.05.0-ce-git
+
+    steps:
+      - checkout
+      - setup_remote_docker
 
       - run:
           name: Building docker image
@@ -50,7 +52,46 @@ jobs:
       - run:
           name: Pushing docker image
           command: |
-            if [ "${CIRCLE_BRANCH}" == "master" ]; then
-              docker login -u $DOCKER_USER -p $DOCKER_PASS
-              docker push polyhx/event-management:latest
-            fi
+            docker login -u $DOCKER_USER -p $DOCKER_PASS
+            docker push polyhx/event-management:latest
+
+  build-prod:
+    docker:
+    # specify the version you desire here
+    - image: docker:17.05.0-ce-git
+
+    steps:
+    - checkout
+    - setup_remote_docker
+
+    - run:
+        name: Building docker image
+        command: docker build -t polyhx/event-management:latest .
+    - run:
+        name: Pushing docker image
+        command: |
+          docker login -u $DOCKER_USER -p $DOCKER_PASS
+          docker push polyhx/event-management:latest
+
+workflow:
+  version: 2
+  test:
+    jobs:
+      - test
+  build-staging:
+    jobs:
+      - build-staging:
+          filters:
+            branches:
+              only:
+                - master
+            tags:
+              ignore: /.*/
+  build-prod:
+    jobs:
+      - build-prod:
+          filter:
+            tags:
+              only: /^v([0-9.]+)$/
+            branches:
+              ignore: /.*/
