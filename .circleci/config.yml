@@ -73,7 +73,7 @@ jobs:
             docker login -u $DOCKER_USER -p $DOCKER_PASS
             docker push polyhx/event-management:latest
 
-workflow:
+workflows:
   version: 2
   test:
     jobs:
