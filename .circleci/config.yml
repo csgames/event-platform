@@ -38,4 +38,4 @@ jobs:
       - run: npm run build
       - run: npm t
 
-      - run: docker build -t polyhx/event-management:latest
+      - run: docker build -t polyhx/event-management:latest .
