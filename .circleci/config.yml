@@ -28,14 +28,29 @@ jobs:
           # fallback to using the latest cache if no exact match is found
           - v1-dependencies-
 
-      - run: npm install
+      - run:
+          name: Install dependencies
+          command: npm install
 
       - save_cache:
           paths:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
 
-      - run: npm run build
-      - run: npm t
+      - run:
+          name: Building application
+          command: npm run build
+      - run:
+          name: Runnig tests
+          command: npm t
 
-      - run: docker build -t polyhx/event-management:latest .
+      - run:
+          name: Building docker image
+          command: docker build -t polyhx/event-management:latest .
+      - run:
+          name: Pushing docker image
+          command: |
+            if [ "${CIRCLE_BRANCH}" == "master" ]; then
+              docker login -u $DOCKER_USER -p $DOCKER_PASS
+              docker push polyhx/event-management:latest
+            fi
