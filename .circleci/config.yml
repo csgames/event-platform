@@ -15,28 +15,28 @@ jobs:
       - checkout
       - setup_remote_docker
 
-        # Download and cache dependencies
-        - restore_cache:
-            keys:
-            - v1-dependencies-{{ checksum "package.json" }}
-            # fallback to using the latest cache if no exact match is found
-            - v1-dependencies-
+      # Download and cache dependencies
+      - restore_cache:
+          keys:
+          - v1-dependencies-{{ checksum "package.json" }}
+          # fallback to using the latest cache if no exact match is found
+          - v1-dependencies-
 
-        - run:
-            name: Install dependencies
-            command: npm install
+      - run:
+          name: Install dependencies
+          command: npm install
 
-        - save_cache:
-            paths:
-            - node_modules
-            key: v1-dependencies-{{ checksum "package.json" }}
+      - save_cache:
+          paths:
+          - node_modules
+          key: v1-dependencies-{{ checksum "package.json" }}
 
-        - run:
-            name: Building application
-            command: npm run build
-        - run:
-            name: Runnig tests
-            command: npm t
+      - run:
+          name: Building application
+          command: npm run build
+      - run:
+          name: Runnig tests
+          command: npm t
   build-staging:
     docker:
       # specify the version you desire here
@@ -57,21 +57,21 @@ jobs:
 
   build-prod:
     docker:
-    # specify the version you desire here
-    - image: docker:17.05.0-ce-git
+      # specify the version you desire here
+      - image: docker:17.05.0-ce-git
 
     steps:
-    - checkout
-    - setup_remote_docker
+      - checkout
+      - setup_remote_docker
 
-    - run:
-        name: Building docker image
-        command: docker build -t polyhx/event-management:latest .
-    - run:
-        name: Pushing docker image
-        command: |
-          docker login -u $DOCKER_USER -p $DOCKER_PASS
-          docker push polyhx/event-management:latest
+      - run:
+          name: Building docker image
+          command: docker build -t polyhx/event-management:latest .
+      - run:
+          name: Pushing docker image
+          command: |
+            docker login -u $DOCKER_USER -p $DOCKER_PASS
+            docker push polyhx/event-management:latest
 
 workflow:
   version: 2
