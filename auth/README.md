@@ -1,5 +1,5 @@
-# SecureTokenService
-The official STS for the PolyHx backend.
+# CSGamesAuthService
+The official STS of the CS Games
 
 # Run it in local
 ## Generate certificates
