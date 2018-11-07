@@ -12,7 +12,7 @@ import { CreateActivityDto } from '../activities/activities.dto';
 import { AttendeesGuard } from '../attendees/attendees.guard';
 import { AttendeesService } from '../attendees/attendees.service';
 import { TeamsService } from '../teams/teams.service';
-import { CreateEventDto, SendConfirmEmailDto, UpdateEventDto } from './events.dto';
+import { AddSponsorDto, CreateEventDto, SendConfirmEmailDto, UpdateEventDto } from './events.dto';
 import { codeMap } from './events.exception';
 import { Events } from './events.model';
 import { EventsService } from './events.service';
@@ -178,5 +178,17 @@ export class EventsController {
     @Permissions('event_management:get-stats:event')
     getStats(@Param('id') eventId: string) {
         return this.eventsService.getStats(eventId);
+    }
+
+    @Get(':id/sponsor')
+    @Permissions('event_management:get-all:sponsor')
+    async getSponsor(@Param('id') eventId: string) {
+        return await this.eventsService.getSponsors(eventId);
+    }
+
+    @Put(':id/sponsor')
+    @Permissions('event_management:update:event')
+    async addSponsor(@Param('id') eventId: string, @Body(new ValidationPipe()) dto: AddSponsorDto) {
+        return await this.eventsService.addSponsor(eventId, dto);
     }
 }

@@ -1,5 +1,5 @@
 import {
-    ArrayUnique, IsArray, IsDate, IsDefined, IsIn, IsNotEmpty, IsNumber, IsOptional, IsString
+    ArrayUnique, IsArray, IsDate, IsDefined, IsIn, IsMongoId, IsNotEmpty, IsNumber, IsOptional, IsString
 } from 'class-validator';
 import { EventRegistrations } from './events.model';
 import { ApiModelProperty } from '@nestjs/swagger';
@@ -152,4 +152,16 @@ export class SendConfirmEmailDto {
     @IsArray()
     @ArrayUnique()
     userIds: string[];
+}
+
+export class AddSponsorDto {
+    @IsString()
+    @IsNotEmpty()
+    @ApiModelProperty({ required: true })
+    tier: string;
+
+    @IsMongoId()
+    @IsNotEmpty()
+    @ApiModelProperty({ required: true })
+    sponsor: string;
 }

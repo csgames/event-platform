@@ -8,6 +8,7 @@ import { EventsModule } from "./events/events.module";
 import { NotificationsModule } from "./notifications/notifications.module";
 import { SchoolsModule } from "./schools/schools.module";
 import { TeamsModule } from "./teams/teams.module";
+import { SponsorsModule } from './sponsors/sponsors.module';
 
 @Module({
     imports: [
@@ -20,6 +21,7 @@ import { TeamsModule } from "./teams/teams.module";
         EventsModule,
         NotificationsModule,
         SchoolsModule,
+        SponsorsModule,
         TeamsModule
     ]
 })
