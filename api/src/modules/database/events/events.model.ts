@@ -1,6 +1,7 @@
 import * as mongoose from 'mongoose';
 import { Activities } from '../activities/activities.model';
 import { Attendees } from '../attendees/attendees.model';
+import { Sponsors } from '../sponsors/sponsors.model';
 
 export const EVENT_TYPE_LH_GAMES = 'lhgames';
 export const EVENT_TYPE_MLH = 'mlh';
@@ -36,6 +37,23 @@ export const EventRegistrationsSchema = new mongoose.Schema({
     }
 });
 
+export interface EventSponsors {
+    tier: string;
+    sponsor: Sponsors | mongoose.Types.ObjectId | string;
+}
+
+export const EventSponsorsSchema = new mongoose.Schema({
+    tier: {
+        type: String,
+        required: true
+    },
+    sponsor: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'sponsors',
+        required: true
+    }
+});
+
 export interface Events extends mongoose.Document {
     readonly type: string;
     readonly name: string;
@@ -44,6 +62,7 @@ export interface Events extends mongoose.Document {
     readonly endDate: Date | string;
     readonly activities: (Activities | mongoose.Types.ObjectId | string)[];
     readonly attendees: EventRegistrations[];
+    readonly sponsors: EventSponsors[];
     readonly imageUrl: string;
     readonly coverUrl: string;
     readonly website: string;
@@ -101,5 +120,6 @@ export const EventsSchema = new mongoose.Schema({
     maxTeamMembers: {
         type: Number,
         default: 4
-    }
+    },
+    sponsors: [EventSponsorsSchema]
 });

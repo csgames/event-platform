@@ -10,11 +10,13 @@ import { EmailService } from '../../email/email.service';
 import { CreateActivityDto } from '../activities/activities.dto';
 import { ActivitiesService } from '../activities/activities.service';
 import { AttendeesService } from '../attendees/attendees.service';
-import { CreateEventDto } from './events.dto';
+import { AddSponsorDto, CreateEventDto } from './events.dto';
 import { Code } from './events.exception';
 import { Events } from './events.model';
 import { TeamsService } from '../teams/teams.service';
 import { Teams } from '../teams/teams.model';
+import * as Mongoose from 'mongoose';
+import { Sponsors } from '../sponsors/sponsors.model';
 
 @Injectable()
 export class EventsService extends BaseService<Events, CreateEventDto> {
@@ -332,5 +334,32 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
         stats['activities'] = activities.reduce((acc, a) => Object.assign(acc, {[a.name]: a.attendees.length}), {});
 
         return stats;
+    }
+
+    async getSponsors(eventId: string) {
+        const event = await this.eventsModel.findOne({
+            _id: eventId
+        }).select('sponsors').populate('sponsors.sponsor').exec();
+        const sponsors = event.sponsors;
+        const result: { [tier: string]: Sponsors[] } = {};
+
+        for (const sponsor of sponsors) {
+            if (!result[sponsor.tier]) {
+                result[sponsor.tier] = [];
+            }
+            result[sponsor.tier].push(sponsor.sponsor as Sponsors);
+        }
+
+        return result;
+    }
+
+    async addSponsor(eventId: string, dto: AddSponsorDto) {
+        return await this.eventsModel.updateOne({
+            _id: eventId
+        }, {
+            $push: {
+                sponsors: dto
+            }
+        }).exec();
     }
 }

@@ -28,7 +28,7 @@ export const SponsorsSchema = new mongoose.Schema({
         required: true
     },
     padding: {
-        type: Array,
+        type: [Number],
         required: false
     },
     widthFactor: {
