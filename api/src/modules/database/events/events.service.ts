@@ -116,14 +116,14 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
         if (!status) {
             return 'not-registered';
         }
-        if (status.confirmed) {
+        if (status.present) {
+            return 'present';
+        } else if (status.confirmed) {
             return 'confirmed';
         } else if (status.declined) {
             return 'declined';
         } else if (status.selected) {
             return 'selected';
-        } else if (status.present) {
-            return 'present';
         } else {
             return 'registered';
         }
