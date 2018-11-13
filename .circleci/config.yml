@@ -71,7 +71,7 @@ jobs:
         name: Pushing docker image
         command: |
           docker login -u $DOCKER_USER -p $DOCKER_PASS
-          docker push polyhx/event-management:latest
+          docker push polyhx/event-management:$CIRCLE_TAG
 
 workflows:
   version: 2
