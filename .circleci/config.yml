@@ -66,7 +66,7 @@ jobs:
 
     - run:
         name: Building docker image
-        command: docker build -t polyhx/event-management:latest .
+        command: docker build -t polyhx/event-management:$CIRCLE_TAG .
     - run:
         name: Pushing docker image
         command: |
