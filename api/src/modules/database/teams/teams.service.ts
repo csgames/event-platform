@@ -31,7 +31,7 @@ export class TeamsService extends BaseService<Teams, CreateOrJoinTeamDto> {
     }
 
     public async createOrJoin(createOrJoinTeamDto: CreateOrJoinTeamDto, userId: string): Promise<Teams> {
-        const team = await this.findOne({name: createOrJoinTeamDto.name});
+        const team = await this.findOne({name: createOrJoinTeamDto.name, event: createOrJoinTeamDto.event});
         const attendee = await this.attendeesService.findOne({userId});
         if (!attendee) {
             throw new CodeException(Code.ATTENDEE_NOT_FOUND);
