@@ -96,7 +96,8 @@ export class TeamsService extends BaseService<Teams, CreateOrJoinTeamDto> {
             event: eventId
         }).lean().populate({
             model: 'attendees',
-            path: 'attendees'
+            path: 'attendees',
+            populate: { model: 'schools', path: 'school' }
         }).exec() as Teams[];
         const userId: string[] = [];
         teams.forEach(team => {
