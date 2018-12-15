@@ -255,10 +255,10 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
                 await this.emailService.sendEmail({
                     from: 'PolyHx <info@polyhx.io>',
                     to: [user.username],
-                    subject: 'LHGames 2018 - Selection',
+                    subject: 'Hackatown 2019 - Selection',
                     text: 'LHGames 2018 - Selection',
                     html: '<h1>Congrats</h1>',
-                    template: 'lhgames2018-selection',
+                    template: 'hackatown2019-selection',
                     variables: {
                         name: user.firstName
                     }
