@@ -53,6 +53,15 @@ export class EventsController {
         return await this.eventsService.selectAttendees(id, sendConfirmEmailDto.userIds);
     }
 
+    @Put(':id/send_selection_email/filter')
+    @Permissions('event_management:send-selection-email:event')
+    async sendSelectionEmailFromFilter(@Param('id') id: string, @Body(new DataTablePipe()) body: DataTableInterface,
+                                       @Body('filter') filter) {
+        const attendees = await this.eventsService.getFilteredAttendees(id, body, JSON.parse(filter));
+        const userIds = attendees.data.map(x => x.userId);
+        return await this.eventsService.selectAttendees(id, userIds);
+    }
+
     @Get(':id/status')
     @Permissions('event_management:get-status:event')
     async getAttendeeStatus(@Headers('token-claim-user_id') userId: string, @Param('id') eventId: string) {
