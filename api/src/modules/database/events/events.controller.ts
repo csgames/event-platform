@@ -94,8 +94,9 @@ export class EventsController {
     @Post(':id/attendee/filter')
     @HttpCode(200)
     @Permissions('event_management:get-all:attendee')
-    async eventAttendeeQuery(@Param('id') eventId: string, @Body(new DataTablePipe()) body: DataTableInterface) {
-        return await this.eventsService.getFilteredAttendees(eventId, body);
+    async eventAttendeeQuery(@Param('id') eventId: string, @Body(new DataTablePipe()) body: DataTableInterface,
+                             @Body('filter') filter) {
+        return await this.eventsService.getFilteredAttendees(eventId, body, JSON.parse(filter));
     }
 
     @Get(':id/vegetarian')

@@ -1,5 +1,5 @@
 import { InjectModel } from "@nestjs/mongoose";
-import { Model } from "mongoose";
+import { DocumentQuery, Model } from 'mongoose';
 import { Injectable } from "@nestjs/common";
 import { Attendees } from "./attendees.model";
 import { BaseService } from "../../../services/base.service";
@@ -62,67 +62,34 @@ export class AttendeesService extends BaseService<Attendees, CreateAttendeeDto> 
         }
     }
 
-    public async filterFrom(attendeeIds: string[], filter: DataTableInterface): Promise<DataTableReturnInterface> {
-        let school = "";
-        let user = "";
-
-        if (filter.rules) {
-            for (let rule of filter.rules.rules) {
-                if (rule.id === 'school.name') {
-                    school = <string>rule.value;
-                } else if (rule.id === 'user.username') {
-                    user = <string>rule.value;
-                }
-            }
-        }
-
-        let or = { $or: [] };
-
-        let schoolIds = [];
-        if (school !== "") {
-            filter.search.value = school;
-            schoolIds = await this.getFilteredSchoolIds(filter);
-            or.$or.push({
-                school: {
-                    $in: schoolIds
-                }
+    public async filterFrom(attendeeIds: string[], dtObject: DataTableInterface,
+                            filter: { school: string[] }): Promise<DataTableReturnInterface> {
+        let query: DocumentQuery<Attendees[], Attendees, {}>;
+        if (filter.school.length > 0) {
+            query = this.attendeesModel.find({
+                $and: [{
+                    _id: { $in: attendeeIds }
+                }, {
+                    school: { $in: filter.school }
+                }]
+            });
+        } else {
+            query = this.attendeesModel.find({
+                $and: [{
+                    _id: { $in: attendeeIds }
+                }]
             });
         }
 
-        let userIds = [];
-        if (user !== "") {
-            filter.search.value = user;
-            userIds = await this.getFilteredUserIds(filter);
-            or.$or.push({
-                userId: {
-                    $in: userIds
-                }
-            });
-        }
-
-        let condition = {
-            $and: [{
-                _id: { $in: attendeeIds }
-            }]
-        };
-
-        if (or.$or.length > 0) {
-            condition.$and.push(<any>or);
-        }
-
-        let query = this.attendeesModel.find(condition);
         let data: DataTableReturnInterface = <DataTableReturnInterface> {
-            draw: filter.draw,
-            recordsTotal: await query.count().exec()
+            draw: dtObject.draw,
+            recordsTotal: await query.countDocuments().exec()
         };
 
-        let sort = filter.columns[filter.order[0].column].name;
-        sort = (filter.order[0].dir === 'asc' ? '+' : '-') + sort;
-
-        let attendees = await query.find().sort(sort)
+        let attendees = await query.find()
             .populate({ path: 'school' })
-            .limit(filter.length)
-            .skip(filter.start)
+            .limit(dtObject.length)
+            .skip(dtObject.start)
             .exec();
 
         let result = attendees.map(v => {

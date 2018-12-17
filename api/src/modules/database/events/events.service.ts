@@ -133,112 +133,58 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
      * From the attendees of a specified event (null-checked), filters them and returns the result as a promise of
      * DataTableReturnInterface.
      */
-    async getFilteredAttendees(eventId: string, filter: DataTableInterface): Promise<DataTableReturnInterface> {
-        const event: Events = await this.findOne({_id: eventId});
+    async getFilteredAttendees(eventId: string, dtObject: DataTableInterface,
+                               filter: { school: string[], status: string[] })
+        : Promise<DataTableReturnInterface> {
+        const event: Events = await this.findOne({
+            _id: eventId
+        });
         if (!event) {
             throw new NotFoundException(`Event not found. (EventId: ${eventId})`);
         }
 
-        let selected = false;
-        let selectedValue = false;
-        let confirmed = false;
-        let confirmedValue = false;
-        let declined = false;
-        let declinedValue = false;
-
-        if (filter.rules) {
-            for (let rule of filter.rules.rules) {
-                if (rule.id === 'selected') {
-                    selected = true;
-                    selectedValue = rule.value === '1';
-                } else if (rule.id === 'confirmed') {
-                    confirmed = true;
-                    confirmedValue = rule.value === '1';
-                } else if (rule.id === 'declined') {
-                    declined = true;
-                    declinedValue = rule.value === '1';
-                }
+        const attendeeIds: string[] = event.attendees.filter(attendee => {
+            if (filter.status.length === 0) {
+                return true;
             }
-        }
 
-        let attendeeIds: string[] = event.attendees.map(attendee => {
-            if ((selected && attendee.selected === selectedValue)) {
-                if (!confirmed && !declined) {
-                    return attendee.attendee.toString();
-                }
-
-                if ((confirmed && attendee.confirmed === confirmedValue)) {
-                    if (!declined) {
-                        return attendee.attendee.toString();
-                    }
-
-                    if ((declined && attendee.declined === declinedValue)) {
-                        return attendee.attendee.toString();
-                    }
-                }
-
-                if ((declined && attendee.declined === declinedValue)) {
-                    return attendee.attendee.toString();
-                }
-
-            } else if ((confirmed && attendee.confirmed === confirmedValue)) {
-                if (!selected && !declined) {
-                    return attendee.attendee.toString();
-                }
-
-                if ((selected && attendee.selected === selectedValue)) {
-                    if (!declined) {
-                        return attendee.attendee.toString();
-                    }
-
-                    if ((declined && attendee.declined === declinedValue)) {
-                        return attendee.attendee.toString();
-                    }
-                }
-
-                if ((declined && attendee.declined === declinedValue)) {
-                    return attendee.attendee.toString();
-                }
-
-            } else if ((declined && attendee.declined === declinedValue)) {
-                if (!selected && !confirmed) {
-                    return attendee.attendee.toString();
-                }
-
-                if ((selected && attendee.selected === selectedValue)) {
-                    if (!confirmed) {
-                        return attendee.attendee.toString();
-                    }
-
-                    if ((confirmed && attendee.confirmed === confirmedValue)) {
-                        return attendee.attendee.toString();
-                    }
-                }
-
-                if ((confirmed && attendee.confirmed === confirmedValue)) {
-                    return attendee.attendee.toString();
-                }
-
-            } else if (!selected && !confirmed && !declined) {
-                return attendee.attendee.toString();
+            if (!attendee.selected && filter.status.indexOf('registered') >= 0) {
+                return true;
             }
-        });
+            if (attendee.selected &&
+                !attendee.confirmed &&
+                !attendee.declined &&
+                filter.status.indexOf('selected') >= 0) {
+                return true;
+            }
+            if (attendee.confirmed && filter.status.indexOf('confirmed') >= 0) {
+                return true;
+            }
+            if (attendee.declined && filter.status.indexOf('declined') >= 0) {
+                return true;
+            }
+            if (attendee.present && filter.status.indexOf('present') >= 0) {
+                return true;
+            }
 
-        let res = await this.attendeeService.filterFrom(attendeeIds, filter);
+            return false;
+        }).map(x => x.attendee.toString());
+
+        let res = await this.attendeeService.filterFrom(attendeeIds, dtObject, filter);
 
         for (let attendee of res.data) {
             let a = event.attendees[
                 event.attendees.findIndex(value => value.attendee.toString() === attendee._id.toString())
                 ];
 
-            if (a.confirmed) {
+            if (a.present) {
+                attendee.status = 'present';
+            } else if (a.confirmed) {
                 attendee.status = 'confirmed';
             } else if (a.declined) {
                 attendee.status = 'declined';
             } else if (a.selected) {
                 attendee.status = 'selected';
-            } else if (a.present) {
-                attendee.status = 'present';
             } else {
                 attendee.status = 'registered';
             }
