@@ -8,6 +8,7 @@ export interface Activities extends mongoose.Document {
     readonly details: object;
     readonly location: string;
     readonly attendees: (Attendees | mongoose.Types.ObjectId | string)[];
+    readonly subscribers: (Attendees | mongoose.Types.ObjectId | string)[];
 }
 
 export const ActivitiesSchema = new mongoose.Schema({
@@ -32,6 +33,10 @@ export const ActivitiesSchema = new mongoose.Schema({
         required: true
     },
     attendees: {
+        type: [mongoose.Schema.Types.ObjectId],
+        ref: 'attendees'
+    },
+    subscribers: {
         type: [mongoose.Schema.Types.ObjectId],
         ref: 'attendees'
     }

@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpException, HttpStatus, Param, Post, Put, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpException, HttpStatus, Param, Post, Put, UseGuards } from '@nestjs/common';
 import { STSService, UserModel } from '@polyhx/nest-services';
 import { Permissions } from '../../../decorators/permission.decorator';
 import { PermissionsGuard } from '../../../guards/permission.guard';
@@ -76,6 +76,24 @@ export class ActivitiesController {
         let attendee = await this.attendeesService.findById(attendees[winnerId]);
 
         return (await this.stsService.getAllWithIds([attendee.userId])).users[0];
+    }
+
+    @Get(":activity_id/:attendee_id/subscription")
+    @Permissions("event_management:get:activity")
+    async getAttendeeSubscription(@Param('activity_id') activityId: string, @Param('attendee_id') attendeeId: string) {
+        await this.activitiesService.getAttendeeSubscription(activityId, attendeeId);
+    }
+
+    @Put(":activity_id/:attendee_id/subscription")
+    @Permissions("event_management:get:activity")
+    async subscribeAttendee(@Param('activity_id') activityId: string, @Param('attendee_id') attendeeId: string) {
+        await this.activitiesService.subscribeAttendee(activityId, attendeeId);
+    }
+
+    @Delete(":activity_id/:attendee_id/subscription")
+    @Permissions("event_management:get:activity")
+    async unsubscribeAttendee(@Param('activity_id') activityId: string, @Param('attendee_id') attendeeId: string) {
+        await this.activitiesService.unsubscribeAttendee(activityId, attendeeId);
     }
 
     private getRandomIndex(size: number) {
