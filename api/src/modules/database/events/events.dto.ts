@@ -165,3 +165,11 @@ export class AddSponsorDto {
     @ApiModelProperty({ required: true })
     sponsor: string;
 }
+
+export class AddScannedAttendee {
+    @IsString()
+    @IsNotEmpty()
+    @IsMongoId()
+    @ApiModelProperty({ required: true })
+    scannedAttendee: string;
+}

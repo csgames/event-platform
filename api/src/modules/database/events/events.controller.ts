@@ -12,7 +12,7 @@ import { CreateActivityDto } from '../activities/activities.dto';
 import { AttendeesGuard } from '../attendees/attendees.guard';
 import { AttendeesService } from '../attendees/attendees.service';
 import { TeamsService } from '../teams/teams.service';
-import { AddSponsorDto, CreateEventDto, SendConfirmEmailDto, UpdateEventDto } from './events.dto';
+import { AddScannedAttendee, AddSponsorDto, CreateEventDto, SendConfirmEmailDto, UpdateEventDto } from './events.dto';
 import { codeMap } from './events.exception';
 import { Events } from './events.model';
 import { EventsService } from './events.service';
@@ -200,5 +200,12 @@ export class EventsController {
     @Permissions('event_management:update:event')
     async addSponsor(@Param('id') eventId: string, @Body(new ValidationPipe()) dto: AddSponsorDto) {
         return await this.eventsService.addSponsor(eventId, dto);
+    }
+
+    @Put(':event_id/:attendee_id/scan')
+    @Permissions('event_management:set-status:event')
+    async addScannedAttendee(@Param('event_id') eventId: string, @Param('attendee_id') attendeeId: string,
+                             @Body(new ValidationPipe()) body: AddScannedAttendee) {
+        await this.eventsService.addScannedAttendee(eventId, attendeeId, body);
     }
 }

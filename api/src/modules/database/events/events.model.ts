@@ -12,6 +12,7 @@ export interface EventRegistrations extends mongoose.Document {
     confirmed: boolean;
     declined: boolean;
     present: boolean;
+    scannedAttendees: (Attendees | mongoose.Types.ObjectId | string)[];
 }
 
 export const EventRegistrationsSchema = new mongoose.Schema({
@@ -34,7 +35,11 @@ export const EventRegistrationsSchema = new mongoose.Schema({
     present: {
         type: Boolean,
         default: false
-    }
+    },
+    scannedAttendees: {
+        type: [mongoose.Schema.Types.ObjectId],
+        ref: 'attendees'
+    },
 });
 
 export interface EventSponsors {

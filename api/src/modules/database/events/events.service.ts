@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { STSService } from '@polyhx/nest-services';
 import { GetAllWithIdsResponse } from '@polyhx/nest-services/modules/sts/sts.service';
@@ -10,10 +10,9 @@ import { EmailService } from '../../email/email.service';
 import { CreateActivityDto } from '../activities/activities.dto';
 import { ActivitiesService } from '../activities/activities.service';
 import { AttendeesService } from '../attendees/attendees.service';
-import { AddSponsorDto, CreateEventDto } from './events.dto';
+import { AddScannedAttendee, AddSponsorDto, CreateEventDto } from './events.dto';
 import { Code } from './events.exception';
 import { Events } from './events.model';
-import { TeamsService } from '../teams/teams.service';
 import { Teams } from '../teams/teams.model';
 import * as Mongoose from 'mongoose';
 import { Sponsors } from '../sponsors/sponsors.model';
@@ -305,6 +304,48 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
         }, {
             $push: {
                 sponsors: dto
+            }
+        }).exec();
+    }
+
+    public async addScannedAttendee(eventId: string, attendeeId: string, scanInfo: AddScannedAttendee) {
+        if (attendeeId === scanInfo.scannedAttendee) {
+            throw new BadRequestException("An attendee cannot scan itself");
+        }
+
+        const event = await this.eventsModel.findById(eventId).exec();
+        if (!event) {
+            throw new NotFoundException("Event not found");
+        }
+
+        const attendee = event.attendees.find(x => {
+            return (x.attendee as Mongoose.Types.ObjectId).toHexString() === attendeeId;
+        });
+        if (!attendee) {
+            throw new NotFoundException("Attendee not found in event");
+        }
+
+        const scanned = event.attendees.find(x => {
+            return (x.attendee as Mongoose.Types.ObjectId).toHexString() === scanInfo.scannedAttendee;
+        });
+        if (!scanned) {
+            throw new NotFoundException("Scanned attendee not found in event");
+        }
+
+        if (!attendee.present || !scanned.present) {
+            throw new BadRequestException("Attendee and scanned attendee must be present");
+        }
+
+        if (attendee.scannedAttendees.indexOf(scanInfo.scannedAttendee) >= 0) {
+            throw new BadRequestException("Scanned attendee already scanned by attendee");
+        }
+
+        await this.eventsModel.update({
+            '_id': eventId,
+            'attendees.attendee': attendeeId
+        }, {
+            $push: {
+                'attendees.$.scannedAttendees': scanInfo.scannedAttendee
             }
         }).exec();
     }

@@ -1,5 +1,5 @@
 import {
-    ArrayMaxSize, ArrayMinSize, IsArray, IsNotEmpty, IsNumber, IsOptional, IsString, MaxLength, MinLength
+    ArrayMaxSize, ArrayMinSize, IsArray, IsNotEmpty, IsNumber, IsOptional, IsString
 } from 'class-validator';
 import { ApiModelProperty } from '@nestjs/swagger';
 
