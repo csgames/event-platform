@@ -2,7 +2,6 @@ import { ApiModelProperty } from '@nestjs/swagger';
 import { ArrayUnique, IsArray, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
 export class CreateActivityDto {
-
     @IsString()
     @IsNotEmpty()
     @ApiModelProperty({ required: true })
@@ -15,6 +14,10 @@ export class CreateActivityDto {
     @IsNotEmpty()
     @ApiModelProperty({ required: true })
     endDate: string;
+
+    @IsNotEmpty()
+    @ApiModelProperty({ required: true })
+    details: object;
 
     @IsString()
     @IsNotEmpty()
