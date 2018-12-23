@@ -19,6 +19,7 @@ export interface Attendees extends mongoose.Document {
     school: Schools | mongoose.Types.ObjectId | string;
     publicId: string;
     user: UserModel;
+    messagingTokens: string[];
 }
 
 export const AttendeesSchema = new mongoose.Schema({
@@ -85,5 +86,9 @@ export const AttendeesSchema = new mongoose.Schema({
         default: () => {
             return uuid.v4();
         }
+    },
+    messagingTokens: {
+        type: [String],
+        default: []
     }
 });

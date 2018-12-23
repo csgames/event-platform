@@ -132,3 +132,9 @@ export class UpdateAttendeeDto {
     @ApiModelProperty()
     dietaryRestrictions: string;
 }
+
+export class AddTokenDto {
+    @IsNotEmpty()
+    @ApiModelProperty({ required: true })
+    token: string;
+}

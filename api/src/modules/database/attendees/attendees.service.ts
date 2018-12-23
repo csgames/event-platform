@@ -108,4 +108,24 @@ export class AttendeesService extends BaseService<Attendees, CreateAttendeeDto> 
 
         return data;
     }
+
+    public async addToken(userId: string, token: string) {
+        return this.attendeesModel.updateOne({
+            userId: userId
+        }, {
+            $push: {
+                messagingTokens: token
+            }
+        });
+    }
+
+    public async removeToken(userId: string, token: string) {
+        return this.attendeesModel.updateOne({
+            userId: userId
+        }, {
+            $pull: {
+                messagingTokens: token
+            }
+        });
+    }
 }

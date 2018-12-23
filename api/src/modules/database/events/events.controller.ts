@@ -208,4 +208,15 @@ export class EventsController {
                              @Body(new ValidationPipe()) body: AddScannedAttendee) {
         await this.eventsService.addScannedAttendee(eventId, attendeeId, body);
     }
+
+    @Post(':id/notification')
+    @Permissions('event_management:update:event')
+    async createNotification(@Param('id') id: string) {
+        await this.eventsService.createNotification(id, {
+            notification: {
+                title: "Test",
+                body: "My test body"
+            }
+        });
+    }
 }

@@ -1,5 +1,5 @@
 import {
-    BadRequestException, Body, Controller, Get, Headers, NotFoundException, Param, Post, Put, UploadedFile,
+    BadRequestException, Body, Controller, Delete, Get, Headers, NotFoundException, Param, Post, Put, UploadedFile,
     UseFilters, UseGuards
 } from '@nestjs/common';
 import { ApiUseTags } from '@nestjs/swagger';
@@ -10,7 +10,7 @@ import { PermissionsGuard } from '../../../guards/permission.guard';
 import { ValidationPipe } from '../../../pipes/validation.pipe';
 import { Schools } from '../schools/schools.model';
 import { SchoolsService } from '../schools/schools.service';
-import { CreateAttendeeDto, UpdateAttendeeDto } from './attendees.dto';
+import { AddTokenDto, CreateAttendeeDto, UpdateAttendeeDto } from './attendees.dto';
 import { codeMap } from './attendees.exception';
 import { AttendeesGuard, CreateAttendeeGuard } from './attendees.guard';
 import { Attendees } from './attendees.model';
@@ -151,6 +151,12 @@ export class AttendeesController {
         };
     }
 
+    @Put('/token')
+    @Permissions('event_management:update:attendee')
+    async addToken(@Headers('token-claim-user_id') userId: string, @Body(ValidationPipe) dto: AddTokenDto) {
+        await this.attendeesService.addToken(userId, dto.token);
+    }
+
     @Put(':attendee_id/public_id/:public_id')
     @Permissions('event_management:set-public-id:attendee')
     async setPublicId(@Param('attendee_id') attendeeId: string, @Param('public_id') publicId: string) {
@@ -165,5 +171,11 @@ export class AttendeesController {
         await attendee.save();
 
         return attendee;
+    }
+
+    @Delete('/token/:token')
+    @Permissions('event_management:update:attendee')
+    async deleteToken(@Headers('token-claim-user_id') userId: string, @Param('token') token) {
+        await this.attendeesService.removeToken(userId, token);
     }
 }

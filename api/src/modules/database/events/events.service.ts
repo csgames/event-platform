@@ -16,6 +16,8 @@ import { Events } from './events.model';
 import { Teams } from '../teams/teams.model';
 import * as Mongoose from 'mongoose';
 import { Sponsors } from '../sponsors/sponsors.model';
+import * as admin from 'firebase-admin';
+import { MessagingService } from '../../messaging/messaging.service';
 
 @Injectable()
 export class EventsService extends BaseService<Events, CreateEventDto> {
@@ -24,7 +26,8 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
                 private attendeeService: AttendeesService,
                 private emailService: EmailService,
                 private stsService: STSService,
-                private activitiesService: ActivitiesService) {
+                private activitiesService: ActivitiesService,
+                private messagingService: MessagingService) {
         super(eventsModel);
     }
 
@@ -348,5 +351,27 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
                 'attendees.$.scannedAttendees': scanInfo.scannedAttendee
             }
         }).exec();
+    }
+
+    public async createNotification(id: string, message: admin.messaging.MessagingPayload) {
+        const event = await this.eventsModel.findOne({
+            _id: id
+        }).exec();
+        const ids = event.attendees.filter(x => x.present).map(x => x.attendee);
+        const attendees = await this.attendeeService.find({
+            _id: {
+                $in: ids
+            }
+        });
+
+        if (attendees && !attendees.length) {
+            return;
+        }
+
+        const tokens = attendees.map(x => x.messagingTokens).reduce((a, b) => [...a, ...b]);
+
+        if (tokens && tokens.length > 0) {
+            await this.messagingService.send(message, tokens);
+        }
     }
 }
