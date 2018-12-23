@@ -1,6 +1,6 @@
 import { InjectModel } from "@nestjs/mongoose";
 import { DocumentQuery, Model } from 'mongoose';
-import { Injectable } from "@nestjs/common";
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { Attendees } from "./attendees.model";
 import { BaseService } from "../../../services/base.service";
 import { CreateAttendeeDto } from "./attendees.dto";
@@ -110,6 +110,18 @@ export class AttendeesService extends BaseService<Attendees, CreateAttendeeDto> 
     }
 
     public async addToken(userId: string, token: string) {
+        const attendee = await this.findOne({
+            userId: userId
+        });
+
+        if (!attendee) {
+            throw new NotFoundException('Attendee not found');
+        }
+
+        if (attendee.messagingTokens.indexOf(token) >= 0) {
+            throw new BadRequestException('Token already exist');
+        }
+
         return this.attendeesModel.updateOne({
             userId: userId
         }, {
@@ -120,6 +132,18 @@ export class AttendeesService extends BaseService<Attendees, CreateAttendeeDto> 
     }
 
     public async removeToken(userId: string, token: string) {
+        const attendee = await this.findOne({
+            userId: userId
+        });
+
+        if (!attendee) {
+            throw new NotFoundException('Attendee not found');
+        }
+
+        if (attendee.messagingTokens.indexOf(token) < 0) {
+            throw new BadRequestException("Token doesn't exist");
+        }
+
         return this.attendeesModel.updateOne({
             userId: userId
         }, {

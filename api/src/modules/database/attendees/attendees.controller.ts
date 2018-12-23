@@ -153,6 +153,7 @@ export class AttendeesController {
 
     @Put('/token')
     @Permissions('event_management:update:attendee')
+    @UseGuards(AttendeesGuard)
     async addToken(@Headers('token-claim-user_id') userId: string, @Body(ValidationPipe) dto: AddTokenDto) {
         await this.attendeesService.addToken(userId, dto.token);
     }
@@ -175,6 +176,7 @@ export class AttendeesController {
 
     @Delete('/token/:token')
     @Permissions('event_management:update:attendee')
+    @UseGuards(AttendeesGuard)
     async deleteToken(@Headers('token-claim-user_id') userId: string, @Param('token') token) {
         await this.attendeesService.removeToken(userId, token);
     }
