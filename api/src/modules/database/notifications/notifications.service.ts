@@ -7,6 +7,7 @@ import { AttendeesService } from "../attendees/attendees.service";
 import { CreateNotificationsDto } from "./notifications.dto";
 import { NotificationGateway } from "./notifications.gateway";
 import { Notifications } from "./notifications.model";
+import { interval, Subscription } from 'rxjs';
 
 // TODO: Add Notification_size field in event and use that to check Notification size when joining.
 const MAX_Notification_SIZE = 4;
@@ -19,6 +20,8 @@ interface LeaveNotificationResponse {
 @Injectable()
 export class NotificationsService extends BaseService<Notifications, CreateNotificationsDto> {
     private nexmo: any;
+    private sms: { text: string; phone: string }[] = [];
+    private smsSubscription: Subscription;
 
     constructor(@InjectModel("notifications") private readonly notificationModel: Model<Notifications>,
                 private readonly attendeeService: AttendeesService,
@@ -73,38 +76,44 @@ export class NotificationsService extends BaseService<Notifications, CreateNotif
     }
 
     // Send an sms to number (Use E.164 format)
-    async sendSms(numbers: string[], text: string) {
-        for (let number of numbers) {
-            let retry = true;
-            let retryCount = 0;
-            while (retry && retryCount < 2) {
-                retry = !(await this.sendOneSms(number, text));
-                ++retryCount;
-            }
+    public sendSms(numbers: string[], text: string) {
+        numbers = numbers.filter(number => /^\+?[1-9]\d{10,14}$/g.test(number));
+        this.sms.push(...numbers.map(x => {
+            return {
+                text,
+                phone: x
+            };
+        }));
+
+        if (this.smsSubscription) {
+            return;
         }
+
+        this.smsSubscription = interval(1100)
+            .subscribe(() => {
+                const sms = this.sms.pop();
+                if (!sms) {
+                    this.smsSubscription.unsubscribe();
+                    this.smsSubscription = null;
+                    return;
+                }
+
+                this.sendOneSms(sms);
+            });
     }
 
-    // Returns true if successful
-    private async sendOneSms(number: string, text: string) {
-        return new Promise<boolean>((resolve) => {
-            setTimeout(() => {
-                try {
-                    this.nexmo.message.sendSms(process.env.NEXMO_FROM_NUMBER, number, text, {}, (err, apiResponse) => {
-                        if (err) {
-                            console.log("Nexmo failed to send sms. Reason:\n" + err);
-                            resolve(false);
-                        } else if (apiResponse.messages[0].status !== "0") {
-                            console.log(apiResponse);
-                            resolve(false);
-                        } else {
-                            resolve(true);
-                        }
-                    });
-                } catch (err) {
-                    console.log("Nexmo failed to send sms. Reason:\n" + err);
-                    resolve(false);
-                }
-            }, 1100); // Only 1 sms/second (+100 ms for request delay to avoid time collisions)
-        });
+    private sendOneSms(sms: { text: string, phone: string }) {
+        try {
+            this.nexmo.message.sendSms(process.env.NEXMO_FROM_NUMBER, sms.phone, sms.text, {},
+                (err, apiResponse) => {
+                    if (err) {
+                        console.log("Nexmo failed to send sms. Reason:\n" + err);
+                    } else if (apiResponse.messages[0].status !== "0") {
+                        console.log(apiResponse);
+                    }
+                });
+        } catch (err) {
+            console.log("Nexmo failed to send sms. Reason:\n" + err);
+        }
     }
 }

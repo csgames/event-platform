@@ -10,6 +10,7 @@ import { STSModule } from '@polyhx/nest-services';
 import { EmailModule } from '../../email/email.module';
 import { TeamsSchema } from '../teams/teams.model';
 import { MessagingModule } from '../../messaging/messaging.module';
+import { NotificationsModule } from '../notifications/notifications.module';
 
 @Module({
     imports: [
@@ -26,7 +27,8 @@ import { MessagingModule } from '../../messaging/messaging.module';
         EmailModule,
         STSModule,
         forwardRef(() => TeamsModule),
-        MessagingModule
+        MessagingModule,
+        NotificationsModule
     ],
     controllers: [
         EventsController

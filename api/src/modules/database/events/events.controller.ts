@@ -12,7 +12,9 @@ import { CreateActivityDto } from '../activities/activities.dto';
 import { AttendeesGuard } from '../attendees/attendees.guard';
 import { AttendeesService } from '../attendees/attendees.service';
 import { TeamsService } from '../teams/teams.service';
-import { AddScannedAttendee, AddSponsorDto, CreateEventDto, SendConfirmEmailDto, UpdateEventDto } from './events.dto';
+import {
+    AddScannedAttendee, AddSponsorDto, CreateEventDto, SendConfirmEmailDto, SendSmsDto, UpdateEventDto
+} from './events.dto';
 import { codeMap } from './events.exception';
 import { Events } from './events.model';
 import { EventsService } from './events.service';
@@ -218,5 +220,11 @@ export class EventsController {
                 body: "My test body"
             }
         });
+    }
+
+    @Post(':id/sms')
+    @Permissions('event_management:update:event')
+    async sendSms(@Param('id') id: string, @Body() dto: SendSmsDto) {
+        await this.eventsService.sendSms(id, dto.text);
     }
 }

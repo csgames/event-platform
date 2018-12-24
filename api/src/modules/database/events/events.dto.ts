@@ -173,3 +173,9 @@ export class AddScannedAttendee {
     @ApiModelProperty({ required: true })
     scannedAttendee: string;
 }
+
+export class SendSmsDto {
+    @IsNotEmpty()
+    @ApiModelProperty({ required: true })
+    text: string;
+}
