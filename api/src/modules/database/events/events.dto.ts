@@ -179,3 +179,13 @@ export class SendSmsDto {
     @ApiModelProperty({ required: true })
     text: string;
 }
+
+export class SendNotificationDto {
+    @IsNotEmpty()
+    @ApiModelProperty({ required: true })
+    title: string;
+
+    @IsNotEmpty()
+    @ApiModelProperty({ required: true })
+    body: string;
+}

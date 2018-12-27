@@ -12,6 +12,9 @@ export class MessagingService {
     }
 
     public async send(message: admin.messaging.MessagingPayload, tokens: string[]) {
+        if (!message.data.click_action) {
+            message.data.click_action = "FLUTTER_NOTIFICATION_CLICK";
+        }
         return this.messaging.sendToDevice(tokens, message);
     }
 

@@ -13,7 +13,8 @@ import { AttendeesGuard } from '../attendees/attendees.guard';
 import { AttendeesService } from '../attendees/attendees.service';
 import { TeamsService } from '../teams/teams.service';
 import {
-    AddScannedAttendee, AddSponsorDto, CreateEventDto, SendConfirmEmailDto, SendSmsDto, UpdateEventDto
+    AddScannedAttendee, AddSponsorDto, CreateEventDto, SendConfirmEmailDto, SendNotificationDto, SendSmsDto,
+    UpdateEventDto
 } from './events.dto';
 import { codeMap } from './events.exception';
 import { Events } from './events.model';
@@ -213,18 +214,22 @@ export class EventsController {
 
     @Post(':id/notification')
     @Permissions('event_management:update:event')
-    async createNotification(@Param('id') id: string) {
+    async createNotification(@Param('id') id: string, @Body(ValidationPipe) dto: SendNotificationDto) {
         await this.eventsService.createNotification(id, {
             notification: {
-                title: "Test",
-                body: "My test body"
+                ...dto
+            },
+            data: {
+                type: 'event',
+                event: id,
+                dynamicLink: `event/${id}`
             }
         });
     }
 
     @Post(':id/sms')
     @Permissions('event_management:update:event')
-    async sendSms(@Param('id') id: string, @Body() dto: SendSmsDto) {
+    async sendSms(@Param('id') id: string, @Body(ValidationPipe) dto: SendSmsDto) {
         await this.eventsService.sendSms(id, dto.text);
     }
 }
