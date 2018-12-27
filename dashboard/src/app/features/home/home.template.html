@@ -1,0 +1,7 @@
+<h1 *ngIf="loading$ | async">Loading...</h1>
+
+<ul>
+    <li *ngFor="let t of teams$ | async">{{t.name}}</li>
+</ul>
+
+<p *ngIf="error$ | async">ERROR</p>

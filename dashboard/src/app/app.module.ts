@@ -10,6 +10,8 @@ import { AppEffects } from "./store/app.effects";
 import { RouterModule } from "@angular/router";
 import { ROUTES } from "./app.routes";
 import { DashboardModule } from "./features/dashboard/dashboard.module";
+import { environment } from "../environments/environment";
+import { StoreDevtoolsModule } from "@ngrx/store-devtools";
 
 @NgModule({
     declarations: [
@@ -24,7 +26,8 @@ import { DashboardModule } from "./features/dashboard/dashboard.module";
         StoreModule.forRoot(fromApp.appReducers, { metaReducers: fromApp.appMetaReducers }),
         EffectsModule.forRoot([
             AppEffects
-        ])
+        ]),
+        !environment.production ? StoreDevtoolsModule.instrument() : []
     ],
     providers: [],
     bootstrap: [AppComponent]
