@@ -5,9 +5,10 @@ import { PermissionsGuard } from '../../../guards/permission.guard';
 import { ValidationPipe } from '../../../pipes/validation.pipe';
 import { Attendees } from '../attendees/attendees.model';
 import { AttendeesService } from '../attendees/attendees.service';
-import { CreateActivityDto } from './activities.dto';
+import { CreateActivityDto, SendNotificationDto } from './activities.dto';
 import { Activities } from './activities.model';
 import { ActivitiesService } from './activities.service';
+import { MessagingService } from '../../messaging/messaging.service';
 
 @Controller("activity")
 @UseGuards(PermissionsGuard)
@@ -94,6 +95,12 @@ export class ActivitiesController {
     @Permissions("event_management:get:activity")
     async unsubscribeAttendee(@Param('activity_id') activityId: string, @Param('attendee_id') attendeeId: string) {
         await this.activitiesService.unsubscribeAttendee(activityId, attendeeId);
+    }
+
+    @Post(":id/notification")
+    @Permissions("event_management:update:activity")
+    public async createNotification(@Param("id") id: string, @Body(ValidationPipe) dto: SendNotificationDto) {
+        await this.activitiesService.createNotification(id, dto);
     }
 
     private getRandomIndex(size: number) {

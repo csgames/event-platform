@@ -5,6 +5,7 @@ import { ActivitiesSchema } from "./activities.model";
 import { ActivitiesService } from "./activities.service";
 import { AttendeesModule } from "../attendees/attendees.module";
 import { STSModule } from "@polyhx/nest-services";
+import { MessagingModule } from '../../messaging/messaging.module';
 
 @Module({
     imports: [
@@ -13,7 +14,8 @@ import { STSModule } from "@polyhx/nest-services";
             schema: ActivitiesSchema
         }]),
         AttendeesModule,
-        STSModule
+        STSModule,
+        MessagingModule
     ],
     controllers: [
         ActivitiesController

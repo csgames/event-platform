@@ -215,16 +215,7 @@ export class EventsController {
     @Post(':id/notification')
     @Permissions('event_management:update:event')
     async createNotification(@Param('id') id: string, @Body(ValidationPipe) dto: SendNotificationDto) {
-        await this.eventsService.createNotification(id, {
-            notification: {
-                ...dto
-            },
-            data: {
-                type: 'event',
-                event: id,
-                dynamicLink: `event/${id}`
-            }
-        });
+        await this.eventsService.createNotification(id, dto);
     }
 
     @Post(':id/sms')

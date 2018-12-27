@@ -30,3 +30,13 @@ export class CreateActivityDto {
     @ApiModelProperty()
     attendees: string[];
 }
+
+export class SendNotificationDto {
+    @IsNotEmpty()
+    @ApiModelProperty({ required: true })
+    title: string;
+
+    @IsNotEmpty()
+    @ApiModelProperty({ required: true })
+    body: string;
+}

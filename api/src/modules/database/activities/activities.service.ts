@@ -4,12 +4,15 @@ import * as Mongoose from 'mongoose';
 import { Model } from 'mongoose';
 import { DataTableInterface, DataTableReturnInterface } from '../../../interfaces/dataTable.interface';
 import { BaseService } from '../../../services/base.service';
-import { CreateActivityDto } from './activities.dto';
+import { CreateActivityDto, SendNotificationDto } from './activities.dto';
 import { Activities } from './activities.model';
+import { MessagingService } from '../../messaging/messaging.service';
+import { Attendees } from '../attendees/attendees.model';
 
 @Injectable()
 export class ActivitiesService extends BaseService<Activities, CreateActivityDto> {
-    constructor(@InjectModel("activities") private readonly activityModel: Model<Activities>) {
+    constructor(@InjectModel("activities") private readonly activityModel: Model<Activities>,
+                private readonly messagingService: MessagingService) {
         super(activityModel);
     }
 
@@ -95,5 +98,31 @@ export class ActivitiesService extends BaseService<Activities, CreateActivityDto
                 subscribers: attendeeId
             }
         }).exec();
+    }
+
+    public async createNotification(id: string, message: SendNotificationDto) {
+        const activity = await this.findById(id, {
+            model: "attendees",
+            path: "subscribers"
+        });
+
+        if (!activity || !activity.subscribers.length) {
+            return;
+        }
+
+        const tokens = activity.subscribers.map(x => x as Attendees)
+            .map(x => x.messagingTokens)
+            .reduce((a, b) => [...a, ...b]);
+
+        await this.messagingService.send({
+            notification: {
+                ...message
+            },
+            data: {
+                type: "activity",
+                activity: id,
+                dynamicLink: `activity/${id}`
+            }
+        }, tokens);
     }
 }

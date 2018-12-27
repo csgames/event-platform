@@ -10,7 +10,7 @@ import { EmailService } from '../../email/email.service';
 import { CreateActivityDto } from '../activities/activities.dto';
 import { ActivitiesService } from '../activities/activities.service';
 import { AttendeesService } from '../attendees/attendees.service';
-import { AddScannedAttendee, AddSponsorDto, CreateEventDto } from './events.dto';
+import { AddScannedAttendee, AddSponsorDto, CreateEventDto, SendNotificationDto } from './events.dto';
 import { Code } from './events.exception';
 import { Events } from './events.model';
 import { Teams } from '../teams/teams.model';
@@ -355,7 +355,7 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
         }).exec();
     }
 
-    public async createNotification(id: string, message: admin.messaging.MessagingPayload) {
+    public async createNotification(id: string, message: SendNotificationDto) {
         const event = await this.eventsModel.findOne({
             _id: id
         }).exec();
@@ -373,7 +373,16 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
         const tokens = attendees.map(x => x.messagingTokens).reduce((a, b) => [...a, ...b]);
 
         if (tokens && tokens.length > 0) {
-            await this.messagingService.send(message, tokens);
+            await this.messagingService.send({
+                notification: {
+                    ...message
+                },
+                data: {
+                    type: 'event',
+                    event: id,
+                    dynamicLink: `event/${id}`
+                }
+            }, tokens);
         }
     }
 
