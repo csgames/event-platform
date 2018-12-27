@@ -3,11 +3,12 @@ import { DocumentQuery, Model } from 'mongoose';
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { Attendees } from "./attendees.model";
 import { BaseService } from "../../../services/base.service";
-import { CreateAttendeeDto } from "./attendees.dto";
+import { CreateAttendeeDto, UpdateNotificationDto } from './attendees.dto';
 import { DataTableInterface, DataTableReturnInterface } from "../../../interfaces/dataTable.interface";
 import { Schools } from "../schools/schools.model";
 import { SchoolsService } from "../schools/schools.service";
 import { STSService } from "@polyhx/nest-services";
+import * as mongoose from 'mongoose';
 
 interface AttendeeDtInterface extends Attendees {
     email: string;
@@ -150,6 +151,28 @@ export class AttendeesService extends BaseService<Attendees, CreateAttendeeDto> 
             $pull: {
                 messagingTokens: token
             }
+        });
+    }
+
+    public async updateNotification(userId: string, dto: UpdateNotificationDto) {
+        const attendee = await this.findOne({
+            userId: userId
+        });
+
+        if (!attendee) {
+            throw new NotFoundException('Attendee not found');
+        }
+
+        if (!attendee.notifications
+            .find(x => (x.notification as mongoose.Types.ObjectId).toHexString() === dto.notification)) {
+            throw new NotFoundException('Notification not found');
+        }
+
+        return this.attendeesModel.updateOne({
+            userId: userId,
+            "notifications.notification": dto.notification
+        }, {
+            "notifications.$.seen": dto.seen
         });
     }
 }

@@ -66,6 +66,10 @@ export class BaseService<T extends Document, Dto> {
         return this.model.updateOne(condition, <T>data).exec();
     }
 
+    async updateMany(condition: Object, data: Partial<T>): Promise<any> {
+        return this.model.updateMany(condition, <T>data).exec();
+    }
+
     async remove(condition: Object): Promise<void> {
         return this.model.remove(condition).exec();
     }

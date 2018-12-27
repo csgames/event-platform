@@ -64,7 +64,7 @@ export class NotificationsService extends BaseService<Notifications, CreateNotif
             data: dto.data
         }, tokens);
 
-        await this.attendeeService.update({
+        await this.attendeeService.updateMany({
             _id: {
                 $in: ids
             }

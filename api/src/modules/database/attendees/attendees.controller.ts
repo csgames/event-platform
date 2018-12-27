@@ -10,7 +10,7 @@ import { PermissionsGuard } from '../../../guards/permission.guard';
 import { ValidationPipe } from '../../../pipes/validation.pipe';
 import { Schools } from '../schools/schools.model';
 import { SchoolsService } from '../schools/schools.service';
-import { AddTokenDto, CreateAttendeeDto, UpdateAttendeeDto } from './attendees.dto';
+import { AddTokenDto, CreateAttendeeDto, UpdateAttendeeDto, UpdateNotificationDto } from './attendees.dto';
 import { codeMap } from './attendees.exception';
 import { AttendeesGuard, CreateAttendeeGuard } from './attendees.guard';
 import { Attendees } from './attendees.model';
@@ -156,6 +156,14 @@ export class AttendeesController {
     @UseGuards(AttendeesGuard)
     async addToken(@Headers('token-claim-user_id') userId: string, @Body(ValidationPipe) dto: AddTokenDto) {
         await this.attendeesService.addToken(userId, dto.token);
+    }
+
+    @Put('/notification')
+    @Permissions('event_management:update:attendee')
+    @UseGuards(AttendeesGuard)
+    async updateNotification(@Headers('token-claim-user_id') userId: string,
+                             @Body(ValidationPipe) dto: UpdateNotificationDto) {
+        await this.attendeesService.updateNotification(userId, dto);
     }
 
     @Put(':attendee_id/public_id/:public_id')
