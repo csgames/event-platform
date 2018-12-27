@@ -13,6 +13,7 @@ import { DashboardModule } from "./features/dashboard/dashboard.module";
 import { environment } from "../environments/environment";
 import { StoreDevtoolsModule } from "@ngrx/store-devtools";
 import { BsDropdownModule } from "ngx-bootstrap/dropdown";
+import { LoginModule } from "./features/login/login.module";
 
 @NgModule({
     declarations: [
@@ -22,6 +23,7 @@ import { BsDropdownModule } from "ngx-bootstrap/dropdown";
         BrowserModule,
         BsDropdownModule.forRoot(),
         DashboardModule,
+        LoginModule,
         RouterModule.forRoot(ROUTES),
 
         StoreModule.forRoot(fromApp.appReducers, { metaReducers: fromApp.appMetaReducers }),

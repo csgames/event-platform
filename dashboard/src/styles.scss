@@ -8,6 +8,14 @@ body {
     background-color: #F5F4F0 !important;
 }
 
+a {
+    color: #0D5899;
+
+    &:hover {
+        color: #1B406F;
+    }
+}
+
 .dropdown-default {
     display: inline-block;
 
@@ -349,4 +357,75 @@ body {
 .profile-dropdown-toggle {
     background: transparent;
     border: none;
+}
+
+.card-wrapper {
+    position: relative;
+    z-index: 1;
+}
+
+.card {
+    background-color: #F5F4F0;
+    margin-bottom: 20px;
+    width: 100%;
+    border-radius: 6px;
+    box-shadow: 0 1px 4px 0 rgba(0, 0, 0, .14);
+}
+
+.card:before {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    top: 10px;
+    left: -13px;
+    height: 52px;
+    width: 26px;
+    background-color: #0D5899;
+    border-radius: 8px;
+    box-shadow: 0 1px 4px 0 rgba(0, 0, 0, .14);
+}
+
+.input-group-default {
+    background: white;
+    border-radius: 8px;
+    height: 38px;
+    margin: 5px;
+    border: transparent solid 1px;
+}
+
+.input-group-default:focus-within {
+    border: #0D5899 solid 1px;
+}
+
+.input-group-default .form-control {
+    background: none;
+    border: none;
+    outline: none;
+}
+
+.form-control:focus {
+    outline-style:none;
+    box-shadow:none;
+    border-color:transparent;
+}
+
+.input-group-default .input-group-prepend {
+    margin-left: 10px;
+    margin-top: 10px;
+    width: 15px;
+    color: #0D5899;
+}
+
+.btn-primary {
+    background-color: #0D5899;
+    border: #0D5899;
+    color: white !important;
+
+    &:hover {
+        background-color: #1B406F;
+    }
+}
+
+.btn-rounded {
+    border-radius: 16px;
 }
