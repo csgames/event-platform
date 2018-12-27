@@ -1,5 +1,5 @@
 import {
-    Body, Controller, Get, Headers, HttpCode, NotFoundException, Param, Post, Put, UseFilters, UseGuards
+    Body, Controller, Get, Headers, HttpCode, NotFoundException, Param, Post, Put, Query, UseFilters, UseGuards
 } from '@nestjs/common';
 import { ApiUseTags } from '@nestjs/swagger';
 import { Permissions } from '../../../decorators/permission.decorator';
@@ -197,6 +197,13 @@ export class EventsController {
     @Permissions('event_management:get-all:sponsor')
     async getSponsor(@Param('id') eventId: string) {
         return await this.eventsService.getSponsors(eventId);
+    }
+
+    @Get(':id/notification')
+    @Permissions('event_management:get:notification')
+    async getNotifications(@Param('id') id: string, @Headers('token-claim-user_id') userId: string,
+                           @Query('seen') seen: boolean) {
+        return await this.eventsService.getNotifications(id, userId, seen);
     }
 
     @Put(':id/sponsor')

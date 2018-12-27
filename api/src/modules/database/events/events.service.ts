@@ -16,9 +16,11 @@ import { Events } from './events.model';
 import { Teams } from '../teams/teams.model';
 import * as Mongoose from 'mongoose';
 import { Sponsors } from '../sponsors/sponsors.model';
-import * as admin from 'firebase-admin';
 import { MessagingService } from '../../messaging/messaging.service';
 import { NotificationsService } from '../notifications/notifications.service';
+import * as mongoose from 'mongoose';
+import { Notifications } from '../notifications/notifications.model';
+import { isNullOrUndefined } from 'util';
 
 @Injectable()
 export class EventsService extends BaseService<Events, CreateEventDto> {
@@ -360,30 +362,47 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
             _id: id
         }).exec();
         const ids = event.attendees.filter(x => x.present).map(x => x.attendee);
-        const attendees = await this.attendeeService.find({
-            _id: {
-                $in: ids
+
+        await this.notificationService.create({
+            ...message,
+            event: id,
+            attendees: ids,
+            data: {
+                type: 'event',
+                event: id,
+                dynamicLink: `event/${id}`
             }
         });
+    }
 
-        if (attendees && !attendees.length) {
-            return;
+    public async getNotifications(id: string, userId: string, seen?: boolean) {
+        const notifications = await this.notificationService.find({
+            event: id
+        });
+
+        if (!notifications.length) {
+            return [];
         }
 
-        const tokens = attendees.map(x => x.messagingTokens).reduce((a, b) => [...a, ...b]);
+        const attendee = await this.attendeeService.findOne({
+            userId
+        }, {
+            model: 'notifications',
+            path: 'notifications.notification',
+            select: '-tokens'
+        });
 
-        if (tokens && tokens.length > 0) {
-            await this.messagingService.send({
-                notification: {
-                    ...message
-                },
-                data: {
-                    type: 'event',
-                    event: id,
-                    dynamicLink: `event/${id}`
-                }
-            }, tokens);
+        if (!attendee) {
+            return [];
         }
+
+        const notificationIds = notifications.map(x => (x._id as mongoose.Types.ObjectId).toHexString());
+        return attendee.notifications.filter(x => {
+            if (!isNullOrUndefined(seen) && x.seen !== seen) {
+                return false;
+            }
+            return notificationIds.includes((x.notification as Notifications)._id.toHexString());
+        });
     }
 
     public async sendSms(id: string, text: string) {

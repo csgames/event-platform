@@ -3,11 +3,11 @@ import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
 import * as Nexmo from "nexmo";
 import { BaseService } from "../../../services/base.service";
-import { AttendeesService } from "../attendees/attendees.service";
 import { CreateNotificationsDto } from "./notifications.dto";
-import { NotificationGateway } from "./notifications.gateway";
 import { Notifications } from "./notifications.model";
 import { interval, Subscription } from 'rxjs';
+import { MessagingService } from '../../messaging/messaging.service';
+import { AttendeesService } from '../attendees/attendees.service';
 
 // TODO: Add Notification_size field in event and use that to check Notification size when joining.
 const MAX_Notification_SIZE = 4;
@@ -24,8 +24,8 @@ export class NotificationsService extends BaseService<Notifications, CreateNotif
     private smsSubscription: Subscription;
 
     constructor(@InjectModel("notifications") private readonly notificationModel: Model<Notifications>,
-                private readonly attendeeService: AttendeesService,
-                private readonly gateway: NotificationGateway) {
+                private readonly messagingService: MessagingService,
+                private readonly attendeeService: AttendeesService) {
         super(notificationModel);
 
         this.nexmo = new Nexmo({
@@ -37,42 +37,46 @@ export class NotificationsService extends BaseService<Notifications, CreateNotif
         });
     }
 
-    async create(dto: Partial<Notifications>) {
-        let notification = await super.create(dto);
-
-        this.gateway.sendNotification(dto);
-
-        return notification;
-    }
-
-    async getAll(userId: string, role) {
-        if (role === 'attendee') {
-            let attendee = await this.attendeeService.findOne({ userId: userId });
-            let notifications = await this.find({
-                attendees: {
-                    $nin: [ attendee._id ]
-                }
-            });
-
-            for (let notif of notifications) {
-                await this.notificationModel.update({
-                    _id: notif._id
-                }, {
-                    $push: {
-                        attendees: attendee._id
-                    }
-                });
+    public async create(dto: CreateNotificationsDto | Partial<Notifications>): Promise<Notifications> {
+        const ids = (dto as CreateNotificationsDto).attendees;
+        const attendees = await this.attendeeService.find({
+            _id: {
+                $in: ids
             }
+        });
 
-            return notifications.map(value => {
-                return {
-                    text: value.text,
-                    date: value.date
-                };
-            });
+        if (attendees && !attendees.length) {
+            return;
         }
 
-        return this.findAll();
+        const tokens = attendees.map(x => x.messagingTokens).reduce((a, b) => [...a, ...b]);
+        const notification = await super.create({
+            ...dto,
+            tokens,
+            timestamp: new Date()
+        });
+
+        await this.messagingService.send({
+            notification: {
+                title: dto.title,
+                body: dto.body
+            },
+            data: dto.data
+        }, tokens);
+
+        await this.attendeeService.update({
+            _id: {
+                $in: ids
+            }
+        }, {
+            $push: {
+                notifications: {
+                    notification: notification._id
+                }
+            }
+        } as any);
+
+        return notification;
     }
 
     // Send an sms to number (Use E.164 format)

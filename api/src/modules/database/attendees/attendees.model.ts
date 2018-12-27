@@ -2,6 +2,25 @@ import * as mongoose from "mongoose";
 import * as uuid from "uuid";
 import { Schools } from "../schools/schools.model";
 import { UserModel } from '@polyhx/nest-services';
+import { Notifications } from '../notifications/notifications.model';
+
+export interface AttendeeNotifications {
+    notification: (Notifications | mongoose.Types.ObjectId | string);
+    seen: boolean;
+}
+
+export const AttendeeNotificationSchema = new mongoose.Schema({
+    notification: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        ref: 'notifications'
+    },
+    seen: {
+        type: Boolean,
+        required: true,
+        default: false
+    }
+});
 
 export interface Attendees extends mongoose.Document {
     userId: string;
@@ -20,6 +39,7 @@ export interface Attendees extends mongoose.Document {
     publicId: string;
     user: UserModel;
     messagingTokens: string[];
+    notifications: AttendeeNotifications[];
 }
 
 export const AttendeesSchema = new mongoose.Schema({
@@ -90,5 +110,6 @@ export const AttendeesSchema = new mongoose.Schema({
     messagingTokens: {
         type: [String],
         default: []
-    }
+    },
+    notifications: [AttendeeNotificationSchema]
 });
