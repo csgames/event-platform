@@ -6,15 +6,36 @@
     padding: 0 10px;
 }
 
-.name {
-    user-select: none;
-}
-
 .dropdown-identity-toggle {
     user-select: none;
+    font-weight: 600;
 }
 
-.dropdown-identity-toggle:hover {
+.notification-icon {
+    font-size: 1.5em;
+}
+
+.nav-link {
+    place-content: center flex-end;
+    align-items: center;
+    flex-direction: row;
+    box-sizing: border-box;
+    display: flex;
+    height: 64px;
+    position: relative;
+}
+
+.nav-link:hover {
+    background-color: #e6e5e2;
+    color: #0D5899 !important;
     cursor: pointer;
 }
 
+.count-info {
+    line-height: 5px;
+    padding: 2px 2px;
+    position: absolute;
+    right: 15px;
+    top: 18px;
+    border-radius: 50%;
+}
