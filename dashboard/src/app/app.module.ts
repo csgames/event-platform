@@ -12,6 +12,7 @@ import { ROUTES } from "./app.routes";
 import { DashboardModule } from "./features/dashboard/dashboard.module";
 import { environment } from "../environments/environment";
 import { StoreDevtoolsModule } from "@ngrx/store-devtools";
+import { BsDropdownModule } from "ngx-bootstrap/dropdown";
 
 @NgModule({
     declarations: [
@@ -19,7 +20,7 @@ import { StoreDevtoolsModule } from "@ngrx/store-devtools";
     ],
     imports: [
         BrowserModule,
-
+        BsDropdownModule.forRoot(),
         DashboardModule,
         RouterModule.forRoot(ROUTES),
 
@@ -27,7 +28,7 @@ import { StoreDevtoolsModule } from "@ngrx/store-devtools";
         EffectsModule.forRoot([
             AppEffects
         ]),
-        !environment.production ? StoreDevtoolsModule.instrument() : []
+        !environment.production ? StoreDevtoolsModule.instrument() : [],
     ],
     providers: [],
     bootstrap: [AppComponent]

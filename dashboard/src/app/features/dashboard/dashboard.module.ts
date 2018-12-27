@@ -7,6 +7,8 @@ import { EventsBarComponent } from "./components/events-bar/events-bar.component
 import { SideNavComponent } from "./components/side-nav/side-nav.component";
 import { TopNavComponent } from "./components/top-nav/top-nav.component";
 import { FlexLayoutModule } from "@angular/flex-layout";
+import { FALLBACK, GravatarModule } from "ngx-gravatar";
+import { BsDropdownModule } from "ngx-bootstrap";
 
 @NgModule({
     imports: [
@@ -14,7 +16,9 @@ import { FlexLayoutModule } from "@angular/flex-layout";
         FormsModule,
         ReactiveFormsModule,
         RouterModule,
-        FlexLayoutModule
+        FlexLayoutModule,
+        BsDropdownModule,
+        GravatarModule.forRoot({ fallback: FALLBACK.mm })
     ],
     declarations: [
         DashboardComponent,

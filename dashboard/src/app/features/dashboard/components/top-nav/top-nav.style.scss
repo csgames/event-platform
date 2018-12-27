@@ -3,4 +3,18 @@
     height: 64px;
     background-color: #EBEAE7;
     box-shadow: rgba(0, 0, 0, 0.2) 6px 4px 8px;
+    padding: 0 10px;
 }
+
+.name {
+    user-select: none;
+}
+
+.dropdown-identity-toggle {
+    user-select: none;
+}
+
+.dropdown-identity-toggle:hover {
+    cursor: pointer;
+}
+

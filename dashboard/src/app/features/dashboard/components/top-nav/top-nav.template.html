@@ -1,6 +1,13 @@
-<div class="top-nav-wrapper">
-    <div class="col-sm-6 float-right">
-        Brandon Roberge
-        <img src="">
+<div class="top-nav-wrapper" fxLayoutAlign="end center">
+    <div class="btn-group" dropdown placement="bottom left">
+        <a dropdownToggle class="dropdown-identity-toggle">
+            Brandon Roberge &nbsp;
+            <img ngxGravatar [email]="'brandon@rober.ge'">
+        </a>
+        <div *dropdownMenu class="dropdown-menu dropdown-menu-right profile-dropdown" role="menu">
+            <a class="dropdown-item" href="#"><i class="fa fa-cog"></i> Profile Settings</a>
+            <a class="dropdown-item" href="#"><i class="fa fa-sign-out-alt"></i> Sign out</a>
+        </div>
     </div>
 </div>
+
