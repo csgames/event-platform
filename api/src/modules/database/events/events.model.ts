@@ -6,6 +6,12 @@ import { Sponsors } from '../sponsors/sponsors.model';
 export const EVENT_TYPE_LH_GAMES = 'lhgames';
 export const EVENT_TYPE_MLH = 'mlh';
 
+export interface EventSponsorDetails extends Sponsors {
+    padding: number[];
+    widthFactor: number;
+    heightFactor: number;
+}
+
 export interface EventRegistrations extends mongoose.Document {
     attendee: (Attendees | mongoose.Types.ObjectId | string);
     selected: boolean;
@@ -42,9 +48,12 @@ export const EventRegistrationsSchema = new mongoose.Schema({
     },
 });
 
-export interface EventSponsors {
+export interface EventSponsors extends mongoose.Document {
     tier: string;
     sponsor: Sponsors | mongoose.Types.ObjectId | string;
+    padding: number[];
+    widthFactor: number;
+    heightFactor: number;
 }
 
 export const EventSponsorsSchema = new mongoose.Schema({
@@ -56,6 +65,18 @@ export const EventSponsorsSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'sponsors',
         required: true
+    },
+    padding: {
+        type: [Number],
+        required: false
+    },
+    widthFactor: {
+        type: Number,
+        required: false
+    },
+    heightFactor: {
+        type: Number,
+        required: false
     }
 });
 

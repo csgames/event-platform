@@ -193,6 +193,13 @@ export class EventsController {
         return this.eventsService.getStats(eventId);
     }
 
+    @Post(':id/sponsor/filter')
+    @HttpCode(200)
+    @Permissions('event_management:get-all:sponsor')
+    async eventSponsorQuery(@Param('id') eventId: string, @Body(new DataTablePipe()) body: DataTableInterface) {
+        return await this.eventsService.getFilteredSponsors(eventId, body);
+    }
+
     @Get(':id/sponsor')
     @Permissions('event_management:get-all:sponsor')
     async getSponsor(@Param('id') eventId: string) {

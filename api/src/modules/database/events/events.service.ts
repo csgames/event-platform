@@ -12,7 +12,7 @@ import { ActivitiesService } from '../activities/activities.service';
 import { AttendeesService } from '../attendees/attendees.service';
 import { AddScannedAttendee, AddSponsorDto, CreateEventDto, SendNotificationDto } from './events.dto';
 import { Code } from './events.exception';
-import { Events } from './events.model';
+import { Events, EventSponsorDetails } from './events.model';
 import { Teams } from '../teams/teams.model';
 import * as Mongoose from 'mongoose';
 import { Sponsors } from '../sponsors/sponsors.model';
@@ -288,18 +288,52 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
         return stats;
     }
 
+    async getFilteredSponsors(eventId: string, filter: DataTableInterface): Promise<DataTableReturnInterface> {
+        const event: Events = await this.eventsModel.findOne({
+            _id: eventId
+        })
+            .select('sponsors')
+            .populate('sponsors.sponsor')
+            .exec();
+        if (!event) {
+            throw new NotFoundException(`Event not found. (EventId: ${eventId})`);
+        }
+
+        let data: DataTableReturnInterface = <DataTableReturnInterface> {
+            draw: filter.draw,
+            recordsTotal: event.sponsors.length
+        };
+
+        data.data = event.sponsors
+            .filter((value, index) => index > filter.start && index < (filter.start + filter.length))
+            .map(x => {
+                return {
+                    ...(x.sponsor as any)._doc,
+                    tier: x.tier
+                };
+            });
+        data.recordsFiltered = data.recordsTotal;
+
+        return data;
+    }
+
     async getSponsors(eventId: string) {
         const event = await this.eventsModel.findOne({
             _id: eventId
         }).select('sponsors').populate('sponsors.sponsor').exec();
         const sponsors = event.sponsors;
-        const result: { [tier: string]: Sponsors[] } = {};
+        const result: { [tier: string]: EventSponsorDetails[] } = {};
 
         for (const sponsor of sponsors) {
             if (!result[sponsor.tier]) {
                 result[sponsor.tier] = [];
             }
-            result[sponsor.tier].push(sponsor.sponsor as Sponsors);
+            result[sponsor.tier].push({
+                ...(sponsor.sponsor as any)._doc,
+                padding: sponsor.padding,
+                widthFactor: sponsor.widthFactor,
+                heightFactor: sponsor.heightFactor
+            } as EventSponsorDetails);
         }
 
         return result;
