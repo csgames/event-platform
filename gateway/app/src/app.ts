@@ -5,8 +5,12 @@ import * as cookieParser from 'cookie-parser';
 import * as bodyParser from 'body-parser';
 import * as cors from 'cors';
 import * as session from 'express-session';
+import * as redisStore from 'connect-redis';
+const RedisStore = redisStore(session);
+import * as redis from 'redis';
 import { Auth } from './route/auth';
 import { appConfig } from './app-config';
+
 
 export class Application {
     
@@ -19,9 +23,7 @@ export class Application {
 
     constructor() {
         this.app = express();
-
         this.config();
-
         this.routes();
     }
 
@@ -31,15 +33,25 @@ export class Application {
         this.app.use(bodyParser.urlencoded({ extended: true }));
         this.app.use(cookieParser(process.env.COOKIE_SECRET));
         this.app.use(express.static(path.join(__dirname, '../public')));
+
+        let redisClient = redis.createClient({
+            host: process.env.REDIS_HOST,
+            port: process.env.REDIS_PORT,
+            password: process.env.REDIS_PASSWORD   
+        });
         
+        redisClient.on("error", function (err) {
+            console.log("Error " + err);
+        });
         
         this.app.use(session({
             name: 'csgames-session',
+            store: new RedisStore({ client: redisClient }),
             resave: false,
             saveUninitialized: true,
             secret: process.env.COOKIE_SECRET,
             cookie: { 
-                //secure: true,
+                // TODO: secure: true,
                 httpOnly: true,
                 domain: process.env.APP_URL,
                 path: '/',

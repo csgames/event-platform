@@ -12,17 +12,12 @@ export class Auth {
         this.router.post('/register', this.register.bind(this));
     }
     
-
+    // POST /login
     private async login(req: express.Request, res: express.Response) {
         let email = req.body.email;
         let password = req.body.password;
         let biscuit = req.session.cookie;
-        console.log("sID: " + req.sessionID);
-        
-        
-
-        
-
+    
         if(isNullOrUndefined(email) || isNullOrUndefined(password) 
             || email === "" || password === "") {
             res.json({ error: "Email and password fields must not be empty." });
@@ -38,7 +33,7 @@ export class Auth {
             username: email,
             password: password
         });
- 
+
         try {
             let response = await fetch(`${process.env.STS_URL}/connect/token`, {
                 method: 'POST',
@@ -46,14 +41,18 @@ export class Auth {
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'}
             }).then(r => r.json());
             
-
-            // TODO: remove tokens from response
-            res.json({
-                access_token: response.access_token,
-                refresh_token: response.refresh_token,
-                Success: true
-            });   
-            
+            if(response.access_token && response.refresh_token) {
+                req.session.access_token = response.access_token;
+                req.session.refresh_token = response.refresh_token;
+                res.json({
+                    Success: true
+                });
+            } else {
+                res.statusCode = 401;
+                res.json({
+                    Success: false
+                });
+            }            
         } catch (e) {
             res.json({ error: "An error occured." });
             console.log(e);
@@ -62,6 +61,8 @@ export class Auth {
         }
     }
 
+
+    // POST /register
     private register(req: express.Request, res: express.Response) {
         res.json({
             register: "register"
