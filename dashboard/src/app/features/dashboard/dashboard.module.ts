@@ -9,6 +9,9 @@ import { TopNavComponent } from "./components/top-nav/top-nav.component";
 import { FlexLayoutModule } from "@angular/flex-layout";
 import { FALLBACK, GravatarModule } from "ngx-gravatar";
 import { BsDropdownModule } from "ngx-bootstrap";
+import { SimpleModalModule } from "ngx-simple-modal";
+import { NotificationsListModalModule } from "../../modals/notifications-list-modal/notifications-list-modal.module";
+import { NotificationsListModalComponent } from "../../modals/notifications-list-modal/notifications-list-modal.component";
 
 @NgModule({
     imports: [
@@ -17,7 +20,9 @@ import { BsDropdownModule } from "ngx-bootstrap";
         ReactiveFormsModule,
         RouterModule,
         FlexLayoutModule,
+        SimpleModalModule,
         BsDropdownModule,
+        NotificationsListModalModule,
         GravatarModule.forRoot({ fallback: FALLBACK.mm })
     ],
     declarations: [
@@ -25,6 +30,9 @@ import { BsDropdownModule } from "ngx-bootstrap";
         EventsBarComponent,
         SideNavComponent,
         TopNavComponent
+    ],
+    entryComponents: [
+        NotificationsListModalComponent
     ]
 })
 export class DashboardModule {}

@@ -1,5 +1,6 @@
 import { NgModule } from "@angular/core";
-import { LoginComponent } from "./login.component";
+
+import { RegisterComponent } from "./register.component";
 import { CommonModule } from "@angular/common";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { RouterModule } from "@angular/router";
@@ -16,7 +17,7 @@ import { LoadingSpinnerModule } from "../../components/loading-spinner/loading-s
         LoadingSpinnerModule
     ],
     exports: [],
-    declarations: [LoginComponent],
+    declarations: [RegisterComponent],
     providers: []
 })
-export class LoginModule {}
+export class RegisterModule {}

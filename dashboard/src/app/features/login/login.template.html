@@ -2,26 +2,36 @@
     <div class="login-content" fxFlexFill fxLayout fxLayoutAlign="center center">
         <div class="container">
             <div class="row">
-                <div class="col-lg-5 col-md-6 col-sm-8 ml-auto mr-auto">
-                    <div class="card-wrapper">
+                <div class="col-lg-5 col-md-8 col-sm-10 ml-auto mr-auto">
+                    <div class="card-wrapper animated fadeInDown">
                         <div class="card">
+                            <app-loading-spinner [loading]="loading"></app-loading-spinner>
                             <img class="logo" src="../../../assets/logo-long.svg">
                             <div class="card-body">
                                 <form>
-                                    <div class="input-group input-group-default">
+                                    <div class="input-group input-group-default" [class.has-error]="loginError">
                                         <div class="input-group-prepend">
                                             <i class="fa fa-user"></i>
                                         </div>
-                                        <input class="form-control" type="email" placeholder="Email Address">
+                                        <input autofocus class="form-control" name="email" type="email"
+                                               placeholder="Email Address">
+
                                     </div>
-                                    <div class="input-group input-group-default">
+                                    <div class="input-group input-group-default has-error"
+                                         [class.has-error]="loginError">
                                         <div class="input-group-prepend">
                                             <i class="fa fa-lock"></i>
                                         </div>
-                                        <input class="form-control" type="password" placeholder="Password">
+                                        <input class="form-control" name="password" type="password"
+                                               placeholder="Password">
                                     </div>
+                                    <label class="text-danger control-label" *ngIf="loginError">
+                                        Invalid email or password.
+                                    </label>
                                     <div class="text-center">
-                                        <a class="btn btn-primary btn-rounded mt-3 px-3">Sign In</a>
+                                        <a class="btn btn-primary btn-rounded mt-3 px-3" (click)="clickSignIn()">
+                                            Sign In
+                                        </a>
                                     </div>
                                     <hr>
                                     <div class="text-center mt-3">
