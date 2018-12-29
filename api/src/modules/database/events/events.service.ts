@@ -305,7 +305,7 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
         };
 
         data.data = event.sponsors
-            .filter((value, index) => index > filter.start && index < (filter.start + filter.length))
+            .filter((value, index) => index >= filter.start && index <= (filter.start + filter.length))
             .map(x => {
                 return {
                     ...(x.sponsor as any)._doc,

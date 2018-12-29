@@ -22,23 +22,6 @@ export class CreateSponsorDto {
     @IsString()
     @IsNotEmpty()
     imageUrl: string;
-
-    @ApiModelProperty()
-    @IsArray()
-    @ArrayMaxSize(4)
-    @ArrayMinSize(4)
-    @IsOptional()
-    padding: number[];
-
-    @ApiModelProperty()
-    @IsNumber()
-    @IsOptional()
-    widthFactor: number;
-
-    @ApiModelProperty()
-    @IsNumber()
-    @IsOptional()
-    heightFactor: number;
 }
 
 export class UpdateSponsorDto {
@@ -60,21 +43,4 @@ export class UpdateSponsorDto {
     @IsString()
     @IsOptional()
     imageUrl: string;
-
-    @ApiModelProperty()
-    @IsArray()
-    @ArrayMaxSize(4)
-    @ArrayMinSize(4)
-    @IsOptional()
-    padding: number[];
-
-    @ApiModelProperty()
-    @IsNumber()
-    @IsOptional()
-    widthFactor: number;
-
-    @ApiModelProperty()
-    @IsNumber()
-    @IsOptional()
-    heightFactor: number;
 }
