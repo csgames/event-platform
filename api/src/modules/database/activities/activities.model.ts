@@ -1,8 +1,14 @@
 import * as mongoose from "mongoose";
 import { Attendees } from "../attendees/attendees.model";
 
+export const ActivityTypes = [
+    'lunch',
+    'workshop'
+];
+
 export interface Activities extends mongoose.Document {
     readonly name: string;
+    readonly type: string;
     readonly beginDate: Date | string;
     readonly endDate: Date | string;
     readonly details: object;
@@ -15,6 +21,11 @@ export const ActivitiesSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true
+    },
+    type: {
+        type: String,
+        required: true,
+        enum: ActivityTypes
     },
     beginDate: {
         type: Date,

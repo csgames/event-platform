@@ -1,11 +1,18 @@
 import { ApiModelProperty } from '@nestjs/swagger';
-import { ArrayUnique, IsArray, IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { ArrayUnique, IsArray, IsIn, IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { ActivityTypes } from './activities.model';
 
 export class CreateActivityDto {
     @IsString()
     @IsNotEmpty()
     @ApiModelProperty({ required: true })
     name: string;
+
+    @IsString()
+    @IsNotEmpty()
+    @IsIn(ActivityTypes)
+    @ApiModelProperty({ required: true })
+    type: string;
 
     @IsNotEmpty()
     @ApiModelProperty({ required: true })

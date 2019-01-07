@@ -6,7 +6,7 @@ import { ValidationPipe } from '../../../pipes/validation.pipe';
 import { Attendees } from '../attendees/attendees.model';
 import { AttendeesService } from '../attendees/attendees.service';
 import { CreateActivityDto, SendNotificationDto } from './activities.dto';
-import { Activities } from './activities.model';
+import { Activities, ActivityTypes } from './activities.model';
 import { ActivitiesService } from './activities.service';
 import { MessagingService } from '../../messaging/messaging.service';
 
@@ -55,6 +55,12 @@ export class ActivitiesController {
 
         await activity.save();
         return activity;
+    }
+
+    @Get('type')
+    @Permissions('event_management:get:activity')
+    async getActivityTypes() {
+        return ActivityTypes;
     }
 
     @Get(':id/raffle')
