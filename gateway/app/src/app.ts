@@ -33,6 +33,7 @@ export class Application {
         this.app.use(bodyParser.urlencoded({ extended: true }));
         this.app.use(cookieParser(process.env.COOKIE_SECRET));
         this.app.use(express.static(path.join(__dirname, '../public')));
+        this.app.use(cors());
 
         let redisClient = redis.createClient({
             host: process.env.REDIS_HOST,
@@ -69,7 +70,7 @@ export class Application {
 
             return next();
         });
-        this.app.use(cors());
+        
         this.app.disable('x-powered-by')
     }
 

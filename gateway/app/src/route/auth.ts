@@ -10,13 +10,17 @@ export class Auth {
     constructor() {
         this.router.post('/login', this.login.bind(this));
         this.router.post('/register', this.register.bind(this));
+        this.router.get('/logout', this.logout.bind(this));
+        this.router.get('/test', this.test.bind(this)); 
     }
     
     // POST /login
+    // email, password
+    // remember: true or false, if the user wants to be remembered
     private async login(req: express.Request, res: express.Response) {
         let email = req.body.email;
         let password = req.body.password;
-        let biscuit = req.session.cookie;
+        let rememberMe = req.body.remember;
     
         if(isNullOrUndefined(email) || isNullOrUndefined(password) 
             || email === "" || password === "") {
@@ -43,7 +47,9 @@ export class Auth {
             
             if(response.access_token && response.refresh_token) {
                 req.session.access_token = response.access_token;
-                req.session.refresh_token = response.refresh_token;
+                if(rememberMe){
+                    req.session.refresh_token = response.refresh_token;
+                }
                 res.json({
                     Success: true
                 });
@@ -52,7 +58,7 @@ export class Auth {
                 res.json({
                     Success: false
                 });
-            }            
+            }     
         } catch (e) {
             res.json({ error: "An error occured." });
             console.log(e);
@@ -61,11 +67,37 @@ export class Auth {
         }
     }
 
+    // GET /logout 
+    private logout(req: express.Request, res: express.Response) {
+        if(req.session.access_token) {
+            req.session.destroy((err) => {
+                if(err) {
+                    console.log(err);
+                    res.statusCode = 500;
+                    res.json({ Success: false });
+                } else {
+                    res.json({ Success: true });
+                }
+            })
+        }
+    }
 
     // POST /register
     private register(req: express.Request, res: express.Response) {
         res.json({
             register: "register"
         });
+    }
+
+    private test(req: express.Request, res: express.Response) {
+        if(req.session.access_token){
+            res.json({
+                logged_in: true
+            });
+        } else {
+            res.json({
+                logged_in: false
+            });
+        }
     }
 }
