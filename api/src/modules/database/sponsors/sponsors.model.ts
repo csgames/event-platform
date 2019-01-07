@@ -5,9 +5,6 @@ export interface Sponsors extends mongoose.Document {
     description: { [language: string]: object };
     website: string;
     imageUrl: string;
-    padding: number[];
-    widthFactor: number;
-    heightFactor: number;
 }
 
 export const SponsorsSchema = new mongoose.Schema({
@@ -26,17 +23,5 @@ export const SponsorsSchema = new mongoose.Schema({
     imageUrl: {
         type: String,
         required: true
-    },
-    padding: {
-        type: [Number],
-        required: false
-    },
-    widthFactor: {
-        type: Number,
-        required: false
-    },
-    heightFactor: {
-        type: Number,
-        required: false
     }
 });

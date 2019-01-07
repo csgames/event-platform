@@ -1,23 +1,40 @@
 import * as mongoose from "mongoose";
-import { Attendees } from "../attendees/attendees.model";
+import { Events } from '../events/events.model';
 
 export interface Notifications extends mongoose.Document {
-    text: string;
-    date: Date;
-    attendees: (Attendees | mongoose.Types.ObjectId | string)[];
+    title: string;
+    body: string;
+    timestamp: Date;
+    event: (Events | mongoose.Types.ObjectId | string);
+    tokens: string[];
+    data: {
+        [key: string]: string
+    };
 }
 
 export const NotificationsSchema = new mongoose.Schema({
-    text: {
+    title: {
         type: String,
         required: true
     },
-    date: {
+    body: {
+        type: String,
+        required: true
+    },
+    timestamp: {
         type: Date,
         required: true
     },
-    attendees: {
-        type: [mongoose.Schema.Types.ObjectId],
-        ref: 'attendees'
+    event: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true
     },
+    tokens: {
+        type: [String],
+        required: false
+    },
+    data: {
+        type: Object,
+        required: false
+    }
 });

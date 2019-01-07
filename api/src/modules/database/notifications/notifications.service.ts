@@ -3,10 +3,11 @@ import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
 import * as Nexmo from "nexmo";
 import { BaseService } from "../../../services/base.service";
-import { AttendeesService } from "../attendees/attendees.service";
 import { CreateNotificationsDto } from "./notifications.dto";
-import { NotificationGateway } from "./notifications.gateway";
 import { Notifications } from "./notifications.model";
+import { interval, Subscription } from 'rxjs';
+import { MessagingService } from '../../messaging/messaging.service';
+import { AttendeesService } from '../attendees/attendees.service';
 
 // TODO: Add Notification_size field in event and use that to check Notification size when joining.
 const MAX_Notification_SIZE = 4;
@@ -19,10 +20,12 @@ interface LeaveNotificationResponse {
 @Injectable()
 export class NotificationsService extends BaseService<Notifications, CreateNotificationsDto> {
     private nexmo: any;
+    private sms: { text: string; phone: string }[] = [];
+    private smsSubscription: Subscription;
 
     constructor(@InjectModel("notifications") private readonly notificationModel: Model<Notifications>,
-                private readonly attendeeService: AttendeesService,
-                private readonly gateway: NotificationGateway) {
+                private readonly messagingService: MessagingService,
+                private readonly attendeeService: AttendeesService) {
         super(notificationModel);
 
         this.nexmo = new Nexmo({
@@ -34,77 +37,87 @@ export class NotificationsService extends BaseService<Notifications, CreateNotif
         });
     }
 
-    async create(dto: Partial<Notifications>) {
-        let notification = await super.create(dto);
+    public async create(dto: CreateNotificationsDto | Partial<Notifications>): Promise<Notifications> {
+        const ids = (dto as CreateNotificationsDto).attendees;
+        const attendees = await this.attendeeService.find({
+            _id: {
+                $in: ids
+            }
+        });
 
-        this.gateway.sendNotification(dto);
+        if (attendees && !attendees.length) {
+            return;
+        }
+
+        const tokens = attendees.map(x => x.messagingTokens).reduce((a, b) => [...a, ...b]);
+        const notification = await super.create({
+            ...dto,
+            tokens,
+            timestamp: new Date()
+        });
+
+        await this.messagingService.send({
+            notification: {
+                title: dto.title,
+                body: dto.body
+            },
+            data: dto.data
+        }, tokens);
+
+        await this.attendeeService.updateMany({
+            _id: {
+                $in: ids
+            }
+        }, {
+            $push: {
+                notifications: {
+                    notification: notification._id
+                }
+            }
+        } as any);
 
         return notification;
     }
 
-    async getAll(userId: string, role) {
-        if (role === 'attendee') {
-            let attendee = await this.attendeeService.findOne({ userId: userId });
-            let notifications = await this.find({
-                attendees: {
-                    $nin: [ attendee._id ]
-                }
-            });
+    // Send an sms to number (Use E.164 format)
+    public sendSms(numbers: string[], text: string) {
+        numbers = numbers.filter(number => /^\+?[1-9]\d{10,14}$/g.test(number));
+        this.sms.push(...numbers.map(x => {
+            return {
+                text,
+                phone: x
+            };
+        }));
 
-            for (let notif of notifications) {
-                await this.notificationModel.update({
-                    _id: notif._id
-                }, {
-                    $push: {
-                        attendees: attendee._id
+        if (this.smsSubscription) {
+            return;
+        }
+
+        this.smsSubscription = interval(1100)
+            .subscribe(() => {
+                const sms = this.sms.pop();
+                if (!sms) {
+                    this.smsSubscription.unsubscribe();
+                    this.smsSubscription = null;
+                    return;
+                }
+
+                this.sendOneSms(sms);
+            });
+    }
+
+    private sendOneSms(sms: { text: string, phone: string }) {
+        try {
+            this.nexmo.message.sendSms(process.env.NEXMO_FROM_NUMBER, sms.phone, sms.text, {},
+                (err, apiResponse) => {
+                    if (err) {
+                        console.log("Nexmo failed to send sms. Reason:\n" + err);
+                    } else if (apiResponse.messages[0].status !== "0") {
+                        console.log(apiResponse);
                     }
                 });
-            }
-
-            return notifications.map(value => {
-                return {
-                    text: value.text,
-                    date: value.date
-                };
-            });
+        } catch (err) {
+            console.log("Nexmo failed to send sms. Reason:\n" + err);
         }
-
-        return this.findAll();
-    }
-
-    // Send an sms to number (Use E.164 format)
-    async sendSms(numbers: string[], text: string) {
-        for (let number of numbers) {
-            let retry = true;
-            let retryCount = 0;
-            while (retry && retryCount < 2) {
-                retry = !(await this.sendOneSms(number, text));
-                ++retryCount;
-            }
-        }
-    }
-
-    // Returns true if successful
-    private async sendOneSms(number: string, text: string) {
-        return new Promise<boolean>((resolve) => {
-            setTimeout(() => {
-                try {
-                    this.nexmo.message.sendSms(process.env.NEXMO_FROM_NUMBER, number, text, {}, (err, apiResponse) => {
-                        if (err) {
-                            console.log("Nexmo failed to send sms. Reason:\n" + err);
-                            resolve(false);
-                        } else if (apiResponse.messages[0].status !== "0") {
-                            console.log(apiResponse);
-                            resolve(false);
-                        } else {
-                            resolve(true);
-                        }
-                    });
-                } catch (err) {
-                    console.log("Nexmo failed to send sms. Reason:\n" + err);
-                    resolve(false);
-                }
-            }, 1100); // Only 1 sms/second (+100 ms for request delay to avoid time collisions)
-        });
     }
 }

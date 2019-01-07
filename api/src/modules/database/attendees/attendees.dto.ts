@@ -1,4 +1,4 @@
-import { IsString, IsOptional, IsIn, IsNotEmpty, IsBoolean } from 'class-validator';
+import { IsString, IsOptional, IsIn, IsNotEmpty, IsBoolean, IsMongoId } from 'class-validator';
 import { ApiModelProperty } from "@nestjs/swagger";
 
 export class CreateAttendeeDto {
@@ -131,4 +131,22 @@ export class UpdateAttendeeDto {
     @IsString()
     @ApiModelProperty()
     dietaryRestrictions: string;
+}
+
+export class AddTokenDto {
+    @IsNotEmpty()
+    @ApiModelProperty({ required: true })
+    token: string;
+}
+
+export class UpdateNotificationDto {
+    @IsMongoId()
+    @IsNotEmpty()
+    @ApiModelProperty({ required: true })
+    notification: string;
+
+    @IsBoolean()
+    @IsNotEmpty()
+    @ApiModelProperty({ required: true })
+    seen: boolean;
 }

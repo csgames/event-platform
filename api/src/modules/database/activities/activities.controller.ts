@@ -1,13 +1,14 @@
-import { Body, Controller, Get, HttpException, HttpStatus, Param, Post, Put, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpException, HttpStatus, Param, Post, Put, UseGuards } from '@nestjs/common';
 import { STSService, UserModel } from '@polyhx/nest-services';
 import { Permissions } from '../../../decorators/permission.decorator';
 import { PermissionsGuard } from '../../../guards/permission.guard';
 import { ValidationPipe } from '../../../pipes/validation.pipe';
 import { Attendees } from '../attendees/attendees.model';
 import { AttendeesService } from '../attendees/attendees.service';
-import { CreateActivityDto } from './activities.dto';
-import { Activities } from './activities.model';
+import { CreateActivityDto, SendNotificationDto } from './activities.dto';
+import { Activities, ActivityTypes } from './activities.model';
 import { ActivitiesService } from './activities.service';
+import { MessagingService } from '../../messaging/messaging.service';
 
 @Controller("activity")
 @UseGuards(PermissionsGuard)
@@ -56,6 +57,12 @@ export class ActivitiesController {
         return activity;
     }
 
+    @Get('type')
+    @Permissions('event_management:get:activity')
+    async getActivityTypes() {
+        return ActivityTypes;
+    }
+
     @Get(':id/raffle')
     @Permissions('event_management:raffle:activity')
     async raffle(@Param('id') activityId: string): Promise<UserModel> {
@@ -76,6 +83,30 @@ export class ActivitiesController {
         let attendee = await this.attendeesService.findById(attendees[winnerId]);
 
         return (await this.stsService.getAllWithIds([attendee.userId])).users[0];
+    }
+
+    @Get(":activity_id/:attendee_id/subscription")
+    @Permissions("event_management:get:activity")
+    async getAttendeeSubscription(@Param('activity_id') activityId: string, @Param('attendee_id') attendeeId: string) {
+        await this.activitiesService.getAttendeeSubscription(activityId, attendeeId);
+    }
+
+    @Put(":activity_id/:attendee_id/subscription")
+    @Permissions("event_management:get:activity")
+    async subscribeAttendee(@Param('activity_id') activityId: string, @Param('attendee_id') attendeeId: string) {
+        await this.activitiesService.subscribeAttendee(activityId, attendeeId);
+    }
+
+    @Delete(":activity_id/:attendee_id/subscription")
+    @Permissions("event_management:get:activity")
+    async unsubscribeAttendee(@Param('activity_id') activityId: string, @Param('attendee_id') attendeeId: string) {
+        await this.activitiesService.unsubscribeAttendee(activityId, attendeeId);
+    }
+
+    @Post(":id/notification")
+    @Permissions("event_management:update:activity")
+    public async createNotification(@Param("id") id: string, @Body(ValidationPipe) dto: SendNotificationDto) {
+        await this.activitiesService.createNotification(id, dto);
     }
 
     private getRandomIndex(size: number) {

@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { STSService } from '@polyhx/nest-services';
 import { GetAllWithIdsResponse } from '@polyhx/nest-services/modules/sts/sts.service';
@@ -10,13 +10,17 @@ import { EmailService } from '../../email/email.service';
 import { CreateActivityDto } from '../activities/activities.dto';
 import { ActivitiesService } from '../activities/activities.service';
 import { AttendeesService } from '../attendees/attendees.service';
-import { AddSponsorDto, CreateEventDto } from './events.dto';
+import { AddScannedAttendee, AddSponsorDto, CreateEventDto, SendNotificationDto } from './events.dto';
 import { Code } from './events.exception';
-import { Events } from './events.model';
-import { TeamsService } from '../teams/teams.service';
+import { Events, EventSponsorDetails } from './events.model';
 import { Teams } from '../teams/teams.model';
 import * as Mongoose from 'mongoose';
 import { Sponsors } from '../sponsors/sponsors.model';
+import { MessagingService } from '../../messaging/messaging.service';
+import { NotificationsService } from '../notifications/notifications.service';
+import * as mongoose from 'mongoose';
+import { Notifications } from '../notifications/notifications.model';
+import { isNullOrUndefined } from 'util';
 
 @Injectable()
 export class EventsService extends BaseService<Events, CreateEventDto> {
@@ -25,7 +29,9 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
                 private attendeeService: AttendeesService,
                 private emailService: EmailService,
                 private stsService: STSService,
-                private activitiesService: ActivitiesService) {
+                private activitiesService: ActivitiesService,
+                private messagingService: MessagingService,
+                private notificationService: NotificationsService) {
         super(eventsModel);
     }
 
@@ -282,18 +288,52 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
         return stats;
     }
 
+    async getFilteredSponsors(eventId: string, filter: DataTableInterface): Promise<DataTableReturnInterface> {
+        const event: Events = await this.eventsModel.findOne({
+            _id: eventId
+        })
+            .select('sponsors')
+            .populate('sponsors.sponsor')
+            .exec();
+        if (!event) {
+            throw new NotFoundException(`Event not found. (EventId: ${eventId})`);
+        }
+
+        let data: DataTableReturnInterface = <DataTableReturnInterface> {
+            draw: filter.draw,
+            recordsTotal: event.sponsors.length
+        };
+
+        data.data = event.sponsors
+            .filter((value, index) => index >= filter.start && index <= (filter.start + filter.length))
+            .map(x => {
+                return {
+                    ...(x.sponsor as any)._doc,
+                    tier: x.tier
+                };
+            });
+        data.recordsFiltered = data.recordsTotal;
+
+        return data;
+    }
+
     async getSponsors(eventId: string) {
         const event = await this.eventsModel.findOne({
             _id: eventId
         }).select('sponsors').populate('sponsors.sponsor').exec();
         const sponsors = event.sponsors;
-        const result: { [tier: string]: Sponsors[] } = {};
+        const result: { [tier: string]: EventSponsorDetails[] } = {};
 
         for (const sponsor of sponsors) {
             if (!result[sponsor.tier]) {
                 result[sponsor.tier] = [];
             }
-            result[sponsor.tier].push(sponsor.sponsor as Sponsors);
+            result[sponsor.tier].push({
+                ...(sponsor.sponsor as any)._doc,
+                padding: sponsor.padding,
+                widthFactor: sponsor.widthFactor,
+                heightFactor: sponsor.heightFactor
+            } as EventSponsorDetails);
         }
 
         return result;
@@ -307,5 +347,111 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
                 sponsors: dto
             }
         }).exec();
+    }
+
+    public async addScannedAttendee(eventId: string, attendeeId: string, scanInfo: AddScannedAttendee) {
+        if (attendeeId === scanInfo.scannedAttendee) {
+            throw new BadRequestException("An attendee cannot scan itself");
+        }
+
+        const event = await this.eventsModel.findById(eventId).exec();
+        if (!event) {
+            throw new NotFoundException("Event not found");
+        }
+
+        const attendee = event.attendees.find(x => {
+            return (x.attendee as Mongoose.Types.ObjectId).toHexString() === attendeeId;
+        });
+        if (!attendee) {
+            throw new NotFoundException("Attendee not found in event");
+        }
+
+        const scanned = event.attendees.find(x => {
+            return (x.attendee as Mongoose.Types.ObjectId).toHexString() === scanInfo.scannedAttendee;
+        });
+        if (!scanned) {
+            throw new NotFoundException("Scanned attendee not found in event");
+        }
+
+        if (!attendee.present || !scanned.present) {
+            throw new BadRequestException("Attendee and scanned attendee must be present");
+        }
+
+        if (attendee.scannedAttendees.indexOf(scanInfo.scannedAttendee) >= 0) {
+            throw new BadRequestException("Scanned attendee already scanned by attendee");
+        }
+
+        await this.eventsModel.update({
+            '_id': eventId,
+            'attendees.attendee': attendeeId
+        }, {
+            $push: {
+                'attendees.$.scannedAttendees': scanInfo.scannedAttendee
+            }
+        }).exec();
+    }
+
+    public async createNotification(id: string, message: SendNotificationDto) {
+        const event = await this.eventsModel.findOne({
+            _id: id
+        }).exec();
+        const ids = event.attendees.filter(x => x.present).map(x => x.attendee);
+
+        await this.notificationService.create({
+            ...message,
+            event: id,
+            attendees: ids,
+            data: {
+                type: 'event',
+                event: event.toJSON().toString(),
+                dynamicLink: `event/${id}`
+            }
+        });
+    }
+
+    public async getNotifications(id: string, userId: string, seen?: boolean) {
+        const notifications = await this.notificationService.find({
+            event: id
+        });
+
+        if (!notifications.length) {
+            return [];
+        }
+
+        const attendee = await this.attendeeService.findOne({
+            userId
+        }, {
+            model: 'notifications',
+            path: 'notifications.notification',
+            select: '-tokens'
+        });
+
+        if (!attendee) {
+            return [];
+        }
+
+        const notificationIds = notifications.map(x => (x._id as mongoose.Types.ObjectId).toHexString());
+        return attendee.notifications.filter(x => {
+            if (!isNullOrUndefined(seen) && x.seen !== seen) {
+                return false;
+            }
+            return notificationIds.includes((x.notification as Notifications)._id.toHexString());
+        });
+    }
+
+    public async sendSms(id: string, text: string) {
+        const event = await this.findById(id);
+        if (!event) {
+            throw new NotFoundException();
+        }
+
+        const ids = event.attendees.filter(x => x.present).map(x => x.attendee);
+        const attendees = await this.attendeeService.find({
+            _id: {
+                $in: ids
+            }
+        });
+        const numbers = attendees.filter(x => x.acceptSMSNotifications).map(x => x.phoneNumber);
+        await this.notificationService.sendSms(numbers, text);
     }
 }

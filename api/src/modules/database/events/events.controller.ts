@@ -1,5 +1,5 @@
 import {
-    Body, Controller, Get, Headers, HttpCode, NotFoundException, Param, Post, Put, UseFilters, UseGuards
+    Body, Controller, Get, Headers, HttpCode, NotFoundException, Param, Post, Put, Query, UseFilters, UseGuards
 } from '@nestjs/common';
 import { ApiUseTags } from '@nestjs/swagger';
 import { Permissions } from '../../../decorators/permission.decorator';
@@ -12,7 +12,10 @@ import { CreateActivityDto } from '../activities/activities.dto';
 import { AttendeesGuard } from '../attendees/attendees.guard';
 import { AttendeesService } from '../attendees/attendees.service';
 import { TeamsService } from '../teams/teams.service';
-import { AddSponsorDto, CreateEventDto, SendConfirmEmailDto, UpdateEventDto } from './events.dto';
+import {
+    AddScannedAttendee, AddSponsorDto, CreateEventDto, SendConfirmEmailDto, SendNotificationDto, SendSmsDto,
+    UpdateEventDto
+} from './events.dto';
 import { codeMap } from './events.exception';
 import { Events } from './events.model';
 import { EventsService } from './events.service';
@@ -190,15 +193,48 @@ export class EventsController {
         return this.eventsService.getStats(eventId);
     }
 
+    @Post(':id/sponsor/filter')
+    @HttpCode(200)
+    @Permissions('event_management:get-all:sponsor')
+    async eventSponsorQuery(@Param('id') eventId: string, @Body(new DataTablePipe()) body: DataTableInterface) {
+        return await this.eventsService.getFilteredSponsors(eventId, body);
+    }
+
     @Get(':id/sponsor')
     @Permissions('event_management:get-all:sponsor')
     async getSponsor(@Param('id') eventId: string) {
         return await this.eventsService.getSponsors(eventId);
     }
 
+    @Get(':id/notification')
+    @Permissions('event_management:get:notification')
+    async getNotifications(@Param('id') id: string, @Headers('token-claim-user_id') userId: string,
+                           @Query('seen') seen: boolean) {
+        return await this.eventsService.getNotifications(id, userId, seen);
+    }
+
     @Put(':id/sponsor')
     @Permissions('event_management:update:event')
     async addSponsor(@Param('id') eventId: string, @Body(new ValidationPipe()) dto: AddSponsorDto) {
         return await this.eventsService.addSponsor(eventId, dto);
+    }
+
+    @Put(':event_id/:attendee_id/scan')
+    @Permissions('event_management:set-status:event')
+    async addScannedAttendee(@Param('event_id') eventId: string, @Param('attendee_id') attendeeId: string,
+                             @Body(new ValidationPipe()) body: AddScannedAttendee) {
+        await this.eventsService.addScannedAttendee(eventId, attendeeId, body);
+    }
+
+    @Post(':id/notification')
+    @Permissions('event_management:update:event')
+    async createNotification(@Param('id') id: string, @Body(ValidationPipe) dto: SendNotificationDto) {
+        await this.eventsService.createNotification(id, dto);
+    }
+
+    @Post(':id/sms')
+    @Permissions('event_management:update:event')
+    async sendSms(@Param('id') id: string, @Body(ValidationPipe) dto: SendSmsDto) {
+        await this.eventsService.sendSms(id, dto.text);
     }
 }

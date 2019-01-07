@@ -8,6 +8,7 @@ import * as morgan from "morgan";
 import { NestFactory } from "@nestjs/core";
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
 import { ApplicationModule } from "./modules/app.module";
+import { BooleanPipe } from './pipes/boolean.pipe';
 
 async function bootstrap() {
     const app: express.Application = express();
@@ -43,6 +44,7 @@ async function bootstrap() {
         const document = SwaggerModule.createDocument(nestApp, options);
         SwaggerModule.setup('/docs', nestApp, document);
         nestApp.useWebSocketAdapter(new IoAdapter());
+        nestApp.useGlobalPipes(new BooleanPipe());
         await nestApp.listen(Number(process.env.PORT));
     } catch (e) {
         console.log(e);

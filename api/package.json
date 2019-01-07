@@ -29,6 +29,7 @@
     "class-transformer": "^0.1.9",
     "class-validator": "^0.9.1",
     "dotenv": "^6.0.0",
+    "firebase-admin": "^6.4.0",
     "mongoose": "^5.0.1",
     "morgan": "^1.9.0",
     "nestjs-jwt2": "^1.0.2-beta",

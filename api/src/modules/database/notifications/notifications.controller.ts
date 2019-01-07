@@ -21,16 +21,16 @@ export class NotificationsController {
     @Permissions('event_management:create:notification')
     async create(@Body(new ValidationPipe()) notificationDto: CreateNotificationsDto) {
         await this.notificationsService.create({
-            text: notificationDto.text,
-            date: new Date()
+            ...notificationDto,
+            timestamp: new Date()
         });
     }
 
     @Get()
     @Permissions('event_management:get-all:notification')
-    async getAll(@Headers('token-claim-user_id') userId: string, @Headers('token-claim-role') role: string) {
+    async getAll() {
         return {
-            notification: await this.notificationsService.getAll(userId, role)
+            notification: await this.notificationsService.findAll()
         };
     }
 

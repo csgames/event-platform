@@ -1,4 +1,5 @@
 import {
+    ArrayMaxSize, ArrayMinSize,
     ArrayUnique, IsArray, IsDate, IsDefined, IsIn, IsMongoId, IsNotEmpty, IsNumber, IsOptional, IsString
 } from 'class-validator';
 import { EventRegistrations } from './events.model';
@@ -164,4 +165,45 @@ export class AddSponsorDto {
     @IsNotEmpty()
     @ApiModelProperty({ required: true })
     sponsor: string;
+
+    @ApiModelProperty()
+    @IsArray()
+    @ArrayMaxSize(4)
+    @ArrayMinSize(4)
+    @IsOptional()
+    padding: number[];
+
+    @ApiModelProperty()
+    @IsNumber()
+    @IsOptional()
+    widthFactor: number;
+
+    @ApiModelProperty()
+    @IsNumber()
+    @IsOptional()
+    heightFactor: number;
+}
+
+export class AddScannedAttendee {
+    @IsString()
+    @IsNotEmpty()
+    @IsMongoId()
+    @ApiModelProperty({ required: true })
+    scannedAttendee: string;
+}
+
+export class SendSmsDto {
+    @IsNotEmpty()
+    @ApiModelProperty({ required: true })
+    text: string;
+}
+
+export class SendNotificationDto {
+    @IsNotEmpty()
+    @ApiModelProperty({ required: true })
+    title: string;
+
+    @IsNotEmpty()
+    @ApiModelProperty({ required: true })
+    body: string;
 }
