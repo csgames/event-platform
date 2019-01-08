@@ -1,5 +1,5 @@
 import {
-    BadRequestException, Body, Controller, Delete, Get, NotFoundException, Param, Post, Put, UploadedFile, UseFilters, UseGuards
+    BadRequestException, Body, Controller, Delete, Get, Param, Post, Put, UploadedFile, UseFilters, UseGuards
 } from '@nestjs/common';
 import { ApiUseTags } from '@nestjs/swagger';
 import { StorageService } from '@polyhx/nest-services';
@@ -9,7 +9,6 @@ import { CodeExceptionFilter } from '../../../filters/code-error/code.filter';
 import { PermissionsGuard } from '../../../guards/permission.guard';
 import { UserModel } from '../../../models/user.model';
 import { ValidationPipe } from '../../../pipes/validation.pipe';
-import { Schools } from '../schools/schools.model';
 import { SchoolsService } from '../schools/schools.service';
 import { AddTokenDto, CreateAttendeeDto, UpdateAttendeeDto, UpdateNotificationDto } from './attendees.dto';
 import { codeMap } from './attendees.exception';
@@ -29,8 +28,8 @@ export class AttendeesController {
 
     @Post()
     @UseGuards(CreateAttendeeGuard)
-    public async create(@UploadedFile() file, @User() user: UserModel, @Body(new ValidationPipe()) value: CreateAttendeeDto):
-            Promise<{ attendee: Attendees }> {
+    public async create(@UploadedFile() file, @User() user: UserModel,
+                        @Body(new ValidationPipe()) value: CreateAttendeeDto): Promise<{ attendee: Attendees }> {
         if (file) {
             value.cv = await this.storageService.upload(file);
         }
@@ -46,24 +45,18 @@ export class AttendeesController {
 
     @Get()
     @Permissions('event_management:get-all:attendee')
-    public async getAll(): Promise<{ attendees: Attendees[] }> {
-        return {
-            attendees: await this.attendeesService.findAll()
-        };
+    public async getAll(): Promise<Attendees[]> {
+        return await this.attendeesService.findAll();
     }
 
     @Get('info')
     @UseGuards(AttendeesGuard)
-    public async getInfo(@User() user: UserModel): Promise<{ attendee: Attendees }> {
+    public async getInfo(@User() user: UserModel): Promise<Attendees> {
         const attendee = await this.attendeesService.findOne({ userId: user.id }, { path: 'school' });
         if (attendee) {
-            return {
-                attendee: await this.appendCvMetadata(attendee)
-            };
+            return await this.appendCvMetadata(attendee);
         }
-        return {
-            attendee: attendee
-        };
+        return attendee;
     }
 
     @Get('cv/url')
@@ -79,28 +72,20 @@ export class AttendeesController {
 
     @Get(':id')
     @Permissions('event_management:get:attendee')
-    public async getByPublicId(@Param('id') id: string): Promise<{ attendee: Attendees }> {
-        return {
-            attendee: await this.attendeesService.findOne({
+    public async getById(@Param('id') id: string): Promise<Attendees> {
+        return await this.attendeesService.findOne({
+            $or: [{
                 publicId: id
-            })
-        };
-    }
-
-    @Get('user/:userId')
-    @Permissions('event_management:get:attendee')
-    public async getByUserId(@Param('userId') userId: string): Promise<{ attendee: Attendees }> {
-        return {
-            attendee: await this.attendeesService.findOne({
-                userId: userId
-            })
-        };
+            }, {
+                userId: id
+            }]
+        });
     }
 
     @Put()
     @UseGuards(AttendeesGuard)
-    public async update(@UploadedFile() file, @User() user: UserModel, @Body(new ValidationPipe()) value: UpdateAttendeeDto):
-            Promise<{ attendee: Attendees }> {
+    public async update(@UploadedFile() file, @User() user: UserModel,
+                        @Body(new ValidationPipe()) value: UpdateAttendeeDto) {
         if (file) {
             const previousCv = (await this.attendeesService.findOne({ userId: user.id })).cv;
             if (previousCv) {
@@ -120,42 +105,28 @@ export class AttendeesController {
         if (value.school) {
             attendee.school = (await this.getSchool(value.school))._id;
         }
-        return {
-            attendee: await this.attendeesService.update({ userId: user.id }, attendee)
-                .then(async a => {
-                    return await this.attendeesService.findOne({ userId: user.id }, { path: 'school' });
-                }).then(this.appendCvMetadata.bind(this))
-        };
+        await this.attendeesService.update({
+            userId: user.id
+        }, attendee);
+        await this.attendeesService.findOne({
+            userId: user.id
+        }, {
+            path: 'school'
+        });
     }
 
-    @Put('/token')
+    @Put('token')
     @Permissions('event_management:update:attendee')
     @UseGuards(AttendeesGuard)
     public async addToken(@User() user: UserModel, @Body(ValidationPipe) dto: AddTokenDto) {
         await this.attendeesService.addToken(user.id, dto.token);
     }
 
-    @Put('/notification')
+    @Put('notification')
     @Permissions('event_management:update:attendee')
     @UseGuards(AttendeesGuard)
     public async updateNotification(@User() user: UserModel, @Body(ValidationPipe) dto: UpdateNotificationDto) {
         await this.attendeesService.updateNotification(user.id, dto);
-    }
-
-    @Put(':attendee_id/public_id/:public_id')
-    @Permissions('event_management:set-public-id:attendee')
-    public async setPublicId(@Param('attendee_id') attendeeId: string, @Param('public_id') publicId: string): Promise<Attendees> {
-        const attendee: Attendees = await this.attendeesService.findById(attendeeId);
-
-        if (!attendee) {
-            throw new NotFoundException(`Attendee ${attendeeId} not found.`);
-        }
-
-        attendee.publicId = publicId;
-
-        await attendee.save();
-
-        return attendee;
     }
 
     @Delete('/token/:token')
@@ -166,25 +137,23 @@ export class AttendeesController {
     }
 
     private async getSchool(name: string) {
-        let school: Schools;
         try {
-            school = await this.schoolService.findOne({name});
+            const school = await this.schoolService.findOne({name});
+            if (school) {
+                return school;
+            }
         } catch (err) {
             throw new BadRequestException('School Invalid');
         }
 
-        if (!school) {
-            throw new BadRequestException('School Invalid');
-        }
-
-        return school;
+        throw new BadRequestException('School Invalid');
     }
 
     private async appendCvMetadata(a: Attendees) {
         if (!a.cv) {
             return a;
         }
-        let newAttendee = a.toObject();
+        const newAttendee = a.toObject();
         newAttendee['cv'] = await this.storageService.getMetadata(a.cv);
         return newAttendee;
     }

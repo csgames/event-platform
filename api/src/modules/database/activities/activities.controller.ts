@@ -29,10 +29,10 @@ export class ActivitiesController {
         return await this.activitiesService.findAll();
     }
 
-    @Put(':activity_id/:attendee_id/add')
+    @Put(':activity_id/:attendee_id')
     @Permissions('event_management:add-attendee:activity')
     public async addAttendee(@Param('activity_id') activityId: string,
-            @Param('attendee_id') attendeeId: string): Promise<Activities> {
+                             @Param('attendee_id') attendeeId: string): Promise<Activities> {
         const activity: Activities = await this.activitiesService.findById(activityId);
 
         if (!activity) {

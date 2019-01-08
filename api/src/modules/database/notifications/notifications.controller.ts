@@ -38,12 +38,12 @@ export class NotificationsController {
     @Post('sms')
     @Permissions('event_management:sms:notification')
     public async sms(@Body(new ValidationPipe()) smsDto: SmsDto): Promise<{ message: string }> {
-        let attendees = await this.attendeesService.find({
+        const attendees = await this.attendeesService.find({
             publicId: { $in: smsDto.publicIds },
             acceptSMSNotifications: true,
         });
 
-        let phoneNumbers: string[] = attendees
+        const phoneNumbers: string[] = attendees
             .map(attendee => { return attendee.phoneNumber; })
             .filter(number => /^\+?[1-9]\d{10,14}$/g.test(number));
 

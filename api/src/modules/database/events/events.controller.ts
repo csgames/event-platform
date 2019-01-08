@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpCode, NotFoundException, Param, Post, Put, Query, UseFilters, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, Param, Post, Put, Query, UseFilters, UseGuards } from '@nestjs/common';
 import { ApiUseTags } from '@nestjs/swagger';
 import { Permissions } from '../../../decorators/permission.decorator';
 import { User } from '../../../decorators/user.decorator';
@@ -18,7 +18,7 @@ import { TeamsService } from '../teams/teams.service';
 import {
     AddScannedAttendee, AddSponsorDto, CreateEventDto, SendConfirmEmailDto, SendNotificationDto, SendSmsDto, UpdateEventDto
 } from './events.dto';
-import { codeMap } from './events.exception';
+import { codeMap, EventNotFoundException } from './events.exception';
 import { Events, EventSponsorDetails } from './events.model';
 import { EventsService } from './events.service';
 
@@ -66,20 +66,16 @@ export class EventsController {
 
     @Get(':id/status')
     @Permissions('event_management:get-status:event')
-    public async getAttendeeStatus(@User() user: UserModel, @Param('id') eventId: string): Promise<{ status: string }> {
+    public async getAttendeeStatus(@User() user: UserModel, @Param('id') eventId: string): Promise<string> {
         const attendee = await this.attendeesService.findOne({
             userId: user.id
         });
 
         if (!attendee) {
-            return {
-                status: 'not-registered'
-            };
+            return 'not-registered';
         }
 
-        return {
-            status: await this.eventsService.getAttendeeStatus(attendee._id, eventId)
-        };
+        return await this.eventsService.getAttendeeStatus(attendee._id, eventId);
     }
 
     @Get()
@@ -90,12 +86,10 @@ export class EventsController {
 
     @Get(':id')
     @Permissions('event_management:get:event')
-    public async getByPublicId(@Param('id') id: string): Promise<{ event: Events }> {
-        return {
-            event: await this.eventsService.findOne({
-                _id: id
-            })
-        };
+    public async getByPublicId(@Param('id') id: string): Promise<Events> {
+        return await this.eventsService.findOne({
+            _id: id
+        });
     }
 
     @Get(':id/attendee')
@@ -110,31 +104,31 @@ export class EventsController {
     @HttpCode(200)
     @Permissions('event_management:get-all:attendee')
     public async eventAttendeeQuery(@Param('id') eventId: string, @Body(new DataTablePipe()) body: DataTableModel,
-            @Body('filter') filter): Promise<DataTableReturnModel> {
+                                    @Body('filter') filter): Promise<DataTableReturnModel> {
         return await this.eventsService.getFilteredAttendees(eventId, body, JSON.parse(filter));
     }
 
     @Get(':id/vegetarian')
     @HttpCode(200)
     @Permissions('event_management:get-vegetarian:event')
-    public async getVegetarianAttendees(@Param('id') eventId: string): Promise<{ count: number }> {
-        let event = await this.eventsService.findById(eventId);
+    public async getVegetarianAttendees(@Param('id') eventId: string): Promise<number> {
+        const event = await this.eventsService.findById(eventId);
 
         if (!event) {
-            throw new NotFoundException(`Event ${eventId} not found.`);
+            throw new EventNotFoundException();
         }
 
-        let attendeeIds = event.attendees.filter(attendee => attendee.present).map(attendee => attendee.attendee);
+        const attendeeIds = event.attendees.filter(attendee => attendee.present).map(attendee => attendee.attendee);
 
-        let attendees = await this.attendeesService.find({
-            _id: {$in: attendeeIds},
+        const attendees = await this.attendeesService.find({
+            _id: {
+                $in: attendeeIds
+            },
             hasDietaryRestrictions: true,
             dietaryRestrictions: {$regex: /^v/i}
         });
 
-        return {
-            count: attendees.length
-        };
+        return attendees.length;
     }
 
     @Put(':event_id/:attendee_id/present')
@@ -144,7 +138,7 @@ export class EventsController {
         const event = await this.eventsService.findById(eventId);
 
         if (!event) {
-            throw new NotFoundException(`Event ${eventId} not found.`);
+            throw new EventNotFoundException();
         }
 
         const attendeeIndex = event.attendees.findIndex(attendee => attendee.attendee.toString() === attendeeId);
@@ -180,8 +174,8 @@ export class EventsController {
     @Post(':id/activity/filter')
     @HttpCode(200)
     @Permissions('event_management:get-all:activity')
-    public async eventActivityQuery(@Param('id') eventId: string, @Body(new DataTablePipe()) body: DataTableModel):
-            Promise<DataTableReturnModel> {
+    public async eventActivityQuery(@Param('id') eventId: string,
+                                    @Body(new DataTablePipe()) body: DataTableModel): Promise<DataTableReturnModel> {
         return await this.eventsService.getFilteredActivities(eventId, body);
     }
 
@@ -200,8 +194,8 @@ export class EventsController {
     @Post(':id/sponsor/filter')
     @HttpCode(200)
     @Permissions('event_management:get-all:sponsor')
-    public async eventSponsorQuery(@Param('id') eventId: string, @Body(new DataTablePipe()) body: DataTableModel):
-            Promise<DataTableReturnModel> {
+    public async eventSponsorQuery(@Param('id') eventId: string,
+                                   @Body(new DataTablePipe()) body: DataTableModel): Promise<DataTableReturnModel> {
         return await this.eventsService.getFilteredSponsors(eventId, body);
     }
 
@@ -213,8 +207,8 @@ export class EventsController {
 
     @Get(':id/notification')
     @Permissions('event_management:get:notification')
-    public async getNotifications(@Param('id') id: string, @User() user: UserModel, @Query('seen') seen: boolean):
-            Promise<AttendeeNotifications[]> {
+    public async getNotifications(@Param('id') id: string, @User() user: UserModel,
+                                  @Query('seen') seen: boolean): Promise<AttendeeNotifications[]> {
         return await this.eventsService.getNotifications(id, user.id, seen);
     }
 
@@ -227,7 +221,7 @@ export class EventsController {
     @Put(':event_id/:attendee_id/scan')
     @Permissions('event_management:set-status:event')
     public async addScannedAttendee(@Param('event_id') eventId: string, @Param('attendee_id') attendeeId: string,
-                             @Body(new ValidationPipe()) body: AddScannedAttendee) {
+                                    @Body(new ValidationPipe()) body: AddScannedAttendee) {
         await this.eventsService.addScannedAttendee(eventId, attendeeId, body);
     }
 

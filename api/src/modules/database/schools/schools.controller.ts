@@ -16,25 +16,19 @@ export class SchoolsController {
 
     @Post()
     @Permissions('event_management:create:school')
-    public async create(@Body(new ValidationPipe()) school: CreateSchoolDto): Promise<{ school: Schools }> {
-        return {
-            school: await this.schoolService.create(school)
-        };
+    public async create(@Body(new ValidationPipe()) school: CreateSchoolDto): Promise<Schools> {
+        return await this.schoolService.create(school);
     }
 
     @Get()
     @Permissions('event_management:get-all:school')
-    public async getAll(): Promise<{ schools: Schools[] }> {
-        return {
-            schools: await this.schoolService.findAll()
-        };
+    public async getAll(): Promise<Schools[]> {
+        return await this.schoolService.findAll();
     }
 
     @Get('query/:query')
     @Permissions('event_management:query:school')
-    public async query(@Param('query') query: string): Promise<{ schools: Schools[] }> {
-        return {
-            schools: await this.schoolService.query(query)
-        };
+    public async query(@Param('query') query: string): Promise<Schools[]> {
+        return await this.schoolService.query(query);
     }
 }
