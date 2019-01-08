@@ -78,9 +78,8 @@ export class ActivitiesController {
             throw new HttpException(`Activity ${activityId} has no attendee.`, HttpStatus.EXPECTATION_FAILED);
         }
 
-        let winnerId = this.getRandomIndex(attendees.length);
-
-        let attendee = await this.attendeesService.findById(attendees[winnerId]);
+        const winnerId = this.getRandomIndex(attendees.length);
+        const attendee = await this.attendeesService.findById(attendees[winnerId]);
 
         return (await this.stsService.getAllWithIds([attendee.userId])).users[0];
     }
