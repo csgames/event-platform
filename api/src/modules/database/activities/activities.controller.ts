@@ -66,13 +66,13 @@ export class ActivitiesController {
     @Get(':id/raffle')
     @Permissions('event_management:raffle:activity')
     public async raffle(@Param('id') activityId: string): Promise<UserModel> {
-        let activity: Activities = await this.activitiesService.findById(activityId);
+        const activity: Activities = await this.activitiesService.findById(activityId);
 
         if (!activity) {
             throw new HttpException(`Activity ${activityId} not found.`, HttpStatus.NOT_FOUND);
         }
 
-        let attendees: string[] = activity.attendees as string[];
+        const attendees: string[] = activity.attendees as string[];
 
         if (attendees.length === 0) {
             throw new HttpException(`Activity ${activityId} has no attendee.`, HttpStatus.EXPECTATION_FAILED);
