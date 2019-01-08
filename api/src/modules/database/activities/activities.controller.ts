@@ -8,7 +8,6 @@ import { AttendeesService } from '../attendees/attendees.service';
 import { CreateActivityDto, SendNotificationDto } from './activities.dto';
 import { Activities, ActivityTypes } from './activities.model';
 import { ActivitiesService } from './activities.service';
-import { MessagingService } from '../../messaging/messaging.service';
 
 @Controller("activity")
 @UseGuards(PermissionsGuard)

@@ -1,12 +1,13 @@
 import {
-    BadRequestException, Body, Controller, Delete, Get, Headers, NotFoundException, Param, Post, Put, UploadedFile,
-    UseFilters, UseGuards
+    BadRequestException, Body, Controller, Delete, Get, NotFoundException, Param, Post, Put, UploadedFile, UseFilters, UseGuards
 } from '@nestjs/common';
 import { ApiUseTags } from '@nestjs/swagger';
 import { StorageService } from '@polyhx/nest-services';
 import { Permissions } from '../../../decorators/permission.decorator';
+import { User } from '../../../decorators/user.decorator';
 import { CodeExceptionFilter } from '../../../filters/code-error/code.filter';
 import { PermissionsGuard } from '../../../guards/permission.guard';
+import { UserModel } from '../../../models/user.model';
 import { ValidationPipe } from '../../../pipes/validation.pipe';
 import { Schools } from '../schools/schools.model';
 import { SchoolsService } from '../schools/schools.service';
@@ -28,13 +29,13 @@ export class AttendeesController {
 
     @Post()
     @UseGuards(CreateAttendeeGuard)
-    public async create(@UploadedFile() file, @Headers('token-claim-user_id') userId: string,
-            @Body(new ValidationPipe()) value: CreateAttendeeDto): Promise<{ attendee: Attendees }> {
+    public async create(@UploadedFile() file, @User() user: UserModel, @Body(new ValidationPipe()) value: CreateAttendeeDto):
+            Promise<{ attendee: Attendees }> {
         if (file) {
             value.cv = await this.storageService.upload(file);
         }
         let attendee: Partial<Attendees> = value;
-        attendee = Object.assign(attendee, { userId, school: (await this.getSchool(value.school))._id });
+        attendee = Object.assign(attendee, { userId: user.id, school: (await this.getSchool(value.school))._id });
         return {
             attendee: await this.attendeesService.create(attendee)
                 .then(async a => {
@@ -53,8 +54,8 @@ export class AttendeesController {
 
     @Get('info')
     @UseGuards(AttendeesGuard)
-    public async getInfo(@Headers('token-claim-user_id') userId: string): Promise<{ attendee: Attendees }> {
-        const attendee = await this.attendeesService.findOne({ userId }, { path: 'school' });
+    public async getInfo(@User() user: UserModel): Promise<{ attendee: Attendees }> {
+        const attendee = await this.attendeesService.findOne({ userId: user.id }, { path: 'school' });
         if (attendee) {
             return {
                 attendee: await this.appendCvMetadata(attendee)
@@ -67,8 +68,8 @@ export class AttendeesController {
 
     @Get('cv/url')
     @UseGuards(AttendeesGuard)
-    public async getCvUrl(@Headers('token-claim-user_id') userId: string): Promise<{ url: string }> {
-        let attendee = await this.attendeesService.findOne({ userId });
+    public async getCvUrl(@User() user: UserModel): Promise<{ url: string }> {
+        const attendee = await this.attendeesService.findOne({ userId: user.id });
         if (attendee.cv) {
             return { url: await this.storageService.getDownloadUrl(attendee.cv) };
         } else {
@@ -98,16 +99,16 @@ export class AttendeesController {
 
     @Put()
     @UseGuards(AttendeesGuard)
-    public async update(@UploadedFile() file, @Headers('token-claim-user_id') userId: string,
-            @Body(new ValidationPipe()) value: UpdateAttendeeDto): Promise<{ attendee: Attendees }> {
+    public async update(@UploadedFile() file, @User() user: UserModel, @Body(new ValidationPipe()) value: UpdateAttendeeDto):
+            Promise<{ attendee: Attendees }> {
         if (file) {
-            const previousCv = (await this.attendeesService.findOne({ userId })).cv;
+            const previousCv = (await this.attendeesService.findOne({ userId: user.id })).cv;
             if (previousCv) {
                 await this.storageService.delete(previousCv);
             }
             value.cv = await this.storageService.upload(file);
         } else if (value.cv === 'null') {
-            const attendee = await this.attendeesService.findOne({ userId });
+            const attendee = await this.attendeesService.findOne({ userId: user.id });
             if (attendee.cv) {
                 await this.storageService.delete(attendee.cv);
             }
@@ -120,9 +121,9 @@ export class AttendeesController {
             attendee.school = (await this.getSchool(value.school))._id;
         }
         return {
-            attendee: await this.attendeesService.update({ userId }, attendee)
+            attendee: await this.attendeesService.update({ userId: user.id }, attendee)
                 .then(async a => {
-                    return await this.attendeesService.findOne({ userId }, { path: 'school' });
+                    return await this.attendeesService.findOne({ userId: user.id }, { path: 'school' });
                 }).then(this.appendCvMetadata.bind(this))
         };
     }
@@ -130,16 +131,15 @@ export class AttendeesController {
     @Put('/token')
     @Permissions('event_management:update:attendee')
     @UseGuards(AttendeesGuard)
-    public async addToken(@Headers('token-claim-user_id') userId: string, @Body(ValidationPipe) dto: AddTokenDto) {
-        await this.attendeesService.addToken(userId, dto.token);
+    public async addToken(@User() user: UserModel, @Body(ValidationPipe) dto: AddTokenDto) {
+        await this.attendeesService.addToken(user.id, dto.token);
     }
 
     @Put('/notification')
     @Permissions('event_management:update:attendee')
     @UseGuards(AttendeesGuard)
-    public async updateNotification(@Headers('token-claim-user_id') userId: string,
-                             @Body(ValidationPipe) dto: UpdateNotificationDto) {
-        await this.attendeesService.updateNotification(userId, dto);
+    public async updateNotification(@User() user: UserModel, @Body(ValidationPipe) dto: UpdateNotificationDto) {
+        await this.attendeesService.updateNotification(user.id, dto);
     }
 
     @Put(':attendee_id/public_id/:public_id')
@@ -161,8 +161,8 @@ export class AttendeesController {
     @Delete('/token/:token')
     @Permissions('event_management:update:attendee')
     @UseGuards(AttendeesGuard)
-    public async deleteToken(@Headers('token-claim-user_id') userId: string, @Param('token') token) {
-        await this.attendeesService.removeToken(userId, token);
+    public async deleteToken(@User() user: UserModel, @Param('token') token) {
+        await this.attendeesService.removeToken(user.id, token);
     }
 
     private async getSchool(name: string) {

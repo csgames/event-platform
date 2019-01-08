@@ -1,11 +1,11 @@
-import {
-    BadRequestException, Body, Controller, Delete, Get, Headers, Param, Post, Put, Query, UseFilters, UseGuards
-} from '@nestjs/common';
+import { BadRequestException, Body, Controller, Delete, Get, Param, Post, Query, UseFilters, UseGuards } from '@nestjs/common';
 import { ApiUseTags } from '@nestjs/swagger';
 import { STSService } from '@polyhx/nest-services';
 import { Permissions } from '../../../decorators/permission.decorator';
+import { User } from '../../../decorators/user.decorator';
 import { CodeExceptionFilter } from '../../../filters/code-error/code.filter';
 import { PermissionsGuard } from '../../../guards/permission.guard';
+import { UserModel } from '../../../models/user.model';
 import { ValidationPipe } from '../../../pipes/validation.pipe';
 import { Attendees } from '../attendees/attendees.model';
 import { AttendeesService } from '../attendees/attendees.service';
@@ -28,9 +28,8 @@ export class TeamsController {
 
     @Post()
     @Permissions('event_management:create-join:team')
-    public async createOrJoin(@Headers('token-claim-user_id') userId: string,
-            @Body(new ValidationPipe()) createOrJoinTeamDto: CreateOrJoinTeamDto) {
-        return this.teamsService.createOrJoin(createOrJoinTeamDto, userId);
+    public async createOrJoin(@User() user: UserModel, @Body(new ValidationPipe()) createOrJoinTeamDto: CreateOrJoinTeamDto) {
+        return this.teamsService.createOrJoin(createOrJoinTeamDto, user.id);
     }
 
     @Get()
@@ -44,8 +43,8 @@ export class TeamsController {
 
     @Get('info')
     @Permissions('event_management:get:team')
-    public async getInfo(@Headers('token-claim-user_id') userId: string, @Query('event') event: string): Promise<Teams> {
-        return this.getTeamByUserAndEvent(event, userId);
+    public async getInfo(@User() user: UserModel, @Query('event') event: string): Promise<Teams> {
+        return this.getTeamByUserAndEvent(event, user.id);
     }
 
     @Get('event/:eventId/user/:userId')
@@ -97,9 +96,9 @@ export class TeamsController {
 
     @Delete(':id')
     @Permissions('event_management:leave:team')
-    public async leave(@Headers('token-claim-user_id') userId: string, @Param('id') teamId: string): Promise<LeaveTeamResponse> {
+    public async leave(@User() user: UserModel, @Param('id') teamId: string): Promise<LeaveTeamResponse> {
         const attendee = await this.attendeesService.findOne({
-            userId: userId
+            userId: user.id
         });
         return this.teamsService.leave({
             teamId,

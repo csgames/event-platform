@@ -1,11 +1,11 @@
-import {
-    Body, Controller, Get, Headers, HttpCode, NotFoundException, Param, Post, Put, Query, UseFilters, UseGuards
-} from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, NotFoundException, Param, Post, Put, Query, UseFilters, UseGuards } from '@nestjs/common';
 import { ApiUseTags } from '@nestjs/swagger';
 import { Permissions } from '../../../decorators/permission.decorator';
+import { User } from '../../../decorators/user.decorator';
 import { CodeExceptionFilter } from '../../../filters/code-error/code.filter';
 import { PermissionsGuard } from '../../../guards/permission.guard';
 import { DataTableModel, DataTableReturnModel } from '../../../models/data-table.model';
+import { UserModel } from '../../../models/user.model';
 import { DataTablePipe } from '../../../pipes/data-table.pipe';
 import { ValidationPipe } from '../../../pipes/validation.pipe';
 import { CreateActivityDto } from '../activities/activities.dto';
@@ -16,8 +16,7 @@ import { AttendeesService } from '../attendees/attendees.service';
 import { Teams } from '../teams/teams.model';
 import { TeamsService } from '../teams/teams.service';
 import {
-    AddScannedAttendee, AddSponsorDto, CreateEventDto, SendConfirmEmailDto, SendNotificationDto, SendSmsDto,
-    UpdateEventDto
+    AddScannedAttendee, AddSponsorDto, CreateEventDto, SendConfirmEmailDto, SendNotificationDto, SendSmsDto, UpdateEventDto
 } from './events.dto';
 import { codeMap } from './events.exception';
 import { Events, EventSponsorDetails } from './events.model';
@@ -41,20 +40,18 @@ export class EventsController {
 
     @Put(':id/attendee')
     @Permissions('event_management:add-attendee:event')
-    public async addAttendee(@Headers('token-claim-user_id') userId: string, @Param('id') eventId: string) {
-        await this.eventsService.addAttendee(eventId, userId);
+    public async addAttendee(@User() user: UserModel, @Param('id') eventId: string) {
+        await this.eventsService.addAttendee(eventId, user.id);
     }
 
     @Post(':id/confirm')
-    public async confirm(@Headers('token-claim-user_id') userId: string,
-                  @Param('id') eventId: string, @Body('attending') attending: boolean) {
-        await this.eventsService.confirmAttendee(eventId, userId, attending);
+    public async confirm(@User() user: UserModel, @Param('id') eventId: string, @Body('attending') attending: boolean) {
+        await this.eventsService.confirmAttendee(eventId, user.id, attending);
     }
 
     @Put(':id/send_selection_email')
     @Permissions('event_management:send-selection-email:event')
-    public async sendSelectionEmail(@Body(new ValidationPipe()) sendConfirmEmailDto: SendConfirmEmailDto,
-            @Param('id') id: string) {
+    public async sendSelectionEmail(@Body(new ValidationPipe()) sendConfirmEmailDto: SendConfirmEmailDto, @Param('id') id: string) {
         await this.eventsService.selectAttendees(id, sendConfirmEmailDto.userIds);
     }
 
@@ -69,9 +66,10 @@ export class EventsController {
 
     @Get(':id/status')
     @Permissions('event_management:get-status:event')
-    public async getAttendeeStatus(@Headers('token-claim-user_id') userId: string, @Param('id') eventId: string):
-            Promise<{ status: string }> {
-        const attendee = await this.attendeesService.findOne({userId});
+    public async getAttendeeStatus(@User() user: UserModel, @Param('id') eventId: string): Promise<{ status: string }> {
+        const attendee = await this.attendeesService.findOne({
+            userId: user.id
+        });
 
         if (!attendee) {
             return {
@@ -102,10 +100,9 @@ export class EventsController {
 
     @Get(':id/attendee')
     @UseGuards(AttendeesGuard)
-    public async hasAttendee(@Headers('token-claim-user_id') userId: string, @Param('id') eventId: string):
-            Promise<{ registered: boolean }> {
+    public async hasAttendee(@User() user: UserModel, @Param('id') eventId: string): Promise<{ registered: boolean }> {
         return {
-            registered: await this.eventsService.hasAttendeeForUser(eventId, userId)
+            registered: await this.eventsService.hasAttendeeForUser(eventId, user.id)
         };
     }
 
@@ -216,9 +213,9 @@ export class EventsController {
 
     @Get(':id/notification')
     @Permissions('event_management:get:notification')
-    public async getNotifications(@Param('id') id: string, @Headers('token-claim-user_id') userId: string, @Query('seen') seen: boolean):
+    public async getNotifications(@Param('id') id: string, @User() user: UserModel, @Query('seen') seen: boolean):
             Promise<AttendeeNotifications[]> {
-        return await this.eventsService.getNotifications(id, userId, seen);
+        return await this.eventsService.getNotifications(id, user.id, seen);
     }
 
     @Put(':id/sponsor')
