@@ -1,13 +1,19 @@
 {
-  "name": "@polyhx/event-management",
-  "version": "1.0.3",
-  "description": "PolyHx Event Management Service",
+  "name": "@polyhx/csgames-api",
+  "version": "1.0.0",
+  "description": "CS Games api",
   "private": true,
-  "author": "Julien Dufresne, Gabriel Breaudry, Brandon Roberge, Laurent Caron",
+  "authors": [
+    "Brandon Roberge",
+    "Julien Dufresne",
+    "Laurent Caron",
+    "Simon Lacasse",
+    "Stephanie Leclerc"
+  ],
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/polyhx/eventmanagement.git"
+    "url": "https://github.com/polyhx/csgames-api.git"
   },
   "scripts": {
     "start": "node ./build/server.js",

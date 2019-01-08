@@ -48,12 +48,12 @@ jobs:
 
     - run:
         name: Building docker image
-        command: docker build -t polyhx/event-management:latest .
+        command: docker build -t polyhx/csgames-api:latest .
     - run:
         name: Pushing docker image
         command: |
           docker login -u $DOCKER_USER -p $DOCKER_PASS
-          docker push polyhx/event-management:latest
+          docker push polyhx/csgames-api:latest
 
   build-prod:
     docker:
@@ -66,12 +66,12 @@ jobs:
 
     - run:
         name: Building docker image
-        command: docker build -t polyhx/event-management:$CIRCLE_TAG .
+        command: docker build -t polyhx/csgames-api:$CIRCLE_TAG .
     - run:
         name: Pushing docker image
         command: |
           docker login -u $DOCKER_USER -p $DOCKER_PASS
-          docker push polyhx/event-management:$CIRCLE_TAG
+          docker push polyhx/csgames-api:$CIRCLE_TAG
 
 workflows:
   version: 2
