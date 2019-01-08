@@ -4,7 +4,7 @@ import { BadRequestException, Injectable, NotFoundException } from '@nestjs/comm
 import { Attendees } from "./attendees.model";
 import { BaseService } from "../../../services/base.service";
 import { CreateAttendeeDto, UpdateNotificationDto } from './attendees.dto';
-import { DataTableInterface, DataTableReturnInterface } from "../../../interfaces/dataTable.interface";
+import { DataTableModel, DataTableReturnModel } from "../../../models/data-table.model";
 import { Schools } from "../schools/schools.model";
 import { SchoolsService } from "../schools/schools.service";
 import { STSService } from "@polyhx/nest-services";
@@ -25,46 +25,8 @@ export class AttendeesService extends BaseService<Attendees, CreateAttendeeDto> 
         super(attendeesModel);
     }
 
-    private async getFilteredUserIds(filter: DataTableInterface) {
-        let users = (await this.stsService.queryAll(filter.search.value)).users;
-        return users.map(v => v.id);
-    }
-
-    private async getFilteredSchoolIds(filter: DataTableInterface) {
-        let regex = filter.search.regex ? filter.search.value : `.*${filter.search.value}.*`;
-        let schools = await this.schoolService.find({
-            $or: [{
-                name: {
-                    $regex: regex
-                }
-            }, {
-                website: {
-                    $regex: regex
-                }
-            }]
-        });
-        return schools.map(v => v._id);
-    }
-
-    private async getAttendeesUser(attendees: AttendeeDtInterface[]) {
-        let ids = attendees.map(v => v.userId);
-        let users = (await this.stsService.getAllWithIds(ids)).users;
-
-        for (let attendee of attendees) {
-            let user = users[users.findIndex(value => (<any>value).id === attendee.userId)];
-            if (user) {
-                attendee.firstName = user.firstName;
-                attendee.lastName = user.lastName;
-                attendee.email = user.username;
-                attendee.birthDate = user.birthDate;
-            } else {
-                attendee.firstName = attendee.firstName = attendee.email = attendee.birthDate = "";
-            }
-        }
-    }
-
-    public async filterFrom(attendeeIds: string[], dtObject: DataTableInterface,
-                            filter: { school: string[] }): Promise<DataTableReturnInterface> {
+    public async filterFrom(attendeeIds: string[], dtObject: DataTableModel,
+            filter: { school: string[] }): Promise<DataTableReturnModel> {
         let query: DocumentQuery<Attendees[], Attendees, {}>;
         if (filter.school.length > 0) {
             query = this.attendeesModel.find({
@@ -82,7 +44,7 @@ export class AttendeesService extends BaseService<Attendees, CreateAttendeeDto> 
             });
         }
 
-        let data: DataTableReturnInterface = <DataTableReturnInterface> {
+        let data: DataTableReturnModel = <DataTableReturnModel> {
             draw: dtObject.draw,
             recordsTotal: await query.countDocuments().exec()
         };
@@ -110,7 +72,7 @@ export class AttendeesService extends BaseService<Attendees, CreateAttendeeDto> 
         return data;
     }
 
-    public async addToken(userId: string, token: string) {
+    public async addToken(userId: string, token: string): Promise<Attendees> {
         const attendee = await this.findOne({
             userId: userId
         });
@@ -132,7 +94,7 @@ export class AttendeesService extends BaseService<Attendees, CreateAttendeeDto> 
         });
     }
 
-    public async removeToken(userId: string, token: string) {
+    public async removeToken(userId: string, token: string): Promise<Attendees> {
         const attendee = await this.findOne({
             userId: userId
         });
@@ -154,7 +116,7 @@ export class AttendeesService extends BaseService<Attendees, CreateAttendeeDto> 
         });
     }
 
-    public async updateNotification(userId: string, dto: UpdateNotificationDto) {
+    public async updateNotification(userId: string, dto: UpdateNotificationDto): Promise<Attendees> {
         const attendee = await this.findOne({
             userId: userId
         });
@@ -174,5 +136,22 @@ export class AttendeesService extends BaseService<Attendees, CreateAttendeeDto> 
         }, {
             "notifications.$.seen": dto.seen
         });
+    }
+
+    private async getAttendeesUser(attendees: AttendeeDtInterface[]) {
+        let ids = attendees.map(v => v.userId);
+        let users = (await this.stsService.getAllWithIds(ids)).users;
+
+        for (let attendee of attendees) {
+            let user = users[users.findIndex(value => (<any>value).id === attendee.userId)];
+            if (user) {
+                attendee.firstName = user.firstName;
+                attendee.lastName = user.lastName;
+                attendee.email = user.username;
+                attendee.birthDate = user.birthDate;
+            } else {
+                attendee.firstName = attendee.firstName = attendee.email = attendee.birthDate = "";
+            }
+        }
     }
 }

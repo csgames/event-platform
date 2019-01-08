@@ -2,7 +2,7 @@ import { fail } from 'assert';
 import { expect } from "chai";
 import { ArgumentMetadata, HttpException, HttpStatus } from '@nestjs/common';
 import { ValidationPipe } from '../../../pipes/validation.pipe';
-import { CreateOrJoinTeamDto, LeaveTeamDto, UpdateLHGamesTeamDto } from './teams.dto';
+import { CreateOrJoinTeamDto, LeaveTeamDto } from './teams.dto';
 
 describe("TeamsDto", () => {
     const pipe = new ValidationPipe();
@@ -116,38 +116,6 @@ describe("TeamsDto", () => {
                     teamId: "5bde6ec00000000000000000",
                     attendeeId: "5bde6ec00000000000000000"
                 });
-            } catch (e) {
-                fail("Validation should not fail");
-            }
-        });
-    });
-
-    describe("UpdateLHGamesTeamDto", () => {
-        const arg = { metatype: UpdateLHGamesTeamDto } as ArgumentMetadata;
-        it("Should throw Precondition Failed Exception if programmingLanguage isn't provided", async () => {
-            try {
-                await pipe.transform({ }, arg);
-                fail("Validation should have failed");
-            } catch (e) {
-                expect(e).to.be.instanceOf(HttpException);
-                expect(e.status).to.be.equal(HttpStatus.PRECONDITION_FAILED);
-            }
-        });
-
-        it("Should throw Precondition Failed Exception if programmingLanguage isn't in the good format", async () => {
-            try {
-                await pipe.transform({ programmingLanguage: "A language" }, arg);
-                fail("Validation should have failed");
-            } catch (e) {
-                expect(e).to.be.instanceOf(HttpException);
-                expect(e.status).to.be.equal(HttpStatus.PRECONDITION_FAILED);
-            }
-        });
-
-        it("Should return the same value after validation", async () => {
-            try {
-                const value = await pipe.transform({ programmingLanguage: "5bde6ec00000000000000000" }, arg);
-                expect(value).to.be.deep.equal({ programmingLanguage: "5bde6ec00000000000000000" });
             } catch (e) {
                 fail("Validation should not fail");
             }

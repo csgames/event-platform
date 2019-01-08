@@ -3,21 +3,24 @@ import {
 } from '@nestjs/common';
 import { ApiUseTags } from '@nestjs/swagger';
 import { Permissions } from '../../../decorators/permission.decorator';
-import { CodeExceptionFilter } from '../../../filters/CodedError/code.filter';
+import { CodeExceptionFilter } from '../../../filters/code-error/code.filter';
 import { PermissionsGuard } from '../../../guards/permission.guard';
-import { DataTableInterface } from '../../../interfaces/dataTable.interface';
-import { DataTablePipe } from '../../../pipes/dataTable.pipe';
+import { DataTableModel, DataTableReturnModel } from '../../../models/data-table.model';
+import { DataTablePipe } from '../../../pipes/data-table.pipe';
 import { ValidationPipe } from '../../../pipes/validation.pipe';
 import { CreateActivityDto } from '../activities/activities.dto';
+import { Activities } from '../activities/activities.model';
 import { AttendeesGuard } from '../attendees/attendees.guard';
+import { AttendeeNotifications } from '../attendees/attendees.model';
 import { AttendeesService } from '../attendees/attendees.service';
+import { Teams } from '../teams/teams.model';
 import { TeamsService } from '../teams/teams.service';
 import {
     AddScannedAttendee, AddSponsorDto, CreateEventDto, SendConfirmEmailDto, SendNotificationDto, SendSmsDto,
     UpdateEventDto
 } from './events.dto';
 import { codeMap } from './events.exception';
-import { Events } from './events.model';
+import { Events, EventSponsorDetails } from './events.model';
 import { EventsService } from './events.service';
 
 @ApiUseTags('Event')
@@ -32,42 +35,42 @@ export class EventsController {
 
     @Post()
     @Permissions('event_management:create:event')
-    async create(@Body(new ValidationPipe()) createEventDto: CreateEventDto) {
+    public async create(@Body(new ValidationPipe()) createEventDto: CreateEventDto) {
         await this.eventsService.create(createEventDto);
     }
 
     @Put(':id/attendee')
     @Permissions('event_management:add-attendee:event')
-    async addAttendee(@Headers('token-claim-user_id') userId: string, @Param('id') eventId: string) {
+    public async addAttendee(@Headers('token-claim-user_id') userId: string, @Param('id') eventId: string) {
         await this.eventsService.addAttendee(eventId, userId);
-        return {};
     }
 
     @Post(':id/confirm')
-    async confirm(@Headers('token-claim-user_id') userId: string,
+    public async confirm(@Headers('token-claim-user_id') userId: string,
                   @Param('id') eventId: string, @Body('attending') attending: boolean) {
         await this.eventsService.confirmAttendee(eventId, userId, attending);
     }
 
     @Put(':id/send_selection_email')
     @Permissions('event_management:send-selection-email:event')
-    async sendSelectionEmail(@Body(new ValidationPipe()) sendConfirmEmailDto: SendConfirmEmailDto,
-                             @Param('id') id: string) {
-        return await this.eventsService.selectAttendees(id, sendConfirmEmailDto.userIds);
+    public async sendSelectionEmail(@Body(new ValidationPipe()) sendConfirmEmailDto: SendConfirmEmailDto,
+            @Param('id') id: string) {
+        await this.eventsService.selectAttendees(id, sendConfirmEmailDto.userIds);
     }
 
     @Put(':id/send_selection_email/filter')
     @Permissions('event_management:send-selection-email:event')
-    async sendSelectionEmailFromFilter(@Param('id') id: string, @Body(new DataTablePipe()) body: DataTableInterface,
-                                       @Body('filter') filter) {
+    public async sendSelectionEmailFromFilter(@Param('id') id: string, @Body(new DataTablePipe()) body: DataTableModel,
+            @Body('filter') filter) {
         const attendees = await this.eventsService.getFilteredAttendees(id, body, JSON.parse(filter));
         const userIds = attendees.data.map(x => x.userId);
-        return await this.eventsService.selectAttendees(id, userIds);
+        await this.eventsService.selectAttendees(id, userIds);
     }
 
     @Get(':id/status')
     @Permissions('event_management:get-status:event')
-    async getAttendeeStatus(@Headers('token-claim-user_id') userId: string, @Param('id') eventId: string) {
+    public async getAttendeeStatus(@Headers('token-claim-user_id') userId: string, @Param('id') eventId: string):
+            Promise<{ status: string }> {
         const attendee = await this.attendeesService.findOne({userId});
 
         if (!attendee) {
@@ -83,13 +86,13 @@ export class EventsController {
 
     @Get()
     @Permissions('event_management:get-all:event')
-    async getAll(): Promise<Events[]> {
+    public async getAll(): Promise<Events[]> {
         return await this.eventsService.findAll();
     }
 
     @Get(':id')
     @Permissions('event_management:get:event')
-    async getByPublicId(@Param('id') id: string) {
+    public async getByPublicId(@Param('id') id: string): Promise<{ event: Events }> {
         return {
             event: await this.eventsService.findOne({
                 _id: id
@@ -99,22 +102,25 @@ export class EventsController {
 
     @Get(':id/attendee')
     @UseGuards(AttendeesGuard)
-    async hasAttendee(@Headers('token-claim-user_id') userId: string, @Param('id') eventId: string) {
-        return {registered: await this.eventsService.hasAttendeeForUser(eventId, userId)};
+    public async hasAttendee(@Headers('token-claim-user_id') userId: string, @Param('id') eventId: string):
+            Promise<{ registered: boolean }> {
+        return {
+            registered: await this.eventsService.hasAttendeeForUser(eventId, userId)
+        };
     }
 
     @Post(':id/attendee/filter')
     @HttpCode(200)
     @Permissions('event_management:get-all:attendee')
-    async eventAttendeeQuery(@Param('id') eventId: string, @Body(new DataTablePipe()) body: DataTableInterface,
-                             @Body('filter') filter) {
+    public async eventAttendeeQuery(@Param('id') eventId: string, @Body(new DataTablePipe()) body: DataTableModel,
+            @Body('filter') filter): Promise<DataTableReturnModel> {
         return await this.eventsService.getFilteredAttendees(eventId, body, JSON.parse(filter));
     }
 
     @Get(':id/vegetarian')
     @HttpCode(200)
     @Permissions('event_management:get-vegetarian:event')
-    async getVegetarianAttendees(@Param('id') eventId: string) {
+    public async getVegetarianAttendees(@Param('id') eventId: string): Promise<{ count: number }> {
         let event = await this.eventsService.findById(eventId);
 
         if (!event) {
@@ -129,13 +135,15 @@ export class EventsController {
             dietaryRestrictions: {$regex: /^v/i}
         });
 
-        return {count: attendees.length};
+        return {
+            count: attendees.length
+        };
     }
 
     @Put(':event_id/:attendee_id/present')
     @HttpCode(200)
     @Permissions('event_management:set-status:event')
-    async setAttendeeStatus(@Param('event_id') eventId: string, @Param('attendee_id') attendeeId: string) {
+    public async setAttendeeStatus(@Param('event_id') eventId: string, @Param('attendee_id') attendeeId: string): Promise<Events> {
         const event = await this.eventsService.findById(eventId);
 
         if (!event) {
@@ -154,87 +162,87 @@ export class EventsController {
 
     @Put(':id')
     @Permissions('event_management:update:event')
-    async update(@Param('id') id: string, @Body(new ValidationPipe()) event: UpdateEventDto) {
+    public async update(@Param('id') id: string, @Body(new ValidationPipe()) event: UpdateEventDto) {
         await this.eventsService.update({
             _id: id
         }, event);
-
-        return;
     }
 
     @Put(':id/activity')
     @Permissions('event_management:update:event')
-    async addActivity(@Param('id') id: string, @Body(new ValidationPipe()) activity: CreateActivityDto) {
+    public async addActivity(@Param('id') id: string, @Body(new ValidationPipe()) activity: CreateActivityDto) {
         await this.eventsService.createActivity(id, activity);
     }
 
     @Get(':id/team')
     @Permissions('event_management:get-all:team')
-    async eventTeamQuery(@Param('id') eventId: string) {
+    public async eventTeamQuery(@Param('id') eventId: string): Promise<Teams[]> {
         return await this.teamsService.getTeamFromEvent(eventId);
     }
 
     @Post(':id/activity/filter')
     @HttpCode(200)
     @Permissions('event_management:get-all:activity')
-    async eventActivityQuery(@Param('id') eventId: string, @Body(new DataTablePipe()) body: DataTableInterface) {
+    public async eventActivityQuery(@Param('id') eventId: string, @Body(new DataTablePipe()) body: DataTableModel):
+            Promise<DataTableReturnModel> {
         return await this.eventsService.getFilteredActivities(eventId, body);
     }
 
     @Get(':id/activity')
     @Permissions('event_management:get-all:activity')
-    async getActivity(@Param('id') eventId: string) {
+    public async getActivity(@Param('id') eventId: string): Promise<Activities[]> {
         return await this.eventsService.getActivities(eventId);
     }
 
     @Get(':id/stats')
     @Permissions('event_management:get-stats:event')
-    getStats(@Param('id') eventId: string) {
+    public async getStats(@Param('id') eventId: string): Promise<object> {
         return this.eventsService.getStats(eventId);
     }
 
     @Post(':id/sponsor/filter')
     @HttpCode(200)
     @Permissions('event_management:get-all:sponsor')
-    async eventSponsorQuery(@Param('id') eventId: string, @Body(new DataTablePipe()) body: DataTableInterface) {
+    public async eventSponsorQuery(@Param('id') eventId: string, @Body(new DataTablePipe()) body: DataTableModel):
+            Promise<DataTableReturnModel> {
         return await this.eventsService.getFilteredSponsors(eventId, body);
     }
 
     @Get(':id/sponsor')
     @Permissions('event_management:get-all:sponsor')
-    async getSponsor(@Param('id') eventId: string) {
+    public async getSponsor(@Param('id') eventId: string): Promise<{ [tier: string]: EventSponsorDetails[] }> {
         return await this.eventsService.getSponsors(eventId);
     }
 
     @Get(':id/notification')
     @Permissions('event_management:get:notification')
-    async getNotifications(@Param('id') id: string, @Headers('token-claim-user_id') userId: string,
-                           @Query('seen') seen: boolean) {
+    public async getNotifications(@Param('id') id: string, @Headers('token-claim-user_id') userId: string, @Query('seen') seen: boolean):
+            Promise<AttendeeNotifications[]> {
         return await this.eventsService.getNotifications(id, userId, seen);
     }
 
     @Put(':id/sponsor')
     @Permissions('event_management:update:event')
-    async addSponsor(@Param('id') eventId: string, @Body(new ValidationPipe()) dto: AddSponsorDto) {
+    public async addSponsor(@Param('id') eventId: string, @Body(new ValidationPipe()) dto: AddSponsorDto): Promise<Events> {
         return await this.eventsService.addSponsor(eventId, dto);
     }
 
     @Put(':event_id/:attendee_id/scan')
     @Permissions('event_management:set-status:event')
-    async addScannedAttendee(@Param('event_id') eventId: string, @Param('attendee_id') attendeeId: string,
+    public async addScannedAttendee(@Param('event_id') eventId: string, @Param('attendee_id') attendeeId: string,
                              @Body(new ValidationPipe()) body: AddScannedAttendee) {
         await this.eventsService.addScannedAttendee(eventId, attendeeId, body);
     }
 
     @Post(':id/notification')
     @Permissions('event_management:update:event')
-    async createNotification(@Param('id') id: string, @Body(ValidationPipe) dto: SendNotificationDto) {
+    public async createNotification(@Param('id') id: string, @Body(ValidationPipe) dto: SendNotificationDto) {
         await this.eventsService.createNotification(id, dto);
     }
 
     @Post(':id/sms')
     @Permissions('event_management:update:event')
-    async sendSms(@Param('id') id: string, @Body(ValidationPipe) dto: SendSmsDto) {
+    public async sendSms(@Param('id') id: string, @Body(ValidationPipe) dto: SendSmsDto) {
         await this.eventsService.sendSms(id, dto.text);
     }
 }

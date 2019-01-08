@@ -4,10 +4,9 @@ import { STSService } from '@polyhx/nest-services';
 import { fail } from 'assert';
 import { expect } from 'chai';
 import { IMock, It, Mock } from 'typemoq';
-import { CodeException } from '../../../filters/CodedError/code.exception';
-import { FakeDocumentQuery } from '../../../utils/FakeDocumentQuery';
+import { CodeException } from '../../../filters/code-error/code.exception';
+import { FakeDocumentQuery } from '../../../utils/fake-document-query';
 import { EmailService } from '../../email/email.service';
-import { LHGamesService } from '../../lhgames/lhgames.service';
 import { Attendees } from '../attendees/attendees.model';
 import { AttendeesService } from '../attendees/attendees.service';
 import { Events } from '../events/events.model';
@@ -61,14 +60,12 @@ class FakeTeams implements Teams {
 describe('TeamsService', () => {
     let teamsService: TeamsService;
     let attendeesService: IMock<AttendeesService>;
-    let lhGamesService: IMock<LHGamesService>;
     let eventsService: IMock<EventsService>;
     let emailService: IMock<EmailService>;
     let stsService: IMock<STSService>;
 
     before(async () => {
         attendeesService = Mock.ofType(AttendeesService);
-        lhGamesService = Mock.ofType(LHGamesService);
         eventsService = Mock.ofType(EventsService);
         emailService = Mock.ofType(EmailService);
         stsService = Mock.ofType(STSService);
@@ -82,7 +79,6 @@ describe('TeamsService', () => {
                 }
             ]
         }).overrideProvider(AttendeesService).useValue(attendeesService.object)
-            .overrideProvider(LHGamesService).useValue(lhGamesService.object)
             .overrideProvider(EventsService).useValue(eventsService.object)
             .overrideProvider(EmailService).useValue(eventsService.object)
             .overrideProvider(STSService).useValue(stsService.object)

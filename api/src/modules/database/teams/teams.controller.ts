@@ -4,16 +4,16 @@ import {
 import { ApiUseTags } from '@nestjs/swagger';
 import { STSService } from '@polyhx/nest-services';
 import { Permissions } from '../../../decorators/permission.decorator';
-import { CodeExceptionFilter } from '../../../filters/CodedError/code.filter';
+import { CodeExceptionFilter } from '../../../filters/code-error/code.filter';
 import { PermissionsGuard } from '../../../guards/permission.guard';
 import { ValidationPipe } from '../../../pipes/validation.pipe';
 import { Attendees } from '../attendees/attendees.model';
 import { AttendeesService } from '../attendees/attendees.service';
 import { EventsService } from '../events/events.service';
-import { CreateOrJoinTeamDto, UpdateLHGamesTeamDto } from './teams.dto';
+import { CreateOrJoinTeamDto } from './teams.dto';
 import { codeMap } from './teams.exception';
 import { Teams } from './teams.model';
-import { TeamsService } from './teams.service';
+import { LeaveTeamResponse, TeamsService } from './teams.service';
 
 @ApiUseTags('Team')
 @Controller('team')
@@ -28,14 +28,14 @@ export class TeamsController {
 
     @Post()
     @Permissions('event_management:create-join:team')
-    async createOrJoin(@Headers('token-claim-user_id') userId: string,
-                       @Body(new ValidationPipe()) createOrJoinTeamDto: CreateOrJoinTeamDto) {
+    public async createOrJoin(@Headers('token-claim-user_id') userId: string,
+            @Body(new ValidationPipe()) createOrJoinTeamDto: CreateOrJoinTeamDto) {
         return this.teamsService.createOrJoin(createOrJoinTeamDto, userId);
     }
 
     @Get()
     @Permissions('event_management:get-all:team')
-    async getAll(): Promise<Teams[]> {
+    public async getAll(): Promise<Teams[]> {
         return this.teamsService.findAll({
             path: 'attendees',
             model: 'attendees'
@@ -44,13 +44,13 @@ export class TeamsController {
 
     @Get('info')
     @Permissions('event_management:get:team')
-    async getInfo(@Headers('token-claim-user_id') userId: string, @Query('event') event: string): Promise<Teams> {
+    public async getInfo(@Headers('token-claim-user_id') userId: string, @Query('event') event: string): Promise<Teams> {
         return this.getTeamByUserAndEvent(event, userId);
     }
 
     @Get('event/:eventId/user/:userId')
     @Permissions('event_management:get:team')
-    async getTeamByUserAndEvent(@Param('eventId') event: string, @Param('userId') userId: string): Promise<Teams> {
+    public async getTeamByUserAndEvent(@Param('eventId') event: string, @Param('userId') userId: string): Promise<Teams> {
         if (!event) {
             throw new BadRequestException('Event not specified');
         }
@@ -72,7 +72,7 @@ export class TeamsController {
             return null;
         }
 
-        for (let a of team.attendees as (Attendees & { status: string })[]) {
+        for (const a of team.attendees as (Attendees & { status: string })[]) {
             a.user = (await this.stsService.getAllWithIds([a.userId])).users[0];
             a.status = await this.eventsService.getAttendeeStatus(a._id, team.event as string);
         }
@@ -81,31 +81,29 @@ export class TeamsController {
 
     @Get(':id')
     @Permissions('event_management:get:team')
-    async get(@Param('id') id: string): Promise<Teams> {
+    public async get(@Param('id') id: string): Promise<Teams> {
         const team = await this.teamsService.findOneLean({
             _id: id
         }, {
             path: 'attendees',
             model: 'attendees'
         });
-        for (let a of team.attendees as (Attendees & { status: string })[]) {
+        for (const a of team.attendees as (Attendees & { status: string })[]) {
             a.user = (await this.stsService.getAllWithIds([a.userId])).users[0];
             a.status = await this.eventsService.getAttendeeStatus(a._id, team.event as string);
         }
         return team;
     }
 
-    @Put(':id/lhgames')
-    @Permissions('event_management:update-lhgames:team')
-    updateLHGamesTeam(@Param('id') teamId: string, @Headers('token-claim-user_id') userId: string,
-                      @Body(new ValidationPipe()) updateLHGamesTeamDto: UpdateLHGamesTeamDto): Promise<void> {
-        return this.teamsService.updateLHGamesTeam(userId, teamId, updateLHGamesTeamDto);
-    }
-
     @Delete(':id')
     @Permissions('event_management:leave:team')
-    public async leave(@Headers('token-claim-user_id') userId: string, @Param('id') teamId: string) {
-        const attendee = await this.attendeesService.findOne({userId: userId});
-        return this.teamsService.leave({teamId, attendeeId: attendee._id});
+    public async leave(@Headers('token-claim-user_id') userId: string, @Param('id') teamId: string): Promise<LeaveTeamResponse> {
+        const attendee = await this.attendeesService.findOne({
+            userId: userId
+        });
+        return this.teamsService.leave({
+            teamId,
+            attendeeId: attendee._id
+        });
     }
 }

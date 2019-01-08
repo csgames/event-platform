@@ -2,7 +2,6 @@ import { ApiModelProperty } from "@nestjs/swagger";
 import { IsMongoId, IsNotEmpty, IsString } from "class-validator";
 
 export class CreateOrJoinTeamDto {
-
     @IsString()
     @IsNotEmpty()
     @ApiModelProperty({required: true})
@@ -14,7 +13,6 @@ export class CreateOrJoinTeamDto {
 }
 
 export class LeaveTeamDto {
-
     @IsMongoId()
     @ApiModelProperty({required: true})
     attendeeId: string;
@@ -22,11 +20,4 @@ export class LeaveTeamDto {
     @IsMongoId()
     @ApiModelProperty({required: true})
     teamId: string;
-}
-
-export class UpdateLHGamesTeamDto {
-
-    @IsMongoId()
-    @ApiModelProperty({required: true})
-    programmingLanguage: string;
 }

@@ -20,27 +20,27 @@ export class ActivitiesController {
 
     @Post()
     @Permissions('event_management:create:activity')
-    async create(@Body(new ValidationPipe()) createActivityDto: CreateActivityDto) {
+    public async create(@Body(new ValidationPipe()) createActivityDto: CreateActivityDto) {
         await this.activitiesService.create(createActivityDto);
     }
 
     @Get()
     @Permissions('event_management:get-all:activity')
-    async getAll(): Promise<Activities[]> {
+    public async getAll(): Promise<Activities[]> {
         return await this.activitiesService.findAll();
     }
 
     @Put(':activity_id/:attendee_id/add')
     @Permissions('event_management:add-attendee:activity')
-    async addAttendee(@Param('activity_id') activityId: string,
-                      @Param('attendee_id') attendeeId: string): Promise<Activities> {
-        let activity: Activities = await this.activitiesService.findById(activityId);
+    public async addAttendee(@Param('activity_id') activityId: string,
+            @Param('attendee_id') attendeeId: string): Promise<Activities> {
+        const activity: Activities = await this.activitiesService.findById(activityId);
 
         if (!activity) {
             throw new HttpException(`Activity ${activityId} not found.`, HttpStatus.NOT_FOUND);
         }
 
-        let attendee: Attendees = await this.attendeesService.findById(attendeeId);
+        const attendee: Attendees = await this.attendeesService.findById(attendeeId);
 
         if (!attendee) {
             throw new HttpException(`Attendee ${attendeeId} not found.`, HttpStatus.NOT_FOUND);
@@ -59,13 +59,13 @@ export class ActivitiesController {
 
     @Get('type')
     @Permissions('event_management:get:activity')
-    async getActivityTypes() {
+    public async getActivityTypes(): Promise<string[]> {
         return ActivityTypes;
     }
 
     @Get(':id/raffle')
     @Permissions('event_management:raffle:activity')
-    async raffle(@Param('id') activityId: string): Promise<UserModel> {
+    public async raffle(@Param('id') activityId: string): Promise<UserModel> {
         let activity: Activities = await this.activitiesService.findById(activityId);
 
         if (!activity) {
@@ -87,19 +87,19 @@ export class ActivitiesController {
 
     @Get(":activity_id/:attendee_id/subscription")
     @Permissions("event_management:get:activity")
-    async getAttendeeSubscription(@Param('activity_id') activityId: string, @Param('attendee_id') attendeeId: string) {
+    public async getAttendeeSubscription(@Param('activity_id') activityId: string, @Param('attendee_id') attendeeId: string) {
         await this.activitiesService.getAttendeeSubscription(activityId, attendeeId);
     }
 
     @Put(":activity_id/:attendee_id/subscription")
     @Permissions("event_management:get:activity")
-    async subscribeAttendee(@Param('activity_id') activityId: string, @Param('attendee_id') attendeeId: string) {
+    public async subscribeAttendee(@Param('activity_id') activityId: string, @Param('attendee_id') attendeeId: string) {
         await this.activitiesService.subscribeAttendee(activityId, attendeeId);
     }
 
     @Delete(":activity_id/:attendee_id/subscription")
     @Permissions("event_management:get:activity")
-    async unsubscribeAttendee(@Param('activity_id') activityId: string, @Param('attendee_id') attendeeId: string) {
+    public async unsubscribeAttendee(@Param('activity_id') activityId: string, @Param('attendee_id') attendeeId: string) {
         await this.activitiesService.unsubscribeAttendee(activityId, attendeeId);
     }
 

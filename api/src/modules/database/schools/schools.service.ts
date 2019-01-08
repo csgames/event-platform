@@ -12,7 +12,7 @@ export class SchoolsService extends BaseService<Schools, CreateSchoolDto> {
     }
 
     public async query(searchQuery: string): Promise<Schools[]> {
-        let tokens = searchQuery
+        const tokens = searchQuery
             .split(' ')
             .map(t => {
                 return {

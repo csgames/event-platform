@@ -1,8 +1,7 @@
-import { IsString, IsNotEmpty, IsOptional } from "class-validator";
-import { ApiModelProperty } from "@nestjs/swagger";
+import { ApiModelProperty } from '@nestjs/swagger';
+import { IsNotEmpty, IsString } from 'class-validator';
 
 export class CreateSchoolDto {
-
     @IsString()
     @IsNotEmpty()
     @ApiModelProperty({ required: true })

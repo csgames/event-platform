@@ -2,7 +2,6 @@ import { IsString, IsOptional, IsIn, IsNotEmpty, IsBoolean, IsMongoId } from 'cl
 import { ApiModelProperty } from "@nestjs/swagger";
 
 export class CreateAttendeeDto {
-
     @IsOptional()
     @IsString()
     @ApiModelProperty()
@@ -68,7 +67,6 @@ export class CreateAttendeeDto {
 }
 
 export class UpdateAttendeeDto {
-
     @IsOptional()
     @IsString()
     @ApiModelProperty()

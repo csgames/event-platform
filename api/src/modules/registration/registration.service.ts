@@ -5,18 +5,10 @@ import { STSService, UserModel } from '@polyhx/nest-services';
 export class RegistrationService {
     private roles;
 
-    private async getRoles() {
-        let roles = (await this.stsService.getRoles()).roles;
-
-        this.roles = {};
-        for (let role of roles) {
-            this.roles[role.name] = role.id;
-        }
+    constructor(private readonly stsService: STSService) {
     }
 
-    constructor(private readonly stsService: STSService) { }
-
-    async registerUser(userDto: Partial<UserModel>, role: string) {
+    public async registerUser(userDto: Partial<UserModel>, role: string): Promise<string> {
         if (!this.roles) {
             await this.getRoles();
         }
@@ -27,13 +19,20 @@ export class RegistrationService {
 
         userDto.roleId = this.roles[role];
 
-        let user: string;
         try {
-            user = (await this.stsService.registerUser(userDto)).userId;
+            const res = await this.stsService.registerUser(userDto);
+            return res.userId;
         } catch (err) {
             throw new HttpException("Error while creating user", HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
 
-        return user;
+    private async getRoles() {
+        const roles = (await this.stsService.getRoles()).roles;
+
+        this.roles = {};
+        for (let role of roles) {
+            this.roles[role.name] = role.id;
+        }
     }
 }

@@ -11,7 +11,8 @@ export class MessagingService {
         this.init();
     }
 
-    public async send(message: admin.messaging.MessagingPayload, tokens: string[]) {
+    public async send(message: admin.messaging.MessagingPayload, tokens: string[]):
+            Promise<admin.messaging.MessagingDevicesResponse> {
         if (!message.data.click_action) {
             message.data.click_action = "FLUTTER_NOTIFICATION_CLICK";
         }

@@ -1,7 +1,5 @@
-import {
-    ArrayMaxSize, ArrayMinSize, IsArray, IsNotEmpty, IsNumber, IsOptional, IsString
-} from 'class-validator';
 import { ApiModelProperty } from '@nestjs/swagger';
+import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
 export class CreateSponsorDto {
     @ApiModelProperty({ required: true })

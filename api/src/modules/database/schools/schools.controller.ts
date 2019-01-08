@@ -1,10 +1,11 @@
-import { Body, Controller, Get, Param, Post, Put, UseGuards } from "@nestjs/common";
-import { SchoolsService } from "./schools.service";
-import { CreateSchoolDto } from "./schools.dto";
-import { ValidationPipe } from "../../../pipes/validation.pipe";
-import { PermissionsGuard } from "../../../guards/permission.guard";
-import { Permissions } from "../../../decorators/permission.decorator";
-import { ApiUseTags } from "@nestjs/swagger";
+import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
+import { ApiUseTags } from '@nestjs/swagger';
+import { Permissions } from '../../../decorators/permission.decorator';
+import { PermissionsGuard } from '../../../guards/permission.guard';
+import { ValidationPipe } from '../../../pipes/validation.pipe';
+import { CreateSchoolDto } from './schools.dto';
+import { Schools } from './schools.model';
+import { SchoolsService } from './schools.service';
 
 @ApiUseTags('School')
 @Controller("school")
@@ -15,7 +16,7 @@ export class SchoolsController {
 
     @Post()
     @Permissions('event_management:create:school')
-    async create(@Body(new ValidationPipe()) school: CreateSchoolDto) {
+    public async create(@Body(new ValidationPipe()) school: CreateSchoolDto): Promise<{ school: Schools }> {
         return {
             school: await this.schoolService.create(school)
         };
@@ -23,7 +24,7 @@ export class SchoolsController {
 
     @Get()
     @Permissions('event_management:get-all:school')
-    async getAll() {
+    public async getAll(): Promise<{ schools: Schools[] }> {
         return {
             schools: await this.schoolService.findAll()
         };
@@ -31,7 +32,7 @@ export class SchoolsController {
 
     @Get('query/:query')
     @Permissions('event_management:query:school')
-    async query(@Param('query') query: string) {
+    public async query(@Param('query') query: string): Promise<{ schools: Schools[] }> {
         return {
             schools: await this.schoolService.query(query)
         };

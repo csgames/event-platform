@@ -2,40 +2,40 @@ import { BadRequestException, Injectable, NotFoundException } from '@nestjs/comm
 import { InjectModel } from '@nestjs/mongoose';
 import { STSService } from '@polyhx/nest-services';
 import { GetAllWithIdsResponse } from '@polyhx/nest-services/modules/sts/sts.service';
+import * as mongoose from 'mongoose';
 import { Model } from 'mongoose';
-import { CodeException } from '../../../filters/CodedError/code.exception';
-import { DataTableInterface, DataTableReturnInterface } from '../../../interfaces/dataTable.interface';
+import { isNullOrUndefined } from 'util';
+import { CodeException } from '../../../filters/code-error/code.exception';
+import { DataTableModel, DataTableReturnModel } from '../../../models/data-table.model';
 import { BaseService } from '../../../services/base.service';
 import { EmailService } from '../../email/email.service';
+import { MessagingService } from '../../messaging/messaging.service';
 import { CreateActivityDto } from '../activities/activities.dto';
+import { Activities } from '../activities/activities.model';
 import { ActivitiesService } from '../activities/activities.service';
+import { AttendeeNotifications } from '../attendees/attendees.model';
 import { AttendeesService } from '../attendees/attendees.service';
+import { Notifications } from '../notifications/notifications.model';
+import { NotificationsService } from '../notifications/notifications.service';
+import { Teams } from '../teams/teams.model';
 import { AddScannedAttendee, AddSponsorDto, CreateEventDto, SendNotificationDto } from './events.dto';
 import { Code } from './events.exception';
 import { Events, EventSponsorDetails } from './events.model';
-import { Teams } from '../teams/teams.model';
-import * as Mongoose from 'mongoose';
-import { Sponsors } from '../sponsors/sponsors.model';
-import { MessagingService } from '../../messaging/messaging.service';
-import { NotificationsService } from '../notifications/notifications.service';
-import * as mongoose from 'mongoose';
-import { Notifications } from '../notifications/notifications.model';
-import { isNullOrUndefined } from 'util';
 
 @Injectable()
 export class EventsService extends BaseService<Events, CreateEventDto> {
     constructor(@InjectModel('events') private readonly eventsModel: Model<Events>,
                 @InjectModel('teams') private readonly teamsModel: Model<Teams>,
-                private attendeeService: AttendeesService,
-                private emailService: EmailService,
-                private stsService: STSService,
-                private activitiesService: ActivitiesService,
-                private messagingService: MessagingService,
-                private notificationService: NotificationsService) {
+                private readonly attendeeService: AttendeesService,
+                private readonly emailService: EmailService,
+                private readonly stsService: STSService,
+                private readonly activitiesService: ActivitiesService,
+                private readonly messagingService: MessagingService,
+                private readonly notificationService: NotificationsService) {
         super(eventsModel);
     }
 
-    async addAttendee(eventId: string, userId: string) {
+    public async addAttendee(eventId: string, userId: string): Promise<Events> {
         let attendee = await this.attendeeService.findOne({userId});
 
         if (!attendee) {
@@ -62,7 +62,7 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
         }).exec();
     }
 
-    async confirmAttendee(eventId: string, userId: string, attending: boolean) {
+    public async confirmAttendee(eventId: string, userId: string, attending: boolean) {
         let attendee = await this.attendeeService.findOne({userId});
 
         if (!attendee) {
@@ -93,7 +93,7 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
         await event.save();
     }
 
-    async hasAttendeeForUser(eventId: string, userId: string) {
+    public async hasAttendeeForUser(eventId: string, userId: string): Promise<boolean> {
         let attendee = await this.attendeeService.findOne({userId});
 
         if (!attendee) {
@@ -103,7 +103,7 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
         return this.hasAttendee(eventId, attendee._id);
     }
 
-    async hasAttendee(eventId: string, attendeeId: string) {
+    public async hasAttendee(eventId: string, attendeeId: string): Promise<boolean> {
         const occurrencesOfAttendee = await this.eventsModel.count({
             _id: eventId,
             'attendees.attendee': attendeeId
@@ -112,12 +112,12 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
         return occurrencesOfAttendee > 0;
     }
 
-    async getAttendeeStatus(attendeeId: string, eventId: string) {
+    public async getAttendeeStatus(attendeeId: string, eventId: string): Promise<string> {
         const event = await this.findOne({_id: eventId});
         return this.getAttendeeStatusFromEvent(attendeeId, event);
     }
 
-    public getAttendeeStatusFromEvent(attendeeId: string, event: Events) {
+    public getAttendeeStatusFromEvent(attendeeId: string, event: Events): string {
         const status = event.attendees.find(a => a.attendee.toString() === attendeeId.toString());
         if (!status) {
             return 'not-registered';
@@ -137,11 +137,10 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
 
     /**
      * From the attendees of a specified event (null-checked), filters them and returns the result as a promise of
-     * DataTableReturnInterface.
+     * DataTableReturnModel.
      */
-    async getFilteredAttendees(eventId: string, dtObject: DataTableInterface,
-                               filter: { school: string[], status: string[] })
-        : Promise<DataTableReturnInterface> {
+    public async getFilteredAttendees(eventId: string, dtObject: DataTableModel,
+            filter: { school: string[], status: string[] }): Promise<DataTableReturnModel> {
         const event: Events = await this.findOne({
             _id: eventId
         });
@@ -176,7 +175,7 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
             return false;
         }).map(x => x.attendee.toString());
 
-        let res = await this.attendeeService.filterFrom(attendeeIds, dtObject, filter);
+        const res = await this.attendeeService.filterFrom(attendeeIds, dtObject, filter);
 
         for (let attendee of res.data) {
             let a = event.attendees[
@@ -199,7 +198,7 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
         return res;
     }
 
-    async selectAttendees(eventId, userIds: string[]) {
+    public async selectAttendees(eventId, userIds: string[]) {
         const res: GetAllWithIdsResponse = await this.stsService.getAllWithIds(userIds);
 
         for (const user of res.users) {
@@ -233,11 +232,9 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
                 'attendees.$.selected': true
             }).exec();
         }
-
-        return {};
     }
 
-    async getFilteredActivities(eventId: string, filter: DataTableInterface): Promise<DataTableReturnInterface> {
+    public async getFilteredActivities(eventId: string, filter: DataTableModel): Promise<DataTableReturnModel> {
         const event: Events = await this.findOne({_id: eventId});
         if (!event) {
             throw new NotFoundException(`Event not found. (EventId: ${eventId})`);
@@ -246,7 +243,7 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
         return this.activitiesService.filterFrom(event.activities as string[], filter);
     }
 
-    async createActivity(id: string, dto: CreateActivityDto) {
+    public async createActivity(id: string, dto: CreateActivityDto): Promise<Events> {
         const event = await this.findById(id);
         if (!event) {
             throw new NotFoundException('No event found');
@@ -257,7 +254,7 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
         return await event.save();
     }
 
-    async getActivities(eventId: string) {
+    public async getActivities(eventId: string): Promise<Activities[]> {
         const event = await this.findById(eventId);
         if (!event) {
             throw new NotFoundException('No event found');
@@ -270,7 +267,7 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
         });
     }
 
-    async getStats(eventId: string) {
+    public async getStats(eventId: string): Promise<object> {
         const event = await this.findById(eventId);
         const activities = await this.getActivities(eventId);
         const teams = await this.teamsModel.find({event: eventId});
@@ -288,7 +285,7 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
         return stats;
     }
 
-    async getFilteredSponsors(eventId: string, filter: DataTableInterface): Promise<DataTableReturnInterface> {
+    public async getFilteredSponsors(eventId: string, filter: DataTableModel): Promise<DataTableReturnModel> {
         const event: Events = await this.eventsModel.findOne({
             _id: eventId
         })
@@ -299,7 +296,7 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
             throw new NotFoundException(`Event not found. (EventId: ${eventId})`);
         }
 
-        let data: DataTableReturnInterface = <DataTableReturnInterface> {
+        const data: DataTableReturnModel = <DataTableReturnModel> {
             draw: filter.draw,
             recordsTotal: event.sponsors.length
         };
@@ -317,7 +314,7 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
         return data;
     }
 
-    async getSponsors(eventId: string) {
+    public async getSponsors(eventId: string): Promise<{ [tier: string]: EventSponsorDetails[] }> {
         const event = await this.eventsModel.findOne({
             _id: eventId
         }).select('sponsors').populate('sponsors.sponsor').exec();
@@ -339,7 +336,7 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
         return result;
     }
 
-    async addSponsor(eventId: string, dto: AddSponsorDto) {
+    public async addSponsor(eventId: string, dto: AddSponsorDto): Promise<Events> {
         return await this.eventsModel.updateOne({
             _id: eventId
         }, {
@@ -360,14 +357,14 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
         }
 
         const attendee = event.attendees.find(x => {
-            return (x.attendee as Mongoose.Types.ObjectId).toHexString() === attendeeId;
+            return (x.attendee as mongoose.Types.ObjectId).toHexString() === attendeeId;
         });
         if (!attendee) {
             throw new NotFoundException("Attendee not found in event");
         }
 
         const scanned = event.attendees.find(x => {
-            return (x.attendee as Mongoose.Types.ObjectId).toHexString() === scanInfo.scannedAttendee;
+            return (x.attendee as mongoose.Types.ObjectId).toHexString() === scanInfo.scannedAttendee;
         });
         if (!scanned) {
             throw new NotFoundException("Scanned attendee not found in event");
@@ -409,7 +406,7 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
         });
     }
 
-    public async getNotifications(id: string, userId: string, seen?: boolean) {
+    public async getNotifications(id: string, userId: string, seen?: boolean): Promise<AttendeeNotifications[]> {
         const notifications = await this.notificationService.find({
             event: id
         });

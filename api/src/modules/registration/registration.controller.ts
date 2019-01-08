@@ -8,7 +8,7 @@ export class RegistrationController {
     constructor(private readonly registrationService: RegistrationService) { }
 
     @Post('attendee')
-    async registerAttendee(@Body(new ValidationPipe()) user: CreateUserDto) {
+    public async registerAttendee(@Body(new ValidationPipe()) user: CreateUserDto) {
         await this.registrationService.registerUser(user, 'attendee');
         return { success: true };
     }

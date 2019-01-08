@@ -1,14 +1,13 @@
-import { PipeTransform, ArgumentMetadata, Injectable } from '@nestjs/common';
+import { ArgumentMetadata, Injectable, PipeTransform } from '@nestjs/common';
 import {
-    DataTableColumnInterface, DataTableInterface, DataTableOrderInterface,
-    DataTableSearchInterface
-} from "../interfaces/dataTable.interface";
-import { QBRule, QueryBuilder } from "../interfaces/queryBuilder";
+    DataTableColumnModel, DataTableModel, DataTableOrderModel, DataTableSearchModel
+} from '../models/data-table.model';
+import { QBRule, QueryBuilderModel } from '../models/query-builder.model';
 
 @Injectable()
 export class DataTablePipe implements PipeTransform<any> {
-    public transform(value: DataTableInterface, metadata: ArgumentMetadata) {
-        let data: Partial<DataTableInterface> = {};
+    public transform(value: DataTableModel, metadata: ArgumentMetadata) {
+        let data: Partial<DataTableModel> = {};
 
         data.columns = this.transformColumns(value.columns);
         data.draw = Number(value.draw);
@@ -21,8 +20,8 @@ export class DataTablePipe implements PipeTransform<any> {
         return data;
     }
 
-    private transformColumns(columns: DataTableColumnInterface[]): DataTableColumnInterface[] {
-        let data: DataTableColumnInterface[] = [];
+    private transformColumns(columns: DataTableColumnModel[]): DataTableColumnModel[] {
+        let data: DataTableColumnModel[] = [];
 
         for (let column of columns) {
             data.push(this.transformColumn(column));
@@ -31,7 +30,7 @@ export class DataTablePipe implements PipeTransform<any> {
         return data;
     }
 
-    private transformColumn(column: DataTableColumnInterface): DataTableColumnInterface {
+    private transformColumn(column: DataTableColumnModel): DataTableColumnModel {
         return {
             data: column.data,
             name: column.name,
@@ -41,15 +40,15 @@ export class DataTablePipe implements PipeTransform<any> {
         };
     }
 
-    private transformSearch(search: DataTableSearchInterface): DataTableSearchInterface {
+    private transformSearch(search: DataTableSearchModel): DataTableSearchModel {
         return {
             value: search.value,
             regex: <any>search.regex === 'true'
         };
     }
 
-    private transformOrders(orders: DataTableOrderInterface[]): DataTableOrderInterface[] {
-        let data: DataTableOrderInterface[] = [];
+    private transformOrders(orders: DataTableOrderModel[]): DataTableOrderModel[] {
+        let data: DataTableOrderModel[] = [];
 
         for (let order of orders) {
             data.push(this.transformOrder(order));
@@ -58,14 +57,14 @@ export class DataTablePipe implements PipeTransform<any> {
         return data;
     }
 
-    private transformOrder(order: DataTableOrderInterface): DataTableOrderInterface {
+    private transformOrder(order: DataTableOrderModel): DataTableOrderModel {
         return {
             column: Number(order.column),
             dir: order.dir
         };
     }
 
-    private transformRules(rules: QueryBuilder): QueryBuilder {
+    private transformRules(rules: QueryBuilderModel): QueryBuilderModel {
         return {
             not: <any>rules.not === 'true',
             valid: <any>rules.valid === 'true',

@@ -1,4 +1,4 @@
-import { CodeMap } from "../../../filters/CodedError/code.filter";
+import { CodeMap } from "../../../filters/code-error/code.filter";
 import { HttpStatus } from "@nestjs/common";
 
 export enum Code {

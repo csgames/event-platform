@@ -18,7 +18,7 @@ export interface QBRule {
     not?: boolean;
 }
 
-export interface QueryBuilder {
+export interface QueryBuilderModel {
     condition: QBCondition;
     rules: QBRule[];
     not?: boolean;

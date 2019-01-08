@@ -2,7 +2,7 @@ import { BadRequestException, Injectable, NotFoundException } from '@nestjs/comm
 import { InjectModel } from '@nestjs/mongoose';
 import * as Mongoose from 'mongoose';
 import { Model } from 'mongoose';
-import { DataTableInterface, DataTableReturnInterface } from '../../../interfaces/dataTable.interface';
+import { DataTableModel, DataTableReturnModel } from '../../../models/data-table.model';
 import { BaseService } from '../../../services/base.service';
 import { CreateActivityDto, SendNotificationDto } from './activities.dto';
 import { Activities } from './activities.model';
@@ -17,7 +17,7 @@ export class ActivitiesService extends BaseService<Activities, CreateActivityDto
         super(activityModel);
     }
 
-    public async filterFrom(activitiesId: string[], filter: DataTableInterface): Promise<DataTableReturnInterface> {
+    public async filterFrom(activitiesId: string[], filter: DataTableModel): Promise<DataTableReturnModel> {
         const condition = {
             $and: [{
                 _id: { $in: activitiesId }
@@ -25,7 +25,7 @@ export class ActivitiesService extends BaseService<Activities, CreateActivityDto
         };
 
         let query = this.activityModel.find(condition);
-        let data: DataTableReturnInterface = <DataTableReturnInterface> {
+        let data: DataTableReturnModel = <DataTableReturnModel> {
             draw: filter.draw,
             recordsTotal: await query.count().exec()
         };

@@ -1,6 +1,4 @@
-import { PipeTransform, ArgumentMetadata, HttpStatus, Injectable, HttpException } from '@nestjs/common';
-import { validate } from 'class-validator';
-import { plainToClass } from 'class-transformer';
+import { ArgumentMetadata, Injectable, PipeTransform } from '@nestjs/common';
 
 @Injectable()
 export class BooleanPipe implements PipeTransform<boolean> {

@@ -1,7 +1,7 @@
 import * as express from 'express';
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import { AttendeesService } from "./attendees.service";
-import { CodeException } from "../../../filters/CodedError/code.exception";
+import { CodeException } from "../../../filters/code-error/code.exception";
 import { Code } from "./attendees.exception";
 
 @Injectable()
@@ -15,17 +15,15 @@ export class CreateAttendeeGuard implements CanActivate {
             throw new CodeException(Code.USER_NOT_ATTENDEE);
         }
 
-        let attendee;
         try {
-            attendee = await this.attendeeService.findOne({
+            const attendee = await this.attendeeService.findOne({
                 userId: req.header("token-claim-user_id")
             });
+            if (!attendee) {
+                return true;
+            }
         } catch (err) {
             throw new CodeException(Code.ATTENDEE_FIND_ERROR);
-        }
-
-        if (!attendee) {
-            return true;
         }
 
         throw new CodeException(Code.USER_IS_ALREADY_ATTENDEE);
@@ -34,7 +32,7 @@ export class CreateAttendeeGuard implements CanActivate {
 
 @Injectable()
 export class AttendeesGuard implements CanActivate {
-    canActivate(context: ExecutionContext): boolean {
+    public canActivate(context: ExecutionContext): boolean {
         const req = context.switchToHttp().getRequest<express.Request>();
 
         if (req.header("token-claim-role") !== 'attendee') {

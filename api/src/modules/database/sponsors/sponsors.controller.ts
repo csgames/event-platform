@@ -2,6 +2,7 @@ import { Body, Controller, Get, Param, Post, Put, UseGuards } from '@nestjs/comm
 import { ApiUseTags } from '@nestjs/swagger';
 import { PermissionsGuard } from '../../../guards/permission.guard';
 import { Permissions } from '../../../decorators/permission.decorator';
+import { Sponsors } from './sponsors.model';
 import { SponsorsService } from './sponsors.service';
 import { ValidationPipe } from '../../../pipes/validation.pipe';
 import { CreateSponsorDto, UpdateSponsorDto } from './sponsors.dto';
@@ -15,13 +16,13 @@ export class SponsorsController {
 
     @Post()
     @Permissions('event_management:create:sponsor')
-    async create(@Body(new ValidationPipe()) dto: CreateSponsorDto) {
+    public async create(@Body(new ValidationPipe()) dto: CreateSponsorDto): Promise<Sponsors> {
         return await this.sponsorService.create(dto);
     }
 
     @Put(':id')
     @Permissions('event_management:create:sponsor')
-    async update(@Param('id') id: string, @Body(new ValidationPipe()) dto: UpdateSponsorDto) {
+    public async update(@Param('id') id: string, @Body(new ValidationPipe()) dto: UpdateSponsorDto): Promise<Sponsors> {
         return await this.sponsorService.update({
             _id: id
         }, dto);
@@ -29,7 +30,7 @@ export class SponsorsController {
 
     @Get()
     @Permissions('event_management:get-all:sponsor')
-    async getAll() {
+    public async getAll(): Promise<Sponsors[]> {
         return await this.sponsorService.findAll();
     }
 }
