@@ -8,6 +8,7 @@ import { Notifications } from "./notifications.model";
 import { interval, Subscription } from 'rxjs';
 import { MessagingService } from '../../messaging/messaging.service';
 import { AttendeesService } from '../attendees/attendees.service';
+import { ConfigService } from '../../configs/config.service';
 
 // TODO: Add Notification_size field in event and use that to check Notification size when joining.
 const MAX_Notification_SIZE = 4;
@@ -25,14 +26,15 @@ export class NotificationsService extends BaseService<Notifications, CreateNotif
 
     constructor(@InjectModel("notifications") private readonly notificationModel: Model<Notifications>,
                 private readonly messagingService: MessagingService,
-                private readonly attendeeService: AttendeesService) {
+                private readonly attendeeService: AttendeesService,
+                private readonly configService: ConfigService) {
         super(notificationModel);
 
         this.nexmo = new Nexmo({
-            apiKey: process.env.NEXMO_API_KEY,
-            apiSecret: process.env.NEXMO_API_SECRET,
+            apiKey: configService.nexmo.apiKey,
+            apiSecret: configService.nexmo.apiSecret,
             options: {
-                debug: process.env.NEXMO_DEBUG
+                debug: configService.nexmo.debug
             }
         });
     }
@@ -108,7 +110,7 @@ export class NotificationsService extends BaseService<Notifications, CreateNotif
 
     private sendOneSms(sms: { text: string, phone: string }) {
         try {
-            this.nexmo.message.sendSms(process.env.NEXMO_FROM_NUMBER, sms.phone, sms.text, {},
+            this.nexmo.message.sendSms(this.configService.nexmo.phoneNumber, sms.phone, sms.text, {},
                 (err, apiResponse) => {
                     if (err) {
                         console.log("Nexmo failed to send sms. Reason:\n" + err);
