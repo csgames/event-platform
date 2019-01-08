@@ -5,7 +5,6 @@ import { GetAllWithIdsResponse } from '@polyhx/nest-services/modules/sts/sts.ser
 import * as mongoose from 'mongoose';
 import { Model } from 'mongoose';
 import { isNullOrUndefined } from 'util';
-import { CodeException } from '../../../filters/code-error/code.exception';
 import { DataTableModel, DataTableReturnModel } from '../../../models/data-table.model';
 import { BaseService } from '../../../services/base.service';
 import { EmailService } from '../../email/email.service';
@@ -19,7 +18,9 @@ import { Notifications } from '../notifications/notifications.model';
 import { NotificationsService } from '../notifications/notifications.service';
 import { Teams } from '../teams/teams.model';
 import { AddScannedAttendee, AddSponsorDto, CreateEventDto, SendNotificationDto } from './events.dto';
-import { Code } from './events.exception';
+import {
+    AttendeeAlreadyRegisteredException, AttendeeNotSelectedException, EventNotFoundException, UserNotAttendeeException
+} from './events.exception';
 import { Events, EventSponsorDetails } from './events.model';
 
 @Injectable()
@@ -36,10 +37,10 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
     }
 
     public async addAttendee(eventId: string, userId: string): Promise<Events> {
-        let attendee = await this.attendeeService.findOne({userId});
+        const attendee = await this.attendeeService.findOne({userId});
 
         if (!attendee) {
-            throw new CodeException(Code.USER_NOT_ATTENDEE);
+            throw new UserNotAttendeeException();
         }
 
         const attendeeAlreadyRegistered = (await this.eventsModel.count({
@@ -48,7 +49,7 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
         }).exec()) > 0;
 
         if (attendeeAlreadyRegistered) {
-            throw new CodeException(Code.ATTENDEE_ALREADY_REGISTERED);
+            throw new AttendeeAlreadyRegisteredException();
         }
 
         return this.eventsModel.update({
@@ -63,10 +64,10 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
     }
 
     public async confirmAttendee(eventId: string, userId: string, attending: boolean) {
-        let attendee = await this.attendeeService.findOne({userId});
+        const attendee = await this.attendeeService.findOne({userId});
 
         if (!attendee) {
-            throw new CodeException(Code.USER_NOT_ATTENDEE);
+            throw new UserNotAttendeeException();
         }
 
         const event = await this.eventsModel.findOne({
@@ -76,7 +77,7 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
         const attendeeRegistration = event.attendees.find(r => r.attendee.toString() === attendee._id.toString());
 
         if (!attendeeRegistration.selected) {
-            throw new CodeException(Code.ATTENDEE_NOT_SELECTED);
+            throw new AttendeeNotSelectedException();
         }
 
         event.attendees.splice(event.attendees.indexOf(attendeeRegistration), 1);
@@ -94,10 +95,10 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
     }
 
     public async hasAttendeeForUser(eventId: string, userId: string): Promise<boolean> {
-        let attendee = await this.attendeeService.findOne({userId});
+        const attendee = await this.attendeeService.findOne({userId});
 
         if (!attendee) {
-            throw new CodeException(Code.USER_NOT_ATTENDEE);
+            throw new UserNotAttendeeException();
         }
 
         return this.hasAttendee(eventId, attendee._id);
@@ -113,7 +114,9 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
     }
 
     public async getAttendeeStatus(attendeeId: string, eventId: string): Promise<string> {
-        const event = await this.findOne({_id: eventId});
+        const event = await this.findOne({
+            _id: eventId
+        });
         return this.getAttendeeStatusFromEvent(attendeeId, event);
     }
 
@@ -145,7 +148,7 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
             _id: eventId
         });
         if (!event) {
-            throw new NotFoundException(`Event not found. (EventId: ${eventId})`);
+            throw new EventNotFoundException();
         }
 
         const attendeeIds: string[] = event.attendees.filter(attendee => {
@@ -237,7 +240,7 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
     public async getFilteredActivities(eventId: string, filter: DataTableModel): Promise<DataTableReturnModel> {
         const event: Events = await this.findOne({_id: eventId});
         if (!event) {
-            throw new NotFoundException(`Event not found. (EventId: ${eventId})`);
+            throw new EventNotFoundException();
         }
 
         return this.activitiesService.filterFrom(event.activities as string[], filter);
@@ -246,7 +249,7 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
     public async createActivity(id: string, dto: CreateActivityDto): Promise<Events> {
         const event = await this.findById(id);
         if (!event) {
-            throw new NotFoundException('No event found');
+            throw new EventNotFoundException();
         }
 
         const activity = await this.activitiesService.create(dto);
@@ -257,7 +260,7 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
     public async getActivities(eventId: string): Promise<Activities[]> {
         const event = await this.findById(eventId);
         if (!event) {
-            throw new NotFoundException('No event found');
+            throw new EventNotFoundException();
         }
 
         return await this.activitiesService.find({
@@ -293,7 +296,7 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
             .populate('sponsors.sponsor')
             .exec();
         if (!event) {
-            throw new NotFoundException(`Event not found. (EventId: ${eventId})`);
+            throw new EventNotFoundException();
         }
 
         const data: DataTableReturnModel = <DataTableReturnModel> {
@@ -353,7 +356,7 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
 
         const event = await this.eventsModel.findById(eventId).exec();
         if (!event) {
-            throw new NotFoundException("Event not found");
+            throw new EventNotFoundException();
         }
 
         const attendee = event.attendees.find(x => {
@@ -439,7 +442,7 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
     public async sendSms(id: string, text: string) {
         const event = await this.findById(id);
         if (!event) {
-            throw new NotFoundException();
+            throw new EventNotFoundException();
         }
 
         const ids = event.attendees.filter(x => x.present).map(x => x.attendee);

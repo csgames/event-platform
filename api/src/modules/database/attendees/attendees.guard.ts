@@ -1,8 +1,7 @@
 import * as express from 'express';
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import { AttendeesService } from "./attendees.service";
-import { CodeException } from "../../../filters/code-error/code.exception";
-import { Code } from "./attendees.exception";
+import { AttendeeFindErrorException, UserAlreadyAttendeeException, UserNotAttendeeException } from './attendees.exception';
 
 @Injectable()
 export class CreateAttendeeGuard implements CanActivate {
@@ -12,7 +11,7 @@ export class CreateAttendeeGuard implements CanActivate {
         const req = context.switchToHttp().getRequest<express.Request>();
 
         if (req.header("token-claim-role") !== 'attendee') {
-            throw new CodeException(Code.USER_NOT_ATTENDEE);
+            throw new UserNotAttendeeException();
         }
 
         try {
@@ -23,10 +22,10 @@ export class CreateAttendeeGuard implements CanActivate {
                 return true;
             }
         } catch (err) {
-            throw new CodeException(Code.ATTENDEE_FIND_ERROR);
+            throw new AttendeeFindErrorException();
         }
 
-        throw new CodeException(Code.USER_IS_ALREADY_ATTENDEE);
+        throw new UserAlreadyAttendeeException();
     }
 }
 
@@ -36,7 +35,7 @@ export class AttendeesGuard implements CanActivate {
         const req = context.switchToHttp().getRequest<express.Request>();
 
         if (req.header("token-claim-role") !== 'attendee') {
-            throw new CodeException(Code.USER_NOT_ATTENDEE);
+            throw new UserNotAttendeeException();
         }
 
         return true;

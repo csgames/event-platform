@@ -6,7 +6,7 @@ export enum Code {
 }
 
 export const codeMap: CodeMap = {
-    0: { // UNKNOWN
+    [Code.UNKNOWN]: {
         message: "An unknown error happened.",
         statusCode: HttpStatus.INTERNAL_SERVER_ERROR
     }

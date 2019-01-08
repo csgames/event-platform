@@ -2,13 +2,14 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { STSService } from '@polyhx/nest-services';
 import { Model, Types } from 'mongoose';
-import { CodeException } from '../../../filters/code-error/code.exception';
 import { BaseService } from '../../../services/base.service';
 import { EmailService } from '../../email/email.service';
 import { Attendees } from '../attendees/attendees.model';
 import { AttendeesService } from '../attendees/attendees.service';
 import { CreateOrJoinTeamDto, LeaveTeamDto } from './teams.dto';
-import { Code } from './teams.exception';
+import {
+    AttendeeHasTeamException, AttendeeNotFoundException, AttendeeNotInTeamException, TeamFullException, TeamNotFoundException
+} from './teams.exception';
 import { Teams } from './teams.model';
 import { Events } from '../events/events.model';
 import { EventsService } from '../events/events.service';
@@ -32,13 +33,13 @@ export class TeamsService extends BaseService<Teams, CreateOrJoinTeamDto> {
         const team = await this.findOne({name: createOrJoinTeamDto.name, event: createOrJoinTeamDto.event});
         const attendee = await this.attendeesService.findOne({userId});
         if (!attendee) {
-            throw new CodeException(Code.ATTENDEE_NOT_FOUND);
+            throw new AttendeeNotFoundException();
         }
         let attendeeTeam: Teams = await this.findOne({
             attendees: attendee._id, event: createOrJoinTeamDto.event
         });
         if (attendeeTeam) {
-            throw new CodeException(Code.ATTENDEE_HAS_TEAM);
+            throw new AttendeeHasTeamException();
         }
         if (team) {
             return this.join(team, createOrJoinTeamDto.event, attendee._id);
@@ -54,17 +55,17 @@ export class TeamsService extends BaseService<Teams, CreateOrJoinTeamDto> {
     public async leave(leaveTeamDto: LeaveTeamDto): Promise<LeaveTeamResponse> {
         let attendee: Attendees = await this.attendeesService.findOne({_id: leaveTeamDto.attendeeId});
         if (!attendee) {
-            throw new CodeException(Code.ATTENDEE_NOT_FOUND);
+            throw new AttendeeNotFoundException();
         }
 
         let team: Teams = await this.findOne({_id: leaveTeamDto.teamId});
         if (!team) {
-            throw new CodeException(Code.TEAM_NOT_FOUND);
+            throw new TeamNotFoundException();
         }
 
         let index = team.attendees.indexOf(leaveTeamDto.attendeeId);
         if (index < 0) {
-            throw new CodeException(Code.ATTENDEE_NOT_IN_TEAM);
+            throw new AttendeeNotInTeamException();
         }
         team.attendees.splice(index, 1);
 
@@ -130,7 +131,7 @@ export class TeamsService extends BaseService<Teams, CreateOrJoinTeamDto> {
             _id: eventId
         });
         if (team.attendees.length >= event.maxTeamMembers) {
-            throw new CodeException(Code.TEAM_FULL);
+            throw new TeamFullException();
         }
 
         team.attendees.push(Types.ObjectId(attendeeId));
