@@ -96,7 +96,6 @@ namespace STS
             {
                 options.DefaultPolicy = new AuthorizationPolicyBuilder(JwtBearerDefaults.AuthenticationScheme).RequireAuthenticatedUser().Build();
             });
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -107,51 +106,10 @@ namespace STS
             app.UseIdentityServer();
             app.UseStaticFiles();
             app.UseMvcWithDefaultRoute();
-            
-            
+
             ConfigureMongoDriver2IgnoreExtraElements();
 
-            InitializeDatabase(app);
-        }
-
-
-        private static void InitializeDatabase(IApplicationBuilder app)
-        {
-            var createdNewRepository = false;
-            var repository = app.ApplicationServices.GetService<IRepository>();
-
-            if (!repository.CollectionExists<Client>())
-            {
-                foreach (var client in Config.GetClients())
-                {
-                    repository.Add<Client>(client);
-                }
-                createdNewRepository = true;
-            }
-            
-            if (!repository.CollectionExists<IdentityResource>())
-            {
-                foreach (var res in Config.GetIdentityResources())
-                {
-                    repository.Add<IdentityResource>(res);
-                }
-                createdNewRepository = true;
-            }
-
-            if (!repository.CollectionExists<ApiResource>())
-            {
-                foreach (var api in Config.GetApiResources())
-                {
-                    repository.Add<ApiResource>(api);
-                }
-                createdNewRepository = true;
-            }
-
-            if (createdNewRepository)
-            {
-                throw new Exception(
-                    "Mongo Repository created/populated! Please restart so Mongo driver will be configured to ignore Extra Elements.");
-            }
+            Init.InitDatabase(app);
         }
 
         private static void ConfigureMongoDriver2IgnoreExtraElements()

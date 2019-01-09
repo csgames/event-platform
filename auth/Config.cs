@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Security.Claims;
-using IdentityServer4;
 using IdentityServer4.Models;
-using IdentityServer4.Test;
-using Newtonsoft.Json;
+using STS.Models;
 
 namespace STS
 {
@@ -14,9 +11,7 @@ namespace STS
         {
             return new List<ApiResource>
             {
-                new ApiResource("sts_api", "STS Api"),
-                new ApiResource("event_management_api", "PolyHx EventManagement Api"),
-                new ApiResource("mail_api", "PolyHx Mail Api")
+                new ApiResource("sts_api", "STS Api")
             };
         }
 
@@ -26,12 +21,12 @@ namespace STS
             {
                 new IdentityResources.OpenId(),
                 new IdentityResources.Profile(),
-                new IdentityResource()
+                new IdentityResource
                 {
                     Name = "permissions",
                     DisplayName = "Client permissions",
                     Description = "Permissions",
-                    UserClaims = new List<string>()
+                    UserClaims = new List<string>
                     {
                         "permissions"
                     }
@@ -47,21 +42,6 @@ namespace STS
                 {
                     ClientId = "sts",
                     ClientName = "STS",
-                    ClientSecrets = { new Secret(Environment.GetEnvironmentVariable("STS_CLIENT_SECRET").Sha256()) },
-
-                    AllowedGrantTypes = GrantTypes.ClientCredentials,
-
-                    AllowedScopes =
-                    {
-                        "sts_api",
-                        "mail_api"
-                    }
-                },
-                new Client
-                {
-                    ClientId = "webhook_decoder",
-                    ClientName = "WebHook Decoder",
-                    ClientSecrets = { new Secret(Environment.GetEnvironmentVariable("WEBHOOK_DECODER_CLIENT_SECRET").Sha256()) },
 
                     AllowedGrantTypes = GrantTypes.ClientCredentials,
 
@@ -72,68 +52,72 @@ namespace STS
                 },
                 new Client
                 {
-                    ClientId = "event_management",
-                    ClientName = "Event Management Service",
-                    ClientSecrets = { new Secret(Environment.GetEnvironmentVariable("EVENT_MANAGEMENT_CLIENT_SECRET").Sha256()) },
+                    ClientId = "client-sts",
+                    ClientName = "Client STS",
 
-                    AllowedGrantTypes = GrantTypes.ClientCredentials,
-
+                    AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
                     AllowOfflineAccess = true,
-                    
-                    AllowedScopes =
-                    {
-                        "sts_api",
-                        "mail_api"
-                    }
-                },
-                new Client
-                {
-                    ClientId = "mail",
-                    ClientName = "Mail Service",
-                    ClientSecrets = { new Secret(Environment.GetEnvironmentVariable("MAIL_CLIENT_SECRET").Sha256()) },
 
-                    AllowedGrantTypes = GrantTypes.ClientCredentials,
-
-                    AllowOfflineAccess = true,
-                    
                     AllowedScopes =
                     {
                         "sts_api"
                     }
-                },
-                new Client
+                }
+            };
+        }
+
+        public static IEnumerable<Permission> GetPermissions()
+        {
+            var resources = new List<string>
+            {
+                "client",
+                "permission",
+                "resource",
+                "role",
+                "user"
+            };
+            var types = new List<string>
+            {
+                "create",
+                "get",
+                "get-all",
+                "update",
+                "delete"
+            };
+
+            var permissions = new List<Permission>();
+            foreach (var resource in resources)
+            {
+                foreach (var type in types)
                 {
-                    ClientId = "polyhx_dashboard",
-                    ClientName = "PolyHx Dashboard",
-                    ClientSecrets = { new Secret(Environment.GetEnvironmentVariable("POLYHX_DASHBOARD_CLIENT_SECRET").Sha256()) },
-
-                    AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
-
-                    AllowOfflineAccess = true,
-                    
-                    AllowedScopes =
+                    permissions.Add(new Permission
                     {
-                        "offline_access",
-                        "sts_api",
-                        "event_management_api"
-                    }
-                },
-                new Client
+                        Name = $"sts:{type}:{resource}"
+                    });
+                }
+            }
+
+            return permissions;
+        }
+
+        public static IEnumerable<Role> GetRoles()
+        {
+            return new List<Role>
+            {
+                new Role
                 {
-                    ClientId = "admin_mobile_app",
-                    ClientName = "Admin Mobile App",
-                    ClientSecrets = { new Secret(Environment.GetEnvironmentVariable("ADMIN_MOBILE_APP_CLIENT_SECRET").Sha256()) },
+                    Name = "admin"
+                }
+            };
+        }
 
-                    AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
-
-                    AllowOfflineAccess = true,
-                    
-                    AllowedScopes =
-                    {
-                        "offline_access",
-                        "sts_api",
-                        "event_management_api"
-                    }
+        public static IEnumerable<User> GetUsers()
+        {
+            return new List<User>
+            {
+                new User
+                {
+                    Username = "admin"
                 }
             };
         }
