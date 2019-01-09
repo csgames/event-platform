@@ -9,14 +9,14 @@ export class Auth {
 
     constructor() {
         this.router.post('/login', this.login.bind(this));
-        this.router.post('/register', this.register.bind(this));
         this.router.get('/logout', this.logout.bind(this));
-        this.router.get('/test', this.test.bind(this)); 
+        this.router.get('/isloggedin', this.isLoggedIn.bind(this)); 
     }
     
     // POST /login
-    // email, password
-    // remember: true or false, if the user wants to be remembered
+    // email: the user's email
+    // password: the user's password
+    // remember: true or false, if the user wants to be remembered, for the remember me feature
     private async login(req: express.Request, res: express.Response) {
         let email = req.body.email;
         let password = req.body.password;
@@ -47,6 +47,10 @@ export class Auth {
             
             if(response.access_token && response.refresh_token) {
                 req.session.access_token = response.access_token;
+                let payload = JSON.parse(Buffer.from(response.access_token.split('.')[1], 'base64').toString());
+                req.session.access_token_expiration = payload.exp;
+                
+                console.log(req.session.access_token_expiration);                
                 if(rememberMe){
                     req.session.refresh_token = response.refresh_token;
                 }
@@ -82,14 +86,8 @@ export class Auth {
         }
     }
 
-    // POST /register
-    private register(req: express.Request, res: express.Response) {
-        res.json({
-            register: "register"
-        });
-    }
-
-    private test(req: express.Request, res: express.Response) {
+    //GET /isloggedin
+    private isLoggedIn(req: express.Request, res: express.Response) {
         if(req.session.access_token){
             res.json({
                 logged_in: true
