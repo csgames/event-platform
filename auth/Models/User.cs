@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
+using Newtonsoft.Json;
 
 namespace STS.Models
 {
@@ -11,7 +12,8 @@ namespace STS.Models
         public string Id { get; set; }
 
         public string Username { get; set; }
-        
+
+        [JsonIgnore]
         public string Password { get; set; }
 
         public string Email { get; set; }

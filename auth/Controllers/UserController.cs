@@ -313,7 +313,6 @@ namespace STS.Controllers
                     .Select(p => p.Name);
                 user.Role = role.Name;
                 user.Permissions = permissions.ToList();
-                user.Password = null;
 
                 return Ok(new
                 {
