@@ -179,59 +179,36 @@ namespace STS.Controllers
         [Authorize]
         [RequiresPermissions("sts:get-all:user")]
         [HttpPost("filter")]
-        public Task<IActionResult> GetAllSortedFiltered()
+        public Task<IActionResult> GetAllSortedFiltered([FromBody] FilterInput input)
         {
             return Task.Run<IActionResult>(() =>
             {
-                var users = _db.All<User>().AsEnumerable();
-
-                var draw = HttpContext.Request.Form["draw"].FirstOrDefault();
-                var start = Request.Form["start"].FirstOrDefault();
-                var length = Request.Form["length"].FirstOrDefault();
-                var sortColumn = Request
-                    .Form["columns[" + Request.Form["order[0][column]"].FirstOrDefault() + "][name]"].FirstOrDefault();
-                var sortColumnDirection = Request.Form["order[0][dir]"].FirstOrDefault();
-                var searchValue = Request.Form["search[value]"].FirstOrDefault();
-
-                var pageSize = length != null ? Convert.ToInt32(length) : 0;
-                var skip = start != null ? Convert.ToInt32(start) : 0;
-                var recordsTotal = 0;
-
-                // Sorting
-                if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDirection)))
-                {
-                    users = users.OrderBy(sortColumn, sortColumnDirection);
-                }
-
-                // Search
-                if (!string.IsNullOrEmpty(searchValue))
-                {
-                    // Before you say anything: Nullables.
-                    users = users.Where(u =>
-                        u.FirstName?.Contains(searchValue) == true ||
-                        u.LastName?.Contains(searchValue) == true ||
-                        u.Email?.Contains(searchValue) == true ||
-                        u.Username?.Contains(searchValue) == true);
-                }
-
-                // Paging
-                recordsTotal = users.Count();
-                var data = users
-                    .Skip(skip)
-                    .Take(pageSize)
-                    .Select(u =>
+                var roles = _db.All<Role>();
+                var count = _db.All<User>()
+                    .ToList()
+                    .Count;
+                var data = _db.All<User>()
+                    .Skip(input.Size * (input.Start - 1))
+                    .Take(input.Size)
+                    .ToArray()
+                    .Select(x => new FilteredUser
                     {
-                        var role = _db.Single<Role>(r => r.Id == u.RoleId);
-                        u.Role = role.Name;
-                        return u;
-                    });
-
-                return Json(new
+                        Id = x.Id,
+                        Name = $"{x.FirstName} {x.LastName}",
+                        Role = roles.Single(y => y.Id == x.RoleId).Name,
+                        Username = x.Username,
+                        Active = x.IsActive,
+                        Validated = x.Validated
+                    })
+                    .ToArray();
+                return Ok(new
                 {
-                    draw = draw,
-                    recordsFiltered = recordsTotal,
-                    recordsTotal = recordsTotal,
-                    data = data
+                    success = true,
+                    result = new FilteredData<FilteredUser>
+                    {
+                        Total = count,
+                        Data = data
+                    }
                 });
             });
         }
@@ -266,7 +243,7 @@ namespace STS.Controllers
         [Authorize]
         [RequiresPermissions("sts:create:user")]
         [HttpPost]
-        public Task<IActionResult> Post(UserRegisterInput input)
+        public Task<IActionResult> Post([FromBody] UserRegisterInput input)
         {
             return Task.Run<IActionResult>(() =>
             {
@@ -336,6 +313,7 @@ namespace STS.Controllers
                     .Select(p => p.Name);
                 user.Role = role.Name;
                 user.Permissions = permissions.ToList();
+                user.Password = null;
 
                 return Ok(new
                 {
@@ -475,7 +453,7 @@ namespace STS.Controllers
         [Authorize]
         [RequiresPermissions("sts:update-admin:user")]
         [HttpPut("admin/{id}")]
-        public Task<IActionResult> Update(string id, EditUserInput input)
+        public Task<IActionResult> Update(string id, [FromBody] EditUserInput input)
         {
             return Task.Run<IActionResult>(() =>
             {
