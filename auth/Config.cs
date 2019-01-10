@@ -97,6 +97,11 @@ namespace STS
                 }
             }
 
+            permissions.Add(new Permission
+            {
+                Name = "sts:update-admin:user"
+            });
+
             return permissions;
         }
 
