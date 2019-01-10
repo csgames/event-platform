@@ -74,11 +74,42 @@ namespace STS.Controllers
                 });
             });
         }
+        
+        [Authorize]
+        [RequiresPermissions("sts:get:client")]
+        [HttpGet("{id}")]
+        public Task<IActionResult> GetById(string id)
+        {
+            return Task.Run<IActionResult>(() =>
+            {
+                var client = _db.Where<Client>(x => x.ClientId == id).SingleOrDefault();
+
+                if (client == null)
+                {
+                    return NotFound();
+                }
+
+                client.Properties.TryGetValue("permissions", out var permissions);
+                return Ok(new
+                {
+                    success = true,
+                    client = new ClientModel
+                    {
+                        ClientId = client.ClientId,
+                        ClientName = client.ClientName,
+                        AllowedGrantTypes = client.AllowedGrantTypes.ToArray(),
+                        AllowedScopes = client.AllowedScopes.ToArray(),
+                        AllowOfflineAccess = client.AllowOfflineAccess,
+                        Permissions = JsonConvert.DeserializeObject<List<string>>(permissions ?? "[]").ToArray()
+                    }
+                });
+            });
+        }
 
         [Authorize]
         [RequiresPermissions("sts:create:client")]
         [HttpPost]
-        public Task<IActionResult> Create(ClientModel input)
+        public Task<IActionResult> Create([FromBody] ClientModel input)
         {
             return Task.Run<IActionResult>(() =>
             {
@@ -173,6 +204,48 @@ namespace STS.Controllers
                 _db.Delete<Client>(c => c.ClientId == id);
 
                 return Ok(new {success = true});
+            });
+        }
+
+        [Authorize]
+        [RequiresPermissions("sts:get-all:client")]
+        [HttpPost("filter")]
+        public Task<IActionResult> Filter([FromBody] FilterInput input)
+        {
+            return Task.Run<IActionResult>(() =>
+            {
+                var count = _db.All<Client>()
+                    .ToList()
+                    .Count;
+                var data = _db.All<Client>()
+                    .Skip(input.Size * (input.Start - 1))
+                    .Take(input.Size)
+                    .ToArray()
+                    .Select(x =>
+                    {
+                        x.Properties.TryGetValue("permissions", out var permissions);
+                        var permissionsData =
+                            JsonConvert.DeserializeObject<List<string>>(permissions ?? "[]").ToArray();
+                        return new FilteredClient
+                        {
+                            ClientId = x.ClientId,
+                            ClientName = x.ClientName,
+                            Permissions = permissionsData.Length,
+                            AllowedScopes = string.Join(", ", x.AllowedScopes),
+                            AllowedGrantTypes = string.Join(", ", x.AllowedGrantTypes),
+                            AllowOfflineAccess = x.AllowOfflineAccess
+                        };
+                    })
+                    .ToArray();
+                return Ok(new
+                {
+                    success = true,
+                    result = new FilteredData<FilteredClient>
+                    {
+                        Total = count,
+                        Data = data
+                    }
+                });
             });
         }
     }
