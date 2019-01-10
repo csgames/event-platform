@@ -50,7 +50,6 @@ export class Auth {
                 let payload = JSON.parse(Buffer.from(response.access_token.split('.')[1], 'base64').toString());
                 req.session.access_token_expiration = payload.exp;
                 
-                console.log(req.session.access_token_expiration);                
                 if(rememberMe){
                     req.session.refresh_token = response.refresh_token;
                 }

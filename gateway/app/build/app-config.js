@@ -1,0 +1,11 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.appConfig = {
+    cookieExpiration: new Date(Date.now() + 60 * 10 * 1000),
+    contentSecurityPolicy: "script-src 'self'",
+    strictTransportSecurity: "max-age=31536000; includeSubDomains; preload",
+    xFrameOptions: "SAMEORIGIN",
+    xContentType: "nosniff"
+};
+
+//# sourceMappingURL=data:application/json;charset=utf8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uL3NyYy9hcHAtY29uZmlnLnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7O0FBQWEsUUFBQSxTQUFTLEdBQUc7SUFDckIsZ0JBQWdCLEVBQUUsSUFBSSxJQUFJLENBQUMsSUFBSSxDQUFDLEdBQUcsRUFBRSxHQUFHLEVBQUUsR0FBRyxFQUFFLEdBQUcsSUFBSSxDQUFDO0lBQ3ZELHFCQUFxQixFQUFFLG1CQUFtQjtJQUMxQyx1QkFBdUIsRUFBRSw4Q0FBOEM7SUFDdkUsYUFBYSxFQUFFLFlBQVk7SUFDM0IsWUFBWSxFQUFFLFNBQVM7Q0FDMUIsQ0FBQyIsImZpbGUiOiJhcHAtY29uZmlnLmpzIiwic291cmNlc0NvbnRlbnQiOlsiZXhwb3J0IGNvbnN0IGFwcENvbmZpZyA9IHtcbiAgICBjb29raWVFeHBpcmF0aW9uOiBuZXcgRGF0ZShEYXRlLm5vdygpICsgNjAgKiAxMCAqIDEwMDApLCAvLyAxMCBtaW51dGVzXG4gICAgY29udGVudFNlY3VyaXR5UG9saWN5OiBcInNjcmlwdC1zcmMgJ3NlbGYnXCIsXG4gICAgc3RyaWN0VHJhbnNwb3J0U2VjdXJpdHk6IFwibWF4LWFnZT0zMTUzNjAwMDsgaW5jbHVkZVN1YkRvbWFpbnM7IHByZWxvYWRcIixcbiAgICB4RnJhbWVPcHRpb25zOiBcIlNBTUVPUklHSU5cIixcbiAgICB4Q29udGVudFR5cGU6IFwibm9zbmlmZlwiXG59O1xuXG4iXX0=

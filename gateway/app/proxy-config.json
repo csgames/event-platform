@@ -1,0 +1,11 @@
+{
+    "path": "/api", 
+    "target": "http://localhost:8080",
+    "router": {
+        "/oktamer" : "http://localhost/",
+        "/event" : "http://localhost:1234",
+        "/mail" : "http://localhost:12345",
+        "/sts" : "http://localhost:5555"
+    },
+    "logLevel": "info"
+}

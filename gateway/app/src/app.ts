@@ -1,5 +1,6 @@
 import * as express from 'express';
 import * as path from 'path';
+import * as http from 'http';
 import * as logger from 'morgan';
 import * as cookieParser from 'cookie-parser';
 import * as bodyParser from 'body-parser';
@@ -16,6 +17,7 @@ import { appConfig } from './app-config';
 import { proxyConfig } from './proxy-config';
 import { REFUSED } from 'dns';
 import { runInNewContext } from 'vm';
+import { Http2SecureServer } from 'http2';
 
 
 export class Application {
@@ -65,7 +67,7 @@ export class Application {
                 expires: appConfig.cookieExpiration 
             }
         }));
-
+        
         this.app.use(function(req, res, next) {
             res.setHeader("Access-Control-Allow-Origin", process.env.APP_URL);
             res.setHeader("X-XSS-Protection", "1; mode=block");
@@ -76,87 +78,115 @@ export class Application {
 
             return next();
         });
+        this.app.use(this.renewToken);
         
         this.app.disable('x-powered-by')
     }
 
     public routes() {
         const auth: Auth = new Auth();
+       
         
         this.app.use(httpProxy(proxyConfig.path, { 
             target: proxyConfig.target, 
             router: proxyConfig.router,
             logLevel: proxyConfig.logLevel,
-            onProxyReq: this.onRequest }));
+            // TODO: secure: true,
+            // TODO: changeOrigin: true,
+            onProxyReq: this.onRequest
+         }));
         
         this.app.use(process.env.GATEWAY_BASE_PATH, auth.router);
-
+        
+        /*
         this.app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
             let err = new Error('Not Found');
             next(err);
-        });
+        });*/
 
+        /*
         this.app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
             res.status(err.status || 404);
             res.send({
                 message: err.message,
                 error: {}
             });
-        });
+        });*/
+        
     }
 
-    private async onRequest(proxyReq, req: express.Request, res: express.Response) {
-        let now = new Date().getTime() / 1000;
-
-        if (now >= req.session.access_token_expiration) {
-            if(req.session.refresh_token) {
-                let body = querystring.stringify({
-                    client_id: process.env.STS_CLIENT_ID,
-                    client_secret: process.env.STS_CLIENT_SECRET,
-                    scope: process.env.STS_CLIENT_SCOPES,
-                    grant_type: 'client_credentials'
-                });
-        
-                try {
-                    let response = await fetch(`${process.env.STS_URL}/connect/token`, {
-                        method: 'POST',
-                        body: body,
-                        headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-                    }).then(r => r.json());
-                    req.session.access_token = response.access_token;
-                } catch (e) {
-                    console.log("Exception lors du renouvellement du token: " + e);
-                    req.session.access_token = null;
-                }
-                if (req.session.access_token) {
-                    let payload = JSON.parse(Buffer.from(req.session.access_token.split('.')[1], 'base64').toString());
-                    req.session.access_token_expiration = payload.exp;
+    private async renewToken(req: express.Request, res: express.Response, next) {
+        console.log("on before request");
+        if(req.session && req.session.access_token){
+            let now = new Date().getTime() / 1000;
+            
+            if (/*now >= req.session.access_token_expiration*/true) {
+                if (req.session.refresh_token) {
+                    let body = querystring.stringify({
+                        client_id: process.env.STS_CLIENT_ID,
+                        client_secret: process.env.STS_CLIENT_SECRET,
+                        scope: process.env.STS_CLIENT_SCOPES,
+                        refresh_token: req.session.refresh_token,
+                        grant_type: 'refresh_token'
+                    });
+            
+                    try {
+                        let response = await fetch(`${process.env.STS_URL}/connect/token`, {
+                            method: 'POST',
+                            body: body,
+                            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+                        }).then(r => { 
+                            console.log(r);
+                            if (r.status === 200) {
+                                return r.json();
+                            }
+                            console.log("response type not 200");
+                            return null;
+                        });
+                        
+                        if (response){
+                            console.log("response, on peut set la session --> " + response);
+                            req.session.access_token = response.access_token;
+                            req.session.refresh_token = response.refresh_token;
+                            console.log("les tokens sont set");
+                        } else {
+                            console.log("no response");
+                            req.session.destroy(err => console.log(err));
+                        }                    
+                    } catch (e) {
+                        console.log("Exception lors du renouvellement du token: " + e);
+                        req.session.destroy(err => console.log(err));
+                    }
+                    console.log("notre session est toujours valide? " + req.sessionID);
+                    if (req.session && req.session.access_token) {
+                        console.log("la session est toujours existante");
+                        let payload = JSON.parse(Buffer.from(req.session.access_token.split('.')[1], 'base64').toString());
+                        req.session.access_token_expiration = payload.exp;
+                        console.log(req.session.access_token_expiration);
+                    } else {
+                        // probleme au renouvellement de la session, likely refresh token invvalide, must login
+                        console.log("Session invalide apres renouvellement");
+                        res.send(401);
+                        //proxyReq.abort(); // this line drops the request that otherwise still reaches 
+                        return;
+                    }                
                 } else {
-                    // probleme au renouvellement de la session, likely refresh token invvalide, must login
+                    // drop session invalide must login
+                    console.log("REFRESH TOKEN INVALIDE");
                     res.send(401);
-                    proxyReq.destroy(); // this line drops the request that otherwise still reaches 
+                    //proxyReq.abort(); // this line drops the request that otherwise still reaches 
                     return;
-                }                
-            } else {
-                // drop session invalide must login
-                res.send(401);
-                proxyReq.destroy(); // this line drops the request that otherwise still reaches 
-                return;
+                }
             }
         }
-        
-        proxyReq.setHeader("Authorization", `Bearer ${req.session.access_token}`);
-        proxyReq.removeHeader("Cookie");
-        
-    }
-/*
-    private async renewToken(req: express.Request) {
-        
-        return !!newToken;
+        console.log("on before request done");
+        next();
     }
 
-    private async getAccessToken(): Promise<string> {
-       
+    private onRequest(proxyReq: http.ClientRequest, req: express.Request, res: express.Response) {
+        console.log("on set les headers");
+        proxyReq.setHeader("Authorization", `Bearer ${req.session.access_token}`);
+        proxyReq.removeHeader("Cookie");
+        console.log("les headers sont set");
     }
-  */  
 }
