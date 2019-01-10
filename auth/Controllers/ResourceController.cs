@@ -84,7 +84,7 @@ namespace STS.Controllers
         [Authorize]
         [RequiresPermissions("sts:create:resource")]
         [HttpPost]
-        public Task<IActionResult> Create(ApiResourceModel input)
+        public Task<IActionResult> Create([FromBody] ApiResourceModel input)
         {
             return Task.Run<IActionResult>(() =>
             {
@@ -111,7 +111,7 @@ namespace STS.Controllers
         [Authorize]
         [RequiresPermissions("sts:update:resource")]
         [HttpPut("{name}")]
-        public Task<IActionResult> Update(string name, ApiResourceModel input)
+        public Task<IActionResult> Update(string name, [FromBody] ApiResourceModel input)
         {
             return Task.Run<IActionResult>(() =>
             {
@@ -149,6 +149,37 @@ namespace STS.Controllers
                 _db.Delete<ApiResource>(r => r.Name == name);
 
                 return Ok(new {success = true});
+            });
+        }
+
+        [Authorize]
+        [RequiresPermissions("sts:get-all:resource")]
+        [HttpPost("filter")]
+        public Task<IActionResult> Filter([FromBody] FilterInput input)
+        {
+            return Task.Run<IActionResult>(() =>
+            {
+                var count = _db.All<ApiResource>()
+                    .ToList()
+                    .Count;
+                var data = _db.All<ApiResource>()
+                    .Skip(input.Size * (input.Start - 1))
+                    .Take(input.Size)
+                    .Select(x => new FilteredResource
+                    {
+                        Name = x.Name,
+                        DisplayName = x.DisplayName
+                    })
+                    .ToArray();
+                return Ok(new
+                {
+                    success = true,
+                    result = new FilteredData<FilteredResource>
+                    {
+                        Total = count,
+                        Data = data
+                    }
+                });
             });
         }
     }

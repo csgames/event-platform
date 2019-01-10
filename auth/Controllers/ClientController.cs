@@ -148,7 +148,7 @@ namespace STS.Controllers
         [Authorize]
         [RequiresPermissions("sts:update:client")]
         [HttpPut]
-        public Task<IActionResult> Update(ClientModel input)
+        public Task<IActionResult> Update([FromBody] ClientModel input)
         {
             return Task.Run<IActionResult>(() =>
             {
