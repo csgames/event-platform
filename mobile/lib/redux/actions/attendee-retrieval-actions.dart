@@ -59,11 +59,23 @@ class SearchCompletedAction {
 
 class ClearAttendeeAction {}
 
-class ResetAction {}
+class ResetAttendeeAction {}
 
 class CleanAction {
   final Attendee attendee;
   final User user;
 
   CleanAction(this.attendee, this.user);
+}
+
+class GetCurrentAttendeeAction {
+  final String userId;
+
+  GetCurrentAttendeeAction(this.userId);
+}
+
+class SetCurrentAttendeeAction {
+  final Attendee attendee;
+
+  SetCurrentAttendeeAction(this.attendee);
 }

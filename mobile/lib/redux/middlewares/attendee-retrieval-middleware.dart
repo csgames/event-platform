@@ -47,8 +47,11 @@ class AttendeeRetrievalMiddleware implements EpicClass<AppState> {
         .ofType(TypeToken<ScanAction>())
         .switchMap((action) => _scan(action.event, action.errorMessages)),
       Observable(actions)
-        .ofType(TypeToken<ResetAction>())
-        .switchMap((action) => _reset())
+        .ofType(TypeToken<ResetAttendeeAction>())
+        .switchMap((action) => _reset()),
+      Observable(actions)
+        .ofType(TypeToken<GetCurrentAttendeeAction>())
+        .switchMap((action)  => _getCurrentAttendee(action.userId))
     ]);
   }
 
@@ -104,5 +107,9 @@ class AttendeeRetrievalMiddleware implements EpicClass<AppState> {
     _lastScannedTag = null;
     _attendee = null;
     _user = null;
+  }
+
+  Stream<dynamic> _getCurrentAttendee(String userId) async* {
+    yield SetCurrentAttendeeAction(await _attendeesService.getAttendeeByUserId(userId));
   }
 }

@@ -1,20 +1,17 @@
 import 'dart:async';
 import 'dart:convert';
-import 'package:http/http.dart';
+import 'package:PolyHxApp/services/event-management.service.dart';
+import 'package:PolyHxApp/utils/http-client.dart';
 import 'package:PolyHxApp/domain/attendee.dart';
-import 'package:PolyHxApp/services/token.service.dart';
-import 'package:PolyHxApp/utils//environment.dart';
 
-class AttendeesService {
-  final Client _http;
-  final TokenService _tokenService;
+class AttendeesService extends EventManagementService {
+  HttpClient _httpClient;
 
-  AttendeesService(this._http, this._tokenService);
+  AttendeesService(this._httpClient) : super('attendee');
 
   Future<Attendee> getAttendeeByUserId(String userId) async {
     try {
-      final headers = {"Authorization": "Bearer ${_tokenService.accessToken}"};
-      final response = await _http.get("${Environment.eventManagementUrl}/attendee/user/$userId", headers: headers);
+      final response = await _httpClient.get(this.get(path: 'user/$userId'));
       var responseMap = json.decode(response.body);
       var attendee = Attendee.fromMap(responseMap["attendee"]);
       return attendee;
@@ -27,8 +24,7 @@ class AttendeesService {
 
   Future<Attendee> getAttendeeByPublicId(String publicId) async {
     try {
-      final headers = {"Authorization": "Bearer ${_tokenService.accessToken}"};
-      final response = await _http.get("${Environment.eventManagementUrl}/attendee/$publicId", headers: headers);
+      final response = await _httpClient.get(this.get(path: '$publicId'));
       var responseMap = json.decode(response.body);
       var attendee = Attendee.fromMap(responseMap["attendee"]);
       return attendee;
@@ -41,14 +37,23 @@ class AttendeesService {
 
   Future<bool> updateAttendeePublicId(Attendee attendee) async {
     try {
-      final headers = {"Authorization": "Bearer ${_tokenService.accessToken}"};
-      final response = await _http.put(
-          "${Environment.eventManagementUrl}/attendee/${attendee.id}/public_id/${attendee.publicId}", headers: headers);
+      final response = await _httpClient.put(this.get(path: '${attendee.id}/public_id/${attendee.publicId}'));
       return response.statusCode == 200;
     }
     catch (e) {
       print('AttendeesService.updateAttendeePublicId(): $e');
       return false;
     }
+  }
+
+  Future<bool> setFcmToken(String token) async {
+    final body = {'token': token};
+    final response = await _httpClient.put(this.get(path: 'token'), body: body);
+    return response.statusCode == 200;
+  }
+
+  Future<bool> removeFcmToken(String token) async {
+    final response = await _httpClient.delete(this.get(path: 'token/$token'));
+    return response.statusCode == 200;
   }
 }

@@ -5,6 +5,7 @@ import 'package:PolyHxApp/domain/attendee.dart';
 import 'package:PolyHxApp/domain/user.dart';
 import 'package:PolyHxApp/redux/actions/activity-actions.dart';
 import 'package:PolyHxApp/redux/state.dart';
+import 'package:PolyHxApp/services/activities.service.dart';
 import 'package:PolyHxApp/services/attendees.service.dart';
 import 'package:PolyHxApp/services/events.service.dart';
 import 'package:PolyHxApp/services/nfc.service.dart';
@@ -17,6 +18,7 @@ class ActivityMiddleware implements EpicClass<AppState> {
   final NfcService _nfcService;
   final AttendeesService _attendeesService;
   final UsersService _usersService;
+  final ActivitiesService _activitiesService;
 
   String _attendeePublicId;
 
@@ -24,7 +26,8 @@ class ActivityMiddleware implements EpicClass<AppState> {
     this._eventsService,
     this._nfcService,
     this._attendeesService,
-    this._usersService
+    this._usersService,
+    this._activitiesService
   );
 
   @override
@@ -69,7 +72,7 @@ class ActivityMiddleware implements EpicClass<AppState> {
         return;
       }
 
-      Activity activity = await _eventsService.addAttendeeToActivity(attendee.id, activityId);
+      Activity activity = await _activitiesService.addAttendeeToActivity(attendee.id, activityId);
       _attendeePublicId = null;
       yield AttendeeScanned(activity, user);
       print('Attendee Scanned.');

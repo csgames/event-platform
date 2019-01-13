@@ -10,3 +10,5 @@ pubspec.lock
 .flutter-plugins
 .vscode/
 *.log
+
+ios/Runner/GoogleService-Info\.plist

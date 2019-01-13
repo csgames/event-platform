@@ -47,10 +47,14 @@ class EventPageItem extends StatelessWidget {
         padding: const EdgeInsets.only(top: 16.0),
         child: Text(
           item.name,
-          style: textTheme.title.copyWith(color: Colors.white, fontWeight: FontWeight.bold),
-          textAlign: TextAlign.center,
-        ),
-      ),
+          style: textTheme.title.copyWith(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+            fontFamily: 'Raleway'
+          ),
+          textAlign: TextAlign.center
+        )
+      )
     );
 
     final eventImage = EventImage(item);
@@ -64,7 +68,11 @@ class EventPageItem extends StatelessWidget {
             child: Text(
               "${formatter.format(item.beginDate)} - ${formatter.format(
                   item.endDate)}",
-              style: textTheme.subhead.copyWith(color: Colors.white, fontWeight: FontWeight.normal),
+              style: textTheme.subhead.copyWith(
+                color: Colors.white,
+                fontWeight: FontWeight.normal,
+                fontFamily: 'Raleway'
+              ),
               textAlign: TextAlign.center,
             )));
 

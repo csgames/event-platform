@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "254982200861",
+    "firebase_url": "https://polyhx-projects.firebaseio.com",
+    "project_id": "polyhx-projects",
+    "storage_bucket": "polyhx-projects.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:254982200861:android:a2c75f566f790bff",
+        "android_client_info": {
+          "package_name": "io.polyhx.mobileapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "254982200861-8ijq64e5rdb7gdsed7ea4cr23qnorajq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB6bjfcjJXLb5uii2eLZXyoEGIBOkS22Sw"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

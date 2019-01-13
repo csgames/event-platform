@@ -13,19 +13,19 @@ class PillButton extends StatelessWidget {
     this.onPressed,
     this.child,
     this.enabled = true,
-    this.elevation = 2.0
+    this.elevation = 1.0
   });
 
   @override
   Widget build(BuildContext context) {
     return Material(
-      borderRadius: BorderRadius.circular(30.0),
+      borderRadius: BorderRadius.circular(20.0),
       elevation: elevation,
       child: RaisedButton(
         color: color,
         onPressed: enabled ? onPressed : null,
         child: child,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0))
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0))
       )
     );
   }

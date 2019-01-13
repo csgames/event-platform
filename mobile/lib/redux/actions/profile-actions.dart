@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:PolyHxApp/domain/event.dart';
 import 'package:PolyHxApp/domain/user.dart';
 
 class SetCurrentUserAction {
@@ -6,6 +9,28 @@ class SetCurrentUserAction {
   SetCurrentUserAction(this.user);
 }
 
-class GetCurrentUserAction {}
+class GetCurrentUserAction {
+  final Completer completer;
+  
+  GetCurrentUserAction({Completer completer})
+    : this.completer = completer ?? Completer();
+}
 
-class ScanAction {}
+class ScanAction {
+  final String attendeeId;
+  final Event event;
+  final Map<String, String> errorMessages;
+
+  ScanAction(this.attendeeId, this.event, this.errorMessages);
+}
+
+class ErrorAction {
+  final String title;
+  final String description;
+
+  ErrorAction(this.title, this.description);
+}
+
+class ScannedAction {}
+
+class ResetProfileAction {}

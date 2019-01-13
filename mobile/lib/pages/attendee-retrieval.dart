@@ -94,6 +94,7 @@ class _AttendeeRetrievalPageState extends State<AttendeeRetrievalPage> {
                 fontSize: 30.0,
                 fontWeight: FontWeight.w900,
                 color: Constants.polyhxGrey.withAlpha(144),
+                fontFamily: 'Raleway'
               )
             )
           ]
@@ -268,7 +269,7 @@ class _AttendeeRetrievalViewModel {
     init = () => store.dispatch(InitAction());
     search = (username, event, errorMessages) => store.dispatch(SearchAction(username, event, errorMessages));
     scan = (event, errorMessages) => store.dispatch(ScanAction(event, errorMessages));
-    reset = () => store.dispatch(ResetAction());
+    reset = () => store.dispatch(ResetAttendeeAction());
     clean = (attendee, user) => store.dispatch(CleanAction(attendee, user));  
   }
 }

@@ -21,6 +21,10 @@ class LocalizationService {
     return '${locale.languageCode}_${locale.countryCode}';
   }
 
+  String get language {
+    return locale.languageCode;
+  }
+
   Map<String, dynamic> get eventList {
     return values['event-list'];
   }
@@ -67,5 +71,21 @@ class LocalizationService {
 
   Map<String, dynamic> get profile {
     return values['profile'];
+  }
+
+  Map<String, dynamic> get sponsors {
+    return values['sponsors'];
+  }
+  
+  Map<String, dynamic> get schedule {
+    return values['schedule'];
+  }
+
+  Map<String, dynamic> get info {
+    return values['info'];
+  }
+
+  Map<String, dynamic> get notification {
+    return values['notification'];
   }
 }

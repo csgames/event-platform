@@ -7,7 +7,7 @@ final attendeeRetrievalReducer = combineReducers<AttendeeRetrievalState>([
   TypedReducer<AttendeeRetrievalState, SearchAction>(_setLoading),
   TypedReducer<AttendeeRetrievalState, ErrorAction>(_setError),
   TypedReducer<AttendeeRetrievalState, SearchCompletedAction>(_setSearchCompleted),
-  TypedReducer<AttendeeRetrievalState, ResetAction>(_setInitial),
+  TypedReducer<AttendeeRetrievalState, ResetAttendeeAction>(_setInitial),
   TypedReducer<AttendeeRetrievalState, NfcAlreadyAssignedAction>(_setNfcScannedError),
   TypedReducer<AttendeeRetrievalState, CleanAction>(_setClean)
 ]);
@@ -86,6 +86,6 @@ AttendeeRetrievalState _setSearchCompleted(AttendeeRetrievalState state, SearchC
   );
 }
 
-AttendeeRetrievalState _setInitial(AttendeeRetrievalState state, ResetAction action) {
+AttendeeRetrievalState _setInitial(AttendeeRetrievalState state, ResetAttendeeAction action) {
   return AttendeeRetrievalState.initial();
 }

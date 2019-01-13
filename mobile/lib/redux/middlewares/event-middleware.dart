@@ -8,10 +8,10 @@ import 'package:redux_epics/redux_epics.dart';
 import 'package:rxdart/rxdart.dart';
 
 class EventMiddleware implements EpicClass<AppState> {
-  final EventsService eventsService;
+  final EventsService _eventsService;
   final TokenService _tokenService;
   
-  EventMiddleware(this.eventsService, this._tokenService);
+  EventMiddleware(this._eventsService, this._tokenService);
 
   @override
   Stream call(Stream actions, EpicStore<AppState> store) {
@@ -27,7 +27,7 @@ class EventMiddleware implements EpicClass<AppState> {
 
   Stream<dynamic> _fetchEvents() async* {
     try {
-      yield EventsLoadedAction(await this.eventsService.getAllEvents());
+      yield EventsLoadedAction(await this._eventsService.getAllEvents());
     } catch (err) {
       print('An error occured while getting the events: $err');
       yield EventsNotLoadedAction();

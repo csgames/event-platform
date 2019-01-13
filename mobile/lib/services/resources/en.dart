@@ -1,5 +1,6 @@
 Map<String, dynamic> en = {
   'login': {
+    'title': 'Login',
     'pwd': 'Password',
     'email': 'Email',
     'login': 'Login'
@@ -8,14 +9,37 @@ Map<String, dynamic> en = {
     'info': 'Info',
     'register': 'Register',
     'activities': 'Activities',
-    'profile': 'Profile'
+    'profile': 'Profile',
+    'sponsors': 'Sponsors'
   },
   'profile': {
-    'title': 'PROFILE',
-    'scan': 'Scan'
+    'title': 'Profile',
+    'scan': 'Scan',
+    'scanned': 'Attendee Scanned',
+    'errors': {
+      'scan-title': 'Scanned attendee not found',
+      'scan-desc': 'Could not find the attendee scanned.',
+      'attendee-title': 'Current user not attending',
+      'attendee-desc': 'Current attendee is not registered to any events',
+      'permission-title': 'Pemission error',
+      'permission-desc': 'You don\'t have the user permission to access the camera.',
+      'save-title': 'Save error',
+      'save-desc': 'An error occured while saving the scanned attendee.',
+      'same-title': 'Scanned attendee error',
+      'same-desc': 'Can not add yourself as a scanned attendee.',
+      'register-title': 'Attendee not registered',
+      'register-desc': 'Current attendee is not registered to this event.',
+      'register-scan-title': 'Attendee scanned not registered',
+      'register-scan-desc': 'Attendee scanned is not registered to this event.'
+    }
+  },
+  'sponsors': {
+    'title': 'Sponsors',
+    'done': 'Done',
+    'error': 'An error occured while loading the sponsors.'
   },
   'event-info': {
-    'title': 'GUIDE',
+    'title': 'Guide',
     'bring': 'What to bring?',
     'parking': 'Parking',
     'restaurant': 'Restaurant',
@@ -26,7 +50,7 @@ Map<String, dynamic> en = {
     'error': 'An error occured while loading events.'
   },
   'bring': {
-    'guide': 'GUIDE',
+    'guide': 'Guide',
     'title': 'What to bring?',
     'card': 'Student card',
     'pc': 'Portable computer & charger',
@@ -40,15 +64,15 @@ Map<String, dynamic> en = {
     'tylenol': 'Tylenol/Advil for headaches'
   },
   'parking': {
-    'guide': 'GUIDE',
+    'guide': 'Guide',
     'title': 'Parking'
   },
   'restaurant': {
-    'guide': 'GUIDE',
+    'guide': 'Guide',
     'title': 'Restaurant'
   },
   'hotel': {
-    'guide': 'GUIDE',
+    'guide': 'Guide',
     'title': 'Hotel'
   },
   'attendee-retrieval': {
@@ -87,11 +111,29 @@ Map<String, dynamic> en = {
     'scan': 'Scan to Attend',
     'raffle': 'RAFFLE',
     'count': 'Attendee count',
+    'subscribe': 'Subscribe',
+    'subscribed': 'Subscribed!',
     'errors': {
       'tag-title': 'Tag not bound',
       'tag-desc': 'The scanned NFC tag is not bound to an attendee.',
       'user-title': 'User not found',
       'user-desc': 'The user does not exist.'
     }
+  },
+  'schedule': {
+    'title': 'Schedule'
+  },
+  'info' : {
+    'title': 'Info'
+  },
+  'notification': {
+    'title': 'Notifications',
+    'error': 'An error occured while loading the notifications',
+    'sms': 'Send Sms',
+    'sms-text': 'Enter Sms text',
+    'push': 'Send Push Notifications',
+    'push-title': 'Enter push notification title',
+    'push-text': 'Enter push notification text',
+    'send': 'Send'
   }
 };

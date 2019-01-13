@@ -1,23 +1,20 @@
 import 'dart:async';
 import 'dart:convert';
-import 'package:http/http.dart';
+import 'package:PolyHxApp/utils/http-client.dart';
 import 'package:PolyHxApp/domain/activity.dart';
 import 'package:PolyHxApp/domain/event.dart';
 import 'package:PolyHxApp/domain/user.dart';
-import 'package:PolyHxApp/services/token.service.dart';
 import 'package:PolyHxApp/utils/environment.dart';
 
 class EventsService {
-  Client _http;
-  TokenService _tokenService;
+  HttpClient _httpClient;
 
   List<Event> _eventsCache;
 
-  EventsService(this._http, this._tokenService);
+  EventsService(this._httpClient);
 
   Future<List<Event>> getAllEvents() async {
-    final response = await _http.get('${Environment.eventManagementUrl}/event',
-          headers: {'Authorization': 'Bearer ${_tokenService.accessToken}'});
+    final response = await _httpClient.get('${Environment.eventManagementUrl}/event');
     final responseMap = json.decode(response.body);
     _eventsCache = List.castFrom<dynamic, Event>(responseMap.map((e) => Event.fromMap(e)).toList());
     return _eventsCache;
@@ -25,8 +22,7 @@ class EventsService {
 
   Future<Event> getEventById(String id) async {
     try {
-      final response = await _http.get('${Environment.eventManagementUrl}/event/$id',
-          headers: {'Authorization': 'Bearer ${_tokenService.accessToken}'});
+      final response = await _httpClient.get('${Environment.eventManagementUrl}/event/$id');
       final responseMap = json.decode(response.body);
       return Event.fromMap(responseMap['event']);
     }
@@ -37,42 +33,35 @@ class EventsService {
   }
 
   Future<List<Activity>> getActivitiesForEvent(String eventId) async {
-    final res = await _http.get('${Environment.eventManagementUrl}/event/$eventId/activity',
-        headers: {'Authorization': 'Bearer ${_tokenService.accessToken}'})
+    final res = await _httpClient.get('${Environment.eventManagementUrl}/event/$eventId/activity')
         .then((r) => json.decode(r.body));
     return List.castFrom<dynamic, Activity>(res.map((a) => Activity.fromMap(a)).toList());
   }
-
-  Future<Activity> addAttendeeToActivity(String attendeeId, String activityId) async {
-    try {
-      final headers = {'Authorization': 'Bearer ${_tokenService.accessToken}'};
-      final response = await _http.put('${Environment.eventManagementUrl}/activity/$activityId/$attendeeId/add',
-          headers: headers);
-      final responseMap = json.decode(response.body);
-      return Activity.fromMap(responseMap);
-    }
-    catch (e) {
-      print('AttendeesService.addAttendeeToActivity(): $e');
-      return null;
-    }
-  }
-
+  
   Future<User> doRaffle(String activityId) async {
-    final response = await _http.get('${Environment.eventManagementUrl}/activity/$activityId/raffle',
-                                     headers: {'Authorization': 'Bearer ${_tokenService.accessToken}'});
+    final response = await _httpClient.get('${Environment.eventManagementUrl}/activity/$activityId/raffle');
     final responseMap = json.decode(response.body);
     return User.fromMap(responseMap);
   }
 
   Future<bool> setAttendeeAsPresent(String eventId, String attendeeId) async {
     try {
-      final headers = {'Authorization': 'Bearer ${_tokenService.accessToken}'};
-      final response = await _http.put('${Environment.eventManagementUrl}/event/$eventId/$attendeeId/present',
-                                       headers: headers);
+      final response = await _httpClient.put('${Environment.eventManagementUrl}/event/$eventId/$attendeeId/present');
       return response.statusCode == 200;
     }
     catch (e) {
       print('AttendeesService.addAttendeeToActivity(): $e');
+      return false;
+    }
+  }
+
+  Future<bool> addScannedAttendee(String attendeeId, String scannedAttendeeId, String eventId) async {
+    try {
+      final body = {'scannedAttendee': scannedAttendeeId};
+      final response = await _httpClient.put('${Environment.eventManagementUrl}/event/$eventId/$attendeeId/scan', body: body);
+      return response.statusCode == 200;
+    } catch (err) {
+      print('AttendeesService.addScannedAttendee(): $err');
       return false;
     }
   }

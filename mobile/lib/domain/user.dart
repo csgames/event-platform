@@ -37,6 +37,8 @@ class User {
     firstName = token['firstname'];
     lastName = token['lastname'];
     username = token['name'];
+    id = token['user_id'];
+    role = token['role'];
   }
 
   static void copy(User from, User to) {

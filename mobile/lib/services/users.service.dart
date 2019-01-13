@@ -1,21 +1,18 @@
 import 'dart:async';
 import 'dart:convert';
-import 'package:http/http.dart';
+import 'package:PolyHxApp/services/sts.service.dart';
+import 'package:PolyHxApp/utils/http-client.dart';
 import 'package:PolyHxApp/domain/user.dart';
-import 'package:PolyHxApp/services/token.service.dart';
-import 'package:PolyHxApp/utils//environment.dart';
 import 'package:PolyHxApp/utils/url-encoded-params.dart';
 
-class UsersService {
-  final Client _http;
-  final TokenService _tokenService;
+class UsersService extends StsService {
+  final HttpClient _httpClient;
 
-  UsersService(this._http, this._tokenService);
+  UsersService(this._httpClient) : super('user');
 
   Future<num> getUsersCount() async {
     try {
-      final headers = {"Authorization": "Bearer ${_tokenService.accessToken}"};
-      final response = await _http.get("${Environment.stsUrl}/user/count", headers: headers);
+      final response = await _httpClient.get(this.get(path: 'user/count'));
       final responseMap = json.decode(response.body);
       return responseMap["count"];
     }
@@ -27,8 +24,7 @@ class UsersService {
 
   Future<List<User>> getAllUsers() async {
     try {
-      final headers = {"Authorization": "Bearer ${_tokenService.accessToken}"};
-      final response = await _http.get("${Environment.stsUrl}/user", headers: headers);
+      final response = await _httpClient.get(this.get(path: 'user'));
       final responseMap = json.decode(response.body);
       List<User> users = [];
       responseMap["users"].forEach((userMap) => users.add(User.fromMap(userMap)));
@@ -42,8 +38,7 @@ class UsersService {
 
   Future<User> getUser(String id) async {
     try {
-      final headers = {"Authorization": "Bearer ${_tokenService.accessToken}"};
-      final response = await _http.get("${Environment.stsUrl}/user/$id", headers: headers);
+      final response = await _httpClient.get(this.get(path: '$id'));
       var responseMap = json.decode(response.body);
       var user = User.fromMap(responseMap["user"]);
       return user;
@@ -57,8 +52,7 @@ class UsersService {
   Future<User> getUserByUsername(String username) async {
     try {
       username = username.toLowerCase();
-      final headers = {"Authorization": "Bearer ${_tokenService.accessToken}"};
-      final response = await _http.get("${Environment.stsUrl}/user/username/$username", headers: headers);
+      final response = await _httpClient.get(this.get(path: 'username/$username'));
       final responseMap = json.decode(response.body);
       var user = User.fromMap(responseMap["user"]);
       return user;
@@ -84,10 +78,9 @@ class UsersService {
         ..set('firstName', user.firstName);
 
       final headers = {
-        "Authorization": "Bearer ${_tokenService.accessToken}",
         "Content-Type": "application/x-www-form-urlencoded"
       };
-      final response = await _http.put("${Environment.stsUrl}/user/admin/${user.id}",
+      final response = await _httpClient.put(this.get(path: 'admin/${user.id}'),
                body: body.toString(), headers: headers
       );
       final responseMap = json.decode(response.body);
@@ -113,10 +106,9 @@ class UsersService {
         ..set('roleId', user.roleId);
 
       final headers = {
-        "Authorization": "Bearer ${_tokenService.accessToken}",
         "Content-Type": "application/x-www-form-urlencoded"
       };
-      final response = await _http.post("${Environment.stsUrl}/user",
+      final response = await _httpClient.post(this.get(path: 'user'),
           body: body.toString(), headers: headers
       );
       final responseMap =  json.decode(response.body);

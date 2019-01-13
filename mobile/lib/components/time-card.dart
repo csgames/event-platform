@@ -9,22 +9,22 @@ class TimeCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: MediaQuery.of(context).size.width * 0.925,
-      height: MediaQuery.of(context).size.height * 0.06,
-      margin: const EdgeInsets.fromLTRB(0.0, 5.0, 0.0, 5.0),
+      margin: EdgeInsets.fromLTRB(0.0, 2.0, 0.0, 2.0),
       child: Material(
-        borderRadius: BorderRadius.circular(15.0),
-        elevation: 0.3,
+        borderRadius: BorderRadius.circular(10.0),
+//        color: Color.fromARGB(255, 230, 230, 230),
         child: Row(
           children: <Widget>[
             Padding(
-              padding: const EdgeInsets.all(12.5),
+              padding: const EdgeInsets.fromLTRB(12.5, 5.0, 12.5, 5.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Text(
                     time,
                     style: TextStyle(
-                      fontSize: 17.0
+                      fontSize: 12.0,
+                      fontFamily: 'OpenSans'
                     )
                   )
                 ]

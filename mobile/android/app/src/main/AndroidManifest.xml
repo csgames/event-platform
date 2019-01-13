@@ -20,6 +20,11 @@
         android:name="io.flutter.app.FlutterApplication"
         android:label="PolyHx"
         android:roundIcon="@mipmap/ic_launcher">
+        <meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyCRXgbFiNrgvIEPtRfWvmcXKC381fV3OZw"/>
+
+        <meta-data
+                android:name="com.google.firebase.messaging.default_notification_icon"
+                android:resource="@drawable/app_icon" />
         <activity
             android:name=".MainActivity"
             android:screenOrientation="portrait"
@@ -35,9 +40,14 @@
             <meta-data
                 android:name="io.flutter.app.android.SplashScreenUntilFirstFrame"
                 android:value="true" />
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="FLUTTER_NOTIFICATION_CLICK" />
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
     </application>
