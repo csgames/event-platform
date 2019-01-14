@@ -12,6 +12,9 @@ import { BsDropdownModule } from "ngx-bootstrap";
 import { SimpleModalModule } from "ngx-simple-modal";
 import { NotificationsListModalModule } from "../../modals/notifications-list-modal/notifications-list-modal.module";
 import { NotificationsListModalComponent } from "../../modals/notifications-list-modal/notifications-list-modal.component";
+import { MainNavComponent } from "src/app/features/dashboard/components/main-nav/main-nav.component";
+import { LayoutModule } from "@angular/cdk/layout";
+import { MatToolbarModule, MatButtonModule, MatSidenavModule, MatIconModule, MatListModule } from "@angular/material";
 
 @NgModule({
     imports: [
@@ -23,13 +26,20 @@ import { NotificationsListModalComponent } from "../../modals/notifications-list
         SimpleModalModule,
         BsDropdownModule,
         NotificationsListModalModule,
-        GravatarModule.forRoot({ fallback: FALLBACK.mm })
+        GravatarModule.forRoot({ fallback: FALLBACK.mm }),
+        LayoutModule,
+        MatToolbarModule,
+        MatButtonModule,
+        MatSidenavModule,
+        MatIconModule,
+        MatListModule,
     ],
     declarations: [
         DashboardComponent,
         EventsBarComponent,
         SideNavComponent,
-        TopNavComponent
+        TopNavComponent,
+        MainNavComponent
     ],
     entryComponents: [
         NotificationsListModalComponent

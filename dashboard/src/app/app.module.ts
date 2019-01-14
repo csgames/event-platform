@@ -15,10 +15,11 @@ import { StoreDevtoolsModule } from "@ngrx/store-devtools";
 import { BsDropdownModule } from "ngx-bootstrap/dropdown";
 import { LoginModule } from "./features/login/login.module";
 import { RegisterModule } from "./features/register/register.module";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 
 @NgModule({
     declarations: [
-        AppComponent
+        AppComponent,
     ],
     imports: [
         BrowserModule,
@@ -33,6 +34,8 @@ import { RegisterModule } from "./features/register/register.module";
             AppEffects
         ]),
         !environment.production ? StoreDevtoolsModule.instrument() : [],
+        BrowserAnimationsModule,
+        
     ],
     providers: [],
     bootstrap: [AppComponent]
