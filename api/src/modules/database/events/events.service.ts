@@ -12,7 +12,7 @@ import { MessagingService } from '../../messaging/messaging.service';
 import { CreateActivityDto } from '../activities/activities.dto';
 import { Activities } from '../activities/activities.model';
 import { ActivitiesService } from '../activities/activities.service';
-import { AttendeeNotifications } from '../attendees/attendees.model';
+import { AttendeeNotifications, Attendees } from '../attendees/attendees.model';
 import { AttendeesService } from '../attendees/attendees.service';
 import { Notifications } from '../notifications/notifications.model';
 import { NotificationsService } from '../notifications/notifications.service';
@@ -36,8 +36,15 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
         super(eventsModel);
     }
 
-    public async addAttendee(eventId: string, userId: string): Promise<Events> {
-        const attendee = await this.attendeeService.findOne({userId});
+    public async addAttendee(eventId: string, userIdOrAttendee: string | Attendees): Promise<Events> {
+        let attendee: Attendees;
+        if (typeof userIdOrAttendee === "string") {
+            attendee = await this.attendeeService.findOne({
+                userId: userIdOrAttendee
+            });
+        } else {
+            attendee = userIdOrAttendee;
+        }
 
         if (!attendee) {
             throw new UserNotAttendeeException();

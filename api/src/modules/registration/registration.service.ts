@@ -1,37 +1,53 @@
 import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
-import { STSService, UserModel } from '@polyhx/nest-services';
+import { STSService } from '@polyhx/nest-services';
+import { AttendeesService } from '../database/attendees/attendees.service';
+import { EventsService } from '../database/events/events.service';
+import { CreateUserDto } from './user.dto';
+import { CodeException } from '../../filters/code-error/code.exception';
 
 @Injectable()
 export class RegistrationService {
-    private roles;
-
-    constructor(private readonly stsService: STSService) {
+    private roles: { [key: string]: string } = {};
+    constructor(private readonly stsService: STSService,
+                private readonly attendeeService: AttendeesService,
+                private readonly eventService: EventsService) {
     }
 
-    public async registerUser(userDto: Partial<UserModel>, role: string): Promise<string> {
+    public async registerAttendee(userDto: CreateUserDto) {
         if (!this.roles) {
-            await this.getRoles();
+            await this.fetchRoles();
         }
-
-        if (!this.roles[role]) {
-            throw new HttpException("Invalid role", HttpStatus.BAD_REQUEST);
-        }
-
-        userDto.roleId = this.roles[role];
 
         try {
-            const res = await this.stsService.registerUser(userDto);
-            return res.userId;
+            const res = await this.stsService.registerUser({
+                roleId: this.roles['attendee'],
+                email: userDto.email,
+                username: userDto.email,
+                firstName: userDto.firstName,
+                lastName: userDto.lastName,
+                birthDate: userDto.birthDate
+            });
+            const attendee = await this.attendeeService.create({
+                ...userDto.attendee,
+                userId: res.userId
+            });
+            await this.eventService.addAttendee(userDto.eventId, attendee);
         } catch (err) {
-            throw new HttpException("Error while creating user", HttpStatus.INTERNAL_SERVER_ERROR);
+            if (err instanceof HttpException) {
+                throw err;
+            }
+            if (err instanceof CodeException) {
+                throw err;
+            }
+
+            throw new HttpException("Error while creating attendee", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-    private async getRoles() {
+    public async fetchRoles() {
         const roles = (await this.stsService.getRoles()).roles;
 
-        this.roles = {};
-        for (let role of roles) {
+        for (const role of roles) {
             this.roles[role.name] = role.id;
         }
     }

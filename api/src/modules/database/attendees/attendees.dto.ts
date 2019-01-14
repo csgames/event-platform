@@ -15,18 +15,7 @@ export class CreateAttendeeDto {
     @IsOptional()
     @IsString()
     @ApiModelProperty()
-    cv: string;
-
-    @IsOptional()
-    @IsString()
-    @ApiModelProperty()
     website: string;
-
-    @IsString()
-    @IsNotEmpty()
-    @IsIn(['cegep', 'bachelor', 'master', 'phd'])
-    @ApiModelProperty({ required: true })
-    degree: string;
 
     @IsString()
     @IsNotEmpty()
@@ -80,18 +69,7 @@ export class UpdateAttendeeDto {
     @IsOptional()
     @IsString()
     @ApiModelProperty()
-    cv: string;
-
-    @IsOptional()
-    @IsString()
-    @ApiModelProperty()
     website: string;
-
-    @IsOptional()
-    @IsString()
-    @IsIn(['cegep', 'bachelor', 'master', 'phd'])
-    @ApiModelProperty()
-    degree: string;
 
     @IsOptional()
     @IsString()

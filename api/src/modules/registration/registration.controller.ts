@@ -9,7 +9,6 @@ export class RegistrationController {
 
     @Post('attendee')
     public async registerAttendee(@Body(new ValidationPipe()) user: CreateUserDto) {
-        await this.registrationService.registerUser(user, 'attendee');
-        return { success: true };
+        await this.registrationService.registerAttendee(user);
     }
 }

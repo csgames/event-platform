@@ -1,4 +1,5 @@
 import { Body, Controller, Delete, Get, HttpException, HttpStatus, Param, Post, Put, UseGuards } from '@nestjs/common';
+import { ApiUseTags } from '@nestjs/swagger';
 import { STSService, UserModel } from '@polyhx/nest-services';
 import { Permissions } from '../../../decorators/permission.decorator';
 import { PermissionsGuard } from '../../../guards/permission.guard';
@@ -9,6 +10,7 @@ import { CreateActivityDto, SendNotificationDto } from './activities.dto';
 import { Activities, ActivityTypes } from './activities.model';
 import { ActivitiesService } from './activities.service';
 
+@ApiUseTags('Activity')
 @Controller("activity")
 @UseGuards(PermissionsGuard)
 export class ActivitiesController {
