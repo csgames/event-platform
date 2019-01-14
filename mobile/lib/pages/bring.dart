@@ -1,6 +1,6 @@
-import 'package:PolyHxApp/components/bullet-point.dart';
-import 'package:PolyHxApp/services/localization.service.dart';
-import 'package:PolyHxApp/utils/constants.dart';
+import 'package:CSGamesApp/components/bullet-point.dart';
+import 'package:CSGamesApp/services/localization.service.dart';
+import 'package:CSGamesApp/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -60,16 +60,16 @@ class BringPage extends StatelessWidget {
                                     children: <Widget>[Icon(
                                         FontAwesomeIcons.clipboardCheck,
                                         size: 38.0,
-                                        color: Constants.polyhxRed,
+                                        color: Constants.csBlue,
                                     ),
                                     Padding(
                                         padding: EdgeInsets.only(left: 10.0),
                                         child: Text(
                                             LocalizationService
                                                 .of(context)
-                                                .eventInfo['bring'],
+                                                .eventInfo['bring'].toUpperCase(),
                                             style: TextStyle(
-                                                fontFamily: 'OpenSans',
+                                                fontFamily: 'flipbash',
                                                 fontSize: 24.0
                                             )
                                         )

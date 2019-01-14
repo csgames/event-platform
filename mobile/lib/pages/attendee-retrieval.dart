@@ -1,18 +1,18 @@
-import 'package:PolyHxApp/redux/actions/attendee-retrieval-actions.dart';
-import 'package:PolyHxApp/redux/state.dart';
-import 'package:PolyHxApp/services/localization.service.dart';
+import 'package:CSGamesApp/redux/actions/attendee-retrieval-actions.dart';
+import 'package:CSGamesApp/redux/state.dart';
+import 'package:CSGamesApp/services/localization.service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:PolyHxApp/components/loading-spinner.dart';
-import 'package:PolyHxApp/components/pill-button.dart';
-import 'package:PolyHxApp/components/pill-textfield.dart';
-import 'package:PolyHxApp/domain/attendee.dart';
-import 'package:PolyHxApp/domain/event.dart';
-import 'package:PolyHxApp/domain/user.dart';
-import 'package:PolyHxApp/pages/attendee-profile.dart';
-import 'package:PolyHxApp/utils/constants.dart';
+import 'package:CSGamesApp/components/loading-spinner.dart';
+import 'package:CSGamesApp/components/pill-button.dart';
+import 'package:CSGamesApp/components/pill-textfield.dart';
+import 'package:CSGamesApp/domain/attendee.dart';
+import 'package:CSGamesApp/domain/event.dart';
+import 'package:CSGamesApp/domain/user.dart';
+import 'package:CSGamesApp/pages/attendee-profile.dart';
+import 'package:CSGamesApp/utils/constants.dart';
 import 'package:redux/redux.dart';
 
 class AttendeeRetrievalPage extends StatefulWidget {
@@ -69,7 +69,7 @@ class _AttendeeRetrievalPageState extends State<AttendeeRetrievalPage> {
         decoration: InputDecoration(
           prefixIcon: Icon(
             Icons.search,
-            color: Constants.polyhxRed
+            color: Constants.csRed
           ),
           border: InputBorder.none
         )

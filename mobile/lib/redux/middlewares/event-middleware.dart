@@ -1,9 +1,9 @@
 import 'dart:async';
 
-import 'package:PolyHxApp/redux/actions/event-actions.dart';
-import 'package:PolyHxApp/redux/state.dart';
-import 'package:PolyHxApp/services/events.service.dart';
-import 'package:PolyHxApp/services/token.service.dart';
+import 'package:CSGamesApp/redux/actions/event-actions.dart';
+import 'package:CSGamesApp/redux/state.dart';
+import 'package:CSGamesApp/services/events.service.dart';
+import 'package:CSGamesApp/services/token.service.dart';
 import 'package:redux_epics/redux_epics.dart';
 import 'package:rxdart/rxdart.dart';
 

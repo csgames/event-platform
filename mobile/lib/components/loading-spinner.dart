@@ -19,7 +19,7 @@ class LoadingSpinner extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.all(20.0),
                   child: Image.asset(
-                    'assets/logo.png',
+                    'assets/mirego.png',
                     width: 120.0
                   )
                 )

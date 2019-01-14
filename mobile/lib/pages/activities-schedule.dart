@@ -1,18 +1,18 @@
-import 'package:PolyHxApp/components/time-card.dart';
-import 'package:PolyHxApp/components/title.dart';
-import 'package:PolyHxApp/redux/actions/activities-schedule-actions.dart';
-import 'package:PolyHxApp/redux/state.dart';
-import 'package:PolyHxApp/redux/states/activities-schedule-state.dart';
-import 'package:PolyHxApp/services/localization.service.dart';
-import 'package:PolyHxApp/services/schedule.service.dart';
-import 'package:PolyHxApp/utils/constants.dart';
+import 'package:CSGamesApp/components/time-card.dart';
+import 'package:CSGamesApp/components/title.dart';
+import 'package:CSGamesApp/redux/actions/activities-schedule-actions.dart';
+import 'package:CSGamesApp/redux/state.dart';
+import 'package:CSGamesApp/redux/states/activities-schedule-state.dart';
+import 'package:CSGamesApp/services/localization.service.dart';
+import 'package:CSGamesApp/services/schedule.service.dart';
+import 'package:CSGamesApp/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:PolyHxApp/components/activity-card.dart';
-import 'package:PolyHxApp/components/loading-spinner.dart';
-import 'package:PolyHxApp/domain/activity.dart';
-import 'package:PolyHxApp/pages/activity.dart';
+import 'package:CSGamesApp/components/activity-card.dart';
+import 'package:CSGamesApp/components/loading-spinner.dart';
+import 'package:CSGamesApp/domain/activity.dart';
+import 'package:CSGamesApp/pages/activity.dart';
 
 class ActivitiesSchedulePage extends StatefulWidget {
     final String _eventId;
@@ -84,7 +84,7 @@ class _ActivitiesScheduleState extends State<ActivitiesSchedulePage> with Ticker
                         color: Colors.white,
                         child: TabBar(
                             indicator: BoxDecoration(
-                                color: Constants.polyhxRed,
+                                color: Constants.csBlue,
                                 borderRadius: BorderRadius.circular(15.0)
                             ),
                             labelStyle: TextStyle(

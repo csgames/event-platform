@@ -1,16 +1,16 @@
-import 'package:PolyHxApp/redux/reducers/activities-schedule-reducer.dart';
-import 'package:PolyHxApp/redux/reducers/activities-subscription-reducer.dart';
-import 'package:PolyHxApp/redux/reducers/activity-reducer.dart';
-import 'package:PolyHxApp/redux/reducers/attendee-retrieval-reducer.dart';
-import 'package:PolyHxApp/redux/reducers/current-attendee-reducer.dart';
-import 'package:PolyHxApp/redux/reducers/current-user-reducer.dart';
-import 'package:PolyHxApp/redux/reducers/notification-reducer.dart';
-import 'package:PolyHxApp/redux/reducers/profile-reducer.dart';
-import 'package:PolyHxApp/redux/reducers/sponsors-reducer.dart';
-import 'package:PolyHxApp/redux/state.dart';
-import 'package:PolyHxApp/redux/reducers/event-reducer.dart';
-import 'package:PolyHxApp/redux/reducers/current-event-reducer.dart';
-import 'package:PolyHxApp/redux/reducers/login-reducer.dart';
+import 'package:CSGamesApp/redux/reducers/activities-schedule-reducer.dart';
+import 'package:CSGamesApp/redux/reducers/activities-subscription-reducer.dart';
+import 'package:CSGamesApp/redux/reducers/activity-reducer.dart';
+import 'package:CSGamesApp/redux/reducers/attendee-retrieval-reducer.dart';
+import 'package:CSGamesApp/redux/reducers/current-attendee-reducer.dart';
+import 'package:CSGamesApp/redux/reducers/current-user-reducer.dart';
+import 'package:CSGamesApp/redux/reducers/notification-reducer.dart';
+import 'package:CSGamesApp/redux/reducers/profile-reducer.dart';
+import 'package:CSGamesApp/redux/reducers/sponsors-reducer.dart';
+import 'package:CSGamesApp/redux/state.dart';
+import 'package:CSGamesApp/redux/reducers/event-reducer.dart';
+import 'package:CSGamesApp/redux/reducers/current-event-reducer.dart';
+import 'package:CSGamesApp/redux/reducers/login-reducer.dart';
 
 AppState appReducer(AppState state, action) {
     return AppState(

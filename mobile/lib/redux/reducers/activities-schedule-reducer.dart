@@ -1,5 +1,5 @@
-import 'package:PolyHxApp/redux/actions/activities-schedule-actions.dart';
-import 'package:PolyHxApp/redux/states/activities-schedule-state.dart';
+import 'package:CSGamesApp/redux/actions/activities-schedule-actions.dart';
+import 'package:CSGamesApp/redux/states/activities-schedule-state.dart';
 import 'package:redux/redux.dart';
 
 final activitiesScheduleReducer = combineReducers<ActivitiesScheduleState>([

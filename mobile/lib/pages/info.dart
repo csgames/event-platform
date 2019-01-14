@@ -1,8 +1,8 @@
 import 'dart:ui';
 
-import 'package:PolyHxApp/components/event-image.dart';
-import 'package:PolyHxApp/domain/event.dart';
-import 'package:PolyHxApp/services/localization.service.dart';
+import 'package:CSGamesApp/components/event-image.dart';
+import 'package:CSGamesApp/domain/event.dart';
+import 'package:CSGamesApp/services/localization.service.dart';
 import 'package:flutter/material.dart';
 
 class InfoPage extends StatelessWidget {
@@ -67,10 +67,10 @@ class InfoPage extends StatelessWidget {
     @override
     Widget build(BuildContext context) {
         return Container(
-            decoration: new BoxDecoration(
-                image: new DecorationImage(
+            decoration: BoxDecoration(
+                image: DecorationImage(
                     colorFilter: ColorFilter.mode(Colors.black54, BlendMode.darken),
-                    image: new NetworkImage(_event.coverUrl),
+                    image: NetworkImage(_event.coverUrl),
                     fit: BoxFit.cover,
                 ),
             ),

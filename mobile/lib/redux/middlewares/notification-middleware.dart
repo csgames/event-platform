@@ -1,11 +1,11 @@
 import 'dart:io';
 
-import 'package:PolyHxApp/domain/activity.dart';
-import 'package:PolyHxApp/domain/notification.dart';
-import 'package:PolyHxApp/redux/actions/notification-actions.dart';
-import 'package:PolyHxApp/redux/state.dart';
-import 'package:PolyHxApp/services/attendees.service.dart';
-import 'package:PolyHxApp/services/notification.service.dart';
+import 'package:CSGamesApp/domain/activity.dart';
+import 'package:CSGamesApp/domain/notification.dart';
+import 'package:CSGamesApp/redux/actions/notification-actions.dart';
+import 'package:CSGamesApp/redux/state.dart';
+import 'package:CSGamesApp/services/attendees.service.dart';
+import 'package:CSGamesApp/services/notification.service.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:redux_epics/redux_epics.dart';

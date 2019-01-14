@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'dart:convert';
-import 'package:PolyHxApp/domain/user.dart';
+import 'package:CSGamesApp/domain/user.dart';
 import 'package:http/http.dart';
-import 'package:PolyHxApp/utils/environment.dart';
-import 'package:PolyHxApp/utils/url-encoded-params.dart';
+import 'package:CSGamesApp/utils/environment.dart';
+import 'package:CSGamesApp/utils/url-encoded-params.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class TokenService {

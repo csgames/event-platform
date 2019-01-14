@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:PolyHxApp/domain/attendee.dart';
-import 'package:PolyHxApp/utils/constants.dart';
+import 'package:CSGamesApp/domain/attendee.dart';
+import 'package:CSGamesApp/utils/constants.dart';
 
 class ShirtSizeIcon extends StatelessWidget {
   static final Map<ShirtSize, String> _shirtSizeLetters = {

@@ -1,5 +1,5 @@
-import 'package:PolyHxApp/domain/user.dart';
-import 'package:PolyHxApp/redux/actions/profile-actions.dart';
+import 'package:CSGamesApp/domain/user.dart';
+import 'package:CSGamesApp/redux/actions/profile-actions.dart';
 import 'package:redux/redux.dart';
 
 final currentUserReducer = combineReducers<User>([

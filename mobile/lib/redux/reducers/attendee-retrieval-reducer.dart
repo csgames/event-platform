@@ -1,5 +1,5 @@
-import 'package:PolyHxApp/redux/actions/attendee-retrieval-actions.dart';
-import 'package:PolyHxApp/redux/states/attendee-retrieval-state.dart';
+import 'package:CSGamesApp/redux/actions/attendee-retrieval-actions.dart';
+import 'package:CSGamesApp/redux/states/attendee-retrieval-state.dart';
 import 'package:redux/redux.dart';
 
 final attendeeRetrievalReducer = combineReducers<AttendeeRetrievalState>([

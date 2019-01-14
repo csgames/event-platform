@@ -1,5 +1,5 @@
-import 'package:PolyHxApp/domain/activity.dart';
-import 'package:PolyHxApp/domain/notification.dart';
+import 'package:CSGamesApp/domain/activity.dart';
+import 'package:CSGamesApp/domain/notification.dart';
 
 class LoadNotificationsAction {
   final String eventId;

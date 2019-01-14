@@ -1,10 +1,10 @@
 import 'dart:async';
 
-import 'package:PolyHxApp/domain/activity.dart';
-import 'package:PolyHxApp/redux/actions/activities-schedule-actions.dart';
-import 'package:PolyHxApp/redux/state.dart';
-import 'package:PolyHxApp/services/events.service.dart';
-import 'package:PolyHxApp/services/schedule.service.dart';
+import 'package:CSGamesApp/domain/activity.dart';
+import 'package:CSGamesApp/redux/actions/activities-schedule-actions.dart';
+import 'package:CSGamesApp/redux/state.dart';
+import 'package:CSGamesApp/services/events.service.dart';
+import 'package:CSGamesApp/services/schedule.service.dart';
 import 'package:redux_epics/redux_epics.dart';
 import 'package:rxdart/rxdart.dart';
 

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:PolyHxApp/components/gravatar.dart';
+import 'package:CSGamesApp/components/gravatar.dart';
 
 class CircleGravatar extends StatelessWidget {
   final String _username;

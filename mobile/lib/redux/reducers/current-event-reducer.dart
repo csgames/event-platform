@@ -1,5 +1,5 @@
-import 'package:PolyHxApp/domain/event.dart';
-import 'package:PolyHxApp/redux/actions/event-actions.dart';
+import 'package:CSGamesApp/domain/event.dart';
+import 'package:CSGamesApp/redux/actions/event-actions.dart';
 import 'package:redux/redux.dart';
 
 final currentEventReducer = combineReducers<Event>([

@@ -1,26 +1,26 @@
-import 'package:PolyHxApp/delegates/localization.delegate.dart';
-import 'package:PolyHxApp/redux/middlewares/activities-schedule-middleware.dart';
-import 'package:PolyHxApp/redux/middlewares/activities-subscription-middleware.dart';
-import 'package:PolyHxApp/redux/middlewares/activity-middleware.dart';
-import 'package:PolyHxApp/redux/middlewares/attendee-retrieval-middleware.dart';
-import 'package:PolyHxApp/redux/middlewares/login-middleware.dart';
-import 'package:PolyHxApp/redux/middlewares/notification-middleware.dart';
-import 'package:PolyHxApp/redux/middlewares/profile-middleware.dart';
-import 'package:PolyHxApp/redux/middlewares/sponsors-middleware.dart';
-import 'package:PolyHxApp/redux/states/activities-schedule-state.dart';
-import 'package:PolyHxApp/redux/states/activities-subscription-state.dart';
-import 'package:PolyHxApp/redux/states/activity-state.dart';
-import 'package:PolyHxApp/redux/states/attendee-retrieval-state.dart';
-import 'package:PolyHxApp/redux/states/event-state.dart';
-import 'package:PolyHxApp/redux/states/login-state.dart';
-import 'package:PolyHxApp/redux/states/notification-state.dart';
-import 'package:PolyHxApp/redux/states/profile-state.dart';
-import 'package:PolyHxApp/redux/states/sponsors-state.dart';
-import 'package:PolyHxApp/services/activities.service.dart';
-import 'package:PolyHxApp/services/notification.service.dart';
-import 'package:PolyHxApp/services/schedule.service.dart';
-import 'package:PolyHxApp/services/sponsors.service.dart';
-import 'package:PolyHxApp/utils/http-client.dart';
+import 'package:CSGamesApp/delegates/localization.delegate.dart';
+import 'package:CSGamesApp/redux/middlewares/activities-schedule-middleware.dart';
+import 'package:CSGamesApp/redux/middlewares/activities-subscription-middleware.dart';
+import 'package:CSGamesApp/redux/middlewares/activity-middleware.dart';
+import 'package:CSGamesApp/redux/middlewares/attendee-retrieval-middleware.dart';
+import 'package:CSGamesApp/redux/middlewares/login-middleware.dart';
+import 'package:CSGamesApp/redux/middlewares/notification-middleware.dart';
+import 'package:CSGamesApp/redux/middlewares/profile-middleware.dart';
+import 'package:CSGamesApp/redux/middlewares/sponsors-middleware.dart';
+import 'package:CSGamesApp/redux/states/activities-schedule-state.dart';
+import 'package:CSGamesApp/redux/states/activities-subscription-state.dart';
+import 'package:CSGamesApp/redux/states/activity-state.dart';
+import 'package:CSGamesApp/redux/states/attendee-retrieval-state.dart';
+import 'package:CSGamesApp/redux/states/event-state.dart';
+import 'package:CSGamesApp/redux/states/login-state.dart';
+import 'package:CSGamesApp/redux/states/notification-state.dart';
+import 'package:CSGamesApp/redux/states/profile-state.dart';
+import 'package:CSGamesApp/redux/states/sponsors-state.dart';
+import 'package:CSGamesApp/services/activities.service.dart';
+import 'package:CSGamesApp/services/notification.service.dart';
+import 'package:CSGamesApp/services/schedule.service.dart';
+import 'package:CSGamesApp/services/sponsors.service.dart';
+import 'package:CSGamesApp/utils/http-client.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:http/http.dart';
 import 'package:flutter/material.dart';
@@ -28,20 +28,20 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:qr_reader/qr_reader.dart';
 import 'package:redux/redux.dart';
-import 'package:PolyHxApp/pages/event.dart';
-import 'package:PolyHxApp/pages/event-list.dart';
-import 'package:PolyHxApp/pages/login.dart';
-import 'package:PolyHxApp/services/attendees.service.dart';
-import 'package:PolyHxApp/services/auth.service.dart';
-import 'package:PolyHxApp/services/events.service.dart';
-import 'package:PolyHxApp/services/nfc.service.dart';
-import 'package:PolyHxApp/services/token.service.dart';
-import 'package:PolyHxApp/services/users.service.dart';
-import 'package:PolyHxApp/utils/constants.dart';
-import 'package:PolyHxApp/utils/routes.dart';
-import 'package:PolyHxApp/redux/middlewares/event-middleware.dart';
-import 'package:PolyHxApp/redux/reducers/app-state-reducer.dart';
-import 'package:PolyHxApp/redux/state.dart';
+import 'package:CSGamesApp/pages/event.dart';
+import 'package:CSGamesApp/pages/event-list.dart';
+import 'package:CSGamesApp/pages/login.dart';
+import 'package:CSGamesApp/services/attendees.service.dart';
+import 'package:CSGamesApp/services/auth.service.dart';
+import 'package:CSGamesApp/services/events.service.dart';
+import 'package:CSGamesApp/services/nfc.service.dart';
+import 'package:CSGamesApp/services/token.service.dart';
+import 'package:CSGamesApp/services/users.service.dart';
+import 'package:CSGamesApp/utils/constants.dart';
+import 'package:CSGamesApp/utils/routes.dart';
+import 'package:CSGamesApp/redux/middlewares/event-middleware.dart';
+import 'package:CSGamesApp/redux/reducers/app-state-reducer.dart';
+import 'package:CSGamesApp/redux/state.dart';
 import 'package:redux_epics/redux_epics.dart';
 
 void main() {
@@ -84,13 +84,13 @@ void main() {
             EpicMiddleware<AppState>(AttendeeRetrievalMiddleware(nfcService, attendeesService, eventsService, usersService, qrCodeReader))
         ]
     );
-    runApp(PolyHxApp(store));
+    runApp(CSGamesApp(store));
 }
 
-class PolyHxApp extends StatelessWidget {
+class CSGamesApp extends StatelessWidget {
     final Store<AppState> store;
 
-    PolyHxApp(this.store);
+    CSGamesApp(this.store);
 
     @override
     Widget build(_) {
@@ -101,11 +101,11 @@ class PolyHxApp extends StatelessWidget {
                 theme: ThemeData(
                     platform: TargetPlatform.android,
                     accentColor: Colors.lightBlue,
-                    buttonColor: Constants.polyhxRed,
+                    buttonColor: Constants.csRed,
                     hintColor: Constants.polyhxGrey,
-                    primaryColor: Constants.polyhxRed,
+                    primaryColor: Constants.csRed,
                     scaffoldBackgroundColor: Colors.white,
-                    textSelectionColor: Constants.polyhxRed
+                    textSelectionColor: Constants.csRed
                 ),
                 home: EventList(),
                 onGenerateRoute: (RouteSettings routeSettings) {

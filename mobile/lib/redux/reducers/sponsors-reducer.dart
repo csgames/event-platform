@@ -1,5 +1,5 @@
-import 'package:PolyHxApp/redux/actions/sponsors-actions.dart';
-import 'package:PolyHxApp/redux/states/sponsors-state.dart';
+import 'package:CSGamesApp/redux/actions/sponsors-actions.dart';
+import 'package:CSGamesApp/redux/states/sponsors-state.dart';
 import 'package:redux/redux.dart';
 
 final sponsorsReducer = combineReducers<SponsorsState>([

@@ -1,4 +1,4 @@
-import 'package:PolyHxApp/utils/constants.dart';
+import 'package:CSGamesApp/utils/constants.dart';
 import 'package:flutter/material.dart';
 
 class AppTitle extends StatelessWidget {
@@ -16,9 +16,9 @@ class AppTitle extends StatelessWidget {
                 mainAxisAlignment: this.alignment,
                 children: <Widget>[
                     Text(
-                        title,
+                        title.toUpperCase(),
                         style: TextStyle(
-                            fontFamily: 'OpenSans',
+                            fontFamily: 'flipbash',
                             fontSize: 36.0
                         )
                     ),
@@ -26,7 +26,7 @@ class AppTitle extends StatelessWidget {
                     Icon(
                         this.icon,
                         size: 38.0,
-                        color: Constants.polyhxRed,
+                        color: Constants.csRed,
                     ) : Padding(padding: EdgeInsets.all(0.0))
                 ]
             )

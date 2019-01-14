@@ -1,16 +1,16 @@
-import 'package:PolyHxApp/components/expansion-card.dart';
-import 'package:PolyHxApp/components/pill-button.dart';
-import 'package:PolyHxApp/redux/actions/activities-subscription-actions.dart';
-import 'package:PolyHxApp/redux/state.dart';
-import 'package:PolyHxApp/services/localization.service.dart';
-import 'package:PolyHxApp/utils/constants.dart';
+import 'package:CSGamesApp/components/expansion-card.dart';
+import 'package:CSGamesApp/components/pill-button.dart';
+import 'package:CSGamesApp/redux/actions/activities-subscription-actions.dart';
+import 'package:CSGamesApp/redux/state.dart';
+import 'package:CSGamesApp/services/localization.service.dart';
+import 'package:CSGamesApp/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
-import 'package:PolyHxApp/domain/activity.dart';
+import 'package:CSGamesApp/domain/activity.dart';
 import 'package:redux/redux.dart';
 
 class ActivityCard extends StatelessWidget {
@@ -145,12 +145,12 @@ class ActivityCard extends StatelessWidget {
             Padding(
                 padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
                 child: PillButton(
-                    color: vm.isSubscribed ? Colors.grey : Constants.polyhxRed,
+                    color: vm.isSubscribed ? Colors.grey : Constants.csBlue,
                     onPressed: () {
                         if (!vm.isSubscribed) vm.subscribe(_activity.id);
                     },
                     child: Padding(
-                        padding: EdgeInsets.fromLTRB(16.0, 12.5, 16.0, 12.5),
+                        padding: EdgeInsets.fromLTRB(16.0, 15.0, 16.0, 15.0),
                         child: Text(
                             vm.isSubscribed ? LocalizationService
                                 .of(context)

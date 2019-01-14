@@ -1,5 +1,5 @@
-import 'package:PolyHxApp/redux/actions/event-actions.dart';
-import 'package:PolyHxApp/redux/states/event-state.dart';
+import 'package:CSGamesApp/redux/actions/event-actions.dart';
+import 'package:CSGamesApp/redux/states/event-state.dart';
 import 'package:redux/redux.dart';
 
 final eventReducer = combineReducers<EventState>([

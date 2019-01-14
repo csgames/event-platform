@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:PolyHxApp/domain/activity.dart';
+import 'package:CSGamesApp/domain/activity.dart';
 
 class NotificationTypes {
     static const String Event = "event";

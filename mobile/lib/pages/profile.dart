@@ -1,10 +1,11 @@
-import 'package:PolyHxApp/components/gravatar.dart';
-import 'package:PolyHxApp/components/pill-button.dart';
-import 'package:PolyHxApp/components/title.dart';
-import 'package:PolyHxApp/domain/user.dart';
-import 'package:PolyHxApp/redux/actions/profile-actions.dart';
-import 'package:PolyHxApp/redux/state.dart';
-import 'package:PolyHxApp/services/localization.service.dart';
+import 'package:CSGamesApp/components/gravatar.dart';
+import 'package:CSGamesApp/components/pill-button.dart';
+import 'package:CSGamesApp/components/title.dart';
+import 'package:CSGamesApp/domain/user.dart';
+import 'package:CSGamesApp/redux/actions/profile-actions.dart';
+import 'package:CSGamesApp/redux/state.dart';
+import 'package:CSGamesApp/services/localization.service.dart';
+import 'package:CSGamesApp/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:qr_flutter/qr_flutter.dart';
@@ -53,6 +54,7 @@ class ProfilePage extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 0.0),
       child: PillButton(
+        color: Constants.csBlue,
         onPressed: () => model.scan(LocalizationService.of(context).profile['errors']),
           child: Padding(
             padding: EdgeInsets.fromLTRB(25.0, 15.0, 25.0, 15.0),

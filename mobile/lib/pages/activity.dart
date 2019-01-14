@@ -1,15 +1,15 @@
 import 'dart:async';
-import 'package:PolyHxApp/components/loading-spinner.dart';
-import 'package:PolyHxApp/redux/actions/activity-actions.dart';
-import 'package:PolyHxApp/redux/state.dart';
-import 'package:PolyHxApp/services/localization.service.dart';
-import 'package:PolyHxApp/utils/constants.dart';
+import 'package:CSGamesApp/components/loading-spinner.dart';
+import 'package:CSGamesApp/redux/actions/activity-actions.dart';
+import 'package:CSGamesApp/redux/state.dart';
+import 'package:CSGamesApp/services/localization.service.dart';
+import 'package:CSGamesApp/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:PolyHxApp/components/pill-button.dart';
-import 'package:PolyHxApp/components/user-profile.dart';
-import 'package:PolyHxApp/domain/activity.dart';
-import 'package:PolyHxApp/domain/user.dart';
+import 'package:CSGamesApp/components/pill-button.dart';
+import 'package:CSGamesApp/components/user-profile.dart';
+import 'package:CSGamesApp/domain/activity.dart';
+import 'package:CSGamesApp/domain/user.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 

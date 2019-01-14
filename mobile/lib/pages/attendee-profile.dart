@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:PolyHxApp/components/circle-gravatar.dart';
-import 'package:PolyHxApp/components/pill-button.dart';
-import 'package:PolyHxApp/components/shirt-size-icon.dart';
-import 'package:PolyHxApp/domain/attendee.dart';
-import 'package:PolyHxApp/domain/event.dart';
-import 'package:PolyHxApp/domain/user.dart';
-import 'package:PolyHxApp/utils/constants.dart';
+import 'package:CSGamesApp/components/circle-gravatar.dart';
+import 'package:CSGamesApp/components/pill-button.dart';
+import 'package:CSGamesApp/components/shirt-size-icon.dart';
+import 'package:CSGamesApp/domain/attendee.dart';
+import 'package:CSGamesApp/domain/event.dart';
+import 'package:CSGamesApp/domain/user.dart';
+import 'package:CSGamesApp/utils/constants.dart';
 
 class AttendeeProfilePage extends StatelessWidget {
   final Attendee _attendee;

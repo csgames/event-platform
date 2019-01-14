@@ -1,5 +1,5 @@
-import 'package:PolyHxApp/pages/event-info.dart';
-import 'package:PolyHxApp/utils/constants.dart';
+import 'package:CSGamesApp/pages/event-info.dart';
+import 'package:CSGamesApp/utils/constants.dart';
 import 'package:flutter/material.dart';
 
 class InfoTile extends StatefulWidget {
@@ -47,7 +47,7 @@ class _InfoTileState extends State<InfoTile> {
                                     child: Icon(
                                         _tile.icon,
                                         size: 80.0,
-                                        color: Constants.polyhxRed
+                                        color: Constants.csBlue
                                     )
                                 ),
                                 Padding(

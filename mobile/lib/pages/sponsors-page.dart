@@ -1,11 +1,11 @@
-import 'package:PolyHxApp/components/loading-spinner.dart';
-import 'package:PolyHxApp/components/title.dart';
-import 'package:PolyHxApp/components/touchable-image.dart';
-import 'package:PolyHxApp/domain/sponsors.dart';
-import 'package:PolyHxApp/pages/sponsors-dialog.dart';
-import 'package:PolyHxApp/redux/actions/sponsors-actions.dart';
-import 'package:PolyHxApp/redux/state.dart';
-import 'package:PolyHxApp/services/localization.service.dart';
+import 'package:CSGamesApp/components/loading-spinner.dart';
+import 'package:CSGamesApp/components/title.dart';
+import 'package:CSGamesApp/components/touchable-image.dart';
+import 'package:CSGamesApp/domain/sponsors.dart';
+import 'package:CSGamesApp/pages/sponsors-dialog.dart';
+import 'package:CSGamesApp/redux/actions/sponsors-actions.dart';
+import 'package:CSGamesApp/redux/state.dart';
+import 'package:CSGamesApp/services/localization.service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
@@ -22,7 +22,7 @@ class SponsorsPage extends StatelessWidget {
                 value,
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                    fontFamily: 'OpenSans',
+                    fontFamily: 'flipbash',
                     fontSize: 20.0
                 )
             )

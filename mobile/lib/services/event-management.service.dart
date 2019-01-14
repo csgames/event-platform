@@ -1,4 +1,4 @@
-import 'package:PolyHxApp/utils/environment.dart';
+import 'package:CSGamesApp/utils/environment.dart';
 
 class EventManagementService {
   String _resource;

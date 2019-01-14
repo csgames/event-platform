@@ -1,15 +1,15 @@
-import 'package:PolyHxApp/domain/attendee.dart';
-import 'package:PolyHxApp/domain/event.dart';
-import 'package:PolyHxApp/domain/user.dart';
-import 'package:PolyHxApp/redux/states/activities-schedule-state.dart';
-import 'package:PolyHxApp/redux/states/activities-subscription-state.dart';
-import 'package:PolyHxApp/redux/states/activity-state.dart';
-import 'package:PolyHxApp/redux/states/attendee-retrieval-state.dart';
-import 'package:PolyHxApp/redux/states/event-state.dart';
-import 'package:PolyHxApp/redux/states/login-state.dart';
-import 'package:PolyHxApp/redux/states/notification-state.dart';
-import 'package:PolyHxApp/redux/states/profile-state.dart';
-import 'package:PolyHxApp/redux/states/sponsors-state.dart';
+import 'package:CSGamesApp/domain/attendee.dart';
+import 'package:CSGamesApp/domain/event.dart';
+import 'package:CSGamesApp/domain/user.dart';
+import 'package:CSGamesApp/redux/states/activities-schedule-state.dart';
+import 'package:CSGamesApp/redux/states/activities-subscription-state.dart';
+import 'package:CSGamesApp/redux/states/activity-state.dart';
+import 'package:CSGamesApp/redux/states/attendee-retrieval-state.dart';
+import 'package:CSGamesApp/redux/states/event-state.dart';
+import 'package:CSGamesApp/redux/states/login-state.dart';
+import 'package:CSGamesApp/redux/states/notification-state.dart';
+import 'package:CSGamesApp/redux/states/profile-state.dart';
+import 'package:CSGamesApp/redux/states/sponsors-state.dart';
 import 'package:meta/meta.dart';
 
 @immutable

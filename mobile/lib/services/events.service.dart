@@ -1,10 +1,10 @@
 import 'dart:async';
 import 'dart:convert';
-import 'package:PolyHxApp/utils/http-client.dart';
-import 'package:PolyHxApp/domain/activity.dart';
-import 'package:PolyHxApp/domain/event.dart';
-import 'package:PolyHxApp/domain/user.dart';
-import 'package:PolyHxApp/utils/environment.dart';
+import 'package:CSGamesApp/utils/http-client.dart';
+import 'package:CSGamesApp/domain/activity.dart';
+import 'package:CSGamesApp/domain/event.dart';
+import 'package:CSGamesApp/domain/user.dart';
+import 'package:CSGamesApp/utils/environment.dart';
 
 class EventsService {
   HttpClient _httpClient;

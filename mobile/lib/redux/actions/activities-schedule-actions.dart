@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:PolyHxApp/domain/activity.dart';
+import 'package:CSGamesApp/domain/activity.dart';
 
 class LoadActivitiesScheduleAction {
   final String eventId;

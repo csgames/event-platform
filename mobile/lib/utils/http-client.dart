@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:PolyHxApp/services/token.service.dart';
+import 'package:CSGamesApp/services/token.service.dart';
 import 'package:http/http.dart';
 
 class HttpClient {

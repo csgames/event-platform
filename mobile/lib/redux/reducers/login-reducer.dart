@@ -1,5 +1,5 @@
-import 'package:PolyHxApp/redux/actions/login-actions.dart';
-import 'package:PolyHxApp/redux/states/login-state.dart';
+import 'package:CSGamesApp/redux/actions/login-actions.dart';
+import 'package:CSGamesApp/redux/states/login-state.dart';
 import 'package:redux/redux.dart';
 
 final loginReducer = combineReducers<LoginState>([

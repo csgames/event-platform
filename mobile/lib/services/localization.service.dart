@@ -1,6 +1,6 @@
-import 'package:PolyHxApp/services/resources/fr.dart';
+import 'package:CSGamesApp/services/resources/fr.dart';
 import 'package:flutter/material.dart';
-import 'package:PolyHxApp/services/resources/en.dart';
+import 'package:CSGamesApp/services/resources/en.dart';
 
 class LocalizationService {
   final Locale locale;

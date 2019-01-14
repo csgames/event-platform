@@ -1,5 +1,5 @@
-import 'package:PolyHxApp/redux/actions/activities-subscription-actions.dart';
-import 'package:PolyHxApp/redux/states/activities-subscription-state.dart';
+import 'package:CSGamesApp/redux/actions/activities-subscription-actions.dart';
+import 'package:CSGamesApp/redux/states/activities-subscription-state.dart';
 import 'package:redux/redux.dart';
 
 final activitiesSubscriptionReducer = combineReducers<ActivitiesSubscriptionState>([

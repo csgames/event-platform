@@ -1,6 +1,6 @@
-import 'package:PolyHxApp/redux/actions/activities-subscription-actions.dart';
-import 'package:PolyHxApp/redux/state.dart';
-import 'package:PolyHxApp/services/activities.service.dart';
+import 'package:CSGamesApp/redux/actions/activities-subscription-actions.dart';
+import 'package:CSGamesApp/redux/state.dart';
+import 'package:CSGamesApp/services/activities.service.dart';
 import 'package:redux_epics/redux_epics.dart';
 import 'package:rxdart/rxdart.dart';
 

@@ -1,5 +1,5 @@
-import 'package:PolyHxApp/domain/attendee.dart';
-import 'package:PolyHxApp/domain/user.dart';
+import 'package:CSGamesApp/domain/attendee.dart';
+import 'package:CSGamesApp/domain/user.dart';
 import 'package:meta/meta.dart';
 
 @immutable

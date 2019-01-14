@@ -1,5 +1,5 @@
-import 'package:PolyHxApp/redux/actions/notification-actions.dart';
-import 'package:PolyHxApp/redux/states/notification-state.dart';
+import 'package:CSGamesApp/redux/actions/notification-actions.dart';
+import 'package:CSGamesApp/redux/states/notification-state.dart';
 import 'package:redux/redux.dart';
 
 final notificationReducer = combineReducers<NotificationState>([

@@ -1,4 +1,4 @@
-import 'package:PolyHxApp/services/localization.service.dart';
+import 'package:CSGamesApp/services/localization.service.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 

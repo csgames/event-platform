@@ -1,5 +1,5 @@
-import 'package:PolyHxApp/redux/actions/activity-actions.dart';
-import 'package:PolyHxApp/redux/states/activity-state.dart';
+import 'package:CSGamesApp/redux/actions/activity-actions.dart';
+import 'package:CSGamesApp/redux/states/activity-state.dart';
 import 'package:redux/redux.dart';
 
 final activityReducer = combineReducers<ActivityState>([

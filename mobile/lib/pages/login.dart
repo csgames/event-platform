@@ -1,10 +1,12 @@
-import 'package:PolyHxApp/components/loading-overlay.dart';
-import 'package:PolyHxApp/redux/actions/login-actions.dart';
-import 'package:PolyHxApp/redux/state.dart';
-import 'package:PolyHxApp/services/localization.service.dart';
+import 'dart:ui';
+
+import 'package:CSGamesApp/components/loading-overlay.dart';
+import 'package:CSGamesApp/redux/actions/login-actions.dart';
+import 'package:CSGamesApp/redux/state.dart';
+import 'package:CSGamesApp/services/localization.service.dart';
 import 'package:flutter/material.dart';
-import 'package:PolyHxApp/utils/constants.dart';
-import 'package:PolyHxApp/components/pill-button.dart';
+import 'package:CSGamesApp/utils/constants.dart';
+import 'package:CSGamesApp/components/pill-button.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 
@@ -40,7 +42,7 @@ class _LoginPageState extends State<LoginPage> {
                                     contentPadding: EdgeInsets.all(8.0),
                                     focusedBorder: OutlineInputBorder(
                                         borderRadius: BorderRadius.circular(8.0),
-                                        borderSide: BorderSide(color: Constants.polyhxRed)
+                                        borderSide: BorderSide(color: Constants.csBlue)
                                     ),
                                     enabledBorder: OutlineInputBorder(
                                         borderRadius: BorderRadius.circular(8.0),
@@ -52,7 +54,7 @@ class _LoginPageState extends State<LoginPage> {
                                         padding: EdgeInsets.all(8.0),
                                         child: Icon(
                                             Icons.person_outline,
-                                            color: Constants.polyhxRed
+                                            color: Constants.csBlue
                                         )
                                     ),
                                     border: InputBorder.none
@@ -71,7 +73,7 @@ class _LoginPageState extends State<LoginPage> {
                                     contentPadding: EdgeInsets.all(8.0),
                                     focusedBorder: OutlineInputBorder(
                                         borderRadius: BorderRadius.circular(8.0),
-                                        borderSide: BorderSide(color: Constants.polyhxRed)
+                                        borderSide: BorderSide(color: Constants.csBlue)
                                     ),
                                     enabledBorder: OutlineInputBorder(
                                         borderRadius: BorderRadius.circular(8.0),
@@ -83,7 +85,7 @@ class _LoginPageState extends State<LoginPage> {
                                         padding: EdgeInsets.all(8.0),
                                         child: Icon(
                                             Icons.lock_outline,
-                                            color: Constants.polyhxRed
+                                            color: Constants.csBlue
                                         )
                                     ),
                                     border: InputBorder.none
@@ -101,6 +103,7 @@ class _LoginPageState extends State<LoginPage> {
                         )
                     ),
                     PillButton(
+                        color: Constants.csBlue,
                         onPressed: () {
                             _formKey.currentState.save();
                             FocusScope.of(context).requestFocus(FocusNode());
@@ -133,15 +136,33 @@ class _LoginPageState extends State<LoginPage> {
                 child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                        Padding(
-                            padding: EdgeInsets.all(10.0),
-                            child: Image.asset(
-                                'assets/logo.png',
-                            )
+                        Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                                Padding(
+                                    padding: EdgeInsets.only(bottom: 10.0, left: 3.0),
+                                    child: Text(
+                                        _values['login'].toUpperCase(),
+                                        textAlign: TextAlign.left,
+                                        style: TextStyle(
+                                            fontFamily: 'flipbash',
+                                            fontSize: 30.0,
+                                            color: Constants.csBlue
+                                        )
+                                    )
+                                )
+                            ]
                         ),
                         Container(
                             width: 340.0,
                             child: buildLoginForm(loginPageViewModel)
+                        ),
+                        Container(
+                            margin: EdgeInsets.fromLTRB(30.0, 20.0, 30.0, 0.0),
+                            child: Image.asset(
+                                'assets/mirego.png',
+                                fit: BoxFit.cover
+                            )
                         )
                     ]
                 )
@@ -165,16 +186,66 @@ class _LoginPageState extends State<LoginPage> {
                 .login,
             converter: (store) => _LoginPageViewModel.fromStore(store),
             builder: (BuildContext context, _LoginPageViewModel loginPageViewModel) {
-                return Scaffold(
-                    backgroundColor: Constants.polyhxRed,
-                    body: Center(
+                return Container(
+                    decoration: BoxDecoration(
+                        image: DecorationImage(
+                            alignment: Alignment.topCenter,
+                            image: NetworkImage('http://csgames.org/corpo/wp-content/themes/csg/images/splash.jpg'),
+                            fit: BoxFit.cover
+                        )
+                    ),
+                    child: BackdropFilter(
+                        filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
                         child: Container(
-                            width: 330.0,
-                            height: 400.0,
-                            child: Material(
-                                elevation: 1.0,
-                                borderRadius: BorderRadius.circular(10.0),
-                                child: _buildLoginCardContent(loginPageViewModel)
+                            child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                    Container(
+                                        padding: EdgeInsets.fromLTRB(85.0, 0.0, 85.0, 30.0),
+                                        child: Image.asset(
+                                            'assets/logo.png',
+                                            fit: BoxFit.cover
+                                        )
+                                    ),
+                                    Stack(
+                                        children: <Widget>[
+                                            Positioned(
+                                                top: 10.0,
+                                                child: Center(
+                                                    child: Container(
+                                                        width: 20,
+                                                        height: 60,
+                                                        decoration: BoxDecoration(
+                                                            boxShadow: [
+                                                                BoxShadow(
+                                                                    color: Colors.black12,
+                                                                    blurRadius: 4.0,
+                                                                    offset: Offset(0, 1),
+                                                                    spreadRadius: 0.0
+                                                                )
+                                                            ]
+                                                        ),
+                                                        child: Material(
+                                                            borderRadius: BorderRadius.circular(10.0),
+                                                            color: Constants.csBlue,
+                                                            child: Text('')
+                                                        )
+                                                    )
+                                                )
+                                            ),
+                                            Container(
+                                                width: 330.0,
+                                                height: 400.0,
+                                                margin: EdgeInsets.only(left: 10.0),
+                                                child: Material(
+                                                    elevation: 1.0,
+                                                    borderRadius: BorderRadius.circular(10.0),
+                                                    child: _buildLoginCardContent(loginPageViewModel)
+                                                )
+                                            )   
+                                        ]
+                                    )
+                                ]
                             )
                         )
                     )

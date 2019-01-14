@@ -1,4 +1,4 @@
-import 'package:PolyHxApp/domain/event.dart';
+import 'package:CSGamesApp/domain/event.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 

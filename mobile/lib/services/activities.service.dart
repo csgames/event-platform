@@ -1,8 +1,8 @@
 import 'dart:convert';
 
-import 'package:PolyHxApp/domain/activity.dart';
-import 'package:PolyHxApp/services/event-management.service.dart';
-import 'package:PolyHxApp/utils/http-client.dart';
+import 'package:CSGamesApp/domain/activity.dart';
+import 'package:CSGamesApp/services/event-management.service.dart';
+import 'package:CSGamesApp/utils/http-client.dart';
 
 class ActivitiesService extends EventManagementService {
   HttpClient _httpClient;

@@ -1,24 +1,24 @@
 import 'dart:async';
 
-import 'package:PolyHxApp/domain/user.dart';
-import 'package:PolyHxApp/pages/info.dart';
-import 'package:PolyHxApp/pages/notification-list.dart';
-import 'package:PolyHxApp/pages/notification.dart';
-import 'package:PolyHxApp/pages/profile.dart';
-import 'package:PolyHxApp/pages/sponsors-page.dart';
-import 'package:PolyHxApp/redux/actions/activities-schedule-actions.dart';
-import 'package:PolyHxApp/redux/actions/attendee-retrieval-actions.dart';
-import 'package:PolyHxApp/redux/actions/notification-actions.dart';
-import 'package:PolyHxApp/redux/actions/sponsors-actions.dart';
+import 'package:CSGamesApp/domain/user.dart';
+import 'package:CSGamesApp/pages/info.dart';
+import 'package:CSGamesApp/pages/notification-list.dart';
+import 'package:CSGamesApp/pages/notification.dart';
+import 'package:CSGamesApp/pages/profile.dart';
+import 'package:CSGamesApp/pages/sponsors-page.dart';
+import 'package:CSGamesApp/redux/actions/activities-schedule-actions.dart';
+import 'package:CSGamesApp/redux/actions/attendee-retrieval-actions.dart';
+import 'package:CSGamesApp/redux/actions/notification-actions.dart';
+import 'package:CSGamesApp/redux/actions/sponsors-actions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:PolyHxApp/domain/event.dart';
-import 'package:PolyHxApp/pages/activities-schedule.dart';
-import 'package:PolyHxApp/pages/attendee-retrieval.dart';
-import 'package:PolyHxApp/pages/event-info.dart';
-import 'package:PolyHxApp/redux/state.dart';
-import 'package:PolyHxApp/utils/constants.dart';
+import 'package:CSGamesApp/domain/event.dart';
+import 'package:CSGamesApp/pages/activities-schedule.dart';
+import 'package:CSGamesApp/pages/attendee-retrieval.dart';
+import 'package:CSGamesApp/pages/event-info.dart';
+import 'package:CSGamesApp/redux/state.dart';
+import 'package:CSGamesApp/utils/constants.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:redux/redux.dart';
 
@@ -29,7 +29,7 @@ class EventPage extends StatefulWidget {
     _EventPageState createState() => _EventPageState();
 }
 
-enum EventTabs { Info, Guide, Sponsors, Activities, Profile }
+enum EventTabs { Guide, Sponsors, Puzzle, Activities, Profile }
 enum VolunteerTabs { Scan, Guide, Sponsors, Activities, Profile }
 enum AdminEventTabs { Scan, Notification, Sponsors, Activities, Profile }
 
@@ -39,8 +39,8 @@ class _EventPageState extends State<EventPage> {
     Widget _buildBody(_EventPageViewModel model) {
         Widget body;
         switch (EventTabs.values[_currentTabIndex]) {
-            case EventTabs.Info:
-                body = InfoPage(model.event);
+            case EventTabs.Puzzle:
+                body = Container();
                 break;
             case EventTabs.Guide:
                 body = EventInfoPage();
@@ -119,17 +119,8 @@ class _EventPageState extends State<EventPage> {
         return <Widget>[
             IconButton(
                 icon: Icon(
-                    FontAwesomeIcons.info,
-                    color: _currentTabIndex == EventTabs.Info.index ? Constants.polyhxRed : Colors.black
-                ),
-                onPressed: () {
-                    setState(() => _currentTabIndex = EventTabs.Info.index);
-                }
-            ),
-            IconButton(
-                icon: Icon(
                     FontAwesomeIcons.book,
-                    color: _currentTabIndex == EventTabs.Guide.index ? Constants.polyhxRed : Colors.black
+                    color: _currentTabIndex == EventTabs.Guide.index ? Constants.csBlue : Colors.black
                 ),
                 onPressed: () {
                     setState(() => _currentTabIndex = EventTabs.Guide.index);
@@ -138,7 +129,7 @@ class _EventPageState extends State<EventPage> {
             IconButton(
                 icon: Icon(
                     FontAwesomeIcons.gem,
-                    color: _currentTabIndex == EventTabs.Sponsors.index ? Constants.polyhxRed : Colors.black
+                    color: _currentTabIndex == EventTabs.Sponsors.index ? Constants.csBlue : Colors.black
                 ),
                 onPressed: () {
                     setState(() => _currentTabIndex = EventTabs.Sponsors.index);
@@ -146,8 +137,17 @@ class _EventPageState extends State<EventPage> {
             ),
             IconButton(
                 icon: Icon(
+                    FontAwesomeIcons.puzzlePiece,
+                    color: _currentTabIndex == EventTabs.Puzzle.index ? Constants.csBlue : Colors.black
+                ),
+                onPressed: () {
+                    setState(() => _currentTabIndex = EventTabs.Puzzle.index);
+                }
+            ),
+            IconButton(
+                icon: Icon(
                     FontAwesomeIcons.calendar,
-                    color: _currentTabIndex == EventTabs.Activities.index ? Constants.polyhxRed : Colors.black
+                    color: _currentTabIndex == EventTabs.Activities.index ? Constants.csBlue : Colors.black
                 ),
                 onPressed: () {
                     setState(() => _currentTabIndex = EventTabs.Activities.index);
@@ -156,7 +156,7 @@ class _EventPageState extends State<EventPage> {
             IconButton(
                 icon: Icon(
                     FontAwesomeIcons.userAlt,
-                    color: _currentTabIndex == EventTabs.Profile.index ? Constants.polyhxRed : Colors.black
+                    color: _currentTabIndex == EventTabs.Profile.index ? Constants.csBlue : Colors.black
                 ),
                 onPressed: () {
                     setState(() => _currentTabIndex = EventTabs.Profile.index);
@@ -170,7 +170,7 @@ class _EventPageState extends State<EventPage> {
             IconButton(
                 icon: Icon(
                     FontAwesomeIcons.qrcode,
-                    color: _currentTabIndex == VolunteerTabs.Scan.index ? Constants.polyhxRed : Colors.black
+                    color: _currentTabIndex == VolunteerTabs.Scan.index ? Constants.csBlue : Colors.black
                 ),
                 onPressed: () {
                     setState(() => _currentTabIndex = VolunteerTabs.Scan.index);
@@ -179,7 +179,7 @@ class _EventPageState extends State<EventPage> {
             IconButton(
                 icon: Icon(
                     FontAwesomeIcons.book,
-                    color: _currentTabIndex == VolunteerTabs.Guide.index ? Constants.polyhxRed : Colors.black
+                    color: _currentTabIndex == VolunteerTabs.Guide.index ? Constants.csBlue : Colors.black
                 ),
                 onPressed: () {
                     setState(() => _currentTabIndex = VolunteerTabs.Guide.index);
@@ -188,7 +188,7 @@ class _EventPageState extends State<EventPage> {
             IconButton(
                 icon: Icon(
                     FontAwesomeIcons.gem,
-                    color: _currentTabIndex == VolunteerTabs.Sponsors.index ? Constants.polyhxRed : Colors.black
+                    color: _currentTabIndex == VolunteerTabs.Sponsors.index ? Constants.csBlue : Colors.black
                 ),
                 onPressed: () {
                     setState(() => _currentTabIndex = VolunteerTabs.Sponsors.index);
@@ -197,7 +197,7 @@ class _EventPageState extends State<EventPage> {
             IconButton(
                 icon: Icon(
                     FontAwesomeIcons.calendar,
-                    color: _currentTabIndex == VolunteerTabs.Activities.index ? Constants.polyhxRed : Colors.black
+                    color: _currentTabIndex == VolunteerTabs.Activities.index ? Constants.csBlue : Colors.black
                 ),
                 onPressed: () {
                     setState(() => _currentTabIndex = VolunteerTabs.Activities.index);
@@ -206,7 +206,7 @@ class _EventPageState extends State<EventPage> {
             IconButton(
                 icon: Icon(
                     FontAwesomeIcons.userAlt,
-                    color: _currentTabIndex == VolunteerTabs.Profile.index ? Constants.polyhxRed : Colors.black
+                    color: _currentTabIndex == VolunteerTabs.Profile.index ? Constants.csBlue : Colors.black
                 ),
                 onPressed: () {
                     setState(() => _currentTabIndex = VolunteerTabs.Profile.index);
@@ -220,7 +220,7 @@ class _EventPageState extends State<EventPage> {
             IconButton(
                 icon: Icon(
                     FontAwesomeIcons.qrcode,
-                    color: _currentTabIndex == AdminEventTabs.Scan.index ? Constants.polyhxRed : Colors.black
+                    color: _currentTabIndex == AdminEventTabs.Scan.index ? Constants.csBlue : Colors.black
                 ),
                 onPressed: () {
                     setState(() => _currentTabIndex = AdminEventTabs.Scan.index);
@@ -229,7 +229,7 @@ class _EventPageState extends State<EventPage> {
             IconButton(
                 icon: Icon(
                     FontAwesomeIcons.commentAlt,
-                    color: _currentTabIndex == AdminEventTabs.Notification.index ? Constants.polyhxRed : Colors.black
+                    color: _currentTabIndex == AdminEventTabs.Notification.index ? Constants.csBlue : Colors.black
                 ),
                 onPressed: () {
                     setState(() => _currentTabIndex = AdminEventTabs.Notification.index);
@@ -238,7 +238,7 @@ class _EventPageState extends State<EventPage> {
             IconButton(
                 icon: Icon(
                     FontAwesomeIcons.gem,
-                    color: _currentTabIndex == AdminEventTabs.Sponsors.index ? Constants.polyhxRed : Colors.black
+                    color: _currentTabIndex == AdminEventTabs.Sponsors.index ? Constants.csBlue : Colors.black
                 ),
                 onPressed: () {
                     setState(() => _currentTabIndex = AdminEventTabs.Sponsors.index);
@@ -247,7 +247,7 @@ class _EventPageState extends State<EventPage> {
             IconButton(
                 icon: Icon(
                     FontAwesomeIcons.calendar,
-                    color: _currentTabIndex == AdminEventTabs.Activities.index ? Constants.polyhxRed : Colors.black
+                    color: _currentTabIndex == AdminEventTabs.Activities.index ? Constants.csBlue : Colors.black
                 ),
                 onPressed: () {
                     setState(() => _currentTabIndex = AdminEventTabs.Activities.index);
@@ -256,7 +256,7 @@ class _EventPageState extends State<EventPage> {
             IconButton(
                 icon: Icon(
                     FontAwesomeIcons.userAlt,
-                    color: _currentTabIndex == AdminEventTabs.Profile.index ? Constants.polyhxRed : Colors.black
+                    color: _currentTabIndex == AdminEventTabs.Profile.index ? Constants.csBlue : Colors.black
                 ),
                 onPressed: () {
                     setState(() => _currentTabIndex = AdminEventTabs.Profile.index);
@@ -290,6 +290,7 @@ class _EventPageState extends State<EventPage> {
 
     Widget _buildAppBar(BuildContext context, _EventPageViewModel model) {
         return AppBar(
+            backgroundColor: Constants.csBlue,
             title: Text(
                 model.event.name,
                 style: TextStyle(fontFamily: 'OpenSans')

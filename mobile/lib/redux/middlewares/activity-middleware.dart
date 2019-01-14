@@ -1,15 +1,15 @@
 import 'dart:async';
 
-import 'package:PolyHxApp/domain/activity.dart';
-import 'package:PolyHxApp/domain/attendee.dart';
-import 'package:PolyHxApp/domain/user.dart';
-import 'package:PolyHxApp/redux/actions/activity-actions.dart';
-import 'package:PolyHxApp/redux/state.dart';
-import 'package:PolyHxApp/services/activities.service.dart';
-import 'package:PolyHxApp/services/attendees.service.dart';
-import 'package:PolyHxApp/services/events.service.dart';
-import 'package:PolyHxApp/services/nfc.service.dart';
-import 'package:PolyHxApp/services/users.service.dart';
+import 'package:CSGamesApp/domain/activity.dart';
+import 'package:CSGamesApp/domain/attendee.dart';
+import 'package:CSGamesApp/domain/user.dart';
+import 'package:CSGamesApp/redux/actions/activity-actions.dart';
+import 'package:CSGamesApp/redux/state.dart';
+import 'package:CSGamesApp/services/activities.service.dart';
+import 'package:CSGamesApp/services/attendees.service.dart';
+import 'package:CSGamesApp/services/events.service.dart';
+import 'package:CSGamesApp/services/nfc.service.dart';
+import 'package:CSGamesApp/services/users.service.dart';
 import 'package:redux_epics/redux_epics.dart';
 import 'package:rxdart/rxdart.dart';
 

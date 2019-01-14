@@ -1,4 +1,4 @@
-import 'package:PolyHxApp/domain/activity.dart';
+import 'package:CSGamesApp/domain/activity.dart';
 import 'package:intl/intl.dart';
 
 class ScheduleService {

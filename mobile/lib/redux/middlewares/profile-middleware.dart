@@ -1,13 +1,13 @@
 import 'dart:async';
 
-import 'package:PolyHxApp/domain/attendee.dart';
-import 'package:PolyHxApp/domain/event.dart';
-import 'package:PolyHxApp/domain/user.dart';
-import 'package:PolyHxApp/redux/actions/profile-actions.dart';
-import 'package:PolyHxApp/redux/state.dart';
-import 'package:PolyHxApp/services/attendees.service.dart';
-import 'package:PolyHxApp/services/events.service.dart';
-import 'package:PolyHxApp/services/token.service.dart';
+import 'package:CSGamesApp/domain/attendee.dart';
+import 'package:CSGamesApp/domain/event.dart';
+import 'package:CSGamesApp/domain/user.dart';
+import 'package:CSGamesApp/redux/actions/profile-actions.dart';
+import 'package:CSGamesApp/redux/state.dart';
+import 'package:CSGamesApp/services/attendees.service.dart';
+import 'package:CSGamesApp/services/events.service.dart';
+import 'package:CSGamesApp/services/token.service.dart';
 import 'package:qr_reader/qr_reader.dart';
 import 'package:redux_epics/redux_epics.dart';
 import 'package:rxdart/rxdart.dart';

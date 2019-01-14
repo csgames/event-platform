@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'dart:convert';
-import 'package:PolyHxApp/services/event-management.service.dart';
-import 'package:PolyHxApp/utils/http-client.dart';
-import 'package:PolyHxApp/domain/attendee.dart';
+import 'package:CSGamesApp/services/event-management.service.dart';
+import 'package:CSGamesApp/utils/http-client.dart';
+import 'package:CSGamesApp/domain/attendee.dart';
 
 class AttendeesService extends EventManagementService {
   HttpClient _httpClient;

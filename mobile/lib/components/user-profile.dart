@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:PolyHxApp/components/circle-gravatar.dart';
-import 'package:PolyHxApp/domain/user.dart';
-import 'package:PolyHxApp/utils/constants.dart';
+import 'package:CSGamesApp/components/circle-gravatar.dart';
+import 'package:CSGamesApp/domain/user.dart';
+import 'package:CSGamesApp/utils/constants.dart';
 
 class UserProfile extends StatelessWidget {
   final User _user;

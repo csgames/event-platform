@@ -1,4 +1,4 @@
-import 'package:PolyHxApp/domain/sponsors.dart';
+import 'package:CSGamesApp/domain/sponsors.dart';
 import 'package:meta/meta.dart';
 
 @immutable

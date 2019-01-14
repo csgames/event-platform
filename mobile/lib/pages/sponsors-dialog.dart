@@ -1,6 +1,7 @@
-import 'package:PolyHxApp/components/pill-button.dart';
-import 'package:PolyHxApp/domain/sponsors.dart';
-import 'package:PolyHxApp/services/localization.service.dart';
+import 'package:CSGamesApp/components/pill-button.dart';
+import 'package:CSGamesApp/domain/sponsors.dart';
+import 'package:CSGamesApp/services/localization.service.dart';
+import 'package:CSGamesApp/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -68,6 +69,7 @@ class SponsorsDialog extends StatelessWidget {
 
     Widget _buildButton(BuildContext context) {
         return PillButton(
+          color: Constants.csBlue,
             onPressed: () => Navigator.pop(context),
             child: Padding(
                 padding: EdgeInsets.fromLTRB(16.0, 12.5, 16.0, 12.5),

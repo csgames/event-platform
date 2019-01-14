@@ -1,10 +1,10 @@
 import 'dart:async';
 
-import 'package:PolyHxApp/redux/actions/login-actions.dart';
-import 'package:PolyHxApp/redux/state.dart';
-import 'package:PolyHxApp/services/attendees.service.dart';
-import 'package:PolyHxApp/services/auth.service.dart';
-import 'package:PolyHxApp/utils/routes.dart';
+import 'package:CSGamesApp/redux/actions/login-actions.dart';
+import 'package:CSGamesApp/redux/state.dart';
+import 'package:CSGamesApp/services/attendees.service.dart';
+import 'package:CSGamesApp/services/auth.service.dart';
+import 'package:CSGamesApp/utils/routes.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:redux_epics/redux_epics.dart';

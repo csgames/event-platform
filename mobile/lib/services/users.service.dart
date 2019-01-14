@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'dart:convert';
-import 'package:PolyHxApp/services/sts.service.dart';
-import 'package:PolyHxApp/utils/http-client.dart';
-import 'package:PolyHxApp/domain/user.dart';
-import 'package:PolyHxApp/utils/url-encoded-params.dart';
+import 'package:CSGamesApp/services/sts.service.dart';
+import 'package:CSGamesApp/utils/http-client.dart';
+import 'package:CSGamesApp/domain/user.dart';
+import 'package:CSGamesApp/utils/url-encoded-params.dart';
 
 class UsersService extends StsService {
   final HttpClient _httpClient;

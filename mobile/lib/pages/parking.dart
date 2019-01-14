@@ -1,7 +1,7 @@
 import 'dart:io';
-import 'package:PolyHxApp/components/pill-button.dart';
-import 'package:PolyHxApp/services/localization.service.dart';
-import 'package:PolyHxApp/utils/constants.dart';
+import 'package:CSGamesApp/components/pill-button.dart';
+import 'package:CSGamesApp/services/localization.service.dart';
+import 'package:CSGamesApp/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -74,16 +74,16 @@ class _ParkingPageState extends State<ParkingState> {
                                         Icon(
                                             FontAwesomeIcons.parking,
                                             size: 38.0,
-                                            color: Constants.polyhxRed,
+                                            color: Constants.csBlue,
                                         ),
                                         Padding(
                                             padding: EdgeInsets.only(left: 10.0),
                                             child: Text(
                                                 LocalizationService
                                                     .of(context)
-                                                    .eventInfo['parking'],
+                                                    .eventInfo['parking'].toUpperCase(),
                                                 style: TextStyle(
-                                                    fontFamily: 'OpenSans',
+                                                    fontFamily: 'flipbash',
                                                     fontSize: 24.0
                                                 )
                                             )
@@ -123,7 +123,7 @@ class _ParkingPageState extends State<ParkingState> {
                             Padding(
                                 padding: EdgeInsets.only(bottom: 10.0),
                                 child: PillButton(
-                                    color: Constants.polyhxRed,
+                                    color: Constants.csRed,
                                     onPressed: _clickNavigate,
                                     child: Padding(
                                         padding: EdgeInsets.fromLTRB(16.0, 12.5, 16.0, 12.5),

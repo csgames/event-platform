@@ -1,5 +1,5 @@
-import 'package:PolyHxApp/redux/actions/profile-actions.dart';
-import 'package:PolyHxApp/redux/states/profile-state.dart';
+import 'package:CSGamesApp/redux/actions/profile-actions.dart';
+import 'package:CSGamesApp/redux/states/profile-state.dart';
 import 'package:redux/redux.dart';
 
 final profileReducer = combineReducers<ProfileState>([

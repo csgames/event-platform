@@ -1,7 +1,7 @@
-import 'package:PolyHxApp/components/event-image.dart';
-import 'package:PolyHxApp/components/pagetransformer/pagetransformer.dart';
-import 'package:PolyHxApp/domain/event.dart';
-import 'package:PolyHxApp/services/localization.service.dart';
+import 'package:CSGamesApp/components/event-image.dart';
+import 'package:CSGamesApp/components/pagetransformer/pagetransformer.dart';
+import 'package:CSGamesApp/domain/event.dart';
+import 'package:CSGamesApp/services/localization.service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:meta/meta.dart';

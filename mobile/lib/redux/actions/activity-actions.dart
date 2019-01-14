@@ -1,5 +1,5 @@
-import 'package:PolyHxApp/domain/activity.dart';
-import 'package:PolyHxApp/domain/user.dart';
+import 'package:CSGamesApp/domain/activity.dart';
+import 'package:CSGamesApp/domain/user.dart';
 
 class RaffleAction {
   final String activityId;

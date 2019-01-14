@@ -1,19 +1,20 @@
-import 'package:PolyHxApp/redux/actions/attendee-retrieval-actions.dart';
-import 'package:PolyHxApp/redux/actions/login-actions.dart';
-import 'package:PolyHxApp/redux/actions/notification-actions.dart';
-import 'package:PolyHxApp/redux/actions/profile-actions.dart';
-import 'package:PolyHxApp/services/localization.service.dart';
+import 'package:CSGamesApp/redux/actions/attendee-retrieval-actions.dart';
+import 'package:CSGamesApp/redux/actions/login-actions.dart';
+import 'package:CSGamesApp/redux/actions/notification-actions.dart';
+import 'package:CSGamesApp/redux/actions/profile-actions.dart';
+import 'package:CSGamesApp/services/localization.service.dart';
+import 'package:CSGamesApp/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:PolyHxApp/components/loading-spinner.dart';
-import 'package:PolyHxApp/components/pagetransformer/eventpageitem.dart';
-import 'package:PolyHxApp/components/pagetransformer/pagetransformer.dart';
-import 'package:PolyHxApp/domain/event.dart';
-import 'package:PolyHxApp/redux/actions/event-actions.dart';
-import 'package:PolyHxApp/redux/state.dart';
-import 'package:PolyHxApp/utils/routes.dart';
+import 'package:CSGamesApp/components/loading-spinner.dart';
+import 'package:CSGamesApp/components/pagetransformer/eventpageitem.dart';
+import 'package:CSGamesApp/components/pagetransformer/pagetransformer.dart';
+import 'package:CSGamesApp/domain/event.dart';
+import 'package:CSGamesApp/redux/actions/event-actions.dart';
+import 'package:CSGamesApp/redux/state.dart';
+import 'package:CSGamesApp/utils/routes.dart';
 import 'package:redux/redux.dart';
 
 class EventList extends StatelessWidget {
@@ -78,6 +79,7 @@ class EventList extends StatelessWidget {
           ? Scaffold(body: Center(child: LoadingSpinner()))
           : Scaffold(
               appBar: AppBar(
+                backgroundColor: Constants.csBlue,
                 title: Text(
                   LocalizationService.of(context).eventList['title'],
                   style: TextStyle(

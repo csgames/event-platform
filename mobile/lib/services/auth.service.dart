@@ -1,10 +1,10 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart';
-import 'package:PolyHxApp/domain/user.dart';
-import 'package:PolyHxApp/services/token.service.dart';
-import 'package:PolyHxApp/utils/environment.dart';
-import 'package:PolyHxApp/utils/url-encoded-params.dart';
+import 'package:CSGamesApp/domain/user.dart';
+import 'package:CSGamesApp/services/token.service.dart';
+import 'package:CSGamesApp/utils/environment.dart';
+import 'package:CSGamesApp/utils/url-encoded-params.dart';
 
 class AuthService {
   final Client _http;
