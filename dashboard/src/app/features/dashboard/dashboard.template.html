@@ -1,12 +1,18 @@
-<div class="dashboard-container">
-    <div class="dashboard-content">
-        <app-main-nav>
-        </app-main-nav>
-    </div>
-    <!-- <app-side-nav></app-side-nav> -->
-    <!-- <div class="dashboard-content">
-        <app-top-nav></app-top-nav>
-        
-    </div> -->
-</div>
-
+<mat-sidenav-container class="sidenav-container">
+    <mat-sidenav #drawer class="sidenav" fixedInViewport="true"
+                 [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+                 [mode]="(isHandset$ | async) ? 'over' : 'side'"
+                 [opened]="!(isHandset$ | async)">
+        <div class="dashboard-container">
+            <app-events-bar></app-events-bar>
+            <app-side-nav></app-side-nav>
+        </div>
+    </mat-sidenav>
+    <mat-sidenav-content>
+        <app-top-nav [showToggleSideNav]="isHandset$ | async"
+                     (toggleSideNav)="drawer.toggle()"></app-top-nav>
+        <div class="content">
+            <router-outlet></router-outlet>
+        </div>
+    </mat-sidenav-content>
+</mat-sidenav-container>

@@ -1,3 +1,22 @@
+.sidenav-container {
+    height: 100%;
+}
+
+.sidenav .mat-toolbar {
+    background: #F5F4F0;
+}
+
+.mat-toolbar.mat-primary {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    color: #F5F4F0;
+}
+
+.spacer {
+    flex: 1 1 auto;
+}
+
 .dashboard-container {
     display: flex;
     width: 100%;
@@ -10,4 +29,10 @@
 
 .content {
     margin-top: 15px;
+}
+
+.mat-drawer-side {
+    border: none !important;
+    box-shadow: rgba(0, 0, 0, 0.2) 4px 0 8px;
+    z-index: 0 !important;
 }
