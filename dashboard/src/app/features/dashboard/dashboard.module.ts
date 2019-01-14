@@ -13,7 +13,7 @@ import { SimpleModalModule } from "ngx-simple-modal";
 import { NotificationsListModalModule } from "../../modals/notifications-list-modal/notifications-list-modal.module";
 import { NotificationsListModalComponent } from "../../modals/notifications-list-modal/notifications-list-modal.component";
 import { LayoutModule } from "@angular/cdk/layout";
-import { MatToolbarModule, MatButtonModule, MatSidenavModule, MatIconModule, MatListModule } from "@angular/material";
+import { MatToolbarModule, MatSidenavModule } from "@angular/material";
 
 @NgModule({
     imports: [
@@ -28,10 +28,7 @@ import { MatToolbarModule, MatButtonModule, MatSidenavModule, MatIconModule, Mat
         GravatarModule.forRoot({ fallback: FALLBACK.mm }),
         LayoutModule,
         MatToolbarModule,
-        MatButtonModule,
-        MatSidenavModule,
-        MatIconModule,
-        MatListModule,
+        MatSidenavModule
     ],
     declarations: [
         DashboardComponent,
