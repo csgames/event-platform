@@ -21,7 +21,7 @@ import { AddScannedAttendee, AddSponsorDto, CreateEventDto, SendNotificationDto 
 import {
     AttendeeAlreadyRegisteredException, AttendeeNotSelectedException, EventNotFoundException, UserNotAttendeeException
 } from './events.exception';
-import { Events, EventSponsorDetails } from './events.model';
+import { EventAttendeeTypes, Events, EventSponsorDetails } from './events.model';
 
 @Injectable()
 export class EventsService extends BaseService<Events, CreateEventDto> {
@@ -50,7 +50,7 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
             throw new UserNotAttendeeException();
         }
 
-        const attendeeAlreadyRegistered = (await this.eventsModel.count({
+        const attendeeAlreadyRegistered = (await this.eventsModel.countDocuments({
             _id: eventId,
             'attendees.attendee': attendee._id
         }).exec()) > 0;
@@ -59,12 +59,13 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
             throw new AttendeeAlreadyRegisteredException();
         }
 
-        return this.eventsModel.update({
+        return this.eventsModel.updateOne({
             _id: eventId
         }, {
             $push: {
                 attendees: {
-                    attendee: attendee._id
+                    attendee: attendee._id,
+                    type: EventAttendeeTypes.Attendee
                 }
             }
         }).exec();
