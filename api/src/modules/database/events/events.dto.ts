@@ -8,12 +8,6 @@ import { ApiModelProperty } from '@nestjs/swagger';
 export class CreateEventDto {
     @IsString()
     @IsNotEmpty()
-    @IsIn(['mlh', 'lhgames'])
-    @ApiModelProperty({ required: true })
-    type: string;
-
-    @IsString()
-    @IsNotEmpty()
     @ApiModelProperty({ required: true })
     name: string;
 
@@ -78,12 +72,6 @@ export class CreateEventDto {
 }
 
 export class UpdateEventDto {
-    @IsOptional()
-    @IsString()
-    @IsIn(['mlh', 'lhgames'])
-    @ApiModelProperty()
-    type: string;
-
     @IsOptional()
     @IsString()
     @ApiModelProperty()

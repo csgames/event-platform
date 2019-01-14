@@ -28,7 +28,6 @@ export interface Attendees extends mongoose.Document {
     linkedIn: string;
     cv: string;
     website: string;
-    degree: string;
     gender: string;
     tshirt: string;
     phoneNumber: string;
@@ -61,11 +60,6 @@ export const AttendeesSchema = new mongoose.Schema({
     },
     website: {
         type: String,
-        default: null
-    },
-    degree: {
-        type: String,
-        enum: ['cegep', 'bachelor', 'master', 'phd'],
         default: null
     },
     gender: {

@@ -7,22 +7,16 @@ import { CodeException } from '../../filters/code-error/code.exception';
 
 @Injectable()
 export class RegistrationService {
-    private roles: { [key: string]: string } = {};
     constructor(private readonly stsService: STSService,
                 private readonly attendeeService: AttendeesService,
                 private readonly eventService: EventsService) {
     }
 
     public async registerAttendee(userDto: CreateUserDto) {
-        if (!this.roles) {
-            await this.fetchRoles();
-        }
-
         try {
-            const res = await this.stsService.registerUser({
-                roleId: this.roles['attendee'],
-                email: userDto.email,
+            const res = await this.stsService.registerAttendee({
                 username: userDto.email,
+                password: userDto.password,
                 firstName: userDto.firstName,
                 lastName: userDto.lastName,
                 birthDate: userDto.birthDate
@@ -41,14 +35,6 @@ export class RegistrationService {
             }
 
             throw new HttpException("Error while creating attendee", HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
-    public async fetchRoles() {
-        const roles = (await this.stsService.getRoles()).roles;
-
-        for (const role of roles) {
-            this.roles[role.name] = role.id;
         }
     }
 }

@@ -17,6 +17,11 @@ export class CreateAttendeeDto {
     @ApiModelProperty()
     website: string;
 
+    @IsOptional()
+    @IsString()
+    @ApiModelProperty()
+    cv: string;
+
     @IsString()
     @IsNotEmpty()
     @IsIn(['male', 'female', 'other', 'no_answer'])
@@ -70,6 +75,11 @@ export class UpdateAttendeeDto {
     @IsString()
     @ApiModelProperty()
     website: string;
+
+    @IsOptional()
+    @IsString()
+    @ApiModelProperty()
+    cv: string;
 
     @IsOptional()
     @IsString()
