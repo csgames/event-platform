@@ -1,97 +1,23 @@
 <mat-sidenav-container class="sidenav-container">
-  <mat-sidenav #drawer class="sidenav" fixedInViewport="true"
-      [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
-      [mode]="(isHandset$ | async) ? 'over' : 'side'"
-      [opened]="!(isHandset$ | async)">
-    <mat-toolbar>
-        <!-- <img src="../../assets/Image_Page_crop3.png"> -->
-    </mat-toolbar>
-    <mat-nav-list>
-      <a mat-list-item href="">
-        <div [fxLayout]="'row'" fxFlexFill>
-            <div fxFlex="20">
-                <i class="fas fa-home"></i>
-            </div>
-            <div fxFlex="80">
-                Home
-            </div>
+    <mat-sidenav #drawer class="sidenav" fixedInViewport="true"
+                 [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+                 [mode]="(isHandset$ | async) ? 'over' : 'side'"
+                 [opened]="!(isHandset$ | async)">
+        <div class="dashboard-container">
+            <app-events-bar></app-events-bar>
+            <app-side-nav></app-side-nav>
         </div>
-      </a>
-      <a mat-list-item href="">
-        <div [fxLayout]="'row'" fxFlexFill>
-            <div fxFlex="20">
-                <i class="fas fa-book"></i>
-            </div>
-            <div fxFlex="80">
-                Guide
-            </div>
-        </div>
-      </a>
-      <a mat-list-item href="">
-        <div [fxLayout]="'row'" fxFlexFill>
-            <div fxFlex="20">
-                <i class="far fa-calendar"></i>
-            </div>
-            <div fxFlex="80">
-                Schedule
-            </div>
-        </div>
-      </a>
-      <a mat-list-item href="">
-        <div [fxLayout]="'row'" fxFlexFill>
-            <div fxFlex="20">
-                <i class="fas fa-puzzle-piece"></i>
-            </div>
-            <div fxFlex="80">
-                Puzzle Hero
-            </div>
-        </div>
-      </a>
-      <a mat-list-item href="">
-        <div [fxLayout]="'row'" fxFlexFill>
-            <div fxFlex="20">
-                <i class="fas fa-users"></i>
-            </div>
-            <div fxFlex="80">
-                Team
-            </div>
-        </div>
-      </a>
-      <a mat-list-item href="">
-        <div [fxLayout]="'row'" fxFlexFill>
-            <div fxFlex="20">
-                <i class="far fa-gem"></i>
-            </div>
-            <div fxFlex="80">
-                Sponsors
-            </div>
-        </div>
-      </a>
-      <a mat-list-item href="">
-        <div [fxLayout]="'row'" fxFlexFill>
-            <div fxFlex="20">
-                <i class="fas fa-trophy"></i>
-            </div>
-            <div fxFlex="80">
-                Competitions
-            </div>
-        </div>
-      </a>
-    </mat-nav-list>
-  </mat-sidenav>
-  <mat-sidenav-content>
-    <mat-toolbar color=rga(0,0,0)>
-      <button
-        type="button"
-        aria-label="Toggle sidenav"
-        mat-icon-button
-        (click)="drawer.toggle()"
-        *ngIf="isHandset$ | async">
-        <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
-      </button>
-      <span class="spacer"></span>
-      <app-top-nav></app-top-nav>
-    </mat-toolbar>
-    <!-- Add Content Here -->
-  </mat-sidenav-content>
+    </mat-sidenav>
+    <mat-sidenav-content>
+        <button
+            type="button"
+            aria-label="Toggle sidenav"
+            mat-icon-button
+            (click)="drawer.toggle()"
+            *ngIf="isHandset$ | async">
+            <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+        </button>
+        <app-top-nav></app-top-nav>
+        <!-- Add Content Here -->
+    </mat-sidenav-content>
 </mat-sidenav-container>
