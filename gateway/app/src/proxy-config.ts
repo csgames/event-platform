@@ -1,13 +1,60 @@
 // format de la configuration: https://github.com/chimurai/http-proxy-middleware#options option.router
-// Les paths dans la traduction du router sont concatenes alors si tu as "/event" et que tu rediriges vers "localhost:1234/api",
-// ca va rediriger vers "localhost:1234/api/event". Les paths du router sont apped au path initial, donc si path vaut "/api" et qu'un 
-// path du router est "/event", le path de l'URL dans le browser, pour trigger le proxy, doit etre "/api/event"
+import * as http from "http";
+import * as url from "url";
+
 export type LogLevel = 'debug' | 'info' | 'warn' | 'error' | 'silent';
+export interface ProxyRouterConfig { 
+    path_starts_with: string; 
+    redirect: string;
+    path_without?: string;
+    path_to_replace?: string;
+    path_replace_by?: string;
+}
 export interface ProxyConfig {
     path: string;
-    target: string;
-    router: { [route: string]: string };
-    logLevel: LogLevel;
+    options: {
+        target: string;
+        router: (req: http.IncomingMessage) => string;
+        logLevel: LogLevel;
+    }
 };
 
-export const proxyConfig: ProxyConfig = require('../proxy-config.json');
+export const proxyConfig = (): ProxyConfig => {
+    let config = require(process.env.PROXY_CONFIG_PATH);
+    let router: Array<ProxyRouterConfig> = config.router;
+    let routerFunction = (req: http.IncomingMessage): string => {
+        if(!req.url){
+            return null;
+        }
+
+        let urlParts = url.parse(req.url);
+        for(let i = 0; i < router.length; ++i) {
+            if(urlParts.path.startsWith(config.path + router[i].path_starts_with) && router[i].redirect) {
+                if(router[i].path_without) {
+                    urlParts.path = urlParts.path.replace(router[i].path_without, "");
+                }
+                if(router[i].path_to_replace && router[i].path_replace_by) {
+                    urlParts.path = urlParts.path.replace(router[i].path_to_replace, router[i].path_replace_by);
+                }
+                let slash = urlParts.path[0] === "/" ? "" : "/";
+                return router[i].redirect + slash + urlParts.path;
+            }
+        }
+        return req.url;
+        
+    };
+
+    let proxyConfigObject: ProxyConfig = {
+        path: config.path,
+        options: {
+            // TODO: secure: true
+            target: config.target,
+            router: routerFunction,
+            logLevel: config.logLevel
+
+        }
+    };
+
+    return proxyConfigObject;
+};
+

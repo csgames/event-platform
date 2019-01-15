@@ -1,11 +1,11 @@
 {
     "path": "/api", 
     "target": "http://localhost:8080",
-    "router": {
-        "/oktamer" : "http://localhost/",
-        "/event" : "http://localhost:1234",
-        "/mail" : "http://localhost:12345",
-        "/sts" : "http://localhost:5555"
-    },
+    "router": [
+        { "path_starts_with" : "/oktamer", "redirect" : "http://localhost/", "path_without": "/oktamer"},
+        { "path_starts_with" : "/event", "redirect" : "http://localhost:1234", "path_without": "/api/event/oktamer", "path_to_replace":"jesus", "path_replace_by":"satan" },
+        { "/mail" : "http://localhost:12345" },
+        { "/sts" : "http://localhost:5555" }
+    ],
     "logLevel": "info"
 }

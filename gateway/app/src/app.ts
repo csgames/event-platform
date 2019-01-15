@@ -78,26 +78,27 @@ export class Application {
 
             return next();
         });
-        this.app.use(this.renewToken);
-        
+
         this.app.disable('x-powered-by')
     }
 
     public routes() {
         const auth: Auth = new Auth();
        
-        
-        this.app.use(httpProxy(proxyConfig.path, { 
-            target: proxyConfig.target, 
-            router: proxyConfig.router,
-            logLevel: proxyConfig.logLevel,
-            // TODO: secure: true,
-            // TODO: changeOrigin: true,
-            onProxyReq: this.onRequest
-         }));
-        
         this.app.use(process.env.GATEWAY_BASE_PATH, auth.router);
-        
+
+        this.app.use(this.renewToken);
+        let proxy = proxyConfig();
+        this.app.use(httpProxy(proxy.path, { 
+            target: proxy.path, 
+            router: proxy.options.router,
+            logLevel: proxy.options.logLevel,
+            onProxyReq: this.onRequest,
+            changeOrigin: true,
+            ignorePath: true
+
+        }));
+ 
         /*
         this.app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
             let err = new Error('Not Found');
@@ -116,77 +117,67 @@ export class Application {
     }
 
     private async renewToken(req: express.Request, res: express.Response, next) {
-        console.log("on before request");
-        if(req.session && req.session.access_token){
+        if(req.session && req.session.access_token && req.session.access_token_expiration) {
             let now = new Date().getTime() / 1000;
-            
-            if (/*now >= req.session.access_token_expiration*/true) {
-                if (req.session.refresh_token) {
-                    let body = querystring.stringify({
-                        client_id: process.env.STS_CLIENT_ID,
-                        client_secret: process.env.STS_CLIENT_SECRET,
-                        scope: process.env.STS_CLIENT_SCOPES,
-                        refresh_token: req.session.refresh_token,
-                        grant_type: 'refresh_token'
-                    });
-            
-                    try {
-                        let response = await fetch(`${process.env.STS_URL}/connect/token`, {
-                            method: 'POST',
-                            body: body,
-                            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-                        }).then(r => { 
-                            console.log(r);
-                            if (r.status === 200) {
-                                return r.json();
-                            }
-                            console.log("response type not 200");
-                            return null;
-                        });
-                        
-                        if (response){
-                            console.log("response, on peut set la session --> " + response);
-                            req.session.access_token = response.access_token;
-                            req.session.refresh_token = response.refresh_token;
-                            console.log("les tokens sont set");
-                        } else {
-                            console.log("no response");
-                            req.session.destroy(err => console.log(err));
-                        }                    
-                    } catch (e) {
-                        console.log("Exception lors du renouvellement du token: " + e);
-                        req.session.destroy(err => console.log(err));
-                    }
-                    console.log("notre session est toujours valide? " + req.sessionID);
+            if(req.session.refresh_token) {
+                if (now >= req.session.access_token_expiration) {
+                    await this.setSessionNewToken(req);
+
                     if (req.session && req.session.access_token) {
-                        console.log("la session est toujours existante");
-                        let payload = JSON.parse(Buffer.from(req.session.access_token.split('.')[1], 'base64').toString());
-                        req.session.access_token_expiration = payload.exp;
-                        console.log(req.session.access_token_expiration);
+                        let accessTokenDetails = JSON.parse(Buffer.from(req.session.access_token.split('.')[1], 'base64').toString());
+                        req.session.access_token_expiration = accessTokenDetails.exp;
                     } else {
                         // probleme au renouvellement de la session, likely refresh token invvalide, must login
-                        console.log("Session invalide apres renouvellement");
-                        res.send(401);
-                        //proxyReq.abort(); // this line drops the request that otherwise still reaches 
+                        res.sendStatus(401);
                         return;
                     }                
-                } else {
-                    // drop session invalide must login
-                    console.log("REFRESH TOKEN INVALIDE");
-                    res.send(401);
-                    //proxyReq.abort(); // this line drops the request that otherwise still reaches 
-                    return;
-                }
+                } 
             }
+            else {
+                // drop session invalide must login
+                res.sendStatus(401);
+                return;
+            }        
         }
-        console.log("on before request done");
         next();
     }
 
     private onRequest(proxyReq: http.ClientRequest, req: express.Request, res: express.Response) {
-        console.log("on set les headers");
-        proxyReq.setHeader("Authorization", `Bearer ${req.session.access_token}`);
+        if(req.session.access_token){
+            proxyReq.setHeader("Authorization", `Bearer ${req.session.access_token}`);
+        }
         proxyReq.removeHeader("Cookie");
-        console.log("les headers sont set");
+    }
+
+    private async setSessionNewToken(req: express.Request) {
+        let body = querystring.stringify({
+            client_id: process.env.STS_CLIENT_ID,
+            client_secret: process.env.STS_CLIENT_SECRET,
+            scope: process.env.STS_CLIENT_SCOPES,
+            refresh_token: req.session.refresh_token,
+            grant_type: 'refresh_token'
+        });
+
+        try {
+            let response = await fetch(`${process.env.STS_URL}/connect/token`, {
+                method: 'POST',
+                body: body,
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+            }).then(r => { 
+                if (r.status === 200) {
+                    return r.json();
+                }
+                return null;
+            });
+            
+            if (response){
+                req.session.access_token = response.access_token;
+                req.session.refresh_token = response.refresh_token;
+            } else {
+                req.session.destroy(err => console.log(err));
+            }                    
+        } catch (e) {
+            req.session.destroy(err => console.log(err));
+        }
     }
 }
