@@ -15,9 +15,6 @@ import * as redis from 'redis';
 import { Auth } from './route/auth';
 import { appConfig } from './app-config';
 import { proxyConfig } from './proxy-config';
-import { REFUSED } from 'dns';
-import { runInNewContext } from 'vm';
-import { Http2SecureServer } from 'http2';
 
 
 export class Application {
@@ -60,7 +57,7 @@ export class Application {
             saveUninitialized: true,
             secret: process.env.COOKIE_SECRET,
             cookie: { 
-                // TODO: secure: true,
+                secure: process.env.IS_HTTPS !== 'false',
                 httpOnly: true,
                 domain: process.env.APP_URL,
                 path: '/',
@@ -74,8 +71,9 @@ export class Application {
             res.setHeader("Content-security-policy", appConfig.contentSecurityPolicy);
             res.setHeader("X-frame-options", appConfig.xFrameOptions);
             res.setHeader("X-content-type", appConfig.xContentType);
-            // TODO: res.setHeader("Strict-transport-security", appConfig.strictTransportSecurity);
-
+            if(process.env.IS_HTTPS !== 'false') {
+                res.setHeader("Strict-transport-security", appConfig.strictTransportSecurity);
+            }
             return next();
         });
 
