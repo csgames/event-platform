@@ -12,6 +12,9 @@ export class CreateTemplateDto {
     @IsOptional()
     @IsString()
     description: string;
+
+    @IsOptional()
+    variables: object;
 }
 
 export class UpdateTemplateDto {

@@ -1,40 +1,44 @@
-const gulp = require("gulp");
-const nodemon = require('gulp-nodemon');
-const ts = require("gulp-typescript");
+const gulp = require('gulp');
 const sourcemaps = require('gulp-sourcemaps');
-const tslint = require("gulp-tslint");
+const ts = require('gulp-typescript');
+const child = require('child_process');
 
-const tsProject = ts.createProject("tsconfig.json");
+const tsProject = ts.createProject('tsconfig.json');
 
-gulp.task("default", function () {
+let node = null;
+
+gulp.task('build', function () {
     return tsProject.src()
-        .pipe(sourcemaps.init({ loadMaps: true, sourceRoot: "src" }))
-        .pipe(tslint({ formatter: "stylish" }))
-        .pipe(tslint.report())
+        .pipe(sourcemaps.init({loadMaps: true}))
         .pipe(tsProject())
         .js
-        .pipe(sourcemaps.write()).pipe(gulp.dest("build"));
+        .pipe(sourcemaps.write())
+        .pipe(gulp.dest('build'));
 });
 
+gulp.task('start', gulp.series('build', function(done) {
+    if (!!node) {
+        node.kill();
+    }
 
-gulp.task("watch", ["lint", "build"], function () {
-    nodemon({
-        ext: "ts",
-        watch: ["src"],
-        tasks: ["lint", "build"]
+    node = child.spawn('node', ['build/server.js'], {stdio: 'inherit'});
+    node.on('close', function (code) {
+        if (code === 8) {
+            gulp.log('Error detected, waiting for changes...');
+        }
     });
-});
 
-gulp.task("build", function () {
-    return tsProject.src()
-        .pipe(sourcemaps.init({ loadMaps: true }))
-        .pipe(tsProject())
-        .js
-        .pipe(sourcemaps.write()).pipe(gulp.dest("build"));
-});
+    done();
+}));
 
-gulp.task("lint", function () {
-    return tsProject.src()
-        .pipe(tslint({ formatter: "stylish" }))
-        .pipe(tslint.report({ summarizeFailureOutput: true }))
+gulp.task('watch', gulp.series('build', 'start', function() {
+    gulp.watch(tsProject.config.include, gulp.series('build', 'start'));
+}));
+
+gulp.task('default', gulp.parallel('watch', 'start'));
+
+process.on('exit', function() {
+    if (!!node) {
+        node.kill();
+    }
 });
