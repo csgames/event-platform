@@ -2,9 +2,9 @@
     "path": "/v1", 
     "target": "http://api:8080",
     "router": [
-        { "path_starts_with" : "/api", "redirect" : "http://api:8080", "path_without": "/vi/api" },
-        { "path_starts_with" : "/identity", "redirect" : "http://identity:5555", "path_without": "/vi/identity" },
-        { "path_starts_with" : "/mail", "redirect" : "http://mail:8090", "path_without": "/vi/mail" }
+        { "path_starts_with" : "/api", "redirect" : "http://api:8080", "path_without": "/v1/api" },
+        { "path_starts_with" : "/identity", "redirect" : "http://identity:5555", "path_without": "/v1/identity" },
+        { "path_starts_with" : "/mail", "redirect" : "http://mail:8090", "path_without": "/v1/mail" }
     ],
     "logLevel": "info"
 }
