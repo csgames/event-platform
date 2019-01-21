@@ -9,6 +9,7 @@ import { NotificationsModule } from './notifications/notifications.module';
 import { SchoolsModule } from './schools/schools.module';
 import { SponsorsModule } from './sponsors/sponsors.module';
 import { TeamsModule } from './teams/teams.module';
+import { RegistrationsModule } from './registrations/registrations.module';
 
 @Module({
     imports: [
@@ -20,6 +21,7 @@ import { TeamsModule } from './teams/teams.module';
         AttendeesModule,
         EventsModule,
         NotificationsModule,
+        RegistrationsModule,
         SchoolsModule,
         SponsorsModule,
         TeamsModule

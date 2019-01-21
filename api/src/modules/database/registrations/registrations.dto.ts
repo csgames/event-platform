@@ -1,8 +1,13 @@
 import { ApiModelProperty } from '@nestjs/swagger';
-import { IsDateString, IsEmail, IsMongoId, IsNotEmpty, IsString, Matches, ValidateNested } from 'class-validator';
-import { CreateAttendeeDto } from '../database/attendees/attendees.dto';
+import { IsDateString, IsEmail, IsMongoId, IsNotEmpty, IsString, IsUUID, Matches, ValidateNested } from 'class-validator';
+import { CreateAttendeeDto } from '../attendees/attendees.dto';
 
-export class CreateUserDto {
+export class RegisterAttendeeDto {
+    @IsUUID("4")
+    @IsNotEmpty()
+    @ApiModelProperty({ required: true })
+    uuid: string;
+
     @IsEmail()
     @IsString()
     @IsNotEmpty()
@@ -16,7 +21,6 @@ export class CreateUserDto {
      * At least one lowercase
      */
     @IsString()
-    @Matches(/(^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{6,}$)/g)
     @IsNotEmpty()
     @ApiModelProperty({ required: true })
     password: string;
