@@ -64,7 +64,6 @@ namespace STS.Controllers
                     Text = "Text",
                     Variables = new Dictionary<string, string>
                     {
-                        {"name", $"{user.FirstName}"},
                         {"url", $"{Environment.GetEnvironmentVariable("CONFIRM_EMAIL_URL")}/{confirmEmail.Uuid}"}
                     }
                 };

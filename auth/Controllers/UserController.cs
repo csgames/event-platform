@@ -87,10 +87,7 @@ namespace STS.Controllers
                     {
                         Username = input.Username.ToLower(),
                         Password = hashedPassword,
-                        BirthDate = input.BirthDate,
                         RoleId = _db.Single<Role>(r => r.Name == "attendee").Id,
-                        FirstName = input.FirstName,
-                        LastName = input.LastName,
                         Validated = false
                     };
                     _db.Add(user);
@@ -113,7 +110,6 @@ namespace STS.Controllers
                         Text = "Text",
                         Variables = new Dictionary<string, string>
                         {
-                            {"name", $"{user.FirstName}"},
                             {"url", $"{Environment.GetEnvironmentVariable("CONFIRM_EMAIL_URL")}/{confirmEmail.Uuid}"}
                         }
                     };
@@ -194,7 +190,6 @@ namespace STS.Controllers
                     .Select(x => new FilteredUser
                     {
                         Id = x.Id,
-                        Name = $"{x.FirstName} {x.LastName}",
                         Role = roles.Single(y => y.Id == x.RoleId).Name,
                         Username = x.Username,
                         Active = x.IsActive,
@@ -228,9 +223,6 @@ namespace STS.Controllers
                 var users = _db.All<User>().AsEnumerable();
 
                 users = users.Where(u =>
-                    u.FirstName?.Contains(input.searchValue) == true ||
-                    u.LastName?.Contains(input.searchValue) == true ||
-                    u.Email?.Contains(input.searchValue) == true ||
                     u.Username?.Contains(input.searchValue) == true);
 
                 return Json(new
@@ -275,9 +267,6 @@ namespace STS.Controllers
                         Username = input.Username.ToLower(),
                         Password = hashedPassword,
                         RoleId = input.RoleId,
-                        BirthDate = input.BirthDate,
-                        FirstName = input.FirstName,
-                        LastName = input.LastName,
                         IsActive = input?.IsActive ?? false,
                         Validated = input?.Validated ?? false
                     };

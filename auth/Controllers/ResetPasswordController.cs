@@ -80,7 +80,6 @@ namespace STS.Controllers
                     Text = "Text",
                     Variables = new Dictionary<string, string>
                     {
-                        {"name", $"{user.FirstName}"},
                         {"url", $"{Environment.GetEnvironmentVariable("RESET_PASSWORD_URL")}/{resetPassword.Uuid}"}
                     }
                 };

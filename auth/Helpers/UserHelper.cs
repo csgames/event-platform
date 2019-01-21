@@ -21,10 +21,6 @@ namespace STS.Helpers
                 new Claim(JwtClaimTypes.Name, user.Username ?? ""),
                 new Claim("permissions", JsonConvert.SerializeObject(permissions) ?? "[]"),
                 new Claim(JwtClaimTypes.Role, role.Name),
-                new Claim("email", user.Email ?? ""),
-                new Claim("firstname", user.FirstName ?? ""),
-                new Claim("lastname", user.LastName ?? ""),
-                new Claim("birthdate", user.BirthDate ?? ""),
                 new Claim("validated", user.Validated.ToString())
             };
         }
