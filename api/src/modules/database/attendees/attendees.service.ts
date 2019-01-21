@@ -139,11 +139,11 @@ export class AttendeesService extends BaseService<Attendees, CreateAttendeeDto> 
     }
 
     private async getAttendeesUser(attendees: AttendeeDtInterface[]) {
-        let ids = attendees.map(v => v.userId);
+        let ids = attendees.map(v => v.email);
         let users = (await this.stsService.getAllWithIds(ids)).users;
 
         for (let attendee of attendees) {
-            let user = users[users.findIndex(value => (<any>value).id === attendee.userId)];
+            let user = users[users.findIndex(value => (<any>value).username === attendee.email)];
             if (user) {
                 attendee.firstName = user.firstName;
                 attendee.lastName = user.lastName;

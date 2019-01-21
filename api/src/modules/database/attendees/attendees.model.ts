@@ -23,7 +23,9 @@ export const AttendeeNotificationSchema = new mongoose.Schema({
 });
 
 export interface Attendees extends mongoose.Document {
-    userId: string;
+    firstName: string;
+    lastName: string;
+    email: string;
     github: string;
     linkedIn: string;
     cv: string;
@@ -43,6 +45,14 @@ export interface Attendees extends mongoose.Document {
 
 export const AttendeesSchema = new mongoose.Schema({
     userId: {
+        type: String,
+        required: true
+    },
+    firstName: {
+        type: String,
+        required: true
+    },
+    lastName: {
         type: String,
         required: true
     },

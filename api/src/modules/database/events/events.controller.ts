@@ -41,7 +41,7 @@ export class EventsController {
     @Put(':id/attendee')
     @Permissions('csgames-api:add-attendee:event')
     public async addAttendee(@User() user: UserModel, @Param('id') eventId: string) {
-        await this.eventsService.addAttendee(eventId, user.id);
+        await this.eventsService.addAttendee(eventId, user.id, 'attendee');
     }
 
     @Post(':id/confirm')

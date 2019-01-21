@@ -2,6 +2,34 @@ import { ApiModelProperty } from '@nestjs/swagger';
 import { IsDateString, IsEmail, IsMongoId, IsNotEmpty, IsString, IsUUID, Matches, ValidateNested } from 'class-validator';
 import { CreateAttendeeDto } from '../attendees/attendees.dto';
 
+export class CreateRegistrationDto {
+    @IsMongoId()
+    @IsNotEmpty()
+    @ApiModelProperty({ required: true })
+    eventId: string;
+
+    @IsString()
+    @IsNotEmpty()
+    @ApiModelProperty({ required: true })
+    role: string;
+
+    @IsString()
+    @IsNotEmpty()
+    @ApiModelProperty({ required: true })
+    firstName: string;
+
+    @IsString()
+    @IsNotEmpty()
+    @ApiModelProperty({ required: true })
+    lastName: string;
+
+    @IsEmail()
+    @IsString()
+    @IsNotEmpty()
+    @ApiModelProperty({ required: true })
+    email: string;
+}
+
 export class RegisterAttendeeDto {
     @IsUUID("4")
     @IsNotEmpty()
