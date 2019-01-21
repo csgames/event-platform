@@ -13,7 +13,8 @@
     "start": "node ./build/server.js",
     "watch": "gulp watch",
     "build": "gulp build",
-    "lint": "gulp lint"
+    "lint": "gulp lint",
+    "dev": "npm run build && npm start"
   },
   "dependencies": {
     "@nestjs/common": "5.3.0",
