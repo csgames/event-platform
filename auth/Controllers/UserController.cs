@@ -99,7 +99,7 @@ namespace STS.Controllers
                     };
                     _db.Add(confirmEmail);
 
-                    //  Create confirm password doc
+                    // Create confirm password doc
                     var mailInput = new SendMailInput
                     {
                         From = "PolyHx <support@polyhx.io>",
