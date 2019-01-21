@@ -1,5 +1,5 @@
 FROM node:8-alpine
-EXPOSE 8080
+EXPOSE 8000
 
 # Create app directory
 RUN mkdir -p /usr/src/app
