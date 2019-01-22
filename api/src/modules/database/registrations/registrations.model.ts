@@ -3,7 +3,7 @@ import { Events } from '../events/events.model';
 import * as uuid from 'uuid';
 import { Attendees } from '../attendees/attendees.model';
 
-export interface RegistrationsModel extends mongoose.Document {
+export interface Registrations extends mongoose.Document {
     uuid: string;
     attendee: (Attendees | mongoose.Types.ObjectId | string);
     event: (Events | mongoose.Types.ObjectId | string);

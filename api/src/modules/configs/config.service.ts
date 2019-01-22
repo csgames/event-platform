@@ -19,6 +19,7 @@ export class ConfigService {
         this.loadMongoConfig();
         this.loadMessagingConfig();
         this.loadNexmo();
+        this.loadRegistration();
     }
 
     private loadMongoConfig() {

@@ -28,6 +28,11 @@ export class CreateRegistrationDto {
     @IsNotEmpty()
     @ApiModelProperty({ required: true })
     email: string;
+
+    @IsMongoId()
+    @IsNotEmpty()
+    @ApiModelProperty({ required: true })
+    schoolId: string;
 }
 
 export class RegisterAttendeeDto {
@@ -52,27 +57,6 @@ export class RegisterAttendeeDto {
     @IsNotEmpty()
     @ApiModelProperty({ required: true })
     password: string;
-
-    @IsNotEmpty()
-    @IsDateString()
-    @ApiModelProperty({ required: true })
-    birthDate: string;
-
-    @IsEmail()
-    @IsString()
-    @IsNotEmpty()
-    @ApiModelProperty({ required: true })
-    email: string;
-
-    @IsString()
-    @IsNotEmpty()
-    @ApiModelProperty({ required: true })
-    firstName: string;
-
-    @IsString()
-    @IsNotEmpty()
-    @ApiModelProperty({ required: true })
-    lastName: string;
 
     @IsMongoId()
     @IsNotEmpty()

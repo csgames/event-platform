@@ -1,11 +1,11 @@
 import { BadRequestException, HttpException, HttpStatus, Injectable, InternalServerErrorException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { STSService } from '@polyhx/nest-services';
+import { STSService, UserModel } from '@polyhx/nest-services';
 import { AttendeesService } from '../attendees/attendees.service';
 import { EventsService } from '../events/events.service';
 import { CreateRegistrationDto, RegisterAttendeeDto } from './registrations.dto';
 import { CodeException } from '../../../filters/code-error/code.exception';
-import { RegistrationsModel } from './registrations.model';
+import { Registrations } from './registrations.model';
 import { Model } from 'mongoose';
 import { EmailService } from '../../email/email.service';
 import { ConfigService } from '../../configs/config.service';
@@ -13,10 +13,12 @@ import { ConfigService } from '../../configs/config.service';
 @Injectable()
 export class RegistrationsService {
     private roleTemplate = {
+        attendee: 'attendee_account_creation',
         captain: 'captain_account_creation'
     };
+    private roles: { [name: string]: string };
 
-    constructor(@InjectModel('registrations') private registrationsModel: Model<RegistrationsModel>,
+    constructor(@InjectModel('registrations') private registrationsModel: Model<Registrations>,
                 private readonly stsService: STSService,
                 private readonly attendeeService: AttendeesService,
                 private readonly eventService: EventsService,
@@ -28,7 +30,8 @@ export class RegistrationsService {
         const attendee = await this.attendeeService.create({
             email: dto.email,
             firstName: dto.firstName,
-            lastName: dto.lastName
+            lastName: dto.lastName,
+            school: dto.schoolId
         });
 
         await this.eventService.addAttendee(dto.eventId, attendee, dto.role);
@@ -70,23 +73,25 @@ export class RegistrationsService {
     }
 
     public async registerAttendee(userDto: RegisterAttendeeDto) {
+        if (!this.roles) {
+            await this.fetchRoles();
+        }
+
         const registration = await this.registrationsModel.findOne({
             uuid: userDto.uuid,
             event: userDto.eventId
-        });
+        }).exec();
 
         if (!registration || registration.used) {
             throw new BadRequestException("Invalid uuid");
         }
 
         try {
-            await this.stsService.registerAttendee({
-                username: userDto.email,
+            await this.stsService.registerUser({
+                username: userDto.username,
                 password: userDto.password,
-                firstName: '',
-                lastName: '',
-                birthDate: userDto.birthDate
-            });
+                roleId: this.roles[registration.role],
+            } as UserModel);
 
             await this.attendeeService.update({
                 _id: registration.attendee
@@ -106,6 +111,18 @@ export class RegistrationsService {
             }
 
             throw new HttpException("Error while creating attendee", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    private async fetchRoles() {
+        const roles = await this.stsService.getRoles().then(x => x.roles);
+        if (!roles) {
+            return;
+        }
+
+        this.roles = {};
+        for (const role of roles) {
+            this.roles[role.name] = role.id;
         }
     }
 }

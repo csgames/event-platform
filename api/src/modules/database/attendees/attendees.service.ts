@@ -19,9 +19,7 @@ interface AttendeeDtInterface extends Attendees {
 
 @Injectable()
 export class AttendeesService extends BaseService<Attendees, CreateAttendeeDto> {
-    constructor(@InjectModel("attendees") private readonly attendeesModel: Model<Attendees>,
-                private readonly schoolService: SchoolsService,
-                private readonly stsService: STSService) {
+    constructor(@InjectModel("attendees") private readonly attendeesModel: Model<Attendees>) {
         super(attendeesModel);
     }
 
@@ -55,18 +53,12 @@ export class AttendeesService extends BaseService<Attendees, CreateAttendeeDto> 
             .skip(dtObject.start)
             .exec();
 
-        let result = attendees.map(v => {
+        data.data = attendees.map(v => {
             let a: Partial<AttendeeDtInterface> = v.toJSON();
             a.school = v.school ? (<Schools>v.school).name : "";
 
             return <AttendeeDtInterface>a;
         });
-
-        if (result.length > 0) {
-            await this.getAttendeesUser(result);
-        }
-
-        data.data = result;
         data.recordsFiltered = data.recordsTotal;
 
         return data;
@@ -136,22 +128,5 @@ export class AttendeesService extends BaseService<Attendees, CreateAttendeeDto> 
         }, {
             "notifications.$.seen": dto.seen
         });
-    }
-
-    private async getAttendeesUser(attendees: AttendeeDtInterface[]) {
-        let ids = attendees.map(v => v.email);
-        let users = (await this.stsService.getAllWithIds(ids)).users;
-
-        for (let attendee of attendees) {
-            let user = users[users.findIndex(value => (<any>value).username === attendee.email)];
-            if (user) {
-                attendee.firstName = user.firstName;
-                attendee.lastName = user.lastName;
-                attendee.email = user.username;
-                attendee.birthDate = user.birthDate;
-            } else {
-                attendee.firstName = attendee.firstName = attendee.email = attendee.birthDate = "";
-            }
-        }
     }
 }

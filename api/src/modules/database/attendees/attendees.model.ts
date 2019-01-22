@@ -44,7 +44,7 @@ export interface Attendees extends mongoose.Document {
 }
 
 export const AttendeesSchema = new mongoose.Schema({
-    userId: {
+    email: {
         type: String,
         required: true
     },
@@ -74,13 +74,11 @@ export const AttendeesSchema = new mongoose.Schema({
     },
     gender: {
         type: String,
-        enum: ['male', 'female', 'other', 'no_answer'],
-        default: null
+        enum: ['male', 'female', 'other', 'no_answer']
     },
     tshirt: {
         type: String,
-        enum: ['small', 'medium', 'large', 'x-large', '2x-large'],
-        default: null
+        enum: ['small', 'medium', 'large', 'x-large', '2x-large']
     },
     phoneNumber: {
         type: String,
