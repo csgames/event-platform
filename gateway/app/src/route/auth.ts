@@ -44,8 +44,9 @@ export class Auth {
                 body: body,
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'}
             }).then(r => r.json());
-            
-            if(response.access_token && response.refresh_token) {
+            console.log(JSON.stringify(response));
+
+            if (response.access_token && response.refresh_token) {
                 req.session.access_token = response.access_token;
                 let payload = JSON.parse(Buffer.from(response.access_token.split('.')[1], 'base64').toString());
                 req.session.access_token_expiration = payload.exp;
