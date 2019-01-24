@@ -36,7 +36,6 @@ export interface Attendees extends mongoose.Document {
     acceptSMSNotifications: boolean;
     hasDietaryRestrictions: boolean;
     dietaryRestrictions: string;
-    school: Schools | mongoose.Types.ObjectId | string;
     publicId: string;
     user: UserModel;
     messagingTokens: string[];
@@ -95,11 +94,6 @@ export const AttendeesSchema = new mongoose.Schema({
     dietaryRestrictions: {
         type: String,
         default: null
-    },
-    school: {
-        type: mongoose.Schema.Types.ObjectId,
-        required: true,
-        ref: 'schools'
     },
     publicId: {
         type: String,

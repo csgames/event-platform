@@ -10,7 +10,7 @@ export class CreateAttendeeGuard implements CanActivate {
     async canActivate(context: ExecutionContext): Promise<boolean> {
         const req = context.switchToHttp().getRequest<express.Request>();
 
-        if (req.header("token-claim-role") !== 'attendee') {
+        if (['attendee', 'captain', 'godfather'].includes(req.header("token-claim-role"))) {
             throw new UserNotAttendeeException();
         }
 
@@ -34,7 +34,7 @@ export class AttendeesGuard implements CanActivate {
     public canActivate(context: ExecutionContext): boolean {
         const req = context.switchToHttp().getRequest<express.Request>();
 
-        if (req.header("token-claim-role") !== 'attendee') {
+        if (['attendee', 'captain', 'godfather'].includes(req.header("token-claim-role"))) {
             throw new UserNotAttendeeException();
         }
 

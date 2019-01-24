@@ -34,7 +34,7 @@ export class AttendeesController {
             value.cv = await this.storageService.upload(file);
         }
         let attendee: Partial<Attendees> = value;
-        attendee = Object.assign(attendee, { userId: user.id, school: (await this.getSchool(value.school))._id });
+        attendee = Object.assign(attendee, { userId: user.id });
         return {
             attendee: await this.attendeesService.create(attendee)
                 .then(async a => {
@@ -44,7 +44,7 @@ export class AttendeesController {
     }
 
     @Get()
-    @Permissions('event_management:get-all:attendee')
+    @Permissions('csgames-api:get-all:attendee')
     public async getAll(): Promise<Attendees[]> {
         return await this.attendeesService.findAll();
     }
@@ -71,7 +71,7 @@ export class AttendeesController {
     }
 
     @Get(':id')
-    @Permissions('event_management:get:attendee')
+    @Permissions('csgames-api:get:attendee')
     public async getById(@Param('id') id: string): Promise<Attendees> {
         return await this.attendeesService.findOne({
             $or: [{
@@ -102,9 +102,7 @@ export class AttendeesController {
             delete value.cv;
         }
         const attendee: Partial<Attendees> = value;
-        if (value.school) {
-            attendee.school = (await this.getSchool(value.school))._id;
-        }
+
         await this.attendeesService.update({
             userId: user.id
         }, attendee);
@@ -116,37 +114,24 @@ export class AttendeesController {
     }
 
     @Put('token')
-    @Permissions('event_management:update:attendee')
+    @Permissions('csgames-api:update:attendee')
     @UseGuards(AttendeesGuard)
     public async addToken(@User() user: UserModel, @Body(ValidationPipe) dto: AddTokenDto) {
         await this.attendeesService.addToken(user.id, dto.token);
     }
 
     @Put('notification')
-    @Permissions('event_management:update:attendee')
+    @Permissions('csgames-api:update:attendee')
     @UseGuards(AttendeesGuard)
     public async updateNotification(@User() user: UserModel, @Body(ValidationPipe) dto: UpdateNotificationDto) {
         await this.attendeesService.updateNotification(user.id, dto);
     }
 
     @Delete('/token/:token')
-    @Permissions('event_management:update:attendee')
+    @Permissions('csgames-api:update:attendee')
     @UseGuards(AttendeesGuard)
     public async deleteToken(@User() user: UserModel, @Param('token') token) {
         await this.attendeesService.removeToken(user.id, token);
-    }
-
-    private async getSchool(name: string) {
-        try {
-            const school = await this.schoolService.findOne({name});
-            if (school) {
-                return school;
-            }
-        } catch (err) {
-            throw new BadRequestException('School Invalid');
-        }
-
-        throw new BadRequestException('School Invalid');
     }
 
     private async appendCvMetadata(a: Attendees) {

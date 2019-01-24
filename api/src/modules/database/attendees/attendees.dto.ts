@@ -34,11 +34,6 @@ export class CreateAttendeeDto {
     @ApiModelProperty({ required: true })
     tshirt: string;
 
-    @IsString()
-    @IsOptional()
-    @ApiModelProperty()
-    school: string;
-
     @IsOptional()
     @IsString()
     @ApiModelProperty()

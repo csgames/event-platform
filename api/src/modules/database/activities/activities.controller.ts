@@ -65,7 +65,7 @@ export class ActivitiesController {
     }
 
     @Get(':id/raffle')
-    @Permissions('event_management:raffle:activity')
+    @Permissions('csgames-api:raffle:activity')
     public async raffle(@Param('id') activityId: string): Promise<UserModel> {
         const activity: Activities = await this.activitiesService.findById(activityId);
 
@@ -86,25 +86,25 @@ export class ActivitiesController {
     }
 
     @Get(":activity_id/:attendee_id/subscription")
-    @Permissions("event_management:get:activity")
+    @Permissions("csgames-api:get:activity")
     public async getAttendeeSubscription(@Param('activity_id') activityId: string, @Param('attendee_id') attendeeId: string) {
         await this.activitiesService.getAttendeeSubscription(activityId, attendeeId);
     }
 
     @Put(":activity_id/:attendee_id/subscription")
-    @Permissions("event_management:get:activity")
+    @Permissions("csgames-api:get:activity")
     public async subscribeAttendee(@Param('activity_id') activityId: string, @Param('attendee_id') attendeeId: string) {
         await this.activitiesService.subscribeAttendee(activityId, attendeeId);
     }
 
     @Delete(":activity_id/:attendee_id/subscription")
-    @Permissions("event_management:get:activity")
+    @Permissions("csgames-api:get:activity")
     public async unsubscribeAttendee(@Param('activity_id') activityId: string, @Param('attendee_id') attendeeId: string) {
         await this.activitiesService.unsubscribeAttendee(activityId, attendeeId);
     }
 
     @Post(":id/notification")
-    @Permissions("event_management:update:activity")
+    @Permissions("csgames-api:update:activity")
     public async createNotification(@Param("id") id: string, @Body(ValidationPipe) dto: SendNotificationDto) {
         await this.activitiesService.createNotification(id, dto);
     }

@@ -9,6 +9,7 @@ import { Registrations } from './registrations.model';
 import { Model } from 'mongoose';
 import { EmailService } from '../../email/email.service';
 import { ConfigService } from '../../configs/config.service';
+import { TeamsService } from '../teams/teams.service';
 
 @Injectable()
 export class RegistrationsService {
@@ -24,15 +25,15 @@ export class RegistrationsService {
                 private readonly attendeeService: AttendeesService,
                 private readonly eventService: EventsService,
                 private readonly emailService: EmailService,
-                private readonly configService: ConfigService) {
+                private readonly configService: ConfigService,
+                private readonly teamsService: TeamsService) {
     }
 
     public async create(dto: CreateRegistrationDto) {
         const attendee = await this.attendeeService.create({
             email: dto.email,
             firstName: dto.firstName,
-            lastName: dto.lastName,
-            school: dto.schoolId
+            lastName: dto.lastName
         });
 
         await this.eventService.addAttendee(dto.eventId, attendee, dto.role);
