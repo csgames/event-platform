@@ -54,12 +54,12 @@ export class Auth {
                     req.session.refresh_token = response.refresh_token;
                 }
                 res.json({
-                    Success: true
+                    success: true
                 });
             } else {
                 res.statusCode = 401;
                 res.json({
-                    Success: false
+                    success: false
                 });
             }     
         } catch (e) {
@@ -77,9 +77,9 @@ export class Auth {
                 if(err) {
                     console.log(err);
                     res.statusCode = 500;
-                    res.json({ Success: false });
+                    res.json({ success: false });
                 } else {
-                    res.json({ Success: true });
+                    res.json({ success: true });
                 }
             })
         }
