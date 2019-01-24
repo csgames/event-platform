@@ -14,7 +14,8 @@ import { ConfigService } from '../../configs/config.service';
 export class RegistrationsService {
     private roleTemplate = {
         attendee: 'attendee_account_creation',
-        captain: 'captain_account_creation'
+        captain: 'captain_account_creation',
+        godfather: 'godfather_account_creation'
     };
     private roles: { [name: string]: string };
 
@@ -42,6 +43,10 @@ export class RegistrationsService {
             role: dto.role
         });
         registration = await registration.save();
+
+        if (dto.role === 'captain') {
+            // TODO: Create team
+        }
 
         const template = this.roleTemplate[dto.role];
         if (!template) {
