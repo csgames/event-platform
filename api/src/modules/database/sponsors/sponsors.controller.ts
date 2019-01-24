@@ -15,13 +15,13 @@ export class SponsorsController {
     }
 
     @Post()
-    @Permissions('event_management:create:sponsor')
+    @Permissions('csgames-api:create:sponsor')
     public async create(@Body(new ValidationPipe()) dto: CreateSponsorDto): Promise<Sponsors> {
         return await this.sponsorService.create(dto);
     }
 
     @Put(':id')
-    @Permissions('event_management:create:sponsor')
+    @Permissions('csgames-api:create:sponsor')
     public async update(@Param('id') id: string, @Body(new ValidationPipe()) dto: UpdateSponsorDto): Promise<Sponsors> {
         return await this.sponsorService.update({
             _id: id
@@ -29,7 +29,7 @@ export class SponsorsController {
     }
 
     @Get()
-    @Permissions('event_management:get-all:sponsor')
+    @Permissions('csgames-api:get-all:sponsor')
     public async getAll(): Promise<Sponsors[]> {
         return await this.sponsorService.findAll();
     }
