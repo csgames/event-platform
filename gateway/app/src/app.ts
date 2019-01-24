@@ -58,8 +58,7 @@ export class Application {
             secret: process.env.COOKIE_SECRET,
             cookie: { 
                 secure: process.env.IS_HTTPS !== 'false',
-                httpOnly: false,
-                domain: process.env.APP_URL,
+                httpOnly: true,
                 path: '/',
                 expires: appConfig.cookieExpiration 
             }
