@@ -1,7 +1,30 @@
 {
-  "extends": "../tsconfig.json",
-  "compilerOptions": {
-    "outDir": "../out-tsc/app",
-    "types": []
-  }
+    "extends": "../tsconfig.json",
+    "compilerOptions": {
+        "outDir": "../out-tsc/app",
+        "types": [],
+        "paths": {
+            "@csgames/api/*": [
+                "./app/api/*"
+            ],
+            "@csgames/components/*": [
+                "./app/components/*"
+            ],
+            "@csgames/domain/*": [
+                "./app/domain/*"
+            ],
+            "@csgames/services/*": [
+                "./app/services/*"
+            ],
+            "@csgames/utils/*": [
+                "./app/utils/*"
+            ],
+            "@csgames/store/*": [
+                "./app/store/*"
+            ],
+            "@csgames/providers/*": [
+                "./app/providers/*"
+            ]
+        }
+    }
 }

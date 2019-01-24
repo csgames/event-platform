@@ -16,10 +16,18 @@ import { BsDropdownModule } from "ngx-bootstrap/dropdown";
 import { LoginModule } from "./features/login/login.module";
 import { RegisterModule } from "./features/register/register.module";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { ApiModule } from "./api/api.module";
+import { TranslateLoader, TranslateModule } from "@ngx-translate/core";
+import { TranslateHttpLoader } from "@ngx-translate/http-loader";
+import { HttpClient } from "@angular/common/http";
+
+export function loadFactory(http: HttpClient): TranslateHttpLoader {
+    return new TranslateHttpLoader(http, "../assets/i18n/", ".json");
+}
 
 @NgModule({
     declarations: [
-        AppComponent,
+        AppComponent
     ],
     imports: [
         BrowserModule,
@@ -28,14 +36,22 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
         LoginModule,
         RegisterModule,
         RouterModule.forRoot(ROUTES),
+        TranslateModule.forRoot({
+            loader: {
+                provide: TranslateLoader,
+                useFactory: loadFactory,
+                deps: [HttpClient]
+            }
+        }),
+        ApiModule,
 
         StoreModule.forRoot(fromApp.appReducers, { metaReducers: fromApp.appMetaReducers }),
         EffectsModule.forRoot([
             AppEffects
         ]),
         !environment.production ? StoreDevtoolsModule.instrument() : [],
-        BrowserAnimationsModule,
-        
+        BrowserAnimationsModule
+
     ],
     providers: [],
     bootstrap: [AppComponent]
