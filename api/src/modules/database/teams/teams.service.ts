@@ -8,7 +8,7 @@ import { Attendees } from '../attendees/attendees.model';
 import { AttendeesService } from '../attendees/attendees.service';
 import { CreateTeamDto, UpdateTeamDto } from './teams.dto';
 import {
-    AttendeeHasTeamException, AttendeeNotFoundException, AttendeeNotInTeamException, TeamFullException, TeamNotFoundException, TeamAlreadyCreatedException
+    AttendeeHasTeamException, AttendeeNotFoundException, AttendeeNotInTeamException, TeamFullException, TeamNotFoundException, TeamAlreadyCreatedException, InvalidNameException
 } from './teams.exception';
 import { Teams } from './teams.model';
 import { Events } from '../events/events.model';
@@ -23,32 +23,35 @@ export interface LeaveTeamResponse {
 @Injectable()
 export class TeamsService extends BaseService<Teams, CreateTeamDto> {
     constructor(@InjectModel('teams') private readonly teamsModel: Model<Teams>,
-                private readonly attendeesService: AttendeesService,
-                private readonly eventsService: EventsService,
-                private readonly emailService: EmailService,
-                private readonly stsService: STSService) {
+        private readonly attendeesService: AttendeesService,
+        private readonly eventsService: EventsService,
+        private readonly emailService: EmailService,
+        private readonly stsService: STSService) {
         super(teamsModel);
     }
 
     public async createTeam(createTeamDto: CreateTeamDto): Promise<Teams> {
-        const team = await this.findOne({name: createTeamDto.name, event: createTeamDto.event});
-
-        let attendeeTeam: Teams = await this.findOne({
-            attendees: createTeamDto.attendeeId, event: createTeamDto.event
-        });
-        if (attendeeTeam) {
-            throw new AttendeeHasTeamException();
-        }
-        if (team) {
-            throw new TeamAlreadyCreatedException();
-        }
-
         return await this.create({
             name: createTeamDto.name,
             event: createTeamDto.event,
             attendees: [Types.ObjectId(createTeamDto.attendeeId)],
             school: createTeamDto.school
         });
+    }
+
+    public async updateTeam(id: string, updateTeamDto: UpdateTeamDto): Promise<Teams> {
+        let name = updateTeamDto.name.trim();
+        for (let i = 0; i < name.length; ++i) {
+            if (name.charCodeAt(i) > 255) {
+                throw new InvalidNameException();
+            }
+        }
+        let team = await this.findOne({ name: name });
+        if (team) {
+            throw new TeamAlreadyCreatedException();
+        }
+
+        return this.update({ _id: id }, { name });
     }
 
     public async getTeamFromEvent(eventId: string): Promise<Teams[]> {

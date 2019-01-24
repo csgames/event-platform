@@ -29,17 +29,8 @@ export class TeamsController {
     @Put(':id')
     @Permissions('csgames-api:update:team')
     public async updateTeam(@Body(new ValidationPipe()) updateTeamDto: UpdateTeamDto, @Param('id') id: string) {
-        return this.teamsService.update({ _id: id }, updateTeamDto);
+        return this.teamsService.updateTeam(id, updateTeamDto);
     }
-
-
-    // # create team
-    // create un team captain == create user avec isCaptain a true
-    // invite member send email unique link --> first name last name email
-    // delete member
-    // update team
-    // # delete team
-    
 
     @Get()
     @Permissions('csgames-api:get-all:team')
@@ -102,17 +93,4 @@ export class TeamsController {
         }
         return team;
     }
-/*
-    @Delete(':id')
-    @Permissions('csgames-api:leave:team')
-    public async leave(@User() user: UserModel, @Param('id') teamId: string): Promise<LeaveTeamResponse> {
-        const attendee = await this.attendeesService.findOne({
-            userId: user.id
-        });
-        return this.teamsService.leave({
-            teamId,
-            attendeeId: attendee._id
-        });
-    }
-    */
 }

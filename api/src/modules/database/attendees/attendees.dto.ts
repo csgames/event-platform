@@ -91,11 +91,6 @@ export class UpdateAttendeeDto {
     @IsOptional()
     @IsString()
     @ApiModelProperty()
-    school: string;
-
-    @IsOptional()
-    @IsString()
-    @ApiModelProperty()
     phoneNumber: string;
 
     @IsOptional()

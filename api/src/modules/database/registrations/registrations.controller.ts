@@ -1,4 +1,4 @@
-import { Body, Controller, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Post, UseGuards, UseFilters } from '@nestjs/common';
 import { Permissions } from '../../../decorators/permission.decorator';
 import { ValidationPipe } from "../../../pipes/validation.pipe";
 import { CreateRegistrationGuard } from './registrations.guard';
@@ -7,8 +7,11 @@ import { RegistrationsService } from "./registrations.service";
 import { CreateRegistrationDto, RegisterAttendeeDto } from './registrations.dto';
 import { PublicRoute } from 'nestjs-jwt2';
 import { Role } from '../../../decorators/role.decorator';
+import { CodeExceptionFilter } from '../../../filters/code-error/code.filter';
+import { codeMap } from './registration.exception';
 
 @Controller("registration")
+@UseFilters(new CodeExceptionFilter(codeMap))
 export class RegistrationsController {
     constructor(private readonly registrationService: RegistrationsService) { }
 

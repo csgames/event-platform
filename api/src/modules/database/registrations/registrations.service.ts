@@ -11,6 +11,7 @@ import { EmailService } from '../../email/email.service';
 import { ConfigService } from '../../configs/config.service';
 import { TeamsService } from '../teams/teams.service';
 import { defaultPath } from 'tough-cookie';
+import { AttendeeAlreadyExistException, TeamAlreadyExistException } from './registration.exception';
 
 @Injectable()
 export class RegistrationsService {
@@ -31,6 +32,16 @@ export class RegistrationsService {
     }
 
     public async create(dto: CreateRegistrationDto, role: string) {
+        let att = await this.attendeeService.findOne({email: dto.email});
+        if (att) {
+            throw new AttendeeAlreadyExistException();
+        }
+
+        let team = await this.teamsService.findOne({name: dto.teamName});
+        if (team && dto.role === 'captain') {
+            throw new TeamAlreadyExistException();
+        }
+
         const attendee = await this.attendeeService.create({
             email: dto.email,
             firstName: dto.firstName,
@@ -47,7 +58,7 @@ export class RegistrationsService {
         registration = await registration.save();
 
         if (dto.role === 'captain' && role === 'admin') {
-            this.teamsService.createTeam({
+            await this.teamsService.createTeam({
                 name: dto.teamName,
                 event: dto.eventId,
                 school: dto.schoolId,

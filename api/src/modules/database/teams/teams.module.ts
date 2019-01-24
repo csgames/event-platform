@@ -7,6 +7,7 @@ import { TeamsController } from './teams.controller';
 import { TeamsSchema } from './teams.model';
 import { TeamsService } from './teams.service';
 import { STSModule } from '@polyhx/nest-services';
+import { SchoolsModule } from '../schools/schools.module';
 
 @Module({
     imports: [
@@ -17,7 +18,8 @@ import { STSModule } from '@polyhx/nest-services';
         forwardRef(() => EventsModule),
         AttendeesModule,
         STSModule,
-        EmailModule
+        EmailModule,
+        SchoolsModule
     ],
     controllers: [
         TeamsController

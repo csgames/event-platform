@@ -7,7 +7,7 @@ import { CreateTeamDto } from './teams.dto';
 describe("TeamsDto", () => {
     const pipe = new ValidationPipe();
 
-    describe("CreateOrJoinTeamDto", () => {
+    describe("CreateTeamDto", () => {
         const arg = { metatype: CreateTeamDto } as ArgumentMetadata;
         it("Should throw Precondition Failed Exception if name and event aren't provided", async () => {
             try {
@@ -41,23 +41,6 @@ describe("TeamsDto", () => {
             } catch (e) {
                 expect(e).to.be.instanceOf(HttpException);
                 expect(e.status).to.be.equal(HttpStatus.PRECONDITION_FAILED);
-            }
-        });
-
-        it("Should return the same value after validation", async () => {
-            try {
-                const value = await pipe.transform({
-                        name: "TestTeam",
-                        event: "5bde6ec00000000000000000"
-                    },
-                    arg
-                );
-                expect(value).to.be.deep.equal({
-                    name: "TestTeam",
-                    event: "5bde6ec00000000000000000"
-                });
-            } catch (e) {
-                fail("Validation should not fail");
             }
         });
     });
