@@ -1,10 +1,12 @@
 import { Injectable } from '@nestjs/common';
+import { GlobalConfig } from './models/global-config';
 import { MongoConfig } from './models/mongo-config';
 import { MessagingConfig } from './models/messaging-config';
 import { NexmoConfig } from './models/nexmo-config';
 
 @Injectable()
 export class ConfigService {
+    public global: GlobalConfig;
     public mongo: MongoConfig;
     public messaging: MessagingConfig;
     public nexmo: NexmoConfig;
@@ -14,9 +16,18 @@ export class ConfigService {
     }
 
     private loadConfigs() {
+        this.loadGlobalConfig();
         this.loadMongoConfig();
         this.loadMessagingConfig();
         this.loadNexmo();
+    }
+
+    private loadGlobalConfig() {
+        const packageJson = require('../../../package.json');
+        this.global = {
+            mode: process.env.NODE_ENV || 'development',
+            version: process.env.VERSION || packageJson.version
+        };
     }
 
     private loadMongoConfig() {
