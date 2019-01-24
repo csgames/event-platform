@@ -72,7 +72,7 @@ export class Auth {
 
     // GET /logout 
     private logout(req: express.Request, res: express.Response) {
-        if(req.session.access_token) {
+        if(req.session) {
             req.session.destroy((err) => {
                 if(err) {
                     console.log(err);
@@ -82,6 +82,8 @@ export class Auth {
                     res.json({ success: true });
                 }
             })
+        } else {
+            res.status(401).json({success: false});
         }
     }
 
