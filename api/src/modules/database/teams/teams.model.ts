@@ -23,9 +23,5 @@ export const TeamsSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         required: true,
         ref: 'events'
-    },
-    present: {
-        type: Boolean,
-        required: false
     }
 });

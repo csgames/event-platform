@@ -1,4 +1,4 @@
-import { BadRequestException, Body, Controller, Delete, Get, Param, Post, Query, UseFilters, UseGuards } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Delete, Get, Param, Post, Query, UseFilters, UseGuards, Put } from '@nestjs/common';
 import { ApiUseTags } from '@nestjs/swagger';
 import { STSService } from '@polyhx/nest-services';
 import { Permissions } from '../../../decorators/permission.decorator';
@@ -10,7 +10,7 @@ import { ValidationPipe } from '../../../pipes/validation.pipe';
 import { Attendees } from '../attendees/attendees.model';
 import { AttendeesService } from '../attendees/attendees.service';
 import { EventsService } from '../events/events.service';
-import { CreateOrJoinTeamDto } from './teams.dto';
+import { CreateTeamDto, UpdateTeamDto } from './teams.dto';
 import { codeMap } from './teams.exception';
 import { Teams } from './teams.model';
 import { LeaveTeamResponse, TeamsService } from './teams.service';
@@ -27,10 +27,31 @@ export class TeamsController {
     }
 
     @Post()
-    @Permissions('event_management:create-join:team')
-    public async createOrJoin(@User() user: UserModel, @Body(new ValidationPipe()) createOrJoinTeamDto: CreateOrJoinTeamDto) {
-        return this.teamsService.createOrJoin(createOrJoinTeamDto, user.id);
+    @Permissions('event_management:create-join:team') // TODO: Mettre des permissions appropriees, doit etre appele par l'admin
+    public async createTeam(@User() user: UserModel, @Body(new ValidationPipe()) createTeamDto: CreateTeamDto) {
+        return this.teamsService.createTeam(createTeamDto, user.id);
     }
+
+    // TODO: add permissions here
+    @Delete(':teamName')
+    public async deleteTeam(@Param('teamName') teamName: String) {
+        return this.teamsService.deleteTeam(teamName);
+    }
+
+    // TODO: add permissions here
+    @Put()
+    public async updateTeam(@Body(new ValidationPipe()) updateTeamDto: UpdateTeamDto) {
+        return this.teamsService.updateTeam();
+    }
+
+
+    // # create team
+    // create un team captain == create user avec isCaptain a true
+    // invite member send email unique link --> first name last name email
+    // delete member
+    // update team
+    // # delete team
+    
 
     @Get()
     @Permissions('event_management:get-all:team')
@@ -93,7 +114,7 @@ export class TeamsController {
         }
         return team;
     }
-
+/*
     @Delete(':id')
     @Permissions('event_management:leave:team')
     public async leave(@User() user: UserModel, @Param('id') teamId: string): Promise<LeaveTeamResponse> {
@@ -105,4 +126,5 @@ export class TeamsController {
             attendeeId: attendee._id
         });
     }
+    */
 }

@@ -6,9 +6,9 @@ import { BaseService } from '../../../services/base.service';
 import { EmailService } from '../../email/email.service';
 import { Attendees } from '../attendees/attendees.model';
 import { AttendeesService } from '../attendees/attendees.service';
-import { CreateOrJoinTeamDto, LeaveTeamDto } from './teams.dto';
+import { CreateTeamDto, LeaveTeamDto } from './teams.dto';
 import {
-    AttendeeHasTeamException, AttendeeNotFoundException, AttendeeNotInTeamException, TeamFullException, TeamNotFoundException
+    AttendeeHasTeamException, AttendeeNotFoundException, AttendeeNotInTeamException, TeamFullException, TeamNotFoundException, TeamAlreadyCreatedException
 } from './teams.exception';
 import { Teams } from './teams.model';
 import { Events } from '../events/events.model';
@@ -19,8 +19,9 @@ export interface LeaveTeamResponse {
     team: Teams;
 }
 
+
 @Injectable()
-export class TeamsService extends BaseService<Teams, CreateOrJoinTeamDto> {
+export class TeamsService extends BaseService<Teams, CreateTeamDto> {
     constructor(@InjectModel('teams') private readonly teamsModel: Model<Teams>,
                 private readonly attendeesService: AttendeesService,
                 private readonly eventsService: EventsService,
@@ -29,27 +30,43 @@ export class TeamsService extends BaseService<Teams, CreateOrJoinTeamDto> {
         super(teamsModel);
     }
 
-    public async createOrJoin(createOrJoinTeamDto: CreateOrJoinTeamDto, userId: string): Promise<Teams> {
-        const team = await this.findOne({name: createOrJoinTeamDto.name, event: createOrJoinTeamDto.event});
+    public async createTeam(createTeamDto: CreateTeamDto, userId: string): Promise<Teams> {
+        const team = await this.findOne({name: createTeamDto.name, event: createTeamDto.event});
         const attendee = await this.attendeesService.findOne({userId});
         if (!attendee) {
             throw new AttendeeNotFoundException();
         }
         let attendeeTeam: Teams = await this.findOne({
-            attendees: attendee._id, event: createOrJoinTeamDto.event
+            attendees: attendee._id, event: createTeamDto.event
         });
         if (attendeeTeam) {
             throw new AttendeeHasTeamException();
         }
         if (team) {
-            return this.join(team, createOrJoinTeamDto.event, attendee._id);
-        } else {
-            return await this.create({
-                name: createOrJoinTeamDto.name,
-                event: createOrJoinTeamDto.event,
-                attendees: [Types.ObjectId(attendee._id)]
-            });
+            throw new TeamAlreadyCreatedException();
         }
+
+        return await this.create({
+            name: createTeamDto.name,
+            event: createTeamDto.event,
+            attendees: [Types.ObjectId(attendee._id)]
+        });
+
+    }
+
+    public async deleteTeam(teamName: String): Promise<void> {
+        let team: Teams = await this.findOne({ name: teamName });
+        
+        if (!team) {
+            throw new TeamNotFoundException();
+        }
+
+        return await this.remove({ _id: team.id });
+    }
+
+    public async updateTeam(): Promise<void> {
+
+        return null;
     }
 
     public async leave(leaveTeamDto: LeaveTeamDto): Promise<LeaveTeamResponse> {

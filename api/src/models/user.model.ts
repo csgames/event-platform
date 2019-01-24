@@ -5,4 +5,5 @@ export interface UserModel {
     lastName: string;
     role: string;
     permissions: string[];
+    isCaptain: Boolean;
 }
