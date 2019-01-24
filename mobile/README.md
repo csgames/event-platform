@@ -1,6 +1,6 @@
 # mobile_app
 
-Official PolyHx Mobile App
+Official CS Games Mobile App
 
 ## Getting Started
 

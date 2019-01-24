@@ -43,25 +43,27 @@ Map<String, dynamic> en = {
     'bring': 'What to bring?',
     'parking': 'Parking',
     'restaurant': 'Restaurant',
-    'hotel': 'Hotel'
+    'hotel': 'Hotel',
+    'transport': 'Transport',
+    'school': 'School',
+    'transport-info': 'This year, transportation is provided by the STM (Société des transports de Montréal). Use the ticket you received at registration.',
+    'campus': 'Polytechnique Montréal Access Map',
+    'map': 'Map of Polytechnique',
+    'visit': 'Visit website'
   },
   'event-list': {
     'title': 'Events',
     'error': 'An error occured while loading events.'
   },
   'bring': {
-    'guide': 'Guide',
-    'title': 'What to bring?',
-    'card': 'Student card',
-    'pc': 'Portable computer & charger',
-    'phone': 'Phone & charger',
-    'headphones': 'Headphones',
-    'deodorant': 'Deodorant',
-    'brush': 'Toothbrush & toothpaste',
-    'hoodie': 'Hoodie',
-    'hygiene': 'Hygiene kit',
-    'sleeping': 'Sleeping bad & pillow',
-    'tylenol': 'Tylenol/Advil for headaches'
+    'clothes': 'Clothes for 3 days',
+    'degrise': 'Clothes for the degrises (clothes and shoes you don\'t mind getting dirty)',
+    'banquet': 'Fancy clothes for the banquet',
+    'laptop': 'Your laptop & charger',
+    'pool': 'Swimsuit for the pool at the hotel',
+    'snack': 'Snacks',
+    'beverage': 'Beverages containing electrolytes',
+    'costume': 'Costumes that fit with your delegation\'s theme.'
   },
   'parking': {
     'guide': 'Guide',

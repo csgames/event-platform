@@ -22,7 +22,6 @@ dependencies:
   crypto: ^2.0.6
   firebase_messaging: ^2.1.0
   google_maps_flutter: ^0.0.3+3
-  fluttertoast: ^2.2.2
   timeago: ^2.0.10
   flutter_local_notifications: ^0.4.3
 
@@ -37,6 +36,9 @@ flutter:
     - assets/logo.png
     - assets/tshirt.png
     - assets/mirego.png
+    - assets/transport.png
+    - assets/campus.png
+    - assets/school.png
 
   fonts:
     - family: Raleway

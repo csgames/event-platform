@@ -68,11 +68,7 @@ class CleanAction {
   CleanAction(this.attendee, this.user);
 }
 
-class GetCurrentAttendeeAction {
-  final String userId;
-
-  GetCurrentAttendeeAction(this.userId);
-}
+class GetCurrentAttendeeAction {}
 
 class SetCurrentAttendeeAction {
   final Attendee attendee;

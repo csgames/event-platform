@@ -261,10 +261,10 @@ class _ActivityPageState extends State<ActivityPage> {
                             this._activity = model.activity;
                         });
                     }
-                    model.init(_activity.id, _values['errors']);
                     Future.delayed(Duration(seconds: 2), () {
-                        Navigator.pop(context);
+                        model.init(_activity.id, _values['errors']);
                         model.reset();
+                        Navigator.pop(context);
                         _isScannedDialogOpen = false;
                     });
                     showDialog(context: context, builder: (_) => _buildUserDialog(model.user, model.activity == null));

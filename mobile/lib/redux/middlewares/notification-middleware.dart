@@ -7,7 +7,6 @@ import 'package:CSGamesApp/redux/state.dart';
 import 'package:CSGamesApp/services/attendees.service.dart';
 import 'package:CSGamesApp/services/notification.service.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:redux_epics/redux_epics.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -119,11 +118,9 @@ class NotificationMiddleware implements EpicClass<AppState> {
                 },
                 onResume: (Map<String, dynamic> message) async {
                     print('on resume $message');
-//                    _showToast(message['notification']['title'], message['notification']['body']);
                 },
                 onLaunch: (Map<String, dynamic> message) async {
                     print('on launch $message');
-//                    _showToast(message['notification']['title'], message['notification']['body']);
                 }
             );
 
@@ -132,15 +129,6 @@ class NotificationMiddleware implements EpicClass<AppState> {
         } catch (err) {
             print('An error occured while doing the setup of the notifications $err');
         }
-    }
-
-    void _showToast(String title, String message) {
-        Fluttertoast.showToast(
-            msg: '$title : $message',
-            toastLength: Toast.LENGTH_LONG,
-            gravity: ToastGravity.TOP,
-            timeInSecForIos: 5
-        );
     }
 
     Stream<dynamic> _checkUnseenNotifications(String eventId) async* {

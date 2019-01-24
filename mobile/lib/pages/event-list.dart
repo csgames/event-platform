@@ -67,7 +67,7 @@ class EventList extends StatelessWidget {
 
             GetCurrentUserAction action = GetCurrentUserAction();
             store.dispatch(action);
-            action.completer.future.then((id) => store.dispatch(GetCurrentAttendeeAction(id)));
+            action.completer.future.then((id) => store.dispatch(GetCurrentAttendeeAction()));
           } else if (!isLoggedIn) {
             Navigator.pushReplacementNamed(context, Routes.LOGIN);
           }

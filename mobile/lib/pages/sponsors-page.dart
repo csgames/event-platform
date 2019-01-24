@@ -88,24 +88,24 @@ class SponsorsPage extends StatelessWidget {
 
     List<Widget> _groupSponsors(BuildContext context, Map<String, List<Sponsors>> sponsors) {
         List<Widget> widgets = [];
-        if (sponsors.containsKey('Petabytes')) {
-            widgets.add(_buildSubtitle('PETABYTES'));
-            widgets.add(_buildLevel(context, sponsors['Petabytes'], 1));
+        if (sponsors.containsKey('Platinum')) {
+            widgets.add(_buildSubtitle('PLATINUM'));
+            widgets.add(_buildLevel(context, sponsors['Platinum'], 1));
         }
 
-        if (sponsors.containsKey('Terabytes')) {
-            widgets.add(_buildSubtitle('TERABYTES'));
-            widgets.add(_buildLevel(context, sponsors['Terabytes'], 1));
+        if (sponsors.containsKey('Gold')) {
+            widgets.add(_buildSubtitle('GOLD'));
+            widgets.add(_buildLevel(context, sponsors['Gold'], 2));
         }
 
-        if (sponsors.containsKey('Gigabytes')) {
-            widgets.add(_buildSubtitle('GIGABYTES'));
-            widgets.add(_buildLevel(context, sponsors['Gigabytes'], 2));
+        if (sponsors.containsKey('Silver')) {
+            widgets.add(_buildSubtitle('SILVER'));
+            widgets.add(_buildLevel(context, sponsors['Silver'], 3));
         }
 
-        if (sponsors.containsKey('Megabytes')) {
-            widgets.add(_buildSubtitle('MEGABYTES'));
-            widgets.add(_buildLevel(context, sponsors['Megabytes'], 2));
+        if (sponsors.containsKey('Bronze')) {
+            widgets.add(_buildSubtitle('BRONZE'));
+            widgets.add(_buildLevel(context, sponsors['Bronze'], 3));
         }
 
         return widgets;

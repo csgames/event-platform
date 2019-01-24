@@ -3,7 +3,11 @@ import 'package:CSGamesApp/components/info-tile.dart';
 import 'package:CSGamesApp/components/title.dart';
 import 'package:CSGamesApp/domain/event.dart';
 import 'package:CSGamesApp/pages/bring.dart';
+import 'package:CSGamesApp/pages/hotel.dart';
 import 'package:CSGamesApp/pages/parking.dart';
+import 'package:CSGamesApp/pages/restaurant.dart';
+import 'package:CSGamesApp/pages/school.dart';
+import 'package:CSGamesApp/pages/transport.dart';
 import 'package:CSGamesApp/redux/state.dart';
 import 'package:CSGamesApp/services/localization.service.dart';
 import 'package:flutter/material.dart';
@@ -31,6 +35,18 @@ class EventInfoPage extends StatelessWidget {
                 break;
             case '2':
                 widget = ParkingState();
+                break;
+            case '3':
+                widget = HotelState();
+                break;
+            case '4':
+                widget = RestaurantState();
+                break;
+            case '5':
+                widget = TransportPage();
+                break;
+            case '6':
+                widget = SchoolPage();
                 break;
         }
         Navigator.push(
@@ -62,6 +78,34 @@ class EventInfoPage extends StatelessWidget {
                             .of(context)
                             .eventInfo['parking'],
                         '2'
+                    ),
+                    Tile(
+                        Icons.hotel,
+                        LocalizationService
+                            .of(context)
+                            .eventInfo['hotel'],
+                        '3'
+                    ),
+                    Tile(
+                        FontAwesomeIcons.utensils,
+                        LocalizationService
+                            .of(context)
+                            .eventInfo['restaurant'],
+                        '4'
+                    ),
+                    Tile(
+                        FontAwesomeIcons.subway,
+                        LocalizationService
+                            .of(context)
+                            .eventInfo['transport'],
+                        '5'
+                    ),
+                    Tile(
+                        FontAwesomeIcons.mapSigns,
+                        LocalizationService
+                            .of(context)
+                            .eventInfo['school'],
+                        '6'
                     )
                 ].map((Tile tile) => InfoTile(tile, onTap: () => _showTileInfo(context, tile.id))).toList()
             )

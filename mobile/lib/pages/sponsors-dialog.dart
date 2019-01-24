@@ -56,9 +56,10 @@ class SponsorsDialog extends StatelessWidget {
                 onTap: () => launch(_sponsors.website),
                 child: Text(
                     _sponsors.website,
+                    textAlign: TextAlign.center,
                     style: TextStyle(
                         fontFamily: 'Raleway',
-                        fontSize: 18.0,
+                        fontSize: 15.0,
                         decoration: TextDecoration.underline,
                         color: Colors.blue
                     )
@@ -92,6 +93,7 @@ class SponsorsDialog extends StatelessWidget {
             fit: StackFit.expand,
             children: <Widget>[
                 Material(
+                    color: Colors.white,
                     elevation: 1.0,
                     borderRadius: BorderRadius.circular(10.0),
                     child: Container(

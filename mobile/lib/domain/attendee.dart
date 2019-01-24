@@ -79,5 +79,22 @@ class Attendee {
     schoolId = map['school'];
     publicId = map['publicId'];
   }
+
+  Attendee.fromInfoMap(Map<String, dynamic> map) {
+        id = map["_id"];
+        userId = map['userId'];
+        github = map['github'];
+        linkedIn = map['linkedIn'];
+        website = map['website'];
+        degree = _degrees[map['degree']];
+        gender = _genders[map['gender']];
+        shirtSize = _shirtSizes[map['tshirt']];
+        phoneNumber = map['phoneNumber'];
+        acceptSmsNotification = map['acceptSMSNotification'];
+        hasDietaryRestrictions = map['hasDietaryRestrictions'];
+        dietaryRestrictions = map['dietaryRestrictions'];
+        schoolId = map['school']['_id'];
+        publicId = map['publicId'];
+    }
 }
 

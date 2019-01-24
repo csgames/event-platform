@@ -132,7 +132,7 @@ class _LoginPageState extends State<LoginPage> {
         var children = <Widget>[
             Container(
                 color: Colors.transparent,
-                margin: EdgeInsets.all(15.0),
+                margin: EdgeInsets.fromLTRB(15.0, 0.0, 15.0, 15.0),
                 child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
@@ -140,7 +140,7 @@ class _LoginPageState extends State<LoginPage> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
                                 Padding(
-                                    padding: EdgeInsets.only(bottom: 10.0, left: 3.0),
+                                    padding: EdgeInsets.only(bottom: 25.0, left: 3.0),
                                     child: Text(
                                         _values['login'].toUpperCase(),
                                         textAlign: TextAlign.left,
@@ -195,8 +195,9 @@ class _LoginPageState extends State<LoginPage> {
                         )
                     ),
                     child: BackdropFilter(
-                        filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
+                        filter: ImageFilter.blur(sigmaX: 6.0, sigmaY: 6.0),
                         child: Container(
+                            decoration: BoxDecoration(color: Colors.white.withOpacity(0.0)),
                             child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: <Widget>[

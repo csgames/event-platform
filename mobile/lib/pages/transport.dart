@@ -1,51 +1,23 @@
 import 'dart:io';
+
 import 'package:CSGamesApp/components/pill-button.dart';
 import 'package:CSGamesApp/services/localization.service.dart';
 import 'package:CSGamesApp/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class ParkingState extends StatefulWidget {
-    @override
-    State createState() => _ParkingPageState();
-}
-
-class _ParkingPageState extends State<ParkingState> {
-    final _latitudePrincipal = 45.5054887;
-    final _longitudePrincipal = -73.6132495;
-    final _iosOffsetX = -0.0015;
-    final _iosOffsetY = 0.001;
-
-    var showMap = false;
-
-    GoogleMapController mapController;
-
-    _ParkingPageState();
-
-    Future _onMapCreated(GoogleMapController controller) async {
-        setState(() => mapController = controller);
-
-        mapController.addMarker(
-            MarkerOptions(
-                position: LatLng(_latitudePrincipal, _longitudePrincipal),
-                infoWindowText: InfoWindowText("Pavillon principal", "Payant"),
-            )
-        );
-    }
-
+class TransportPage extends StatelessWidget {
     void _close(BuildContext context) {
-        setState(() => showMap = false);
-        Future.delayed(Duration(milliseconds: 10), () => Navigator.of(context).pop());
+        Navigator.of(context).pop();
     }
 
     Future _clickNavigate() async {
         var url = '';
         if (Platform.isIOS) {
-            url = 'http://maps.apple.com/?daddr=$_latitudePrincipal,$_longitudePrincipal';
+            // url = 'http://maps.apple.com/?daddr=$_latitudePrincipal,$_longitudePrincipal';
         } else if (Platform.isAndroid) {
-            url = 'https://www.google.com/maps/search/?api=1&query=École+Polytechnique+de+Montréal';
+            url = 'https://www.google.com/maps/dir/H%C3%B4tels+Gouverneur+Montr%C3%A9al,+Saint+Hubert+Street,+Montreal,+QC/Polytechnique+Montr%C3%A9al,+2900+Edouard+Montpetit+Blvd,+Montreal,+QC+H3T+1J4/@45.5174678,-73.605435,14z/data=!4m14!4m13!1m5!1m1!1s0x4cc91bb29428a18d:0x84b2c38a5e2ec635!2m2!1d-73.5591572!2d45.5157006!1m5!1m1!1s0x4cc919f2a9fc4d71:0xda267ca95684133e!2m2!1d-73.6128829!2d45.504384!3e3';
         }
         if (await canLaunch(url)) {
             await launch(url);
@@ -54,10 +26,10 @@ class _ParkingPageState extends State<ParkingState> {
         }
     }
 
-    Widget _buildMap(BuildContext context) {
+    Widget _buildCard(BuildContext context) {
         return Container(
             child: Hero(
-                tag: "guide-card-2",
+                tag: "guide-card-5",
                 child: Stack(
                     children: <Widget>[
                         Positioned(
@@ -99,7 +71,7 @@ class _ParkingPageState extends State<ParkingState> {
                                                 crossAxisAlignment: CrossAxisAlignment.end,
                                                 children: <Widget>[
                                                     Icon(
-                                                        FontAwesomeIcons.parking,
+                                                        FontAwesomeIcons.subway,
                                                         size: 38.0,
                                                         color: Constants.csBlue,
                                                     ),
@@ -108,7 +80,7 @@ class _ParkingPageState extends State<ParkingState> {
                                                         child: Text(
                                                             LocalizationService
                                                                 .of(context)
-                                                                .eventInfo['parking'].toUpperCase(),
+                                                                .eventInfo['transport'].toUpperCase(),
                                                             style: TextStyle(
                                                                 fontFamily: 'flipbash',
                                                                 fontSize: 24.0
@@ -120,32 +92,74 @@ class _ParkingPageState extends State<ParkingState> {
                                                         icon: Icon(FontAwesomeIcons.times),
                                                         onPressed: () => _close(context),
                                                     )
-                                                ],
+                                                ]
                                             )
                                         ),
-                                        Center(
-                                            child: SizedBox(
-                                                width: MediaQuery
-                                                    .of(context)
-                                                    .size
-                                                    .width * 0.77,
-                                                height: MediaQuery
-                                                    .of(context)
-                                                    .size
-                                                    .height * 0.50,
-                                                child: showMap ? GoogleMap(
-                                                    onMapCreated: _onMapCreated,
-                                                    options: GoogleMapOptions(
-                                                        cameraPosition: CameraPosition(
-                                                            target: LatLng(
-                                                                _latitudePrincipal + (Platform.isIOS ? _iosOffsetY : 0),
-                                                                _longitudePrincipal + (Platform.isIOS ? _iosOffsetX : 0)
-                                                            ),
-                                                            zoom: 17.0
-                                                        ),
-                                                    ),
-                                                ) : Container()
+                                        Padding(
+                                            padding: EdgeInsets.only(left: 20.0, right: 20.0),
+                                            child: Text(
+                                                LocalizationService.of(context).eventInfo['transport-info'],
+                                                textAlign: TextAlign.justify,
+                                                style: TextStyle(
+                                                    fontFamily: 'Raleway',
+                                                    fontSize: 16.0,
+                                                    height: 1.15
+                                                )
                                             )
+                                        ),
+                                        Image.asset(
+                                            'assets/transport.png',
+                                            width: MediaQuery.of(context).size.width * 0.8
+                                        ),
+                                        Row(
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            children: <Widget>[
+                                                Padding(
+                                                    padding: EdgeInsets.only(left: 20.0),
+                                                    child: Icon(
+                                                        Icons.school,
+                                                        size: 38.0,
+                                                        color: Constants.csBlue
+                                                    )
+                                                ),
+                                                Expanded(
+                                                    child: Padding(
+                                                        padding: EdgeInsets.only(right: 20.0, left: 20.0),
+                                                        child: Text(
+                                                            '2900 Edouard Montpetit Blvd, Montreal, QC H3T 1J4',
+                                                            style: TextStyle(
+                                                                fontFamily: 'Raleway',
+                                                                fontSize: 17.0
+                                                            )
+                                                        )
+                                                    )
+                                                )
+                                            ]
+                                        ),
+                                        Row(
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            children: <Widget>[
+                                                Padding(
+                                                    padding: EdgeInsets.only(left: 20.0),
+                                                    child: Icon(
+                                                        Icons.hotel,
+                                                        size: 38.0,
+                                                        color: Constants.csBlue
+                                                    )
+                                                ),
+                                                Expanded(
+                                                    child: Padding(
+                                                        padding: EdgeInsets.only(right: 20.0, left: 20.0),
+                                                        child: Text(
+                                                            '1415 St Hubert St, Montreal, QC H2L 3Y9',
+                                                            style: TextStyle(
+                                                                fontFamily: 'Raleway',
+                                                                fontSize: 17.0
+                                                            )
+                                                        )
+                                                    )
+                                                )
+                                            ]
                                         ),
                                         Padding(
                                             padding: EdgeInsets.only(bottom: 10.0),
@@ -177,9 +191,6 @@ class _ParkingPageState extends State<ParkingState> {
 
     @override
     Widget build(BuildContext context) {
-        if (mounted && !showMap) {
-            Future.delayed(Duration(milliseconds: 5), () => setState(() => showMap = true));
-        }
         return Container(
             margin: EdgeInsets.only(top: 70.0 + MediaQuery
                 .of(context)
@@ -188,7 +199,7 @@ class _ParkingPageState extends State<ParkingState> {
                 .of(context)
                 .padding
                 .bottom),
-            child: _buildMap(context)
+            child:  _buildCard(context)
         );
     }
 }

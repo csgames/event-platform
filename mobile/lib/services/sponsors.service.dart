@@ -13,31 +13,31 @@ class SponsorsService extends EventManagementService {
         final response = await this._httpClient.get(this.getEvent(path: '$eventId/sponsor'));
         final responseMap = json.decode(response.body);
         Map<String, List<Sponsors>> result = {};
-        if (responseMap.containsKey('Petabytes')) {
-            result['Petabytes'] = [];
-            for (var s in responseMap['Petabytes']) {
-                result['Petabytes'].add(Sponsors.fromMap(s));
+        if (responseMap.containsKey('Platinum')) {
+            result['Platinum'] = [];
+            for (var s in responseMap['Platinum']) {
+                result['Platinum'].add(Sponsors.fromMap(s));
             }
         }
 
-        if (responseMap.containsKey('Terabytes')) {
-            result['Terabytes'] = [];
-            for (var s in responseMap['Terabytes']) {
-                result['Terabytes'].add(Sponsors.fromMap(s));
+        if (responseMap.containsKey('Gold')) {
+            result['Gold'] = [];
+            for (var s in responseMap['Gold']) {
+                result['Gold'].add(Sponsors.fromMap(s));
             }
         }
 
-        if (responseMap.containsKey('Gigabytes')) {
-            result['Gigabytes'] = [];
-            for (var s in responseMap['Gigabytes']) {
-                result['Gigabytes'].add(Sponsors.fromMap(s));
+        if (responseMap.containsKey('Silver')) {
+            result['Silver'] = [];
+            for (var s in responseMap['Silver']) {
+                result['Silver'].add(Sponsors.fromMap(s));
             }
         }
 
-        if (responseMap.containsKey('Megabytes')) {
-            result['Megabytes'] = [];
-            for (var s in responseMap['Megabytes']) {
-                result['Megabytes'].add(Sponsors.fromMap(s));
+        if (responseMap.containsKey('Bronze')) {
+            result['Bronze'] = [];
+            for (var s in responseMap['Bronze']) {
+                result['Bronze'].add(Sponsors.fromMap(s));
             }
         }
 

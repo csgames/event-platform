@@ -20,7 +20,7 @@ ActivityState _setWinnerAction(ActivityState state, WinnerSelected action) {
 }
 
 ActivityState _setError(ActivityState state, dynamic action) {
-  return ActivityState(isLoading: true, hasErrors: true, isScanned: false, winner: null, user: null, activity: null, errorTitle: action.title, errorContent: action.content);
+  return ActivityState(isLoading: false, hasErrors: true, isScanned: false, winner: null, user: null, activity: null, errorTitle: action.title, errorContent: action.content);
 }
 
 ActivityState _setInitial(ActivityState state, ResetActivity action) {

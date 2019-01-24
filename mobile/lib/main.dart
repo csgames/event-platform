@@ -98,6 +98,7 @@ class CSGamesApp extends StatelessWidget {
             store: store,
             child: MaterialApp(
                 title: 'PolyHx',
+                debugShowCheckedModeBanner: false,
                 theme: ThemeData(
                     platform: TargetPlatform.android,
                     accentColor: Colors.lightBlue,

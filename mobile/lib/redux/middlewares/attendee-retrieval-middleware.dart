@@ -51,7 +51,7 @@ class AttendeeRetrievalMiddleware implements EpicClass<AppState> {
         .switchMap((action) => _reset()),
       Observable(actions)
         .ofType(TypeToken<GetCurrentAttendeeAction>())
-        .switchMap((action)  => _getCurrentAttendee(action.userId))
+        .switchMap((_)  => _getCurrentAttendee())
     ]);
   }
 
@@ -109,7 +109,7 @@ class AttendeeRetrievalMiddleware implements EpicClass<AppState> {
     _user = null;
   }
 
-  Stream<dynamic> _getCurrentAttendee(String userId) async* {
-    yield SetCurrentAttendeeAction(await _attendeesService.getAttendeeByUserId(userId));
+  Stream<dynamic> _getCurrentAttendee() async* {
+    yield SetCurrentAttendeeAction(await _attendeesService.getAttendeeInfo());
   }
 }

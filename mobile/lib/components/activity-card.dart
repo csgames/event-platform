@@ -123,27 +123,23 @@ class ActivityCard extends StatelessWidget {
 
     List<Widget> _buildCardContent(BuildContext context, _ActivitySubscriptionViewModel vm) {
         return <Widget>[
-            Row(
-                children: <Widget>[
-                    Padding(
-                        padding: EdgeInsets.only(left: 20.0, right: 20.0, bottom: 15.0),
-                        child: Text(
-                            _activity.description[LocalizationService
-                                .of(context)
-                                .language] ?? "",
-                            textAlign: TextAlign.justify,
-                            style: TextStyle(
-                                color: Colors.black,
-                                fontFamily: 'OpenSans',
-                                fontSize: 15.0,
-                                height: 1.15
-                            )
-                        )
+            Container(
+                padding: EdgeInsets.only(left: 20.0, right: 20.0, bottom: 15.0),
+                child: Text(
+                    _activity.description[LocalizationService
+                        .of(context)
+                        .language] ?? "",
+                    textAlign: TextAlign.justify,
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontFamily: 'OpenSans',
+                        fontSize: 13.0,
+                        height: 1.1
                     )
-                ],
+                )
             ),
             Padding(
-                padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
+                padding: EdgeInsets.only(bottom: 10.0),
                 child: PillButton(
                     color: vm.isSubscribed ? Colors.grey : Constants.csBlue,
                     onPressed: () {
@@ -183,18 +179,51 @@ class ActivityCard extends StatelessWidget {
             builder: (BuildContext context, _ActivitySubscriptionViewModel model) {
                 return Container(
                     margin: const EdgeInsets.fromLTRB(0.0, 5.0, 0.0, 5.0),
-                    child: Material(
-                        borderRadius: BorderRadius.circular(15.0),
-                        elevation: 1.0,
-                        color: Colors.white,
-                        child: Theme(
-                            data: Theme.of(context).copyWith(accentColor: Colors.black),
-                            child: model.userRole == "attendee" ? ExpansionCard(
-                                title: _buildCardTitle(context, model),
-                                children: _buildCardContent(context, model)
-                            ) : _buildCardTitle(context, model)
-                        )
+                    child: Stack(
+                        children: <Widget>[
+                            Positioned(
+                                top: 23.0,
+                                left: 0.0,
+                                child: Center(
+                                    child: Container(
+                                        width: 20,
+                                        height: 60,
+                                        decoration: BoxDecoration(
+                                            boxShadow: [
+                                                BoxShadow(
+                                                    color: Colors.black12,
+                                                    blurRadius: 4.0,
+                                                    offset: Offset(0, 1),
+                                                    spreadRadius: 0.0
+                                                )
+                                            ]
+                                        ),
+                                        child: Material(
+                                            borderRadius: BorderRadius.circular(10.0),
+                                            color: Constants.csBlue,
+                                            child: Text('')
+                                        )
+                                    )
+                                )
+                            ),
+                            Padding(
+                                padding: EdgeInsets.only(left: 10.0),
+                                child: Material(
+                                    borderRadius: BorderRadius.circular(15.0),
+                                    elevation: 1.0,
+                                    color: Colors.white,
+                                    child: Theme(
+                                        data: Theme.of(context).copyWith(accentColor: Colors.black),
+                                        child: model.userRole == "attendee" ? ExpansionCard(
+                                            title: _buildCardTitle(context, model),
+                                            children: _buildCardContent(context, model)
+                                        ) : _buildCardTitle(context, model)
+                                    )
+                                )
+                            )
+                        ]
                     )
+                    
                 );
             });
     }

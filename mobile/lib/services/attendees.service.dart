@@ -22,6 +22,19 @@ class AttendeesService extends EventManagementService {
     }
   }
 
+    Future<Attendee> getAttendeeInfo() async {
+        try {
+            final response = await _httpClient.get(this.get(path: 'info'));
+            var responseMap = json.decode(response.body);
+            var attendee = Attendee.fromInfoMap(responseMap["attendee"]);
+            return attendee;
+        }
+        catch (e) {
+            print('AttendeesService.getAttendeeInfo(): $e');
+            return null;
+        }
+    }
+
   Future<Attendee> getAttendeeByPublicId(String publicId) async {
     try {
       final response = await _httpClient.get(this.get(path: '$publicId'));

@@ -20,8 +20,6 @@ class ActivityMiddleware implements EpicClass<AppState> {
   final UsersService _usersService;
   final ActivitiesService _activitiesService;
 
-  String _attendeePublicId;
-
   ActivityMiddleware(
     this._eventsService,
     this._nfcService,
@@ -54,14 +52,8 @@ class ActivityMiddleware implements EpicClass<AppState> {
 
   Stream<dynamic> _listen(String activityId, Map<String, String> errorMessages) async* {
     await for (String id in _nfcService.nfcStream.asBroadcastStream()) {
-      if (id == _attendeePublicId) {
-        return;
-      }
-
-      _attendeePublicId = id;
-      Attendee attendee = await _attendeesService.getAttendeeByPublicId(_attendeePublicId);
+      Attendee attendee = await _attendeesService.getAttendeeByPublicId(id);
       if (attendee == null) {
-        _attendeePublicId = null;
         yield ScanError(errorMessages['tag-title'], errorMessages['tag-desc']);
         return;
       }
@@ -73,7 +65,6 @@ class ActivityMiddleware implements EpicClass<AppState> {
       }
 
       Activity activity = await _activitiesService.addAttendeeToActivity(attendee.id, activityId);
-      _attendeePublicId = null;
       yield AttendeeScanned(activity, user);
       print('Attendee Scanned.');
       return;

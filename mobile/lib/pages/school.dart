@@ -1,63 +1,21 @@
-import 'dart:io';
-import 'package:CSGamesApp/components/pill-button.dart';
 import 'package:CSGamesApp/services/localization.service.dart';
 import 'package:CSGamesApp/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class ParkingState extends StatefulWidget {
-    @override
-    State createState() => _ParkingPageState();
-}
-
-class _ParkingPageState extends State<ParkingState> {
-    final _latitudePrincipal = 45.5054887;
-    final _longitudePrincipal = -73.6132495;
-    final _iosOffsetX = -0.0015;
-    final _iosOffsetY = 0.001;
-
-    var showMap = false;
-
-    GoogleMapController mapController;
-
-    _ParkingPageState();
-
-    Future _onMapCreated(GoogleMapController controller) async {
-        setState(() => mapController = controller);
-
-        mapController.addMarker(
-            MarkerOptions(
-                position: LatLng(_latitudePrincipal, _longitudePrincipal),
-                infoWindowText: InfoWindowText("Pavillon principal", "Payant"),
-            )
-        );
-    }
-
+class SchoolPage extends StatelessWidget {
     void _close(BuildContext context) {
-        setState(() => showMap = false);
-        Future.delayed(Duration(milliseconds: 10), () => Navigator.of(context).pop());
+        Navigator.of(context).pop();
     }
 
-    Future _clickNavigate() async {
-        var url = '';
-        if (Platform.isIOS) {
-            url = 'http://maps.apple.com/?daddr=$_latitudePrincipal,$_longitudePrincipal';
-        } else if (Platform.isAndroid) {
-            url = 'https://www.google.com/maps/search/?api=1&query=École+Polytechnique+de+Montréal';
-        }
-        if (await canLaunch(url)) {
-            await launch(url);
-        } else {
-            print('Cannot open the map application.');
-        }
-    }
-
-    Widget _buildMap(BuildContext context) {
+    Widget _buildCard(BuildContext context) {
+        String url = LocalizationService.of(context).code == 'en'
+            ? 'https://www.polymtl.ca/renseignements-generaux/${LocalizationService.of(context).code}/contact-information-access-maps/campus-map'
+            : 'https://www.polymtl.ca/renseignements-generaux/coordonnees-et-plans-dacces/plans-du-campus';
         return Container(
             child: Hero(
-                tag: "guide-card-2",
+                tag: "guide-card-6",
                 child: Stack(
                     children: <Widget>[
                         Positioned(
@@ -99,7 +57,7 @@ class _ParkingPageState extends State<ParkingState> {
                                                 crossAxisAlignment: CrossAxisAlignment.end,
                                                 children: <Widget>[
                                                     Icon(
-                                                        FontAwesomeIcons.parking,
+                                                        FontAwesomeIcons.mapSigns,
                                                         size: 38.0,
                                                         color: Constants.csBlue,
                                                     ),
@@ -108,7 +66,7 @@ class _ParkingPageState extends State<ParkingState> {
                                                         child: Text(
                                                             LocalizationService
                                                                 .of(context)
-                                                                .eventInfo['parking'].toUpperCase(),
+                                                                .eventInfo['school'].toUpperCase(),
                                                             style: TextStyle(
                                                                 fontFamily: 'flipbash',
                                                                 fontSize: 24.0
@@ -120,47 +78,44 @@ class _ParkingPageState extends State<ParkingState> {
                                                         icon: Icon(FontAwesomeIcons.times),
                                                         onPressed: () => _close(context),
                                                     )
-                                                ],
+                                                ]
                                             )
                                         ),
-                                        Center(
-                                            child: SizedBox(
-                                                width: MediaQuery
-                                                    .of(context)
-                                                    .size
-                                                    .width * 0.77,
-                                                height: MediaQuery
-                                                    .of(context)
-                                                    .size
-                                                    .height * 0.50,
-                                                child: showMap ? GoogleMap(
-                                                    onMapCreated: _onMapCreated,
-                                                    options: GoogleMapOptions(
-                                                        cameraPosition: CameraPosition(
-                                                            target: LatLng(
-                                                                _latitudePrincipal + (Platform.isIOS ? _iosOffsetY : 0),
-                                                                _longitudePrincipal + (Platform.isIOS ? _iosOffsetX : 0)
-                                                            ),
-                                                            zoom: 17.0
-                                                        ),
-                                                    ),
-                                                ) : Container()
+                                        Text(
+                                            LocalizationService.of(context).eventInfo['campus'],
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                                fontFamily: 'Raleway',
+                                                fontSize: 18.0
                                             )
+                                        ),
+                                        Image.asset(
+                                            'assets/campus.png',
+                                            width: MediaQuery.of(context).size.width * 0.85
+                                        ),
+                                        Text(
+                                            LocalizationService.of(context).eventInfo['map'],
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                                fontFamily: 'Raleway',
+                                                fontSize: 18.0
+                                            )
+                                        ),
+                                        Image.asset(
+                                            'assets/school.png',
+                                            width: MediaQuery.of(context).size.width * 0.85
                                         ),
                                         Padding(
-                                            padding: EdgeInsets.only(bottom: 10.0),
-                                            child: PillButton(
-                                                color: Constants.csBlue,
-                                                onPressed: _clickNavigate,
-                                                child: Padding(
-                                                    padding: EdgeInsets.fromLTRB(16.0, 12.5, 16.0, 12.5),
-                                                    child: Text(
-                                                        'Directions',
-                                                        style: TextStyle(
-                                                            color: Colors.white,
-                                                            fontWeight: FontWeight.bold,
-                                                            fontSize: 20.0
-                                                        )
+                                            padding: EdgeInsets.only(bottom: 25.0, top: 10.0),
+                                            child: InkWell(
+                                                onTap: () => launch(url),
+                                                child: Text(
+                                                    LocalizationService.of(context).eventInfo['visit'],
+                                                    style: TextStyle(
+                                                        fontFamily: 'Raleway',
+                                                        fontSize: 18.0,
+                                                        decoration: TextDecoration.underline,
+                                                        color: Colors.blue
                                                     )
                                                 )
                                             )
@@ -177,9 +132,6 @@ class _ParkingPageState extends State<ParkingState> {
 
     @override
     Widget build(BuildContext context) {
-        if (mounted && !showMap) {
-            Future.delayed(Duration(milliseconds: 5), () => setState(() => showMap = true));
-        }
         return Container(
             margin: EdgeInsets.only(top: 70.0 + MediaQuery
                 .of(context)
@@ -188,7 +140,7 @@ class _ParkingPageState extends State<ParkingState> {
                 .of(context)
                 .padding
                 .bottom),
-            child: _buildMap(context)
+            child:  _buildCard(context)
         );
     }
 }

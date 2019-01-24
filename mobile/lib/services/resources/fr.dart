@@ -10,7 +10,13 @@ Map<String, dynamic> fr = {
     'register': 'Inscription',
     'activities': 'Activités',
     'profile': 'Profil',
-    'sponsors': 'Commanditaires'
+    'sponsors': 'Commanditaires',
+    'transport': 'Transport',
+    'school': 'École',
+    'transport-info': 'Cette année, le transport est assuré par la STM (Société des transports de Montréal). Utilisez le billet qui vous a été remis à l\'inscription.',
+    'campus': 'Accès Polytechnique Montréal',
+    'map': 'Plan de Polytechnique Montréal',
+    'visit': 'Visiter le site Web'
   },
   'profile': {
     'title': 'Profil',
@@ -50,18 +56,14 @@ Map<String, dynamic> fr = {
     'error': 'Une erreur s\'est produite lors du chargement des événements.'
   },
   'bring': {
-    'guide': 'Guide',
-    'title': 'Quoi apporter?',
-    'card': 'Carte étudiante',
-    'pc': 'Ordinateur portable & chargeur',
-    'phone': 'Téléphone & chargeur',
-    'headphones': 'Écouteurs',
-    'deodorant': 'Déodorant',
-    'brush': 'Brosse et pâte à dents',
-    'hoodie': 'Hoodie',
-    'hygiene': 'Trousse hygiénique',
-    'sleeping': 'Sac de couchage & oreiller',
-    'tylenol': 'Tylenol/Advil pour les maux de têtes'
+    'clothes': 'Vêtements pour 3 jours',
+    'degrise': 'Vêtements pour les Dégrises (Vêtements légers et souliers que vous n\'avez pas peur de salir)',
+    'banquet': 'Vêtements propres pour le banquet',
+    'laptop': 'Ordinateur portable & chargeur',
+    'pool': 'Maillot de bain pour la piscine de l\'hôtel',
+    'snack': 'Collations',
+    'beverage': 'Breuvages contenant des électrolytes',
+    'costume': 'Costume allant avec le thème de votre délégation'
   },
   'parking': {
     'guide': 'Guide',

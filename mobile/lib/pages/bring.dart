@@ -33,9 +33,8 @@ class BringPage extends StatelessWidget {
                                         fontFamily: 'OpenSans',
                                         fontSize: 18.0
                                     )
-                                ),
+                                )
                             )
-
                         )
                     )
                 ]
@@ -44,61 +43,92 @@ class BringPage extends StatelessWidget {
     }
 
     Widget _buildCard(BuildContext context) {
-        return Padding(
-            padding: EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 0.0),
+        return Container(
             child: Hero(
                 tag: "guide-card-1",
-                child: Material(
-                    elevation: 2.0,
-                    borderRadius: BorderRadius.circular(15.0),
-                    child: Column(
-                        children: [
-                            Padding(
-                                padding: EdgeInsets.only(left: 10.0),
-                                child: Row(
-                                    crossAxisAlignment: CrossAxisAlignment.end,
-                                    children: <Widget>[Icon(
-                                        FontAwesomeIcons.clipboardCheck,
-                                        size: 38.0,
-                                        color: Constants.csBlue,
+                child: Stack(
+                    children: <Widget>[
+                        Positioned(
+                            top: 17.0,
+                            left: 9.0,
+                            child: Center(
+                                child: Container(
+                                    width: 20,
+                                    height: 60,
+                                    decoration: BoxDecoration(
+                                        boxShadow: [
+                                            BoxShadow(
+                                                color: Colors.black12,
+                                                blurRadius: 4.0,
+                                                offset: Offset(0, 1),
+                                                spreadRadius: 0.0
+                                            )
+                                        ]
                                     ),
-                                    Padding(
-                                        padding: EdgeInsets.only(left: 10.0),
-                                        child: Text(
-                                            LocalizationService
-                                                .of(context)
-                                                .eventInfo['bring'].toUpperCase(),
-                                            style: TextStyle(
-                                                fontFamily: 'flipbash',
-                                                fontSize: 24.0
+                                    child: Material(
+                                        borderRadius: BorderRadius.circular(10.0),
+                                        color: Constants.csBlue,
+                                        child: Text('')
+                                    )
+                                )
+                            )
+                        ),
+                        Padding(
+                            padding: EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 0.0),
+                            child: Material(
+                                elevation: 2.0,
+                                borderRadius: BorderRadius.circular(15.0),
+                                child: Column(
+                                    children: [
+                                        Padding(
+                                            padding: EdgeInsets.only(left: 10.0),
+                                            child: Row(
+                                                crossAxisAlignment: CrossAxisAlignment.end,
+                                                children: <Widget>[
+                                                    Icon(
+                                                        FontAwesomeIcons.clipboardCheck,
+                                                        size: 38.0,
+                                                        color: Constants.csBlue,
+                                                    ),
+                                                    Padding(
+                                                        padding: EdgeInsets.only(left: 10.0),
+                                                        child: Text(
+                                                            LocalizationService
+                                                                .of(context)
+                                                                .eventInfo['bring'].toUpperCase(),
+                                                            style: TextStyle(
+                                                                fontFamily: 'flipbash',
+                                                                fontSize: 24.0
+                                                            )
+                                                        )
+                                                    ),
+                                                    Spacer(),
+                                                    IconButton(
+                                                        icon: Icon(FontAwesomeIcons.times),
+                                                        onPressed: () => _close(context),
+                                                    )
+                                                ],
+                                            )
+                                        ),
+                                        Expanded(
+                                            child: ListView(
+                                                children: <Widget>[
+                                                    _buildBulletPoint(_values['clothes']),
+                                                    _buildBulletPoint(_values['degrise']),
+                                                    _buildBulletPoint(_values['banquet']),
+                                                    _buildBulletPoint(_values['laptop']),
+                                                    _buildBulletPoint(_values['pool']),
+                                                    _buildBulletPoint(_values['snack']),
+                                                    _buildBulletPoint(_values['beverage']),
+                                                    _buildBulletPoint(_values['costume'])
+                                                ]
                                             )
                                         )
-                                    ),
-                                    Spacer(),
-                                    IconButton(
-                                        icon: new Icon(FontAwesomeIcons.times),
-                                        onPressed: () => _close(context),
-                                    )
-                                    ],
-                                )),
-                            Expanded(
-                                child: ListView(
-                                    children: <Widget>[
-                                        _buildBulletPoint(_values['card']),
-                                        _buildBulletPoint(_values['pc']),
-                                        _buildBulletPoint(_values['phone']),
-                                        _buildBulletPoint(_values['headphones']),
-                                        _buildBulletPoint(_values['deodorant']),
-                                        _buildBulletPoint(_values['brush']),
-                                        _buildBulletPoint(_values['hoodie']),
-                                        _buildBulletPoint(_values['hygiene']),
-                                        _buildBulletPoint(_values['sleeping']),
-                                        _buildBulletPoint(_values['tylenol'])
                                     ]
                                 )
                             )
-                        ]
-                    )
+                        )
+                    ]
                 )
             )
         );
@@ -114,7 +144,7 @@ class BringPage extends StatelessWidget {
                 .of(context)
                 .padding
                 .bottom),
-            child: _buildCard(context)
+            child:  _buildCard(context)
         );
     }
 }

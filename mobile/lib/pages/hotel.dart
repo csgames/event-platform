@@ -1,4 +1,5 @@
 import 'dart:io';
+
 import 'package:CSGamesApp/components/pill-button.dart';
 import 'package:CSGamesApp/services/localization.service.dart';
 import 'package:CSGamesApp/utils/constants.dart';
@@ -7,14 +8,14 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class ParkingState extends StatefulWidget {
+class HotelState extends StatefulWidget {
     @override
-    State createState() => _ParkingPageState();
+    State createState() => _HotelPageState();
 }
 
-class _ParkingPageState extends State<ParkingState> {
-    final _latitudePrincipal = 45.5054887;
-    final _longitudePrincipal = -73.6132495;
+class _HotelPageState extends State<HotelState> {
+    final _latitudePrincipal = 45.5157006;
+    final _longitudePrincipal = -73.5591572;
     final _iosOffsetX = -0.0015;
     final _iosOffsetY = 0.001;
 
@@ -22,15 +23,12 @@ class _ParkingPageState extends State<ParkingState> {
 
     GoogleMapController mapController;
 
-    _ParkingPageState();
-
     Future _onMapCreated(GoogleMapController controller) async {
         setState(() => mapController = controller);
 
         mapController.addMarker(
             MarkerOptions(
-                position: LatLng(_latitudePrincipal, _longitudePrincipal),
-                infoWindowText: InfoWindowText("Pavillon principal", "Payant"),
+                position: LatLng(_latitudePrincipal, _longitudePrincipal)
             )
         );
     }
@@ -45,7 +43,7 @@ class _ParkingPageState extends State<ParkingState> {
         if (Platform.isIOS) {
             url = 'http://maps.apple.com/?daddr=$_latitudePrincipal,$_longitudePrincipal';
         } else if (Platform.isAndroid) {
-            url = 'https://www.google.com/maps/search/?api=1&query=École+Polytechnique+de+Montréal';
+            url = 'https://www.google.com/maps/search/?api=1&query=Hôtels+Gouverneur+Montréal';
         }
         if (await canLaunch(url)) {
             await launch(url);
@@ -57,7 +55,7 @@ class _ParkingPageState extends State<ParkingState> {
     Widget _buildMap(BuildContext context) {
         return Container(
             child: Hero(
-                tag: "guide-card-2",
+                tag: 'guide-card-3',
                 child: Stack(
                     children: <Widget>[
                         Positioned(
@@ -99,16 +97,16 @@ class _ParkingPageState extends State<ParkingState> {
                                                 crossAxisAlignment: CrossAxisAlignment.end,
                                                 children: <Widget>[
                                                     Icon(
-                                                        FontAwesomeIcons.parking,
+                                                        Icons.hotel,
                                                         size: 38.0,
-                                                        color: Constants.csBlue,
+                                                        color: Constants.csBlue
                                                     ),
                                                     Padding(
                                                         padding: EdgeInsets.only(left: 10.0),
                                                         child: Text(
                                                             LocalizationService
                                                                 .of(context)
-                                                                .eventInfo['parking'].toUpperCase(),
+                                                                .eventInfo['hotel'].toUpperCase(),
                                                             style: TextStyle(
                                                                 fontFamily: 'flipbash',
                                                                 fontSize: 24.0
@@ -128,11 +126,11 @@ class _ParkingPageState extends State<ParkingState> {
                                                 width: MediaQuery
                                                     .of(context)
                                                     .size
-                                                    .width * 0.77,
+                                                    .width * 0.75,
                                                 height: MediaQuery
                                                     .of(context)
                                                     .size
-                                                    .height * 0.50,
+                                                    .height * 0.45,
                                                 child: showMap ? GoogleMap(
                                                     onMapCreated: _onMapCreated,
                                                     options: GoogleMapOptions(
@@ -146,6 +144,37 @@ class _ParkingPageState extends State<ParkingState> {
                                                     ),
                                                 ) : Container()
                                             )
+                                        ),
+                                        Text(
+                                            'Hôtels Gouverneur Montréal',
+                                            style: TextStyle(
+                                                fontFamily: 'Raleway',
+                                                fontSize: 23.0
+                                            )
+                                        ),
+                                        Row(
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            children: <Widget>[
+                                                Padding(
+                                                    padding: EdgeInsets.only(left: 20.0),
+                                                    child: Icon(
+                                                        FontAwesomeIcons.mapMarkedAlt,
+                                                        size: 40.0
+                                                    )
+                                                ),
+                                                Expanded(
+                                                    child: Padding(
+                                                        padding: EdgeInsets.only(right: 20.0, left: 20.0),
+                                                        child: Text(
+                                                            '1415 St Hubert St, Montreal, QC H2L 3Y9',
+                                                            style: TextStyle(
+                                                                fontFamily: 'Raleway',
+                                                                fontSize: 17.0
+                                                            )
+                                                        )
+                                                    )
+                                                )
+                                            ]
                                         ),
                                         Padding(
                                             padding: EdgeInsets.only(bottom: 10.0),
@@ -188,7 +217,7 @@ class _ParkingPageState extends State<ParkingState> {
                 .of(context)
                 .padding
                 .bottom),
-            child: _buildMap(context)
+            child:  _buildMap(context)
         );
     }
 }

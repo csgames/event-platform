@@ -80,7 +80,7 @@ class _ActivitiesScheduleState extends State<ActivitiesSchedulePage> with Ticker
                     margin: EdgeInsets.only(bottom: 5.0),
                     child: Material(
                         borderRadius: BorderRadius.circular(15.0),
-                        elevation: 0.3,
+                        elevation: 3,
                         color: Colors.white,
                         child: TabBar(
                             indicator: BoxDecoration(
