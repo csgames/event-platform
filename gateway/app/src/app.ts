@@ -58,13 +58,12 @@ export class Application {
             secret: process.env.COOKIE_SECRET,
             cookie: { 
                 secure: process.env.IS_HTTPS !== 'false',
-                httpOnly: true,
+                httpOnly: false,
                 domain: process.env.APP_URL,
                 path: '/',
                 expires: appConfig.cookieExpiration 
             }
         }));
-        console.log(process.env.IS_HTTPS !== 'false');
         
         this.app.use(function(req, res, next) {
             res.setHeader("Access-Control-Allow-Origin", process.env.APP_URL);
