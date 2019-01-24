@@ -44,7 +44,6 @@ export class Auth {
                 body: body,
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'}
             }).then(r => r.json());
-            console.log(JSON.stringify(response));
 
             if (response.access_token && response.refresh_token) {
                 req.session.access_token = response.access_token;
