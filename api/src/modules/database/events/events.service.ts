@@ -71,37 +71,6 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
         }).exec();
     }
 
-    public async confirmAttendee(eventId: string, userId: string, attending: boolean) {
-        const attendee = await this.attendeeService.findOne({userId});
-
-        if (!attendee) {
-            throw new UserNotAttendeeException();
-        }
-
-        const event = await this.eventsModel.findOne({
-            _id: eventId
-        });
-
-        const attendeeRegistration = event.attendees.find(r => r.attendee.toString() === attendee._id.toString());
-
-        if (!attendeeRegistration.selected) {
-            throw new AttendeeNotSelectedException();
-        }
-
-        event.attendees.splice(event.attendees.indexOf(attendeeRegistration), 1);
-
-        if (attending) {
-            attendeeRegistration.confirmed = true;
-            attendeeRegistration.declined = false;
-        } else {
-            attendeeRegistration.confirmed = false;
-            attendeeRegistration.declined = true;
-        }
-
-        event.attendees.push(attendeeRegistration);
-        await event.save();
-    }
-
     public async hasAttendeeForUser(eventId: string, userId: string): Promise<boolean> {
         const attendee = await this.attendeeService.findOne({userId});
 
@@ -119,31 +88,6 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
         }).exec();
 
         return occurrencesOfAttendee > 0;
-    }
-
-    public async getAttendeeStatus(attendeeId: string, eventId: string): Promise<string> {
-        const event = await this.findOne({
-            _id: eventId
-        });
-        return this.getAttendeeStatusFromEvent(attendeeId, event);
-    }
-
-    public getAttendeeStatusFromEvent(attendeeId: string, event: Events): string {
-        const status = event.attendees.find(a => a.attendee.toString() === attendeeId.toString());
-        if (!status) {
-            return 'not-registered';
-        }
-        if (status.present) {
-            return 'present';
-        } else if (status.confirmed) {
-            return 'confirmed';
-        } else if (status.declined) {
-            return 'declined';
-        } else if (status.selected) {
-            return 'selected';
-        } else {
-            return 'registered';
-        }
     }
 
     public async selectAttendees(eventId, userIds: string[]) {
@@ -222,10 +166,6 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
 
         const stats = {};
         stats['registered'] = event.attendees.length;
-        stats['selected'] = event.attendees.filter(a => a.selected).length;
-        stats['confirmed'] = event.attendees.filter(a => a.confirmed).length;
-        stats['declined'] = event.attendees.filter(a => a.declined).length;
-        stats['present'] = event.attendees.filter(a => a.present).length;
         stats['present_teams'] = teams.filter(t => t.present).length;
 
         stats['activities'] = activities.reduce((acc, a) => Object.assign(acc, {[a.name]: a.attendees.length}), {});
@@ -318,10 +258,6 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
             throw new NotFoundException("Scanned attendee not found in event");
         }
 
-        if (!attendee.present || !scanned.present) {
-            throw new BadRequestException("Attendee and scanned attendee must be present");
-        }
-
         if (attendee.scannedAttendees.indexOf(scanInfo.scannedAttendee) >= 0) {
             throw new BadRequestException("Scanned attendee already scanned by attendee");
         }
@@ -340,7 +276,7 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
         const event = await this.eventsModel.findOne({
             _id: id
         }).exec();
-        const ids = event.attendees.filter(x => x.present).map(x => x.attendee);
+        const ids = event.attendees.map(x => x.attendee);
 
         await this.notificationService.create({
             ...message,
@@ -390,7 +326,7 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
             throw new EventNotFoundException();
         }
 
-        const ids = event.attendees.filter(x => x.present).map(x => x.attendee);
+        const ids = event.attendees.map(x => x.attendee);
         const attendees = await this.attendeeService.find({
             _id: {
                 $in: ids

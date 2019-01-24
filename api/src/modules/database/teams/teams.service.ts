@@ -74,7 +74,6 @@ export class TeamsService extends BaseService<Teams, CreateTeamDto> {
         const res = await this.stsService.getAllWithIds(userId);
         for (const team of teams) {
             for (const attendee of team.attendees as (Attendees & { status: string })[]) {
-                attendee.status = this.eventsService.getAttendeeStatusFromEvent(attendee._id, event);
                 attendee.user = res.users.find(value => value.id === attendee.email);
             }
         }

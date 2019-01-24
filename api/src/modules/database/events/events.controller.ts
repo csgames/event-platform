@@ -44,25 +44,6 @@ export class EventsController {
         await this.eventsService.addAttendee(eventId, user.id, 'attendee');
     }
 
-    @Post(':id/confirm')
-    public async confirm(@User() user: UserModel, @Param('id') eventId: string, @Body('attending') attending: boolean) {
-        await this.eventsService.confirmAttendee(eventId, user.id, attending);
-    }
-
-    @Get(':id/status')
-    @Permissions('csgames-api:get-status:event')
-    public async getAttendeeStatus(@User() user: UserModel, @Param('id') eventId: string): Promise<string> {
-        const attendee = await this.attendeesService.findOne({
-            userId: user.id
-        });
-
-        if (!attendee) {
-            return 'not-registered';
-        }
-
-        return await this.eventsService.getAttendeeStatus(attendee._id, eventId);
-    }
-
     @Get()
     @Permissions('csgames-api:get-all:event')
     public async getAll(): Promise<Events[]> {
