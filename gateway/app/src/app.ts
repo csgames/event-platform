@@ -64,6 +64,7 @@ export class Application {
                 expires: appConfig.cookieExpiration 
             }
         }));
+        console.log(process.env.IS_HTTPS !== 'false');
         
         this.app.use(function(req, res, next) {
             res.setHeader("Access-Control-Allow-Origin", process.env.APP_URL);
