@@ -72,7 +72,7 @@ export class TeamsController {
         }
 
         for (const a of team.attendees as (Attendees & { status: string })[]) {
-            a.user = (await this.stsService.getAllWithIds([a.userId])).users[0];
+            a.user = (await this.stsService.getAllWithIds([a.email])).users[0];
             a.status = await this.eventsService.getAttendeeStatus(a._id, team.event as string);
         }
         return team;
@@ -88,7 +88,7 @@ export class TeamsController {
             model: 'attendees'
         });
         for (const a of team.attendees as (Attendees & { status: string })[]) {
-            a.user = (await this.stsService.getAllWithIds([a.userId])).users[0];
+            a.user = (await this.stsService.getAllWithIds([a.email])).users[0];
             a.status = await this.eventsService.getAttendeeStatus(a._id, team.event as string);
         }
         return team;

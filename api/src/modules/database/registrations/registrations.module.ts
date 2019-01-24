@@ -6,6 +6,8 @@ import { STSModule } from '@polyhx/nest-services';
 import { AttendeesModule } from '../attendees/attendees.module';
 import { EventsModule } from '../events/events.module';
 import { RegistrationsSchema } from './registrations.model';
+import { EmailModule } from '../../email/email.module';
+import { ConfigModule } from '../../configs/config.module';
 
 @Module({
     imports: [
@@ -15,7 +17,9 @@ import { RegistrationsSchema } from './registrations.model';
         }]),
         STSModule,
         AttendeesModule,
-        EventsModule
+        EventsModule,
+        EmailModule,
+        ConfigModule
     ],
     controllers: [
         RegistrationsController

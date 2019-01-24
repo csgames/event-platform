@@ -21,7 +21,7 @@ import { AddScannedAttendee, AddSponsorDto, CreateEventDto, SendNotificationDto 
 import {
     AttendeeAlreadyRegisteredException, AttendeeNotSelectedException, EventNotFoundException, UserNotAttendeeException
 } from './events.exception';
-import { EventAttendeeTypes, Events, EventSponsorDetails } from './events.model';
+import { Events, EventSponsorDetails } from './events.model';
 
 @Injectable()
 export class EventsService extends BaseService<Events, CreateEventDto> {
@@ -36,7 +36,7 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
         super(eventsModel);
     }
 
-    public async addAttendee(eventId: string, userIdOrAttendee: string | Attendees): Promise<Events> {
+    public async addAttendee(eventId: string, userIdOrAttendee: string | Attendees, role: string): Promise<Events> {
         let attendee: Attendees;
         if (typeof userIdOrAttendee === "string") {
             attendee = await this.attendeeService.findOne({
@@ -65,7 +65,7 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
             $push: {
                 attendees: {
                     attendee: attendee._id,
-                    type: EventAttendeeTypes.Attendee
+                    role: role
                 }
             }
         }).exec();
@@ -222,7 +222,7 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
                     html: '<h1>Congrats</h1>',
                     template: 'hackatown2019-selection',
                     variables: {
-                        name: user.firstName
+                        name: user.username
                     }
                 });
             } catch (err) {

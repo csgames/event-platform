@@ -82,7 +82,7 @@ export class ActivitiesController {
         const winnerId = this.getRandomIndex(attendees.length);
         const attendee = await this.attendeesService.findById(attendees[winnerId]);
 
-        return (await this.stsService.getAllWithIds([attendee.userId])).users[0];
+        return (await this.stsService.getAllWithIds([attendee.email])).users[0];
     }
 
     @Get(":activity_id/:attendee_id/subscription")

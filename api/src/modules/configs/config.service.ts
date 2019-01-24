@@ -2,12 +2,14 @@ import { Injectable } from '@nestjs/common';
 import { MongoConfig } from './models/mongo-config';
 import { MessagingConfig } from './models/messaging-config';
 import { NexmoConfig } from './models/nexmo-config';
+import { RegistrationConfig } from './models/registration-config';
 
 @Injectable()
 export class ConfigService {
     public mongo: MongoConfig;
     public messaging: MessagingConfig;
     public nexmo: NexmoConfig;
+    public registration: RegistrationConfig;
 
     constructor() {
         this.loadConfigs();
@@ -17,6 +19,7 @@ export class ConfigService {
         this.loadMongoConfig();
         this.loadMessagingConfig();
         this.loadNexmo();
+        this.loadRegistration();
     }
 
     private loadMongoConfig() {
@@ -40,6 +43,12 @@ export class ConfigService {
             apiSecret: process.env.NEXMO_API_SECRET,
             debug: process.env.NEXMO_DEBUG === "true",
             phoneNumber: process.env.NEXMO_FROM_NUMBER
+        };
+    }
+
+    private loadRegistration() {
+        this.registration = {
+            registrationUrl: process.env.ACCOUNT_CREATION_URL
         };
     }
 }

@@ -96,7 +96,7 @@ export class TeamsService extends BaseService<Teams, CreateOrJoinTeamDto> {
 
         const userId: string[] = [];
         teams.forEach(team => {
-            userId.push(...(team.attendees as Attendees[]).map(a => a.userId));
+            userId.push(...(team.attendees as Attendees[]).map(a => a.email));
         });
 
         const event = await this.eventsService.findOne({
@@ -106,7 +106,7 @@ export class TeamsService extends BaseService<Teams, CreateOrJoinTeamDto> {
         for (const team of teams) {
             for (const attendee of team.attendees as (Attendees & { status: string })[]) {
                 attendee.status = this.eventsService.getAttendeeStatusFromEvent(attendee._id, event);
-                attendee.user = res.users.find(value => value.id === attendee.userId);
+                attendee.user = res.users.find(value => value.id === attendee.email);
             }
         }
 

@@ -1,6 +1,45 @@
 import { ApiModelProperty } from '@nestjs/swagger';
-import { IsDateString, IsEmail, IsMongoId, IsNotEmpty, IsString, IsUUID, Matches, ValidateNested } from 'class-validator';
+import { IsDateString, IsEmail, IsMongoId, IsNotEmpty, IsString, IsUUID, Matches, ValidateIf, ValidateNested } from 'class-validator';
 import { CreateAttendeeDto } from '../attendees/attendees.dto';
+
+export class CreateRegistrationDto {
+    @IsMongoId()
+    @IsNotEmpty()
+    @ApiModelProperty({ required: true })
+    eventId: string;
+
+    @IsString()
+    @IsNotEmpty()
+    @ApiModelProperty({ required: true })
+    role: string;
+
+    @IsString()
+    @IsNotEmpty()
+    @ApiModelProperty({ required: true })
+    firstName: string;
+
+    @IsString()
+    @IsNotEmpty()
+    @ApiModelProperty({ required: true })
+    lastName: string;
+
+    @IsEmail()
+    @IsString()
+    @IsNotEmpty()
+    @ApiModelProperty({ required: true })
+    email: string;
+
+    @IsMongoId()
+    @IsNotEmpty()
+    @ApiModelProperty({ required: true })
+    schoolId: string;
+
+    @IsString()
+    @ValidateIf(x => x.role === 'captain')
+    @IsNotEmpty()
+    @ApiModelProperty({ required: true })
+    teamName: string;
+}
 
 export class RegisterAttendeeDto {
     @IsUUID("4")
@@ -24,27 +63,6 @@ export class RegisterAttendeeDto {
     @IsNotEmpty()
     @ApiModelProperty({ required: true })
     password: string;
-
-    @IsNotEmpty()
-    @IsDateString()
-    @ApiModelProperty({ required: true })
-    birthDate: string;
-
-    @IsEmail()
-    @IsString()
-    @IsNotEmpty()
-    @ApiModelProperty({ required: true })
-    email: string;
-
-    @IsString()
-    @IsNotEmpty()
-    @ApiModelProperty({ required: true })
-    firstName: string;
-
-    @IsString()
-    @IsNotEmpty()
-    @ApiModelProperty({ required: true })
-    lastName: string;
 
     @IsMongoId()
     @IsNotEmpty()
