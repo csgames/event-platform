@@ -68,6 +68,7 @@ export class Application {
         this.app.use(function(req, res, next) {
             res.setHeader("Access-Control-Allow-Origin", process.env.APP_URL);
             res.setHeader("Access-Control-Allow-Credentials", "true");
+            res.setHeader("Access-Control-Allow-Headers", "content-type");
             res.setHeader("X-XSS-Protection", "1; mode=block");
             res.setHeader("Content-security-policy", appConfig.contentSecurityPolicy);
             res.setHeader("X-frame-options", appConfig.xFrameOptions);
