@@ -22,10 +22,6 @@ export interface EventSponsorDetails extends Sponsors {
 export interface EventRegistrations extends mongoose.Document {
     attendee: (Attendees | mongoose.Types.ObjectId | string);
     role: EventAttendeeTypes;
-    selected: boolean;
-    confirmed: boolean;
-    declined: boolean;
-    present: boolean;
     scannedAttendees: (Attendees | mongoose.Types.ObjectId | string)[];
 }
 
@@ -38,22 +34,6 @@ export const EventRegistrationsSchema = new mongoose.Schema({
         type: String,
         enum: ['admin', 'attendee', 'captain', 'director', 'godfather', 'sponsor', 'volunteer'],
         default: 'attendee'
-    },
-    selected: {
-        type: Boolean,
-        default: false
-    },
-    confirmed: {
-        type: Boolean,
-        default: false
-    },
-    declined: {
-        type: Boolean,
-        default: false
-    },
-    present: {
-        type: Boolean,
-        default: false
     },
     scannedAttendees: {
         type: [mongoose.Schema.Types.ObjectId],

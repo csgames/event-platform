@@ -11,7 +11,10 @@ import { EmailService } from '../../email/email.service';
 import { ConfigService } from '../../configs/config.service';
 import { TeamsService } from '../teams/teams.service';
 import { defaultPath } from 'tough-cookie';
-import { AttendeeAlreadyExistException, TeamAlreadyExistException } from './registration.exception';
+import { AttendeeAlreadyExistException, TeamAlreadyExistException, MaxTeamMemberException, GodFatherAlreadyExist } from './registration.exception';
+import { Attendees } from '../attendees/attendees.model';
+import { Teams } from '../teams/teams.model';
+import * as mongoose from 'mongoose';
 
 @Injectable()
 export class RegistrationsService {
@@ -37,7 +40,7 @@ export class RegistrationsService {
             throw new AttendeeAlreadyExistException();
         }
 
-        let team = await this.teamsService.findOne({name: dto.teamName});
+        let team = await this.teamsService.findOne({name: dto.teamName, event: dto.eventId});
         if (team && dto.role === 'captain') {
             throw new TeamAlreadyExistException();
         }
@@ -47,24 +50,27 @@ export class RegistrationsService {
             firstName: dto.firstName,
             lastName: dto.lastName
         });
-
-        await this.eventService.addAttendee(dto.eventId, attendee, dto.role);
-
+        
         let registration = new this.registrationsModel({
             event: dto.eventId,
             attendee: attendee._id,
             role: dto.role
         });
         registration = await registration.save();
-
+        
         if (dto.role === 'captain' && role === 'admin') {
             await this.teamsService.createTeam({
                 name: dto.teamName,
                 event: dto.eventId,
                 school: dto.schoolId,
-                attendeeId: attendee._id
+                attendeeId: attendee._id,
+                maxMembersNumber: dto.maxMembersNumber
             });
+        } else {
+            await this.addAttendeeToTeam(dto, attendee, team);
         }
+
+        await this.eventService.addAttendee(dto.eventId, attendee, dto.role);
 
         const template = this.roleTemplate[dto.role];
         if (!template) {
@@ -93,6 +99,37 @@ export class RegistrationsService {
         }
 
         return registration;
+    }
+
+    public async addAttendeeToTeam(dto: CreateRegistrationDto, attendee: Attendees, team: Teams) {
+        if (team.attendees.length === team.maxMembersNumber) {
+            await this.attendeeService.remove({_id: attendee._id});
+            throw new MaxTeamMemberException();
+        }
+
+        let event = await this.eventService.findOne({ _id: dto.eventId });
+        let attendeeIds = team.attendees.map(x => (x as mongoose.Types.ObjectId).toHexString());
+        let members = event.attendees.filter(attendeeEvent => attendeeIds.includes((attendeeEvent.attendee as mongoose.Types.ObjectId).toHexString()));
+
+        let godfather = members.filter(attendeeEvent => attendeeEvent.role === 'godfather');
+        if (dto.role === 'godfather') {
+            if (godfather.length > 0) {
+                await this.attendeeService.remove({_id: attendee._id});
+                throw new GodFatherAlreadyExist();
+            }
+        } else {
+            let attendees = members.filter(attendeeEvent => attendeeEvent.role !== 'godfather');
+            if (attendees.length >= 10) {
+                await this.attendeeService.remove({_id: attendee._id});
+                throw new MaxTeamMemberException();
+            }
+        }
+        
+        await this.teamsService.update({name: dto.teamName, event: dto.eventId}, {
+            $push: {
+                attendees: attendee._id
+            }
+        } as any);
     }
 
     public async registerAttendee(userDto: RegisterAttendeeDto) {

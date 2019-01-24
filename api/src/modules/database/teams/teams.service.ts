@@ -35,7 +35,8 @@ export class TeamsService extends BaseService<Teams, CreateTeamDto> {
             name: createTeamDto.name,
             event: createTeamDto.event,
             attendees: [Types.ObjectId(createTeamDto.attendeeId)],
-            school: createTeamDto.school
+            school: createTeamDto.school,
+            maxMembersNumber: createTeamDto.maxMembersNumber
         });
     }
 

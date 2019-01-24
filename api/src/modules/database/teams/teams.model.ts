@@ -9,6 +9,7 @@ export interface Teams extends mongoose.Document {
     event: Events | mongoose.Types.ObjectId | string;
     school: Schools | mongoose.Types.ObjectId | string;
     present: boolean;
+    maxMembersNumber: number;
 }
 
 export const TeamsSchema = new mongoose.Schema({
@@ -30,5 +31,9 @@ export const TeamsSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         required: true,
         ref: 'school'
+    },
+    maxMembersNumber: {
+        type: Number,
+        required: true
     }
 });

@@ -16,7 +16,7 @@ import { AttendeesService } from '../attendees/attendees.service';
 import { Teams } from '../teams/teams.model';
 import { TeamsService } from '../teams/teams.service';
 import {
-    AddScannedAttendee, AddSponsorDto, CreateEventDto, SendConfirmEmailDto, SendNotificationDto, SendSmsDto, UpdateEventDto
+    AddScannedAttendee, AddSponsorDto, CreateEventDto, SendNotificationDto, SendSmsDto, UpdateEventDto
 } from './events.dto';
 import { codeMap, EventNotFoundException } from './events.exception';
 import { Events, EventSponsorDetails } from './events.model';
@@ -95,7 +95,7 @@ export class EventsController {
             throw new EventNotFoundException();
         }
 
-        const attendeeIds = event.attendees.filter(attendee => attendee.present).map(attendee => attendee.attendee);
+        const attendeeIds = event.attendees.map(attendee => attendee.attendee);
 
         const attendees = await this.attendeesService.find({
             _id: {
@@ -106,26 +106,6 @@ export class EventsController {
         });
 
         return attendees.length;
-    }
-
-    @Put(':event_id/:attendee_id/present')
-    @HttpCode(200)
-    @Permissions('csgames-api:set-status:event')
-    public async setAttendeeStatus(@Param('event_id') eventId: string, @Param('attendee_id') attendeeId: string): Promise<Events> {
-        const event = await this.eventsService.findById(eventId);
-
-        if (!event) {
-            throw new EventNotFoundException();
-        }
-
-        const attendeeIndex = event.attendees.findIndex(attendee => attendee.attendee.toString() === attendeeId);
-
-        event.attendees[attendeeIndex].present = true;
-        await this.teamsService.setTeamToPresent(eventId, attendeeId);
-
-        await event.save();
-
-        return event;
     }
 
     @Put(':id')
