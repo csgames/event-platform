@@ -6,6 +6,7 @@ import { Registrations } from './registrations.model';
 import { RegistrationsService } from "./registrations.service";
 import { CreateRegistrationDto, RegisterAttendeeDto } from './registrations.dto';
 import { PublicRoute } from 'nestjs-jwt2';
+import { Role } from '../../../decorators/role.decorator';
 
 @Controller("registration")
 export class RegistrationsController {
@@ -14,8 +15,8 @@ export class RegistrationsController {
     @Post()
     @UseGuards(CreateRegistrationGuard)
     @Permissions('csgames-api:create:invitation')
-    public async createInvitation(@Body(new ValidationPipe()) dto: CreateRegistrationDto): Promise<Registrations> {
-        return await this.registrationService.create(dto);
+    public async createInvitation(@Body(new ValidationPipe()) dto: CreateRegistrationDto, @Role() role: string): Promise<Registrations> {
+        return await this.registrationService.create(dto, role);
     }
 
     @Post('attendee')

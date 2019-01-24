@@ -146,69 +146,6 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
         }
     }
 
-    /**
-     * From the attendees of a specified event (null-checked), filters them and returns the result as a promise of
-     * DataTableReturnModel.
-     */
-    public async getFilteredAttendees(eventId: string, dtObject: DataTableModel,
-            filter: { school: string[], status: string[] }): Promise<DataTableReturnModel> {
-        const event: Events = await this.findOne({
-            _id: eventId
-        });
-        if (!event) {
-            throw new EventNotFoundException();
-        }
-
-        const attendeeIds: string[] = event.attendees.filter(attendee => {
-            if (filter.status.length === 0) {
-                return true;
-            }
-
-            if (!attendee.selected && filter.status.indexOf('registered') >= 0) {
-                return true;
-            }
-            if (attendee.selected &&
-                !attendee.confirmed &&
-                !attendee.declined &&
-                filter.status.indexOf('selected') >= 0) {
-                return true;
-            }
-            if (attendee.confirmed && filter.status.indexOf('confirmed') >= 0) {
-                return true;
-            }
-            if (attendee.declined && filter.status.indexOf('declined') >= 0) {
-                return true;
-            }
-            if (attendee.present && filter.status.indexOf('present') >= 0) {
-                return true;
-            }
-
-            return false;
-        }).map(x => x.attendee.toString());
-
-        const res = await this.attendeeService.filterFrom(attendeeIds, dtObject, filter);
-
-        for (let attendee of res.data) {
-            let a = event.attendees[
-                event.attendees.findIndex(value => value.attendee.toString() === attendee._id.toString())
-                ];
-
-            if (a.present) {
-                attendee.status = 'present';
-            } else if (a.confirmed) {
-                attendee.status = 'confirmed';
-            } else if (a.declined) {
-                attendee.status = 'declined';
-            } else if (a.selected) {
-                attendee.status = 'selected';
-            } else {
-                attendee.status = 'registered';
-            }
-        }
-
-        return res;
-    }
-
     public async selectAttendees(eventId, userIds: string[]) {
         const res: GetAllWithIdsResponse = await this.stsService.getAllWithIds(userIds);
 

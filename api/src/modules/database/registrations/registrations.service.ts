@@ -10,6 +10,7 @@ import { Model } from 'mongoose';
 import { EmailService } from '../../email/email.service';
 import { ConfigService } from '../../configs/config.service';
 import { TeamsService } from '../teams/teams.service';
+import { defaultPath } from 'tough-cookie';
 
 @Injectable()
 export class RegistrationsService {
@@ -29,7 +30,7 @@ export class RegistrationsService {
                 private readonly teamsService: TeamsService) {
     }
 
-    public async create(dto: CreateRegistrationDto) {
+    public async create(dto: CreateRegistrationDto, role: string) {
         const attendee = await this.attendeeService.create({
             email: dto.email,
             firstName: dto.firstName,
@@ -45,8 +46,13 @@ export class RegistrationsService {
         });
         registration = await registration.save();
 
-        if (dto.role === 'captain') {
-            // TODO: Create team
+        if (dto.role === 'captain' && role === 'admin') {
+            this.teamsService.createTeam({
+                name: dto.teamName,
+                event: dto.eventId,
+                school: dto.schoolId,
+                attendeeId: attendee._id
+            });
         }
 
         const template = this.roleTemplate[dto.role];

@@ -1,6 +1,5 @@
 import * as mongoose from "mongoose";
 import * as uuid from "uuid";
-import { Schools } from "../schools/schools.model";
 import { UserModel } from '@polyhx/nest-services';
 import { Notifications } from '../notifications/notifications.model';
 

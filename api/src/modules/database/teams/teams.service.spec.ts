@@ -93,10 +93,12 @@ describe('TeamsService', () => {
             attendeesService.setup(x => x.findOne(It.isAny())).returns(() => Promise.resolve(null));
 
             try {
-                await teamsService.createOrJoin({
+                await teamsService.createTeam({
                     name: 'The best team',
-                    event: '5bde6ec00000000000000000'
-                }, '5bde6ec00000000000000000');
+                    event: '5bde6ec00000000000000000',
+                    school: 'test',
+                    attendeeId: '123'
+                });
             } catch (e) {
                 expect(e).to.be.instanceOf(CodeException);
                 expect(e.code).to.be.equal(Code.ATTENDEE_NOT_FOUND);
@@ -111,10 +113,12 @@ describe('TeamsService', () => {
             } as Attendees));
 
             try {
-                await teamsService.createOrJoin({
+                await teamsService.createTeam({
                     name: 'The best team',
-                    event: '5bde6ec00000000000000000'
-                }, '5bde6ec00000000000000000');
+                    event: '5bde6ec00000000000000000',
+                    school: 'test',
+                    attendeeId: '123'
+                });
             } catch (e) {
                 expect(e).to.be.instanceOf(CodeException);
                 expect(e.code).to.be.equal(Code.ATTENDEE_HAS_TEAM);
@@ -130,10 +134,12 @@ describe('TeamsService', () => {
             eventsService.setup(x => x.findById(It.isAny())).returns(() => Promise.resolve({} as Events));
 
             try {
-                const team = await teamsService.createOrJoin({
+                const team = await teamsService.createTeam({
                     name: 'The best team',
-                    event: '5bde6ec00000000000000000'
-                }, '5bde6ec00000000000000000');
+                    event: '5bde6ec00000000000000000',
+                    school: 'test',
+                    attendeeId: '123'
+                });
                 expect(team._id).to.equal('5bde6ec00000000000000000');
             } catch (e) {
                 fail('Should not throw any exceptions');
@@ -149,109 +155,14 @@ describe('TeamsService', () => {
             eventsService.setup(x => x.findOne(It.isAny())).returns(() => Promise.resolve({} as Events));
 
             try {
-                const team = await teamsService.createOrJoin({
-                    name: 'This team exist',
-                    event: '5bde6ec00000000000000000'
-                }, '5bde6ec00000000000000000');
+                const team = await teamsService.createTeam({
+                    name: 'The best team',
+                    event: '5bde6ec00000000000000000',
+                    school: 'test',
+                    attendeeId: '123'
+                });
                 expect(team._id).to.equal('5bde6ec00000000000000001');
                 expect(team.attendees.length).to.be.equal(2);
-            } catch (e) {
-                fail('Should not throw any exceptions');
-            }
-        });
-    });
-
-    describe('leave', () => {
-        it('Should throw a ATTENDEE_NOT_FOUND CodeException if the attendee does\'t exist', async () => {
-            attendeesService.reset();
-            attendeesService.setup(x => x.findOne(It.isAny())).returns(() => Promise.resolve(null));
-
-            try {
-                await teamsService.leave({
-                    attendeeId: '5bde6ec00000000000000001',
-                    teamId: '5bde6ec00000000000000000'
-                });
-            } catch (e) {
-                expect(e).to.be.instanceOf(CodeException);
-                expect(e.code).to.be.equal(Code.ATTENDEE_NOT_FOUND);
-            }
-        });
-
-        it('Should throw a TEAM_NOT_FOUND CodeException if the team doesn\'t exist', async () => {
-            attendeesService.reset();
-            attendeesService.setup(x => x.findOne(It.isAny())).returns(() => Promise.resolve({
-                _id: '5bde6ec00000000000000001',
-                email: 'test@test.com'
-            } as Attendees));
-
-            try {
-                await teamsService.leave({
-                    attendeeId: '5bde6ec00000000000000001',
-                    teamId: '5bde6ec00000000000000000'
-                });
-            } catch (e) {
-                expect(e).to.be.instanceOf(CodeException);
-                expect(e.code).to.be.equal(Code.TEAM_NOT_FOUND);
-            }
-        });
-
-        it('Should throw a ATTENDEE_NOT_IN_TEAM CodeException if the attendee isn\'t in the team', async () => {
-            attendeesService.reset();
-            attendeesService.setup(x => x.findOne(It.isAny())).returns(() => Promise.resolve({
-                _id: '5bde6ec00000000000000001',
-                email: 'test@test.com'
-            } as Attendees));
-
-            try {
-                await teamsService.leave({
-                    attendeeId: '5bde6ec00000000000000001',
-                    teamId: '5bde6ec00000000000000001'
-                });
-            } catch (e) {
-                expect(e).to.be.instanceOf(CodeException);
-                expect(e.code).to.be.equal(Code.ATTENDEE_NOT_IN_TEAM);
-            }
-        });
-
-        it('Should delete the team if the attendee is the only member of the team', async () => {
-            attendeesService.reset();
-            attendeesService.setup(x => x.findOne(It.isAny())).returns(() => Promise.resolve({
-                _id: '5bde6ec00000000000000001',
-                email: 'test@test.com'
-            } as Attendees));
-            eventsService.reset();
-            eventsService.setup(x => x.findById(It.isAny())).returns(() => Promise.resolve({} as Events));
-
-            try {
-                const res = await teamsService.leave({
-                    attendeeId: '5bde6ec00000000000000000',
-                    teamId: '5bde6ec00000000000000001'
-                });
-                expect(res.deleted).to.be.true;
-                expect(res.team).to.be.null;
-            } catch (e) {
-                fail('Should not throw any exceptions');
-            }
-        });
-
-        it('Should not delete the team if the attendee isn\'t the only member of the team', async () => {
-            attendeesService.reset();
-            attendeesService.setup(x => x.findOne(It.isAny())).returns(() => Promise.resolve({
-                _id: '5bde6ec00000000000000001',
-                email: 'test@test.com'
-            } as Attendees));
-            eventsService.reset();
-            eventsService.setup(x => x.findById(It.isAny())).returns(() => Promise.resolve({} as Events));
-
-            try {
-                const res = await teamsService.leave({
-                    attendeeId: '5bde6ec00000000000000000',
-                    teamId: '5bde6ec00000000000000002'
-                });
-                expect(res.deleted).to.be.false;
-                expect(res.team).to.not.be.null;
-                expect(res.team.attendees.length).to.equal(1);
-                expect(res.team.attendees[0]).to.not.equal('5bde6ec00000000000000000');
             } catch (e) {
                 fail('Should not throw any exceptions');
             }

@@ -9,7 +9,6 @@ import { CodeExceptionFilter } from '../../../filters/code-error/code.filter';
 import { PermissionsGuard } from '../../../guards/permission.guard';
 import { UserModel } from '../../../models/user.model';
 import { ValidationPipe } from '../../../pipes/validation.pipe';
-import { SchoolsService } from '../schools/schools.service';
 import { AddTokenDto, CreateAttendeeDto, UpdateAttendeeDto, UpdateNotificationDto } from './attendees.dto';
 import { codeMap } from './attendees.exception';
 import { AttendeesGuard, CreateAttendeeGuard } from './attendees.guard';
@@ -22,7 +21,6 @@ import { AttendeesService } from './attendees.service';
 @UseFilters(new CodeExceptionFilter(codeMap))
 export class AttendeesController {
     constructor(private readonly attendeesService: AttendeesService,
-                private readonly schoolService: SchoolsService,
                 private readonly storageService: StorageService) {
     }
 
@@ -37,9 +35,7 @@ export class AttendeesController {
         attendee = Object.assign(attendee, { userId: user.id });
         return {
             attendee: await this.attendeesService.create(attendee)
-                .then(async a => {
-                    return await a.populate({ path: 'school' }).execPopulate();
-                }).then(this.appendCvMetadata.bind(this))
+                .then(this.appendCvMetadata.bind(this))
         };
     }
 
@@ -52,7 +48,7 @@ export class AttendeesController {
     @Get('info')
     @UseGuards(AttendeesGuard)
     public async getInfo(@User() user: UserModel): Promise<Attendees> {
-        const attendee = await this.attendeesService.findOne({ userId: user.id }, { path: 'school' });
+        const attendee = await this.attendeesService.findOne({ userId: user.id });
         if (attendee) {
             return await this.appendCvMetadata(attendee);
         }
@@ -108,8 +104,6 @@ export class AttendeesController {
         }, attendee);
         await this.attendeesService.findOne({
             userId: user.id
-        }, {
-            path: 'school'
         });
     }
 

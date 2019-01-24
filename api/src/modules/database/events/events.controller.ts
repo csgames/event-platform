@@ -49,21 +49,6 @@ export class EventsController {
         await this.eventsService.confirmAttendee(eventId, user.id, attending);
     }
 
-    @Put(':id/send_selection_email')
-    @Permissions('csgames-api:send-selection-email:event')
-    public async sendSelectionEmail(@Body(new ValidationPipe()) sendConfirmEmailDto: SendConfirmEmailDto, @Param('id') id: string) {
-        await this.eventsService.selectAttendees(id, sendConfirmEmailDto.userIds);
-    }
-
-    @Put(':id/send_selection_email/filter')
-    @Permissions('csgames-api:send-selection-email:event')
-    public async sendSelectionEmailFromFilter(@Param('id') id: string, @Body(new DataTablePipe()) body: DataTableModel,
-            @Body('filter') filter) {
-        const attendees = await this.eventsService.getFilteredAttendees(id, body, JSON.parse(filter));
-        const userIds = attendees.data.map(x => x.userId);
-        await this.eventsService.selectAttendees(id, userIds);
-    }
-
     @Get(':id/status')
     @Permissions('csgames-api:get-status:event')
     public async getAttendeeStatus(@User() user: UserModel, @Param('id') eventId: string): Promise<string> {
@@ -98,14 +83,6 @@ export class EventsController {
         return {
             registered: await this.eventsService.hasAttendeeForUser(eventId, user.id)
         };
-    }
-
-    @Post(':id/attendee/filter')
-    @HttpCode(200)
-    @Permissions('csgames-api:get-all:attendee')
-    public async eventAttendeeQuery(@Param('id') eventId: string, @Body(new DataTablePipe()) body: DataTableModel,
-                                    @Body('filter') filter): Promise<DataTableReturnModel> {
-        return await this.eventsService.getFilteredAttendees(eventId, body, JSON.parse(filter));
     }
 
     @Get(':id/vegetarian')
@@ -171,14 +148,6 @@ export class EventsController {
         return await this.teamsService.getTeamFromEvent(eventId);
     }
 
-    @Post(':id/activity/filter')
-    @HttpCode(200)
-    @Permissions('csgames-api:get-all:activity')
-    public async eventActivityQuery(@Param('id') eventId: string,
-                                    @Body(new DataTablePipe()) body: DataTableModel): Promise<DataTableReturnModel> {
-        return await this.eventsService.getFilteredActivities(eventId, body);
-    }
-
     @Get(':id/activity')
     @Permissions('csgames-api:get-all:activity')
     public async getActivity(@Param('id') eventId: string): Promise<Activities[]> {
@@ -189,14 +158,6 @@ export class EventsController {
     @Permissions('csgames-api:get-stats:event')
     public async getStats(@Param('id') eventId: string): Promise<object> {
         return this.eventsService.getStats(eventId);
-    }
-
-    @Post(':id/sponsor/filter')
-    @HttpCode(200)
-    @Permissions('csgames-api:get-all:sponsor')
-    public async eventSponsorQuery(@Param('id') eventId: string,
-                                   @Body(new DataTablePipe()) body: DataTableModel): Promise<DataTableReturnModel> {
-        return await this.eventsService.getFilteredSponsors(eventId, body);
     }
 
     @Get(':id/sponsor')

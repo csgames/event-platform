@@ -1,4 +1,4 @@
-import { BadRequestException, Body, Controller, Delete, Get, Param, Post, Query, UseFilters, UseGuards } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Delete, Get, Param, Post, Query, UseFilters, UseGuards, Put } from '@nestjs/common';
 import { ApiUseTags } from '@nestjs/swagger';
 import { STSService } from '@polyhx/nest-services';
 import { Permissions } from '../../../decorators/permission.decorator';
@@ -10,7 +10,7 @@ import { ValidationPipe } from '../../../pipes/validation.pipe';
 import { Attendees } from '../attendees/attendees.model';
 import { AttendeesService } from '../attendees/attendees.service';
 import { EventsService } from '../events/events.service';
-import { CreateOrJoinTeamDto } from './teams.dto';
+import { CreateTeamDto, UpdateTeamDto } from './teams.dto';
 import { codeMap } from './teams.exception';
 import { Teams } from './teams.model';
 import { LeaveTeamResponse, TeamsService } from './teams.service';
@@ -26,11 +26,20 @@ export class TeamsController {
                 private readonly stsService: STSService) {
     }
 
-    @Post()
-    @Permissions('csgames-api:create-join:team')
-    public async createOrJoin(@User() user: UserModel, @Body(new ValidationPipe()) createOrJoinTeamDto: CreateOrJoinTeamDto) {
-        return this.teamsService.createOrJoin(createOrJoinTeamDto, user.id);
+    @Put(':id')
+    @Permissions('csgames-api:update:team')
+    public async updateTeam(@Body(new ValidationPipe()) updateTeamDto: UpdateTeamDto, @Param('id') id: string) {
+        return this.teamsService.update({ _id: id }, updateTeamDto);
     }
+
+
+    // # create team
+    // create un team captain == create user avec isCaptain a true
+    // invite member send email unique link --> first name last name email
+    // delete member
+    // update team
+    // # delete team
+    
 
     @Get()
     @Permissions('csgames-api:get-all:team')
@@ -93,7 +102,7 @@ export class TeamsController {
         }
         return team;
     }
-
+/*
     @Delete(':id')
     @Permissions('csgames-api:leave:team')
     public async leave(@User() user: UserModel, @Param('id') teamId: string): Promise<LeaveTeamResponse> {
@@ -105,4 +114,5 @@ export class TeamsController {
             attendeeId: attendee._id
         });
     }
+    */
 }

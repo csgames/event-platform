@@ -1,11 +1,13 @@
 import * as mongoose from "mongoose";
 import { Attendees } from "../attendees/attendees.model";
 import { Events } from "../events/events.model";
+import { Schools } from "../schools/schools.model";
 
 export interface Teams extends mongoose.Document {
     name: string;
     attendees: (Attendees | mongoose.Types.ObjectId | string)[];
     event: Events | mongoose.Types.ObjectId | string;
+    school: Schools | mongoose.Types.ObjectId | string;
     present: boolean;
 }
 
@@ -24,8 +26,9 @@ export const TeamsSchema = new mongoose.Schema({
         required: true,
         ref: 'events'
     },
-    present: {
-        type: Boolean,
-        required: false
+    school: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        ref: 'school'
     }
 });

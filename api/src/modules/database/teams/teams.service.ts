@@ -6,9 +6,9 @@ import { BaseService } from '../../../services/base.service';
 import { EmailService } from '../../email/email.service';
 import { Attendees } from '../attendees/attendees.model';
 import { AttendeesService } from '../attendees/attendees.service';
-import { CreateOrJoinTeamDto, LeaveTeamDto } from './teams.dto';
+import { CreateTeamDto, UpdateTeamDto } from './teams.dto';
 import {
-    AttendeeHasTeamException, AttendeeNotFoundException, AttendeeNotInTeamException, TeamFullException, TeamNotFoundException
+    AttendeeHasTeamException, AttendeeNotFoundException, AttendeeNotInTeamException, TeamFullException, TeamNotFoundException, TeamAlreadyCreatedException
 } from './teams.exception';
 import { Teams } from './teams.model';
 import { Events } from '../events/events.model';
@@ -19,8 +19,9 @@ export interface LeaveTeamResponse {
     team: Teams;
 }
 
+
 @Injectable()
-export class TeamsService extends BaseService<Teams, CreateOrJoinTeamDto> {
+export class TeamsService extends BaseService<Teams, CreateTeamDto> {
     constructor(@InjectModel('teams') private readonly teamsModel: Model<Teams>,
                 private readonly attendeesService: AttendeesService,
                 private readonly eventsService: EventsService,
@@ -29,60 +30,25 @@ export class TeamsService extends BaseService<Teams, CreateOrJoinTeamDto> {
         super(teamsModel);
     }
 
-    public async createOrJoin(createOrJoinTeamDto: CreateOrJoinTeamDto, userId: string): Promise<Teams> {
-        const team = await this.findOne({name: createOrJoinTeamDto.name, event: createOrJoinTeamDto.event});
-        const attendee = await this.attendeesService.findOne({userId});
-        if (!attendee) {
-            throw new AttendeeNotFoundException();
-        }
+    public async createTeam(createTeamDto: CreateTeamDto): Promise<Teams> {
+        const team = await this.findOne({name: createTeamDto.name, event: createTeamDto.event});
+
         let attendeeTeam: Teams = await this.findOne({
-            attendees: attendee._id, event: createOrJoinTeamDto.event
+            attendees: createTeamDto.attendeeId, event: createTeamDto.event
         });
         if (attendeeTeam) {
             throw new AttendeeHasTeamException();
         }
         if (team) {
-            return this.join(team, createOrJoinTeamDto.event, attendee._id);
-        } else {
-            return await this.create({
-                name: createOrJoinTeamDto.name,
-                event: createOrJoinTeamDto.event,
-                attendees: [Types.ObjectId(attendee._id)]
-            });
-        }
-    }
-
-    public async leave(leaveTeamDto: LeaveTeamDto): Promise<LeaveTeamResponse> {
-        let attendee: Attendees = await this.attendeesService.findOne({_id: leaveTeamDto.attendeeId});
-        if (!attendee) {
-            throw new AttendeeNotFoundException();
+            throw new TeamAlreadyCreatedException();
         }
 
-        let team: Teams = await this.findOne({_id: leaveTeamDto.teamId});
-        if (!team) {
-            throw new TeamNotFoundException();
-        }
-
-        let index = team.attendees.indexOf(leaveTeamDto.attendeeId);
-        if (index < 0) {
-            throw new AttendeeNotInTeamException();
-        }
-        team.attendees.splice(index, 1);
-
-        // Remove team if it has no attendee.
-        if (team.attendees.length === 0) {
-            await this.remove({_id: team._id});
-            return {
-                deleted: true,
-                team: null
-            };
-        }
-
-        // Else save new team.
-        return {
-            deleted: false,
-            team: await team.save()
-        };
+        return await this.create({
+            name: createTeamDto.name,
+            event: createTeamDto.event,
+            attendees: [Types.ObjectId(createTeamDto.attendeeId)],
+            school: createTeamDto.school
+        });
     }
 
     public async getTeamFromEvent(eventId: string): Promise<Teams[]> {
@@ -90,8 +56,7 @@ export class TeamsService extends BaseService<Teams, CreateOrJoinTeamDto> {
             event: eventId
         }).lean().populate({
             model: 'attendees',
-            path: 'attendees',
-            populate: { model: 'schools', path: 'school' }
+            path: 'attendees'
         }).exec() as Teams[];
 
         const userId: string[] = [];
