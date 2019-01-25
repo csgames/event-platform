@@ -8,6 +8,7 @@ import { RedisModule } from './redis/redis.module';
 @Module({
     imports: [
         RedisModule,
+        InfoModule,
         DatabaseModule,
         JwtModule
     ],
