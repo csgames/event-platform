@@ -1,7 +1,5 @@
 import * as express from 'express';
 import * as fetch from 'node-fetch';
-import { isNullOrUndefined } from 'util';
-import { appConfig } from '../app-config';
 import * as querystring from 'querystring';
 
 export class Auth {
@@ -10,26 +8,25 @@ export class Auth {
     constructor() {
         this.router.post('/login', this.login.bind(this));
         this.router.get('/logout', this.logout.bind(this));
-        this.router.get('/isloggedin', this.isLoggedIn.bind(this)); 
+        this.router.get('/isloggedin', this.isLoggedIn.bind(this));
     }
-    
+
     // POST /login
     // email: the user's email
     // password: the user's password
     // remember: true or false, if the user wants to be remembered, for the remember me feature
     private async login(req: express.Request, res: express.Response) {
-        let email = req.body.email;
-        let password = req.body.password;
-        let rememberMe = req.body.remember;
-    
-        if(isNullOrUndefined(email) || isNullOrUndefined(password) 
-            || email === "" || password === "") {
+        const email = req.body.email;
+        const password = req.body.password;
+        const rememberMe = req.body.remember;
+
+        if (!email || !password || email === "" || password === "") {
             res.json({ error: "Email and password fields must not be empty." });
             res.statusCode = 422;
             return;
         }
 
-        let body = querystring.stringify({
+        const body = querystring.stringify({
             client_id: process.env.STS_CLIENT_ID,
             client_secret: process.env.STS_CLIENT_SECRET,
             scope: process.env.STS_CLIENT_SCOPES,
@@ -49,8 +46,8 @@ export class Auth {
                 req.session.access_token = response.access_token;
                 let payload = JSON.parse(Buffer.from(response.access_token.split('.')[1], 'base64').toString());
                 req.session.access_token_expiration = payload.exp;
-                
-                if(rememberMe){
+
+                if (rememberMe){
                     req.session.refresh_token = response.refresh_token;
                 }
                 res.json({
@@ -61,7 +58,7 @@ export class Auth {
                 res.json({
                     success: false
                 });
-            }     
+            }
         } catch (e) {
             res.json({ error: "An error occured." });
             console.log(e);
@@ -70,11 +67,11 @@ export class Auth {
         }
     }
 
-    // GET /logout 
+    // GET /logout
     private logout(req: express.Request, res: express.Response) {
-        if(req.session) {
+        if (req.session) {
             req.session.destroy((err) => {
-                if(err) {
+                if (err) {
                     console.log(err);
                     res.statusCode = 500;
                     res.json({ success: false });
@@ -89,7 +86,7 @@ export class Auth {
 
     //GET /isloggedin
     private isLoggedIn(req: express.Request, res: express.Response) {
-        if(req.session.access_token){
+        if (req.session.access_token){
             res.json({
                 logged_in: true
             });

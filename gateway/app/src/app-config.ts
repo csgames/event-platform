@@ -5,4 +5,3 @@ export const appConfig = {
     xFrameOptions: "SAMEORIGIN",
     xContentType: "nosniff"
 };
-
