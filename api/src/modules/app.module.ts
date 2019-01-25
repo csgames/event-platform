@@ -2,9 +2,14 @@ import { APP_GUARD } from '@nestjs/core';
 import { Module } from '@nestjs/common';
 import { JwtGuard, JwtModule } from 'nestjs-jwt2';
 import { DatabaseModule } from './database/database.module';
+import { AttendeeGuard } from '../guards/attendee.guard';
+import { InfoModule } from './info/info.module';
+import { RedisModule } from './redis/redis.module';
 
 @Module({
     imports: [
+        RedisModule,
+        InfoModule,
         DatabaseModule,
         JwtModule
     ],
@@ -12,6 +17,10 @@ import { DatabaseModule } from './database/database.module';
         {
             provide: APP_GUARD,
             useClass: JwtGuard,
+        },
+        {
+            provide: APP_GUARD,
+            useClass: AttendeeGuard,
         },
     ]
 })
