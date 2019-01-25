@@ -3,6 +3,7 @@ import { Module } from '@nestjs/common';
 import { JwtGuard, JwtModule } from 'nestjs-jwt2';
 import { DatabaseModule } from './database/database.module';
 import { AttendeeGuard } from '../guards/attendee.guard';
+import { InfoModule } from './info/info.module';
 import { RedisModule } from './redis/redis.module';
 
 @Module({
