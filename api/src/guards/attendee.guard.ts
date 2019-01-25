@@ -1,15 +1,15 @@
-import { BadRequestException, CanActivate, ExecutionContext, Injectable, NotFoundException } from '@nestjs/common';
-import { AttendeesService } from '../modules/database/attendees/attendees.service';
-import { EventsService } from '../modules/database/events/events.service';
+import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
+import { STSService } from '@polyhx/nest-services';
 import * as mongoose from 'mongoose';
 import { IRequest } from '../models/i-request';
-import { RedisService } from '../modules/redis/redis.service';
-import { STSService } from '@polyhx/nest-services';
+import { CacheService } from '../modules/cache/cache.service';
+import { AttendeesService } from '../modules/database/attendees/attendees.service';
+import { EventsService } from '../modules/database/events/events.service';
 
 @Injectable()
 export class AttendeeGuard implements CanActivate {
     constructor(private attendeeService: AttendeesService, private eventService: EventsService,
-                private redisService: RedisService, private stsService: STSService) {
+                private cacheService: CacheService, private stsService: STSService) {
     }
 
     public async canActivate(context: ExecutionContext): Promise<boolean> {
@@ -17,15 +17,14 @@ export class AttendeeGuard implements CanActivate {
 
         const email = req.header('token-claim-name');
         const eventId = req.header('eventId');
-        const permissions = await this.redisService.get(`${email}:event:${eventId}:permissions`);
-        const role = await this.redisService.get(`${email}:event:${eventId}:role`);
-        if (permissions) {
-            req.permissions = JSON.parse(permissions);
-            req.role = role;
+        const cache = await this.cacheService.getUserCache(email, eventId);
+        if (cache) {
+            req.permissions = cache.permissions;
+            req.role = cache.role;
             return true;
         }
 
-        const event = await this.eventService.findById(req.header('eventId'));
+        const event = await this.eventService.findById(eventId);
         if (!event) {
             req.permissions = [];
             return true;
@@ -49,8 +48,10 @@ export class AttendeeGuard implements CanActivate {
         const rolePermissions = await this.getPermissionFromRole(eventAttendee.role);
         req.permissions = rolePermissions;
         req.role = eventAttendee.role;
-        await this.redisService.set(`${email}:event:${eventId}:permissions`, JSON.stringify(rolePermissions));
-        await this.redisService.set(`${email}:event:${eventId}:role`, eventAttendee.role);
+        await this.cacheService.setUserCache(email, eventId, {
+            permissions: rolePermissions,
+            role: eventAttendee.role
+        });
 
         return true;
     }
