@@ -25,7 +25,6 @@ async function bootstrap() {
 
     try {
         const nestApp = await NestFactory.create(ApplicationModule, app, {
-            cors: true,
             bodyParser: true
         });
         const packageJson = require('../package.json');
