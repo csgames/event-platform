@@ -1,1 +1,25 @@
-<h1>TEAM</h1>
+<h1>Team</h1>
+<div *ngIf="!this.isEditing">
+    <h2>{{ this.Team.Name}}
+    <button type="button" class="btn">
+        <img src="../../../assets/icons/edit.png" alt="" (click)="onEdit()">
+    </button></h2>
+</div>
+<div *ngIf="this.isEditing">
+    <input type="text" id="teamName">
+    <br>
+    <button type="button" class="btn save-btn" (click)="onSave()">Save</button>
+</div>
+<br>
+<h4 class="team-members">Team members <b>({{ this.Team.Members.length }}/10)</b></h4>
+<hr>
+<div *ngFor="let member of this.Team.Members">
+    <app-attendee
+        [attendee]="member">
+    </app-attendee>
+</div>
+<br>
+<button type="button" class="btn btn-lg btn-block borders">+ Add Member</button>
+<h4 class="team-members">Godparent <b>(0/1)</b></h4>
+<hr>
+<button type="button" class="btn btn-lg btn-block borders">+ Add godparent</button>

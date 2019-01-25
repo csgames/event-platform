@@ -1,0 +1,35 @@
+<div>
+  <img src="https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50" />
+  <h3>{{ this.attendeeModel.Name }}</h3>
+  <div class="icons-right" *ngIf="this.attendeeModel.IsRegistered">
+    <div><span class="badge badge-pill badge-primary">Registered</span></div>
+  </div>
+  <div class="icons-right" *ngIf="!this.attendeeModel.IsRegistered">
+    <div><span class="badge badge-pill badge-danger">Not Registered</span></div>
+  </div>
+  <div>
+    <b class="email">{{ this.attendeeModel.Email }}</b>
+    <div class="icons-right">
+      <div>
+        <a *ngIf="this.isEmpty(attendeeModel.Website) ">
+          <img class="links" src="../../../assets/icons/world.png">
+        </a>
+        <a *ngIf="!this.isEmpty(attendeeModel.Website) " href="">
+          <img class="links" src="../../../assets/icons/world-blue.png">
+        </a>
+        <a *ngIf="this.isEmpty(attendeeModel.LinkedIn) ">
+          <img class="links" src="../../../assets/icons/linkedin-logo.png">
+        </a>
+        <a *ngIf="!this.isEmpty(attendeeModel.LinkedIn) " href="">
+          <img class="links" src="../../../assets/icons/linkedin-logo-blue.png">
+        </a>
+        <a *ngIf="this.isEmpty(attendeeModel.Github) ">
+          <img src="../../../assets/icons/github-logo.png">
+        </a>
+        <a *ngIf="!this.isEmpty(attendeeModel.Github) " href="">
+          <img src="../../../assets/icons/github-logo-blue.png">
+        </a>
+      </div>
+    </div>
+  </div>
+</div>

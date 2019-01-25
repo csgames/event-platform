@@ -4,6 +4,7 @@ import { CommonModule } from "@angular/common";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { RouterModule } from "@angular/router";
 import { TeamRoutingModule } from "./team-routing.module";
+import { AttendeeComponent } from "./attendee/attendee.component";
 
 @NgModule({
     imports: [
@@ -14,7 +15,7 @@ import { TeamRoutingModule } from "./team-routing.module";
         TeamRoutingModule
     ],
     exports: [],
-    declarations: [TeamComponent],
+    declarations: [TeamComponent, AttendeeComponent],
     providers: []
 })
 export class TeamModule {}
