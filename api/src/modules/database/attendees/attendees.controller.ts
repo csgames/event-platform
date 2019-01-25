@@ -46,9 +46,8 @@ export class AttendeesController {
     }
 
     @Get('info')
-    @UseGuards(AttendeesGuard)
     public async getInfo(@User() user: UserModel): Promise<Attendees> {
-        const attendee = await this.attendeesService.findOne({ userId: user.id });
+        const attendee = await this.attendeesService.findOne({ email: user.username });
         if (attendee) {
             return await this.appendCvMetadata(attendee);
         }

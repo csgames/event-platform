@@ -15,37 +15,42 @@ export class AttendeeGuard implements CanActivate {
     public async canActivate(context: ExecutionContext): Promise<boolean> {
         const req = context.switchToHttp().getRequest<IRequest>();
 
-        const event = await this.eventService.findById(req.params.eventId);
-        if (!event) {
-            throw new NotFoundException('No event found');
+        const email = req.header('token-claim-name');
+        const eventId = req.header('eventId');
+        const permissions = await this.redisService.get(`${email}:event:${eventId}:permissions`);
+        const role = await this.redisService.get(`${email}:event:${eventId}:role`);
+        if (permissions) {
+            req.permissions = JSON.parse(permissions);
+            req.role = role;
+            return true;
         }
 
-        const email = req.header('token-claim-name');
+        const event = await this.eventService.findById(req.header('eventId'));
+        if (!event) {
+            req.permissions = [];
+            return true;
+        }
+
         const attendee = await this.attendeeService.findOne({
             email
         });
         if (!attendee) {
-            throw new NotFoundException('No attendee found');
+            req.permissions = [];
+            return true;
         }
 
         const eventAttendee = event.attendees
             .find(x => (x.attendee as mongoose.Types.ObjectId).toHexString() === attendee._id.toHexString());
         if (!eventAttendee) {
-            throw new BadRequestException('Attendee not registered in event');
+            req.permissions = [];
+            return true;
         }
 
-        req.event = event;
-        req.attendee = attendee;
+        const rolePermissions = await this.getPermissionFromRole(eventAttendee.role);
+        req.permissions = rolePermissions;
         req.role = eventAttendee.role;
-
-        const permissions = await this.redisService.get(`${email}:event:${event._id}`);
-        if (!permissions) {
-            const rolePermissions = await this.getPermissionFromRole(eventAttendee.role);
-            req.permissions = rolePermissions;
-            await this.redisService.set(`${email}:event:${event._id}`, JSON.stringify(rolePermissions));
-        } else {
-            req.permissions = JSON.parse(permissions);
-        }
+        await this.redisService.set(`${email}:event:${eventId}:permissions`, JSON.stringify(rolePermissions));
+        await this.redisService.set(`${email}:event:${eventId}:role`, eventAttendee.role);
 
         return true;
     }

@@ -71,6 +71,6 @@ export class BaseService<T extends Document, Dto> {
     }
 
     async remove(condition: Object): Promise<void> {
-        return this.model.remove(condition).exec();
+        await this.model.remove(condition).exec();
     }
 }
