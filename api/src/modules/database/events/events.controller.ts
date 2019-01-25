@@ -4,9 +4,7 @@ import { Permissions } from '../../../decorators/permission.decorator';
 import { User } from '../../../decorators/user.decorator';
 import { CodeExceptionFilter } from '../../../filters/code-error/code.filter';
 import { PermissionsGuard } from '../../../guards/permission.guard';
-import { DataTableModel, DataTableReturnModel } from '../../../models/data-table.model';
 import { UserModel } from '../../../models/user.model';
-import { DataTablePipe } from '../../../pipes/data-table.pipe';
 import { ValidationPipe } from '../../../pipes/validation.pipe';
 import { CreateActivityDto } from '../activities/activities.dto';
 import { Activities } from '../activities/activities.model';
@@ -15,9 +13,7 @@ import { AttendeeNotifications } from '../attendees/attendees.model';
 import { AttendeesService } from '../attendees/attendees.service';
 import { Teams } from '../teams/teams.model';
 import { TeamsService } from '../teams/teams.service';
-import {
-    AddScannedAttendee, AddSponsorDto, CreateEventDto, SendNotificationDto, SendSmsDto, UpdateEventDto
-} from './events.dto';
+import { AddScannedAttendee, AddSponsorDto, CreateEventDto, SendNotificationDto, SendSmsDto, UpdateEventDto } from './events.dto';
 import { codeMap, EventNotFoundException } from './events.exception';
 import { Events, EventSponsorDetails } from './events.model';
 import { EventsService } from './events.service';
@@ -51,7 +47,7 @@ export class EventsController {
 
     @Get(':id')
     @Permissions('csgames-api:get:event')
-    public async getByPublicId(@Param('id') id: string): Promise<Events> {
+    public async getById(@Param('id') id: string): Promise<Events> {
         return await this.eventsService.findOne({
             _id: id
         });
@@ -112,12 +108,6 @@ export class EventsController {
     @Permissions('csgames-api:get-all:activity')
     public async getActivity(@Param('id') eventId: string): Promise<Activities[]> {
         return await this.eventsService.getActivities(eventId);
-    }
-
-    @Get(':id/stats')
-    @Permissions('csgames-api:get-stats:event')
-    public async getStats(@Param('id') eventId: string): Promise<object> {
-        return this.eventsService.getStats(eventId);
     }
 
     @Get(':id/sponsor')
