@@ -3,6 +3,8 @@ import { GlobalConfig } from './models/global-config';
 import { MongoConfig } from './models/mongo-config';
 import { MessagingConfig } from './models/messaging-config';
 import { NexmoConfig } from './models/nexmo-config';
+import { RegistrationConfig } from './models/registration-config';
+import { RedisConfig } from './models/redis-config';
 
 @Injectable()
 export class ConfigService {
@@ -10,6 +12,8 @@ export class ConfigService {
     public mongo: MongoConfig;
     public messaging: MessagingConfig;
     public nexmo: NexmoConfig;
+    public registration: RegistrationConfig;
+    public redisConfig: RedisConfig;
 
     constructor() {
         this.loadConfigs();
@@ -20,6 +24,8 @@ export class ConfigService {
         this.loadMongoConfig();
         this.loadMessagingConfig();
         this.loadNexmo();
+        this.loadRegistration();
+        this.loadRedis();
     }
 
     private loadGlobalConfig() {
@@ -51,6 +57,20 @@ export class ConfigService {
             apiSecret: process.env.NEXMO_API_SECRET,
             debug: process.env.NEXMO_DEBUG === "true",
             phoneNumber: process.env.NEXMO_FROM_NUMBER
+        };
+    }
+
+    private loadRegistration() {
+        this.registration = {
+            registrationUrl: process.env.ACCOUNT_CREATION_URL
+        };
+    }
+
+    private loadRedis() {
+        this.redisConfig = {
+            host: process.env.REDIS_HOST,
+            password: process.env.REDIS_PASSWORD,
+            port: +process.env.REDIS_PORT
         };
     }
 }

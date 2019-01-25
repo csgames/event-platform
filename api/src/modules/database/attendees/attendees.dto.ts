@@ -15,18 +15,12 @@ export class CreateAttendeeDto {
     @IsOptional()
     @IsString()
     @ApiModelProperty()
-    cv: string;
+    website: string;
 
     @IsOptional()
     @IsString()
     @ApiModelProperty()
-    website: string;
-
-    @IsString()
-    @IsNotEmpty()
-    @IsIn(['cegep', 'bachelor', 'master', 'phd'])
-    @ApiModelProperty({ required: true })
-    degree: string;
+    cv: string;
 
     @IsString()
     @IsNotEmpty()
@@ -41,8 +35,8 @@ export class CreateAttendeeDto {
     tshirt: string;
 
     @IsString()
-    @IsNotEmpty()
-    @ApiModelProperty({ required: true })
+    @IsOptional()
+    @ApiModelProperty()
     school: string;
 
     @IsOptional()
@@ -80,18 +74,12 @@ export class UpdateAttendeeDto {
     @IsOptional()
     @IsString()
     @ApiModelProperty()
-    cv: string;
-
-    @IsOptional()
-    @IsString()
-    @ApiModelProperty()
     website: string;
 
     @IsOptional()
     @IsString()
-    @IsIn(['cegep', 'bachelor', 'master', 'phd'])
     @ApiModelProperty()
-    degree: string;
+    cv: string;
 
     @IsOptional()
     @IsString()

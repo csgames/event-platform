@@ -12,7 +12,7 @@ import { MessagingService } from '../../messaging/messaging.service';
 import { CreateActivityDto } from '../activities/activities.dto';
 import { Activities } from '../activities/activities.model';
 import { ActivitiesService } from '../activities/activities.service';
-import { AttendeeNotifications } from '../attendees/attendees.model';
+import { AttendeeNotifications, Attendees } from '../attendees/attendees.model';
 import { AttendeesService } from '../attendees/attendees.service';
 import { Notifications } from '../notifications/notifications.model';
 import { NotificationsService } from '../notifications/notifications.service';
@@ -36,14 +36,21 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
         super(eventsModel);
     }
 
-    public async addAttendee(eventId: string, userId: string): Promise<Events> {
-        const attendee = await this.attendeeService.findOne({userId});
+    public async addAttendee(eventId: string, userIdOrAttendee: string | Attendees, role: string): Promise<Events> {
+        let attendee: Attendees;
+        if (typeof userIdOrAttendee === "string") {
+            attendee = await this.attendeeService.findOne({
+                userId: userIdOrAttendee
+            });
+        } else {
+            attendee = userIdOrAttendee;
+        }
 
         if (!attendee) {
             throw new UserNotAttendeeException();
         }
 
-        const attendeeAlreadyRegistered = (await this.eventsModel.count({
+        const attendeeAlreadyRegistered = (await this.eventsModel.countDocuments({
             _id: eventId,
             'attendees.attendee': attendee._id
         }).exec()) > 0;
@@ -52,12 +59,13 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
             throw new AttendeeAlreadyRegisteredException();
         }
 
-        return this.eventsModel.update({
+        return this.eventsModel.updateOne({
             _id: eventId
         }, {
             $push: {
                 attendees: {
-                    attendee: attendee._id
+                    attendee: attendee._id,
+                    role: role
                 }
             }
         }).exec();
@@ -214,7 +222,7 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
                     html: '<h1>Congrats</h1>',
                     template: 'hackatown2019-selection',
                     variables: {
-                        name: user.firstName
+                        name: user.username
                     }
                 });
             } catch (err) {

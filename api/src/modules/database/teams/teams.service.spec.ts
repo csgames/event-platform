@@ -107,7 +107,7 @@ describe('TeamsService', () => {
             attendeesService.reset();
             attendeesService.setup(x => x.findOne(It.isAny())).returns(() => Promise.resolve({
                 _id: '5bde6ec00000000000000000',
-                userId: '5bde6ec00000000000000000'
+                email: 'test@test.com'
             } as Attendees));
 
             try {
@@ -125,11 +125,9 @@ describe('TeamsService', () => {
             attendeesService.reset();
             attendeesService.setup(x => x.findOne(It.isAny())).returns(() => Promise.resolve({
                 _id: '5bde6ec00000000000000001',
-                userId: '5bde6ec00000000000000000'
+                email: 'test@test.com'
             } as Attendees));
-            eventsService.setup(x => x.findById(It.isAny())).returns(() => Promise.resolve({
-                type: 'A type'
-            } as Events));
+            eventsService.setup(x => x.findById(It.isAny())).returns(() => Promise.resolve({} as Events));
 
             try {
                 const team = await teamsService.createOrJoin({
@@ -146,11 +144,9 @@ describe('TeamsService', () => {
             attendeesService.reset();
             attendeesService.setup(x => x.findOne(It.isAny())).returns(() => Promise.resolve({
                 _id: '5bde6ec00000000000000001',
-                userId: '5bde6ec00000000000000000'
+                email: 'test@test.com'
             } as Attendees));
-            eventsService.setup(x => x.findOne(It.isAny())).returns(() => Promise.resolve({
-                type: 'A type'
-            } as Events));
+            eventsService.setup(x => x.findOne(It.isAny())).returns(() => Promise.resolve({} as Events));
 
             try {
                 const team = await teamsService.createOrJoin({
@@ -185,7 +181,7 @@ describe('TeamsService', () => {
             attendeesService.reset();
             attendeesService.setup(x => x.findOne(It.isAny())).returns(() => Promise.resolve({
                 _id: '5bde6ec00000000000000001',
-                userId: '5bde6ec00000000000000000'
+                email: 'test@test.com'
             } as Attendees));
 
             try {
@@ -203,7 +199,7 @@ describe('TeamsService', () => {
             attendeesService.reset();
             attendeesService.setup(x => x.findOne(It.isAny())).returns(() => Promise.resolve({
                 _id: '5bde6ec00000000000000001',
-                userId: '5bde6ec00000000000000000'
+                email: 'test@test.com'
             } as Attendees));
 
             try {
@@ -221,12 +217,10 @@ describe('TeamsService', () => {
             attendeesService.reset();
             attendeesService.setup(x => x.findOne(It.isAny())).returns(() => Promise.resolve({
                 _id: '5bde6ec00000000000000001',
-                userId: '5bde6ec00000000000000000'
+                email: 'test@test.com'
             } as Attendees));
             eventsService.reset();
-            eventsService.setup(x => x.findById(It.isAny())).returns(() => Promise.resolve({
-                type: 'A type'
-            } as Events));
+            eventsService.setup(x => x.findById(It.isAny())).returns(() => Promise.resolve({} as Events));
 
             try {
                 const res = await teamsService.leave({
@@ -244,12 +238,10 @@ describe('TeamsService', () => {
             attendeesService.reset();
             attendeesService.setup(x => x.findOne(It.isAny())).returns(() => Promise.resolve({
                 _id: '5bde6ec00000000000000001',
-                userId: '5bde6ec00000000000000000'
+                email: 'test@test.com'
             } as Attendees));
             eventsService.reset();
-            eventsService.setup(x => x.findById(It.isAny())).returns(() => Promise.resolve({
-                type: 'A type'
-            } as Events));
+            eventsService.setup(x => x.findById(It.isAny())).returns(() => Promise.resolve({} as Events));
 
             try {
                 const res = await teamsService.leave({

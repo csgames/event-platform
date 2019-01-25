@@ -7,7 +7,6 @@ import * as express from "express";
 import * as morgan from "morgan";
 import { NestFactory } from "@nestjs/core";
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
-import { RequestModel } from './models/request.model';
 import { ApplicationModule } from "./modules/app.module";
 import { BooleanPipe } from './pipes/boolean.pipe';
 
@@ -23,19 +22,6 @@ async function bootstrap() {
         }
         next();
     });
-    app.use((req: RequestModel, res: express.Response, next: express.NextFunction) => {
-        if (req.header("token-claim-user_id")) {
-            req.user = {
-                id: req.header("token-claim-user_id"),
-                username: req.header("token-claim-name"),
-                firstName: req.header("token-claim-firstName"),
-                lastName: req.header("token-claim-lastName"),
-                role: req.header("token-claim-role"),
-                permissions: JSON.parse(req.header("token-claim-permissions"))
-            };
-        }
-        next();
-    });
 
     try {
         const nestApp = await NestFactory.create(ApplicationModule, app, {
@@ -48,6 +34,7 @@ async function bootstrap() {
             .setDescription(packageJson.description)
             .setVersion(packageJson.version)
             .addTag('Attendee')
+            .addTag('Activity')
             .addTag('Event')
             .addTag('School')
             .addTag('Team')

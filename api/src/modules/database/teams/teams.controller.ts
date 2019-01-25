@@ -27,13 +27,13 @@ export class TeamsController {
     }
 
     @Post()
-    @Permissions('event_management:create-join:team')
+    @Permissions('csgames-api:create-join:team')
     public async createOrJoin(@User() user: UserModel, @Body(new ValidationPipe()) createOrJoinTeamDto: CreateOrJoinTeamDto) {
         return this.teamsService.createOrJoin(createOrJoinTeamDto, user.id);
     }
 
     @Get()
-    @Permissions('event_management:get-all:team')
+    @Permissions('csgames-api:get-all:team')
     public async getAll(): Promise<Teams[]> {
         return this.teamsService.findAll({
             path: 'attendees',
@@ -42,13 +42,13 @@ export class TeamsController {
     }
 
     @Get('info')
-    @Permissions('event_management:get:team')
+    @Permissions('csgames-api:get:team')
     public async getInfo(@User() user: UserModel, @Query('event') event: string): Promise<Teams> {
         return this.getTeamByUserAndEvent(event, user.id);
     }
 
     @Get('event/:eventId/user/:userId')
-    @Permissions('event_management:get:team')
+    @Permissions('csgames-api:get:team')
     public async getTeamByUserAndEvent(@Param('eventId') event: string, @Param('userId') userId: string): Promise<Teams> {
         if (!event) {
             throw new BadRequestException('Event not specified');
@@ -72,14 +72,14 @@ export class TeamsController {
         }
 
         for (const a of team.attendees as (Attendees & { status: string })[]) {
-            a.user = (await this.stsService.getAllWithIds([a.userId])).users[0];
+            a.user = (await this.stsService.getAllWithIds([a.email])).users[0];
             a.status = await this.eventsService.getAttendeeStatus(a._id, team.event as string);
         }
         return team;
     }
 
     @Get(':id')
-    @Permissions('event_management:get:team')
+    @Permissions('csgames-api:get:team')
     public async get(@Param('id') id: string): Promise<Teams> {
         const team = await this.teamsService.findOneLean({
             _id: id
@@ -88,14 +88,14 @@ export class TeamsController {
             model: 'attendees'
         });
         for (const a of team.attendees as (Attendees & { status: string })[]) {
-            a.user = (await this.stsService.getAllWithIds([a.userId])).users[0];
+            a.user = (await this.stsService.getAllWithIds([a.email])).users[0];
             a.status = await this.eventsService.getAttendeeStatus(a._id, team.event as string);
         }
         return team;
     }
 
     @Delete(':id')
-    @Permissions('event_management:leave:team')
+    @Permissions('csgames-api:leave:team')
     public async leave(@User() user: UserModel, @Param('id') teamId: string): Promise<LeaveTeamResponse> {
         const attendee = await this.attendeesService.findOne({
             userId: user.id

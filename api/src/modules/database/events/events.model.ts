@@ -3,8 +3,15 @@ import { Activities } from '../activities/activities.model';
 import { Attendees } from '../attendees/attendees.model';
 import { Sponsors } from '../sponsors/sponsors.model';
 
-export const EVENT_TYPE_LH_GAMES = 'lhgames';
-export const EVENT_TYPE_MLH = 'mlh';
+export enum EventAttendeeTypes {
+    Admin = 'admin',
+    Attendee = 'attendee',
+    Captain = 'captain',
+    Director = 'director',
+    Godgfather = 'godfather',
+    Sponsor = 'sponsor',
+    Volunteer = 'volunteer'
+}
 
 export interface EventSponsorDetails extends Sponsors {
     padding: number[];
@@ -14,6 +21,7 @@ export interface EventSponsorDetails extends Sponsors {
 
 export interface EventRegistrations extends mongoose.Document {
     attendee: (Attendees | mongoose.Types.ObjectId | string);
+    role: EventAttendeeTypes;
     selected: boolean;
     confirmed: boolean;
     declined: boolean;
@@ -25,6 +33,11 @@ export const EventRegistrationsSchema = new mongoose.Schema({
     attendee: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'attendees'
+    },
+    role: {
+        type: String,
+        enum: ['admin', 'attendee', 'captain', 'director', 'godfather', 'sponsor', 'volunteer'],
+        default: 'attendee'
     },
     selected: {
         type: Boolean,
@@ -81,7 +94,6 @@ export const EventSponsorsSchema = new mongoose.Schema({
 });
 
 export interface Events extends mongoose.Document {
-    readonly type: string;
     readonly name: string;
     readonly details: object;
     readonly beginDate: Date | string;
@@ -99,10 +111,6 @@ export interface Events extends mongoose.Document {
 }
 
 export const EventsSchema = new mongoose.Schema({
-    type: {
-        type: String,
-        enum: [EVENT_TYPE_LH_GAMES, EVENT_TYPE_MLH]
-    },
     name: {
         type: String,
         unique: true,

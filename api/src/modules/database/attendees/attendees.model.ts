@@ -23,12 +23,13 @@ export const AttendeeNotificationSchema = new mongoose.Schema({
 });
 
 export interface Attendees extends mongoose.Document {
-    userId: string;
+    firstName: string;
+    lastName: string;
+    email: string;
     github: string;
     linkedIn: string;
     cv: string;
     website: string;
-    degree: string;
     gender: string;
     tshirt: string;
     phoneNumber: string;
@@ -43,7 +44,15 @@ export interface Attendees extends mongoose.Document {
 }
 
 export const AttendeesSchema = new mongoose.Schema({
-    userId: {
+    email: {
+        type: String,
+        required: true
+    },
+    firstName: {
+        type: String,
+        required: true
+    },
+    lastName: {
         type: String,
         required: true
     },
@@ -63,20 +72,13 @@ export const AttendeesSchema = new mongoose.Schema({
         type: String,
         default: null
     },
-    degree: {
-        type: String,
-        enum: ['cegep', 'bachelor', 'master', 'phd'],
-        default: null
-    },
     gender: {
         type: String,
-        enum: ['male', 'female', 'other', 'no_answer'],
-        default: null
+        enum: ['male', 'female', 'other', 'no_answer']
     },
     tshirt: {
         type: String,
-        enum: ['small', 'medium', 'large', 'x-large', '2x-large'],
-        default: null
+        enum: ['small', 'medium', 'large', 'x-large', '2x-large']
     },
     phoneNumber: {
         type: String,

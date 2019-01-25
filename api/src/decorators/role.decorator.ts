@@ -1,6 +1,6 @@
 import { createParamDecorator } from '@nestjs/common';
-import { RequestModel } from '../models/request.model';
+import * as express from 'express';
 
-export const Role = createParamDecorator((data: void, req: RequestModel) => {
-    return req.user ? req.user.role : null;
+export const Role = createParamDecorator((data: void, req: express.Request) => {
+    return req.header('token-claim-role');
 });

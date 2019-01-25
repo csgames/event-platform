@@ -15,19 +15,19 @@ export class SchoolsController {
     }
 
     @Post()
-    @Permissions('event_management:create:school')
+    @Permissions('csgames-api:create:school')
     public async create(@Body(new ValidationPipe()) school: CreateSchoolDto): Promise<Schools> {
         return await this.schoolService.create(school);
     }
 
     @Get()
-    @Permissions('event_management:get-all:school')
+    @Permissions('csgames-api:get-all:school')
     public async getAll(): Promise<Schools[]> {
         return await this.schoolService.findAll();
     }
 
     @Get('query/:query')
-    @Permissions('event_management:query:school')
+    @Permissions('csgames-api:query:school')
     public async query(@Param('query') query: string): Promise<Schools[]> {
         return await this.schoolService.query(query);
     }

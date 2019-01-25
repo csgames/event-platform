@@ -1,4 +1,5 @@
 import { Body, Controller, Delete, Get, HttpException, HttpStatus, Param, Post, Put, UseGuards } from '@nestjs/common';
+import { ApiUseTags } from '@nestjs/swagger';
 import { STSService, UserModel } from '@polyhx/nest-services';
 import { Permissions } from '../../../decorators/permission.decorator';
 import { PermissionsGuard } from '../../../guards/permission.guard';
@@ -9,6 +10,7 @@ import { CreateActivityDto, SendNotificationDto } from './activities.dto';
 import { Activities, ActivityTypes } from './activities.model';
 import { ActivitiesService } from './activities.service';
 
+@ApiUseTags('Activity')
 @Controller("activity")
 @UseGuards(PermissionsGuard)
 export class ActivitiesController {
@@ -18,19 +20,19 @@ export class ActivitiesController {
     }
 
     @Post()
-    @Permissions('event_management:create:activity')
+    @Permissions('csgames-api:create:activity')
     public async create(@Body(new ValidationPipe()) createActivityDto: CreateActivityDto) {
         await this.activitiesService.create(createActivityDto);
     }
 
     @Get()
-    @Permissions('event_management:get-all:activity')
+    @Permissions('csgames-api:get-all:activity')
     public async getAll(): Promise<Activities[]> {
         return await this.activitiesService.findAll();
     }
 
     @Put(':activity_id/:attendee_id')
-    @Permissions('event_management:add-attendee:activity')
+    @Permissions('csgames-api:add-attendee:activity')
     public async addAttendee(@Param('activity_id') activityId: string,
                              @Param('attendee_id') attendeeId: string): Promise<Activities> {
         const activity: Activities = await this.activitiesService.findById(activityId);
@@ -57,7 +59,7 @@ export class ActivitiesController {
     }
 
     @Get('type')
-    @Permissions('event_management:get:activity')
+    @Permissions('csgames-api:get:activity')
     public async getActivityTypes(): Promise<string[]> {
         return ActivityTypes;
     }
@@ -80,7 +82,7 @@ export class ActivitiesController {
         const winnerId = this.getRandomIndex(attendees.length);
         const attendee = await this.attendeesService.findById(attendees[winnerId]);
 
-        return (await this.stsService.getAllWithIds([attendee.userId])).users[0];
+        return (await this.stsService.getAllWithIds([attendee.email])).users[0];
     }
 
     @Get(":activity_id/:attendee_id/subscription")
