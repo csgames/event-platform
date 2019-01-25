@@ -60,7 +60,7 @@ export class Application {
                 secure: process.env.IS_HTTPS !== 'false',
                 httpOnly: true,
                 path: '/',
-                expires: appConfig.cookieExpiration 
+                maxAge: appConfig.cookieMaxAge 
             }
         }));
         
