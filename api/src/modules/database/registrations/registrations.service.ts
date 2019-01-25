@@ -1,20 +1,21 @@
 import { BadRequestException, HttpException, HttpStatus, Injectable, InternalServerErrorException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { STSService, UserModel } from '@polyhx/nest-services';
+import * as mongoose from 'mongoose';
+import { Model } from 'mongoose';
+import { CodeException } from '../../../filters/code-error/code.exception';
+import { ConfigService } from '../../configs/config.service';
+import { EmailService } from '../../email/email.service';
+import { Attendees } from '../attendees/attendees.model';
 import { AttendeesService } from '../attendees/attendees.service';
 import { EventsService } from '../events/events.service';
-import { CreateRegistrationDto, RegisterAttendeeDto } from './registrations.dto';
-import { CodeException } from '../../../filters/code-error/code.exception';
-import { Registrations } from './registrations.model';
-import { Model } from 'mongoose';
-import { EmailService } from '../../email/email.service';
-import { ConfigService } from '../../configs/config.service';
-import { TeamsService } from '../teams/teams.service';
-import { defaultPath } from 'tough-cookie';
-import { AttendeeAlreadyExistException, TeamAlreadyExistException, MaxTeamMemberException, GodFatherAlreadyExist } from './registration.exception';
-import { Attendees } from '../attendees/attendees.model';
 import { Teams } from '../teams/teams.model';
-import * as mongoose from 'mongoose';
+import { TeamsService } from '../teams/teams.service';
+import {
+    AttendeeAlreadyExistException, GodFatherAlreadyExist, MaxTeamMemberException, TeamAlreadyExistException
+} from './registration.exception';
+import { CreateRegistrationDto, RegisterAttendeeDto } from './registrations.dto';
+import { Registrations } from './registrations.model';
 
 @Injectable()
 export class RegistrationsService {
@@ -50,14 +51,14 @@ export class RegistrationsService {
             firstName: dto.firstName,
             lastName: dto.lastName
         });
-        
+
         let registration = new this.registrationsModel({
             event: dto.eventId,
             attendee: attendee._id,
             role: dto.role
         });
         registration = await registration.save();
-        
+
         if (dto.role === 'captain' && role === 'admin') {
             await this.teamsService.createTeam({
                 name: dto.teamName,
@@ -109,7 +110,8 @@ export class RegistrationsService {
 
         let event = await this.eventService.findOne({ _id: dto.eventId });
         let attendeeIds = team.attendees.map(x => (x as mongoose.Types.ObjectId).toHexString());
-        let members = event.attendees.filter(attendeeEvent => attendeeIds.includes((attendeeEvent.attendee as mongoose.Types.ObjectId).toHexString()));
+        let members = event.attendees.filter(attendeeEvent => attendeeIds
+            .includes((attendeeEvent.attendee as mongoose.Types.ObjectId).toHexString()));
 
         let godfather = members.filter(attendeeEvent => attendeeEvent.role === 'godfather');
         if (dto.role === 'godfather') {
@@ -124,7 +126,7 @@ export class RegistrationsService {
                 throw new MaxTeamMemberException();
             }
         }
-        
+
         await this.teamsService.update({name: dto.teamName, event: dto.eventId}, {
             $push: {
                 attendees: attendee._id

@@ -1,10 +1,11 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Delete, Get } from '@nestjs/common';
 import { PublicRoute } from 'nestjs-jwt2';
+import { CacheService } from '../cache/cache.service';
 import { ConfigService } from '../configs/config.service';
 
 @Controller()
 export class InfoController {
-    constructor(private configService: ConfigService) {
+    constructor(private configService: ConfigService, private cacheService: CacheService) {
     }
 
     @Get()
@@ -15,5 +16,10 @@ export class InfoController {
             version: this.configService.global.version,
             mode: this.configService.global.mode
         };
+    }
+
+    @Delete()
+    public async invalidateCache() {
+        await this.cacheService.invalidateCache();
     }
 }

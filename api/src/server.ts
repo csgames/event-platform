@@ -5,6 +5,7 @@ require("dotenv").config();
 
 import * as express from "express";
 import * as morgan from "morgan";
+import * as bodyParser from "body-parser";
 import { NestFactory } from "@nestjs/core";
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
 import { ApplicationModule } from "./modules/app.module";
@@ -15,6 +16,8 @@ async function bootstrap() {
 
     app.use(morgan("dev"));
     app.use(StorageService.multerMemoryStorageConfig());
+    app.use(bodyParser.json());
+    app.use(bodyParser.urlencoded({ extended: true }));
     app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
         if (req.headers["origin"]) {
             res.setHeader("Access-Control-Allow-Origin", req.headers["origin"]);
@@ -24,9 +27,7 @@ async function bootstrap() {
     });
 
     try {
-        const nestApp = await NestFactory.create(ApplicationModule, app, {
-            bodyParser: true
-        });
+        const nestApp = await NestFactory.create(ApplicationModule, app);
         const packageJson = require('../package.json');
         const options = new DocumentBuilder()
             .setTitle('Event Management API')

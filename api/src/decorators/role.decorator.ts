@@ -1,6 +1,6 @@
 import { createParamDecorator } from '@nestjs/common';
-import * as express from 'express';
+import { IRequest } from '../models/i-request';
 
-export const Role = createParamDecorator((data: void, req: express.Request) => {
-    return req.header('token-claim-role');
+export const Role = createParamDecorator((data: void, req: IRequest) => {
+    return req.role;
 });

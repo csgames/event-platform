@@ -1,5 +1,6 @@
 import { Body, Controller, Post, UseGuards, UseFilters } from '@nestjs/common';
 import { Permissions } from '../../../decorators/permission.decorator';
+import { PermissionsGuard } from '../../../guards/permission.guard';
 import { ValidationPipe } from "../../../pipes/validation.pipe";
 import { CreateRegistrationGuard } from './registrations.guard';
 import { Registrations } from './registrations.model';
@@ -12,6 +13,7 @@ import { codeMap } from './registration.exception';
 
 @Controller("registration")
 @UseFilters(new CodeExceptionFilter(codeMap))
+@UseGuards(PermissionsGuard)
 export class RegistrationsController {
     constructor(private readonly registrationService: RegistrationsService) { }
 

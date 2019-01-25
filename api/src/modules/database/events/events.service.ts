@@ -90,51 +90,6 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
         return occurrencesOfAttendee > 0;
     }
 
-    public async selectAttendees(eventId, userIds: string[]) {
-        const res: GetAllWithIdsResponse = await this.stsService.getAllWithIds(userIds);
-
-        for (const user of res.users) {
-            try {
-                await this.emailService.sendEmail({
-                    from: 'PolyHx <info@polyhx.io>',
-                    to: [user.username],
-                    subject: 'Hackatown 2019 - Selection',
-                    text: 'LHGames 2018 - Selection',
-                    html: '<h1>Congrats</h1>',
-                    template: 'hackatown2019-selection',
-                    variables: {
-                        name: user.username
-                    }
-                });
-            } catch (err) {
-                console.log(err);
-            }
-        }
-
-        const attendees = await this.attendeeService.find({
-            userId: {
-                $in: userIds
-            }
-        });
-        for (const attendee of attendees) {
-            await this.eventsModel.update({
-                '_id': eventId,
-                'attendees.attendee': attendee._id
-            }, {
-                'attendees.$.selected': true
-            }).exec();
-        }
-    }
-
-    public async getFilteredActivities(eventId: string, filter: DataTableModel): Promise<DataTableReturnModel> {
-        const event: Events = await this.findOne({_id: eventId});
-        if (!event) {
-            throw new EventNotFoundException();
-        }
-
-        return this.activitiesService.filterFrom(event.activities as string[], filter);
-    }
-
     public async createActivity(id: string, dto: CreateActivityDto): Promise<Events> {
         const event = await this.findById(id);
         if (!event) {
@@ -157,49 +112,6 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
                 $in: event.activities
             }
         });
-    }
-
-    public async getStats(eventId: string): Promise<object> {
-        const event = await this.findById(eventId);
-        const activities = await this.getActivities(eventId);
-        const teams = await this.teamsModel.find({event: eventId});
-
-        const stats = {};
-        stats['registered'] = event.attendees.length;
-        stats['present_teams'] = teams.filter(t => t.present).length;
-
-        stats['activities'] = activities.reduce((acc, a) => Object.assign(acc, {[a.name]: a.attendees.length}), {});
-
-        return stats;
-    }
-
-    public async getFilteredSponsors(eventId: string, filter: DataTableModel): Promise<DataTableReturnModel> {
-        const event: Events = await this.eventsModel.findOne({
-            _id: eventId
-        })
-            .select('sponsors')
-            .populate('sponsors.sponsor')
-            .exec();
-        if (!event) {
-            throw new EventNotFoundException();
-        }
-
-        const data: DataTableReturnModel = <DataTableReturnModel> {
-            draw: filter.draw,
-            recordsTotal: event.sponsors.length
-        };
-
-        data.data = event.sponsors
-            .filter((value, index) => index >= filter.start && index <= (filter.start + filter.length))
-            .map(x => {
-                return {
-                    ...(x.sponsor as any)._doc,
-                    tier: x.tier
-                };
-            });
-        data.recordsFiltered = data.recordsTotal;
-
-        return data;
     }
 
     public async getSponsors(eventId: string): Promise<{ [tier: string]: EventSponsorDetails[] }> {

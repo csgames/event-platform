@@ -26,7 +26,8 @@ export class CacheService {
         };
     }
 
-    public async invalidateCache(eventId: string) {
-        await this.redisService.scanDel(`*:${eventId}:*`);
+    public async invalidateCache() {
+        await this.redisService.scanDel(`*:permissions`);
+        await this.redisService.scanDel(`*:role`);
     }
 }

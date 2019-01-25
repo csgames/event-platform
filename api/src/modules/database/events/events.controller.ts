@@ -45,7 +45,6 @@ export class EventsController {
     }
 
     @Get()
-    @Permissions('csgames-api:get-all:event')
     public async getAll(): Promise<Events[]> {
         return await this.eventsService.findAll();
     }

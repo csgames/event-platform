@@ -7,10 +7,6 @@ export const User = createParamDecorator((data: void, req: express.Request) => {
     }
     return  {
         id: req.header('token-claim-user_id'),
-        username: req.header('token-claim-name'),
-        firstName: req.header('token-claim-firstName'),
-        lastName: req.header('token-claim-lastName'),
-        role: req.header('token-claim-role'),
-        permissions: JSON.parse(req.header('token-claim-permissions'))
+        username: req.header('token-claim-name')
     };
 });

@@ -45,7 +45,7 @@ export class CreateRegistrationDto {
     @ValidateIf(x => x.role === 'captain')
     @IsNotEmpty()
     @ApiModelProperty({ required: true })
-    maxMembersNumber: number
+    maxMembersNumber: number;
 }
 
 export class RegisterAttendeeDto {
