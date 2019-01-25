@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using MongoDB.Bson;
+using MongoDB.Driver;
 
 namespace STS.Interface
 {
@@ -11,6 +13,7 @@ namespace STS.Interface
     public interface IRepository
     {
         System.Linq.IQueryable<T> All<T>() where T : class, new();
+        IFindFluent<T, T> Find<T>(BsonDocument doc) where T : class, new();
         IQueryable<T> Where<T>(System.Linq.Expressions.Expression<Func<T, bool>> expression) where T : class, new();
         T Single<T>(Expression<Func<T, bool>> expression) where T : class, new();
         void Delete<T>(Expression<Func<T, bool>> expression) where T : class, new();

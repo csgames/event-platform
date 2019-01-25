@@ -3,6 +3,8 @@ using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using MongoDB.Bson;
+using MongoDB.Driver;
 using STS.Attributes;
 using STS.Inputs;
 using STS.Interface;
@@ -68,6 +70,29 @@ namespace STS.Controllers
                 {
                     success = true,
                     role
+                });
+            });
+        }
+
+        [Authorize]
+        [RequiresPermissions("sts:get-all:role")]
+        [HttpGet("name/{name}")]
+        public Task<IActionResult> GetByName(string name)
+        {
+            return Task.Run<IActionResult>(() =>
+            {
+                var role = _db.Single<Role>(r => r.Name == name);
+                var ids = new BsonArray(role.Permissions.Select(x => new ObjectId(x)));
+                var permissions = _db.Find<Permission>(new BsonDocument("_id", new BsonDocument("$in", ids))).ToList().Select(x => x.Name).ToArray();
+                return Ok(new
+                {
+                    success = true,
+                    role = new
+                    {
+                        role.Id,
+                        role.Name,
+                        Permissions = permissions
+                    }
                 });
             });
         }

@@ -24,6 +24,11 @@ namespace STS.Repositories
             return _database.GetCollection<T>(typeof(T).Name).AsQueryable();
         }
 
+        public IFindFluent<T, T> Find<T>(BsonDocument doc) where T : class, new()
+        {
+            return _database.GetCollection<T>(typeof(T).Name).Find(doc);
+        }
+
         public IQueryable<T> Where<T>(System.Linq.Expressions.Expression<Func<T, bool>> expression)
             where T : class, new()
         {
