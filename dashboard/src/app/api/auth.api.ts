@@ -1,9 +1,10 @@
 import { GatewayApi } from "./gateway.api";
 import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
-import { Login } from "./definitions/auth";
+import { IsLoggedIn, Login } from "./definitions/auth";
 import { Injectable } from "@angular/core";
 import { LoginDto } from "./dto/auth";
+import { map } from "rxjs/operators";
 
 @Injectable()
 export class AuthApi extends GatewayApi {
@@ -13,5 +14,15 @@ export class AuthApi extends GatewayApi {
 
     public login(dto: LoginDto): Observable<Login> {
         return this.http.post<Login>(this.url("login"), dto, { withCredentials: true });
+    }
+
+    public logout(): Observable<void> {
+        return this.http.get<void>(this.url("logout"), { withCredentials: true });
+    }
+
+    public isLoggedIn(): Observable<boolean> {
+        return this.http.get<IsLoggedIn>(this.url("isloggedin"), { withCredentials: true }).pipe(
+            map(l => l.logged_in)
+        );
     }
 }

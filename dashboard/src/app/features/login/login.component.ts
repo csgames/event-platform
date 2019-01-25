@@ -1,9 +1,9 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, HostListener, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { State } from "./store/login.reducer";
 import { select, Store } from "@ngrx/store";
 import * as fromLogin from "./store/login.reducer";
-import { PerformLogin } from "./store/login.actions";
+import { PerformLogin, ResetError } from "./store/login.actions";
 
 @Component({
     selector: "app-login",
@@ -28,5 +28,15 @@ export class LoginComponent implements OnInit {
             password: this.password,
             remember: true
         }));
+    }
+
+    @HostListener("keyup", ["$event"])
+    onChange(event: KeyboardEvent) {
+        if (event) {
+            this.store$.dispatch(new ResetError());
+            if (event.keyCode === 13) {
+                this.clickSignIn();
+            }
+        }
     }
 }

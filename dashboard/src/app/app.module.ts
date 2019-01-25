@@ -20,6 +20,11 @@ import { ApiModule } from "./api/api.module";
 import { TranslateLoader, TranslateModule } from "@ngx-translate/core";
 import { TranslateHttpLoader } from "@ngx-translate/http-loader";
 import { HttpClient } from "@angular/common/http";
+import { AuthenticationService } from "./providers/authentication.service";
+import { AuthenticatedGuard } from "./utils/authenticated.guard";
+import { NotAuthenticatedGuard } from "./utils/not-authenticated.guard";
+import { AttendeeService } from "./providers/attendee.service";
+import { StoreRouterConnectingModule } from "@ngrx/router-store";
 
 export function loadFactory(http: HttpClient): TranslateHttpLoader {
     return new TranslateHttpLoader(http, "../assets/i18n/", ".json");
@@ -49,11 +54,17 @@ export function loadFactory(http: HttpClient): TranslateHttpLoader {
         EffectsModule.forRoot([
             AppEffects
         ]),
+        StoreRouterConnectingModule.forRoot(),
         !environment.production ? StoreDevtoolsModule.instrument() : [],
         BrowserAnimationsModule
 
     ],
-    providers: [],
+    providers: [
+        AuthenticationService,
+        AttendeeService,
+        AuthenticatedGuard,
+        NotAuthenticatedGuard
+    ],
     bootstrap: [AppComponent]
 })
 export class AppModule {
