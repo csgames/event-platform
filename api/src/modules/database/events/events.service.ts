@@ -36,6 +36,13 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
         super(eventsModel);
     }
 
+    public async getEventList(): Promise<Events[]> {
+        return await this.eventsModel.find().select({
+            name: true,
+            imageUrl: true
+        }).exec();
+    }
+
     public async addAttendee(eventId: string, userIdOrAttendee: string | Attendees, role: string): Promise<Events> {
         let attendee: Attendees;
         if (typeof userIdOrAttendee === "string") {
