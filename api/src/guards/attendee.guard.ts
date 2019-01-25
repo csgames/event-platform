@@ -17,6 +17,8 @@ export class AttendeeGuard implements CanActivate {
 
         const email = req.header('token-claim-name');
         const eventId = req.header('eventId');
+        req.eventId = eventId;
+
         const cache = await this.cacheService.getUserCache(email, eventId);
         if (cache) {
             req.permissions = cache.permissions;

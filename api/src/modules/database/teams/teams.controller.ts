@@ -1,6 +1,7 @@
-import { BadRequestException, Body, Controller, Delete, Get, Param, Post, Query, UseFilters, UseGuards, Put } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Get, Headers, Param, Put, UseFilters, UseGuards } from '@nestjs/common';
 import { ApiUseTags } from '@nestjs/swagger';
 import { STSService } from '@polyhx/nest-services';
+import { EventId } from '../../../decorators/event-id.decorator';
 import { Permissions } from '../../../decorators/permission.decorator';
 import { User } from '../../../decorators/user.decorator';
 import { CodeExceptionFilter } from '../../../filters/code-error/code.filter';
@@ -10,10 +11,10 @@ import { ValidationPipe } from '../../../pipes/validation.pipe';
 import { Attendees } from '../attendees/attendees.model';
 import { AttendeesService } from '../attendees/attendees.service';
 import { EventsService } from '../events/events.service';
-import { CreateTeamDto, UpdateTeamDto } from './teams.dto';
+import { UpdateTeamDto } from './teams.dto';
 import { codeMap } from './teams.exception';
 import { Teams } from './teams.model';
-import { LeaveTeamResponse, TeamsService } from './teams.service';
+import { TeamsService } from './teams.service';
 
 @ApiUseTags('Team')
 @Controller('team')
@@ -43,38 +44,33 @@ export class TeamsController {
 
     @Get('info')
     @Permissions('csgames-api:get:team')
-    public async getInfo(@User() user: UserModel, @Query('event') event: string): Promise<Teams> {
-        return this.getTeamByUserAndEvent(event, user.id);
+    public async getInfo(@User() user: UserModel, @EventId() eventId: string): Promise<Teams> {
+        return this.getTeamByUserAndEvent(eventId, user.username);
     }
 
-    @Get('event/:eventId/user/:userId')
+    @Get('event/:eventId/user/:email')
     @Permissions('csgames-api:get:team')
-    public async getTeamByUserAndEvent(@Param('eventId') event: string, @Param('userId') userId: string): Promise<Teams> {
+    public async getTeamByUserAndEvent(@Param('eventId') event: string, @Param('email') email: string): Promise<Teams> {
         if (!event) {
             throw new BadRequestException('Event not specified');
         }
 
-        const attendee = await this.attendeesService.findOne({userId: userId});
+        const attendee = await this.attendeesService.findOne({ email });
         if (!attendee) {
             return null;
         }
 
-        const team = await this.teamsService.findOneLean({
+        return await this.teamsService.findOneLean({
             attendees: attendee._id,
             event
-        }, {
+        }, [{
             path: 'attendees',
-            model: 'attendees'
-        });
-
-        if (!team) {
-            return null;
-        }
-
-        for (const a of team.attendees as (Attendees & { status: string })[]) {
-            a.user = (await this.stsService.getAllWithIds([a.email])).users[0];
-        }
-        return team;
+            model: 'attendees',
+            select: ['email', 'firstName', 'github', 'lastName', 'linkedIn', 'website']
+        }, {
+            path: 'school',
+            model: 'schools'
+        }]);
     }
 
     @Get(':id')
