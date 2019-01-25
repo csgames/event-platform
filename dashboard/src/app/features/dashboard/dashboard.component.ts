@@ -2,6 +2,9 @@ import { Component, OnInit } from "@angular/core";
 import { Observable } from "rxjs";
 import { BreakpointObserver, Breakpoints } from "@angular/cdk/layout";
 import { map } from "rxjs/operators";
+import { LoadCurrentAttendee } from "../../store/app.actions";
+import { State } from "../../store/app.reducers";
+import { Store } from "@ngrx/store";
 
 @Component({
     selector: "app-dashboard",
@@ -16,7 +19,9 @@ export class DashboardComponent implements OnInit {
             map(result => result.matches)
         );
 
-    constructor(private breakpointObserver: BreakpointObserver) {}
+    constructor(private breakpointObserver: BreakpointObserver, private store$: Store<State>) {
+        this.store$.dispatch(new LoadCurrentAttendee());
+    }
 
     ngOnInit() {
     }

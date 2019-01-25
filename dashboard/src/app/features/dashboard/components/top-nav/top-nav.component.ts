@@ -1,6 +1,10 @@
 import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 import { SimpleModalService } from "ngx-simple-modal";
 import { NotificationsListModalComponent } from "../../../../modals/notifications-list-modal/notifications-list-modal.component";
+import { State } from "../../../../store/app.reducers";
+import { select, Store } from "@ngrx/store";
+import { Logout } from "../../../../store/app.actions";
+import * as fromApp from "../../../../store/app.reducers";
 
 @Component({
     selector: "app-top-nav",
@@ -18,7 +22,12 @@ export class TopNavComponent implements OnInit {
 
     private _toggleSideNav = false;
 
-    constructor(private modalService: SimpleModalService) { }
+    public currentAttendee$ = this.store$.pipe(select(fromApp.getCurrentAttendee));
+
+    constructor(
+        private modalService: SimpleModalService,
+        private store$: Store<State>
+    ) { }
 
     ngOnInit() { }
 
@@ -29,5 +38,9 @@ export class TopNavComponent implements OnInit {
     clickToggleSideNav() {
         this._toggleSideNav = !this._toggleSideNav;
         this.toggleSideNav.emit(this._toggleSideNav);
+    }
+
+    clickLogout() {
+        this.store$.dispatch(new Logout());
     }
 }

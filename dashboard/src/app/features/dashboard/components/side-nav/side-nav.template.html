@@ -1,90 +1,76 @@
 <div class="side-nav-wrapper">
     <img class="logo" src="http://2019.csgames.org/assets/file/CSGames_19_logoOriginal.png">
 
-    <ul class="navigation">
-        <li class="active">
-            <a href="">
-                <div [fxLayout]="'row'" fxFlexFill>
-                    <div fxFlex="20">
-                        <i class="fas fa-home"></i>
-                    </div>
-                    <div fxFlex="80">
-                        Home
-                    </div>
+    <div class="navigation">
+        <a [routerLink]="['/home']" routerLinkActive="active">
+            <div [fxLayout]="'row'" fxFlexFill>
+                <div fxFlex="20">
+                    <i class="fas fa-home"></i>
                 </div>
-            </a>
-        </li>
-        <li>
-            <a href="">
-                <div [fxLayout]="'row'" fxFlexFill>
-                    <div fxFlex="20">
-                        <i class="fas fa-book"></i>
-                    </div>
-                    <div fxFlex="80">
-                        Guide
-                    </div>
+                <div fxFlex="80">
+                    Home
                 </div>
-            </a>
-        </li>
-        <li>
-            <a href="">
-                <div [fxLayout]="'row'" fxFlexFill>
-                    <div fxFlex="20">
-                        <i class="far fa-calendar"></i>
-                    </div>
-                    <div fxFlex="80">
-                        Schedule
-                    </div>
+            </div>
+        </a>
+        <a [routerLink]="['/guide']" routerLinkActive="active">
+            <div [fxLayout]="'row'" fxFlexFill>
+                <div fxFlex="20">
+                    <i class="fas fa-book"></i>
                 </div>
-            </a>
-        </li>
-        <li>
-            <a href="">
-                <div [fxLayout]="'row'" fxFlexFill>
-                    <div fxFlex="20">
-                        <i class="fas fa-puzzle-piece"></i>
-                    </div>
-                    <div fxFlex="80">
-                        Puzzle Hero
-                    </div>
+                <div fxFlex="80">
+                    Guide
                 </div>
-            </a>
-        </li>
-        <li>
-            <a [routerLink]="['/team']">
-                <div [fxLayout]="'row'" fxFlexFill>
-                    <div fxFlex="20">
-                        <i class="fas fa-users"></i>
-                    </div>
-                    <div fxFlex="80">
-                        Team
-                    </div>
+            </div>
+        </a>
+        <a [routerLink]="['/schedule']" routerLinkActive="active">
+            <div [fxLayout]="'row'" fxFlexFill>
+                <div fxFlex="20">
+                    <i class="far fa-calendar"></i>
                 </div>
-            </a>
-        </li>
-        <li>
-            <a href="">
-                <div [fxLayout]="'row'" fxFlexFill>
-                    <div fxFlex="20">
-                        <i class="far fa-gem"></i>
-                    </div>
-                    <div fxFlex="80">
-                        Sponsors
-                    </div>
+                <div fxFlex="80">
+                    Schedule
                 </div>
-            </a>
-        </li>
-        <li>
-            <a href="">
-                <div [fxLayout]="'row'" fxFlexFill>
-                    <div fxFlex="20">
-                        <i class="fas fa-trophy"></i>
-                    </div>
-                    <div fxFlex="80">
-                        Competitions
-                    </div>
+            </div>
+        </a>
+        <a [routerLink]="['/puzzle-hero']" routerLinkActive="active">
+            <div [fxLayout]="'row'" fxFlexFill>
+                <div fxFlex="20">
+                    <i class="fas fa-puzzle-piece"></i>
                 </div>
-            </a>
-        </li>
-    </ul>
+                <div fxFlex="80">
+                    Puzzle Hero
+                </div>
+            </div>
+        </a>
+        <a [routerLink]="['/team']" routerLinkActive="active">
+            <div [fxLayout]="'row'" fxFlexFill>
+                <div fxFlex="20">
+                    <i class="fas fa-users"></i>
+                </div>
+                <div fxFlex="80">
+                    Team
+                </div>
+            </div>
+        </a>
+        <a [routerLink]="['/sponsor']" routerLinkActive="active">
+            <div [fxLayout]="'row'" fxFlexFill>
+                <div fxFlex="20">
+                    <i class="far fa-gem"></i>
+                </div>
+                <div fxFlex="80">
+                    Sponsors
+                </div>
+            </div>
+        </a>
+        <a [routerLink]="['/competition']" routerLinkActive="active">
+            <div [fxLayout]="'row'" fxFlexFill>
+                <div fxFlex="20">
+                    <i class="fas fa-trophy"></i>
+                </div>
+                <div fxFlex="80">
+                    Competitions
+                </div>
+            </div>
+        </a>
+    </div>
 </div>
