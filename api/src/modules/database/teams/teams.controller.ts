@@ -1,6 +1,5 @@
-import { BadRequestException, Body, Controller, Get, Headers, Param, Put, UseFilters, UseGuards } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Get, Param, Put, UseFilters, UseGuards } from '@nestjs/common';
 import { ApiUseTags } from '@nestjs/swagger';
-import { STSService } from '@polyhx/nest-services';
 import { EventId } from '../../../decorators/event-id.decorator';
 import { Permissions } from '../../../decorators/permission.decorator';
 import { User } from '../../../decorators/user.decorator';
@@ -8,9 +7,7 @@ import { CodeExceptionFilter } from '../../../filters/code-error/code.filter';
 import { PermissionsGuard } from '../../../guards/permission.guard';
 import { UserModel } from '../../../models/user.model';
 import { ValidationPipe } from '../../../pipes/validation.pipe';
-import { Attendees } from '../attendees/attendees.model';
 import { AttendeesService } from '../attendees/attendees.service';
-import { EventsService } from '../events/events.service';
 import { UpdateTeamDto } from './teams.dto';
 import { codeMap } from './teams.exception';
 import { Teams } from './teams.model';
@@ -22,9 +19,7 @@ import { TeamsService } from './teams.service';
 @UseFilters(new CodeExceptionFilter(codeMap))
 export class TeamsController {
     constructor(private readonly teamsService: TeamsService,
-                private readonly attendeesService: AttendeesService,
-                private readonly eventsService: EventsService,
-                private readonly stsService: STSService) {
+                private readonly attendeesService: AttendeesService) {
     }
 
     @Put(':id')
@@ -76,15 +71,14 @@ export class TeamsController {
     @Get(':id')
     @Permissions('csgames-api:get:team')
     public async get(@Param('id') id: string): Promise<Teams> {
-        const team = await this.teamsService.findOneLean({
+        return await this.teamsService.findOneLean({
             _id: id
-        }, {
+        }, [{
             path: 'attendees',
             model: 'attendees'
-        });
-        for (const a of team.attendees as (Attendees & { status: string })[]) {
-            a.user = (await this.stsService.getAllWithIds([a.email])).users[0];
-        }
-        return team;
+        }, {
+            path: 'school',
+            model: 'schools'
+        }]);
     }
 }

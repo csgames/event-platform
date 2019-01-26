@@ -1,5 +1,6 @@
 import { Controller, Delete, Get } from '@nestjs/common';
 import { PublicRoute } from 'nestjs-jwt2';
+import { Permissions } from '../../decorators/permission.decorator';
 import { CacheService } from '../cache/cache.service';
 import { ConfigService } from '../configs/config.service';
 
@@ -19,6 +20,7 @@ export class InfoController {
     }
 
     @Delete()
+    @Permissions('csgames-api:invalidate-cache:root')
     public async invalidateCache() {
         await this.cacheService.invalidateCache();
     }
