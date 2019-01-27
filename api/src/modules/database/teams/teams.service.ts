@@ -47,7 +47,7 @@ export class TeamsService extends BaseService<Teams, CreateTeamDto> {
                 throw new InvalidNameException();
             }
         }
-        let team = await this.findOne({ name: name });
+        let team = await this.findOne({ name, event: updateTeamDto.eventId });
         if (team) {
             throw new TeamAlreadyCreatedException();
         }

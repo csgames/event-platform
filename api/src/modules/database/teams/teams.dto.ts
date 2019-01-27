@@ -36,4 +36,9 @@ export class UpdateTeamDto {
     @MaxLength(30)
     @ApiModelProperty({required: true})
     name: string;
+
+    @IsMongoId()
+    @IsNotEmpty()
+    @ApiModelProperty({required: true})
+    eventId: string;
 }
