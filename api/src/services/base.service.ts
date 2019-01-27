@@ -46,7 +46,7 @@ export class BaseService<T extends Document, Dto> {
         }
     }
 
-    async findOneLean(condition: Object, populate?: ModelPopulateOptions | string): Promise<T> {
+    async findOneLean(condition: Object, populate?: ModelPopulateOptions | ModelPopulateOptions[] | string): Promise<T> {
         if (!populate) {
             return this.model.findOne(condition).lean().exec() as Promise<T>;
         } else {
@@ -71,6 +71,6 @@ export class BaseService<T extends Document, Dto> {
     }
 
     async remove(condition: Object): Promise<void> {
-        return this.model.remove(condition).exec();
+        await this.model.remove(condition).exec();
     }
 }

@@ -1,13 +1,14 @@
 import { CanActivate, ExecutionContext, ForbiddenException, Injectable } from '@nestjs/common';
 import * as express from 'express';
+import { IRequest } from '../../../models/i-request';
 import { CreateRegistrationDto } from './registrations.dto';
 
 @Injectable()
 export class CreateRegistrationGuard implements CanActivate {
     public canActivate(context: ExecutionContext): boolean {
-        const req = context.switchToHttp().getRequest<express.Request>();
+        const req = context.switchToHttp().getRequest<IRequest>();
         const body = req.body as CreateRegistrationDto;
-        const role = req.header('token-claim-role');
+        const role = req.role;
 
         if (body.role === 'captain' && role === 'captain') {
             throw new ForbiddenException();

@@ -1,5 +1,6 @@
-import { Body, Controller, Post, UseGuards, UseFilters } from '@nestjs/common';
+import { Body, Controller, Post, UseGuards, UseFilters, Get, Param } from '@nestjs/common';
 import { Permissions } from '../../../decorators/permission.decorator';
+import { PermissionsGuard } from '../../../guards/permission.guard';
 import { ValidationPipe } from "../../../pipes/validation.pipe";
 import { CreateRegistrationGuard } from './registrations.guard';
 import { Registrations } from './registrations.model';
@@ -12,6 +13,7 @@ import { codeMap } from './registration.exception';
 
 @Controller("registration")
 @UseFilters(new CodeExceptionFilter(codeMap))
+@UseGuards(PermissionsGuard)
 export class RegistrationsController {
     constructor(private readonly registrationService: RegistrationsService) { }
 
@@ -26,5 +28,11 @@ export class RegistrationsController {
     @PublicRoute()
     public async registerAttendee(@Body(new ValidationPipe()) user: RegisterAttendeeDto) {
         await this.registrationService.registerAttendee(user);
+    }
+
+    @Get(':uuid')
+    @PublicRoute()
+    public async getRegistrationInfo(@Param('uuid') uuid: string): Promise<Registrations> {
+        return await this.registrationService.getRegistrationInfo(uuid);
     }
 }

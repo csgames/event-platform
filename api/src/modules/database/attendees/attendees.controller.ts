@@ -1,5 +1,5 @@
 import {
-    BadRequestException, Body, Controller, Delete, Get, Param, Post, Put, UploadedFile, UseFilters, UseGuards
+    BadRequestException, Body, Controller, Delete, Get, NotFoundException, Param, Post, Put, UploadedFile, UseFilters, UseGuards
 } from '@nestjs/common';
 import { ApiUseTags } from '@nestjs/swagger';
 import { StorageService } from '@polyhx/nest-services';
@@ -46,13 +46,16 @@ export class AttendeesController {
     }
 
     @Get('info')
-    @UseGuards(AttendeesGuard)
-    public async getInfo(@User() user: UserModel): Promise<Attendees> {
-        const attendee = await this.attendeesService.findOne({ userId: user.id });
-        if (attendee) {
-            return await this.appendCvMetadata(attendee);
+    public async getInfo(@User() user: UserModel): Promise<Attendees & { role: string; permissions: string[] }> {
+        const attendee = await this.attendeesService.findOne({ email: user.username });
+        if (!attendee) {
+            throw new NotFoundException();
         }
-        return attendee;
+        return {
+            ...(await this.appendCvMetadata(attendee)),
+            permissions: user.permissions,
+            role: user.role
+        };
     }
 
     @Get('cv/url')
@@ -129,10 +132,12 @@ export class AttendeesController {
     }
 
     private async appendCvMetadata(a: Attendees) {
-        if (!a.cv) {
-            return a;
+        const newAttendee = a.toJSON();
+
+        if (!newAttendee.cv) {
+            return newAttendee;
         }
-        const newAttendee = a.toObject();
+
         newAttendee['cv'] = await this.storageService.getMetadata(a.cv);
         return newAttendee;
     }

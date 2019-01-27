@@ -1,25 +1,39 @@
 import { Injectable } from '@nestjs/common';
+import { GlobalConfig } from './models/global-config';
 import { MongoConfig } from './models/mongo-config';
 import { MessagingConfig } from './models/messaging-config';
 import { NexmoConfig } from './models/nexmo-config';
 import { RegistrationConfig } from './models/registration-config';
+import { RedisConfig } from './models/redis-config';
 
 @Injectable()
 export class ConfigService {
+    public global: GlobalConfig;
     public mongo: MongoConfig;
     public messaging: MessagingConfig;
     public nexmo: NexmoConfig;
     public registration: RegistrationConfig;
+    public redisConfig: RedisConfig;
 
     constructor() {
         this.loadConfigs();
     }
 
     private loadConfigs() {
+        this.loadGlobalConfig();
         this.loadMongoConfig();
         this.loadMessagingConfig();
         this.loadNexmo();
         this.loadRegistration();
+        this.loadRedis();
+    }
+
+    private loadGlobalConfig() {
+        const packageJson = require('../../../package.json');
+        this.global = {
+            mode: process.env.NODE_ENV || 'development',
+            version: process.env.VERSION || packageJson.version
+        };
     }
 
     private loadMongoConfig() {
@@ -49,6 +63,14 @@ export class ConfigService {
     private loadRegistration() {
         this.registration = {
             registrationUrl: process.env.ACCOUNT_CREATION_URL
+        };
+    }
+
+    private loadRedis() {
+        this.redisConfig = {
+            host: process.env.REDIS_HOST,
+            password: process.env.REDIS_PASSWORD,
+            port: +process.env.REDIS_PORT
         };
     }
 }

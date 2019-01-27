@@ -6,7 +6,6 @@ import { Attendees } from '../attendees/attendees.model';
 export interface Registrations extends mongoose.Document {
     uuid: string;
     attendee: (Attendees | mongoose.Types.ObjectId | string);
-    event: (Events | mongoose.Types.ObjectId | string);
     role: string;
     used: boolean;
 }
@@ -24,11 +23,6 @@ export const RegistrationsSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         required: true,
         ref: 'attendee'
-    },
-    event: {
-        type: mongoose.Schema.Types.ObjectId,
-        required: true,
-        ref: 'event'
     },
     role: {
         type: String,

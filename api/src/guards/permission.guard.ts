@@ -1,6 +1,6 @@
 import { CanActivate, ExecutionContext, Injectable, UnauthorizedException } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-import * as express from 'express';
+import { IRequest } from '../models/i-request';
 
 @Injectable()
 export class PermissionsGuard implements CanActivate {
@@ -10,12 +10,12 @@ export class PermissionsGuard implements CanActivate {
     public canActivate(context: ExecutionContext): boolean {
         let userPermissions;
 
-        const req = context.switchToHttp().getRequest<express.Request>();
+        const req = context.switchToHttp().getRequest<IRequest>();
         try {
-            if (req.header('token-claim-permissions')) {
-                userPermissions = JSON.parse(req.header('token-claim-permissions'));
-            } else {
+            if (req.header('token-claim-client_permissions')) {
                 userPermissions = JSON.parse(req.header('token-claim-client_permissions'));
+            } else {
+                userPermissions = req.permissions;
             }
         } catch (err) {
             throw new UnauthorizedException('Invalid permissions claim');

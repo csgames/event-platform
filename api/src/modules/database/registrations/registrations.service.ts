@@ -1,20 +1,21 @@
 import { BadRequestException, HttpException, HttpStatus, Injectable, InternalServerErrorException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { STSService, UserModel } from '@polyhx/nest-services';
+import * as mongoose from 'mongoose';
+import { Model } from 'mongoose';
+import { CodeException } from '../../../filters/code-error/code.exception';
+import { ConfigService } from '../../configs/config.service';
+import { EmailService } from '../../email/email.service';
+import { Attendees } from '../attendees/attendees.model';
 import { AttendeesService } from '../attendees/attendees.service';
 import { EventsService } from '../events/events.service';
-import { CreateRegistrationDto, RegisterAttendeeDto } from './registrations.dto';
-import { CodeException } from '../../../filters/code-error/code.exception';
-import { Registrations } from './registrations.model';
-import { Model } from 'mongoose';
-import { EmailService } from '../../email/email.service';
-import { ConfigService } from '../../configs/config.service';
-import { TeamsService } from '../teams/teams.service';
-import { defaultPath } from 'tough-cookie';
-import { AttendeeAlreadyExistException, TeamAlreadyExistException, MaxTeamMemberException, GodFatherAlreadyExist } from './registration.exception';
-import { Attendees } from '../attendees/attendees.model';
 import { Teams } from '../teams/teams.model';
-import * as mongoose from 'mongoose';
+import { TeamsService } from '../teams/teams.service';
+import {
+    AttendeeAlreadyExistException, GodFatherAlreadyExist, InvalidCodeException, MaxTeamMemberException, TeamAlreadyExistException
+} from './registration.exception';
+import { CreateRegistrationDto, RegisterAttendeeDto } from './registrations.dto';
+import { Registrations } from './registrations.model';
 
 @Injectable()
 export class RegistrationsService {
@@ -35,12 +36,12 @@ export class RegistrationsService {
     }
 
     public async create(dto: CreateRegistrationDto, role: string) {
-        let att = await this.attendeeService.findOne({email: dto.email});
+        const att = await this.attendeeService.findOne({email: dto.email});
         if (att) {
             throw new AttendeeAlreadyExistException();
         }
 
-        let team = await this.teamsService.findOne({name: dto.teamName, event: dto.eventId});
+        const team = await this.teamsService.findOne({name: dto.teamName, event: dto.eventId});
         if (team && dto.role === 'captain') {
             throw new TeamAlreadyExistException();
         }
@@ -50,14 +51,13 @@ export class RegistrationsService {
             firstName: dto.firstName,
             lastName: dto.lastName
         });
-        
+
         let registration = new this.registrationsModel({
-            event: dto.eventId,
             attendee: attendee._id,
             role: dto.role
         });
         registration = await registration.save();
-        
+
         if (dto.role === 'captain' && role === 'admin') {
             await this.teamsService.createTeam({
                 name: dto.teamName,
@@ -107,24 +107,25 @@ export class RegistrationsService {
             throw new MaxTeamMemberException();
         }
 
-        let event = await this.eventService.findOne({ _id: dto.eventId });
-        let attendeeIds = team.attendees.map(x => (x as mongoose.Types.ObjectId).toHexString());
-        let members = event.attendees.filter(attendeeEvent => attendeeIds.includes((attendeeEvent.attendee as mongoose.Types.ObjectId).toHexString()));
+        const event = await this.eventService.findOne({ _id: dto.eventId });
+        const attendeeIds = team.attendees.map(x => (x as mongoose.Types.ObjectId).toHexString());
+        const members = event.attendees.filter(attendeeEvent => attendeeIds
+            .includes((attendeeEvent.attendee as mongoose.Types.ObjectId).toHexString()));
 
-        let godfather = members.filter(attendeeEvent => attendeeEvent.role === 'godfather');
+        const godfather = members.filter(attendeeEvent => attendeeEvent.role === 'godfather');
         if (dto.role === 'godfather') {
             if (godfather.length > 0) {
                 await this.attendeeService.remove({_id: attendee._id});
                 throw new GodFatherAlreadyExist();
             }
         } else {
-            let attendees = members.filter(attendeeEvent => attendeeEvent.role !== 'godfather');
+            const attendees = members.filter(attendeeEvent => attendeeEvent.role !== 'godfather');
             if (attendees.length >= 10) {
                 await this.attendeeService.remove({_id: attendee._id});
                 throw new MaxTeamMemberException();
             }
         }
-        
+
         await this.teamsService.update({name: dto.teamName, event: dto.eventId}, {
             $push: {
                 attendees: attendee._id
@@ -138,8 +139,7 @@ export class RegistrationsService {
         }
 
         const registration = await this.registrationsModel.findOne({
-            uuid: userDto.uuid,
-            event: userDto.eventId
+            uuid: userDto.uuid
         }).exec();
 
         if (!registration || registration.used) {
@@ -150,7 +150,7 @@ export class RegistrationsService {
             await this.stsService.registerUser({
                 username: userDto.username,
                 password: userDto.password,
-                roleId: this.roles[registration.role],
+                roleId: this.roles['attendee'],
             } as UserModel);
 
             await this.attendeeService.update({
@@ -172,6 +172,22 @@ export class RegistrationsService {
 
             throw new HttpException("Error while creating attendee", HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    public async getRegistrationInfo(uuid: string): Promise<Registrations> {
+        const registration = await this.registrationsModel.findOne({
+            uuid
+        }).populate({
+            path: 'attendee',
+            model: 'attendees',
+            select: ['email', 'firstName', 'lastName']
+        });
+
+        if (!registration || registration.used) {
+            throw new InvalidCodeException();
+        }
+
+        return registration;
     }
 
     private async fetchRoles() {

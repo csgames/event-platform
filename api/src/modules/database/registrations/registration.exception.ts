@@ -7,7 +7,8 @@ export enum Code {
     ATTENDEE_ALREADY_EXIST,
     TEAM_ALREADY_EXIST,
     MAX_TEAM_MEMBER_NUMBER,
-    GOD_FATHER_ALREADY_EXIST
+    GOD_FATHER_ALREADY_EXIST,
+    INVALID_CODE
 }
 
 export const codeMap: CodeMap = {
@@ -30,8 +31,12 @@ export const codeMap: CodeMap = {
     [Code.GOD_FATHER_ALREADY_EXIST]: {
         message: 'The current team has already a god father.',
         statusCode: HttpStatus.BAD_REQUEST
+    },
+    [Code.INVALID_CODE]: {
+        message: 'Invalid code',
+        statusCode: HttpStatus.BAD_REQUEST
     }
-}
+};
 
 export class AttendeeAlreadyExistException extends CodeException {
     constructor() {
@@ -54,5 +59,11 @@ export class MaxTeamMemberException extends CodeException {
 export class GodFatherAlreadyExist extends CodeException {
     constructor () {
         super(Code.GOD_FATHER_ALREADY_EXIST);
+    }
+}
+
+export class InvalidCodeException extends CodeException {
+    constructor () {
+        super(Code.INVALID_CODE);
     }
 }
