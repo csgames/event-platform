@@ -2,6 +2,7 @@ import * as express from 'express';
 import * as path from 'path';
 import * as http from 'http';
 import * as logger from 'morgan';
+import * as cors from 'cors';
 import * as cookieParser from 'cookie-parser';
 import * as bodyParser from 'body-parser';
 import * as session from 'express-session';
@@ -30,6 +31,11 @@ export class Application {
 
     private config() {
         this.app.use(logger('dev'));
+        this.app.use(cors({
+            allowedHeaders: ['content-type', 'event-id'],
+            credentials: true,
+            origin: process.env.APP_URL.split(' ')
+        }));
         this.app.use(bodyParser.json());
         this.app.use(bodyParser.urlencoded({ extended: true }));
         this.app.use(cookieParser(process.env.COOKIE_SECRET));
@@ -60,9 +66,6 @@ export class Application {
         }));
 
         this.app.use(function(req, res, next) {
-            res.setHeader("Access-Control-Allow-Origin", process.env.APP_URL);
-            res.setHeader("Access-Control-Allow-Credentials", "true");
-            res.setHeader("Access-Control-Allow-Headers", "content-type, event-id");
             res.setHeader("X-XSS-Protection", "1; mode=block");
             res.setHeader("Content-security-policy", appConfig.contentSecurityPolicy);
             res.setHeader("X-frame-options", appConfig.xFrameOptions);
