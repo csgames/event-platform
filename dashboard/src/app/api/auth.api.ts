@@ -13,15 +13,30 @@ export class AuthApi extends GatewayApi {
     }
 
     public login(dto: LoginDto): Observable<Login> {
-        return this.http.post<Login>(this.url("login"), dto, { withCredentials: true });
+        return this.http.post<Login>(this.url("login"), dto, {
+            withCredentials: true,
+            headers: {
+                "With-Event": "false"
+            }
+        });
     }
 
     public logout(): Observable<void> {
-        return this.http.get<void>(this.url("logout"), { withCredentials: true });
+        return this.http.get<void>(this.url("logout"), {
+            withCredentials: true,
+            headers: {
+                "With-Event": "false"
+            }
+        });
     }
 
     public isLoggedIn(): Observable<boolean> {
-        return this.http.get<IsLoggedIn>(this.url("isloggedin"), { withCredentials: true }).pipe(
+        return this.http.get<IsLoggedIn>(this.url("isloggedin"), {
+            withCredentials: true,
+            headers: {
+                "With-Event": "false"
+            }
+        }).pipe(
             map(l => l.logged_in)
         );
     }

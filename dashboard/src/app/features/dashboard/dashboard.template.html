@@ -4,7 +4,9 @@
                  [mode]="(isHandset$ | async) ? 'over' : 'side'"
                  [opened]="!(isHandset$ | async)">
         <div class="dashboard-container">
-            <app-events-bar></app-events-bar>
+            <app-events-bar [events]="events$ | async"
+                            [currentEvent]="currentEvent$ | async"
+            ></app-events-bar>
             <app-side-nav></app-side-nav>
         </div>
     </mat-sidenav>
