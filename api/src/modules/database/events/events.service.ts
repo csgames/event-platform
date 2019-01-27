@@ -39,7 +39,9 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
     public async getEventList(): Promise<Events[]> {
         return await this.eventsModel.find().select({
             name: true,
-            imageUrl: true
+            imageUrl: true,
+            beginDate: true,
+            endDate: true
         }).exec();
     }
 
