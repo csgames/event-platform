@@ -16,7 +16,7 @@ export class AttendeeGuard implements CanActivate {
         const req = context.switchToHttp().getRequest<IRequest>();
 
         const email = req.header('token-claim-name');
-        const eventId = req.header('eventId');
+        const eventId = req.header('Event-Id');
         req.eventId = eventId;
 
         const cache = await this.cacheService.getUserCache(email, eventId);
