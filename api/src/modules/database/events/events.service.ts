@@ -1,11 +1,9 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { STSService } from '@polyhx/nest-services';
-import { GetAllWithIdsResponse } from '@polyhx/nest-services/modules/sts/sts.service';
 import * as mongoose from 'mongoose';
 import { Model } from 'mongoose';
 import { isNullOrUndefined } from 'util';
-import { DataTableModel, DataTableReturnModel } from '../../../models/data-table.model';
 import { BaseService } from '../../../services/base.service';
 import { EmailService } from '../../email/email.service';
 import { MessagingService } from '../../messaging/messaging.service';
@@ -18,9 +16,7 @@ import { Notifications } from '../notifications/notifications.model';
 import { NotificationsService } from '../notifications/notifications.service';
 import { Teams } from '../teams/teams.model';
 import { AddScannedAttendee, AddSponsorDto, CreateEventDto, SendNotificationDto } from './events.dto';
-import {
-    AttendeeAlreadyRegisteredException, AttendeeNotSelectedException, EventNotFoundException, UserNotAttendeeException
-} from './events.exception';
+import { AttendeeAlreadyRegisteredException, EventNotFoundException, UserNotAttendeeException } from './events.exception';
 import { Events, EventSponsorDetails } from './events.model';
 
 @Injectable()

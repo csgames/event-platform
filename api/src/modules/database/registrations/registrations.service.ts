@@ -6,13 +6,12 @@ import { Model } from 'mongoose';
 import { CodeException } from '../../../filters/code-error/code.exception';
 import { ConfigService } from '../../configs/config.service';
 import { EmailService } from '../../email/email.service';
-import { Attendees } from '../attendees/attendees.model';
 import { AttendeesService } from '../attendees/attendees.service';
 import { EventsService } from '../events/events.service';
-import { Teams } from '../teams/teams.model';
 import { TeamsService } from '../teams/teams.service';
 import {
-    AttendeeAlreadyExistException, GodFatherAlreadyExist, InvalidCodeException, MaxTeamMemberException, TeamAlreadyExistException
+    AttendeeAlreadyExistException, GodFatherAlreadyExist, InvalidCodeException, MaxTeamMemberException, TeamAlreadyExistException,
+    TeamDoesntExistException
 } from './registration.exception';
 import { CreateRegistrationDto, RegisterAttendeeDto } from './registrations.dto';
 import { Registrations } from './registrations.model';
@@ -36,15 +35,12 @@ export class RegistrationsService {
     }
 
     public async create(dto: CreateRegistrationDto, role: string) {
-        const att = await this.attendeeService.findOne({email: dto.email});
+        const att = await this.attendeeService.findOne({ email: dto.email });
         if (att) {
             throw new AttendeeAlreadyExistException();
         }
 
-        const team = await this.teamsService.findOne({name: dto.teamName, event: dto.eventId});
-        if (team && dto.role === 'captain') {
-            throw new TeamAlreadyExistException();
-        }
+        await this.validateTeam(dto.teamName, dto.role, dto.eventId);
 
         const attendee = await this.attendeeService.create({
             email: dto.email,
@@ -67,7 +63,11 @@ export class RegistrationsService {
                 maxMembersNumber: dto.maxMembersNumber
             });
         } else {
-            await this.addAttendeeToTeam(dto, attendee, team);
+            await this.teamsService.update({ name: dto.teamName, event: dto.eventId }, {
+                $push: {
+                    attendees: attendee._id
+                }
+            } as any);
         }
 
         await this.eventService.addAttendee(dto.eventId, attendee, dto.role);
@@ -87,7 +87,8 @@ export class RegistrationsService {
                 template: template,
                 variables: {
                     name: dto.firstName,
-                    url: `${this.configService.registration.registrationUrl}/${registration.uuid}`
+                    url: `${this.configService.registration.registrationUrl}/${registration.uuid}`,
+                    team: dto.teamName
                 }
             });
         } catch (e) {
@@ -101,38 +102,6 @@ export class RegistrationsService {
         return registration;
     }
 
-    public async addAttendeeToTeam(dto: CreateRegistrationDto, attendee: Attendees, team: Teams) {
-        if (team.attendees.length === team.maxMembersNumber) {
-            await this.attendeeService.remove({_id: attendee._id});
-            throw new MaxTeamMemberException();
-        }
-
-        const event = await this.eventService.findOne({ _id: dto.eventId });
-        const attendeeIds = team.attendees.map(x => (x as mongoose.Types.ObjectId).toHexString());
-        const members = event.attendees.filter(attendeeEvent => attendeeIds
-            .includes((attendeeEvent.attendee as mongoose.Types.ObjectId).toHexString()));
-
-        const godfather = members.filter(attendeeEvent => attendeeEvent.role === 'godfather');
-        if (dto.role === 'godfather') {
-            if (godfather.length > 0) {
-                await this.attendeeService.remove({_id: attendee._id});
-                throw new GodFatherAlreadyExist();
-            }
-        } else {
-            const attendees = members.filter(attendeeEvent => attendeeEvent.role !== 'godfather');
-            if (attendees.length >= 10) {
-                await this.attendeeService.remove({_id: attendee._id});
-                throw new MaxTeamMemberException();
-            }
-        }
-
-        await this.teamsService.update({name: dto.teamName, event: dto.eventId}, {
-            $push: {
-                attendees: attendee._id
-            }
-        } as any);
-    }
-
     public async registerAttendee(userDto: RegisterAttendeeDto) {
         if (!this.roles) {
             await this.fetchRoles();
@@ -143,14 +112,14 @@ export class RegistrationsService {
         }).exec();
 
         if (!registration || registration.used) {
-            throw new BadRequestException("Invalid uuid");
+            throw new BadRequestException('Invalid uuid');
         }
 
         try {
             await this.stsService.registerUser({
                 username: userDto.username,
                 password: userDto.password,
-                roleId: this.roles['attendee'],
+                roleId: this.roles['attendee']
             } as UserModel);
 
             await this.attendeeService.update({
@@ -170,7 +139,7 @@ export class RegistrationsService {
                 throw err;
             }
 
-            throw new HttpException("Error while creating attendee", HttpStatus.INTERNAL_SERVER_ERROR);
+            throw new HttpException('Error while creating attendee', HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -188,6 +157,39 @@ export class RegistrationsService {
         }
 
         return registration;
+    }
+
+    private async validateTeam(name: string, role: string, eventId: string) {
+        const team = await this.teamsService.findOne({ name: name, event: eventId });
+        if (role === 'captain') {
+            if (team) {
+                throw new TeamAlreadyExistException();
+            }
+            return;
+        } else if (!team) {
+            throw new TeamDoesntExistException();
+        }
+
+        if (team.attendees.length === team.maxMembersNumber) {
+            throw new MaxTeamMemberException();
+        }
+
+        const event = await this.eventService.findOne({ _id: eventId });
+        const attendeeIds = team.attendees.map(x => (x as mongoose.Types.ObjectId).toHexString());
+        const members = event.attendees.filter(attendeeEvent => attendeeIds
+            .includes((attendeeEvent.attendee as mongoose.Types.ObjectId).toHexString()));
+
+        const godfather = members.filter(attendeeEvent => attendeeEvent.role === 'godfather');
+        if (role === 'godfather') {
+            if (godfather.length > 0) {
+                throw new GodFatherAlreadyExist();
+            }
+        } else {
+            const attendees = members.filter(attendeeEvent => attendeeEvent.role !== 'godfather');
+            if (attendees.length >= 10) {
+                throw new MaxTeamMemberException();
+            }
+        }
     }
 
     private async fetchRoles() {

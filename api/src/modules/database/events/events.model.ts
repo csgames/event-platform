@@ -19,7 +19,7 @@ export interface EventSponsorDetails extends Sponsors {
     heightFactor: number;
 }
 
-export interface EventRegistrations extends mongoose.Document {
+export interface EventAttendees extends mongoose.Document {
     attendee: (Attendees | mongoose.Types.ObjectId | string);
     role: EventAttendeeTypes;
     scannedAttendees: (Attendees | mongoose.Types.ObjectId | string)[];
@@ -79,7 +79,7 @@ export interface Events extends mongoose.Document {
     readonly beginDate: Date | string;
     readonly endDate: Date | string;
     readonly activities: (Activities | mongoose.Types.ObjectId | string)[];
-    readonly attendees: EventRegistrations[];
+    readonly attendees: EventAttendees[];
     readonly sponsors: EventSponsors[];
     readonly imageUrl: string;
     readonly coverUrl: string;

@@ -6,6 +6,7 @@ export enum Code {
     UNKNOWN,
     ATTENDEE_ALREADY_EXIST,
     TEAM_ALREADY_EXIST,
+    TEAM_DOESNT_EXIST,
     MAX_TEAM_MEMBER_NUMBER,
     GOD_FATHER_ALREADY_EXIST,
     INVALID_CODE
@@ -22,6 +23,10 @@ export const codeMap: CodeMap = {
     },
     [Code.TEAM_ALREADY_EXIST]: {
         message: 'Team already exist.',
+        statusCode: HttpStatus.BAD_REQUEST
+    },
+    [Code.TEAM_DOESNT_EXIST]: {
+        message: 'Team doesn\'t exist.',
         statusCode: HttpStatus.BAD_REQUEST
     },
     [Code.MAX_TEAM_MEMBER_NUMBER]: {
@@ -45,6 +50,12 @@ export class AttendeeAlreadyExistException extends CodeException {
 }
 
 export class TeamAlreadyExistException extends CodeException {
+    constructor () {
+        super(Code.TEAM_ALREADY_EXIST);
+    }
+}
+
+export class TeamDoesntExistException extends CodeException {
     constructor () {
         super(Code.TEAM_ALREADY_EXIST);
     }

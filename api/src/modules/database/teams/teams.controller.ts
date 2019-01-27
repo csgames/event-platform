@@ -46,26 +46,12 @@ export class TeamsController {
     @Get('event/:eventId/user/:email')
     @Permissions('csgames-api:get:team')
     public async getTeamByUserAndEvent(@Param('eventId') event: string, @Param('email') email: string): Promise<Teams> {
-        if (!event) {
-            throw new BadRequestException('Event not specified');
-        }
-
         const attendee = await this.attendeesService.findOne({ email });
         if (!attendee) {
             return null;
         }
 
-        return await this.teamsService.findOneLean({
-            attendees: attendee._id,
-            event
-        }, [{
-            path: 'attendees',
-            model: 'attendees',
-            select: ['email', 'firstName', 'github', 'lastName', 'linkedIn', 'website']
-        }, {
-            path: 'school',
-            model: 'schools'
-        }]);
+        return await this.teamsService.getTeamInfo(attendee._id, event);
     }
 
     @Get(':id')

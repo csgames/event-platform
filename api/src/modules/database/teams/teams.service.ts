@@ -1,14 +1,18 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
 import { BaseService } from '../../../services/base.service';
+import { Attendees } from '../attendees/attendees.model';
+import { Events } from '../events/events.model';
 import { CreateTeamDto, UpdateTeamDto } from './teams.dto';
 import { InvalidNameException, TeamAlreadyCreatedException } from './teams.exception';
 import { Teams } from './teams.model';
+type ObjectId = Types.ObjectId;
 
 @Injectable()
 export class TeamsService extends BaseService<Teams, CreateTeamDto> {
-    constructor(@InjectModel('teams') private readonly teamsModel: Model<Teams>) {
+    constructor(@InjectModel('teams') private readonly teamsModel: Model<Teams>,
+                @InjectModel('events') private readonly eventsModel: Model<Events>) {
         super(teamsModel);
     }
 
@@ -47,6 +51,42 @@ export class TeamsService extends BaseService<Teams, CreateTeamDto> {
             model: 'schools',
             path: 'school'
         }]).exec() as Teams[];
+    }
+
+    public async getTeamInfo(attendeeId: string, eventId: string): Promise<Teams> {
+        const team = await this.findOneLean({
+            attendees: attendeeId,
+            event: eventId
+        }, [{
+            path: 'attendees',
+            model: 'attendees',
+            select: ['email', 'firstName', 'github', 'lastName', 'linkedIn', 'website']
+        }, {
+            path: 'school',
+            model: 'schools'
+        }]);
+        if (!team) {
+            throw new NotFoundException('No team found');
+        }
+
+        const event = await this.eventsModel.findOne({
+            _id: eventId
+        }).exec();
+        if (!event) {
+            throw new NotFoundException('No event found');
+        }
+
+        const members = event.attendees
+            .filter(x => team.attendees.findIndex(a => (a as Attendees)._id.equals(x.attendee as ObjectId)) >= 0);
+        for (const member of team.attendees as (Attendees & { role: string })[]) {
+            const eventMember = members.find(x => (x.attendee as ObjectId).equals(member._id));
+            if (!eventMember) {
+                continue;
+            }
+            member.role = eventMember.role;
+        }
+
+        return team;
     }
 
     public async setTeamToPresent(eventId: string, attendeeId: string): Promise<Teams> {
