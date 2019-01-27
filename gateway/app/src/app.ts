@@ -55,15 +55,14 @@ export class Application {
             cookie: {
                 secure: process.env.IS_HTTPS !== 'false',
                 httpOnly: true,
-                path: '/',
-                maxAge: appConfig.cookieMaxAge
+                path: '/'
             }
         }));
 
         this.app.use(function(req, res, next) {
             res.setHeader("Access-Control-Allow-Origin", process.env.APP_URL);
             res.setHeader("Access-Control-Allow-Credentials", "true");
-            res.setHeader("Access-Control-Allow-Headers", "content-type");
+            res.setHeader("Access-Control-Allow-Headers", "content-type, event-id");
             res.setHeader("X-XSS-Protection", "1; mode=block");
             res.setHeader("Content-security-policy", appConfig.contentSecurityPolicy);
             res.setHeader("X-frame-options", appConfig.xFrameOptions);
