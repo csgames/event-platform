@@ -5,6 +5,12 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { RouterModule } from "@angular/router";
 import { TeamRoutingModule } from "./team-routing.module";
 import { AttendeeComponent } from "./attendee/attendee.component";
+import { StoreModule } from "@ngrx/store";
+import * as fromTeam from "./store/team.reducer";
+import { EffectsModule } from "@ngrx/effects";
+import { TeamEffects } from "./store/team.effects";
+import { GravatarModule } from "ngx-gravatar";
+import { LoadingSpinnerModule } from "src/app/components/loading-spinner/loading-spinner.module";
 
 @NgModule({
     imports: [
@@ -12,7 +18,11 @@ import { AttendeeComponent } from "./attendee/attendee.component";
         FormsModule,
         ReactiveFormsModule,
         RouterModule,
-        TeamRoutingModule
+        TeamRoutingModule,
+        StoreModule.forFeature("team", fromTeam.reducer),
+        EffectsModule.forFeature([TeamEffects]),
+        GravatarModule,
+        LoadingSpinnerModule
     ],
     exports: [],
     declarations: [TeamComponent, AttendeeComponent],

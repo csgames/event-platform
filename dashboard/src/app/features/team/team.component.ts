@@ -2,40 +2,32 @@ import { Component, OnInit } from "@angular/core";
 import { TeamModeleUI } from "./team.model";
 import { AttendeeModelUI } from "./attendee/attendee.model";
 import { AttendeeComponent } from "./attendee/attendee.component";
+import { $ } from "protractor";
+import { Store, select } from "@ngrx/store";
+import { State, getCurrentTeam, getTeamLoading, getTeamError } from "./store/team.reducer";
+import { LoadTeam, UpdateTeamName } from "./store/team.actions";
+import { Team } from "src/app/api/models/team";
 
 @Component({
     selector: "app-team",
-    templateUrl: "team.template.html"
+    templateUrl: "team.template.html",
+    styleUrls: ["team.style.scss"]
 })
 export class TeamComponent implements OnInit {
     
-    Team: TeamModeleUI;
+    currentTeam$ = this.store.pipe(select(getCurrentTeam));
+    loading$ = this.store.pipe(select(getTeamLoading));
+    error$ = this.store.pipe(select(getTeamError));
+
     isEditing: boolean;
 
-    constructor() { }
+    constructor(private store: Store<State>) { }
     
     ngOnInit() { 
-        this.Team = new TeamModeleUI();
-        this.Team.Name = "Poly-Cônes";
-        this.Team.Captain = "Stéphanie Leclerc";
-        this.Team.Members = new Array<AttendeeModelUI>();
-        this.Team.Members = this.getattendees();
+        
         this.isEditing = false;
         
-
-    }
-
-    getattendees(): Array<AttendeeModelUI> {
-        const teamMembers = new Array<AttendeeModelUI>();
-        
-        const attendee1 = new AttendeeModelUI("Team member #1", "member1@polymtl.ca", true, "",
-        "linkedin/lea", "github.com/lea-elhage");
-        teamMembers.push(attendee1);
-
-        const attendee2 = new AttendeeModelUI("Team member #2", "member2@polymtl.ca", false,
-        "google.ca", "linkedin/vero", "github.com/vedem1192");
-        teamMembers.push(attendee2);
-        return teamMembers;
+        this.store.dispatch(new LoadTeam());
 
     }
 
@@ -44,8 +36,8 @@ export class TeamComponent implements OnInit {
         console.log("en edition" + this.isEditing);
     }
 
-    public onSave(): void {
+    public onSave(currentTeam: Team): void {
         this.isEditing = false;
-        // document.getElementById("myText").value = "Johnny Bravo";
+        this.store.dispatch(new UpdateTeamName(currentTeam.name));
     }
 }

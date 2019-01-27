@@ -25,6 +25,7 @@ import { AuthenticatedGuard } from "./utils/authenticated.guard";
 import { NotAuthenticatedGuard } from "./utils/not-authenticated.guard";
 import { AttendeeService } from "./providers/attendee.service";
 import { StoreRouterConnectingModule } from "@ngrx/router-store";
+import { TeamService } from "./providers/team.service";
 
 export function loadFactory(http: HttpClient): TranslateHttpLoader {
     return new TranslateHttpLoader(http, "../assets/i18n/", ".json");
@@ -63,7 +64,8 @@ export function loadFactory(http: HttpClient): TranslateHttpLoader {
         AuthenticationService,
         AttendeeService,
         AuthenticatedGuard,
-        NotAuthenticatedGuard
+        NotAuthenticatedGuard,
+        TeamService
     ],
     bootstrap: [AppComponent]
 })

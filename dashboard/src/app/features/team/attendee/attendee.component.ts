@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from "@angular/core";
 import { AttendeeModelUI } from "./attendee.model";
+import { Attendee } from "src/app/api/models/attendee";
 
 @Component({
   selector: "app-attendee",
@@ -8,12 +9,10 @@ import { AttendeeModelUI } from "./attendee.model";
 })
 export class AttendeeComponent implements OnInit {
 
-  @Input() attendee: AttendeeModelUI;
-  attendeeModel: AttendeeModelUI;
+  @Input() attendee: Attendee;
   constructor() { }
 
   ngOnInit() {
-    this.attendeeModel = this.attendee;
   }
 
   isEmpty(link: string): boolean {

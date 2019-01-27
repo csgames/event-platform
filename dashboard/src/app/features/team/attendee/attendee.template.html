@@ -1,33 +1,36 @@
-<div>
-  <img src="https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50" />
-  <h3>{{ this.attendeeModel.Name }}</h3>
-  <div class="icons-right" *ngIf="this.attendeeModel.IsRegistered">
-    <div><span class="badge badge-pill badge-primary">Registered</span></div>
+<div fxLayoutAlign="start center" class="attendee-wrapper">
+  <img ngxGravatar [email]="attendee.email" [size]="75">
+  <div fxLayout="column">
+    <b>{{ attendee.firstName }} {{ attendee.lastName }}</b>
+    <b>{{ attendee.email }}</b>
   </div>
-  <div class="icons-right" *ngIf="!this.attendeeModel.IsRegistered">
+  <span fxFlex></span>
+
+  <!-- <div class="icons-right" *ngIf="!this.attendee.IsRegistered">
     <div><span class="badge badge-pill badge-danger">Not Registered</span></div>
-  </div>
+  </div> -->
   <div>
-    <b class="email">{{ this.attendeeModel.Email }}</b>
+
     <div class="icons-right">
+      <div><span class="badge badge-pill badge-primary">Registered</span></div>
       <div>
-        <a *ngIf="this.isEmpty(attendeeModel.Website) ">
-          <img class="links" src="../../../assets/icons/world.png">
+        <a *ngIf="attendee.website" [href]="attendee.website">
+          <i class="fas fa-globe-americas link"></i>
         </a>
-        <a *ngIf="!this.isEmpty(attendeeModel.Website) " href="">
-          <img class="links" src="../../../assets/icons/world-blue.png">
+        <a *ngIf="!attendee.website">
+          <i class="fas fa-globe-americas"></i>
         </a>
-        <a *ngIf="this.isEmpty(attendeeModel.LinkedIn) ">
-          <img class="links" src="../../../assets/icons/linkedin-logo.png">
+        <a *ngIf="attendee.linkedIn">
+          <i class="fab fa-linkedin link"></i>
         </a>
-        <a *ngIf="!this.isEmpty(attendeeModel.LinkedIn) " href="">
-          <img class="links" src="../../../assets/icons/linkedin-logo-blue.png">
+        <a *ngIf="!attendee.linkedIn">
+          <i class="fab fa-linkedin"></i>
         </a>
-        <a *ngIf="this.isEmpty(attendeeModel.Github) ">
-          <img src="../../../assets/icons/github-logo.png">
+        <a *ngIf="attendee.github">
+          <i class="fab fa-github link"></i>
         </a>
-        <a *ngIf="!this.isEmpty(attendeeModel.Github) " href="">
-          <img src="../../../assets/icons/github-logo-blue.png">
+        <a *ngIf="!attendee.github">
+          <i class="fab fa-github"></i>
         </a>
       </div>
     </div>

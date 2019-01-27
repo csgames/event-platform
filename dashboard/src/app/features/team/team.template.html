@@ -1,25 +1,54 @@
 <h1>Team</h1>
-<div *ngIf="!this.isEditing">
-    <h2>{{ this.Team.Name}}
-    <button type="button" class="btn">
-        <img src="../../../assets/icons/edit.png" alt="" (click)="onEdit()">
-    </button></h2>
-</div>
-<div *ngIf="this.isEditing">
-    <input type="text" id="teamName">
+<app-loading-spinner [loading]="loading$ | async">
+</app-loading-spinner>
+<ng-container *ngIf="error$ | async">
+    <div style="text-align: center">
+        <i class="fas fa-times error fa-8x"></i>
+        <h5>Une erreur est survenue lors du chargement de l'équipe</h5>
+    </div>
+</ng-container>
+<ng-container *ngIf="currentTeam$ | async as currentTeam">
+    <div *ngIf="!this.isEditing">
+        <h2>{{ currentTeam?.name}}
+            <button type="button" class="btn">
+                <i class="far fa-edit fa-lg" (click)="onEdit()"></i>
+            </button></h2>
+    </div>
+    <div *ngIf="this.isEditing">
+        <div class="input-group input-group-default">
+            <input class="form-control" type="text" id="teamName" [(ngModel)]="currentTeam.name">
+        </div>
+        <br>
+        <button type="button" class="btn btn-primary" (click)="onSave(currentTeam)">Save</button>
+    </div>
     <br>
-    <button type="button" class="btn save-btn" (click)="onSave()">Save</button>
-</div>
-<br>
-<h4 class="team-members">Team members <b>({{ this.Team.Members.length }}/10)</b></h4>
-<hr>
-<div *ngFor="let member of this.Team.Members">
-    <app-attendee
-        [attendee]="member">
-    </app-attendee>
-</div>
-<br>
-<button type="button" class="btn btn-lg btn-block borders">+ Add Member</button>
-<h4 class="team-members">Godparent <b>(0/1)</b></h4>
-<hr>
-<button type="button" class="btn btn-lg btn-block borders">+ Add godparent</button>
+    <h4 class="team-members">Team members <b>({{ currentTeam?.attendees?.length }}/{{ currentTeam?.maxMembersNumber }})</b></h4>
+    <hr>
+    <div *ngFor="let member of currentTeam?.attendees">
+        <app-attendee [attendee]="member">
+        </app-attendee>
+    </div>
+    <br>
+    <button type="button" class="btn btn-lg btn-block borders">+ Add Member</button>
+    <div class="card-wrapper">
+        <div class="add-member-card">
+            <div class="card-body">
+                Add a team member
+                <div class="input-group input-group-default has-error">
+                    <input class="form-control" type="text" id="teamName" placeholder="First name">
+                </div>
+                <div class="input-group input-group-default">
+                    <input class="form-control" type="text" id="teamName" placeholder="Last name">
+                </div>
+                <div class="input-group input-group-default">
+                    <input class="form-control" type="text" id="teamName" placeholder="Email adress">
+                </div>
+                <a class="btn btn-primary">Add +</a>
+            </div>
+        </div>
+    </div>
+    <h4 class="team-members">Godparent <b>(0/1)</b></h4>
+    <hr>
+    <button type="button" class="btn btn-lg btn-block borders">+ Add godparent</button>
+
+</ng-container>
