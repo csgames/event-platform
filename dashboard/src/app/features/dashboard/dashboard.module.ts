@@ -14,6 +14,7 @@ import { NotificationsListModalModule } from "../../modals/notifications-list-mo
 import { NotificationsListModalComponent } from "../../modals/notifications-list-modal/notifications-list-modal.component";
 import { LayoutModule } from "@angular/cdk/layout";
 import { MatToolbarModule, MatSidenavModule } from "@angular/material";
+import { LoadingSpinnerModule } from "../../components/loading-spinner/loading-spinner.module";
 
 @NgModule({
     imports: [
@@ -26,6 +27,7 @@ import { MatToolbarModule, MatSidenavModule } from "@angular/material";
         BsDropdownModule,
         NotificationsListModalModule,
         GravatarModule.forRoot({ fallback: FALLBACK.mm }),
+        LoadingSpinnerModule,
         LayoutModule,
         MatToolbarModule,
         MatSidenavModule

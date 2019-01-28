@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from "@angular/core";
+import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 import { Event } from "../../../../api/models/event";
 
 @Component({
@@ -15,6 +15,9 @@ export class EventsBarComponent implements OnInit {
     @Input()
     currentEvent: Event;
 
+    @Output()
+    currentEventChange = new EventEmitter<Event>();
+
     constructor() { }
 
     ngOnInit() { }
@@ -25,5 +28,9 @@ export class EventsBarComponent implements OnInit {
 
     isActive(event: Event) {
         return this.currentEvent === event;
+    }
+
+    clickEvent(event: Event) {
+        this.currentEventChange.emit(event);
     }
 }

@@ -5,6 +5,7 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from "@angular/common/http";
 import { AttendeeApi } from "./attendee.api";
 import { EventApi } from "./event.api";
 import { EventInterceptor } from "./interceptors/event.interceptor";
+import { RegistrationApi } from "./registration.api";
 
 @NgModule({
     imports: [
@@ -16,6 +17,7 @@ import { EventInterceptor } from "./interceptors/event.interceptor";
         AuthApi,
         AttendeeApi,
         EventApi,
+        RegistrationApi,
 
         ApiService
     ]

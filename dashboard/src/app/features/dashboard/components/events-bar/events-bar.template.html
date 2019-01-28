@@ -1,5 +1,5 @@
 <div class="events-bar-wrapper">
-    <div class="event-container" *ngFor="let event of events">
+    <div class="event-container" *ngFor="let event of events" (click)="clickEvent(event)">
         <div class="event" [class.active]="isActive(event)">
             <img [src]="event.imageUrl">
         </div>

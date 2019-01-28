@@ -11,7 +11,7 @@ import {
     Logout,
     SetCurrentEvent
 } from "./app.actions";
-import { catchError, exhaustMap, filter, map, tap } from "rxjs/operators";
+import { catchError, exhaustMap, filter, map, switchMap, tap } from "rxjs/operators";
 import { Router } from "@angular/router";
 import { AttendeeService } from "../providers/attendee.service";
 import { Event } from "../api/models/event";
@@ -58,7 +58,7 @@ export class AppEffects {
     @Effect()
     loadCurrentAttendee$ = this.actions$.pipe(
         ofType<LoadCurrentAttendee>(AppActionTypes.LoadCurrentAttendee),
-        exhaustMap(() => {
+        switchMap(() => {
             return this.attendeeService.getAttendeeInfo().pipe(
                 map((a: Attendee) => new CurrentAttendeeLoaded(a)),
                 catchError((e) => of(new GlobalError(e)))
@@ -92,9 +92,10 @@ export class AppEffects {
         )
     );
 
-    @Effect({ dispatch: false })
+    @Effect()
     setCurrentEvent$ = this.actions$.pipe(
         ofType<SetCurrentEvent>(AppActionTypes.SetCurrentEvent),
-        tap((action) => this.eventService.saveCurrentEvent(action.event._id))
+        tap((action) => this.eventService.saveCurrentEvent(action.event._id)),
+        map(() => new LoadCurrentAttendee())
     );
 }
