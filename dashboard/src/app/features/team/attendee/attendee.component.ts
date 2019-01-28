@@ -1,5 +1,4 @@
 import { Component, OnInit, Input } from "@angular/core";
-import { AttendeeModelUI } from "./attendee.model";
 import { Attendee } from "src/app/api/models/attendee";
 
 @Component({
@@ -13,10 +12,6 @@ export class AttendeeComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-  }
-
-  isEmpty(link: string): boolean {
-    return (link.length === 0);
   }
 
 }

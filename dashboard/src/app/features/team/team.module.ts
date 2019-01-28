@@ -11,6 +11,7 @@ import { EffectsModule } from "@ngrx/effects";
 import { TeamEffects } from "./store/team.effects";
 import { GravatarModule } from "ngx-gravatar";
 import { LoadingSpinnerModule } from "src/app/components/loading-spinner/loading-spinner.module";
+import { DirectivesModule } from "src/app/directives/directives.module";
 
 @NgModule({
     imports: [
@@ -22,7 +23,8 @@ import { LoadingSpinnerModule } from "src/app/components/loading-spinner/loading
         StoreModule.forFeature("team", fromTeam.reducer),
         EffectsModule.forFeature([TeamEffects]),
         GravatarModule,
-        LoadingSpinnerModule
+        LoadingSpinnerModule,
+        DirectivesModule
     ],
     exports: [],
     declarations: [TeamComponent, AttendeeComponent],

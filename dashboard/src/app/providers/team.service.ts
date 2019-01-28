@@ -24,20 +24,36 @@ export class TeamService {
                 "firstName": "Brandon", 
                 "lastName": "Roberge",
                 "gender": "male",
-                "tshirt": "S" 
-            }
+                "tshirt": "S",
+                "role": "Captain",
+                "isRegistered": true 
+            },
+            { 
+                "github": "", 
+                "linkedIn": "", 
+                "cv": null, 
+                "website": "", 
+                "phoneNumber": null, 
+                "acceptSMSNotifications": null, 
+                "hasDietaryRestrictions": null, 
+                "dietaryRestrictions": null, 
+                "email": "stephanie.leclerc@polymtl.ca", 
+                "firstName": "Stephanie", 
+                "lastName": "Leclerc",
+                "gender": "female",
+                "tshirt": "S",
+                "isRegistered": false 
+            },
+
         ],
-        maxMembersNumber: 10
+        maxMembersNumber: 3
     };
 
     constructor(private apiService: ApiService) {
     }
 
     getTeam(): Observable<Team> {
-        // return this.apiService.attendee.getTeam();
-        return of(this.team);
-        // return throwError("Erreur team");
-
+        return this.apiService.team.getTeam();
     }
 
     updateTeamName(newName: string): Observable<any> {
@@ -45,7 +61,8 @@ export class TeamService {
         return of(1).pipe(tap(() => this.team.name = newName));
     }
 
-    addTeamMember(newAttendee: Attendee): void {
+    addTeamMember(newAttendee: Attendee): Observable<any> {
         this.team.attendees.push(newAttendee);
+        return of(this.team);
     }
 }

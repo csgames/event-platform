@@ -7,7 +7,7 @@ export enum TeamActionTypes {
     LoadTeamFailure = "[Team] load team failure",
     UpdateTeamName = "[Team] update team name",
     AddTeamMember = "[Team] add team member",
-    AddTeamGodparent = "[Team] add team godparent",
+    AddTeamGodparent = "[Team] add team godparent"
 }
 
 export class LoadTeam implements Action {

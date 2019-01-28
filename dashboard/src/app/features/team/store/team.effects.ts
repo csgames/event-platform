@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Actions, Effect, ofType } from "@ngrx/effects";
 import { TeamService } from "src/app/providers/team.service";
-import { LoadTeam, TeamActionTypes, LoadTeamSuccess, LoadTeamFailure, UpdateTeamName } from "./team.actions";
+import { LoadTeam, TeamActionTypes, LoadTeamSuccess, LoadTeamFailure, UpdateTeamName, AddTeamMember } from "./team.actions";
 import { exhaustMap, map, catchError } from "rxjs/operators";
 import { Team } from "src/app/api/models/team";
 import { of } from "rxjs";
@@ -30,4 +30,14 @@ export class TeamEffects {
             catchError((error: Error) => of(new GlobalError(error)))
         ))
     );
+
+    @Effect()
+    addTeamMember$ = this.actions$.pipe(
+        ofType<AddTeamMember>(TeamActionTypes.AddTeamMember),
+        exhaustMap((action: AddTeamMember) => this.teamService.addTeamMember(action.payload).pipe(
+            map(() => new LoadTeam()),
+            catchError((error: Error) => of(new GlobalError(error)))
+        ))
+    );
+
 }
