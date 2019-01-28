@@ -25,16 +25,16 @@ export class CreateRegistrationDto {
     @ApiModelProperty({ required: true })
     email: string;
 
-    @IsMongoId()
-    @IsNotEmpty()
-    @ApiModelProperty({ required: true })
-    schoolId: string;
-
     @IsString()
-    @ValidateIf(x => x.role === 'captain')
     @IsNotEmpty()
     @ApiModelProperty({ required: true })
     teamName: string;
+
+    @IsMongoId()
+    @IsNotEmpty()
+    @ValidateIf(x => x.role === 'captain')
+    @ApiModelProperty({ required: true })
+    schoolId: string;
 
     @IsNumber()
     @ValidateIf(x => x.role === 'captain')
