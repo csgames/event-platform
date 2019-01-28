@@ -23,6 +23,7 @@ export class TeamComponent implements OnInit {
     isAddingTeamMember: boolean;
     isAddingTeamGodparent: boolean;
     newAttendee: Attendee;
+    teamName: string;
 
     constructor(private store: Store<State>) { }
     
@@ -53,13 +54,14 @@ export class TeamComponent implements OnInit {
 
     }
 
-    public onEditTeamName(): void {
+    public onEditTeamName(currentTeam: Team): void {
         this.isEditingTeamName = true;
+        this.teamName = currentTeam.name;
     }
 
-    public onSaveTeamName(currentTeam: Team): void {
+    public onSaveTeamName(teamName: string): void {
         this.isEditingTeamName = false;
-        this.store.dispatch(new UpdateTeamName(currentTeam.name));
+        this.store.dispatch(new UpdateTeamName(teamName));
     }
 
     public onEditTeamMember(): void {
@@ -89,6 +91,7 @@ export class TeamComponent implements OnInit {
 
     public onCancelTeamName(): void {
         this.isEditingTeamName = false;
+        this.store.dispatch(new LoadTeam());
     }
 
     public onCancelTeamMember(): void {

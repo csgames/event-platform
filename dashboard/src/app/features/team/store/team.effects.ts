@@ -39,4 +39,5 @@ export class TeamEffects {
             catchError((error: Error) => of(new GlobalError(error)))
         ))
     );
+
 }

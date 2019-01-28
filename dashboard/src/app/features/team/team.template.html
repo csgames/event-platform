@@ -11,15 +11,15 @@
     <div *ngIf="!this.isEditingTeamName">
         <h2>{{ currentTeam?.name}}
             <button type="button" class="btn">
-                <i class="far fa-edit fa-lg" (click)="onEditTeamName()"></i>
+                <i class="far fa-edit fa-lg" (click)="onEditTeamName(currentTeam)"></i>
             </button></h2>
     </div>
     <div *ngIf="this.isEditingTeamName">
         <div class="input-group input-group-default input">
-            <input class="form-control" type="text" id="teamName" [(ngModel)]="currentTeam.name">
+            <input class="form-control" type="text" id="teamName" [(ngModel)]="teamName">
         </div>
-        <button type="button" class="btn btn-primary btn-save" (click)="onSaveTeamName(currentTeam)">Save  <i class="fas fa-check"></i></button>
-        <button type="button" class="btn btn-danger" (click)="onCancelTeamName()">Cancel  <i class="fas fa-times"></i></button>
+        <button type="button" class="btn btn-primary btn-save" (click)="onSaveTeamName(teamName)">Save  <i class="fas fa-check"></i></button>
+        <button type="button" class="btn btn-danger" (click)="onCancelTeamName(teamName)">Cancel  <i class="fas fa-times"></i></button>
     </div>
     <br>
     <h4 class="team-members">Team members <b>({{ currentTeam?.attendees?.length }}/{{ currentTeam?.maxMembersNumber }})</b></h4>
