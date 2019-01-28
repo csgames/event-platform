@@ -24,8 +24,26 @@
     width:99%;
 }
 .input {
-    width:fit-content;
+    width: 30%;
+    display: inline-flex;
 }
 .btn-save {
     display: inline-block;
+    margin-right: 10px;
+}
+.btn-primary {
+    background-color: #00579c;
+    border-color: #00579c;
+    color: white !important;
+}
+.btn-danger {
+    background-color: #f15e58;
+    border-color: #f15e58;
+    color: white !important;
+}
+.email {
+    width: 61%;
+}
+.cancel {
+    margin-left: 10px;
 }

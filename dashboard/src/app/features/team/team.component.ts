@@ -86,4 +86,12 @@ export class TeamComponent implements OnInit {
         this.isAddingTeamMember = false;
         this.store.dispatch(new AddTeamMember(newAttendee));
     }
+
+    public onCancelTeamName(): void {
+        this.isEditingTeamName = false;
+    }
+
+    public onCancelTeamMember(): void {
+        this.isAddingTeamMember = false;
+    }
 }

@@ -46,7 +46,7 @@ export class TeamService {
             },
 
         ],
-        maxMembersNumber: 10
+        maxMembersNumber: 3
     };
 
     constructor(private apiService: ApiService) {

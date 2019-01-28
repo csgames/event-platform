@@ -1,9 +1,8 @@
 <div class="attendee-wrapper">
   <img ngxGravatar [email]="attendee.email" [size]="75">
   <div class="info-attendee">
-    <b class="name">{{ attendee.firstName }} {{ attendee.lastName }} </b>
-    <br>
-    <b class="email">{{ attendee.email }}</b>
+    <div><b class="name">{{ attendee.firstName }} {{ attendee.lastName }} </b></div>
+    <div class="email"><b>{{ attendee.email }}</b></div>
   </div>
   <div class="icons-right">
 
