@@ -1,9 +1,10 @@
 import { Component, OnInit } from "@angular/core";
-import { ActivatedRoute, Router } from "@angular/router";
+import { ActivatedRoute } from "@angular/router";
 import { State } from "./store/register.reducer";
 import { Store } from "@ngrx/store";
 import { Subscription } from "rxjs";
 import { LoadRegistration } from "./store/register.actions";
+import { CreateAttendeeFormDto } from "./dto/create-attendee-form-dto";
 
 @Component({
     selector: "app-register",
@@ -14,6 +15,9 @@ export class RegisterComponent implements OnInit {
 
     private queryParamsSubscription$: Subscription;
 
+    createAttendeeFormDto = new CreateAttendeeFormDto();
+
+
     constructor(private activatedRoute: ActivatedRoute, private store$: Store<State>) { }
 
     ngOnInit() {
@@ -22,6 +26,11 @@ export class RegisterComponent implements OnInit {
         });
     }
 
+    onFormChange(createAttendeeDto: CreateAttendeeFormDto) {
+        console.log(createAttendeeDto);
+    }
+
     clickRegister() {
+
     }
 }
