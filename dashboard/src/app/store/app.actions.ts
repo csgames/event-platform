@@ -10,6 +10,7 @@ export enum AppActionTypes {
     LoadEvents = "[App] Load events",
     EventsLoaded = "[App] Events loaded",
     SetCurrentEvent = "[App] Set current event",
+    EditProfile = "[App] Edit profile",
     Logout = "[App] Logout"
 }
 
@@ -45,6 +46,10 @@ export class SetCurrentEvent implements Action {
     constructor(public event: Event) {}
 }
 
+export class EditProfile implements Action {
+    readonly type = AppActionTypes.EditProfile;
+}
+
 export class Logout implements Action {
     readonly type = AppActionTypes.Logout;
 }
@@ -57,4 +62,5 @@ export type AppActions =
     | LoadCurrentAttendee
     | CurrentAttendeeLoaded
     | SetCurrentEvent
+    | EditProfile
     | LoadCurrentAttendee;

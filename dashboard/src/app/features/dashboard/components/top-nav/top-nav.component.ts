@@ -19,6 +19,8 @@ export class TopNavComponent implements OnInit {
 
     @Output()
     public toggleSideNav = new EventEmitter<boolean>();
+    @Output()
+    public editProfile = new EventEmitter();
 
     private _toggleSideNav = false;
 
