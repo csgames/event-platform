@@ -8,25 +8,25 @@
   <div class="icons-right">
 
     <div>
-      <div><span class="badge badge-pill badge-primary">Registered</span></div>
-      <!-- <div><span class="badge badge-pill badge-danger">Not Registered</span></div> -->
+      <div><span *ngIf="attendee.isRegistered" class="badge badge-pill badge-primary">Registered</span></div>
+      <div><span *ngIf="!attendee.isRegistered" class="badge badge-pill badge-danger">Not Registered</span></div>
       <div>
-        <a *ngIf="attendee.website" [href]="attendee.website">
+        <a *ngIf="attendee.website && attendee.isRegistered" [href]="attendee.website">
           <i class="fas fa-globe-americas link"></i>
         </a>
-        <a *ngIf="!attendee.website">
+        <a *ngIf="!attendee.website && attendee.isRegistered">
           <i class="fas fa-globe-americas no-link"></i>
         </a>
-        <a *ngIf="attendee.linkedIn" [href]="attendee.linkedIn">
+        <a *ngIf="attendee.linkedIn && attendee.isRegistered" [href]="attendee.linkedIn">
           <i class="fab fa-linkedin link"></i>
         </a>
-        <a *ngIf="!attendee.linkedIn">
+        <a *ngIf="!attendee.linkedIn && attendee.isRegistered">
           <i class="fab fa-linkedin no-link"></i>
         </a>
-        <a *ngIf="attendee.github" [href]="attendee.github">
+        <a *ngIf="attendee.github && attendee.isRegistered" [href]="attendee.github">
           <i class="fab fa-github link"></i>
         </a>
-        <a *ngIf="!attendee.github">
+        <a *ngIf="!attendee.github && attendee.isRegistered">
           <i class="fab fa-github no-link"></i>
         </a>
       </div>

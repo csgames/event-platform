@@ -24,7 +24,9 @@ export class TeamService {
                 "firstName": "Brandon", 
                 "lastName": "Roberge",
                 "gender": "male",
-                "tshirt": "S" 
+                "tshirt": "S",
+                "role": "Captain",
+                "isRegistered": true 
             },
             { 
                 "github": "", 
@@ -39,7 +41,8 @@ export class TeamService {
                 "firstName": "Stephanie", 
                 "lastName": "Leclerc",
                 "gender": "female",
-                "tshirt": "S" 
+                "tshirt": "S",
+                "isRegistered": false 
             },
 
         ],

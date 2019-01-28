@@ -43,7 +43,7 @@
                 <div class="input-group input-group-default input">
                     <input class="form-control" type="text" id="teamName" placeholder="Email adress" [(ngModel)]="this.newAttendee.email">
                 </div>
-                <a class="btn btn-primary" (click)="onAddTeamMember(this.newAttendee)">Add +</a>
+                <a *ngIf="currentTeam?.attendees?.length <= currentTeam?.maxMembersNumber" class="btn btn-primary" (click)="onAddTeamMember(this.newAttendee)">Add +</a>
             </div>
         </div>
     </div>

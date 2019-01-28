@@ -48,6 +48,7 @@ export class TeamComponent implements OnInit {
             acceptSMSNotifications: null,
             hasDietaryRestrictions: null,
             dietaryRestrictions: null,
+            isRegistered: false
         };
 
     }
@@ -63,6 +64,22 @@ export class TeamComponent implements OnInit {
 
     public onEditTeamMember(): void {
         this.isAddingTeamMember = true;
+        this.newAttendee = {
+            firstName: "",
+            lastName: "",
+            email: "",
+            github: "",
+            linkedIn: "",
+            cv: "",
+            website: "",
+            gender: "",
+            tshirt: "",
+            phoneNumber: "",
+            acceptSMSNotifications: null,
+            hasDietaryRestrictions: null,
+            dietaryRestrictions: null,
+            isRegistered: false
+        };
     }
 
     public onAddTeamMember(newAttendee: Attendee): void {
