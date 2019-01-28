@@ -6,6 +6,10 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { RouterModule } from "@angular/router";
 import { FlexLayoutModule } from "@angular/flex-layout";
 import { LoadingSpinnerModule } from "../../components/loading-spinner/loading-spinner.module";
+import { StoreModule } from "@ngrx/store";
+import * as fromRegister from "./store/register.reducer";
+import { EffectsModule } from "@ngrx/effects";
+import { RegisterEffects } from "./store/register.effects";
 
 @NgModule({
     imports: [
@@ -14,7 +18,9 @@ import { LoadingSpinnerModule } from "../../components/loading-spinner/loading-s
         ReactiveFormsModule,
         RouterModule,
         FlexLayoutModule,
-        LoadingSpinnerModule
+        LoadingSpinnerModule,
+        StoreModule.forFeature("register", fromRegister.reducer),
+        EffectsModule.forFeature([RegisterEffects])
     ],
     exports: [],
     declarations: [RegisterComponent],

@@ -395,7 +395,7 @@ a {
 .input-group-default {
     background: white;
     border-radius: 8px;
-    height: 38px;
+    height: 40px;
     margin: 5px;
     border: #9B9B9B solid 1px;
 }
@@ -412,6 +412,7 @@ a {
     background: none;
     border: none;
     outline: none;
+    border-radius: 8px;
 }
 
 .form-control:focus {

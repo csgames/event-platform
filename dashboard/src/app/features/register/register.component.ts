@@ -1,5 +1,9 @@
 import { Component, OnInit } from "@angular/core";
-import { Router } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
+import { State } from "./store/register.reducer";
+import { Store } from "@ngrx/store";
+import { Subscription } from "rxjs";
+import { LoadRegistration } from "./store/register.actions";
 
 @Component({
     selector: "app-register",
@@ -7,16 +11,17 @@ import { Router } from "@angular/router";
     styleUrls: ["./register.style.scss"]
 })
 export class RegisterComponent implements OnInit {
-    loading = false;
 
-    constructor(private router: Router) { }
+    private queryParamsSubscription$: Subscription;
 
-    ngOnInit() { }
+    constructor(private activatedRoute: ActivatedRoute, private store$: Store<State>) { }
+
+    ngOnInit() {
+        this.queryParamsSubscription$ = this.activatedRoute.queryParams.subscribe(params => {
+            this.store$.dispatch(new LoadRegistration(params["uuid"]));
+        });
+    }
 
     clickRegister() {
-        this.loading = true;
-        setTimeout(() => {
-            this.router.navigate(["/home"]);
-        }, 1000);
     }
 }

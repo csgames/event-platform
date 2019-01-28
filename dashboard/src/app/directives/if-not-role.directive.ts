@@ -1,14 +1,14 @@
 import { Directive, Input, OnDestroy, OnInit, TemplateRef, ViewContainerRef } from "@angular/core";
-import * as fromApp from "../store/app.reducers";
 import { select, Store } from "@ngrx/store";
-import { Subscription } from "rxjs";
+import * as fromApp from "../store/app.reducers";
 import { filter, tap } from "rxjs/operators";
+import { Subscription } from "rxjs";
 
-@Directive({ selector: "[ifRole]" })
-export class IfRoleDirective implements OnInit, OnDestroy {
+@Directive({ selector: "[ifNotRole]" })
+export class IfNotRoleDirective implements OnInit, OnDestroy {
     private currentAttendee$: Subscription;
 
-    @Input("ifRole")
+    @Input("ifNotRole")
     roles: string[];
 
     constructor(private templateRef: TemplateRef<any>,
@@ -20,7 +20,7 @@ export class IfRoleDirective implements OnInit, OnDestroy {
         this.currentAttendee$ = this.store$.pipe(
             select(fromApp.getCurrentAttendee),
             tap(() => this.viewContainer.clear()),
-            filter(u => u && this.roles.includes(u.role))
+            filter(u => u && !this.roles.includes(u.role))
         ).subscribe(() => {
             this.viewContainer.createEmbeddedView(this.templateRef);
         });

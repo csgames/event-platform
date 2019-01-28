@@ -8,6 +8,7 @@ export interface GlobalState {
     currentAttendee: Attendee;
     events: Event[];
     currentEvent: Event;
+    loading: boolean;
 }
 
 export interface State {
@@ -21,7 +22,8 @@ export const appReducers: ActionReducerMap<State> = {
 export const initialState: GlobalState = {
     currentAttendee: null,
     events: [],
-    currentEvent: null
+    currentEvent: null,
+    loading: false
 };
 
 export function globalReducer(state = initialState, action: AppActions): GlobalState {
@@ -29,12 +31,18 @@ export function globalReducer(state = initialState, action: AppActions): GlobalS
         case AppActionTypes.CurrentAttendeeLoaded:
             return {
                 ...state,
-                currentAttendee: action.payload
+                currentAttendee: action.payload,
+                loading: false
             };
         case AppActionTypes.Logout:
             return {
                 ...state,
                 currentAttendee: null
+            };
+        case AppActionTypes.LoadEvents:
+            return {
+                ...state,
+                loading: true
             };
         case AppActionTypes.EventsLoaded:
             return {
@@ -44,7 +52,8 @@ export function globalReducer(state = initialState, action: AppActions): GlobalS
         case AppActionTypes.SetCurrentEvent:
             return {
                 ...state,
-                currentEvent: action.event
+                currentEvent: action.event,
+                loading: true
             };
     }
     return state;
@@ -55,6 +64,8 @@ export const appMetaReducers: MetaReducer<State>[] = !environment.production
     : [];
 
 export const getGlobalState = createFeatureSelector<State, GlobalState>("global");
+
+export const getLoading = createSelector(getGlobalState, (state: GlobalState) => state.loading);
 
 export const getCurrentAttendee = createSelector(
     getGlobalState,
