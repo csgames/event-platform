@@ -25,7 +25,23 @@ export class TeamService {
                 "lastName": "Roberge",
                 "gender": "male",
                 "tshirt": "S" 
-            }
+            },
+            { 
+                "github": "", 
+                "linkedIn": "", 
+                "cv": null, 
+                "website": "", 
+                "phoneNumber": null, 
+                "acceptSMSNotifications": null, 
+                "hasDietaryRestrictions": null, 
+                "dietaryRestrictions": null, 
+                "email": "stephanie.leclerc@polymtl.ca", 
+                "firstName": "Stephanie", 
+                "lastName": "Leclerc",
+                "gender": "female",
+                "tshirt": "S" 
+            },
+
         ],
         maxMembersNumber: 10
     };
@@ -45,7 +61,8 @@ export class TeamService {
         return of(1).pipe(tap(() => this.team.name = newName));
     }
 
-    addTeamMember(newAttendee: Attendee): void {
+    addTeamMember(newAttendee: Attendee): Observable<any> {
         this.team.attendees.push(newAttendee);
+        return of(this.team);
     }
 }

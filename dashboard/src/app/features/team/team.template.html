@@ -8,42 +8,42 @@
     </div>
 </ng-container>
 <ng-container *ngIf="currentTeam$ | async as currentTeam">
-    <div *ngIf="!this.isEditing">
+    <div *ngIf="!this.isEditingTeamName">
         <h2>{{ currentTeam?.name}}
             <button type="button" class="btn">
-                <i class="far fa-edit fa-lg" (click)="onEdit()"></i>
+                <i class="far fa-edit fa-lg" (click)="onEditTeamName()"></i>
             </button></h2>
     </div>
-    <div *ngIf="this.isEditing">
-        <div class="input-group input-group-default">
+    <div *ngIf="this.isEditingTeamName">
+        <div class="input-group input-group-default input">
             <input class="form-control" type="text" id="teamName" [(ngModel)]="currentTeam.name">
         </div>
         <br>
-        <button type="button" class="btn btn-primary" (click)="onSave(currentTeam)">Save</button>
+        <button type="button" class="btn btn-primary btn-save" (click)="onSaveTeamName(currentTeam)">Save  <i class="fas fa-check"></i></button>
     </div>
     <br>
     <h4 class="team-members">Team members <b>({{ currentTeam?.attendees?.length }}/{{ currentTeam?.maxMembersNumber }})</b></h4>
     <hr>
     <div *ngFor="let member of currentTeam?.attendees">
-        <app-attendee [attendee]="member">
+        <app-attendee style="margin-bottom:20px;" [attendee]="member">
         </app-attendee>
     </div>
     <br>
-    <button type="button" class="btn btn-lg btn-block borders">+ Add Member</button>
-    <div class="card-wrapper">
+    <button *ngIf="!this.isAddingTeamMember" type="button" class="btn btn-lg btn-block borders" (click)="onEditTeamMember()">+ Add Member</button>
+    <div *ngIf="this.isAddingTeamMember" class="card-wrapper">
         <div class="add-member-card">
             <div class="card-body">
                 Add a team member
-                <div class="input-group input-group-default has-error">
-                    <input class="form-control" type="text" id="teamName" placeholder="First name">
+                <div class="input-group input-group-default input">
+                    <input class="form-control" type="text" id="teamName" placeholder="First name" [(ngModel)]="this.newAttendee.firstName">
                 </div>
-                <div class="input-group input-group-default">
-                    <input class="form-control" type="text" id="teamName" placeholder="Last name">
+                <div class="input-group input-group-default input">
+                    <input class="form-control" type="text" id="teamName" placeholder="Last name" [(ngModel)]="this.newAttendee.lastName">
                 </div>
-                <div class="input-group input-group-default">
-                    <input class="form-control" type="text" id="teamName" placeholder="Email adress">
+                <div class="input-group input-group-default input">
+                    <input class="form-control" type="text" id="teamName" placeholder="Email adress" [(ngModel)]="this.newAttendee.email">
                 </div>
-                <a class="btn btn-primary">Add +</a>
+                <a class="btn btn-primary" (click)="onAddTeamMember(this.newAttendee)">Add +</a>
             </div>
         </div>
     </div>

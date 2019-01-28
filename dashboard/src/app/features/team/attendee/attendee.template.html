@@ -1,36 +1,33 @@
-<div fxLayoutAlign="start center" class="attendee-wrapper">
+<div class="attendee-wrapper">
   <img ngxGravatar [email]="attendee.email" [size]="75">
-  <div fxLayout="column">
-    <b>{{ attendee.firstName }} {{ attendee.lastName }}</b>
-    <b>{{ attendee.email }}</b>
+  <div class="info-attendee">
+    <b class="name">{{ attendee.firstName }} {{ attendee.lastName }} </b>
+    <br>
+    <b class="email">{{ attendee.email }}</b>
   </div>
-  <span fxFlex></span>
+  <div class="icons-right">
 
-  <!-- <div class="icons-right" *ngIf="!this.attendee.IsRegistered">
-    <div><span class="badge badge-pill badge-danger">Not Registered</span></div>
-  </div> -->
-  <div>
-
-    <div class="icons-right">
+    <div>
       <div><span class="badge badge-pill badge-primary">Registered</span></div>
+      <!-- <div><span class="badge badge-pill badge-danger">Not Registered</span></div> -->
       <div>
         <a *ngIf="attendee.website" [href]="attendee.website">
           <i class="fas fa-globe-americas link"></i>
         </a>
         <a *ngIf="!attendee.website">
-          <i class="fas fa-globe-americas"></i>
+          <i class="fas fa-globe-americas no-link"></i>
         </a>
-        <a *ngIf="attendee.linkedIn">
+        <a *ngIf="attendee.linkedIn" [href]="attendee.linkedIn">
           <i class="fab fa-linkedin link"></i>
         </a>
         <a *ngIf="!attendee.linkedIn">
-          <i class="fab fa-linkedin"></i>
+          <i class="fab fa-linkedin no-link"></i>
         </a>
-        <a *ngIf="attendee.github">
+        <a *ngIf="attendee.github" [href]="attendee.github">
           <i class="fab fa-github link"></i>
         </a>
         <a *ngIf="!attendee.github">
-          <i class="fab fa-github"></i>
+          <i class="fab fa-github no-link"></i>
         </a>
       </div>
     </div>

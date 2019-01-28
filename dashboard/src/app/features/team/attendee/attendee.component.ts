@@ -15,8 +15,4 @@ export class AttendeeComponent implements OnInit {
   ngOnInit() {
   }
 
-  isEmpty(link: string): boolean {
-    return (link.length === 0);
-  }
-
 }
