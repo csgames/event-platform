@@ -3,11 +3,6 @@ import { IsEmail, IsIn, IsMongoId, IsNotEmpty, IsNumber, IsString, IsUUID, Valid
 import { CreateAttendeeDto } from '../attendees/attendees.dto';
 
 export class CreateRegistrationDto {
-    @IsMongoId()
-    @IsNotEmpty()
-    @ApiModelProperty({ required: true })
-    eventId: string;
-
     @IsString()
     @IsNotEmpty()
     @IsIn(['attendee', 'captain', 'godfather'])

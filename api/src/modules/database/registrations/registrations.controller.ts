@@ -10,6 +10,7 @@ import { PublicRoute } from 'nestjs-jwt2';
 import { Role } from '../../../decorators/role.decorator';
 import { CodeExceptionFilter } from '../../../filters/code-error/code.filter';
 import { codeMap } from './registration.exception';
+import { EventId } from '../../../decorators/event-id.decorator';
 
 @Controller("registration")
 @UseFilters(new CodeExceptionFilter(codeMap))
@@ -20,8 +21,8 @@ export class RegistrationsController {
     @Post()
     @UseGuards(CreateRegistrationGuard)
     @Permissions('csgames-api:create:invitation')
-    public async createInvitation(@Body(new ValidationPipe()) dto: CreateRegistrationDto, @Role() role: string): Promise<Registrations> {
-        return await this.registrationService.create(dto, role);
+    public async createInvitation(@Body(new ValidationPipe()) dto: CreateRegistrationDto, @Role() role: string, @EventId() eventId: string): Promise<Registrations> {
+        return await this.registrationService.create(dto, role, eventId);
     }
 
     @Post('attendee')

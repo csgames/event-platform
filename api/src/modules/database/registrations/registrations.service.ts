@@ -34,13 +34,13 @@ export class RegistrationsService {
                 private readonly teamsService: TeamsService) {
     }
 
-    public async create(dto: CreateRegistrationDto, role: string) {
+    public async create(dto: CreateRegistrationDto, role: string, eventId: string) {
         const att = await this.attendeeService.findOne({ email: dto.email });
         if (att) {
             throw new AttendeeAlreadyExistException();
         }
 
-        await this.validateTeam(dto.teamName, dto.role, dto.eventId);
+        await this.validateTeam(dto.teamName, dto.role, eventId);
 
         const attendee = await this.attendeeService.create({
             email: dto.email,
@@ -57,20 +57,20 @@ export class RegistrationsService {
         if (dto.role === 'captain' && role === 'admin') {
             await this.teamsService.createTeam({
                 name: dto.teamName,
-                event: dto.eventId,
+                event: eventId,
                 school: dto.schoolId,
                 attendeeId: attendee._id,
                 maxMembersNumber: dto.maxMembersNumber
             });
         } else {
-            await this.teamsService.update({ name: dto.teamName, event: dto.eventId }, {
+            await this.teamsService.update({ name: dto.teamName, event: eventId }, {
                 $push: {
                     attendees: attendee._id
                 }
             } as any);
         }
 
-        await this.eventService.addAttendee(dto.eventId, attendee, dto.role);
+        await this.eventService.addAttendee(eventId, attendee, dto.role);
 
         const template = this.roleTemplate[dto.role];
         if (!template) {
