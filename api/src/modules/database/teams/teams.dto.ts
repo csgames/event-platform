@@ -27,7 +27,7 @@ export class CreateTeamDto {
     @IsNumber()
     @IsNotEmpty()
     @ApiModelProperty({ required: true })
-    maxMembersNumber: number
+    maxMembersNumber: number;
 }
 
 export class UpdateTeamDto {
