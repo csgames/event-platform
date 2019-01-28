@@ -24,8 +24,9 @@ export class TeamsController {
 
     @Put(':id')
     @Permissions('csgames-api:update:team')
-    public async updateTeam(@Body(new ValidationPipe()) updateTeamDto: UpdateTeamDto, @Param('id') id: string) {
-        return this.teamsService.updateTeam(id, updateTeamDto);
+    public async updateTeam(@Param('id') id: string, @Body(new ValidationPipe()) updateTeamDto: UpdateTeamDto,
+                            @EventId() eventId: string) {
+        return this.teamsService.updateTeam(id, updateTeamDto, eventId);
     }
 
     @Get()

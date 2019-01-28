@@ -26,14 +26,14 @@ export class TeamsService extends BaseService<Teams, CreateTeamDto> {
         });
     }
 
-    public async updateTeam(id: string, updateTeamDto: UpdateTeamDto): Promise<Teams> {
-        let name = updateTeamDto.name.trim();
+    public async updateTeam(id: string, updateTeamDto: UpdateTeamDto, eventId: string): Promise<Teams> {
+        const name = updateTeamDto.name.trim();
         for (let i = 0; i < name.length; ++i) {
             if (name.charCodeAt(i) > 255) {
                 throw new InvalidNameException();
             }
         }
-        let team = await this.findOne({ name, event: updateTeamDto.eventId });
+        const team = await this.findOne({ name, event: eventId });
         if (team) {
             throw new TeamAlreadyCreatedException();
         }

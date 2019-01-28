@@ -11,7 +11,7 @@ export class CreateTeamDto {
     @IsNotEmpty()
     @ApiModelProperty({required: true})
     event: string;
-    
+
     @IsMongoId()
     @IsNotEmpty()
     @IsString()
@@ -23,7 +23,7 @@ export class CreateTeamDto {
     @IsString()
     @ApiModelProperty({required: true})
     attendeeId: string;
-    
+
     @IsNumber()
     @IsNotEmpty()
     @ApiModelProperty({ required: true })
@@ -36,9 +36,4 @@ export class UpdateTeamDto {
     @MaxLength(30)
     @ApiModelProperty({required: true})
     name: string;
-
-    @IsMongoId()
-    @IsNotEmpty()
-    @ApiModelProperty({required: true})
-    eventId: string;
 }
