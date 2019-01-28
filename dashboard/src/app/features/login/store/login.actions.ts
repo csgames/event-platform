@@ -1,6 +1,5 @@
 import { Action } from "@ngrx/store";
 import { LoginDto } from "../../../api/dto/auth";
-import { Login } from "../../../api/definitions/auth";
 
 export enum LoginActionTypes {
     PerformLogin = "[Login] Perform login",

@@ -1,10 +1,10 @@
-import { Component, OnInit } from "@angular/core";
-import { Observable } from "rxjs";
+import { Component, OnDestroy, OnInit } from "@angular/core";
+import { Observable, Subscription } from "rxjs";
 import { BreakpointObserver, Breakpoints } from "@angular/cdk/layout";
 import { map } from "rxjs/operators";
-import { LoadCurrentAttendee } from "../../store/app.actions";
-import { State } from "../../store/app.reducers";
-import { Store } from "@ngrx/store";
+import { LoadCurrentAttendee, LoadEvents } from "../../store/app.actions";
+import { getCurrentEvent, getEvents, State } from "../../store/app.reducers";
+import { select, Store } from "@ngrx/store";
 
 @Component({
     selector: "app-dashboard",
@@ -12,7 +12,10 @@ import { Store } from "@ngrx/store";
     styleUrls: ["./dashboard.style.scss"]
 })
 
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnInit, OnDestroy {
+
+    events$ = this.store$.pipe(select(getEvents));
+    currentEvent$ = this.store$.pipe(select(getCurrentEvent));
 
     isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
         .pipe(
@@ -20,9 +23,13 @@ export class DashboardComponent implements OnInit {
         );
 
     constructor(private breakpointObserver: BreakpointObserver, private store$: Store<State>) {
+        this.store$.dispatch(new LoadEvents());
         this.store$.dispatch(new LoadCurrentAttendee());
     }
 
     ngOnInit() {
+    }
+
+    ngOnDestroy() {
     }
 }

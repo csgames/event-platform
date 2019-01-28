@@ -2,9 +2,12 @@ import { AppActions, AppActionTypes } from "./app.actions";
 import { ActionReducerMap, createFeatureSelector, createSelector, MetaReducer } from "@ngrx/store";
 import { environment } from "../../environments/environment";
 import { Attendee } from "../api/models/attendee";
+import { Event } from "../api/models/event";
 
 export interface GlobalState {
     currentAttendee: Attendee;
+    events: Event[];
+    currentEvent: Event;
 }
 
 export interface State {
@@ -16,7 +19,9 @@ export const appReducers: ActionReducerMap<State> = {
 };
 
 export const initialState: GlobalState = {
-    currentAttendee: null
+    currentAttendee: null,
+    events: [],
+    currentEvent: null
 };
 
 export function globalReducer(state = initialState, action: AppActions): GlobalState {
@@ -30,6 +35,16 @@ export function globalReducer(state = initialState, action: AppActions): GlobalS
             return {
                 ...state,
                 currentAttendee: null
+            };
+        case AppActionTypes.EventsLoaded:
+            return {
+                ...state,
+                events: action.events
+            };
+        case AppActionTypes.SetCurrentEvent:
+            return {
+                ...state,
+                currentEvent: action.event
             };
     }
     return state;
@@ -46,3 +61,6 @@ export const getCurrentAttendee = createSelector(
     (state: GlobalState) => state.currentAttendee
 );
 
+export const getEvents = createSelector(getGlobalState, (state: GlobalState) => state.events);
+
+export const getCurrentEvent = createSelector(getGlobalState, (state: GlobalState) => state.currentEvent);

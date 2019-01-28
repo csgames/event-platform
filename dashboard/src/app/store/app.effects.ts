@@ -1,12 +1,23 @@
 import { Injectable } from "@angular/core";
 import { Actions, Effect, ofType } from "@ngrx/effects";
 import { AuthenticationService } from "../providers/authentication.service";
-import { AppActionTypes, CurrentAttendeeLoaded, GlobalError, LoadCurrentAttendee, Logout } from "./app.actions";
-import { catchError, exhaustMap, map, tap } from "rxjs/operators";
+import {
+    AppActionTypes,
+    CurrentAttendeeLoaded,
+    EventsLoaded,
+    GlobalError,
+    LoadCurrentAttendee,
+    LoadEvents,
+    Logout,
+    SetCurrentEvent
+} from "./app.actions";
+import { catchError, exhaustMap, filter, map, tap } from "rxjs/operators";
 import { Router } from "@angular/router";
 import { AttendeeService } from "../providers/attendee.service";
+import { Event } from "../api/models/event";
 import { Attendee } from "../api/models/attendee";
 import { of } from "rxjs";
+import { EventService } from "../providers/event.service";
 
 @Injectable()
 export class AppEffects {
@@ -15,6 +26,7 @@ export class AppEffects {
         private actions$: Actions,
         private authenticationService: AuthenticationService,
         private attendeeService: AttendeeService,
+        private eventService: EventService,
         private router: Router
     ) {}
 
@@ -54,4 +66,35 @@ export class AppEffects {
         })
     );
 
+    @Effect()
+    loadEvents$ = this.actions$.pipe(
+        ofType<LoadEvents>(AppActionTypes.LoadEvents),
+        exhaustMap(() => {
+            return this.eventService.getEventList().pipe(
+                map((e: Event[]) => new EventsLoaded(e)),
+                catchError((e) => of(new GlobalError(e)))
+            );
+        })
+    );
+
+    @Effect()
+    eventsLoaded$ = this.actions$.pipe(
+        ofType<EventsLoaded>(AppActionTypes.EventsLoaded),
+        filter((action: EventsLoaded) => action.events.length > 0),
+        map((action: EventsLoaded) => {
+                const currentEventId = this.eventService.getCurrentEvent();
+                const event = action.events.find((e) => e._id === currentEventId);
+                if (event) {
+                    return new SetCurrentEvent(event);
+                }
+                return new SetCurrentEvent(action.events[0]);
+            }
+        )
+    );
+
+    @Effect({ dispatch: false })
+    setCurrentEvent$ = this.actions$.pipe(
+        ofType<SetCurrentEvent>(AppActionTypes.SetCurrentEvent),
+        tap((action) => this.eventService.saveCurrentEvent(action.event._id))
+    );
 }
