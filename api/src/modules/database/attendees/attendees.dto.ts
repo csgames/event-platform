@@ -2,6 +2,16 @@ import { IsString, IsOptional, IsIn, IsNotEmpty, IsBoolean, IsMongoId } from 'cl
 import { ApiModelProperty } from "@nestjs/swagger";
 
 export class CreateAttendeeDto {
+    @IsString()
+    @IsNotEmpty()
+    @ApiModelProperty()
+    firstName: string;
+
+    @IsString()
+    @IsNotEmpty()
+    @ApiModelProperty()
+    lastName: string;
+
     @IsOptional()
     @IsString()
     @ApiModelProperty()
@@ -22,12 +32,14 @@ export class CreateAttendeeDto {
     @ApiModelProperty()
     cv: string;
 
+    @IsOptional()
     @IsString()
     @IsNotEmpty()
     @IsIn(['male', 'female', 'other', 'no_answer'])
     @ApiModelProperty({ required: true })
     gender: string;
 
+    @IsOptional()
     @IsString()
     @IsNotEmpty()
     @IsIn(['small', 'medium', 'large', 'x-large', '2x-large'])
@@ -56,6 +68,18 @@ export class CreateAttendeeDto {
 }
 
 export class UpdateAttendeeDto {
+    @IsOptional()
+    @IsString()
+    @IsNotEmpty()
+    @ApiModelProperty()
+    firstName: string;
+
+    @IsOptional()
+    @IsString()
+    @IsNotEmpty()
+    @ApiModelProperty()
+    lastName: string;
+
     @IsOptional()
     @IsString()
     @ApiModelProperty()
