@@ -84,7 +84,7 @@ export class Application {
 
         this.app.use(process.env.GATEWAY_BASE_PATH, auth.router);
 
-        this.app.use(this.renewToken);
+        this.app.use(this.renewToken.bind(this));
         let proxy = proxyConfig();
         this.app.use(httpProxy(proxy.path, {
             target: proxy.path,
