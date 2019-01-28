@@ -4,9 +4,9 @@ import { State, getCurrentTeam, getTeamLoading, getTeamError } from "./store/tea
 import { LoadTeam, UpdateTeamName, AddTeamMember } from "./store/team.actions";
 import { Team } from "src/app/api/models/team";
 import { Attendee } from "src/app/api/models/attendee";
-import { AttendeeApi } from "src/app/api/attendee.api";
 import { first } from "rxjs/operators";
 import { LoadCurrentAttendee } from "src/app/store/app.actions";
+import * as fromApp from "../../store/app.reducers";
 
 @Component({
     selector: "app-team",
@@ -18,6 +18,8 @@ export class TeamComponent implements OnInit {
     currentTeam$ = this.store.pipe(select(getCurrentTeam));
     loading$ = this.store.pipe(select(getTeamLoading));
     error$ = this.store.pipe(select(getTeamError));
+    currentAttendee$ = this.store.pipe(select(fromApp.getCurrentAttendee));
+
 
     isEditingTeamName: boolean;
     isAddingTeamMember: boolean;

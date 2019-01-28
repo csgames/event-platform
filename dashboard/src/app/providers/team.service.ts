@@ -53,10 +53,7 @@ export class TeamService {
     }
 
     getTeam(): Observable<Team> {
-        // return this.apiService.attendee.getTeam();
-        return of(this.team);
-        // return throwError("Erreur team");
-
+        return this.apiService.team.getTeam();
     }
 
     updateTeamName(newName: string): Observable<any> {

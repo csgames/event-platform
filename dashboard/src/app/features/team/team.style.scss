@@ -2,6 +2,7 @@
     border-style: dashed !important;
     border: 2px solid #00579c; 
     width:99%;
+    margin-bottom: 10px;
 }
 .btn .save-btn {
     border-radius: 2px;
@@ -46,4 +47,8 @@
 }
 .cancel {
     margin-left: 10px;
+}
+.no-godparent{
+    font-weight:bold;
+    text-align: center;
 }
