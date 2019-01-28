@@ -8,70 +8,16 @@
                             <app-loading-spinner [loading]="loading"></app-loading-spinner>
                             <img class="logo" src="../../../assets/logo-long.svg">
                             <div class="card-body">
-                                <form>
-                                    <div class="row">
-                                        <div class="col-sm-6 pr-sm-1">
-                                            <div class="input-group input-group-default">
-                                                <div class="input-group-prepend">
-                                                    <i class="fas fa-user"></i>
-                                                </div>
-                                                <input autofocus class="form-control" type="text" name="first-name"
-                                                       placeholder="First Name">
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-6 pl-sm-1">
-                                            <div class="input-group input-group-default">
-                                                <div class="input-group-prepend">
-                                                    <i class="fas fa-user"></i>
-                                                </div>
-                                                <input autofocus class="form-control" type="text" name="last-name"
-                                                       placeholder="Last Name">
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="col-sm-12">
-                                            <div class="input-group input-group-default">
-                                                <div class="input-group-prepend">
-                                                    <i class="fa fa-at"></i>
-                                                </div>
-                                                <input autofocus class="form-control" type="email"
-                                                       placeholder="Email Address">
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="col-sm-12">
-                                            <div class="input-group input-group-default">
-                                                <div class="input-group-prepend">
-                                                    <i class="fa fa-lock"></i>
-                                                </div>
-                                                <input class="form-control" type="password" name="password"
-                                                       placeholder="Password">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-sm-12">
-                                            <div class="input-group input-group-default">
-                                                <div class="input-group-prepend">
-                                                    <i class="fa fa-lock"></i>
-                                                </div>
-                                                <input class="form-control" type="password" name="confirm-password"
-                                                       placeholder="Confirm Password">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="text-center">
-                                        <a class="btn btn-primary btn-rounded mt-3 px-3" (click)="clickRegister()">Register</a>
-                                    </div>
-                                    <hr>
-                                    <div class="text-center mt-3">
-                                        <a [routerLink]="['/login']">Already have an account?</a>
-                                    </div>
-                                </form>
+                                <app-register-form [ngModel]="createAttendeeFormDto"
+                                                   (ngModelChange)="onFormChange($event)"></app-register-form>
+                                <div class="text-center">
+                                    <a class="btn btn-primary btn-rounded mt-3 px-3"
+                                       (click)="clickRegister()">Register</a>
+                                </div>
+                                <hr>
+                                <div class="text-center mt-3">
+                                    <a [routerLink]="['/login']">Already have an account?</a>
+                                </div>
                             </div>
                         </div>
                     </div>
