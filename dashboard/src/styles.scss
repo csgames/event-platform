@@ -1,3 +1,5 @@
+@import "./app/styles/ng-select.style";
+
 html,
 body {
     margin: 0;
@@ -419,6 +421,11 @@ a {
     outline-style: none;
     box-shadow: none;
     border-color: transparent;
+}
+
+.form-icon {
+    width: 100%;
+    text-align: center;
 }
 
 .input-group-default .input-group-prepend {

@@ -1,0 +1,74 @@
+<form>
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="input-group input-group-default">
+                <div class="input-group-prepend">
+                    <a class="form-icon">
+                        <i class="fas fa-user"></i>
+                    </a>
+                </div>
+                <ng-select [items]="gender" placeholder="Gender"></ng-select>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="input-group input-group-default">
+                <div class="input-group-prepend">
+                    <a class="form-icon">
+                        <i class="fas fa-tshirt"></i>
+                    </a>
+                </div>
+                <ng-select [items]="tshirtSize" placeholder="T-Shirt size"></ng-select>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="input-group input-group-default">
+                <div class="input-group-prepend">
+                    <a class="form-icon">
+                        <i class="fab fa-linkedin"></i>
+                    </a>
+                </div>
+                <input class="form-control" type="text"
+                       placeholder="LinkedIn">
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="input-group input-group-default">
+                <div class="input-group-prepend">
+                    <a class="form-icon">
+                        <i class="fab fa-github"></i>
+                    </a>
+                </div>
+                <input class="form-control" type="text"
+                       placeholder="GitHub">
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="input-group input-group-default">
+                <div class="input-group-prepend">
+                    <a class="form-icon">
+                        <i class="fa fa-globe"></i>
+                    </a>
+                </div>
+                <input autofocus class="form-control" type="text"
+                       placeholder="Website">
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="input-group input-group-default">
+                <div class="input-group-prepend">
+                    <a class="form-icon">
+                        <i class="fa fa-mobile"></i>
+                    </a>
+                </div>
+                <input autofocus class="form-control" type="tel"
+                       placeholder="Phone number">
+            </div>
+        </div>
+    </div>
+</form>
