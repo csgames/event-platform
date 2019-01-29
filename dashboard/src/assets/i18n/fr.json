@@ -15,6 +15,10 @@
 			"website": "Site internet",
 			"x_large": "Très grand"
 		},
+		"toast": {
+			"email_failed": "Une erreur est survenue lors de l'envoie du courriel.",
+			"email_success": "Courriel envoyé avec succès"
+		},
 		"top_bar": {
 			"profile_settings": "Paramètres du profil",
 			"sign_out": "Déconnexion"
@@ -26,6 +30,7 @@
 			"cancel": "Annuler",
 			"close": "Fermer",
 			"save": "Enregistrer",
+			"send": "Envoyer",
 			"subscribe": "S' abonner",
 			"validate": "Valider"
 		},
@@ -72,6 +77,7 @@
 		},
 		"login": {
 			"forgot_pass": "Mot de passe oublié?",
+			"login": "Connexion",
 			"login_error": "Identifiants invalides.",
 			"sign_in": "Connexion"
 		},
