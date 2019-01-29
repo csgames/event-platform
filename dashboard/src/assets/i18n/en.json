@@ -1,7 +1,101 @@
 {
-    "pages": {
-        "login": {
-            "sign_in": "Sign In"
-        }
-    }
+	"components": {
+		"top_bar": {
+			"profile_settings": "Profile settings",
+			"sign_out": "Sign Out"
+		}
+	},
+	"general": {
+		"button": {
+			"add": "Add",
+			"close": "Close",
+			"save": "Save",
+			"subscribe": "Subscribe",
+			"validate": "Validate"
+		},
+		"error": {
+			"something": "Something happened..."
+		},
+		"loading": {
+			"loading": "Loading..."
+		},
+		"profile": {
+			"email": "E-mail address",
+			"first_name": "First name",
+			"last_name": "Last name",
+			"password": "Password"
+		},
+		"team": {
+			"name": "Team name",
+			"school": "School"
+		},
+		"toast": {
+			"Error": "Error",
+			"failure": "Failure",
+			"success": "Success!"
+		}
+	},
+	"pages": {
+		"competition": {
+			"competition_password": "Competition password",
+			"competitions": "Competitions",
+			"other": "Other competitions",
+			"participate": "Participate",
+			"subscribed": "Subscribed competitions",
+			"wrong_password": "Wrong password"
+		},
+		"guide": {
+			"guide": "Guide",
+			"hotel": "Get to the hotel",
+			"parking": "Parkings",
+			"restaurants": "Restaurants and bars",
+			"what_to_bring": "What to bring?"
+		},
+		"home": {
+			"home": "Home"
+		},
+		"login": {
+			"forgot_pass": "Forgot password?",
+			"login_error": "Invalid e-mail or password.",
+			"sign_in": "Sign in"
+		},
+		"puzzle_hero": {
+			"other": "Other tracks",
+			"position": "Position",
+			"puzzle": "Puzzle",
+			"puzzle_hero": "Puzzle Hero",
+			"score": "Score",
+			"scoreboard": "Scoreboard",
+			"starred": "Starred tracks",
+			"track": "Track",
+			"wrong_answer": "Wrong answer!"
+		},
+		"register": {
+			"already_have_account": "Already have an account?",
+			"confirm_password": "Confirm password",
+			"register": "Register"
+		},
+		"schedule": {
+			"schedule": "Schedule",
+			"view_competition": "View competition"
+		},
+		"sponsor": {
+			"bronze": "Bronze",
+			"gold": "Gold",
+			"partner": "Partner",
+			"platinum": "Platinum",
+			"silver": "Silver",
+			"sponsors": "Sponsors"
+		},
+		"team": {
+			"add_godparent": "Add godparent",
+			"add_member": "Add member",
+			"godparent": "Godparent",
+			"no_godparent": "No godparent yet",
+			"not_registered": "Not registered",
+			"registered": "Registered",
+			"team": "Team",
+			"team_members": "Team members"
+		}
+	}
 }

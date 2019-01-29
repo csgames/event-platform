@@ -14,6 +14,7 @@ import { NotificationsListModalModule } from "../../modals/notifications-list-mo
 import { NotificationsListModalComponent } from "../../modals/notifications-list-modal/notifications-list-modal.component";
 import { LayoutModule } from "@angular/cdk/layout";
 import { MatToolbarModule, MatSidenavModule } from "@angular/material";
+import { TranslateModule } from "@ngx-translate/core";
 
 @NgModule({
     imports: [
@@ -28,6 +29,7 @@ import { MatToolbarModule, MatSidenavModule } from "@angular/material";
         GravatarModule.forRoot({ fallback: FALLBACK.mm }),
         LayoutModule,
         MatToolbarModule,
+        TranslateModule,
         MatSidenavModule
     ],
     declarations: [

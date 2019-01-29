@@ -6,6 +6,7 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { RouterModule } from "@angular/router";
 import { FlexLayoutModule } from "@angular/flex-layout";
 import { LoadingSpinnerModule } from "../../components/loading-spinner/loading-spinner.module";
+import { TranslateModule } from "@ngx-translate/core";
 
 @NgModule({
     imports: [
@@ -14,7 +15,8 @@ import { LoadingSpinnerModule } from "../../components/loading-spinner/loading-s
         ReactiveFormsModule,
         RouterModule,
         FlexLayoutModule,
-        LoadingSpinnerModule
+        LoadingSpinnerModule,
+        TranslateModule
     ],
     exports: [],
     declarations: [RegisterComponent],

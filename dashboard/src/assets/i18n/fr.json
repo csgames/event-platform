@@ -1,7 +1,101 @@
 {
-    "pages": {
-        "login": {
-            "sign_in": "Connexion"
-        }
-    }
+	"components": {
+		"top_bar": {
+			"profile_settings": "Paramètres du profil",
+			"sign_out": "Déconnexion"
+		}
+	},
+	"general": {
+		"button": {
+			"add": "Ajouter",
+			"close": "Fermer",
+			"save": "Enregistrer",
+			"subscribe": "S' abonner",
+			"validate": "Valider"
+		},
+		"error": {
+			"something": "Une erreur est survenue..."
+		},
+		"loading": {
+			"loading": "Chargement..."
+		},
+		"profile": {
+			"email": "Adresse courriel",
+			"first_name": "Prénom",
+			"last_name": "Nom de famille",
+			"password": "Mot de passe"
+		},
+		"team": {
+			"name": "Nom d'équipe",
+			"school": "École"
+		},
+		"toast": {
+			"Error": "Erreur",
+			"failure": "Échec",
+			"success": "Succès!"
+		}
+	},
+	"pages": {
+		"competition": {
+			"competition_password": "Mot de passe de la compétition",
+			"competitions": "Compétitions",
+			"other": "Autres compétitions",
+			"participate": "Participer",
+			"subscribed": "Compétitions abonnées",
+			"wrong_password": "Mauvais mot de passe"
+		},
+		"guide": {
+			"guide": "Guide",
+			"hotel": "Se rendre à l'hôtel",
+			"parking": "Stationnements",
+			"restaurants": "Restaurants et bars",
+			"what_to_bring": "Que faut-il apporter?"
+		},
+		"home": {
+			"home": "Accueil"
+		},
+		"login": {
+			"forgot_pass": "Mot de passe oublié?",
+			"login_error": "Identifiants invalides.",
+			"sign_in": "Connexion"
+		},
+		"puzzle_hero": {
+			"other": "Autres pistes",
+			"position": "Position",
+			"puzzle": "Défi",
+			"puzzle_hero": "Puzzle Hero",
+			"score": "Pointage",
+			"scoreboard": "Classement",
+			"starred": "Pistes favorites",
+			"track": "Piste",
+			"wrong_answer": "Mauvaise réponse!"
+		},
+		"register": {
+			"already_have_account": "Vous avez déjà un compte?",
+			"confirm_password": "Confirmer le mot de passe",
+			"register": "Enregistrer"
+		},
+		"schedule": {
+			"schedule": "Horaire",
+			"view_competition": "Voir la compétition"
+		},
+		"sponsor": {
+			"bronze": "Bronze",
+			"gold": "Or",
+			"partner": "Partenaire",
+			"platinum": "Platine",
+			"silver": "Argent",
+			"sponsors": "Commanditaires"
+		},
+		"team": {
+			"add_godparent": "Ajouter un(e) parrain/marraine",
+			"add_member": "Ajouter un coéquipier",
+			"godparent": "Parrain/Marraine",
+			"no_godparent": "Aucun(e) parrain/marraine pour l'instant",
+			"not_registered": "Non-enregistré",
+			"registered": "Enregistré",
+			"team": "Équipe",
+			"team_members": "Coéquipiers"
+		}
+	}
 }

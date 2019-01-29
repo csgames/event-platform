@@ -16,7 +16,7 @@
                                                     <i class="fas fa-user"></i>
                                                 </div>
                                                 <input autofocus class="form-control" type="text" name="first-name"
-                                                       placeholder="First Name">
+                                                       placeholder='{{ "general.profile.first_name" | translate }}'>
                                             </div>
                                         </div>
                                         <div class="col-sm-6 pl-sm-1">
@@ -25,7 +25,7 @@
                                                     <i class="fas fa-user"></i>
                                                 </div>
                                                 <input autofocus class="form-control" type="text" name="last-name"
-                                                       placeholder="Last Name">
+                                                       placeholder='{{ "general.profile.last_name" | translate }}'>
                                             </div>
                                         </div>
                                     </div>
@@ -37,7 +37,7 @@
                                                     <i class="fa fa-at"></i>
                                                 </div>
                                                 <input autofocus class="form-control" type="email"
-                                                       placeholder="Email Address">
+                                                       placeholder='{{ "general.profile.email" | translate }}'>
                                             </div>
                                         </div>
                                     </div>
@@ -49,7 +49,7 @@
                                                     <i class="fa fa-lock"></i>
                                                 </div>
                                                 <input class="form-control" type="password" name="password"
-                                                       placeholder="Password">
+                                                       placeholder='{{ "general.profile.password" | translate }}'>
                                             </div>
                                         </div>
                                     </div>
@@ -60,16 +60,16 @@
                                                     <i class="fa fa-lock"></i>
                                                 </div>
                                                 <input class="form-control" type="password" name="confirm-password"
-                                                       placeholder="Confirm Password">
+                                                       placeholder='{{ "pages.register.confirm_password" | translate }}'>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="text-center">
-                                        <a class="btn btn-primary btn-rounded mt-3 px-3" (click)="clickRegister()">Register</a>
+                                        <a class="btn btn-primary btn-rounded mt-3 px-3" (click)="clickRegister()">{{ "pages.register.register" | translate }}</a>
                                     </div>
                                     <hr>
                                     <div class="text-center mt-3">
-                                        <a [routerLink]="['/login']">Already have an account?</a>
+                                        <a [routerLink]="['/login']">{{ "pages.register.already_have_account" | translate }}</a>
                                     </div>
                                 </form>
                             </div>
