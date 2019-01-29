@@ -1,23 +1,16 @@
-import { InjectModel } from "@nestjs/mongoose";
-import { DocumentQuery, Model } from 'mongoose';
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
-import { Attendees } from "./attendees.model";
-import { BaseService } from "../../../services/base.service";
-import { CreateAttendeeDto, UpdateNotificationDto } from './attendees.dto';
-import { DataTableModel, DataTableReturnModel } from "../../../models/data-table.model";
-import { STSService } from "@polyhx/nest-services";
+import { InjectModel } from '@nestjs/mongoose';
 import * as mongoose from 'mongoose';
-
-interface AttendeeDtInterface extends Attendees {
-    email: string;
-    firstName: string;
-    lastName: string;
-    birthDate: string;
-}
+import { Model } from 'mongoose';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import { Attendees } from './attendees.model';
+import { BaseService } from '../../../services/base.service';
+import { CreateAttendeeDto, UpdateAttendeeDto, UpdateNotificationDto } from './attendees.dto';
+import { StorageService } from '@polyhx/nest-services';
 
 @Injectable()
 export class AttendeesService extends BaseService<Attendees, CreateAttendeeDto> {
-    constructor(@InjectModel("attendees") private readonly attendeesModel: Model<Attendees>) {
+    constructor(@InjectModel("attendees") private readonly attendeesModel: Model<Attendees>,
+                private storageService: StorageService) {
         super(attendeesModel);
     }
 
@@ -84,6 +77,32 @@ export class AttendeesService extends BaseService<Attendees, CreateAttendeeDto> 
             "notifications.notification": dto.notification
         }, {
             "notifications.$.seen": dto.seen
+        });
+    }
+
+    public async updateAttendeeInfo(conditionOrId: Object | string, dto: UpdateAttendeeDto, file: Express.Multer.File) {
+        if (typeof conditionOrId === "string") {
+            conditionOrId = {
+                _id: conditionOrId
+            };
+        }
+        const attendee = await this.findOne(conditionOrId);
+        if (file) {
+            if (attendee.cv) {
+                await this.storageService.delete(attendee.cv);
+            }
+            dto.cv = await this.storageService.upload(file, 'cv');
+        } else if (dto.cv === 'null') {
+            if (attendee.cv) {
+                await this.storageService.delete(attendee.cv);
+            }
+            dto.cv = null;
+        } else {
+            delete dto.cv;
+        }
+
+        await this.update(conditionOrId, {
+            ...dto
         });
     }
 }

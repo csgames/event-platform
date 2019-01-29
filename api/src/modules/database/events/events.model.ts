@@ -23,6 +23,7 @@ export interface EventAttendees extends mongoose.Document {
     attendee: (Attendees | mongoose.Types.ObjectId | string);
     role: EventAttendeeTypes;
     scannedAttendees: (Attendees | mongoose.Types.ObjectId | string)[];
+    registered: boolean;
 }
 
 export const EventRegistrationsSchema = new mongoose.Schema({
@@ -39,6 +40,11 @@ export const EventRegistrationsSchema = new mongoose.Schema({
         type: [mongoose.Schema.Types.ObjectId],
         ref: 'attendees'
     },
+    registered: {
+        type: Boolean,
+        required: true,
+        default: false
+    }
 });
 
 export interface EventSponsors extends mongoose.Document {

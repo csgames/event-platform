@@ -21,7 +21,7 @@ export class RegistrationsService {
     private roleTemplate = {
         attendee: 'attendee_account_creation',
         captain: 'captain_account_creation',
-        godfather: 'godfather_account_creation'
+        godfather: 'godparent_account_creation'
     };
     private roles: { [name: string]: string };
 
