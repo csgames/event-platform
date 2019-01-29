@@ -14,7 +14,7 @@
     </mat-sidenav>
     <mat-sidenav-content>
         <app-top-nav [showToggleSideNav]="isHandset$ | async"
-                     (toggleSideNav)="drawer.toggle()"></app-top-nav>
+                     (toggleSideNav)="drawer.toggle()" (editProfile)="editProfile()"></app-top-nav>
         <div class="content">
             <router-outlet></router-outlet>
         </div>

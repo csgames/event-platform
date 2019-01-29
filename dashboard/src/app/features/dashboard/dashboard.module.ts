@@ -15,6 +15,7 @@ import { NotificationsListModalComponent } from "../../modals/notifications-list
 import { LayoutModule } from "@angular/cdk/layout";
 import { MatToolbarModule, MatSidenavModule } from "@angular/material";
 import { LoadingSpinnerModule } from "../../components/loading-spinner/loading-spinner.module";
+import { ProfileSettingModule } from "./modals/profile-setting/profile-setting.module";
 
 @NgModule({
     imports: [
@@ -30,7 +31,8 @@ import { LoadingSpinnerModule } from "../../components/loading-spinner/loading-s
         LoadingSpinnerModule,
         LayoutModule,
         MatToolbarModule,
-        MatSidenavModule
+        MatSidenavModule,
+        ProfileSettingModule
     ],
     declarations: [
         DashboardComponent,

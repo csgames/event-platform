@@ -3,6 +3,10 @@ export enum PropertyDecoratorType {
     Group,
     Required,
     Email,
+    Min,
+    Max,
+    MinLength,
+    MaxLength,
     MatchesPattern,
     MatchesControl
 }
