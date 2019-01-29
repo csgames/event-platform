@@ -19,50 +19,88 @@
         <div class="input-group input-group-default input">
             <input class="form-control" type="text" id="teamName" [(ngModel)]="teamName">
         </div>
-        <button type="button" class="btn btn-primary btn-save" (click)="onSaveTeamName(teamName)">Save <i
-            class="fas fa-check"></i></button>
-        <button type="button" class="btn btn-danger" (click)="onCancelTeamName(teamName)">Cancel <i
-            class="fas fa-times"></i></button>
+        <button type="button" class="btn btn-primary btn-save" (click)="onSaveTeamName(teamName)">Save <i class="fas fa-check"></i></button>
+        <button type="button" class="btn btn-danger" (click)="onCancelTeamName(teamName)">Cancel <i class="fas fa-times"></i></button>
     </div>
-    <h4 class="team-members">Team members <b>({{ currentTeam?.attendees?.length }}/{{ currentTeam?.maxMembersNumber }}
-        )</b></h4>
-    <hr>
-    <div *ngFor="let member of currentTeam?.attendees">
-        <app-attendee style="margin-bottom:20px;" [attendee]="member">
-        </app-attendee>
-    </div>
-    <div *ifRole="['admin', 'captain']">
-        <button *ngIf="!this.isAddingTeamMember && currentTeam?.attendees?.length < currentTeam?.maxMembersNumber"
-                type="button"
+    <ng-container *ngIf="currentAttendees$ | async as currentAttendees">
+        <h4 class="team-members">Team members
+            <b>
+                ({{ currentAttendees?.length }}/{{ currentTeam?.maxMembersNumber }})
+            </b>
+        </h4>
+        <hr>
+        <div *ngFor="let member of currentAttendees">
+            <app-attendee style="margin-bottom:20px;" [attendee]="member">
+            </app-attendee>
+        </div>
+        <div *ifRole="['admin', 'captain']">
+            <button *ngIf="!this.isAddingTeamMember && currentAttendees?.length < currentTeam?.maxMembersNumber" type="button"
                 class="btn btn-lg btn-block borders" (click)="onEditTeamMember()">+ Add Member
-        </button>
-    </div>
+            </button>
+        </div>
+    </ng-container>
+
     <div *ngIf="this.isAddingTeamMember" class="card-wrapper">
         <div class="add-member-card">
             <div class="card-body">
                 Add a team member
                 <br>
                 <div class="input-group input-group-default input">
-                    <input class="form-control" type="text" id="teamName" placeholder="First name"
-                           [(ngModel)]="this.newAttendee.firstName">
+                    <input class="form-control" type="text" id="firstNameAttendee" placeholder="First name" [(ngModel)]="this.newAttendee.firstName">
                 </div>
                 <div class="input-group input-group-default input">
-                    <input class="form-control" type="text" id="teamName" placeholder="Last name"
-                           [(ngModel)]="this.newAttendee.lastName">
+                    <input class="form-control" type="text" id="lastNameAttendee" placeholder="Last name" [(ngModel)]="this.newAttendee.lastName">
                 </div>
                 <br>
                 <div class="input-group input-group-default input email">
-                    <input class="form-control" type="text" id="teamName" placeholder="Email adress"
-                           [(ngModel)]="this.newAttendee.email">
+                    <input class="form-control" type="text" id="emailAttendee" placeholder="Email adress" [(ngModel)]="this.newAttendee.email">
                 </div>
                 <a class="btn btn-primary" (click)="onAddTeamMember(this.newAttendee)">Add +</a>
                 <a class="btn btn-danger cancel" (click)="onCancelTeamMember()">Cancel <i class="fas fa-times"></i></a>
             </div>
         </div>
     </div>
-    <h4 class="team-members">Godparent <b>(0/1)</b></h4>
-    <hr>
-    <button *ifRole="['admin', 'captain']" type="button" class="btn btn-lg btn-block borders">+ Add godparent</button>
-    <div *ifRole="['attendee']" class="no-godparent">No godparent yet</div>
+    <ng-container *ngIf="currentGodparent$ | async as currentGodparent">
+        <h4 class="team-members">Godparent <b>({{currentGodparent?.length}}/1)</b></h4>
+        <hr>
+        <div *ngFor="let member of currentGodparent">
+            <app-attendee style="margin-bottom:20px;" [attendee]="member">
+            </app-attendee>
+        </div>
+        <div *ifRole="['admin', 'captain']">
+            <button *ngIf="!this.isAddingTeamGodparent && currentGodparent.length < 1" type="button" class="btn btn-lg btn-block borders"
+                (click)="onEditTeamGodparent()">+ Add
+                godparent</button>
+        </div>
+        <div *ngIf="this.isAddingTeamGodparent" class="card-wrapper">
+            <div class="add-member-card">
+                <div class="card-body">
+                    Add a team member
+                    <br>
+                    <div class="input-group input-group-default input">
+                        <input class="form-control" type="text" id="firstNameGodparent" placeholder="First name"
+                            [(ngModel)]="this.newAttendee.firstName">
+                    </div>
+                    <div class="input-group input-group-default input">
+                        <input class="form-control" type="text" id="lastNameGodparent" placeholder="Last name"
+                            [(ngModel)]="this.newAttendee.lastName">
+                    </div>
+                    <br>
+                    <div class="input-group input-group-default input email">
+                        <input class="form-control" type="text" id="emailGodparent" placeholder="Email adress"
+                            [(ngModel)]="this.newAttendee.email">
+                    </div>
+                    <a class="btn btn-primary" (click)="onAddTeamGodparent(this.newAttendee)">Add +</a>
+                    <a class="btn btn-danger cancel" (click)="onCancelTeamGodparent()">Cancel <i class="fas fa-times"></i></a>
+                </div>
+            </div>
+        </div>
+        <div *ifRole="['attendee']">
+            <div *ngIf="currentGodparent.length < 1" class="no-godparent">
+                No godparent yet
+            </div>
+        </div>
+    </ng-container>
+
 
 </ng-container>

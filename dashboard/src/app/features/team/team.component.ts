@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { Store, select } from "@ngrx/store";
-import { State, getCurrentTeam, getTeamLoading, getTeamError, getTeamGodparent } from "./store/team.reducer";
-import { LoadTeam, UpdateTeamName, AddTeamMember } from "./store/team.actions";
+import { State, getCurrentTeam, getTeamLoading, getTeamError, getTeamGodparent, getTeamAttendees } from "./store/team.reducer";
+import { LoadTeam, UpdateTeamName, AddTeamMember, AddTeamGodparent } from "./store/team.actions";
 import { Team } from "src/app/api/models/team";
 import { Attendee } from "src/app/api/models/attendee";
 import { first, filter } from "rxjs/operators";
@@ -21,6 +21,7 @@ export class TeamComponent implements OnInit {
     currentAttendee$ = this.store.pipe(select(fromApp.getCurrentAttendee));
     currentEvent$ = this.store.pipe(select(fromApp.getCurrentEvent));
     currentGodparent$ = this.store.pipe(select(getTeamGodparent));
+    currentAttendees$ = this.store.pipe(select(getTeamAttendees));
 
     isEditingTeamName: boolean;
     isAddingTeamMember: boolean;
@@ -39,22 +40,7 @@ export class TeamComponent implements OnInit {
             this.store.dispatch(new LoadTeam());
         });
 
-        this.newAttendee = {
-            firstName: "",
-            lastName: "",
-            email: "",
-            github: "",
-            linkedIn: "",
-            cv: "",
-            website: "",
-            gender: "",
-            tshirt: "",
-            phoneNumber: "",
-            acceptSMSNotifications: null,
-            hasDietaryRestrictions: null,
-            dietaryRestrictions: null,
-            isRegistered: false
-        };
+        this.setDefaultAttendee();
 
     }
 
@@ -70,6 +56,15 @@ export class TeamComponent implements OnInit {
 
     public onEditTeamMember(): void {
         this.isAddingTeamMember = true;
+        this.setDefaultAttendee();
+    }
+
+    public onEditTeamGodparent(): void {
+        this.isAddingTeamGodparent = true;
+        this.setDefaultAttendee();
+    }
+
+    public setDefaultAttendee(): void {
         this.newAttendee = {
             firstName: "",
             lastName: "",
@@ -103,5 +98,17 @@ export class TeamComponent implements OnInit {
 
     public onCancelTeamMember(): void {
         this.isAddingTeamMember = false;
+    }
+
+    public onCancelTeamGodparent(): void {
+        this.isAddingTeamGodparent = false;
+    }
+
+    public onAddTeamGodparent(newGodparent: Attendee): void {
+        this.isAddingTeamGodparent = false;
+        this.store.dispatch(new AddTeamGodparent({
+            newGodparent,
+            role: "godfather"
+        }));
     }
 }

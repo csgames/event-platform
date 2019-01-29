@@ -30,4 +30,14 @@ export class TeamService {
             teamName: teamName
         });
     }
+
+    addTeamGodparent(newGodparent: Attendee, teamName: string, role: string): Observable<any> {
+        return this.apiService.registration.inviteAttendee({
+            firstName: newGodparent.firstName,
+            lastName: newGodparent.lastName,
+            email: newGodparent.email,
+            role: role,
+            teamName: teamName
+        });
+    }
 }
