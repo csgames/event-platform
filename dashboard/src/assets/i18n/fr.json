@@ -1,5 +1,20 @@
 {
 	"components": {
+		"profile": {
+			"2x_large": "Très très grand",
+			"female": "Femme",
+			"gender": "Sexe",
+			"large": "Grand",
+			"male": "Homme",
+			"medium": "Moyen",
+			"no_answer": "Je préfère ne pas répondre.",
+			"other": "Autre",
+			"phone": "Numéro de téléphone",
+			"profile": "Profile",
+			"small": "Petit",
+			"website": "Site internet",
+			"x_large": "Très grand"
+		},
 		"top_bar": {
 			"profile_settings": "Paramètres du profil",
 			"sign_out": "Déconnexion"
@@ -8,6 +23,7 @@
 	"general": {
 		"button": {
 			"add": "Ajouter",
+			"cancel": "Annuler",
 			"close": "Fermer",
 			"save": "Enregistrer",
 			"subscribe": "S' abonner",
@@ -88,14 +104,16 @@
 			"sponsors": "Commanditaires"
 		},
 		"team": {
+			"add_a_member": "Ajouter un membre",
 			"add_godparent": "Ajouter un(e) parrain/marraine",
-			"add_member": "Ajouter un coéquipier",
+			"add_member": "Ajouter un membre",
 			"godparent": "Parrain/Marraine",
+			"loading_error": "Une erreur est survenue lors du chargement de l'équipe.",
 			"no_godparent": "Aucun(e) parrain/marraine pour l'instant",
 			"not_registered": "Non-enregistré",
 			"registered": "Enregistré",
 			"team": "Équipe",
-			"team_members": "Coéquipiers"
+			"team_members": "Membres de l'équipe"
 		}
 	}
 }

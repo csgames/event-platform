@@ -1,5 +1,20 @@
 {
 	"components": {
+		"profile": {
+			"2x_large": "XX-Large",
+			"female": "Female",
+			"gender": "Gender",
+			"large": "Large",
+			"male": "Male",
+			"medium": "Medium",
+			"no_answer": "I prefer not to answer.",
+			"other": "Other",
+			"phone": "Phone number",
+			"profile": "Profile",
+			"small": "Small",
+			"website": "Website",
+			"x_large": "X-Large"
+		},
 		"top_bar": {
 			"profile_settings": "Profile settings",
 			"sign_out": "Sign Out"
@@ -8,6 +23,7 @@
 	"general": {
 		"button": {
 			"add": "Add",
+			"cancel": "Cancel",
 			"close": "Close",
 			"save": "Save",
 			"subscribe": "Subscribe",
@@ -88,9 +104,11 @@
 			"sponsors": "Sponsors"
 		},
 		"team": {
+			"add_a_member": "Add a team member",
 			"add_godparent": "Add godparent",
 			"add_member": "Add member",
 			"godparent": "Godparent",
+			"loading_error": "An error occured while loading the team.",
 			"no_godparent": "No godparent yet",
 			"not_registered": "Not registered",
 			"registered": "Registered",

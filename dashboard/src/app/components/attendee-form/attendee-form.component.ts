@@ -18,7 +18,7 @@ import { Subscription } from "rxjs";
 })
 export class AttendeeFormComponent implements OnInit, OnDestroy, ControlValueAccessor {
     public gender = ["male", "female", "other", "no_answer"];
-    public tshirtSize = ["small", "medium", "large", "x-large", "2x-large"];
+    public tshirtSize = ["small", "medium", "large", "x_large", "2x_large"];
     public attendee: Attendee;
     public formGroup: FormGroup;
 

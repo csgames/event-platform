@@ -7,6 +7,7 @@ import { FormBuilder, FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { ATTENDEE_FORM_GENERATOR } from "./attendee-form.constants";
 import { AttendeeFormDto } from "./dto/attendee-form.dto";
 import { NgxMaskModule } from "ngx-mask";
+import { TranslateModule } from "@ngx-translate/core"
 
 @NgModule({
     imports: [
@@ -14,7 +15,8 @@ import { NgxMaskModule } from "ngx-mask";
         FormsModule,
         ReactiveFormsModule,
         NgSelectModule,
-        NgxMaskModule.forChild()
+        NgxMaskModule.forChild(),
+        TranslateModule
     ],
     declarations: [AttendeeFormComponent],
     providers: [
