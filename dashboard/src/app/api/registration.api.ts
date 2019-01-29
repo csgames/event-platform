@@ -3,6 +3,7 @@ import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { Registration } from "./models/registration";
 import { Injectable } from "@angular/core";
+import { CreateInvitationDto } from "./dto/registration";
 
 @Injectable()
 export class RegistrationApi extends CSGamesApi {
@@ -18,5 +19,9 @@ export class RegistrationApi extends CSGamesApi {
                 "With-Event": "false"
             }
         });
+    }
+
+    public inviteAttendee(dto: CreateInvitationDto): Observable<Registration> {
+        return this.http.post<Registration>(this.url(), dto, { withCredentials: true});
     }
 }

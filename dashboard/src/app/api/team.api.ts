@@ -13,4 +13,8 @@ export class TeamApi extends CSGamesApi {
     public getTeam(): Observable<Team> {
         return this.http.get<Team>(this.url("info"), { withCredentials: true });
     }
+
+    public updateTeamName(name: string, id: string): Observable<void> {
+        return this.http.put<void>(this.url(`${id}`), { name }, { withCredentials: true});
+    }
 }
