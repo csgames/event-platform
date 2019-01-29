@@ -28,8 +28,7 @@
         )</b></h4>
     <hr>
     <div *ngFor="let member of currentTeam?.attendees">
-        <app-attendee style="margin-bottom:20px;" [attendee]="member">
-        </app-attendee>
+        <app-attendee style="margin-bottom:20px;" [attendee]="member"></app-attendee>
     </div>
     <div *ifRole="['admin', 'captain']">
         <button *ngIf="!this.isAddingTeamMember && currentTeam?.attendees?.length < currentTeam?.maxMembersNumber"
