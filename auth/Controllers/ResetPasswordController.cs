@@ -25,20 +25,20 @@ namespace STS.Controllers
         }
 
         [HttpPost]
-        public Task<IActionResult> Create([FromBody] AskResetPasswordInput input)
+        public IActionResult Create([FromBody] AskResetPasswordInput input)
         {
-            return Task.Run<IActionResult>(async () =>
+            Task.Run(async () =>
             {
                 if (!ModelState.IsValid)
                 {
-                    return BadRequest();
+                    return;
                 }
 
                 var user = _db.Single<User>(c => c.Username.ToLower() == input.Username.ToLower());
 
                 if (user == null)
                 {
-                    return new StatusCodeResult((int) HttpStatusCode.BadRequest);
+                    return;
                 }
 
                 ResetPassword resetPassword;
@@ -84,9 +84,8 @@ namespace STS.Controllers
                     }
                 };
                 var res = await _mailService.SendEmail(mailInput);
-
-                return res ? (IActionResult) Ok(new { }) : BadRequest();
             });
+            return Ok();
         }
 
         [HttpGet("{uuid}")]
