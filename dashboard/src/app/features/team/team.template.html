@@ -12,24 +12,30 @@
         <h2>{{ currentTeam?.name}}
             <button *ifRole="['admin', 'captain']" type="button" class="btn">
                 <i class="far fa-edit fa-lg" (click)="onEditTeamName(currentTeam)"></i>
-            </button></h2>
+            </button>
+        </h2>
     </div>
     <div *ngIf="this.isEditingTeamName">
         <div class="input-group input-group-default input">
             <input class="form-control" type="text" id="teamName" [(ngModel)]="teamName">
         </div>
-        <button type="button" class="btn btn-primary btn-save" (click)="onSaveTeamName(teamName)">Save <i class="fas fa-check"></i></button>
-        <button type="button" class="btn btn-danger" (click)="onCancelTeamName(teamName)">Cancel <i class="fas fa-times"></i></button>
+        <button type="button" class="btn btn-primary btn-save" (click)="onSaveTeamName(teamName)">Save <i
+            class="fas fa-check"></i></button>
+        <button type="button" class="btn btn-danger" (click)="onCancelTeamName(teamName)">Cancel <i
+            class="fas fa-times"></i></button>
     </div>
-    <h4 class="team-members">Team members <b>({{ currentTeam?.attendees?.length }}/{{ currentTeam?.maxMembersNumber }})</b></h4>
+    <h4 class="team-members">Team members <b>({{ currentTeam?.attendees?.length }}/{{ currentTeam?.maxMembersNumber }}
+        )</b></h4>
     <hr>
     <div *ngFor="let member of currentTeam?.attendees">
         <app-attendee style="margin-bottom:20px;" [attendee]="member">
         </app-attendee>
     </div>
     <div *ifRole="['admin', 'captain']">
-        <button *ngIf="!this.isAddingTeamMember && currentTeam?.attendees?.length < currentTeam?.maxMembersNumber" type="button"
-            class="btn btn-lg btn-block borders" (click)="onEditTeamMember()">+ Add Member</button>
+        <button *ngIf="!this.isAddingTeamMember && currentTeam?.attendees?.length < currentTeam?.maxMembersNumber"
+                type="button"
+                class="btn btn-lg btn-block borders" (click)="onEditTeamMember()">+ Add Member
+        </button>
     </div>
     <div *ngIf="this.isAddingTeamMember" class="card-wrapper">
         <div class="add-member-card">
@@ -37,14 +43,17 @@
                 Add a team member
                 <br>
                 <div class="input-group input-group-default input">
-                    <input class="form-control" type="text" id="teamName" placeholder="First name" [(ngModel)]="this.newAttendee.firstName">
+                    <input class="form-control" type="text" id="teamName" placeholder="First name"
+                           [(ngModel)]="this.newAttendee.firstName">
                 </div>
                 <div class="input-group input-group-default input">
-                    <input class="form-control" type="text" id="teamName" placeholder="Last name" [(ngModel)]="this.newAttendee.lastName">
+                    <input class="form-control" type="text" id="teamName" placeholder="Last name"
+                           [(ngModel)]="this.newAttendee.lastName">
                 </div>
                 <br>
                 <div class="input-group input-group-default input email">
-                    <input class="form-control" type="text" id="teamName" placeholder="Email adress" [(ngModel)]="this.newAttendee.email">
+                    <input class="form-control" type="text" id="teamName" placeholder="Email adress"
+                           [(ngModel)]="this.newAttendee.email">
                 </div>
                 <a class="btn btn-primary" (click)="onAddTeamMember(this.newAttendee)">Add +</a>
                 <a class="btn btn-danger cancel" (click)="onCancelTeamMember()">Cancel <i class="fas fa-times"></i></a>
