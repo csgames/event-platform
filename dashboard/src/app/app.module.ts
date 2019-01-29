@@ -15,7 +15,7 @@ import { StoreDevtoolsModule } from "@ngrx/store-devtools";
 import { BsDropdownModule } from "ngx-bootstrap/dropdown";
 import { LoginModule } from "./features/login/login.module";
 import { RegisterModule } from "./features/register/register.module";
-import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { BrowserAnimationsModule, NoopAnimationsModule } from "@angular/platform-browser/animations";
 import { ApiModule } from "./api/api.module";
 import { TranslateLoader, TranslateModule } from "@ngx-translate/core";
 import { TranslateHttpLoader } from "@ngx-translate/http-loader";
@@ -28,6 +28,9 @@ import { StoreRouterConnectingModule } from "@ngrx/router-store";
 import { TeamService } from "./providers/team.service";
 import { EventService } from "./providers/event.service";
 import { RegisterService } from "./providers/register.service";
+import { ForgetModule } from "./features/forget/forget.module";
+import { ForgetService } from "./providers/forget.service";
+import { ToastrModule } from "ngx-toastr";
 
 export function loadFactory(http: HttpClient): TranslateHttpLoader {
     return new TranslateHttpLoader(http, "../assets/i18n/", ".json");
@@ -52,15 +55,16 @@ export function loadFactory(http: HttpClient): TranslateHttpLoader {
             }
         }),
         ApiModule,
-
+        ForgetModule,
         StoreModule.forRoot(fromApp.appReducers, { metaReducers: fromApp.appMetaReducers }),
         EffectsModule.forRoot([
             AppEffects
         ]),
         StoreRouterConnectingModule.forRoot(),
         !environment.production ? StoreDevtoolsModule.instrument() : [],
-        BrowserAnimationsModule
-
+        BrowserAnimationsModule,
+        ToastrModule.forRoot(),
+        NoopAnimationsModule
     ],
     providers: [
         AuthenticationService,
@@ -69,7 +73,8 @@ export function loadFactory(http: HttpClient): TranslateHttpLoader {
         AuthenticatedGuard,
         NotAuthenticatedGuard,
         TeamService,
-        RegisterService
+        RegisterService,
+        ForgetService
     ],
     bootstrap: [AppComponent]
 })

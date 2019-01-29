@@ -3,6 +3,7 @@ import { AuthApi } from "./auth.api";
 import { AttendeeApi } from "./attendee.api";
 import { EventApi } from "./event.api";
 import { RegistrationApi } from "./registration.api";
+import { ForgetApi } from "./forget.api";
 
 @Injectable({
     providedIn: "root"
@@ -13,7 +14,8 @@ export class ApiService {
         private authApi: AuthApi,
         private attendeeApi: AttendeeApi,
         private eventApi: EventApi,
-        private registrationApi: RegistrationApi
+        private registrationApi: RegistrationApi,
+        private forgetApi: ForgetApi
     ) { }
 
     public get auth(): AuthApi {
@@ -30,5 +32,9 @@ export class ApiService {
 
     public get registration(): RegistrationApi {
         return this.registrationApi;
+    }
+
+    public get forget(): ForgetApi {
+        return this.forgetApi;
     }
 }

@@ -18,5 +18,5 @@ export class AuthenticationService {
 
     logout(): Observable<void> {
         return this.api.auth.logout();
-    }
+    }    
 }

@@ -3,3 +3,7 @@ export interface LoginDto {
     password: string;
     remember: boolean;
 }
+
+export interface ForgetDto {
+    email: string;
+}
