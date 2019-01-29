@@ -28,8 +28,6 @@ export class LoginEffects {
     @Effect({ dispatch: false })
     loginSuccess$ = this.actions$.pipe(
         ofType<LoginSuccess>(LoginActionTypes.LoginSuccess),
-        tap(() => {
-            this.router.navigate(["/dashboard"]);
-        })
+        tap(() => this.router.navigate(["/dashboard"]))
     );
 }

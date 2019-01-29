@@ -3,6 +3,7 @@ import { AuthApi } from "./auth.api";
 import { AttendeeApi } from "./attendee.api";
 import { EventApi } from "./event.api";
 import { RegistrationApi } from "./registration.api";
+import { PasswordApi } from "./password.api";
 import { TeamApi } from "./team.api";
 
 @Injectable({
@@ -15,6 +16,7 @@ export class ApiService {
         private attendeeApi: AttendeeApi,
         private eventApi: EventApi,
         private registrationApi: RegistrationApi,
+        private passwordApi: PasswordApi,
         private teamApi: TeamApi
     ) { }
 
@@ -34,6 +36,10 @@ export class ApiService {
         return this.registrationApi;
     }
 
+    public get password(): PasswordApi {
+        return this.passwordApi;
+    }
+    
     public get team(): TeamApi {
         return this.teamApi;
     }

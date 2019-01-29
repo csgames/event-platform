@@ -1,7 +1,7 @@
 import { GatewayApi } from "./gateway.api";
 import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
-import { IsLoggedIn, Login } from "./definitions/auth";
+import { IsLoggedIn, Login, Forget } from "./definitions/auth";
 import { Injectable } from "@angular/core";
 import { LoginDto } from "./dto/auth";
 import { map } from "rxjs/operators";
