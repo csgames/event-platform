@@ -26,7 +26,6 @@ export class RegisterFormComponent implements OnInit, ControlValueAccessor {
     ngOnInit() {
         this.formGroup = this.formGenerator.generateGroup();
         this.formGroup.valueChanges.subscribe(createAttendeeFormDto => {
-            console.log(this.formGroup);
             this.propagate(createAttendeeFormDto);
         });
     }

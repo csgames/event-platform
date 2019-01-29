@@ -7,7 +7,9 @@ import { Subscription } from "rxjs";
 export class ControlStatusDirective implements OnInit, OnDestroy, DoCheck {
     private valueSubscription: Subscription;
     private parent: HTMLElement;
+    private inputGroup: HTMLElement;
     private errorGroup: HTMLElement;
+    private isGroup = false;
     private error: HTMLElement;
     private errorPrefix;
 
@@ -19,8 +21,10 @@ export class ControlStatusDirective implements OnInit, OnDestroy, DoCheck {
     ) {}
 
     public ngOnInit() {
-        this.parent = this.getParent();
+        this.inputGroup = this.getInputGroup();
         this.errorGroup = this.getErrorGroup();
+        this.parent = this.getParent();
+        this.isGroup = !!this.errorGroup;
         this.errorGroup = this.errorGroup ? this.errorGroup : this.parent;
         this.valueSubscription = this.control.statusChanges.subscribe(() => {
             this.checkForError();
@@ -44,10 +48,10 @@ export class ControlStatusDirective implements OnInit, OnDestroy, DoCheck {
         this.checkForError();
     }
 
-    private getParent(): HTMLElement {
+    private getInputGroup(): HTMLElement {
         let parent: HTMLElement = this.el.nativeElement.parentElement;
         while (parent) {
-            if (parent.classList.contains("form-group")) {
+            if (parent.classList.contains("input-group")) {
                 return parent;
             }
 
@@ -57,7 +61,12 @@ export class ControlStatusDirective implements OnInit, OnDestroy, DoCheck {
         return null;
     }
 
+    private getParent(): HTMLElement {
+        return this.getInputGroup().parentElement;
+    }
+
     private getErrorGroup(): HTMLElement {
+
         let group: HTMLElement = this.el.nativeElement.parentElement;
         while (group) {
             if (group.classList.contains("error-group")) {
@@ -70,7 +79,7 @@ export class ControlStatusDirective implements OnInit, OnDestroy, DoCheck {
         return null;
     }
 
-    private getControlError(): HTMLElement {
+    private getControlError(validationError: string): HTMLElement {
         const children = this.errorGroup.children;
         for (let i = 0; i < children.length; i++) {
             if (children.item(i).classList.contains("control-error")) {
@@ -78,20 +87,28 @@ export class ControlStatusDirective implements OnInit, OnDestroy, DoCheck {
                 return this.error;
             }
         }
-        this.error = this.renderer.createElement("span") as HTMLSpanElement;
-        this.error.classList.add("control-error");
-        return this.error;
+        const error = this.renderer.createElement("span") as HTMLSpanElement;
+        error.classList.add("control-error");
+        error.innerText = this.translateService.instant(`${this.errorPrefix}.${validationError}`);
+        if (this.isGroup) {
+            const col = this.renderer.createElement("div") as HTMLDivElement;
+            col.classList.add("col-sm-12");
+            col.classList.add("control-error");
+            col.appendChild(error);
+            return col;
+        }
+        return error;
     }
 
     private checkForError() {
         if (this.control.invalid && this.control.dirty && this.parent) {
-            if (!this.parent.classList.contains("has-error")) {
-                this.parent.classList.add("has-error");
+            if (!this.inputGroup.classList.contains("has-error")) {
+                this.inputGroup.classList.add("has-error");
                 this.createError();
             }
         } else if (this.parent) {
-            if (this.parent.classList.contains("has-error")) {
-                this.parent.classList.remove("has-error");
+            if (this.inputGroup.classList.contains("has-error")) {
+                this.inputGroup.classList.remove("has-error");
                 this.removeError();
             }
         }
@@ -101,8 +118,11 @@ export class ControlStatusDirective implements OnInit, OnDestroy, DoCheck {
         for (const error in this.control.errors) {
             if (this.control.errors.hasOwnProperty(error)) {
                 if (this.control.errors[error]) {
-                    this.getControlError();
-                    this.error.innerText = this.translateService.instant(`${this.errorPrefix}.${error}`);
+                    let errorKey = error;
+                    if (error === "pattern") {
+                        errorKey = this.control.errors[error].requiredPattern;
+                    }
+                    this.error = this.getControlError(errorKey);
                     if (this.error.dataset.errors === "0" || !this.error.dataset.errors) {
                         this.errorGroup.appendChild(this.error);
                         this.error.dataset.errors = "1";

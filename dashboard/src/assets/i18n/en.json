@@ -121,5 +121,14 @@
 			"team": "Team",
 			"team_members": "Team members"
 		}
-	}
+	},
+    "errors": {
+        "required": "This field is required.",
+        "passwords_mismatch": "The passwords do not match.",
+        "email": "The email is invalid.",
+        "/^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{8,}$/": "The password must contain at least 8 characters including a number, a lower case letter and a upper case letter",
+        "group": {
+            "required": "One or more fields are required."
+        }
+    }
 }
