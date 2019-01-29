@@ -14,6 +14,7 @@ import { NotificationsListModalModule } from "../../modals/notifications-list-mo
 import { NotificationsListModalComponent } from "../../modals/notifications-list-modal/notifications-list-modal.component";
 import { LayoutModule } from "@angular/cdk/layout";
 import { MatToolbarModule, MatSidenavModule } from "@angular/material";
+import { TranslateModule } from "@ngx-translate/core";
 import { LoadingSpinnerModule } from "../../components/loading-spinner/loading-spinner.module";
 import { ProfileSettingModule } from "./modals/profile-setting/profile-setting.module";
 
@@ -31,6 +32,7 @@ import { ProfileSettingModule } from "./modals/profile-setting/profile-setting.m
         LoadingSpinnerModule,
         LayoutModule,
         MatToolbarModule,
+        TranslateModule,
         MatSidenavModule,
         ProfileSettingModule
     ],

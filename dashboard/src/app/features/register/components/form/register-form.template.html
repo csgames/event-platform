@@ -5,8 +5,8 @@
                 <div class="input-group-prepend">
                     <i class="fas fa-user"></i>
                 </div>
-                <input autofocus class="form-control" type="text" name="first-name" formControlName="firstName"
-                       placeholder="First Name">
+                <input autofocus class="form-control" type="text" name="first-name"
+                       placeholder='{{ "general.profile.first_name" | translate }}'>
             </div>
         </div>
         <div class="col-sm-6 pl-sm-1">
@@ -14,8 +14,8 @@
                 <div class="input-group-prepend">
                     <i class="fas fa-user"></i>
                 </div>
-                <input autofocus class="form-control" type="text" name="last-name" formControlName="lastName"
-                       placeholder="Last Name">
+                <input autofocus class="form-control" type="text" name="last-name"
+                       placeholder='{{ "general.profile.last_name" | translate }}'>
             </div>
         </div>
     </div>
@@ -26,8 +26,8 @@
                 <div class="input-group-prepend">
                     <i class="fa fa-at"></i>
                 </div>
-                <input class="form-control" type="email" formControlName="username"
-                       placeholder="Email Address">
+                <input autofocus class="form-control" type="email"
+                       placeholder='{{ "general.profile.email" | translate }}'>
             </div>
         </div>
     </div>
@@ -38,8 +38,8 @@
                 <div class="input-group-prepend">
                     <i class="fa fa-lock"></i>
                 </div>
-                <input class="form-control" type="password" name="password" formControlName="password"
-                       placeholder="Password">
+                <input class="form-control" type="password" name="password"
+                       placeholder='{{ "general.profile.password" | translate }}'>
             </div>
         </div>
     </div>
@@ -49,8 +49,8 @@
                 <div class="input-group-prepend">
                     <i class="fa fa-lock"></i>
                 </div>
-                <input class="form-control" type="password" name="confirm-password" formControlName="confirmPassword"
-                       placeholder="Confirm Password">
+                <input class="form-control" type="password" name="confirm-password"
+                       placeholder='{{ "pages.register.confirm_password" | translate }}'>
             </div>
         </div>
     </div>

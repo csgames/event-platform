@@ -5,13 +5,15 @@ import { catchError, exhaustMap, map, tap } from "rxjs/operators";
 import { of } from "rxjs";
 import { PasswordService } from "src/app/providers/password.service";
 import { ToastrService } from "ngx-toastr";
+import { TranslateService } from "@ngx-translate/core";
 
 @Injectable()
 export class ForgetEffects {
     constructor(
         private actions$: Actions,
         private passwordService: PasswordService,
-        private toastr: ToastrService
+        private toastr: ToastrService,
+        private translateService: TranslateService
     ) {}
 
     @Effect()
@@ -29,7 +31,8 @@ export class ForgetEffects {
     resetSuccess$ = this.actions$.pipe(
         ofType<ForgetSuccess>(ForgetActionTypes.ForgetSuccess),
         tap(() => {
-            this.toastr.success('Successfully sent the email to the user.');
+            let text: string = this.translateService.instant('components.toast.email_success');
+            this.toastr.success(text);
         })
     );
 
@@ -37,6 +40,7 @@ export class ForgetEffects {
     resetFail$ = this.actions$.pipe(
         ofType<ForgetFailure>(ForgetActionTypes.ForgetFailure),
         tap(() => {
+            let text: string = this.translateService.instant('components.toast.email_failed');
             this.toastr.error('An error occured while sending the reset password email.');
         })
     );    

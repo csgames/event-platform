@@ -14,17 +14,17 @@
                                             <i class="fa fa-user"></i>
                                         </div>
                                         <input autofocus class="form-control" name="email" type="email"
-                                               [(ngModel)]="email" placeholder="Email Address">
+                                               [(ngModel)]="email" placeholder='{{ "general.profile.email" | translate }}'>
 
                                     </div>
                                     <div class="text-center">
                                         <a class="btn btn-primary btn-rounded mt-3 px-3" (click)="clickForget()">
-                                            Send
+                                            {{ "general.button.send" | translate }}
                                         </a>
                                     </div>
                                     <hr>
                                     <div class="text-center mt-3">
-                                        <a href="/login">Login</a>
+                                        <a href="/login">{{ "pages.login.login" | translate }}</a>
                                     </div>
                                 </form>
                             </div>

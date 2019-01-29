@@ -4,6 +4,7 @@ import { CommonModule } from "@angular/common";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { RouterModule } from "@angular/router";
 import { TeamRoutingModule } from "./team-routing.module";
+import { TranslateModule } from "@ngx-translate/core";
 import { AttendeeComponent } from "./attendee/attendee.component";
 import { StoreModule } from "@ngrx/store";
 import * as fromTeam from "./store/team.reducer";
@@ -19,6 +20,7 @@ import { DirectivesModule } from "src/app/directives/directives.module";
         FormsModule,
         ReactiveFormsModule,
         RouterModule,
+        TranslateModule,
         TeamRoutingModule,
         StoreModule.forFeature("team", fromTeam.reducer),
         EffectsModule.forFeature([TeamEffects]),
