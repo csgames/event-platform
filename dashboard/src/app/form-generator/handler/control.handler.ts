@@ -14,6 +14,10 @@ export class ControlHandler {
         [PropertyDecoratorType.Control]: ControlHandler.setupControl,
         [PropertyDecoratorType.Required]: ControlHandler.setupRequired,
         [PropertyDecoratorType.Email]: ControlHandler.setupEmail,
+        [PropertyDecoratorType.Min]: ControlHandler.setupMin,
+        [PropertyDecoratorType.Max]: ControlHandler.setupMax,
+        [PropertyDecoratorType.MinLength]: ControlHandler.setupMinLength,
+        [PropertyDecoratorType.MaxLength]: ControlHandler.setupMaxLength,
         [PropertyDecoratorType.MatchesControl]: ControlHandler.setupMatchesControl,
         [PropertyDecoratorType.MatchesPattern]: ControlHandler.setupMatchesPattern
     };
@@ -57,6 +61,22 @@ export class ControlHandler {
 
     private static setupEmail(control: ControlModel, target: object, propertyKey: string, data?: any) {
         control.validators.push(Validators.email);
+    }
+
+    private static setupMin(control: ControlModel, target: object, propertyKey: string, data?: any) {
+        control.validators.push(Validators.minLength(data));
+    }
+
+    private static setupMax(control: ControlModel, target: object, propertyKey: string, data?: any) {
+        control.validators.push(Validators.maxLength(data));
+    }
+
+    private static setupMinLength(control: ControlModel, target: object, propertyKey: string, data?: any) {
+        control.validators.push(Validators.minLength(data));
+    }
+
+    private static setupMaxLength(control: ControlModel, target: object, propertyKey: string, data?: any) {
+        control.validators.push(Validators.maxLength(data));
     }
 
     private static setupMatchesControl(control: ControlModel, target: object, propertyKey: string, data?: any) {

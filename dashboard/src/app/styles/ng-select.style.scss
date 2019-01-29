@@ -17,6 +17,10 @@ ng-select.ng-select-opened > .ng-select-container {
     margin-top: 4px;
 }
 
+.ng-value {
+    margin-top: 4px;
+}
+
 .ng-select.ng-select-focused:not(.ng-select-opened) > .ng-select-container {
     box-shadow: none !important;
 }
@@ -36,12 +40,12 @@ ng-select.ng-select-opened > .ng-select-container {
 
 .ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-selected {
     color: #333;
-    background-color: #edffe6;
+    background-color: rgba(51, 111, 230, 0.18);
 }
 
 .ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-marked {
     color: #FFF;
-    background-color: rgba(51, 111, 230, 0.75);
+    background-color: rgba(51, 111, 230, 0.75) !important;
 }
 
 .no-select {
