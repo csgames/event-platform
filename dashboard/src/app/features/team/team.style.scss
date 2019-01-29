@@ -1,20 +1,63 @@
 .borders {
-    border-style: dotted;
-    border: 2px solid #00579c !important; /* Green */
+    border: 2px dashed #00579c;
+    width: 99%;
+    margin-bottom: 10px;
 }
+
 .btn .save-btn {
     border-radius: 2px;
-    background-color:#00579c;
-    margin-top: 10px; 
+    background-color: #00579c;
+    margin-top: 10px;
 }
+
 .error {
     color: #f15e58;
     text-align: center;
 }
+
 .add-member-card {
-   background-color: #ffffff;
-   margin-bottom: 20px;
-   width: 100%;
-   border-radius: 6px;
-   box-shadow: 0 1px 4px 0 rgba(0, 0, 0, .14);
+    background-color: #ffffff;
+    margin-bottom: 20px;
+    width: 100%;
+    border-radius: 6px;
+    box-shadow: 0 1px 4px 0 rgba(0, 0, 0, .14);
+}
+
+.card-wrapper {
+    width: 99%;
+}
+
+.input {
+    width: 30%;
+    display: inline-flex;
+}
+
+.btn-save {
+    display: inline-block;
+    margin-right: 10px;
+}
+
+.btn-primary {
+    background-color: #00579c;
+    border-color: #00579c;
+    color: white !important;
+}
+
+.btn-danger {
+    background-color: #f15e58;
+    border-color: #f15e58;
+    color: white !important;
+}
+
+.email {
+    width: 61%;
+}
+
+.cancel {
+    margin-left: 10px;
+}
+
+.no-godparent {
+    font-weight: bold;
+    text-align: center;
 }

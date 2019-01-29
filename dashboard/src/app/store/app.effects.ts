@@ -3,7 +3,7 @@ import { Actions, Effect, ofType } from "@ngrx/effects";
 import { AuthenticationService } from "../providers/authentication.service";
 import {
     AppActionTypes,
-    CurrentAttendeeLoaded,
+    CurrentAttendeeLoaded, EditProfile,
     EventsLoaded,
     GlobalError,
     LoadCurrentAttendee,
@@ -18,6 +18,8 @@ import { Event } from "../api/models/event";
 import { Attendee } from "../api/models/attendee";
 import { of } from "rxjs";
 import { EventService } from "../providers/event.service";
+import { SimpleModalService } from "ngx-simple-modal";
+import { ProfileSettingComponent } from "../features/dashboard/modals/profile-setting/profile-setting.component";
 
 @Injectable()
 export class AppEffects {
@@ -27,7 +29,8 @@ export class AppEffects {
         private authenticationService: AuthenticationService,
         private attendeeService: AttendeeService,
         private eventService: EventService,
-        private router: Router
+        private router: Router,
+        private modalService: SimpleModalService
     ) {}
 
     @Effect({ dispatch: false })
@@ -97,5 +100,13 @@ export class AppEffects {
         ofType<SetCurrentEvent>(AppActionTypes.SetCurrentEvent),
         tap((action) => this.eventService.saveCurrentEvent(action.event._id)),
         map(() => new LoadCurrentAttendee())
+    );
+
+    @Effect({ dispatch: false })
+    editProfile$ = this.actions$.pipe(
+        ofType<EditProfile>(AppActionTypes.EditProfile),
+        map(() => {
+            const modal = this.modalService.addModal(ProfileSettingComponent);
+        })
     );
 }

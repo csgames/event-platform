@@ -1,0 +1,30 @@
+import { Control } from "../../../form-generator/decorators/control.decorator";
+import { Email } from "../../../form-generator/decorators/email.decorator";
+import { Required } from "../../../form-generator/decorators/required.decorator";
+import { MatchesControl } from "../../../form-generator/decorators/matches-control.decorator";
+import { MatchesPattern } from "../../../form-generator/decorators/matches-pattern.decorator";
+
+export class CreateAttendeeFormDto {
+    @Control()
+    @Email()
+    @Required()
+    username: string;
+
+    @Control()
+    @Required()
+    firstName: string;
+
+    @Control()
+    @Required()
+    lastName: string;
+
+    @Control()
+    @Required()
+    @MatchesPattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/)
+    password: string;
+
+    @Control()
+    @Required()
+    @MatchesControl("password")
+    confirmPassword: string;
+}

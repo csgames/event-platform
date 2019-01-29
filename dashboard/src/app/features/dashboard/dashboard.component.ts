@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from "@angular/core";
 import { Observable } from "rxjs";
 import { BreakpointObserver, Breakpoints } from "@angular/cdk/layout";
 import { map } from "rxjs/operators";
-import { LoadEvents, SetCurrentEvent } from "../../store/app.actions";
+import { EditProfile, LoadEvents, SetCurrentEvent } from "../../store/app.actions";
 import { getCurrentEvent, getEvents, getLoading, State } from "../../store/app.reducers";
 import { select, Store } from "@ngrx/store";
 import { Event } from "../../api/models/event";
@@ -36,5 +36,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
     changeCurrentEvent(event: Event) {
         this.store$.dispatch(new SetCurrentEvent(event));
+    }
+
+    editProfile() {
+        this.store$.dispatch(new EditProfile());
     }
 }

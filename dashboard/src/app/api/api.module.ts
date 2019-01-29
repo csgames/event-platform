@@ -6,7 +6,11 @@ import { AttendeeApi } from "./attendee.api";
 import { EventApi } from "./event.api";
 import { EventInterceptor } from "./interceptors/event.interceptor";
 import { RegistrationApi } from "./registration.api";
+<<<<<<< HEAD
 import { ForgetApi } from "./forget.api";
+=======
+import { TeamApi } from "./team.api";
+>>>>>>> 977c6c877c236aea3c35c63456cc64a26c481ed1
 
 @NgModule({
     imports: [
@@ -18,7 +22,11 @@ import { ForgetApi } from "./forget.api";
         AttendeeApi,
         EventApi,
         RegistrationApi,
+<<<<<<< HEAD
         ForgetApi,
+=======
+        TeamApi,
+>>>>>>> 977c6c877c236aea3c35c63456cc64a26c481ed1
         ApiService
     ]
 })

@@ -31,6 +31,7 @@ import { RegisterService } from "./providers/register.service";
 import { ForgetModule } from "./features/forget/forget.module";
 import { ForgetService } from "./providers/forget.service";
 import { ToastrModule } from "ngx-toastr";
+import { NgxMaskModule } from "ngx-mask";
 
 export function loadFactory(http: HttpClient): TranslateHttpLoader {
     return new TranslateHttpLoader(http, "../assets/i18n/", ".json");
@@ -54,6 +55,7 @@ export function loadFactory(http: HttpClient): TranslateHttpLoader {
                 deps: [HttpClient]
             }
         }),
+        NgxMaskModule.forRoot(),
         ApiModule,
         ForgetModule,
         StoreModule.forRoot(fromApp.appReducers, { metaReducers: fromApp.appMetaReducers }),

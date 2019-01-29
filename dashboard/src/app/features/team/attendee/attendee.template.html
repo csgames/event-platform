@@ -1,36 +1,32 @@
-<div fxLayoutAlign="start center" class="attendee-wrapper">
+<div class="attendee-wrapper">
   <img ngxGravatar [email]="attendee.email" [size]="75">
-  <div fxLayout="column">
-    <b>{{ attendee.firstName }} {{ attendee.lastName }}</b>
-    <b>{{ attendee.email }}</b>
+  <div class="info-attendee">
+    <div><b class="name">{{ attendee.firstName }} {{ attendee.lastName }} </b></div>
+    <div class="email"><b>{{ attendee.email }}</b></div>
   </div>
-  <span fxFlex></span>
+  <div class="icons-right">
 
-  <!-- <div class="icons-right" *ngIf="!this.attendee.IsRegistered">
-    <div><span class="badge badge-pill badge-danger">Not Registered</span></div>
-  </div> -->
-  <div>
-
-    <div class="icons-right">
-      <div><span class="badge badge-pill badge-primary">Registered</span></div>
+    <div>
+      <div><span *ngIf="attendee.isRegistered" class="badge badge-pill badge-primary">Registered</span></div>
+      <div><span *ngIf="!attendee.isRegistered" class="badge badge-pill badge-danger">Not Registered</span></div>
       <div>
-        <a *ngIf="attendee.website" [href]="attendee.website">
+        <a *ngIf="attendee.website && attendee.isRegistered" [href]="attendee.website">
           <i class="fas fa-globe-americas link"></i>
         </a>
-        <a *ngIf="!attendee.website">
-          <i class="fas fa-globe-americas"></i>
+        <a *ngIf="!attendee.website && attendee.isRegistered">
+          <i class="fas fa-globe-americas no-link"></i>
         </a>
-        <a *ngIf="attendee.linkedIn">
+        <a *ngIf="attendee.linkedIn && attendee.isRegistered" [href]="attendee.linkedIn">
           <i class="fab fa-linkedin link"></i>
         </a>
-        <a *ngIf="!attendee.linkedIn">
-          <i class="fab fa-linkedin"></i>
+        <a *ngIf="!attendee.linkedIn && attendee.isRegistered">
+          <i class="fab fa-linkedin no-link"></i>
         </a>
-        <a *ngIf="attendee.github">
+        <a *ngIf="attendee.github && attendee.isRegistered" [href]="attendee.github">
           <i class="fab fa-github link"></i>
         </a>
-        <a *ngIf="!attendee.github">
-          <i class="fab fa-github"></i>
+        <a *ngIf="!attendee.github && attendee.isRegistered">
+          <i class="fab fa-github no-link"></i>
         </a>
       </div>
     </div>

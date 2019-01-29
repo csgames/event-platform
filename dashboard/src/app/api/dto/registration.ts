@@ -6,3 +6,11 @@ export interface RegisterAttendeeDto {
     password: string;
     attendee: CreateAttendeeDto;
 }
+
+export interface CreateInvitationDto {
+    firstName: string;
+    lastName: string;
+    email: string;
+    role: string;
+    teamName: string;
+}

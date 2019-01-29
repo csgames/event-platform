@@ -1,5 +1,6 @@
 import { Action } from "@ngrx/store";
 import { Team } from "src/app/api/models/team";
+import { Attendee } from "src/app/api/models/attendee";
 
 export enum TeamActionTypes {
     LoadTeam = "[Team] load team",
@@ -7,7 +8,7 @@ export enum TeamActionTypes {
     LoadTeamFailure = "[Team] load team failure",
     UpdateTeamName = "[Team] update team name",
     AddTeamMember = "[Team] add team member",
-    AddTeamGodparent = "[Team] add team godparent",
+    AddTeamGodparent = "[Team] add team godparent"
 }
 
 export class LoadTeam implements Action {
@@ -33,7 +34,10 @@ export class UpdateTeamName implements Action {
 export class AddTeamMember implements Action {
     readonly type = TeamActionTypes.AddTeamMember;
 
-    constructor(public payload: any) { }
+    constructor(public payload: {
+        newAttendee: Attendee;
+        role: string;
+    }) { }
 }
 
 export class AddTeamGodparent implements Action {

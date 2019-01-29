@@ -24,12 +24,11 @@ export class EventInterceptor implements HttpInterceptor {
                 if (!event || !event._id) {
                     return next.handle(req);
                 }
-                console.log(event._id);
 
                 const eventReq = req.clone({
                     headers: req.headers.set("Event-Id", event._id)
                 });
-
+                console.log(eventReq);
                 return next.handle(eventReq);
             })
         );

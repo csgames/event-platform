@@ -2,6 +2,7 @@ import { Team } from "src/app/api/models/team";
 import * as fromApp from "src/app/store/app.reducers";
 import { TeamActions, TeamActionTypes } from "./team.actions";
 import { createFeatureSelector, createSelector } from "@ngrx/store";
+import { Attendee } from "src/app/api/models/attendee";
 
 export interface TeamState {
     currentTeam: Team;
@@ -50,3 +51,14 @@ export const getTeamLoading = createSelector(getTeamState, (state: TeamState) =>
 export const getTeamError = createSelector(getTeamState, (state: TeamState) => state.error);
 
 export const getCurrentTeam = createSelector(getTeamState, (state: TeamState) => state.currentTeam);
+
+export const getTeamGodparent = createSelector(
+    getCurrentTeam, 
+    (team: Team) => team && team.attendees.filter((attendee: Attendee) => attendee.role === "godfather")
+);
+
+export const getTeamAttendees = createSelector(
+    getCurrentTeam, 
+    (team: Team) => team && team.attendees.filter((attendee: Attendee) => 
+    attendee.role === "captain" || attendee.role === "attendee")
+);
