@@ -31,7 +31,7 @@ export class CreateTeamDto {
 }
 
 export class UpdateTeamDto {
-    @IsOptional()
+    @IsNotEmpty()
     @IsString()
     @MaxLength(30)
     @ApiModelProperty({required: true})
