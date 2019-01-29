@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { Actions, Effect, ofType } from "@ngrx/effects";
 import { PasswordService } from "src/app/providers/password.service";
 import { ToastrService } from "ngx-toastr";
-import { ResetFailure, ResetActionTypes, PerformReset, ResetSuccess, PerformValidate, ValidateFailure } from "./reset.actions";
+import { ResetFailure, ResetActionTypes, PerformReset, ResetSuccess, PerformValidate, ValidateFailure, ValidateSuccess } from "./reset.actions";
 import { tap, exhaustMap, map, catchError } from "rxjs/operators";
 import { of } from "rxjs";
 import { Router } from "@angular/router";
@@ -31,10 +31,11 @@ export class ResetEffects {
     validate$ = this.actions$.pipe(
         ofType<PerformValidate>(ResetActionTypes.PerformValidate),
         exhaustMap((action: PerformValidate) => 
-        this.passwordService.validate(action.payload.uuid).pipe(
-            map(() => {}),
-            catchError(() => of(new ValidateFailure()))
-        ))
+            this.passwordService.validate(action.payload.uuid).pipe(
+                map(() => new ValidateSuccess()),
+                catchError(() => of(new ValidateFailure()))
+            )
+        )
     );
 
     @Effect({ dispatch: false })

@@ -6,7 +6,8 @@ export enum ResetActionTypes {
     ResetSuccess = '[Reset] Reset success',
     ResetFailure = '[Reset] Reset failure',
     PerformValidate = '[Reset] Perform Validate',
-    ValidateFailure = '[Reset] Validate failure'
+    ValidateFailure = '[Reset] Validate failure',
+    ValidateSuccess = '[Reset] Validate success'
 }
 
 export class PerformReset implements Action {
@@ -30,7 +31,11 @@ export class PerformValidate implements Action {
 }
 
 export class ValidateFailure implements Action {
-    readonly type = ResetActionTypes.ValidateFailure
+    readonly type = ResetActionTypes.ValidateFailure;
+}
+
+export class ValidateSuccess implements Action {
+    readonly type = ResetActionTypes.ValidateSuccess;
 }
 
 export type ResetActions =
@@ -38,4 +43,5 @@ export type ResetActions =
     | ResetSuccess
     | ResetFailure
     | PerformValidate
-    | ValidateFailure;
+    | ValidateFailure
+    | ValidateSuccess;

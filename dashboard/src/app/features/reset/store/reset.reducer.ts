@@ -48,6 +48,12 @@ export function reducer(state = initialState, action: ResetActions): ResetState 
                 loading: false,
                 validateError: true
             };
+        case ResetActionTypes.ValidateSuccess:
+            return {
+                ...state,
+                loading: false,
+                validateError: false
+            }
         default:
             return state;
     }
