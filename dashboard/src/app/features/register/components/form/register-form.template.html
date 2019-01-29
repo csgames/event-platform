@@ -1,0 +1,57 @@
+<form [formGroup]="formGroup">
+    <div class="row">
+        <div class="col-sm-6 pr-sm-1">
+            <div class="input-group input-group-default">
+                <div class="input-group-prepend">
+                    <i class="fas fa-user"></i>
+                </div>
+                <input autofocus class="form-control" type="text" name="first-name" formControlName="firstName"
+                       placeholder="First Name">
+            </div>
+        </div>
+        <div class="col-sm-6 pl-sm-1">
+            <div class="input-group input-group-default">
+                <div class="input-group-prepend">
+                    <i class="fas fa-user"></i>
+                </div>
+                <input autofocus class="form-control" type="text" name="last-name" formControlName="lastName"
+                       placeholder="Last Name">
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="input-group input-group-default">
+                <div class="input-group-prepend">
+                    <i class="fa fa-at"></i>
+                </div>
+                <input class="form-control" type="email" formControlName="username"
+                       placeholder="Email Address">
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="input-group input-group-default">
+                <div class="input-group-prepend">
+                    <i class="fa fa-lock"></i>
+                </div>
+                <input class="form-control" type="password" name="password" formControlName="password"
+                       placeholder="Password">
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="input-group input-group-default">
+                <div class="input-group-prepend">
+                    <i class="fa fa-lock"></i>
+                </div>
+                <input class="form-control" type="password" name="confirm-password" formControlName="confirmPassword"
+                       placeholder="Confirm Password">
+            </div>
+        </div>
+    </div>
+</form>
