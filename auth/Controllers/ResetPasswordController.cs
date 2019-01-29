@@ -25,7 +25,7 @@ namespace STS.Controllers
         }
 
         [HttpPost]
-        public Task<IActionResult> Create(AskResetPasswordInput input)
+        public Task<IActionResult> Create([FromBody] AskResetPasswordInput input)
         {
             return Task.Run<IActionResult>(async () =>
             {
@@ -72,7 +72,7 @@ namespace STS.Controllers
 
                 var mailInput = new SendMailInput
                 {
-                    From = "PolyHx <support@polyhx.io>",
+                    From = "CS Games <support@polyhx.io>",
                     To = new[] {user.Username},
                     Subject = "Réinitialisation du Mot de Passe | Password Reset",
                     Template = "password_reset",
