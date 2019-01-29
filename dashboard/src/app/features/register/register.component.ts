@@ -22,12 +22,12 @@ export class RegisterComponent implements OnInit {
 
     ngOnInit() {
         this.queryParamsSubscription$ = this.activatedRoute.queryParams.subscribe(params => {
-            this.store$.dispatch(new LoadRegistration(params["uuid"]));
+            // this.store$.dispatch(new LoadRegistration(params["uuid"]));
         });
     }
 
     onFormChange(createAttendeeDto: CreateAttendeeFormDto) {
-        console.log(createAttendeeDto);
+        // console.log(createAttendeeDto);
     }
 
     clickRegister() {

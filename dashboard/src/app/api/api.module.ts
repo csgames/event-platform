@@ -6,6 +6,7 @@ import { AttendeeApi } from "./attendee.api";
 import { EventApi } from "./event.api";
 import { EventInterceptor } from "./interceptors/event.interceptor";
 import { RegistrationApi } from "./registration.api";
+import { PasswordApi } from "./password.api";
 import { TeamApi } from "./team.api";
 
 @NgModule({
@@ -14,11 +15,11 @@ import { TeamApi } from "./team.api";
     ],
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: EventInterceptor, multi: true },
-
         AuthApi,
         AttendeeApi,
         EventApi,
         RegistrationApi,
+        PasswordApi,
         TeamApi,
         ApiService
     ]

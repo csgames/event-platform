@@ -9,11 +9,13 @@ import * as fromHome from "./store/home.reducers";
 import { HomeService } from "./providers/home.service";
 import { EffectsModule } from "@ngrx/effects";
 import { HomeEffects } from "./store/home.effects";
+import { TranslateModule } from "@ngx-translate/core";
 
 @NgModule({
     imports: [
         CommonModule,
         HomeRoutingModule,
+        TranslateModule,
 
         StoreModule.forFeature("home", fromHome.reducer),
 

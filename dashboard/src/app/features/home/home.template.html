@@ -1,7 +1,7 @@
-<h1 *ngIf="loading$ | async">Loading...</h1>
+<h1 *ngIf="loading$ | async">{{ "general.loading.loading" | translate }}</h1>
 
 <ul>
     <li *ngFor="let t of teams$ | async">{{t.name}}</li>
 </ul>
 
-<p *ngIf="error$ | async">ERROR</p>
+<p *ngIf="error$ | async">{{ "general.error.something" | translate }}</p>

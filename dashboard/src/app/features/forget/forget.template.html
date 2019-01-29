@@ -1,5 +1,5 @@
 <div class="background">
-    <div class="login-content" fxFlexFill fxLayout fxLayoutAlign="center center">
+    <div class="forget-content" fxFlexFill fxLayout fxLayoutAlign="center center">
         <div class="container">
             <div class="row">
                 <div class="col-lg-5 col-md-8 col-sm-10 ml-auto mr-auto">
@@ -9,7 +9,7 @@
                             <img class="logo" src="../../../assets/logo-long.svg">
                             <div class="card-body">
                                 <form>
-                                    <div class="input-group input-group-default" [class.has-error]="error$ | async">
+                                    <div class="input-group input-group-default">
                                         <div class="input-group-prepend">
                                             <i class="fa fa-user"></i>
                                         </div>
@@ -17,25 +17,14 @@
                                                [(ngModel)]="email" placeholder='{{ "general.profile.email" | translate }}'>
 
                                     </div>
-                                    <div class="input-group input-group-default has-error"
-                                         [class.has-error]="error$ | async">
-                                        <div class="input-group-prepend">
-                                            <i class="fa fa-lock"></i>
-                                        </div>
-                                        <input class="form-control" name="password" type="password"
-                                               [(ngModel)]="password" placeholder='{{ "general.profile.password" | translate }}'>
-                                    </div>
-                                    <label class="text-danger control-label" *ngIf="error$ | async">
-                                        {{ "pages.login.login_error" | translate }}
-                                    </label>
                                     <div class="text-center">
-                                        <a class="btn btn-primary btn-rounded mt-3 px-3" (click)="clickSignIn()">
-                                            {{ "pages.login.sign_in" | translate }}
+                                        <a class="btn btn-primary btn-rounded mt-3 px-3" (click)="clickForget()">
+                                            {{ "general.button.send" | translate }}
                                         </a>
                                     </div>
                                     <hr>
                                     <div class="text-center mt-3">
-                                        <a href="/forget">{{ "pages.login.forgot_pass" | translate }}</a>
+                                        <a href="/login">{{ "pages.login.login" | translate }}</a>
                                     </div>
                                 </form>
                             </div>

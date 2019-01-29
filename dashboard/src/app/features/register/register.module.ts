@@ -5,6 +5,7 @@ import { FormBuilder, FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { RouterModule } from "@angular/router";
 import { FlexLayoutModule } from "@angular/flex-layout";
 import { LoadingSpinnerModule } from "../../components/loading-spinner/loading-spinner.module";
+import { TranslateModule } from "@ngx-translate/core";
 import { StoreModule } from "@ngrx/store";
 import * as fromRegister from "./store/register.reducer";
 import { EffectsModule } from "@ngrx/effects";
@@ -13,6 +14,7 @@ import { RegisterFormComponent } from "./components/form/register-form.component
 import { REGISTER_FORM_GENERATOR } from "./register.contants";
 import { FormGeneratorFactory } from "../../form-generator/factory";
 import { CreateAttendeeFormDto } from "./dto/create-attendee-form-dto";
+import { DirectivesModule } from "../../directives/directives.module";
 
 @NgModule({
     imports: [
@@ -22,6 +24,8 @@ import { CreateAttendeeFormDto } from "./dto/create-attendee-form-dto";
         RouterModule,
         FlexLayoutModule,
         LoadingSpinnerModule,
+        TranslateModule,
+        DirectivesModule,
         StoreModule.forFeature("register", fromRegister.reducer),
         EffectsModule.forFeature([RegisterEffects])
     ],

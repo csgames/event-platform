@@ -1,5 +1,5 @@
 <div class="background">
-    <div class="login-content" fxFlexFill fxLayout fxLayoutAlign="center center">
+    <div class="reset-content" fxFlexFill fxLayout fxLayoutAlign="center center">
         <div class="container">
             <div class="row">
                 <div class="col-lg-5 col-md-8 col-sm-10 ml-auto mr-auto">
@@ -7,15 +7,16 @@
                         <div class="card">
                             <app-loading-spinner [loading]="loading$ | async"></app-loading-spinner>
                             <img class="logo" src="../../../assets/logo-long.svg">
-                            <div class="card-body">
+                            <div class="link-error" *ngIf="validateError$ | async">Reset code is expired</div>
+                            <div class="card-body" *ngIf="!(validateError$ | async)">
                                 <form>
-                                    <div class="input-group input-group-default" [class.has-error]="error$ | async">
+                                    <div class="input-group input-group-default has-error"
+                                         [class.has-error]="error$ | async">
                                         <div class="input-group-prepend">
-                                            <i class="fa fa-user"></i>
+                                            <i class="fa fa-lock"></i>
                                         </div>
-                                        <input autofocus class="form-control" name="email" type="email"
-                                               [(ngModel)]="email" placeholder='{{ "general.profile.email" | translate }}'>
-
+                                        <input class="form-control" name="password" type="password"
+                                               [(ngModel)]="password" placeholder="New Password">
                                     </div>
                                     <div class="input-group input-group-default has-error"
                                          [class.has-error]="error$ | async">
@@ -23,19 +24,12 @@
                                             <i class="fa fa-lock"></i>
                                         </div>
                                         <input class="form-control" name="password" type="password"
-                                               [(ngModel)]="password" placeholder='{{ "general.profile.password" | translate }}'>
+                                               [(ngModel)]="secondPassword" placeholder="Confirm Password">
                                     </div>
-                                    <label class="text-danger control-label" *ngIf="error$ | async">
-                                        {{ "pages.login.login_error" | translate }}
-                                    </label>
                                     <div class="text-center">
-                                        <a class="btn btn-primary btn-rounded mt-3 px-3" (click)="clickSignIn()">
-                                            {{ "pages.login.sign_in" | translate }}
+                                        <a class="btn btn-primary btn-rounded mt-3 px-3" (click)="clickReset()">
+                                            Reset
                                         </a>
-                                    </div>
-                                    <hr>
-                                    <div class="text-center mt-3">
-                                        <a href="/forget">{{ "pages.login.forgot_pass" | translate }}</a>
                                     </div>
                                 </form>
                             </div>
