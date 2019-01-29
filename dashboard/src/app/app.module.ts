@@ -20,6 +20,15 @@ import { ApiModule } from "./api/api.module";
 import { TranslateLoader, TranslateModule } from "@ngx-translate/core";
 import { TranslateHttpLoader } from "@ngx-translate/http-loader";
 import { HttpClient } from "@angular/common/http";
+import { AuthenticationService } from "./providers/authentication.service";
+import { AuthenticatedGuard } from "./utils/authenticated.guard";
+import { NotAuthenticatedGuard } from "./utils/not-authenticated.guard";
+import { AttendeeService } from "./providers/attendee.service";
+import { StoreRouterConnectingModule } from "@ngrx/router-store";
+import { TeamService } from "./providers/team.service";
+import { EventService } from "./providers/event.service";
+import { RegisterService } from "./providers/register.service";
+import { NgxMaskModule } from "ngx-mask";
 
 export function loadFactory(http: HttpClient): TranslateHttpLoader {
     return new TranslateHttpLoader(http, "../assets/i18n/", ".json");
@@ -43,17 +52,27 @@ export function loadFactory(http: HttpClient): TranslateHttpLoader {
                 deps: [HttpClient]
             }
         }),
+        NgxMaskModule.forRoot(),
         ApiModule,
 
         StoreModule.forRoot(fromApp.appReducers, { metaReducers: fromApp.appMetaReducers }),
         EffectsModule.forRoot([
             AppEffects
         ]),
+        StoreRouterConnectingModule.forRoot(),
         !environment.production ? StoreDevtoolsModule.instrument() : [],
         BrowserAnimationsModule
 
     ],
-    providers: [],
+    providers: [
+        AuthenticationService,
+        AttendeeService,
+        EventService,
+        AuthenticatedGuard,
+        NotAuthenticatedGuard,
+        TeamService,
+        RegisterService
+    ],
     bootstrap: [AppComponent]
 })
 export class AppModule {

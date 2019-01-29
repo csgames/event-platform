@@ -15,6 +15,8 @@ import { NotificationsListModalComponent } from "../../modals/notifications-list
 import { LayoutModule } from "@angular/cdk/layout";
 import { MatToolbarModule, MatSidenavModule } from "@angular/material";
 import { TranslateModule } from "@ngx-translate/core";
+import { LoadingSpinnerModule } from "../../components/loading-spinner/loading-spinner.module";
+import { ProfileSettingModule } from "./modals/profile-setting/profile-setting.module";
 
 @NgModule({
     imports: [
@@ -27,10 +29,12 @@ import { TranslateModule } from "@ngx-translate/core";
         BsDropdownModule,
         NotificationsListModalModule,
         GravatarModule.forRoot({ fallback: FALLBACK.mm }),
+        LoadingSpinnerModule,
         LayoutModule,
         MatToolbarModule,
         TranslateModule,
-        MatSidenavModule
+        MatSidenavModule,
+        ProfileSettingModule
     ],
     declarations: [
         DashboardComponent,

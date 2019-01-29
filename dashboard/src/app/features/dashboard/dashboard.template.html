@@ -1,16 +1,20 @@
+<app-loading-spinner [loading]="loading$ | async"></app-loading-spinner>
 <mat-sidenav-container class="sidenav-container">
     <mat-sidenav #drawer class="sidenav" fixedInViewport="true"
                  [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
                  [mode]="(isHandset$ | async) ? 'over' : 'side'"
                  [opened]="!(isHandset$ | async)">
         <div class="dashboard-container">
-            <app-events-bar></app-events-bar>
+            <app-events-bar [events]="events$ | async"
+                            [currentEvent]="currentEvent$ | async"
+                            (currentEventChange)="changeCurrentEvent($event)"
+            ></app-events-bar>
             <app-side-nav></app-side-nav>
         </div>
     </mat-sidenav>
     <mat-sidenav-content>
         <app-top-nav [showToggleSideNav]="isHandset$ | async"
-                     (toggleSideNav)="drawer.toggle()"></app-top-nav>
+                     (toggleSideNav)="drawer.toggle()" (editProfile)="editProfile()"></app-top-nav>
         <div class="content">
             <router-outlet></router-outlet>
         </div>

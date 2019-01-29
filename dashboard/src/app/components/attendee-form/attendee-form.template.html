@@ -1,0 +1,74 @@
+<form [formGroup]="formGroup">
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="input-group input-group-default">
+                <div class="input-group-prepend">
+                    <a class="form-icon">
+                        <i class="fas fa-user"></i>
+                    </a>
+                </div>
+                <ng-select [items]="gender" placeholder="Gender" formControlName="gender"></ng-select>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="input-group input-group-default">
+                <div class="input-group-prepend">
+                    <a class="form-icon">
+                        <i class="fas fa-tshirt"></i>
+                    </a>
+                </div>
+                <ng-select [items]="tshirtSize" placeholder="T-Shirt size" formControlName="tshirt"></ng-select>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="input-group input-group-default">
+                <div class="input-group-prepend">
+                    <a class="form-icon">
+                        <i class="fab fa-linkedin"></i>
+                    </a>
+                </div>
+                <input class="form-control" type="text"
+                       placeholder="LinkedIn"  formControlName="linkedIn">
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="input-group input-group-default">
+                <div class="input-group-prepend">
+                    <a class="form-icon">
+                        <i class="fab fa-github"></i>
+                    </a>
+                </div>
+                <input class="form-control" type="text"
+                       placeholder="GitHub" formControlName="github">
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="input-group input-group-default">
+                <div class="input-group-prepend">
+                    <a class="form-icon">
+                        <i class="fa fa-globe"></i>
+                    </a>
+                </div>
+                <input autofocus class="form-control" type="text"
+                       placeholder="Website" formControlName="website">
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="input-group input-group-default">
+                <div class="input-group-prepend">
+                    <a class="form-icon">
+                        <i class="fa fa-mobile"></i>
+                    </a>
+                </div>
+                <input autofocus class="form-control" [showMaskTyped]="true" mask="+0 (000) 000-0000"
+                       placeholder="Phone number" formControlName="phoneNumber">
+            </div>
+        </div>
+    </div>
+</form>

@@ -5,6 +5,14 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { RouterModule } from "@angular/router";
 import { TeamRoutingModule } from "./team-routing.module";
 import { TranslateModule } from "@ngx-translate/core";
+import { AttendeeComponent } from "./attendee/attendee.component";
+import { StoreModule } from "@ngrx/store";
+import * as fromTeam from "./store/team.reducer";
+import { EffectsModule } from "@ngrx/effects";
+import { TeamEffects } from "./store/team.effects";
+import { GravatarModule } from "ngx-gravatar";
+import { LoadingSpinnerModule } from "src/app/components/loading-spinner/loading-spinner.module";
+import { DirectivesModule } from "src/app/directives/directives.module";
 
 @NgModule({
     imports: [
@@ -13,10 +21,15 @@ import { TranslateModule } from "@ngx-translate/core";
         ReactiveFormsModule,
         RouterModule,
         TranslateModule,
-        TeamRoutingModule
+        TeamRoutingModule,
+        StoreModule.forFeature("team", fromTeam.reducer),
+        EffectsModule.forFeature([TeamEffects]),
+        GravatarModule,
+        LoadingSpinnerModule,
+        DirectivesModule
     ],
     exports: [],
-    declarations: [TeamComponent],
+    declarations: [TeamComponent, AttendeeComponent],
     providers: []
 })
 export class TeamModule {}

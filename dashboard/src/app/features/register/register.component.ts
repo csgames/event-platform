@@ -1,5 +1,10 @@
 import { Component, OnInit } from "@angular/core";
-import { Router } from "@angular/router";
+import { ActivatedRoute } from "@angular/router";
+import { State } from "./store/register.reducer";
+import { Store } from "@ngrx/store";
+import { Subscription } from "rxjs";
+import { LoadRegistration } from "./store/register.actions";
+import { CreateAttendeeFormDto } from "./dto/create-attendee-form-dto";
 
 @Component({
     selector: "app-register",
@@ -7,16 +12,25 @@ import { Router } from "@angular/router";
     styleUrls: ["./register.style.scss"]
 })
 export class RegisterComponent implements OnInit {
-    loading = false;
 
-    constructor(private router: Router) { }
+    private queryParamsSubscription$: Subscription;
 
-    ngOnInit() { }
+    createAttendeeFormDto = new CreateAttendeeFormDto();
+
+
+    constructor(private activatedRoute: ActivatedRoute, private store$: Store<State>) { }
+
+    ngOnInit() {
+        this.queryParamsSubscription$ = this.activatedRoute.queryParams.subscribe(params => {
+            this.store$.dispatch(new LoadRegistration(params["uuid"]));
+        });
+    }
+
+    onFormChange(createAttendeeDto: CreateAttendeeFormDto) {
+        console.log(createAttendeeDto);
+    }
 
     clickRegister() {
-        this.loading = true;
-        setTimeout(() => {
-            this.router.navigate(["/home"]);
-        }, 1000);
+
     }
 }

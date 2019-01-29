@@ -1,14 +1,8 @@
 <div class="events-bar-wrapper">
-    <div class="event-container">
-        <div class="event">
-            <img src="http://2017.csgames.org/assets/images/CS17_logo.png">
+    <div class="event-container" *ngFor="let event of events" (click)="clickEvent(event)">
+        <div class="event" [class.active]="isActive(event)">
+            <img [src]="event.imageUrl">
         </div>
-        <p class="year">2017</p>
-    </div>
-    <div class="event-container">
-        <div class="event active">
-            <img src="http://2019.csgames.org/assets/file/CSGames_19_logoOriginal.png">
-        </div>
-        <p class="year">2019</p>
+        <p class="year">{{ getEventYear(event) }}</p>
     </div>
 </div>

@@ -6,5 +6,9 @@ export const DASHBOARD_ROUTES: Routes = [
 
     { path: "home", loadChildren: "./features/home/home.module#HomeModule" },
     { path: "team", loadChildren: "./features/team/team.module#TeamModule" },
-    { path: "puzzle-hero", loadChildren: "./features/puzzle-hero/puzzle-hero.module#PuzzleHeroModule" }
+    { path: "puzzle-hero", loadChildren: "./features/puzzle-hero/puzzle-hero.module#PuzzleHeroModule" },
+
+    {
+        path: "**", redirectTo: "home", pathMatch: "full"
+    }
 ];
