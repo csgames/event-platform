@@ -6,7 +6,7 @@ import { Forget } from "./definitions/auth";
 import { CustomEncoder } from "../utils/custom.encoder";
 
 @Injectable()
-export class ForgetApi extends IdentityApi {
+export class PasswordApi extends IdentityApi {
     constructor(private http: HttpClient) {
         super("resetPassword");
     }

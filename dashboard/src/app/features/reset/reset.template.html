@@ -1,0 +1,44 @@
+<div class="background">
+    <div class="reset-content" fxFlexFill fxLayout fxLayoutAlign="center center">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-5 col-md-8 col-sm-10 ml-auto mr-auto">
+                    <div class="card-wrapper animated fadeInDown">
+                        <div class="card">
+                            <app-loading-spinner [loading]="loading$ | async"></app-loading-spinner>
+                            <img class="logo" src="../../../assets/logo-long.svg">
+                            <div class="card-body">
+                                <form>
+                                    <div class="input-group input-group-default has-error"
+                                         [class.has-error]="error$ | async">
+                                        <div class="input-group-prepend">
+                                            <i class="fa fa-lock"></i>
+                                        </div>
+                                        <input class="form-control" name="password" type="password"
+                                               [(ngModel)]="password" placeholder="New Password">
+                                    </div>
+                                    <div class="input-group input-group-default has-error"
+                                         [class.has-error]="error$ | async">
+                                        <div class="input-group-prepend">
+                                            <i class="fa fa-lock"></i>
+                                        </div>
+                                        <input class="form-control" name="password" type="password"
+                                               [(ngModel)]="secondPassword" placeholder="Confirm Password">
+                                    </div>
+                                    <label class="text-danger control-label" *ngIf="validateError$ | async">
+                                        The current link isn't valid.
+                                    </label>
+                                    <div class="text-center">
+                                        <a class="btn btn-primary btn-rounded mt-3 px-3" (click)="clickReset()">
+                                            Reset
+                                        </a>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -2,9 +2,9 @@ import { Action } from "@ngrx/store";
 import { ForgetDto } from "../../../api/dto/auth";
 
 export enum ForgetActionTypes {
-    PerformForget = "[Login] Perform Forget",
-    ForgetSuccess = "[Login] Forget success",
-    ForgetFailure = "[Login] Forget failure",
+    PerformForget = "[Forget] Perform Forget",
+    ForgetSuccess = "[Forget] Forget success",
+    ForgetFailure = "[Forget] Forget failure",
 }
 
 export class PerformForget implements Action {

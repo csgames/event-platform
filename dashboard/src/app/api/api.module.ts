@@ -6,7 +6,7 @@ import { AttendeeApi } from "./attendee.api";
 import { EventApi } from "./event.api";
 import { EventInterceptor } from "./interceptors/event.interceptor";
 import { RegistrationApi } from "./registration.api";
-import { ForgetApi } from "./forget.api";
+import { PasswordApi } from "./password.api";
 import { TeamApi } from "./team.api";
 
 @NgModule({
@@ -19,7 +19,7 @@ import { TeamApi } from "./team.api";
         AttendeeApi,
         EventApi,
         RegistrationApi,
-        ForgetApi,
+        PasswordApi,
         TeamApi,
         ApiService
     ]

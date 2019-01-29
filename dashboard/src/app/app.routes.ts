@@ -6,6 +6,7 @@ import { RegisterComponent } from "./features/register/register.component";
 import { AuthenticatedGuard } from "./utils/authenticated.guard";
 import { NotAuthenticatedGuard } from "./utils/not-authenticated.guard";
 import { ForgetComponent } from "./features/forget/forget.component";
+import { ResetComponent } from "./features/reset/reset.component";
 
 export const ROUTES: Routes = [
     {
@@ -21,6 +22,11 @@ export const ROUTES: Routes = [
     {
         path: 'forget',
         component: ForgetComponent,
+        canActivate: [NotAuthenticatedGuard]
+    },
+    {
+        path: 'reset/:uuid',
+        component: ResetComponent,
         canActivate: [NotAuthenticatedGuard]
     },
     // App components

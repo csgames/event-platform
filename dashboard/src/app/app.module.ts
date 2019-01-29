@@ -29,9 +29,10 @@ import { TeamService } from "./providers/team.service";
 import { EventService } from "./providers/event.service";
 import { RegisterService } from "./providers/register.service";
 import { ForgetModule } from "./features/forget/forget.module";
-import { ForgetService } from "./providers/forget.service";
+import { PasswordService } from "./providers/password.service";
 import { ToastrModule } from "ngx-toastr";
 import { NgxMaskModule } from "ngx-mask";
+import { ResetModule } from "./features/reset/reset.module";
 
 export function loadFactory(http: HttpClient): TranslateHttpLoader {
     return new TranslateHttpLoader(http, "../assets/i18n/", ".json");
@@ -58,6 +59,7 @@ export function loadFactory(http: HttpClient): TranslateHttpLoader {
         NgxMaskModule.forRoot(),
         ApiModule,
         ForgetModule,
+        ResetModule,
         StoreModule.forRoot(fromApp.appReducers, { metaReducers: fromApp.appMetaReducers }),
         EffectsModule.forRoot([
             AppEffects
@@ -76,7 +78,7 @@ export function loadFactory(http: HttpClient): TranslateHttpLoader {
         NotAuthenticatedGuard,
         TeamService,
         RegisterService,
-        ForgetService
+        PasswordService
     ],
     bootstrap: [AppComponent]
 })

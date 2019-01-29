@@ -1,15 +1,15 @@
 import { NgModule } from "@angular/core";
-import { ForgetComponent } from "./forget.component";
-import { CommonModule } from "@angular/common";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { RouterModule } from "@angular/router";
 import { FlexLayoutModule } from "@angular/flex-layout";
-import { LoadingSpinnerModule } from "../../components/loading-spinner/loading-spinner.module";
-import { StoreModule } from "@ngrx/store";
-import { EffectsModule } from "@ngrx/effects";
-import * as fromForget from "./store/forget.reducer";
+import { LoadingSpinnerModule } from "src/app/components/loading-spinner/loading-spinner.module";
 import { TranslateModule } from "@ngx-translate/core";
-import { ForgetEffects } from "./store/forget.effects";
+import { StoreModule } from "@ngrx/store";
+import * as fromReset from "./store/reset.reducer";
+import { ResetEffects } from "./store/reset.effects";
+import { ResetComponent } from "./reset.component";
+import { EffectsModule } from "@ngrx/effects";
+import { CommonModule } from "@angular/common";
 
 @NgModule({
     imports: [
@@ -20,11 +20,11 @@ import { ForgetEffects } from "./store/forget.effects";
         FlexLayoutModule,
         LoadingSpinnerModule,
         TranslateModule,
-        StoreModule.forFeature("forget", fromForget.reducer),
-        EffectsModule.forFeature([ForgetEffects])
+        StoreModule.forFeature('reset', fromReset.reducer),
+        EffectsModule.forFeature([ResetEffects])
     ],
     exports: [],
-    declarations: [ForgetComponent],
+    declarations: [ResetComponent],
     providers: []
 })
-export class ForgetModule {}
+export class ResetModule {}
