@@ -78,12 +78,13 @@ export class TeamsService extends BaseService<Teams, CreateTeamDto> {
 
         const members = event.attendees
             .filter(x => team.attendees.findIndex(a => (a as Attendees)._id.equals(x.attendee as ObjectId)) >= 0);
-        for (const member of team.attendees as (Attendees & { role: string })[]) {
+        for (const member of team.attendees as (Attendees & { role: string, registered: boolean })[]) {
             const eventMember = members.find(x => (x.attendee as ObjectId).equals(member._id));
             if (!eventMember) {
                 continue;
             }
             member.role = eventMember.role;
+            member.registered = eventMember.registered;
         }
 
         return team;

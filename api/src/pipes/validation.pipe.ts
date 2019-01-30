@@ -1,6 +1,7 @@
 import { PipeTransform, ArgumentMetadata, HttpStatus, Injectable, HttpException } from '@nestjs/common';
 import { validate } from 'class-validator';
 import { plainToClass } from 'class-transformer';
+import { ObjectUtils } from '../utils/object.utils';
 
 @Injectable()
 export class ValidationPipe implements PipeTransform<any> {
@@ -17,7 +18,7 @@ export class ValidationPipe implements PipeTransform<any> {
         // The problem comes from multer (which parses the form-data)
         // https://github.com/expressjs/multer/blob/master/lib/make-middleware.js#L28
         // Works when line 28 is: req.body = {}
-        const object = plainToClass(metatype, this.rebuildObjectIfBroken(value));
+        const object = plainToClass(metatype, ObjectUtils.rebuildObjectIfBroken(value));
         const errors = await validate(object);
         if (errors.length > 0) {
             throw new HttpException({ message: 'Validation failed', fields: errors.map(e => e.property) },
@@ -29,25 +30,5 @@ export class ValidationPipe implements PipeTransform<any> {
     private toValidate(metatype): boolean {
         const types = [String, Boolean, Number, Array, Object];
         return !types.find((type) => metatype === type);
-    }
-
-    private rebuildObjectIfBroken(value: any) {
-        // !! Do not change this.
-        if (!(value instanceof Object)) {
-            let newRealOPObject = {};
-            for (let key in value) {
-                if (key in value) {
-                    if (value[key] === 'true') {
-                        newRealOPObject[key] = true;
-                    } else if (value[key] === 'false') {
-                        newRealOPObject[key] = false;
-                    } else {
-                        newRealOPObject[key] = value[key];
-                    }
-                }
-            }
-            return newRealOPObject;
-        }
-        return value;
     }
 }

@@ -1,5 +1,5 @@
 import {
-    BadRequestException, Body, Controller, Delete, Get, NotFoundException, Param, Post, Put, UploadedFile, UseFilters, UseGuards
+    BadRequestException, Body, Controller, Delete, Get, Param, Post, Put, UploadedFile, UseFilters, UseGuards
 } from '@nestjs/common';
 import { ApiUseTags } from '@nestjs/swagger';
 import { StorageService } from '@polyhx/nest-services';
@@ -11,9 +11,11 @@ import { UserModel } from '../../../models/user.model';
 import { ValidationPipe } from '../../../pipes/validation.pipe';
 import { AddTokenDto, CreateAttendeeDto, UpdateAttendeeDto, UpdateNotificationDto } from './attendees.dto';
 import { codeMap } from './attendees.exception';
-import { AttendeesGuard, CreateAttendeeGuard } from './attendees.guard';
+import { CreateAttendeeGuard } from './attendees.guard';
 import { Attendees } from './attendees.model';
-import { AttendeesService } from './attendees.service';
+import { AttendeeInfo, AttendeesService } from './attendees.service';
+import { EventId } from '../../../decorators/event-id.decorator';
+import { NullPipe } from '../../../pipes/null-pipe.service';
 
 @ApiUseTags('Attendee')
 @Controller('attendee')
@@ -35,7 +37,6 @@ export class AttendeesController {
         attendee = Object.assign(attendee, { userId: user.id });
         return {
             attendee: await this.attendeesService.create(attendee)
-                .then(this.appendCvMetadata.bind(this))
         };
     }
 
@@ -46,22 +47,15 @@ export class AttendeesController {
     }
 
     @Get('info')
-    public async getInfo(@User() user: UserModel): Promise<Attendees & { role: string; permissions: string[] }> {
-        const attendee = await this.attendeesService.findOne({ email: user.username });
-        if (!attendee) {
-            throw new NotFoundException();
-        }
-        return {
-            ...(await this.appendCvMetadata(attendee)),
-            permissions: user.permissions,
-            role: user.role
-        };
+    @Permissions('csgames-api:get:attendee')
+    public async getInfo(@User() user: UserModel, @EventId() event: string): Promise<AttendeeInfo> {
+        return await this.attendeesService.getAttendeeInfo(user, event);
     }
 
     @Get('cv/url')
-    @UseGuards(AttendeesGuard)
+    @Permissions('csgames-api:get:attendee')
     public async getCvUrl(@User() user: UserModel): Promise<{ url: string }> {
-        const attendee = await this.attendeesService.findOne({ userId: user.id });
+        const attendee = await this.attendeesService.findOne({ email: user.username });
         if (attendee.cv) {
             return { url: await this.storageService.getDownloadUrl(attendee.cv) };
         } else {
@@ -82,63 +76,29 @@ export class AttendeesController {
     }
 
     @Put()
-    @UseGuards(AttendeesGuard)
+    @Permissions('csgames-api:update:attendee')
     public async update(@UploadedFile() file, @User() user: UserModel,
-                        @Body(new ValidationPipe()) value: UpdateAttendeeDto) {
-        if (file) {
-            const previousCv = (await this.attendeesService.findOne({ userId: user.id })).cv;
-            if (previousCv) {
-                await this.storageService.delete(previousCv);
-            }
-            value.cv = await this.storageService.upload(file);
-        } else if (value.cv === 'null') {
-            const attendee = await this.attendeesService.findOne({ userId: user.id });
-            if (attendee.cv) {
-                await this.storageService.delete(attendee.cv);
-            }
-            value.cv = null;
-        } else {
-            delete value.cv;
-        }
-        const attendee: Partial<Attendees> = value;
-
-        await this.attendeesService.update({
-            userId: user.id
-        }, attendee);
-        await this.attendeesService.findOne({
-            userId: user.id
-        });
+                        @Body(NullPipe, ValidationPipe) value: UpdateAttendeeDto) {
+        await this.attendeesService.updateAttendeeInfo({
+            email: user.username
+        }, value, file);
     }
 
     @Put('token')
     @Permissions('csgames-api:update:attendee')
-    @UseGuards(AttendeesGuard)
     public async addToken(@User() user: UserModel, @Body(ValidationPipe) dto: AddTokenDto) {
-        await this.attendeesService.addToken(user.id, dto.token);
+        await this.attendeesService.addToken(user.username, dto.token);
     }
 
     @Put('notification')
     @Permissions('csgames-api:update:attendee')
-    @UseGuards(AttendeesGuard)
     public async updateNotification(@User() user: UserModel, @Body(ValidationPipe) dto: UpdateNotificationDto) {
-        await this.attendeesService.updateNotification(user.id, dto);
+        await this.attendeesService.updateNotification(user.username, dto);
     }
 
     @Delete('/token/:token')
     @Permissions('csgames-api:update:attendee')
-    @UseGuards(AttendeesGuard)
     public async deleteToken(@User() user: UserModel, @Param('token') token) {
-        await this.attendeesService.removeToken(user.id, token);
-    }
-
-    private async appendCvMetadata(a: Attendees) {
-        const newAttendee = a.toJSON();
-
-        if (!newAttendee.cv) {
-            return newAttendee;
-        }
-
-        newAttendee['cv'] = await this.storageService.getMetadata(a.cv);
-        return newAttendee;
+        await this.attendeesService.removeToken(user.username, token);
     }
 }

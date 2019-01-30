@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpCode, Param, Post, Put, Query, UseFilters, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, Param, Post, Put, Query, UploadedFile, UseFilters, UseGuards } from '@nestjs/common';
 import { ApiUseTags } from '@nestjs/swagger';
 import { Permissions } from '../../../decorators/permission.decorator';
 import { User } from '../../../decorators/user.decorator';
@@ -8,7 +8,6 @@ import { UserModel } from '../../../models/user.model';
 import { ValidationPipe } from '../../../pipes/validation.pipe';
 import { CreateActivityDto } from '../activities/activities.dto';
 import { Activities } from '../activities/activities.model';
-import { AttendeesGuard } from '../attendees/attendees.guard';
 import { AttendeeNotifications } from '../attendees/attendees.model';
 import { AttendeesService } from '../attendees/attendees.service';
 import { Teams } from '../teams/teams.model';
@@ -17,6 +16,8 @@ import { AddScannedAttendee, AddSponsorDto, CreateEventDto, SendNotificationDto,
 import { codeMap, EventNotFoundException } from './events.exception';
 import { Events, EventSponsorDetails } from './events.model';
 import { EventsService } from './events.service';
+import { UpdateAttendeeDto } from '../attendees/attendees.dto';
+import { EventId } from '../../../decorators/event-id.decorator';
 
 @ApiUseTags('Event')
 @Controller('event')
@@ -54,7 +55,7 @@ export class EventsController {
     }
 
     @Get(':id/attendee')
-    @UseGuards(AttendeesGuard)
+    @Permissions('csgames-api:get:attendee')
     public async hasAttendee(@User() user: UserModel, @Param('id') eventId: string): Promise<{ registered: boolean }> {
         return {
             registered: await this.eventsService.hasAttendeeForUser(eventId, user.id)
@@ -146,5 +147,11 @@ export class EventsController {
     @Permissions('csgames-api:update:event')
     public async sendSms(@Param('id') id: string, @Body(ValidationPipe) dto: SendSmsDto) {
         await this.eventsService.sendSms(id, dto.text);
+    }
+
+    @Put('registration')
+    public async confirmRegistration(@Body(ValidationPipe) dto: UpdateAttendeeDto, @UploadedFile() file: Express.Multer.File,
+                                     @User() user: UserModel, @EventId() eventId: string) {
+        await this.eventsService.confirmAttendee(eventId, user.username, dto, file);
     }
 }

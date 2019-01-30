@@ -1,29 +1,53 @@
-import { InjectModel } from "@nestjs/mongoose";
-import { DocumentQuery, Model } from 'mongoose';
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
-import { Attendees } from "./attendees.model";
-import { BaseService } from "../../../services/base.service";
-import { CreateAttendeeDto, UpdateNotificationDto } from './attendees.dto';
-import { DataTableModel, DataTableReturnModel } from "../../../models/data-table.model";
-import { STSService } from "@polyhx/nest-services";
+import { InjectModel } from '@nestjs/mongoose';
 import * as mongoose from 'mongoose';
+import { Model } from 'mongoose';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import { Attendees } from './attendees.model';
+import { BaseService } from '../../../services/base.service';
+import { CreateAttendeeDto, UpdateAttendeeDto, UpdateNotificationDto } from './attendees.dto';
+import { StorageService } from '@polyhx/nest-services';
+import { Events } from '../events/events.model';
+import { UserModel } from '../../../models/user.model';
 
-interface AttendeeDtInterface extends Attendees {
-    email: string;
-    firstName: string;
-    lastName: string;
-    birthDate: string;
-}
+export type AttendeeInfo = Attendees & { role: string; permissions: string[], registered: boolean };
 
 @Injectable()
 export class AttendeesService extends BaseService<Attendees, CreateAttendeeDto> {
-    constructor(@InjectModel("attendees") private readonly attendeesModel: Model<Attendees>) {
+    constructor(@InjectModel("attendees") private readonly attendeesModel: Model<Attendees>,
+                @InjectModel("events") private readonly eventsModel: Model<Events>,
+                private storageService: StorageService) {
         super(attendeesModel);
     }
 
-    public async addToken(userId: string, token: string): Promise<Attendees> {
+    public async getAttendeeInfo(user: UserModel, eventId: string): Promise<AttendeeInfo> {
+        const attendee = await this.findOne({ email: user.username });
+        if (!attendee) {
+            throw new NotFoundException();
+        }
+
+        const event = await this.eventsModel.findOne({
+            _id: eventId
+        }).exec();
+        if (!event) {
+            throw new NotFoundException();
+        }
+
+        const attendeeEvent = event.attendees.find(a => (a.attendee as mongoose.Types.ObjectId).equals(attendee._id));
+        if (!attendeeEvent) {
+            throw new BadRequestException();
+        }
+
+        return {
+            ...attendee.toJSON(),
+            permissions: user.permissions,
+            role: user.role,
+            registered: attendeeEvent.registered
+        };
+    }
+
+    public async addToken(email: string, token: string): Promise<Attendees> {
         const attendee = await this.findOne({
-            userId: userId
+            email: email
         });
 
         if (!attendee) {
@@ -35,7 +59,7 @@ export class AttendeesService extends BaseService<Attendees, CreateAttendeeDto> 
         }
 
         return this.attendeesModel.updateOne({
-            userId: userId
+            email: email
         }, {
             $push: {
                 messagingTokens: token
@@ -43,9 +67,9 @@ export class AttendeesService extends BaseService<Attendees, CreateAttendeeDto> 
         });
     }
 
-    public async removeToken(userId: string, token: string): Promise<Attendees> {
+    public async removeToken(email: string, token: string): Promise<Attendees> {
         const attendee = await this.findOne({
-            userId: userId
+            email: email
         });
 
         if (!attendee) {
@@ -57,7 +81,7 @@ export class AttendeesService extends BaseService<Attendees, CreateAttendeeDto> 
         }
 
         return this.attendeesModel.updateOne({
-            userId: userId
+            email: email
         }, {
             $pull: {
                 messagingTokens: token
@@ -65,9 +89,9 @@ export class AttendeesService extends BaseService<Attendees, CreateAttendeeDto> 
         });
     }
 
-    public async updateNotification(userId: string, dto: UpdateNotificationDto): Promise<Attendees> {
+    public async updateNotification(email: string, dto: UpdateNotificationDto): Promise<Attendees> {
         const attendee = await this.findOne({
-            userId: userId
+            email: email
         });
 
         if (!attendee) {
@@ -80,10 +104,36 @@ export class AttendeesService extends BaseService<Attendees, CreateAttendeeDto> 
         }
 
         return this.attendeesModel.updateOne({
-            userId: userId,
+            email: email,
             "notifications.notification": dto.notification
         }, {
             "notifications.$.seen": dto.seen
+        });
+    }
+
+    public async updateAttendeeInfo(conditionOrId: Object | string, dto: UpdateAttendeeDto, file: Express.Multer.File) {
+        if (typeof conditionOrId === "string") {
+            conditionOrId = {
+                _id: conditionOrId
+            };
+        }
+        const attendee = await this.findOne(conditionOrId);
+        if (file) {
+            if (attendee.cv) {
+                await this.storageService.delete(attendee.cv);
+            }
+            dto.cv = await this.storageService.upload(file, 'cv');
+        } else if (!dto.cv) {
+            if (attendee.cv) {
+                await this.storageService.delete(attendee.cv);
+            }
+            dto.cv = null;
+        } else {
+            delete dto.cv;
+        }
+
+        await this.update(conditionOrId, {
+            ...dto
         });
     }
 }

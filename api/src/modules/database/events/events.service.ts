@@ -18,6 +18,7 @@ import { Teams } from '../teams/teams.model';
 import { AddScannedAttendee, AddSponsorDto, CreateEventDto, SendNotificationDto } from './events.dto';
 import { AttendeeAlreadyRegisteredException, EventNotFoundException, UserNotAttendeeException } from './events.exception';
 import { Events, EventSponsorDetails } from './events.model';
+import { UpdateAttendeeDto } from '../attendees/attendees.dto';
 
 @Injectable()
 export class EventsService extends BaseService<Events, CreateEventDto> {
@@ -251,5 +252,25 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
         });
         const numbers = attendees.filter(x => x.acceptSMSNotifications).map(x => x.phoneNumber);
         await this.notificationService.sendSms(numbers, text);
+    }
+
+    public async confirmAttendee(id: string, email: string, dto: UpdateAttendeeDto, file: Express.Multer.File) {
+        const attendee = await this.attendeeService.findOne({
+            email
+        });
+        if (!attendee) {
+            throw new UserNotAttendeeException();
+        }
+
+        await this.eventsModel.updateOne({
+            _id: id,
+            "attendees.attendee": attendee._id
+        }, {
+            "attendees.registered": true
+        }).exec();
+
+        await this.attendeeService.updateAttendeeInfo({
+            email
+        }, dto, file);
     }
 }
