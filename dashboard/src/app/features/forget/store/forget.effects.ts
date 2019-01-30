@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Actions, Effect, ofType } from "@ngrx/effects";
 import { ForgetActionTypes, ForgetFailure, ForgetSuccess, PerformForget } from "./forget.actions";
-import { catchError, exhaustMap, map, tap } from "rxjs/operators";
+import { catchError, map, tap, switchMap } from "rxjs/operators";
 import { of } from "rxjs";
 import { PasswordService } from "src/app/providers/password.service";
 import { ToastrService } from "ngx-toastr";
@@ -19,7 +19,7 @@ export class ForgetEffects {
     @Effect()
     forget$ = this.actions$.pipe(
         ofType<PerformForget>(ForgetActionTypes.PerformForget),
-        exhaustMap((action: PerformForget) =>
+        switchMap((action: PerformForget) =>
             this.passwordService.forget(action.payload.email).pipe(
                 map(() => new ForgetSuccess()),
                 catchError(() => of(new ForgetFailure()))
@@ -31,7 +31,7 @@ export class ForgetEffects {
     resetSuccess$ = this.actions$.pipe(
         ofType<ForgetSuccess>(ForgetActionTypes.ForgetSuccess),
         tap(() => {
-            let text: string = this.translateService.instant('components.toast.email_success');
+            const text = this.translateService.instant('components.toast.email_success');
             this.toastr.success(text);
         })
     );
@@ -40,8 +40,8 @@ export class ForgetEffects {
     resetFail$ = this.actions$.pipe(
         ofType<ForgetFailure>(ForgetActionTypes.ForgetFailure),
         tap(() => {
-            let text: string = this.translateService.instant('components.toast.email_failed');
-            this.toastr.error('An error occured while sending the reset password email.');
+            const text = this.translateService.instant('components.toast.email_failed');
+            this.toastr.error(text);
         })
     );    
 }

@@ -20,17 +20,18 @@ import { of } from "rxjs";
 import { EventService } from "../providers/event.service";
 import { SimpleModalService } from "ngx-simple-modal";
 import { ProfileSettingComponent } from "../features/dashboard/modals/profile-setting/profile-setting.component";
+import { ToastrService } from "ngx-toastr";
 
 @Injectable()
 export class AppEffects {
-
     constructor(
         private actions$: Actions,
         private authenticationService: AuthenticationService,
         private attendeeService: AttendeeService,
         private eventService: EventService,
         private router: Router,
-        private modalService: SimpleModalService
+        private modalService: SimpleModalService,
+        private toastr: ToastrService
     ) {}
 
     @Effect({ dispatch: false })
@@ -45,18 +46,18 @@ export class AppEffects {
         })
     );
 
-    // @Effect({ dispatch: false })
-    // globalError$ = this.actions$.pipe(
-    //     ofType<GlobalError>(AppActionTypes.GlobalError),
-    //     tap((globalError: GlobalError) => {}
-    //         // this.toastrService.error(globalError.payload.message, "Error", {
-    //         //     closeButton: true,
-    //         //     progressBar: true,
-    //         //     positionClass: "toast-top-right",
-    //         //     timeOut: 10000
-    //         // })
-    //     )
-    // );
+    @Effect({ dispatch: false })
+    globalError$ = this.actions$.pipe(
+        ofType<GlobalError>(AppActionTypes.GlobalError),
+        tap((globalError: GlobalError) => {
+            this.toastr.error(globalError.payload.message, "Error", {
+                closeButton: true,
+                progressBar: true,
+                positionClass: "toast-top-right",
+                timeOut: 10000
+            })
+        })
+    );
 
     @Effect()
     loadCurrentAttendee$ = this.actions$.pipe(

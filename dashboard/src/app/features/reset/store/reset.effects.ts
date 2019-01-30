@@ -3,7 +3,7 @@ import { Actions, Effect, ofType } from "@ngrx/effects";
 import { PasswordService } from "src/app/providers/password.service";
 import { ToastrService } from "ngx-toastr";
 import { ResetFailure, ResetActionTypes, PerformReset, ResetSuccess, PerformValidate, ValidateFailure, ValidateSuccess } from "./reset.actions";
-import { tap, exhaustMap, map, catchError } from "rxjs/operators";
+import { tap, map, catchError, switchMap } from "rxjs/operators";
 import { of } from "rxjs";
 import { Router } from "@angular/router";
 
@@ -19,7 +19,7 @@ export class ResetEffects {
     @Effect()
     reset$ = this.actions$.pipe(
         ofType<PerformReset>(ResetActionTypes.PerformReset),
-        exhaustMap((action: PerformReset) =>
+        switchMap((action: PerformReset) =>
             this.passwordService.reset(action.payload.uuid, action.payload.password).pipe(
                 map(() => new ResetSuccess()),
                 catchError(() => of(new ResetFailure()))
@@ -30,7 +30,7 @@ export class ResetEffects {
     @Effect()
     validate$ = this.actions$.pipe(
         ofType<PerformValidate>(ResetActionTypes.PerformValidate),
-        exhaustMap((action: PerformValidate) => 
+        switchMap((action: PerformValidate) => 
             this.passwordService.validate(action.payload.uuid).pipe(
                 map(() => new ValidateSuccess()),
                 catchError(() => of(new ValidateFailure()))

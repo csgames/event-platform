@@ -8,25 +8,16 @@
                             <app-loading-spinner [loading]="loading$ | async"></app-loading-spinner>
                             <img class="logo" src="../../../assets/logo-long.svg">
                             <div class="card-body">
-                                <form>
-                                    <div class="input-group input-group-default">
-                                        <div class="input-group-prepend">
-                                            <i class="fa fa-user"></i>
-                                        </div>
-                                        <input autofocus class="form-control" name="email" type="email"
-                                               [(ngModel)]="email" placeholder='{{ "general.profile.email" | translate }}'>
-
-                                    </div>
-                                    <div class="text-center">
-                                        <a class="btn btn-primary btn-rounded mt-3 px-3" (click)="clickForget()">
-                                            {{ "general.button.send" | translate }}
-                                        </a>
-                                    </div>
-                                    <hr>
-                                    <div class="text-center mt-3">
-                                        <a href="/login">{{ "pages.login.login" | translate }}</a>
-                                    </div>
-                                </form>
+                                <app-forget-form [(ngModel)]="forgetFormDto"></app-forget-form>
+                                <div class="text-center">
+                                    <a class="btn btn-primary btn-rounded mt-3 px-3" (click)="clickForget()">
+                                        {{ "general.button.send" | translate }}
+                                    </a>
+                                </div>
+                                <hr>
+                                <div class="text-center mt-3">
+                                    <a href="/login">{{ "pages.login.login" | translate }}</a>
+                                </div>
                             </div>
                         </div>
                     </div>

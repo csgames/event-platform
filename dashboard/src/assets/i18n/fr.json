@@ -19,7 +19,9 @@
         },
         "toast": {
             "email_failed": "Une erreur est survenue lors de l'envoie du courriel.",
-            "email_success": "Courriel envoyé avec succès"
+            "email_success": "Courriel envoyé avec succès",
+            "attendee_success": "Les informations du participant ont été sauvegardé avec succès.",
+            "attendee_failed": "Une erreur est survenue lors de la sauvegarde des informations du participant."
         },
         "top_bar": {
             "profile_settings": "Paramètres du profil",
@@ -77,6 +79,9 @@
         "home": {
             "home": "Accueil"
         },
+        "onboarding": {
+            "onboarding": "Inscription"
+        },
         "login": {
             "forgot_pass": "Mot de passe oublié?",
             "login": "Connexion",
@@ -113,6 +118,7 @@
         },
         "team": {
             "add_a_member": "Ajouter un membre",
+            "add_a_godparent": "Ajouter un(e) parrain/marraine",
             "add_godparent": "Ajouter un(e) parrain/marraine",
             "add_member": "Ajouter un membre",
             "godparent": "Parrain/Marraine",
