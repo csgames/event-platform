@@ -1,0 +1,13 @@
+<form [formGroup]="formGroup">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="input-group input-group-default">
+                <div class="input-group-prepend">
+                    <i class="fa fa-at"></i>
+                </div>
+                <input autofocus class="form-control" type="email" controlStatus
+                       formControlName="email" placeholder='{{ "general.profile.email" | translate }}'>
+            </div>
+        </div>
+    </div>
+</form>

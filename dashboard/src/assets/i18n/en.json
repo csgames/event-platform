@@ -2,6 +2,7 @@
 	"components": {
 		"profile": {
 			"2x_large": "XX-Large",
+			"cv": "CV",
 			"female": "Female",
 			"gender": "Gender",
 			"large": "Large",
@@ -12,12 +13,15 @@
 			"phone": "Phone number",
 			"profile": "Profile",
 			"small": "Small",
+			"update_success": "Profile successfully updated!",
 			"website": "Website",
 			"x_large": "X-Large"
 		},
 		"toast": {
+			"attendee_failed": "An error occured while saving the attendee info.",
+			"attendee_success": "Attendee info successfully saved.",
 			"email_failed": "An error occured while sending the email.",
-			"email_success": "Email successfully sent"
+			"email_success": "Email successfully sent."
 		},
 		"top_bar": {
 			"change_language": "Français",
@@ -25,11 +29,23 @@
 			"sign_out": "Sign Out"
 		}
 	},
+	"errors": {
+		"/^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{8,}$/": "The password must contain at least 8 characters including a number, a lower case letter and a upper case letter",
+		"email": "The email is invalid.",
+		"group": {
+			"required": "One or more fields are required."
+		},
+		"maxlength": "This field must have maximum {{value}} characters",
+		"minlength": "This field must have at least {{value}} characters",
+		"passwords_mismatch": "The passwords do not match.",
+		"required": "This field is required."
+	},
 	"general": {
 		"button": {
 			"add": "Add",
 			"cancel": "Cancel",
 			"close": "Close",
+			"reset": "Reset",
 			"save": "Save",
 			"send": "Send",
 			"subscribe": "Subscribe",
@@ -82,6 +98,9 @@
 			"login_error": "Invalid e-mail or password.",
 			"sign_in": "Sign in"
 		},
+		"onboarding": {
+			"onboarding": "Onboarding"
+		},
 		"puzzle_hero": {
 			"other": "Other tracks",
 			"position": "Position",
@@ -111,6 +130,7 @@
 			"sponsors": "Sponsors"
 		},
 		"team": {
+			"add_a_godparent": "Add a godparent",
 			"add_a_member": "Add a team member",
 			"add_godparent": "Add godparent",
 			"add_member": "Add member",

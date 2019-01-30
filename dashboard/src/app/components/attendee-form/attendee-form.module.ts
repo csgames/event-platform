@@ -7,7 +7,9 @@ import { FormBuilder, FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { ATTENDEE_FORM_GENERATOR } from "./attendee-form.constants";
 import { AttendeeFormDto } from "./dto/attendee-form.dto";
 import { NgxMaskModule } from "ngx-mask";
-import { TranslateModule } from "@ngx-translate/core"
+import { TranslateModule } from "@ngx-translate/core";
+import { FileUploadModule } from "../file-upload/file-upload.module";
+import { DirectivesModule } from "../../directives/directives.module";
 
 @NgModule({
     imports: [
@@ -16,7 +18,9 @@ import { TranslateModule } from "@ngx-translate/core"
         ReactiveFormsModule,
         NgSelectModule,
         NgxMaskModule.forChild(),
-        TranslateModule
+        TranslateModule,
+        FileUploadModule,
+        DirectivesModule
     ],
     declarations: [AttendeeFormComponent],
     providers: [

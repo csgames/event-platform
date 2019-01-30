@@ -16,11 +16,8 @@ import { TranslateModule } from "@ngx-translate/core";
         CommonModule,
         HomeRoutingModule,
         TranslateModule,
-
         StoreModule.forFeature("home", fromHome.reducer),
-
         EffectsModule.forFeature([HomeEffects])
-
     ],
     providers: [HomeService],
     declarations: [HomeComponent]

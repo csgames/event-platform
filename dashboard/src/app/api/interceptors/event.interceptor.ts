@@ -28,7 +28,6 @@ export class EventInterceptor implements HttpInterceptor {
                 const eventReq = req.clone({
                     headers: req.headers.set("Event-Id", event._id)
                 });
-                console.log(eventReq);
                 return next.handle(eventReq);
             })
         );

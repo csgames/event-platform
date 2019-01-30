@@ -2,6 +2,7 @@
 	"components": {
 		"profile": {
 			"2x_large": "Très très grand",
+			"cv": "CV",
 			"female": "Femme",
 			"gender": "Sexe",
 			"large": "Grand",
@@ -12,10 +13,13 @@
 			"phone": "Numéro de téléphone",
 			"profile": "Profile",
 			"small": "Petit",
+			"update_success": "Profil mis à jour avec succès!",
 			"website": "Site internet",
 			"x_large": "Très grand"
 		},
 		"toast": {
+			"attendee_failed": "Une erreur est survenue lors de la sauvegarde des informations du participant.",
+			"attendee_success": "Les informations du participant ont été sauvegardé avec succès.",
 			"email_failed": "Une erreur est survenue lors de l'envoie du courriel.",
 			"email_success": "Courriel envoyé avec succès"
 		},
@@ -25,11 +29,23 @@
 			"sign_out": "Déconnexion"
 		}
 	},
+	"errors": {
+		"/^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{8,}$/": "Le mot de passe doit contenir au moins 8 caractères dont un chiffre, une lettre minuscule et une lettre majuscule",
+		"email": "Le courriel est invalide.",
+		"group": {
+			"required": "Un ou plusieurs champs sont manquant"
+		},
+		"maxlength": "Ce champs doit avoir au plus {{value}} caractères",
+		"minlength": "Ce champs doit avoir un minimum de {{value}} caractères",
+		"passwords_mismatch": "Les mots de passe ne correspondent pas.",
+		"required": "Ce champs est requis"
+	},
 	"general": {
 		"button": {
 			"add": "Ajouter",
 			"cancel": "Annuler",
 			"close": "Fermer",
+			"reset": "Réinitialiser",
 			"save": "Enregistrer",
 			"send": "Envoyer",
 			"subscribe": "S' abonner",
@@ -82,6 +98,9 @@
 			"login_error": "Identifiants invalides.",
 			"sign_in": "Connexion"
 		},
+		"onboarding": {
+			"onboarding": "Inscription"
+		},
 		"puzzle_hero": {
 			"other": "Autres pistes",
 			"position": "Position",
@@ -111,6 +130,7 @@
 			"sponsors": "Commanditaires"
 		},
 		"team": {
+			"add_a_godparent": "Ajouter un(e) parrain/marraine",
 			"add_a_member": "Ajouter un membre",
 			"add_godparent": "Ajouter un(e) parrain/marraine",
 			"add_member": "Ajouter un membre",

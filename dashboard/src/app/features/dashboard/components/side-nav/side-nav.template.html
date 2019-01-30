@@ -12,6 +12,16 @@
                 </div>
             </div>
         </a>
+        <a [routerLink]="['/onboarding']" routerLinkActive="active">
+            <div [fxLayout]="'row'" fxFlexFill>
+                <div fxFlex="20">
+                    <i class="fas fa-id-card"></i>
+                </div>
+                <div fxFlex="80">
+                    {{ "pages.onboarding.onboarding" | translate }}
+                </div>
+            </div>
+        </a>
         <a [routerLink]="['/guide']" routerLinkActive="active">
             <div [fxLayout]="'row'" fxFlexFill>
                 <div fxFlex="20">
