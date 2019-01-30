@@ -9,29 +9,35 @@
                             <img class="logo" src="../../../assets/logo-long.svg">
                             <div class="link-error" *ngIf="validateError$ | async">Reset code is expired</div>
                             <div class="card-body" *ngIf="!(validateError$ | async)">
-                                <form>
-                                    <div class="input-group input-group-default has-error"
-                                         [class.has-error]="error$ | async">
-                                        <div class="input-group-prepend">
-                                            <i class="fa fa-lock"></i>
+                                <form [formGroup]="formGroup">
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="input-group input-group-default">
+                                                <div class="input-group-prepend">
+                                                    <i class="fa fa-lock"></i>
+                                                </div>
+                                                    <input class="form-control" type="password" name="password" controlStatus
+                                                        formControlName="password" placeholder='{{ "general.profile.password" | translate }}'>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <input class="form-control" name="password" type="password"
-                                               [(ngModel)]="password" placeholder="New Password">
-                                    </div>
-                                    <div class="input-group input-group-default has-error"
-                                         [class.has-error]="error$ | async">
-                                        <div class="input-group-prepend">
-                                            <i class="fa fa-lock"></i>
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="input-group input-group-default">
+                                                    <div class="input-group-prepend">
+                                                        <i class="fa fa-lock"></i>
+                                                    </div>
+                                                    <input class="form-control" type="password" name="confirm-password" controlStatus
+                                                            formControlName="confirmPassword" placeholder='{{ "pages.register.confirm_password" | translate }}'>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <input class="form-control" name="password" type="password"
-                                               [(ngModel)]="secondPassword" placeholder="Confirm Password">
-                                    </div>
-                                    <div class="text-center">
-                                        <a class="btn btn-primary btn-rounded mt-3 px-3" (click)="clickReset()">
-                                            Reset
-                                        </a>
-                                    </div>
                                 </form>
+                                <div class="text-center">
+                                    <a class="btn btn-primary btn-rounded mt-3 px-3" (click)="clickReset()">
+                                        Reset
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </div>
