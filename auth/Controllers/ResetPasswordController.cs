@@ -29,8 +29,10 @@ namespace STS.Controllers
         {
             Task.Run(async () =>
             {
+                Console.WriteLine("Sending the reset password email to the user");
                 if (!ModelState.IsValid)
                 {
+                    Console.WriteLine("The model isn't valid");
                     return;
                 }
 
@@ -38,6 +40,7 @@ namespace STS.Controllers
 
                 if (user == null)
                 {
+                    Console.WriteLine("No user found with this username {0}", input.Username);
                     return;
                 }
 
@@ -48,6 +51,7 @@ namespace STS.Controllers
                 }
                 catch (Exception)
                 {
+                    Console.WriteLine("An error occured while getting the reset password.");
                     resetPassword = null;
                 }
 
@@ -84,6 +88,7 @@ namespace STS.Controllers
                     }
                 };
                 var res = await _mailService.SendEmail(mailInput);
+                Console.WriteLine("The email was sent successfully");
             });
             return Ok();
         }
@@ -106,7 +111,7 @@ namespace STS.Controllers
         }
 
         [HttpPut("{uuid}")]
-        public Task<IActionResult> UpdatePassword(string uuid, ResetPasswordInput input)
+        public Task<IActionResult> UpdatePassword(string uuid, [FromBody] ResetPasswordInput input)
         {
             return Task.Run<IActionResult>(() =>
             {
