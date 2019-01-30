@@ -122,7 +122,7 @@ export class ControlStatusDirective implements OnInit, OnDestroy, DoCheck {
         for (const error in this.control.errors) {
             if (this.control.errors.hasOwnProperty(error)) {
                 if (this.control.errors[error]) {
-                    let errorKey = error;
+                    this.lastErrorKey = error;
                     const param: Object = {};
                     if (error === "pattern") {
                         this.lastErrorKey = this.control.errors[error].requiredPattern;
@@ -130,7 +130,7 @@ export class ControlStatusDirective implements OnInit, OnDestroy, DoCheck {
                     if (error === "minlength" || error === "maxlength") {
                         param["value"] = this.control.errors[error].requiredLength;
                     }
-                    this.error = this.getControlError(errorKey, param);
+                    this.error = this.getControlError(this.lastErrorKey, param);
                     if (this.error.dataset.errors === "0" || !this.error.dataset.errors) {
                         this.errorGroup.appendChild(this.error);
                         this.error.dataset.errors = "1";

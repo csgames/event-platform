@@ -21,8 +21,7 @@
         </div>
         <button type="button" class="btn btn-primary btn-save" (click)="onSaveTeamName(teamName)">{{
             "general.button.save" | translate }}<i class="fas fa-check"></i></button>
-        <button type="button" class="btn btn-danger" (click)="onCancelTeamName(teamName)">{{ "general.button.cancel" |
-            translate }} <i class="fas fa-times"></i></button>
+        <button type="button" class="btn btn-danger" (click)="onCancelTeamName(teamName)">{{ "general.button.cancel" | translate }} <i class="fas fa-times"></i></button>
     </div>
     <ng-container *ngIf="currentAttendees$ | async as currentAttendees">
         <h4 class="team-members">{{ "pages.team.team_members" | translate }}<b>
