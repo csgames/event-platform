@@ -5,7 +5,6 @@ import { LoadTeam, UpdateTeamName, AddTeamMember, AddTeamGodparent } from "./sto
 import { Team } from "src/app/api/models/team";
 import { Attendee } from "src/app/api/models/attendee";
 import { first, filter } from "rxjs/operators";
-import { LoadCurrentAttendee } from "src/app/store/app.actions";
 import * as fromApp from "../../store/app.reducers";
 
 @Component({

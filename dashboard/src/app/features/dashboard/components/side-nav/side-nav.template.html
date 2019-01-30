@@ -2,7 +2,7 @@
     <img class="logo" src="http://2019.csgames.org/assets/file/CSGames_19_logoOriginal.png">
 
     <div class="navigation">
-        <a *ngIf="false" [routerLink]="['/home']" routerLinkActive="active">
+        <!-- <a *ngIf="(attendee$ | async)?.registered" [routerLink]="['/home']" routerLinkActive="active">
             <div [fxLayout]="'row'" fxFlexFill>
                 <div fxFlex="20">
                     <i class="fas fa-home"></i>
@@ -11,8 +11,8 @@
                     {{ "pages.home.home" | translate }}
                 </div>
             </div>
-        </a>
-        <a [routerLink]="['/onboarding']" routerLinkActive="active">
+        </a> -->
+        <a *ngIf="!((attendee$ | async)?.registered)" [routerLink]="['/onboarding']" routerLinkActive="active">
             <div [fxLayout]="'row'" fxFlexFill>
                 <div fxFlex="20">
                     <i class="fas fa-id-card"></i>
@@ -22,7 +22,7 @@
                 </div>
             </div>
         </a>
-        <a *ngIf="false" [routerLink]="['/guide']" routerLinkActive="active">
+        <!-- <a *ngIf="(attendee$ | async)?.registered" [routerLink]="['/guide']" routerLinkActive="active">
             <div [fxLayout]="'row'" fxFlexFill>
                 <div fxFlex="20">
                     <i class="fas fa-book"></i>
@@ -32,7 +32,7 @@
                 </div>
             </div>
         </a>
-        <a *ngIf="false" [routerLink]="['/schedule']" routerLinkActive="active">
+        <a *ngIf="(attendee$ | async)?.registered" [routerLink]="['/schedule']" routerLinkActive="active">
             <div [fxLayout]="'row'" fxFlexFill>
                 <div fxFlex="20">
                     <i class="far fa-calendar"></i>
@@ -42,7 +42,7 @@
                 </div>
             </div>
         </a>
-        <a *ngIf="false" [routerLink]="['/puzzle-hero']" routerLinkActive="active">
+        <a *ngIf="(attendee$ | async)?.registered" [routerLink]="['/puzzle-hero']" routerLinkActive="active">
             <div [fxLayout]="'row'" fxFlexFill>
                 <div fxFlex="20">
                     <i class="fas fa-puzzle-piece"></i>
@@ -51,8 +51,8 @@
                     {{ "pages.puzzle_hero.puzzle_hero" | translate }}
                 </div>
             </div>
-        </a>
-        <a [routerLink]="['/team']" routerLinkActive="active">
+        </a> -->
+        <a *ngIf="(attendee$ | async)?.registered" [routerLink]="['/team']" routerLinkActive="active">
             <div [fxLayout]="'row'" fxFlexFill>
                 <div fxFlex="20">
                     <i class="fas fa-users"></i>
@@ -62,7 +62,7 @@
                 </div>
             </div>
         </a>
-        <a *ngIf="false" [routerLink]="['/sponsor']" routerLinkActive="active">
+        <!-- <a *ngIf="(attendee$ | async)?.registered" [routerLink]="['/sponsor']" routerLinkActive="active">
             <div [fxLayout]="'row'" fxFlexFill>
                 <div fxFlex="20">
                     <i class="far fa-gem"></i>
@@ -72,7 +72,7 @@
                 </div>
             </div>
         </a>
-        <a *ngIf="false" [routerLink]="['/competition']" routerLinkActive="active">
+        <a *ngIf="(attendee$ | async)?.registered" [routerLink]="['/competition']" routerLinkActive="active">
             <div [fxLayout]="'row'" fxFlexFill>
                 <div fxFlex="20">
                     <i class="fas fa-trophy"></i>
@@ -81,6 +81,6 @@
                     {{ "pages.competition.competitions" | translate }}
                 </div>
             </div>
-        </a>
+        </a> -->
     </div>
 </div>
