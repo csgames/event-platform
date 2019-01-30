@@ -65,6 +65,11 @@ export class CreateAttendeeDto {
     @IsString()
     @ApiModelProperty()
     dietaryRestrictions: string;
+
+    @IsOptional()
+    @IsBoolean()
+    @ApiModelProperty()
+    disabled: boolean;
 }
 
 export class UpdateAttendeeDto {
@@ -131,6 +136,11 @@ export class UpdateAttendeeDto {
     @IsString()
     @ApiModelProperty()
     dietaryRestrictions: string;
+
+    @IsOptional()
+    @IsBoolean()
+    @ApiModelProperty()
+    disabled: boolean;
 }
 
 export class AddTokenDto {
