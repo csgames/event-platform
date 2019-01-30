@@ -1,4 +1,5 @@
 import * as express from 'express';
+import * as bodyParser from 'body-parser';
 import * as fetch from 'node-fetch';
 import * as querystring from 'querystring';
 
@@ -6,6 +7,8 @@ export class Auth {
     public router = express.Router();
 
     constructor() {
+        this.router.use(bodyParser.json());
+        this.router.use(bodyParser.urlencoded({ extended: true }));
         this.router.post('/login', this.login.bind(this));
         this.router.get('/logout', this.logout.bind(this));
         this.router.get('/isloggedin', this.isLoggedIn.bind(this));

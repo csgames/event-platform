@@ -4,7 +4,6 @@ import * as http from 'http';
 import * as logger from 'morgan';
 import * as cors from 'cors';
 import * as cookieParser from 'cookie-parser';
-import * as bodyParser from 'body-parser';
 import * as session from 'express-session';
 import * as redisStore from 'connect-redis';
 import * as httpProxy from 'http-proxy-middleware';
@@ -36,8 +35,6 @@ export class Application {
             credentials: true,
             origin: process.env.APP_URL.split(' ')
         }));
-        this.app.use(bodyParser.json());
-        this.app.use(bodyParser.urlencoded({ extended: true }));
         this.app.use(cookieParser(process.env.COOKIE_SECRET));
         this.app.use(express.static(path.join(__dirname, '../public')));
 
@@ -128,12 +125,6 @@ export class Application {
         proxyReq.removeHeader("Cookie");
         if (req.session.access_token){
             proxyReq.setHeader("Authorization", `Bearer ${req.session.access_token}`);
-        }
-        if (req.body) {
-            const bodyData = JSON.stringify(req.body);
-            proxyReq.setHeader('Content-Type', 'application/json');
-            proxyReq.setHeader('Content-Length', Buffer.byteLength(bodyData));
-            proxyReq.write(bodyData);
         }
     }
 
