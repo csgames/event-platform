@@ -32,7 +32,7 @@ export class OnboardingEffects {
     updateFail$ = this.actions$.pipe(
         ofType<UpdateFailure>(OnboardingActionTypes.UpdateFailure),
         tap(() => {
-            const text = this.translateService.instant('components.toast.attendee_failed');
+            const text = this.translateService.instant("components.toast.attendee_failed");
             this.toastr.error(text);
         })
     );
@@ -41,7 +41,7 @@ export class OnboardingEffects {
     updateSuccess$ = this.actions$.pipe(
         ofType<UpdateSuccess>(OnboardingActionTypes.UpdateSuccess),
         tap(() => {
-            const text = this.translateService.instant('components.toast.attendee_success');
+            const text = this.translateService.instant("components.toast.attendee_success");
             this.toastr.success(text);
         })
     );

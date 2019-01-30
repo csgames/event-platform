@@ -26,4 +26,7 @@ export class AttendeeFormDto {
     @MinLength(11)
     @MaxLength(11)
     phoneNumber: string;
+
+    @Control()
+    cv: string;
 }

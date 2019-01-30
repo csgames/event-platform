@@ -7,7 +7,8 @@
                         <i class="fas fa-user"></i>
                     </a>
                 </div>
-                <ng-select [items]="gender" placeholder='{{ "components.profile.gender" | translate }}' formControlName="gender">
+                <ng-select [items]="gender" placeholder='{{ "components.profile.gender" | translate }}'
+                           formControlName="gender" controlStatus>
                     <ng-template ng-option-tmp ng-label-tmp let-item="item">
                         <span class="ng-option-label">
                             {{ "components.profile." + item | translate }}
@@ -23,7 +24,7 @@
                         <i class="fas fa-tshirt"></i>
                     </a>
                 </div>
-                <ng-select [items]="tshirtSize" placeholder="T-Shirt size" formControlName="tshirt">
+                <ng-select [items]="tshirtSize" placeholder="T-Shirt size" formControlName="tshirt" controlStatus>
                     <ng-template ng-option-tmp ng-label-tmp let-item="item">
                             <span class="ng-option-label">
                                 {{ "components.profile." + item | translate }}
@@ -43,7 +44,7 @@
                     </a>
                 </div>
                 <input class="form-control" type="text"
-                       placeholder="LinkedIn"  formControlName="linkedIn">
+                       placeholder="LinkedIn"  formControlName="linkedIn" controlStatus>
             </div>
         </div>
         <div class="col-sm-6">
@@ -54,7 +55,7 @@
                     </a>
                 </div>
                 <input class="form-control" type="text"
-                       placeholder="GitHub" formControlName="github">
+                       placeholder="GitHub" formControlName="github" controlStatus>
             </div>
         </div>
     </div>
@@ -68,7 +69,7 @@
                     </a>
                 </div>
                 <input autofocus class="form-control" type="text"
-                       placeholder='{{ "components.profile.website" | translate }}' formControlName="website">
+                       placeholder='{{ "components.profile.website" | translate }}' formControlName="website" controlStatus>
             </div>
         </div>
         <div class="col-sm-6">
@@ -79,8 +80,16 @@
                     </a>
                 </div>
                 <input autofocus class="form-control" [showMaskTyped]="true" mask="+0 (000) 000-0000"
-                       placeholder='{{ "components.profile.phone" | translate }}' formControlName="phoneNumber">
+                       placeholder='{{ "components.profile.phone" | translate }}' formControlName="phoneNumber" controlStatus>
             </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <app-file-upload placeholder='{{ "components.profile.cv" | translate }}' formControlName="cv" controlStatus
+                             (download)="downloadCv.emit()">
+            </app-file-upload>
         </div>
     </div>
 </form>

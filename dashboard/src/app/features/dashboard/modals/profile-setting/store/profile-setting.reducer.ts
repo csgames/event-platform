@@ -32,6 +32,26 @@ export function profileSettingGlobalReducerReducer(state = initialState, action:
                 ...state,
                 loading: true
             };
+        case ProfileSettingActionTypes.DownloadCv:
+            return {
+                ...state,
+                loading: true
+            };
+        case ProfileSettingActionTypes.CvDownloaded:
+            return {
+                ...state,
+                loading: false
+            };
+        case ProfileSettingActionTypes.UpdateAttendee:
+            return {
+                ...state,
+                saving: true
+            };
+        case ProfileSettingActionTypes.AttendeeUpdated:
+            return {
+                ...state,
+                saving: false
+            };
     }
     return state;
 }

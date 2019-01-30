@@ -13,6 +13,6 @@ export class AttendeeService {
     }
 
     updateAttendee(attendee: Attendee): Observable<void> {
-        return this.apiService.attendee.updateAttendeeInfo(attendee);
+        return this.apiService.attendee.update(attendee, null);
     }
 }

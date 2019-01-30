@@ -79,7 +79,7 @@ export class ControlStatusDirective implements OnInit, OnDestroy, DoCheck {
         return null;
     }
 
-    private getControlError(validationError: string): HTMLElement {
+    private getControlError(validationError: string, param?: Object): HTMLElement {
         const children = this.errorGroup.children;
         for (let i = 0; i < children.length; i++) {
             if (children.item(i).classList.contains("control-error")) {
@@ -89,7 +89,7 @@ export class ControlStatusDirective implements OnInit, OnDestroy, DoCheck {
         }
         const error = this.renderer.createElement("span") as HTMLSpanElement;
         error.classList.add("control-error");
-        error.innerText = this.translateService.instant(`${this.errorPrefix}.${validationError}`);
+        error.innerText = this.translateService.instant(`${this.errorPrefix}.${validationError}`, param);
         if (this.isGroup) {
             const col = this.renderer.createElement("div") as HTMLDivElement;
             col.classList.add("col-sm-12");
@@ -119,10 +119,14 @@ export class ControlStatusDirective implements OnInit, OnDestroy, DoCheck {
             if (this.control.errors.hasOwnProperty(error)) {
                 if (this.control.errors[error]) {
                     let errorKey = error;
+                    const param: Object = {};
                     if (error === "pattern") {
                         errorKey = this.control.errors[error].requiredPattern;
                     }
-                    this.error = this.getControlError(errorKey);
+                    if (error === "minlength" || error === "maxlength") {
+                        param["value"] = this.control.errors[error].requiredLength;
+                    }
+                    this.error = this.getControlError(errorKey, param);
                     if (this.error.dataset.errors === "0" || !this.error.dataset.errors) {
                         this.errorGroup.appendChild(this.error);
                         this.error.dataset.errors = "1";
