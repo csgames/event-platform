@@ -77,10 +77,6 @@ export class Application {
     }
 
     public routes() {
-        const auth: Auth = new Auth();
-
-        this.app.use(process.env.GATEWAY_BASE_PATH, auth.router);
-
         this.app.use(this.renewToken.bind(this));
         let proxy = proxyConfig();
         this.app.use(httpProxy(proxy.path, {
@@ -91,6 +87,9 @@ export class Application {
             changeOrigin: true,
             ignorePath: true
         }));
+        const auth: Auth = new Auth();
+
+        this.app.use(process.env.GATEWAY_BASE_PATH, auth.router);
     }
 
     private async renewToken(req: express.Request, res: express.Response, next) {
