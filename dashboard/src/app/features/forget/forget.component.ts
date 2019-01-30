@@ -7,6 +7,7 @@ import { ToastrService } from "ngx-toastr";
 import { ForgetFormDto } from "./components/dto/forget-form-dto";
 import { ForgetFormComponent } from "./components/form/forget-form.component";
 
+
 @Component({
     selector: "app-forget",
     templateUrl: "forget.template.html",

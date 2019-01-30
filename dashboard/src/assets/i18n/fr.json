@@ -1,144 +1,146 @@
 {
-    "components": {
-        "profile": {
-            "2x_large": "Très très grand",
-            "female": "Femme",
-            "gender": "Sexe",
-            "large": "Grand",
-            "male": "Homme",
-            "medium": "Moyen",
-            "no_answer": "Je préfère ne pas répondre.",
-            "other": "Autre",
-            "phone": "Numéro de téléphone",
-            "profile": "Profile",
-            "small": "Petit",
-            "website": "Site internet",
-            "x_large": "Très grand",
-            "cv": "CV",
-            "update_success": "Profil mis à jour avec succès!"
-        },
-        "toast": {
-            "email_failed": "Une erreur est survenue lors de l'envoie du courriel.",
-            "email_success": "Courriel envoyé avec succès",
-            "attendee_success": "Les informations du participant ont été sauvegardé avec succès.",
-            "attendee_failed": "Une erreur est survenue lors de la sauvegarde des informations du participant."
-        },
-        "top_bar": {
-            "profile_settings": "Paramètres du profil",
-            "sign_out": "Déconnexion"
-        }
-    },
-    "general": {
-        "button": {
-            "add": "Ajouter",
-            "cancel": "Annuler",
-            "close": "Fermer",
-            "save": "Enregistrer",
-            "send": "Envoyer",
-            "subscribe": "S' abonner",
-            "validate": "Valider"
-        },
-        "error": {
-            "something": "Une erreur est survenue..."
-        },
-        "loading": {
-            "loading": "Chargement..."
-        },
-        "profile": {
-            "email": "Adresse courriel",
-            "first_name": "Prénom",
-            "last_name": "Nom de famille",
-            "password": "Mot de passe"
-        },
-        "team": {
-            "name": "Nom d'équipe",
-            "school": "École"
-        },
-        "toast": {
-            "Error": "Erreur",
-            "failure": "Échec",
-            "success": "Succès!"
-        }
-    },
-    "pages": {
-        "competition": {
-            "competition_password": "Mot de passe de la compétition",
-            "competitions": "Compétitions",
-            "other": "Autres compétitions",
-            "participate": "Participer",
-            "subscribed": "Compétitions abonnées",
-            "wrong_password": "Mauvais mot de passe"
-        },
-        "guide": {
-            "guide": "Guide",
-            "hotel": "Se rendre à l'hôtel",
-            "parking": "Stationnements",
-            "restaurants": "Restaurants et bars",
-            "what_to_bring": "Que faut-il apporter?"
-        },
-        "home": {
-            "home": "Accueil"
-        },
-        "onboarding": {
-            "onboarding": "Inscription"
-        },
-        "login": {
-            "forgot_pass": "Mot de passe oublié?",
-            "login": "Connexion",
-            "login_error": "Identifiants invalides.",
-            "sign_in": "Connexion"
-        },
-        "puzzle_hero": {
-            "other": "Autres pistes",
-            "position": "Position",
-            "puzzle": "Défi",
-            "puzzle_hero": "Puzzle Hero",
-            "score": "Pointage",
-            "scoreboard": "Classement",
-            "starred": "Pistes favorites",
-            "track": "Piste",
-            "wrong_answer": "Mauvaise réponse!"
-        },
-        "register": {
-            "already_have_account": "Vous avez déjà un compte?",
-            "confirm_password": "Confirmer le mot de passe",
-            "register": "Enregistrer"
-        },
-        "schedule": {
-            "schedule": "Horaire",
-            "view_competition": "Voir la compétition"
-        },
-        "sponsor": {
-            "bronze": "Bronze",
-            "gold": "Or",
-            "partner": "Partenaire",
-            "platinum": "Platine",
-            "silver": "Argent",
-            "sponsors": "Commanditaires"
-        },
-        "team": {
-            "add_a_member": "Ajouter un membre",
-            "add_a_godparent": "Ajouter un(e) parrain/marraine",
-            "add_godparent": "Ajouter un(e) parrain/marraine",
-            "add_member": "Ajouter un membre",
-            "godparent": "Parrain/Marraine",
-            "loading_error": "Une erreur est survenue lors du chargement de l'équipe.",
-            "no_godparent": "Aucun(e) parrain/marraine pour l'instant",
-            "not_registered": "Non-enregistré",
-            "registered": "Enregistré",
-            "team": "Équipe",
-            "team_members": "Membres de l'équipe"
-        }
-    },
-    "errors": {
-        "required": "Ce champs est requis",
-        "passwords_mismatch": "Les mots de passe ne correspondent pas.",
-        "email": "Le courriel est invalide.",
-        "minlength": "Ce champs doit avoir un minimum de {{value}} caractères",
-        "maxlength": "Ce champs doit avoir au plus {{value}} caractères",
-        "/^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{8,}$/": "Le mot de passe doit contenir au moins 8 caractères dont un chiffre, une lettre minuscule et une lettre majuscule",
-        "group": {
-            "required": "Un ou plusieurs champs sont manquant"
-        }
-    }
+	"components": {
+		"profile": {
+			"2x_large": "Très très grand",
+			"cv": "CV",
+			"female": "Femme",
+			"gender": "Sexe",
+			"large": "Grand",
+			"male": "Homme",
+			"medium": "Moyen",
+			"no_answer": "Je préfère ne pas répondre.",
+			"other": "Autre",
+			"phone": "Numéro de téléphone",
+			"profile": "Profile",
+			"small": "Petit",
+			"update_success": "Profil mis à jour avec succès!",
+			"website": "Site internet",
+			"x_large": "Très grand"
+		},
+		"toast": {
+			"attendee_failed": "Une erreur est survenue lors de la sauvegarde des informations du participant.",
+			"attendee_success": "Les informations du participant ont été sauvegardé avec succès.",
+			"email_failed": "Une erreur est survenue lors de l'envoie du courriel.",
+			"email_success": "Courriel envoyé avec succès"
+		},
+		"top_bar": {
+			"change_language": "English",
+			"profile_settings": "Paramètres du profil",
+			"sign_out": "Déconnexion"
+		}
+	},
+	"errors": {
+		"/^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{8,}$/": "Le mot de passe doit contenir au moins 8 caractères dont un chiffre, une lettre minuscule et une lettre majuscule",
+		"email": "Le courriel est invalide.",
+		"group": {
+			"required": "Un ou plusieurs champs sont manquant"
+		},
+		"maxlength": "Ce champs doit avoir au plus {{value}} caractères",
+		"minlength": "Ce champs doit avoir un minimum de {{value}} caractères",
+		"passwords_mismatch": "Les mots de passe ne correspondent pas.",
+		"required": "Ce champs est requis"
+	},
+	"general": {
+		"button": {
+			"add": "Ajouter",
+			"cancel": "Annuler",
+			"close": "Fermer",
+			"reset": "Réinitialiser",
+			"save": "Enregistrer",
+			"send": "Envoyer",
+			"subscribe": "S' abonner",
+			"validate": "Valider"
+		},
+		"error": {
+			"something": "Une erreur est survenue..."
+		},
+		"loading": {
+			"loading": "Chargement..."
+		},
+		"profile": {
+			"email": "Adresse courriel",
+			"first_name": "Prénom",
+			"last_name": "Nom de famille",
+			"password": "Mot de passe"
+		},
+		"team": {
+			"name": "Nom d'équipe",
+			"school": "École"
+		},
+		"toast": {
+			"Error": "Erreur",
+			"failure": "Échec",
+			"success": "Succès!"
+		}
+	},
+	"pages": {
+		"competition": {
+			"competition_password": "Mot de passe de la compétition",
+			"competitions": "Compétitions",
+			"other": "Autres compétitions",
+			"participate": "Participer",
+			"subscribed": "Compétitions abonnées",
+			"wrong_password": "Mauvais mot de passe"
+		},
+		"guide": {
+			"guide": "Guide",
+			"hotel": "Se rendre à l'hôtel",
+			"parking": "Stationnements",
+			"restaurants": "Restaurants et bars",
+			"what_to_bring": "Que faut-il apporter?"
+		},
+		"home": {
+			"home": "Accueil"
+		},
+		"login": {
+			"forgot_pass": "Mot de passe oublié?",
+			"login": "Connexion",
+			"login_error": "Identifiants invalides.",
+			"sign_in": "Connexion"
+		},
+		"onboarding": {
+			"onboarding": "Inscription"
+		},
+		"puzzle_hero": {
+			"other": "Autres pistes",
+			"position": "Position",
+			"puzzle": "Défi",
+			"puzzle_hero": "Puzzle Hero",
+			"score": "Pointage",
+			"scoreboard": "Classement",
+			"starred": "Pistes favorites",
+			"track": "Piste",
+			"wrong_answer": "Mauvaise réponse!"
+		},
+		"register": {
+			"already_have_account": "Vous avez déjà un compte?",
+			"confirm_password": "Confirmer le mot de passe",
+			"register": "Enregistrer"
+		},
+		"schedule": {
+			"schedule": "Horaire",
+			"view_competition": "Voir la compétition"
+		},
+		"sponsor": {
+			"bronze": "Bronze",
+			"gold": "Or",
+			"partner": "Partenaire",
+			"platinum": "Platine",
+			"silver": "Argent",
+			"sponsors": "Commanditaires"
+		},
+		"team": {
+			"add_a_godparent": "Ajouter un(e) parrain/marraine",
+			"add_a_member": "Ajouter un membre",
+			"add_godparent": "Ajouter un(e) parrain/marraine",
+			"add_member": "Ajouter un membre",
+			"godparent": "Parrain/Marraine",
+			"loading_error": "Une erreur est survenue lors du chargement de l'équipe.",
+			"no_godparent": "Aucun(e) parrain/marraine pour l'instant",
+			"not_registered": "Non-enregistré",
+			"registered": "Enregistré",
+			"team": "Équipe",
+			"team_members": "Membres de l'équipe"
+		}
+	}
 }

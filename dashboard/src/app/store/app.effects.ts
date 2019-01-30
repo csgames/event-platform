@@ -9,7 +9,8 @@ import {
     LoadCurrentAttendee,
     LoadEvents,
     Logout,
-    SetCurrentEvent
+    SetCurrentEvent,
+    ChangeLanguage
 } from "./app.actions";
 import { catchError, exhaustMap, filter, map, switchMap, tap } from "rxjs/operators";
 import { Router } from "@angular/router";
@@ -20,6 +21,7 @@ import { of } from "rxjs";
 import { EventService } from "../providers/event.service";
 import { SimpleModalService } from "ngx-simple-modal";
 import { ProfileSettingComponent } from "../features/dashboard/modals/profile-setting/profile-setting.component";
+import { TranslateService } from "@ngx-translate/core";
 import { ToastrService } from "ngx-toastr";
 
 @Injectable()
@@ -31,6 +33,7 @@ export class AppEffects {
         private eventService: EventService,
         private router: Router,
         private modalService: SimpleModalService,
+        private translateService: TranslateService,
         private toastr: ToastrService
     ) {}
 
@@ -43,6 +46,14 @@ export class AppEffects {
                     this.router.navigate(["/login"]);
                 })
             );
+        })
+    );
+
+    @Effect({ dispatch: false })
+    changeLanguage$ = this.actions$.pipe(
+        ofType<ChangeLanguage>(AppActionTypes.ChangeLanguage),
+        tap((action: ChangeLanguage) => { 
+            this.translateService.setDefaultLang(action.payload);
         })
     );
 

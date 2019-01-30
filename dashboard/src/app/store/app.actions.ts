@@ -11,7 +11,14 @@ export enum AppActionTypes {
     EventsLoaded = "[App] Events loaded",
     SetCurrentEvent = "[App] Set current event",
     EditProfile = "[App] Edit profile",
-    Logout = "[App] Logout"
+    Logout = "[App] Logout",
+    ChangeLanguage = "[App] Change Language"
+}
+
+export class ChangeLanguage implements Action {
+    readonly type = AppActionTypes.ChangeLanguage;
+
+    constructor(public payload: string) {}
 }
 
 export class GlobalError implements Action {
@@ -63,4 +70,5 @@ export type AppActions =
     | CurrentAttendeeLoaded
     | SetCurrentEvent
     | EditProfile
-    | LoadCurrentAttendee;
+    | LoadCurrentAttendee
+    | ChangeLanguage;

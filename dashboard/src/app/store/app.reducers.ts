@@ -9,6 +9,7 @@ export interface GlobalState {
     events: Event[];
     currentEvent: Event;
     loading: boolean;
+    language: string;
 }
 
 export interface State {
@@ -23,11 +24,17 @@ export const initialState: GlobalState = {
     currentAttendee: null,
     events: [],
     currentEvent: null,
-    loading: false
+    loading: false,
+    language: null
 };
 
 export function globalReducer(state = initialState, action: AppActions): GlobalState {
     switch (action.type) {
+        case AppActionTypes.ChangeLanguage:
+            return {
+                ...state,
+                language: action.payload
+            };
         case AppActionTypes.CurrentAttendeeLoaded:
             return {
                 ...state,
@@ -75,3 +82,5 @@ export const getCurrentAttendee = createSelector(
 export const getEvents = createSelector(getGlobalState, (state: GlobalState) => state.events);
 
 export const getCurrentEvent = createSelector(getGlobalState, (state: GlobalState) => state.currentEvent);
+
+export const getCurrentLanguage = createSelector(getGlobalState, (state: GlobalState) => state.language);

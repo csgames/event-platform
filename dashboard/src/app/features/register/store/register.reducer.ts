@@ -31,12 +31,29 @@ export function reducer(state = initialState, action: RegisterActions): Register
             return {
                 ...state,
                 registration: action.registrationInfo,
-                error: false
+                error: false,
+                loading: false
             };
         case RegisterActionTypes.RegistrationError:
             return {
                 ...state,
-                error: true
+                error: true,
+                loading: false
+            };
+        case RegisterActionTypes.PerformRegistration:
+            return {
+                ...state,
+                loading: true
+            };
+        case RegisterActionTypes.PerformRegistrationSuccess:
+            return {
+                ...state,
+                loading: false,
+            };
+        case RegisterActionTypes.PerformRegistrationError:
+            return {
+                ...state,
+                loading: false,
             };
 
     }

@@ -27,6 +27,7 @@ export class TeamComponent implements OnInit {
     isAddingTeamMember: boolean;
     isAddingTeamGodparent: boolean;
     newAttendee: Attendee;
+    newGodparent: Attendee;
     teamName: string;
 
     constructor(private store: Store<State>) { }
@@ -40,7 +41,8 @@ export class TeamComponent implements OnInit {
             this.store.dispatch(new LoadTeam());
         });
 
-        this.setDefaultAttendee();
+        this.newAttendee = this.setDefaultAttendee();
+        this.newGodparent = this.setDefaultAttendee();
     }
 
     public onEditTeamName(currentTeam: Team): void {
@@ -63,8 +65,8 @@ export class TeamComponent implements OnInit {
         this.setDefaultAttendee();
     }
 
-    public setDefaultAttendee(): void {
-        this.newAttendee = {
+    public setDefaultAttendee(): Attendee {
+        const newAttendee = {
             firstName: "",
             lastName: "",
             email: "",
@@ -80,6 +82,7 @@ export class TeamComponent implements OnInit {
             dietaryRestrictions: null,
             registered: false
         };
+        return newAttendee;
     }
 
     public onAddTeamMember(newAttendee: Attendee): void {
