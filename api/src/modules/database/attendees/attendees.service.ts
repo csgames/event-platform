@@ -6,17 +6,48 @@ import { Attendees } from './attendees.model';
 import { BaseService } from '../../../services/base.service';
 import { CreateAttendeeDto, UpdateAttendeeDto, UpdateNotificationDto } from './attendees.dto';
 import { StorageService } from '@polyhx/nest-services';
+import { Events } from '../events/events.model';
+import { UserModel } from '../../../models/user.model';
+
+export type AttendeeInfo = Attendees & { role: string; permissions: string[], registered: boolean };
 
 @Injectable()
 export class AttendeesService extends BaseService<Attendees, CreateAttendeeDto> {
     constructor(@InjectModel("attendees") private readonly attendeesModel: Model<Attendees>,
+                @InjectModel("events") private readonly eventsModel: Model<Events>,
                 private storageService: StorageService) {
         super(attendeesModel);
     }
 
-    public async addToken(userId: string, token: string): Promise<Attendees> {
+    public async getAttendeeInfo(user: UserModel, eventId: string): Promise<AttendeeInfo> {
+        const attendee = await this.findOne({ email: user.username });
+        if (!attendee) {
+            throw new NotFoundException();
+        }
+
+        const event = await this.eventsModel.findOne({
+            _id: eventId
+        }).exec();
+        if (!event) {
+            throw new NotFoundException();
+        }
+
+        const attendeeEvent = event.attendees.find(a => (a.attendee as mongoose.Types.ObjectId).equals(attendee._id));
+        if (!attendeeEvent) {
+            throw new BadRequestException();
+        }
+
+        return {
+            ...attendee.toJSON(),
+            permissions: user.permissions,
+            role: user.role,
+            registered: attendeeEvent.registered
+        };
+    }
+
+    public async addToken(email: string, token: string): Promise<Attendees> {
         const attendee = await this.findOne({
-            userId: userId
+            email: email
         });
 
         if (!attendee) {
@@ -28,7 +59,7 @@ export class AttendeesService extends BaseService<Attendees, CreateAttendeeDto> 
         }
 
         return this.attendeesModel.updateOne({
-            userId: userId
+            email: email
         }, {
             $push: {
                 messagingTokens: token
@@ -36,9 +67,9 @@ export class AttendeesService extends BaseService<Attendees, CreateAttendeeDto> 
         });
     }
 
-    public async removeToken(userId: string, token: string): Promise<Attendees> {
+    public async removeToken(email: string, token: string): Promise<Attendees> {
         const attendee = await this.findOne({
-            userId: userId
+            email: email
         });
 
         if (!attendee) {
@@ -50,7 +81,7 @@ export class AttendeesService extends BaseService<Attendees, CreateAttendeeDto> 
         }
 
         return this.attendeesModel.updateOne({
-            userId: userId
+            email: email
         }, {
             $pull: {
                 messagingTokens: token
@@ -58,9 +89,9 @@ export class AttendeesService extends BaseService<Attendees, CreateAttendeeDto> 
         });
     }
 
-    public async updateNotification(userId: string, dto: UpdateNotificationDto): Promise<Attendees> {
+    public async updateNotification(email: string, dto: UpdateNotificationDto): Promise<Attendees> {
         const attendee = await this.findOne({
-            userId: userId
+            email: email
         });
 
         if (!attendee) {
@@ -73,7 +104,7 @@ export class AttendeesService extends BaseService<Attendees, CreateAttendeeDto> 
         }
 
         return this.attendeesModel.updateOne({
-            userId: userId,
+            email: email,
             "notifications.notification": dto.notification
         }, {
             "notifications.$.seen": dto.seen
@@ -92,7 +123,7 @@ export class AttendeesService extends BaseService<Attendees, CreateAttendeeDto> 
                 await this.storageService.delete(attendee.cv);
             }
             dto.cv = await this.storageService.upload(file, 'cv');
-        } else if (dto.cv === 'null') {
+        } else if (!dto.cv) {
             if (attendee.cv) {
                 await this.storageService.delete(attendee.cv);
             }

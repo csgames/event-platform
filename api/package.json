@@ -31,7 +31,7 @@
     "@nestjs/swagger": "2.5.1",
     "@nestjs/testing": "5.4.0",
     "@nestjs/websockets": "5.4.0",
-    "@polyhx/nest-services": "2.0.4",
+    "@polyhx/nest-services": "2.0.5",
     "class-transformer": "^0.1.9",
     "class-validator": "^0.9.1",
     "dotenv": "^6.0.0",
