@@ -84,11 +84,11 @@ export const AttendeesSchema = new mongoose.Schema({
     },
     acceptSMSNotifications: {
         type: Boolean,
-        default: null
+        default: false
     },
     hasDietaryRestrictions: {
         type: Boolean,
-        default: null
+        default: false
     },
     dietaryRestrictions: {
         type: String,
