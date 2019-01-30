@@ -15,7 +15,10 @@
 			"small": "Small",
 			"update_success": "Profile successfully updated!",
 			"website": "Website",
-			"x_large": "X-Large"
+			"x_large": "X-Large",
+            "has_dietary_restrictions": "Do you have any dietary restrictions?",
+            "dietary_restrictions": "What are they?",
+            "accept_sms": "I would like to receive SMS notifications during the event"
 		},
 		"toast": {
 			"attendee_failed": "An error occured while saving the attendee info.",

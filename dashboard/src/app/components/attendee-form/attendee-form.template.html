@@ -95,7 +95,24 @@
 
     <div class="row">
         <div class="col-sm-12">
-            <input type="checkbox" class="form-checkbox" id="accept-sms" checked><label for="accept-sms">Checkbox</label>
+            <div class="checkbox-group">
+                <input type="checkbox" class="form-checkbox" id="restriction" formControlName="hasDietaryRestrictions"><label for="restriction">{{ "components.profile.has_dietary_restrictions" | translate }}</label>
+            </div>
+        </div>
+    </div>
+    <div class="row" *ngIf="hasDietaryRestrictions">
+        <div class="col-sm-12">
+            <div class="input-group">
+                <textarea class="form-control" formControlName="dietaryRestrictions" [placeholder]="'components.profile.dietary_restrictions' | translate" controlStatus></textarea>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="checkbox-group">
+                <input type="checkbox" class="form-checkbox" id="accept-sms" formControlName="acceptSMSNotifications"><label for="accept-sms">{{ "components.profile.accept_sms" | translate }}</label>
+            </div>
         </div>
     </div>
 </form>

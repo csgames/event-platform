@@ -30,6 +30,10 @@ export class AttendeeFormComponent implements OnInit, OnDestroy, ControlValueAcc
     public attendee: Attendee;
     public formGroup: FormGroup;
 
+    public get hasDietaryRestrictions() {
+        return this.formGroup.controls.hasDietaryRestrictions.value;
+    }
+
     private propagate: (obj: Attendee) => void;
     private valueChangesSub$: Subscription;
 
