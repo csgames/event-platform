@@ -43,7 +43,7 @@ export class AttendeeFormComponent implements OnInit, OnDestroy, ControlValueAcc
         });
     }
 
-    public  ngOnDestroy() {
+    public ngOnDestroy() {
         this.valueChangesSub$.unsubscribe();
     }
 

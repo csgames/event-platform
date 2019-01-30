@@ -2,6 +2,7 @@ import { Directive, DoCheck, ElementRef, OnDestroy, OnInit, Renderer2 } from "@a
 import { NgControl } from "@angular/forms";
 import { TranslateService } from "@ngx-translate/core";
 import { Subscription } from "rxjs";
+import { createError } from "@angular/core/src/render3/instructions";
 
 @Directive({ selector: "[controlStatus]" })
 export class ControlStatusDirective implements OnInit, OnDestroy, DoCheck {
@@ -12,6 +13,8 @@ export class ControlStatusDirective implements OnInit, OnDestroy, DoCheck {
     private isGroup = false;
     private error: HTMLElement;
     private errorPrefix;
+
+    private lastErrorKey = null;
 
     constructor(
         private el: ElementRef<HTMLElement>,
@@ -105,12 +108,13 @@ export class ControlStatusDirective implements OnInit, OnDestroy, DoCheck {
             if (!this.inputGroup.classList.contains("has-error")) {
                 this.inputGroup.classList.add("has-error");
                 this.createError();
-            }
-        } else if (this.parent) {
-            if (this.inputGroup.classList.contains("has-error")) {
-                this.inputGroup.classList.remove("has-error");
+            } else if (!Object.keys(this.control.errors).includes(this.lastErrorKey)) {
                 this.removeError();
+                this.createError();
             }
+        } else if (this.parent && this.inputGroup.classList.contains("has-error")) {
+            this.inputGroup.classList.remove("has-error");
+            this.removeError();
         }
     }
 
@@ -121,7 +125,7 @@ export class ControlStatusDirective implements OnInit, OnDestroy, DoCheck {
                     let errorKey = error;
                     const param: Object = {};
                     if (error === "pattern") {
-                        errorKey = this.control.errors[error].requiredPattern;
+                        this.lastErrorKey = this.control.errors[error].requiredPattern;
                     }
                     if (error === "minlength" || error === "maxlength") {
                         param["value"] = this.control.errors[error].requiredLength;

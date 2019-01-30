@@ -10,9 +10,9 @@ import { FormGenerator } from "src/app/form-generator/form-generator";
 import { RESET_FORM_GENERATOR } from "./reset.constants";
 
 @Component({
-    selector: 'app-reset',
-    templateUrl: 'reset.template.html',
-    styleUrls: ['./reset.style.scss']
+    selector: "app-reset",
+    templateUrl: "reset.template.html",
+    styleUrls: ["./reset.style.scss"]
 })
 
 export class ResetComponent implements OnInit {
