@@ -79,7 +79,7 @@ export class TeamComponent implements OnInit {
             acceptSMSNotifications: null,
             hasDietaryRestrictions: null,
             dietaryRestrictions: null,
-            isRegistered: false
+            registered: false
         };
     }
 

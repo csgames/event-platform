@@ -111,6 +111,7 @@
 		},
 		"team": {
 			"add_a_member": "Add a team member",
+			"add_a_godparent": "Add a godparent",
 			"add_godparent": "Add godparent",
 			"add_member": "Add member",
 			"godparent": "Godparent",
@@ -119,7 +120,7 @@
 			"not_registered": "Not registered",
 			"registered": "Registered",
 			"team": "Team",
-			"team_members": "Team members"
+			"team_members": "Team members",
 		}
 	},
     "errors": {

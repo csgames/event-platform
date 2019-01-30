@@ -41,7 +41,7 @@ export class TeamEffects {
     addTeamMember$ = this.actions$.pipe(
         ofType<AddTeamMember>(TeamActionTypes.AddTeamMember),
         withLatestFrom(this.store$.pipe(select(getCurrentTeam))),
-        exhaustMap(([action, team]: [AddTeamMember, Team]) => this.teamService.addTeamMember(action.payload.newAttendee, team.name,
+        switchMap(([action, team]: [AddTeamMember, Team]) => this.teamService.addTeamMember(action.payload.newAttendee, team.name,
             action.payload.role).pipe(
                 map(() => new LoadTeam()),
                 catchError((error: Error) => of(new GlobalError(error)))
