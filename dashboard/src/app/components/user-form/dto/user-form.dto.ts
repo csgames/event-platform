@@ -4,7 +4,7 @@ import { Required } from "../../../form-generator/decorators/required.decorator"
 import { MatchesControl } from "../../../form-generator/decorators/matches-control.decorator";
 import { MatchesPattern } from "../../../form-generator/decorators/matches-pattern.decorator";
 
-export class CreateAttendeeFormDto {
+export class UserFormDto {
     @Control()
     @Email()
     @Required()
@@ -20,6 +20,7 @@ export class CreateAttendeeFormDto {
 
     @Control()
     @MatchesPattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/)
+    @Required()
     password: string;
 
     @Control()
