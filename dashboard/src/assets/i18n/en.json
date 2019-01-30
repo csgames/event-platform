@@ -17,7 +17,9 @@
 		},
 		"toast": {
 			"email_failed": "An error occured while sending the email.",
-			"email_success": "Email successfully sent"
+            "email_success": "Email successfully sent.",
+            "attendee_success": "Attendee info successfully saved.",
+            "attendee_failed": "An error occured while saving the attendee info."
 		},
 		"top_bar": {
 			"profile_settings": "Profile settings",
@@ -74,7 +76,10 @@
 		},
 		"home": {
 			"home": "Home"
-		},
+        },
+        "onboarding": {
+            "onboarding": "Onboarding"
+        },
 		"login": {
 			"forgot_pass": "Forgot password?",
 			"login": "Login",

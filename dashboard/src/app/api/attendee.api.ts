@@ -13,4 +13,8 @@ export class AttendeeApi extends CSGamesApi {
     public getAttendeeInfo(): Observable<Attendee> {
         return this.http.get<Attendee>(this.url("info"), { withCredentials: true });
     }
+
+    public updateAttendeeInfo(attendee: Attendee): Observable<void> {
+        return;
+    }
 }

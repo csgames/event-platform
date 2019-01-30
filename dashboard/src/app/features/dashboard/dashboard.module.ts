@@ -17,6 +17,8 @@ import { MatToolbarModule, MatSidenavModule } from "@angular/material";
 import { TranslateModule } from "@ngx-translate/core";
 import { LoadingSpinnerModule } from "../../components/loading-spinner/loading-spinner.module";
 import { ProfileSettingModule } from "./modals/profile-setting/profile-setting.module";
+import { RegisteredGuard } from "./utils/registered.guard";
+import { NotRegisteredGuard } from "./utils/not-registered.guard";
 
 @NgModule({
     imports: [
@@ -44,6 +46,10 @@ import { ProfileSettingModule } from "./modals/profile-setting/profile-setting.m
     ],
     entryComponents: [
         NotificationsListModalComponent
+    ],
+    providers: [
+        RegisteredGuard,
+        NotRegisteredGuard
     ]
 })
 export class DashboardModule {}

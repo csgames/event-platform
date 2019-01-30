@@ -11,9 +11,9 @@ import { State, getCurrentTeam } from "./team.reducer";
 
 @Injectable()
 export class TeamEffects {
-    constructor(private teamService: TeamService, private actions$: Actions, private store$: Store<State>) {
-
-    }
+    constructor(private teamService: TeamService,
+                private actions$: Actions,
+                private store$: Store<State>) { }
 
     @Effect()
     loadTeam$ = this.actions$.pipe(

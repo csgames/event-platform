@@ -8,7 +8,6 @@ export class AuthenticatedGuard implements CanActivate {
 
     async canActivate(): Promise<boolean> {
         if (!(await this.authenticationService.isLoggedIn().toPromise())) {
-            console.log("Not authenticated");
             this.router.navigate(["/login"]);
             return false;
         }
