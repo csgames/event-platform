@@ -36,7 +36,8 @@
 			"save": "Save",
 			"send": "Send",
 			"subscribe": "Subscribe",
-			"validate": "Validate"
+            "validate": "Validate",
+            "reset": "Reset"
 		},
 		"error": {
 			"something": "Something happened..."

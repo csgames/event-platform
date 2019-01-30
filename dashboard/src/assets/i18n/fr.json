@@ -36,7 +36,8 @@
             "save": "Enregistrer",
             "send": "Envoyer",
             "subscribe": "S' abonner",
-            "validate": "Valider"
+            "validate": "Valider",
+            "reset": "Réinitialiser"
         },
         "error": {
             "something": "Une erreur est survenue..."
