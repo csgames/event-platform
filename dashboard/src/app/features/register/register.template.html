@@ -5,18 +5,26 @@
                 <div class="col-lg-5 col-md-8 col-sm-10 ml-auto mr-auto">
                     <div class="card-wrapper animated fadeInDown">
                         <div class="card">
-                            <app-loading-spinner [loading]="loading"></app-loading-spinner>
+                            <app-loading-spinner [loading]="loading$ | async"></app-loading-spinner>
                             <img class="logo" src="../../../assets/logo-long.svg">
                             <div class="card-body">
-                                <app-register-form [ngModel]="createAttendeeFormDto"
-                                                   (ngModelChange)="onFormChange($event)"></app-register-form>
-                                <div class="text-center">
-                                    <a class="btn btn-primary btn-rounded mt-3 px-3" (click)="clickRegister()">{{ "pages.register.register" | translate }}</a>
-                                </div>
-                                <hr>
-                                <div class="text-center mt-3">
-                                    <a [routerLink]="['/login']">{{ "pages.register.already_have_account" | translate }}</a>
-                                </div>
+                                <ng-container *ngIf="!(error$ | async)">
+                                    <app-user-form [(ngModel)]="userFormDto"></app-user-form>
+                                    <div class="text-center">
+                                        <a class="btn btn-primary btn-rounded mt-3 px-3"
+                                           (click)="clickRegister()">{{ "pages.register.register" | translate }}</a>
+                                    </div>
+                                    <hr>
+                                    <div class="text-center mt-3">
+                                        <a [routerLink]="['/login']">{{ "pages.register.already_have_account" | translate }}</a>
+                                    </div>
+                                </ng-container>
+                                <ng-container *ngIf="error$ | async">
+                                    <div class="text-center">
+                                        <i class="far fa-times-circle text-danger fa-8x"></i>
+                                        <h5 class="mt-2">Une erreur est survenue durant la validation de votre invitation.</h5>
+                                    </div>
+                                </ng-container>
                             </div>
                         </div>
                     </div>

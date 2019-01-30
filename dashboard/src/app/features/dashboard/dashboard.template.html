@@ -5,7 +5,8 @@
                  [mode]="(isHandset$ | async) ? 'over' : 'side'"
                  [opened]="!(isHandset$ | async)">
         <div class="dashboard-container">
-            <app-events-bar [events]="events$ | async"
+            <app-events-bar
+                            [events]="events$ | async"
                             [currentEvent]="currentEvent$ | async"
                             (currentEventChange)="changeCurrentEvent($event)"
             ></app-events-bar>

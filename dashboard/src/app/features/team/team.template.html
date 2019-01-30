@@ -87,22 +87,23 @@
                     {{ "pages.team.add_a_godparent" | translate }}
                     <br>
                     <div class="input-group input-group-default input">
-                        <input class="form-control" type="text" id="firstNameGodparent" placeholder="First name"
-                            [(ngModel)]="this.newAttendee.firstName">
+                        <input class="form-control" type="text" id="firstNameGodparent" placeholder='{{ "general.profile.first_name" | translate }}'
+                            [(ngModel)]="this.newGodparent.firstName">
                     </div>
                     <div class="input-group input-group-default input">
-                        <input class="form-control" type="text" id="lastNameGodparent" placeholder="Last name"
-                            [(ngModel)]="this.newAttendee.lastName">
+                        <input class="form-control" type="text" id="lastNameGodparent" placeholder='{{ "general.profile.last_name" | translate }}'
+                            [(ngModel)]="this.newGodparent.lastName">
                     </div>
                     <br>
                     <div class="input-group input-group-default input email">
-                        <input class="form-control" type="text" id="emailGodparent" placeholder="Email adress"
-                            [(ngModel)]="this.newAttendee.email">
+                        <input class="form-control" type="text" id="emailGodparent" placeholder='{{ "general.profile.email" | translate }}'
+                            [(ngModel)]="this.newGodparent.email">
                     </div>
-                    <a class="btn btn-primary" (click)="onAddTeamGodparent(this.newAttendee)">{{
+                    <a class="btn btn-primary" (click)="onAddTeamGodparent(this.newGodparent)">{{
                         "general.button.add" | translate }} <i class="fas fa-plus"></i></a>
                     <a class="btn btn-danger cancel" (click)="onCancelTeamGodparent()">{{ "general.button.cancel" |
-                        translate }}<i class="fas fa-times"></i></a>
+                        translate }} <i class="fas fa-times"></i></a>
+                    
                 </div>
             </div>
         </div>
