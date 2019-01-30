@@ -1,7 +1,10 @@
 import { Injectable } from "@angular/core";
 import { Actions, Effect, ofType } from "@ngrx/effects";
 import { TeamService } from "src/app/providers/team.service";
-import { LoadTeam, TeamActionTypes, LoadTeamSuccess, LoadTeamFailure, UpdateTeamName, AddTeamMember } from "./team.actions";
+import {
+    LoadTeam, TeamActionTypes, LoadTeamSuccess, LoadTeamFailure, UpdateTeamName, AddTeamMember,
+    AddTeamGodparent
+} from "./team.actions";
 import { exhaustMap, map, catchError, withLatestFrom, switchMap } from "rxjs/operators";
 import { Team } from "src/app/api/models/team";
 import { of } from "rxjs";
@@ -38,11 +41,22 @@ export class TeamEffects {
     addTeamMember$ = this.actions$.pipe(
         ofType<AddTeamMember>(TeamActionTypes.AddTeamMember),
         withLatestFrom(this.store$.pipe(select(getCurrentTeam))),
-        exhaustMap(([action, team]: [AddTeamMember, Team]) => this.teamService.addTeamMember(action.payload.newAttendee, team.name, 
+        switchMap(([action, team]: [AddTeamMember, Team]) => this.teamService.addTeamMember(action.payload.newAttendee, team.name,
             action.payload.role).pipe(
-            map(() => new LoadTeam()),
-            catchError((error: Error) => of(new GlobalError(error)))
-        ))
+                map(() => new LoadTeam()),
+                catchError((error: Error) => of(new GlobalError(error)))
+            ))
+    );
+
+    @Effect()
+    addTeamGodparent$ = this.actions$.pipe(
+        ofType<AddTeamGodparent>(TeamActionTypes.AddTeamGodparent),
+        withLatestFrom(this.store$.pipe(select(getCurrentTeam))),
+        exhaustMap(([action, team]: [AddTeamGodparent, Team]) => this.teamService.addTeamGodparent(action.payload.newGodparent, team.name,
+            action.payload.role).pipe(
+                map(() => new LoadTeam()),
+                catchError((error: Error) => of(new GlobalError(error)))
+            ))
     );
 
 }

@@ -25,7 +25,9 @@ export function reducer(state = initialState, action: TeamActions): TeamState {
         case TeamActionTypes.LoadTeam : 
             return {
                 ...state,
-                loading: true
+                loading: true,
+                error: false,
+                currentTeam: null
             };
         case TeamActionTypes.LoadTeamSuccess:
             return {

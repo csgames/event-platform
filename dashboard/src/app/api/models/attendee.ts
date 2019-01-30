@@ -12,7 +12,7 @@ export interface Attendee {
     acceptSMSNotifications: boolean;
     hasDietaryRestrictions: boolean;
     dietaryRestrictions: string;
+    registered: boolean;
     role?: string;
     permissions?: string[];
-    registered: boolean;
 }

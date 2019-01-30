@@ -116,6 +116,7 @@
 		},
 		"team": {
 			"add_a_member": "Add a team member",
+			"add_a_godparent": "Add a godparent",
 			"add_godparent": "Add godparent",
 			"add_member": "Add member",
 			"godparent": "Godparent",
