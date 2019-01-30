@@ -27,7 +27,6 @@ export class RegisterComponent implements OnInit {
     }
 
     onFormChange(createAttendeeDto: CreateAttendeeFormDto) {
-        // console.log(createAttendeeDto);
     }
 
     clickRegister() {
