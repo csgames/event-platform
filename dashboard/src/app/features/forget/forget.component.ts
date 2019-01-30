@@ -3,7 +3,6 @@ import { State } from "./store/forget.reducer";
 import { select, Store } from "@ngrx/store";
 import * as fromForget from "./store/forget.reducer";
 import { PerformForget } from "./store/forget.actions";
-import { ToastrService } from "ngx-toastr";
 
 @Component({
     selector: "app-forget",

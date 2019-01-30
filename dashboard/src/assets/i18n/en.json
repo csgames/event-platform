@@ -20,6 +20,7 @@
 			"email_success": "Email successfully sent"
 		},
 		"top_bar": {
+			"change_language": "Français",
 			"profile_settings": "Profile settings",
 			"sign_out": "Sign Out"
 		}
