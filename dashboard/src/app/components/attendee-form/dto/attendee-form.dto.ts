@@ -22,11 +22,19 @@ export class AttendeeFormDto {
     website: string;
 
     @Control()
-    @Required()
     @MinLength(11)
     @MaxLength(11)
     phoneNumber: string;
 
     @Control()
     cv: string;
+
+    @Control()
+    acceptSMSNotifications: boolean;
+
+    @Control()
+    hasDietaryRestrictions: boolean;
+
+    @Control()
+    dietaryRestrictions: string;
 }

@@ -42,8 +42,7 @@ export class FileUploadComponent implements AfterViewInit, ControlValueAccessor 
             }
         });
         this.uppy.use(DragDrop, {
-            target: ".drag-n-drop",
-            height: "45%"
+            target: ".drag-n-drop"
         });
     }
 
