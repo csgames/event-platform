@@ -110,6 +110,6 @@ export const AttendeesSchema = new mongoose.Schema({
     notifications: [AttendeeNotificationSchema],
     disabled: {
         type: Boolean,
-        default: null
+        default: false
     }
 });
