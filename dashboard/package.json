@@ -32,6 +32,8 @@
     "@ngrx/store-devtools": "^6.1.1",
     "@ngx-translate/core": "^11.0.1",
     "@ngx-translate/http-loader": "^4.0.0",
+    "@uppy/core": "^0.29.1",
+    "@uppy/drag-drop": "^0.29.1",
     "animate.css": "^3.7.0",
     "bootstrap": "^4.1.3",
     "core-js": "^2.5.4",

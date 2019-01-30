@@ -12,6 +12,9 @@ import {
 import { Attendee } from "../../../../api/models/attendee";
 import { Subscription } from "rxjs";
 import { AttendeeFormComponent } from "../../../../components/attendee-form/attendee-form.component";
+import { UppyFile } from "@uppy/core";
+import { FileUtils } from "../../../../utils/file.utils";
+import { DownloadCv, UpdateAttendee } from "./store/profile-setting.actions";
 
 @Component({
     selector: "app-profile-setting-modal",
@@ -44,13 +47,22 @@ export class ProfileSettingComponent extends SimpleModalComponent<void, void> im
         super.ngOnDestroy();
     }
 
+    public downloadCv() {
+        const data = this.currentAttendee.cv as (string | UppyFile);
+        if (typeof data === "string") {
+            this.store$.dispatch(new DownloadCv());
+        } else {
+            FileUtils.downloadFile(data.name, data.data);
+        }
+    }
+
     public clickCancel() {
         this.close();
     }
 
     public clickSave() {
         if (this.attendeeForm.validate()) {
-            console.log("Valid!");
+           this.store$.dispatch(new UpdateAttendee(this.currentAttendee));
         }
     }
 }

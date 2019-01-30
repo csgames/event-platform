@@ -13,7 +13,9 @@
 			"profile": "Profile",
 			"small": "Small",
 			"website": "Website",
-			"x_large": "X-Large"
+			"x_large": "X-Large",
+            "cv": "CV",
+            "update_success": "Profile successfully updated!"
 		},
 		"toast": {
 			"email_failed": "An error occured while sending the email.",
@@ -126,6 +128,8 @@
         "required": "This field is required.",
         "passwords_mismatch": "The passwords do not match.",
         "email": "The email is invalid.",
+        "minlength": "This field must have at least {{value}} characters",
+        "maxlength": "This field must have maximum {{value}} characters",
         "/^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{8,}$/": "The password must contain at least 8 characters including a number, a lower case letter and a upper case letter",
         "group": {
             "required": "One or more fields are required."

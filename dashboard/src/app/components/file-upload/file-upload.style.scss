@@ -1,0 +1,26 @@
+.drag-n-drop {
+    height: 100%;
+    width: 100%;
+    margin: 5px;
+}
+
+.file-upload-value {
+    margin-top: 3px;
+    width: 90%;
+}
+
+.file-upload-clickable {
+    cursor: pointer;
+}
+
+.file-upload-placeholder {
+    color: #707880 !important;
+    cursor: default;
+}
+
+.file-upload-close {
+    float: right;
+    margin-right: 15px;
+    margin-top: 9px;
+    cursor: pointer;
+}
