@@ -16,13 +16,12 @@
         </h2>
     </div>
     <div *ngIf="this.isEditingTeamName">
-        <div class="input-group input-group-default input">
+        <div class="input-group input-group-default input" id="teamNameInput">
             <input class="form-control" type="text" id="teamName" [(ngModel)]="teamName">
         </div>
         <button type="button" class="btn btn-primary btn-save" (click)="onSaveTeamName(teamName)">{{
             "general.button.save" | translate }}<i class="fas fa-check"></i></button>
-        <button type="button" class="btn btn-danger" (click)="onCancelTeamName(teamName)">{{ "general.button.cancel" |
-            translate }} <i class="fas fa-times"></i></button>
+        <button type="button" class="btn btn-danger" (click)="onCancelTeamName(teamName)">{{ "general.button.cancel" | translate }} <i class="fas fa-times"></i></button>
     </div>
     <ng-container *ngIf="currentAttendees$ | async as currentAttendees">
         <h4 class="team-members">{{ "pages.team.team_members" | translate }}<b>
@@ -64,9 +63,9 @@
                         [(ngModel)]="this.newAttendee.email">
                 </div>
                 <a class="btn btn-primary" (click)="onAddTeamMember(this.newAttendee)">{{ "general.button.add" |
-                    translate }} +</a>
+                    translate }} <i class="fas fa-plus"></i></a>
                 <a class="btn btn-danger cancel" (click)="onCancelTeamMember()">{{ "general.button.cancel" | translate
-                    }} <i class="fas fa-times"></i></a>
+                    }}<i class="fas fa-times"></i></a>
             </div>
         </div>
     </div>
@@ -99,8 +98,8 @@
                         <input class="form-control" type="text" id="emailGodparent" placeholder='{{ "general.profile.email" | translate }}'
                             [(ngModel)]="this.newGodparent.email">
                     </div>
-                    <a class="btn btn-primary" (click)="onAddTeamGodparent(this.newGodparent)">+ {{
-                        "pages.team.add_godparent" | translate }}</a>
+                    <a class="btn btn-primary" (click)="onAddTeamGodparent(this.newGodparent)">{{
+                        "general.button.add" | translate }} <i class="fas fa-plus"></i></a>
                     <a class="btn btn-danger cancel" (click)="onCancelTeamGodparent()">{{ "general.button.cancel" |
                         translate }} <i class="fas fa-times"></i></a>
                     
