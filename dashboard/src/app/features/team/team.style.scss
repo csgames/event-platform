@@ -8,6 +8,7 @@
     border-radius: 2px;
     background-color: #00579c;
     margin-top: 10px;
+    height: 1000px;
 }
 
 .error {
@@ -30,6 +31,7 @@
 .input {
     width: 30%;
     display: inline-flex;
+    margin-left: 0px;
 }
 
 .btn-save {
@@ -41,12 +43,16 @@
     background-color: #00579c;
     border-color: #00579c;
     color: white !important;
+    height: 38px;
+    margin-bottom: 1px;
 }
 
 .btn-danger {
     background-color: #f15e58;
     border-color: #f15e58;
     color: white !important;
+    height: 38px;
+    margin-bottom: 1px;
 }
 
 .email {
@@ -61,3 +67,12 @@
     font-weight: bold;
     text-align: center;
 }
+
+.fa-check {
+    padding-left: 5px;
+}
+
+.fa-times {
+    padding-left: 5px;
+}
+
