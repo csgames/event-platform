@@ -2,7 +2,9 @@ import { Injectable } from "@angular/core";
 import { CanActivate, Router } from "@angular/router";
 import { Store, select } from "@ngrx/store";
 import { State } from "src/app/store/app.reducers";
-import * as fromApp from '../../../store/app.reducers'
+import * as fromApp from "../../../store/app.reducers";
+import { Observable } from "rxjs";
+import { filter, map, tap } from "rxjs/operators";
 
 @Injectable()
 export class RegisteredGuard implements CanActivate {
@@ -11,8 +13,15 @@ export class RegisteredGuard implements CanActivate {
     constructor(private store$: Store<State>,
                 private router: Router) { }
 
-    async canActivate(): Promise<boolean> {
-        const attendee = await this.attendee$.toPromise();
-        return attendee.registered;
+    canActivate(): Observable<boolean> {
+        return this.attendee$.pipe(
+            filter(a => !!a),
+            tap((a) => {
+                if (!a.registered) {
+                    this.router.navigate(["/onboarding"]);
+                }
+            }),
+            map(a => a.registered)
+        );
     }
 }
