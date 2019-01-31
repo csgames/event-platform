@@ -77,7 +77,10 @@
 			"Error": "Error",
 			"failure": "Failure",
 			"success": "Success!"
-		}
+		},
+        "roles": {
+            "captain": "Captain"
+        }
 	},
 	"pages": {
 		"competition": {
