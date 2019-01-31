@@ -8,7 +8,7 @@ import { FileUtils } from "src/app/utils/file.utils";
 import { Attendee } from "src/app/api/models/attendee";
 import { UppyFile } from "@uppy/core";
 import { Subscription } from "rxjs";
-import { Router } from "@angular/router";
+import { TranslateService } from "@ngx-translate/core";
 
 @Component({
     selector: "app-onboarding",
@@ -27,12 +27,16 @@ export class OnboardingComponent implements OnInit, OnDestroy {
     public acceptedCode = false;
 
     constructor(private store$: Store<State>,
-                private router: Router) {}
+                private translateService: TranslateService) {}
 
     public ngOnInit() {
         this.currentAttendeeSub$ = this.currentAttendee$.subscribe((attendee) => {
             this.currentAttendee = attendee;
         });
+    }
+
+    public get lang(): string {
+        return this.translateService.getDefaultLang();
     }
 
     public ngOnDestroy() {

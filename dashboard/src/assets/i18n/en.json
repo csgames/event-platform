@@ -19,7 +19,7 @@
             "has_dietary_restrictions": "I have dietary restrictions",
             "dietary_restrictions": "What are they?",
             "accept_sms": "I would like to receive SMS notifications during the event",
-            "handicapped": "I will need a wheelchair access during",
+            "handicapped": "I will need a wheelchair access during the event",
             "transport": "I will need a 3 days transport pass for the event as I do not own one STM pass myself",
             "size": "T-Shirt Size"
 		},
@@ -107,7 +107,7 @@
 		"onboarding": {
             "onboarding": "Onboarding",
             "agree": "I have read and agree the conditions and rules cited in ",
-            "code": "this discharge."
+            "code": "this discharge"
 		},
 		"puzzle_hero": {
 			"other": "Other tracks",
