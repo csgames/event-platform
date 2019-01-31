@@ -266,7 +266,7 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
             _id: id,
             "attendees.attendee": attendee._id
         }, {
-            "attendees.registered": true
+            "attendees.$.registered": true
         }).exec();
 
         await this.attendeeService.updateAttendeeInfo({

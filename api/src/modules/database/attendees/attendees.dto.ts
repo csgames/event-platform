@@ -69,12 +69,12 @@ export class CreateAttendeeDto {
     @IsOptional()
     @IsBoolean()
     @ApiModelProperty()
-    disabled: boolean;
+    handicapped: boolean;
 
     @IsOptional()
     @IsBoolean()
     @ApiModelProperty()
-    needTransportPass: boolean;
+    needsTransportPass: boolean;
 }
 
 export class UpdateAttendeeDto {
@@ -145,12 +145,12 @@ export class UpdateAttendeeDto {
     @IsOptional()
     @IsBoolean()
     @ApiModelProperty()
-    disabled: boolean;
+    handicapped: boolean;
 
     @IsOptional()
     @IsBoolean()
     @ApiModelProperty()
-    needTransportPass: boolean;
+    needsTransportPass: boolean;
 }
 
 export class AddTokenDto {

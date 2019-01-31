@@ -85,6 +85,13 @@ export class EventsController {
         return attendees.length;
     }
 
+    
+    @Put('registration')
+    public async confirmRegistration(@Body(ValidationPipe) dto: UpdateAttendeeDto, @UploadedFile() file: Express.Multer.File,
+                                     @User() user: UserModel, @EventId() eventId: string) {
+        await this.eventsService.confirmAttendee(eventId, user.username, dto, file);
+    }
+
     @Put(':id')
     @Permissions('csgames-api:update:event')
     public async update(@Param('id') id: string, @Body(new ValidationPipe()) event: UpdateEventDto) {
@@ -147,11 +154,5 @@ export class EventsController {
     @Permissions('csgames-api:update:event')
     public async sendSms(@Param('id') id: string, @Body(ValidationPipe) dto: SendSmsDto) {
         await this.eventsService.sendSms(id, dto.text);
-    }
-
-    @Put('registration')
-    public async confirmRegistration(@Body(ValidationPipe) dto: UpdateAttendeeDto, @UploadedFile() file: Express.Multer.File,
-                                     @User() user: UserModel, @EventId() eventId: string) {
-        await this.eventsService.confirmAttendee(eventId, user.username, dto, file);
     }
 }
