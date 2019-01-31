@@ -24,13 +24,13 @@ export class EventService {
         return localStorage.getItem(CURRENT_EVENT);
     }
     
-    public onboardAttendee(attendee: Attendee, eventId: string): Observable<void> {
+    public onboardAttendee(attendee: Attendee): Observable<void> {
         let file: File = null;
         if (attendee.cv && typeof attendee.cv !== "string") {
             file = (attendee.cv as UppyFile).data as File;
             delete attendee.cv;
         }
 
-        return this.apiService.event.onboardAttendee(attendee, file, eventId);
+        return this.apiService.event.onboardAttendee(attendee, file);
     }
 }

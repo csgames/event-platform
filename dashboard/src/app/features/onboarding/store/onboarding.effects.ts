@@ -6,6 +6,7 @@ import { of } from "rxjs";
 import { TranslateService } from "@ngx-translate/core";
 import { ToastrService } from "ngx-toastr";
 import { EventService } from "src/app/providers/event.service";
+import { LoadCurrentAttendee } from "src/app/store/app.actions";
 
 @Injectable()
 export class OnboardingEffects {
@@ -18,7 +19,7 @@ export class OnboardingEffects {
     update$ = this.actions$.pipe(
         ofType<OnboardAttendee>(OnboardingActionTypes.OnboardAttendee),
         switchMap((action: OnboardAttendee) => 
-            this.eventService.onboardAttendee(action.payload.attendee, action.payload.eventId).pipe(
+            this.eventService.onboardAttendee(action.payload).pipe(
                 map(() => new OnboardSuccess()),
                 catchError(() => of(new OnboardFailure()))
             )
@@ -34,12 +35,9 @@ export class OnboardingEffects {
         })
     );
 
-    @Effect({ dispatch: false })
+    @Effect()
     updateSuccess$ = this.actions$.pipe(
         ofType<OnboardSuccess>(OnboardingActionTypes.OnboardSuccess),
-        tap(() => {
-            const text = this.translateService.instant("components.toast.attendee_success");
-            this.toastr.success(text);
-        })
+        map(() => new LoadCurrentAttendee())
     );
 }

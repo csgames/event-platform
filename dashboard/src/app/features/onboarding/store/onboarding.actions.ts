@@ -12,7 +12,7 @@ export enum OnboardingActionTypes {
 export class OnboardAttendee implements Action {
     readonly type = OnboardingActionTypes.OnboardAttendee;
 
-    constructor(public payload: { attendee: Attendee, eventId: string }) {}
+    constructor(public payload: Attendee) {}
 }
 
 export class OnboardSuccess implements Action {

@@ -29,7 +29,7 @@ export class EventApi extends CSGamesApi {
         );
     }
 
-    public onboardAttendee(attendee: AttendeeModel, file: File, eventId: string) {
+    public onboardAttendee(attendee: AttendeeModel, file: File) {
         const form = new FormData();
         for (const key in attendee) {
             if (key in attendee) {
@@ -39,7 +39,6 @@ export class EventApi extends CSGamesApi {
         if (file) {
             form.append("file", file);
         }
-        form.append("eventId", eventId);
 
         return this.http.put<void>(this.url("registration"), form, {
             withCredentials: true

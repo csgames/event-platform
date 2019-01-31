@@ -1,7 +1,7 @@
 {
 	"components": {
 		"profile": {
-			"2x_large": "XX-Large",
+			"2x-large": "XX-Large",
 			"cv": "CV",
 			"female": "Female",
 			"gender": "Gender",
@@ -15,7 +15,7 @@
 			"small": "Small",
 			"update_success": "Profile successfully updated!",
 			"website": "Website",
-			"x_large": "X-Large",
+			"x-large": "X-Large",
             "has_dietary_restrictions": "I have dietary restrictions",
             "dietary_restrictions": "What are they?",
             "accept_sms": "I would like to receive SMS notifications during the event",
@@ -105,7 +105,9 @@
 			"sign_in": "Sign in"
 		},
 		"onboarding": {
-			"onboarding": "Onboarding"
+            "onboarding": "Onboarding",
+            "agree": "I have read and agree the conditions and rules cited in ",
+            "code": "this discharge."
 		},
 		"puzzle_hero": {
 			"other": "Other tracks",

@@ -1,7 +1,7 @@
 {
 	"components": {
 		"profile": {
-			"2x_large": "Très très grand",
+			"2x-large": "Très très grand",
 			"cv": "CV",
 			"female": "Femme",
 			"gender": "Sexe",
@@ -15,7 +15,7 @@
 			"small": "Petit",
 			"update_success": "Profil mis à jour avec succès!",
 			"website": "Site internet",
-			"x_large": "Très grand",
+			"x-large": "Très grand",
             "has_dietary_restrictions": "J'ai des restrictions alimentaires",
             "dietary_restrictions": "Quelles sont elles?",
             "accept_sms": "J'aimerais recevoir des notifications par SMS durant l'événements",
@@ -105,7 +105,9 @@
 			"sign_in": "Connexion"
 		},
 		"onboarding": {
-			"onboarding": "Inscription"
+            "onboarding": "Inscription",
+            "agree": "J'ai lu et j'accepte les réglements et modalités cités dans ",
+            "code": "cette décharge"
 		},
 		"puzzle_hero": {
 			"other": "Autres pistes",
