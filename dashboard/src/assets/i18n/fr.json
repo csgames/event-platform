@@ -150,7 +150,8 @@
             "no_godparent": "Aucun(e) parrain/marraine pour l'instant",
             "not_registered": "Non-enregistré",
             "registered": "Enregistré",
-            "team": "Equipe",
+            "team": "Équipe",
+            "team_title": "Equipe",
             "team_members": "Membres de l'équipe"
         }
     }
