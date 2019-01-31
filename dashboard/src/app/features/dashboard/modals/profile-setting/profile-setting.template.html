@@ -1,17 +1,19 @@
-<div class="modal-dialog modal-lg inmodal">
-    <div class="modal-content">
-        <div class="modal-header">
-            <button type="button" class="close" (click)="clickCancel()"><span aria-hidden="true">×</span><span
-                class="sr-only">{{ "general.button.close" | translate }}</span>
-            </button>
-            <h4 class="modal-title">{{ "components.profile.profile" | translate }}</h4>
-        </div>
-        <div class="modal-body">
-            <app-loading-spinner [loading]="(loading$ | async) || (saving$ | async)"></app-loading-spinner>
-            <app-attendee-form [(ngModel)]="currentAttendee" (downloadCv)="downloadCv()"></app-attendee-form>
-            <div class="text-center">
-                <a class="btn btn-primary btn-rounded mt-3 px-3"
-                   (click)="clickSave()">{{ "general.button.save" | translate }}</a>
+<div class="modal- fade slide-up show animated slideInDown" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content-wrapper">
+            <div class="modal-header">
+                <button type="button" class="close" (click)="clickCancel()"><span aria-hidden="true">×</span><span
+                    class="sr-only">{{ "general.button.close" | translate }}</span>
+                </button>
+                <h4 class="modal-title">{{ "components.profile.profile" | translate }}</h4>
+            </div>
+            <div class="modal-body">
+                <app-loading-spinner [loading]="(loading$ | async) || (saving$ | async)"></app-loading-spinner>
+                <app-attendee-form [(ngModel)]="currentAttendee" (downloadCv)="downloadCv()"></app-attendee-form>
+                <div class="text-center">
+                    <a class="btn btn-primary btn-rounded mt-3 px-3"
+                       (click)="clickSave()">{{ "general.button.save" | translate }}</a>
+                </div>
             </div>
         </div>
     </div>

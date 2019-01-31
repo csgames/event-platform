@@ -1,5 +1,6 @@
 @import "./app/styles/ng-select.style";
 @import "./app/styles/check-box.style";
+@import "./app/styles/flipbash.style";
 
 html,
 body {
@@ -456,7 +457,7 @@ a {
     border-radius: 16px;
 }
 
-.modal {
+.modal-right-side {
     overflow: auto !important;
 
     .close {
@@ -570,7 +571,7 @@ a {
 }
 
 @media (max-width: 768px) {
-    .modal {
+    .modal-right-side {
         &.fill-in {
             .modal-dialog {
                 width: calc(100% - 20px);
@@ -586,7 +587,7 @@ a {
 }
 
 @media (min-width: 544px) {
-    .modal {
+    .modal-right-side {
         &.stick-up {
             .modal-dialog {
                 margin: -5px auto;
