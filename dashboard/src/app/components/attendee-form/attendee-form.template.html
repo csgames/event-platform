@@ -87,7 +87,7 @@
 
     <div class="row">
         <div class="col-sm-12">
-            <app-file-upload placeholder='{{ "components.profile.cv" | translate }}' formControlName="cv" controlStatus
+            <app-file-upload placeholder='{{ "components.profile.cv" | translate }}' formControlName="cv"
                              (download)="downloadCv.emit()">
             </app-file-upload>
         </div>
@@ -103,7 +103,7 @@
     <div class="row" *ngIf="hasDietaryRestrictions">
         <div class="col-sm-12">
             <div class="input-group">
-                <textarea class="form-control" formControlName="dietaryRestrictions" [placeholder]="'components.profile.dietary_restrictions' | translate" controlStatus></textarea>
+                <textarea class="form-control" formControlName="dietaryRestrictions" [placeholder]="'components.profile.dietary_restrictions' | translate"></textarea>
             </div>
         </div>
     </div>
