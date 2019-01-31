@@ -18,6 +18,7 @@ import { Events, EventSponsorDetails } from './events.model';
 import { EventsService } from './events.service';
 import { UpdateAttendeeDto } from '../attendees/attendees.dto';
 import { EventId } from '../../../decorators/event-id.decorator';
+import { NullPipe } from '../../../pipes/null-pipe.service';
 
 @ApiUseTags('Event')
 @Controller('event')
@@ -87,7 +88,7 @@ export class EventsController {
 
     
     @Put('registration')
-    public async confirmRegistration(@Body(ValidationPipe) dto: UpdateAttendeeDto, @UploadedFile() file: Express.Multer.File,
+    public async confirmRegistration(@Body(NullPipe, ValidationPipe) dto: UpdateAttendeeDto, @UploadedFile() file: Express.Multer.File,
                                      @User() user: UserModel, @EventId() eventId: string) {
         await this.eventsService.confirmAttendee(eventId, user.username, dto, file);
     }
