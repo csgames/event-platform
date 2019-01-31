@@ -40,6 +40,7 @@ export interface Attendees extends mongoose.Document {
     messagingTokens: string[];
     notifications: AttendeeNotifications[];
     disabled: boolean;
+    stm: boolean;
 }
 
 export const AttendeesSchema = new mongoose.Schema({
@@ -109,6 +110,10 @@ export const AttendeesSchema = new mongoose.Schema({
     },
     notifications: [AttendeeNotificationSchema],
     disabled: {
+        type: Boolean,
+        default: null
+    },
+    stm: {
         type: Boolean,
         default: null
     }

@@ -70,6 +70,11 @@ export class CreateAttendeeDto {
     @IsBoolean()
     @ApiModelProperty()
     disabled: boolean;
+
+    @IsOptional()
+    @IsBoolean()
+    @ApiModelProperty()
+    stm: boolean;
 }
 
 export class UpdateAttendeeDto {
@@ -141,6 +146,11 @@ export class UpdateAttendeeDto {
     @IsBoolean()
     @ApiModelProperty()
     disabled: boolean;
+
+    @IsOptional()
+    @IsBoolean()
+    @ApiModelProperty()
+    stm: boolean;
 }
 
 export class AddTokenDto {

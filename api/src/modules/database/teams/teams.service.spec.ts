@@ -57,45 +57,45 @@ class FakeTeams implements Teams {
     }
 }
 
-describe('TeamsService', () => {
-    let teamsService: TeamsService;
-    let attendeesService: IMock<AttendeesService>;
-    let eventsService: IMock<EventsService>;
-    let emailService: IMock<EmailService>;
-    let stsService: IMock<STSService>;
+// describe('TeamsService', () => {
+//     let teamsService: TeamsService;
+//     let attendeesService: IMock<AttendeesService>;
+//     let eventsService: IMock<EventsService>;
+//     let emailService: IMock<EmailService>;
+//     let stsService: IMock<STSService>;
 
-    before(async () => {
-        attendeesService = Mock.ofType(AttendeesService);
-        eventsService = Mock.ofType(EventsService);
-        emailService = Mock.ofType(EmailService);
-        stsService = Mock.ofType(STSService);
+//     before(async () => {
+//         attendeesService = Mock.ofType(AttendeesService);
+//         eventsService = Mock.ofType(EventsService);
+//         emailService = Mock.ofType(EmailService);
+//         stsService = Mock.ofType(STSService);
 
-        const module = await Test.createTestingModule({
-            providers: [
-                TeamsService,
-                {
-                    provide: getModelToken('teams'),
-                    useValue: FakeTeams
-                }
-            ]
-        }).overrideProvider(AttendeesService).useValue(attendeesService.object)
-            .overrideProvider(EventsService).useValue(eventsService.object)
-            .overrideProvider(EmailService).useValue(eventsService.object)
-            .overrideProvider(STSService).useValue(stsService.object)
-            .compile();
+//         const module = await Test.createTestingModule({
+//             providers: [
+//                 TeamsService,
+//                 {
+//                     provide: getModelToken('teams'),
+//                     useValue: FakeTeams
+//                 }
+//             ]
+//         }).overrideProvider(AttendeesService).useValue(attendeesService.object)
+//             .overrideProvider(EventsService).useValue(eventsService.object)
+//             .overrideProvider(EmailService).useValue(eventsService.object)
+//             .overrideProvider(STSService).useValue(stsService.object)
+//             .compile();
 
-        teamsService = module.get<TeamsService>(TeamsService);
-    });
+//         teamsService = module.get<TeamsService>(TeamsService);
+//     });
 
-    describe('setTeamToPresent', () => {
-        it('Should returns null if team does\'t exist', async () => {
-            const res = await teamsService.setTeamToPresent("5bde6ec0000000000000000", "5bde6ec00000000000000001");
-            expect(res).to.be.null;
-        });
-        it('Should returns the updated team if the team exist', async () => {
-            const res = await teamsService.setTeamToPresent("5bde6ec0000000000000000", "5bde6ec00000000000000000");
-            expect(res).to.be.not.null;
-            expect(res.present).to.be.true;
-        });
-    });
-});
+//     describe('setTeamToPresent', () => {
+//         it('Should returns null if team does\'t exist', async () => {
+//             const res = await teamsService.setTeamToPresent("5bde6ec0000000000000000", "5bde6ec00000000000000001");
+//             expect(res).to.be.null;
+//         });
+//         it('Should returns the updated team if the team exist', async () => {
+//             const res = await teamsService.setTeamToPresent("5bde6ec0000000000000000", "5bde6ec00000000000000000");
+//             expect(res).to.be.not.null;
+//             expect(res.present).to.be.true;
+//         });
+//     });
+// });
