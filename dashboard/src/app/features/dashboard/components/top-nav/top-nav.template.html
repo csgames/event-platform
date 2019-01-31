@@ -15,7 +15,7 @@
             </a>
             <div *dropdownMenu class="dropdown-menu dropdown-menu-right profile-dropdown" role="menu">
                 <a class="dropdown-item" *ngIf="(attendee$ | async)?.registered" (click)="editProfile.emit()"><i class="fa fa-cog"></i> {{ "components.top_bar.profile_settings" | translate }}</a>
-                <a class="dropdown-item" (click)="changeLanguage()"><i class="far fa-globe-americas"></i> {{ "components.top_bar.change_language" | translate }}</a>
+                <a class="dropdown-item" (click)="changeLanguage()"><i class="fas fa-globe-americas"></i> {{ "components.top_bar.change_language" | translate }}</a>
                 <a class="dropdown-item" (click)="clickLogout()"><i class="fa fa-sign-out-alt"></i> {{ "components.top_bar.sign_out" | translate }}</a>
             </div>
         </ng-container>

@@ -13,7 +13,7 @@ import * as fromApp from "../../store/app.reducers";
     styleUrls: ["team.style.scss"]
 })
 export class TeamComponent implements OnInit {
-    
+
     currentTeam$ = this.store.pipe(select(getCurrentTeam));
     loading$ = this.store.pipe(select(getTeamLoading));
     error$ = this.store.pipe(select(getTeamError));
@@ -30,9 +30,9 @@ export class TeamComponent implements OnInit {
     teamName: string;
 
     constructor(private store: Store<State>) { }
-    
-    ngOnInit() { 
-        
+
+    ngOnInit() {
+
         this.isEditingTeamName = false;
         this.isAddingTeamMember = false;
         this.isAddingTeamGodparent = false;
@@ -56,11 +56,13 @@ export class TeamComponent implements OnInit {
 
     public onEditTeamMember(): void {
         this.isAddingTeamMember = true;
+        this.isAddingTeamGodparent = false;
         this.newAttendee = this.setDefaultAttendee();
     }
 
     public onEditTeamGodparent(): void {
         this.isAddingTeamGodparent = true;
+        this.isAddingTeamMember = false;
         this.newGodparent = this.setDefaultAttendee();
     }
 

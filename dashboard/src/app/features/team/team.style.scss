@@ -1,7 +1,12 @@
 .borders {
-    border: 2px dashed #00579c;
+    background: transparent;
+    border: 1px dashed #9B9B9B;
     width: 99%;
     margin-bottom: 10px;
+
+    &:hover {
+        border: 1px dashed #00579c;
+    }
 }
 
 .btn .save-btn {
@@ -78,4 +83,12 @@
 
 h1 {
     text-transform: uppercase;
+}
+
+.edit-name-button {
+    background: transparent;
+
+    &:hover {
+        color: #0D5899;
+    }
 }

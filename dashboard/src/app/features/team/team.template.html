@@ -8,26 +8,33 @@
     </div>
 </ng-container>
 <ng-container *ngIf="currentTeam$ | async as currentTeam">
-    <div *ngIf="!this.isEditingTeamName">
+    <div *ngIf="!isEditingTeamName">
         <h2>{{ currentTeam?.name}}
-            <button *ifRole="['admin', 'captain']" type="button" class="btn">
+            <button *ifRole="['admin', 'captain']" type="button" class="btn edit-name-button">
                 <i class="far fa-edit fa-lg" (click)="onEditTeamName(currentTeam)"></i>
             </button>
         </h2>
     </div>
-    <div *ngIf="this.isEditingTeamName">
+    <div *ngIf="isEditingTeamName">
         <div class="input-group input-group-default input" id="teamNameInput">
             <input class="form-control" type="text" id="teamName" [(ngModel)]="teamName">
         </div>
-        <button type="button" class="btn btn-primary btn-save" (click)="onSaveTeamName(teamName)">{{
-            "general.button.save" | translate }}<i class="fas fa-check"></i></button>
-        <button type="button" class="btn btn-danger" (click)="onCancelTeamName(teamName)">{{ "general.button.cancel" | translate }} <i class="fas fa-times"></i></button>
+        <button type="button" class="btn btn-primary btn-save" (click)="onSaveTeamName(teamName)">
+            {{ "general.button.save" | translate }}<i class="fas fa-check"></i>
+        </button>
+        <button type="button" class="btn btn-danger"
+                (click)="onCancelTeamName(teamName)">
+            {{ "general.button.cancel" | translate }} <i class="fas fa-times"></i>
+        </button>
     </div>
     <ng-container *ngIf="currentAttendees$ | async as currentAttendees">
-        <h4 class="team-members">{{ "pages.team.team_members" | translate }}<b>
-                <a *ngIf="currentTeam?.maxMembersNumber === 11"> ({{ currentAttendees?.length }}/10</a>
-                <a *ngIf="currentTeam?.maxMembersNumber !== 11"> ({{ currentAttendees?.length }}/{{
-                    currentTeam?.maxMembersNumber-1 }}</a>)</b>
+        <h4 class="team-members">{{ "pages.team.team_members" | translate }}
+            <b>
+                <a *ngIf="currentTeam?.maxMembersNumber === 11"> ({{ currentAttendees?.length }}/10)</a>
+                <a *ngIf="currentTeam?.maxMembersNumber !== 11">
+                    ({{ currentAttendees?.length }}/{{ currentTeam?.maxMembersNumber - 1 }})
+                </a>
+            </b>
         </h4>
         <hr>
         <div *ngFor="let member of currentAttendees">
@@ -35,37 +42,42 @@
             </app-attendee>
         </div>
         <div *ifRole="['admin', 'captain']">
-            <button *ngIf="!this.isAddingTeamMember && 
+            <button *ngIf="!isAddingTeamMember &&
             (currentTeam?.attendees?.length < currentTeam?.maxMembersNumber && currentTeam?.maxMembersNumber !== 11 || 
             currentTeam?.attendees?.length < 10 && currentTeam?.maxMembersNumber === 11)"
-                type="button" class="btn btn-lg btn-block borders" (click)="onEditTeamMember()">+ {{
-                "pages.team.add_member" | translate }}
+                    type="button" class="btn btn-lg btn-block borders" (click)="onEditTeamMember()">
+                + {{ "pages.team.add_member" | translate }}
             </button>
         </div>
     </ng-container>
 
-    <div *ngIf="this.isAddingTeamMember" class="card-wrapper">
+    <div *ngIf="isAddingTeamMember" class="card-wrapper">
         <div class="add-member-card">
             <div class="card-body">
                 {{ "pages.team.add_a_member" | translate }}
                 <br>
                 <div class="input-group input-group-default input">
-                    <input class="form-control" type="text" id="firstNameAttendee" placeholder='{{ "general.profile.first_name" | translate }}'
-                        [(ngModel)]="this.newAttendee.firstName">
+                    <input class="form-control" type="text" id="firstNameAttendee"
+                           placeholder='{{ "general.profile.first_name" | translate }}'
+                           [(ngModel)]="newAttendee.firstName">
                 </div>
                 <div class="input-group input-group-default input">
-                    <input class="form-control" type="text" id="lastNameAttendee" placeholder='{{ "general.profile.last_name" | translate }}'
-                        [(ngModel)]="this.newAttendee.lastName">
+                    <input class="form-control" type="text" id="lastNameAttendee"
+                           placeholder='{{ "general.profile.last_name" | translate }}'
+                           [(ngModel)]="newAttendee.lastName">
                 </div>
                 <br>
                 <div class="input-group input-group-default input email">
-                    <input class="form-control" type="text" id="emailAttendee" placeholder='{{ "general.profile.email" | translate }}'
-                        [(ngModel)]="this.newAttendee.email">
+                    <input class="form-control" type="text" id="emailAttendee"
+                           placeholder='{{ "general.profile.email" | translate }}'
+                           [(ngModel)]="newAttendee.email">
                 </div>
-                <a class="btn btn-primary" (click)="onAddTeamMember(this.newAttendee)">{{ "general.button.add" |
-                    translate }} <i class="fas fa-plus"></i></a>
-                <a class="btn btn-danger cancel" (click)="onCancelTeamMember()">{{ "general.button.cancel" | translate
-                    }}<i class="fas fa-times"></i></a>
+                <a class="btn btn-primary" (click)="onAddTeamMember(newAttendee)">
+                    {{ "general.button.add" | translate }} <i class="fas fa-plus"></i>
+                </a>
+                <a class="btn btn-danger cancel" (click)="onCancelTeamMember()">
+                    {{ "general.button.cancel" | translate }}<i class="fas fa-times"></i>
+                </a>
             </div>
         </div>
     </div>
@@ -77,37 +89,44 @@
             </app-attendee>
         </div>
         <div *ifRole="['admin', 'captain']">
-            <button *ngIf="!this.isAddingTeamGodparent && currentGodparent?.length < 1" type="button" class="btn btn-lg btn-block borders"
-                (click)="onEditTeamGodparent()">+ {{ "pages.team.add_godparent" | translate }}</button>
+            <button *ngIf="!isAddingTeamGodparent && currentGodparent?.length < 1" type="button"
+                    class="btn btn-lg btn-block borders"
+                    (click)="onEditTeamGodparent()">+ {{ "pages.team.add_godparent" | translate }}</button>
         </div>
-        <div *ngIf="this.isAddingTeamGodparent" class="card-wrapper">
+        <div *ngIf="isAddingTeamGodparent" class="card-wrapper">
             <div class="add-member-card">
                 <div class="card-body">
                     {{ "pages.team.add_a_godparent" | translate }}
                     <br>
                     <div class="input-group input-group-default input">
-                        <input class="form-control" type="text" id="firstNameGodparent" placeholder='{{ "general.profile.first_name" | translate }}'
-                            [(ngModel)]="this.newGodparent.firstName">
+                        <input class="form-control" type="text" id="firstNameGodparent"
+                               placeholder='{{ "general.profile.first_name" | translate }}'
+                               [(ngModel)]="newGodparent.firstName">
                     </div>
                     <div class="input-group input-group-default input">
-                        <input class="form-control" type="text" id="lastNameGodparent" placeholder='{{ "general.profile.last_name" | translate }}'
-                            [(ngModel)]="this.newGodparent.lastName">
+                        <input class="form-control" type="text" id="lastNameGodparent"
+                               placeholder='{{ "general.profile.last_name" | translate }}'
+                               [(ngModel)]="newGodparent.lastName">
                     </div>
                     <br>
                     <div class="input-group input-group-default input email">
-                        <input class="form-control" type="text" id="emailGodparent" placeholder='{{ "general.profile.email" | translate }}'
-                            [(ngModel)]="this.newGodparent.email">
+                        <input class="form-control" type="text" id="emailGodparent"
+                               placeholder='{{ "general.profile.email" | translate }}'
+                               [(ngModel)]="newGodparent.email">
                     </div>
-                    <a class="btn btn-primary" (click)="onAddTeamGodparent(this.newGodparent)">{{
-                        "general.button.add" | translate }} <i class="fas fa-plus"></i></a>
-                    <a class="btn btn-danger cancel" (click)="onCancelTeamGodparent()">{{ "general.button.cancel" |
-                        translate }} <i class="fas fa-times"></i></a>
-                    
+                    <a class="btn btn-primary" (click)="onAddTeamGodparent(newGodparent)">
+                        {{ "general.button.add" | translate }} <i class="fas fa-plus"></i>
+                    </a>
+                    <a class="btn btn-danger cancel" (click)="onCancelTeamGodparent()">
+                        {{ "general.button.cancel" | translate }} <i class="fas fa-times"></i>
+                    </a>
+
                 </div>
             </div>
         </div>
         <div *ifRole="['attendee']">
-            <div *ngIf="currentGodparent.length < 1 || (currentGodparent?.length < 1 && currentTeam?.maxMembersNumber === 11)"
+            <div
+                *ngIf="currentGodparent.length < 1 || (currentGodparent?.length < 1 && currentTeam?.maxMembersNumber === 11)"
                 class="no-godparent">
                 {{ "pages.team.no_godparent" | translate }}
             </div>
