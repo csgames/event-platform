@@ -13,6 +13,7 @@ import { TeamEffects } from "./store/team.effects";
 import { GravatarModule } from "ngx-gravatar";
 import { LoadingSpinnerModule } from "src/app/components/loading-spinner/loading-spinner.module";
 import { DirectivesModule } from "src/app/directives/directives.module";
+import { TooltipModule } from "ngx-bootstrap";
 
 @NgModule({
     imports: [
@@ -26,7 +27,8 @@ import { DirectivesModule } from "src/app/directives/directives.module";
         EffectsModule.forFeature([TeamEffects]),
         GravatarModule,
         LoadingSpinnerModule,
-        DirectivesModule
+        DirectivesModule,
+        TooltipModule
     ],
     exports: [],
     declarations: [TeamComponent, AttendeeComponent],

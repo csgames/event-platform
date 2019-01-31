@@ -46,7 +46,6 @@ export class UserFormComponent implements OnInit, OnDestroy, ControlValueAccesso
     }
 
     writeValue(createAttendeeFormDto: UserFormDto): void {
-        console.log(createAttendeeFormDto);
         if (createAttendeeFormDto) {
             this.formGenerator.patchValues(createAttendeeFormDto);
         }

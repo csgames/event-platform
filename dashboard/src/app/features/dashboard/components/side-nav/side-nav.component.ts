@@ -2,7 +2,6 @@ import { Component, OnInit } from "@angular/core";
 import { Store, select } from "@ngrx/store";
 import { State } from "src/app/store/app.reducers";
 import * as fromApp from "src/app/store/app.reducers";
-import { Router } from "@angular/router";
 
 @Component({
     selector: "app-side-nav",
@@ -13,17 +12,7 @@ import { Router } from "@angular/router";
 export class SideNavComponent implements OnInit {
     attendee$ = this.store$.pipe(select(fromApp.getCurrentAttendee));
 
-    constructor(private store$: Store<State>,
-                private router: Router) { }
+    constructor(private store$: Store<State>) { }
 
-    ngOnInit() {
-        this.attendee$.subscribe((a) => {
-            if (a && !a.registered) {
-                this.router.navigate(['/onboarding']);
-            }
-            if (a && a.registered) {
-                this.router.navigate(['/team']);
-            }
-        })
-    }
+    ngOnInit() {}
 }
