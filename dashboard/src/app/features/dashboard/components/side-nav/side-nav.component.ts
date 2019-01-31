@@ -21,6 +21,9 @@ export class SideNavComponent implements OnInit {
             if (a && !a.registered) {
                 this.router.navigate(['/onboarding']);
             }
+            if (a && a.registered) {
+                this.router.navigate(['/team']);
+            }
         })
     }
 }

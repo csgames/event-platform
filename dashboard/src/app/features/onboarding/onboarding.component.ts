@@ -8,7 +8,7 @@ import { FileUtils } from "src/app/utils/file.utils";
 import { Attendee } from "src/app/api/models/attendee";
 import { UppyFile } from "@uppy/core";
 import { Subscription } from "rxjs";
-import { Event } from "../../api/models/event";
+import { Router } from "@angular/router";
 
 @Component({
     selector: "app-onboarding",
@@ -20,27 +20,23 @@ export class OnboardingComponent implements OnInit, OnDestroy {
     private attendeeForm: AttendeeFormComponent;
 
     currentAttendee$ = this.store$.pipe(select(fromApp.getCurrentAttendee));
-    currentEvent$ = this.store$.pipe(select(fromApp.getCurrentEvent));
     
     public currentAttendee: Attendee;
-    public currentEvent: Event;
     private currentAttendeeSub$: Subscription;
-    private currentEvenSub$: Subscription;
 
-    constructor(private store$: Store<State>) {}
+    public acceptedCode = false;
+
+    constructor(private store$: Store<State>,
+                private router: Router) {}
 
     public ngOnInit() {
         this.currentAttendeeSub$ = this.currentAttendee$.subscribe((attendee) => {
             this.currentAttendee = attendee;
         });
-        this.currentEvenSub$ = this.currentEvent$.subscribe((event) => {
-            this.currentEvent = event;
-        });
     }
 
     public ngOnDestroy() {
         this.currentAttendeeSub$.unsubscribe();
-        this.currentEvenSub$.unsubscribe();
     }
 
     public downloadCv() {
@@ -54,10 +50,7 @@ export class OnboardingComponent implements OnInit, OnDestroy {
 
     saveInfo() {
         if (!this.attendeeForm.validate()) return;
-        //Validate other shit
-        this.store$.dispatch(new OnboardAttendee({
-            attendee: this.currentAttendee,
-            eventId: this.currentEvent._id
-        }));
+        if (!this.acceptedCode) return;
+        this.store$.dispatch(new OnboardAttendee(this.currentAttendee));
     }
 }

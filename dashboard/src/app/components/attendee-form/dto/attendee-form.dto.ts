@@ -37,4 +37,10 @@ export class AttendeeFormDto {
 
     @Control()
     dietaryRestrictions: string;
+
+    @Control()
+    handicapped: boolean;
+
+    @Control()
+    needsTransportPass: boolean;
 }
