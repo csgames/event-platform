@@ -11,8 +11,4 @@ export class AttendeeService {
     getAttendeeInfo(): Observable<Attendee> {
         return this.apiService.attendee.getAttendeeInfo();
     }
-
-    updateAttendee(attendee: Attendee): Observable<void> {
-        return this.apiService.attendee.update(attendee, null);
-    }
 }

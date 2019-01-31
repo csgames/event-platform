@@ -15,6 +15,8 @@ export interface Attendee {
     registered: boolean;
     role?: string;
     permissions?: string[];
+    handicapped: boolean;
+    needsTransportPass: boolean;
 }
 
 export interface AttendeeModel {
@@ -31,4 +33,6 @@ export interface AttendeeModel {
     acceptSMSNotifications: boolean;
     hasDietaryRestrictions: boolean;
     dietaryRestrictions: string;
+    handicapped: boolean;
+    needsTransportPass: boolean;
 }
