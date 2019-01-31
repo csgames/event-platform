@@ -74,7 +74,7 @@ export class CreateAttendeeDto {
     @IsOptional()
     @IsBoolean()
     @ApiModelProperty()
-    stm: boolean;
+    needTransportPass: boolean;
 }
 
 export class UpdateAttendeeDto {
@@ -150,7 +150,7 @@ export class UpdateAttendeeDto {
     @IsOptional()
     @IsBoolean()
     @ApiModelProperty()
-    stm: boolean;
+    needTransportPass: boolean;
 }
 
 export class AddTokenDto {
