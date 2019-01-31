@@ -1,5 +1,4 @@
 import { Injectable } from "@angular/core";
-import { EventApi } from "../api/event.api";
 import { Event } from "../api/models/event";
 import { Observable } from "rxjs";
 import { Attendee } from "../api/models/attendee";
