@@ -5,6 +5,7 @@ import { LoginActionTypes, LoginFailure, LoginSuccess, PerformLogin } from "./lo
 import { catchError, exhaustMap, map, tap } from "rxjs/operators";
 import { of } from "rxjs";
 import { AuthenticationService } from "../../../providers/authentication.service";
+import { LoadEvents } from "../../../store/app.actions";
 
 @Injectable()
 export class LoginEffects {
@@ -25,9 +26,10 @@ export class LoginEffects {
         )
     );
 
-    @Effect({ dispatch: false })
+    @Effect()
     loginSuccess$ = this.actions$.pipe(
         ofType<LoginSuccess>(LoginActionTypes.LoginSuccess),
-        tap(() => this.router.navigate(["/dashboard"]))
+        tap(() => this.router.navigate(["/dashboard"])),
+        map(() => new LoadEvents())
     );
 }

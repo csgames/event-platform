@@ -1,5 +1,6 @@
 @import "./app/styles/ng-select.style";
 @import "./app/styles/check-box.style";
+@import "./app/styles/flipbash.style";
 
 html,
 body {
@@ -430,9 +431,9 @@ a {
 }
 
 .input-group-default .input-group-prepend {
-    margin-left: 3px;
-    margin-top: 7px;
-    width: 25px;
+    margin-left: 10px;
+    margin-top: 10px;
+    width: 20px;
     color: #0D5899;
 }
 
@@ -456,7 +457,7 @@ a {
     border-radius: 16px;
 }
 
-.modal {
+.modal-right-side {
     overflow: auto !important;
 
     .close {
@@ -570,7 +571,7 @@ a {
 }
 
 @media (max-width: 768px) {
-    .modal {
+    .modal-right-side {
         &.fill-in {
             .modal-dialog {
                 width: calc(100% - 20px);
@@ -586,7 +587,7 @@ a {
 }
 
 @media (min-width: 544px) {
-    .modal {
+    .modal-right-side {
         &.stick-up {
             .modal-dialog {
                 margin: -5px auto;
@@ -625,17 +626,31 @@ a {
     margin-left: 5px;
 }
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+.text-danger {
+    color: #f15e58 !important;
+}
+
+html, body {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
 h1 {
     font-family: 'Flipbash', sans-serif;
 }
+
 h2 {
     font-weight: normal;
 }
+
 h3 {
     font-weight: normal;
 }
+
 h4 {
     font-weight: normal;
 }

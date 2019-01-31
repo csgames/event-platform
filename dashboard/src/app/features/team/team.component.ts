@@ -56,12 +56,12 @@ export class TeamComponent implements OnInit {
 
     public onEditTeamMember(): void {
         this.isAddingTeamMember = true;
-        this.setDefaultAttendee();
+        this.newAttendee = this.setDefaultAttendee();
     }
 
     public onEditTeamGodparent(): void {
         this.isAddingTeamGodparent = true;
-        this.setDefaultAttendee();
+        this.newGodparent = this.setDefaultAttendee();
     }
 
     public setDefaultAttendee(): Attendee {
