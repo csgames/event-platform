@@ -2,26 +2,38 @@ import { Action } from "@ngrx/store";
 import { Attendee } from "src/app/api/models/attendee";
 
 export enum OnboardingActionTypes {
-    UpdateAttendee = "[Onboarding] update attendee",
-    UpdateSuccess = "[Onboarding] update success",
-    UpdateFailure = "[Onboarding] update failure"
+    OnboardAttendee = "[Onboarding] onboard attendee",
+    OnboardSuccess = "[Onboarding] onboard success",
+    OnboardFailure = "[Onboarding] onboard failure",
+    DownloadCv = "[Onboarding] download cv",
+    CvDownloaded = "[Onboarding] cv downloaded"
 }
 
-export class UpdateAttendee implements Action {
-    readonly type = OnboardingActionTypes.UpdateAttendee;
+export class OnboardAttendee implements Action {
+    readonly type = OnboardingActionTypes.OnboardAttendee;
 
-    constructor(public payload: Attendee) {}
+    constructor(public payload: { attendee: Attendee, eventId: string }) {}
 }
 
-export class UpdateSuccess implements Action {
-    readonly type = OnboardingActionTypes.UpdateSuccess;
+export class OnboardSuccess implements Action {
+    readonly type = OnboardingActionTypes.OnboardSuccess;
 }
 
-export class UpdateFailure implements Action {
-    readonly type = OnboardingActionTypes.UpdateFailure;
+export class OnboardFailure implements Action {
+    readonly type = OnboardingActionTypes.OnboardFailure;
+}
+
+export class DownloadCv implements Action {
+    readonly type = OnboardingActionTypes.DownloadCv;
+}
+
+export class CvDownloaded implements Action {
+    readonly type = OnboardingActionTypes.CvDownloaded;
 }
 
 export type OnboardingActions =
-    | UpdateAttendee
-    | UpdateSuccess
-    | UpdateFailure;
+    | OnboardAttendee
+    | OnboardSuccess
+    | OnboardFailure
+    | DownloadCv
+    | CvDownloaded;

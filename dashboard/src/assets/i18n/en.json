@@ -16,9 +16,12 @@
 			"update_success": "Profile successfully updated!",
 			"website": "Website",
 			"x_large": "X-Large",
-            "has_dietary_restrictions": "Do you have any dietary restrictions?",
+            "has_dietary_restrictions": "I have dietary restrictions",
             "dietary_restrictions": "What are they?",
-            "accept_sms": "I would like to receive SMS notifications during the event"
+            "accept_sms": "I would like to receive SMS notifications during the event",
+            "handicapped": "I will need a wheelchair access during",
+            "transport": "I will need a 3 days transport pass for the event as I do not own one STM pass myself",
+            "size": "T-Shirt Size"
 		},
 		"toast": {
 			"attendee_failed": "An error occured while saving the attendee info.",

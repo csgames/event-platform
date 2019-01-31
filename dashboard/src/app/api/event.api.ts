@@ -4,6 +4,7 @@ import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { Event } from "./models/event";
 import { map } from "rxjs/operators";
+import { AttendeeModel } from "./models/attendee";
 
 @Injectable()
 export class EventApi extends CSGamesApi {
@@ -28,4 +29,20 @@ export class EventApi extends CSGamesApi {
         );
     }
 
+    public onboardAttendee(attendee: AttendeeModel, file: File, eventId: string) {
+        const form = new FormData();
+        for (const key in attendee) {
+            if (key in attendee) {
+                form.append(key, attendee[key]);
+            }
+        }
+        if (file) {
+            form.append("file", file);
+        }
+        form.append("eventId", eventId);
+
+        return this.http.put<void>(this.url("registration"), form, {
+            withCredentials: true
+        });
+    }
 }

@@ -1,1 +1,8 @@
 <h1>{{ "pages.onboarding.onboarding" | translate }}</h1>
+<div class="onboard-container">
+    <app-attendee-form [(ngModel)]="currentAttendee" (downloadCv)="downloadCv()"></app-attendee-form>
+    <div class="text-center">
+        <a class="btn btn-primary btn-rounded mt-3 px-3"
+           (click)="saveInfo()">{{ "general.button.save" | translate }}</a>
+    </div>
+</div>

@@ -24,7 +24,7 @@
                         <i class="fas fa-tshirt"></i>
                     </a>
                 </div>
-                <ng-select [items]="tshirtSize" placeholder="T-Shirt size" formControlName="tshirt" controlStatus>
+                <ng-select [items]="tshirtSize" placeholder='{{ "components.profile.size" | translate }}' formControlName="tshirt" controlStatus>
                     <ng-template ng-option-tmp ng-label-tmp let-item="item">
                             <span class="ng-option-label">
                                 {{ "components.profile." + item | translate }}
@@ -87,9 +87,25 @@
 
     <div class="row">
         <div class="col-sm-12">
-            <app-file-upload placeholder='{{ "components.profile.cv" | translate }}' formControlName="cv" controlStatus
+            <app-file-upload class="upload" placeholder='{{ "components.profile.cv" | translate }}' formControlName="cv" controlStatus
                              (download)="downloadCv.emit()">
             </app-file-upload>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="checkbox-group">
+                <input type="checkbox" class="form-checkbox" id="handicapped" formControlName="handicapped"><label for="accept-sms">{{ "components.profile.handicapped" | translate }}</label>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="checkbox-group">
+                <input type="checkbox" class="form-checkbox" id="needs-transport-pass" formControlName="needsTransportPass"><label for="accept-sms">{{ "components.profile.transport" | translate }}</label>
+            </div>
         </div>
     </div>
 

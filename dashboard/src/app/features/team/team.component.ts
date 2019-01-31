@@ -79,7 +79,9 @@ export class TeamComponent implements OnInit {
             acceptSMSNotifications: null,
             hasDietaryRestrictions: null,
             dietaryRestrictions: null,
-            registered: false
+            registered: false,
+            handicapped: null,
+            needsTransportPass: null
         };
         return newAttendee;
     }

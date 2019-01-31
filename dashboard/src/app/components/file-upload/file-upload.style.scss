@@ -1,5 +1,6 @@
 .drag-n-drop {
     margin: 5px;
+    height: 150px;
 }
 
 .file-upload-value {
@@ -21,4 +22,8 @@
     margin-right: 15px;
     margin-top: 9px;
     cursor: pointer;
+}
+
+.upload {
+    padding-right: 5px !important;
 }

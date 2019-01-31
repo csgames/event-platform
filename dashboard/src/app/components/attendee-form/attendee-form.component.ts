@@ -4,12 +4,11 @@ import { Attendee } from "../../api/models/attendee";
 import { ATTENDEE_FORM_GENERATOR } from "./attendee-form.constants";
 import { FormGenerator } from "../../form-generator/form-generator";
 import { Subscription } from "rxjs";
-import { UppyFile } from "@uppy/core";
-import { FileUtils } from "../../utils/file.utils";
 
 @Component({
     selector: "app-attendee-form",
     templateUrl: "./attendee-form.template.html",
+    styleUrls: ['attendee-form.style.scss'],
     providers: [
         {
             provide: NG_VALUE_ACCESSOR,

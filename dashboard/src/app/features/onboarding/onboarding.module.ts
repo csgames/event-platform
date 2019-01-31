@@ -11,6 +11,7 @@ import { DirectivesModule } from "src/app/directives/directives.module";
 import { OnboardingComponent } from "./onboarding.component";
 import { StoreModule } from "@ngrx/store";
 import { OnboardingRoutingModule } from "./onboarding-routing.module";
+import { AttendeeFormModule } from "src/app/components/attendee-form/attendee-form.module";
 
 @NgModule({
     imports: [
@@ -23,10 +24,12 @@ import { OnboardingRoutingModule } from "./onboarding-routing.module";
         StoreModule.forFeature("onboarding", fromOnboarding.reducer),
         EffectsModule.forFeature([OnboardingEffects]),
         LoadingSpinnerModule,
-        DirectivesModule
+        DirectivesModule,
+        AttendeeFormModule
     ],
     exports: [],
     declarations: [OnboardingComponent],
-    providers: [OnboardingComponent]
+    providers: [],
+    entryComponents: [OnboardingComponent]
 })
 export class OnboardingModule {}

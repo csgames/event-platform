@@ -18,21 +18,31 @@ export interface State extends fromApp.State {
 
 export function reducer(state = initialState, action: OnboardingActions): OnboardingState {
     switch (action.type) {
-        case OnboardingActionTypes.UpdateAttendee:
+        case OnboardingActionTypes.OnboardAttendee:
             return {
                 ...state,
                 loading: true
             };
-        case OnboardingActionTypes.UpdateSuccess:
+        case OnboardingActionTypes.OnboardSuccess:
             return {
                 ...state,
                 error: false,
                 loading: false
             };
-        case OnboardingActionTypes.UpdateFailure:
+        case OnboardingActionTypes.OnboardFailure:
             return {
                 ...state,
                 error: true,
+                loading: false
+            };
+        case OnboardingActionTypes.DownloadCv:
+            return {
+                ...state,
+                loading: true
+            };
+        case OnboardingActionTypes.CvDownloaded:
+            return {
+                ...state,
                 loading: false
             }
         default:
