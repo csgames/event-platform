@@ -7,8 +7,8 @@
                 <input type="checkbox" class="form-checkbox" id="accept-code" [(ngModel)]="acceptedCode">
                     <label for="accept-code">
                         <p>{{ "pages.onboarding.agree" | translate }}
-                            <a *ngIf="lang === 'en'" href="http://2019.csgames.org/assets/file/Discharge_EN.pdf">{{ "pages.onboarding.code" | translate }}</a>
-                            <a *ngIf="lang === 'fr'" href="http://2019.csgames.org/assets/file/Decharge_FR.pdf">{{ "pages.onboarding.code" | translate }}</a>
+                            <a *ngIf="lang === 'en'" href="http://2019.csgames.org/assets/file/Discharge_EN.pdf" target="_blank">{{ "pages.onboarding.code" | translate }}</a>
+                            <a *ngIf="lang === 'fr'" href="http://2019.csgames.org/assets/file/Decharge_FR.pdf" target="_blank">{{ "pages.onboarding.code" | translate }}</a>
                         </p>
                     </label>
             </div>

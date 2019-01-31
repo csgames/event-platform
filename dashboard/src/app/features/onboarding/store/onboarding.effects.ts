@@ -6,14 +6,16 @@ import { of } from "rxjs";
 import { TranslateService } from "@ngx-translate/core";
 import { ToastrService } from "ngx-toastr";
 import { EventService } from "src/app/providers/event.service";
-import { LoadCurrentAttendee } from "src/app/store/app.actions";
+import { LoadCurrentAttendee, AppActionTypes, CurrentAttendeeLoaded } from "src/app/store/app.actions";
+import { Router } from "@angular/router";
 
 @Injectable()
 export class OnboardingEffects {
     constructor(private actions$: Actions,
                 private translateService: TranslateService,
                 private toastr: ToastrService,
-                private eventService: EventService) { }
+                private eventService: EventService,
+                private router: Router) { }
 
     @Effect()
     update$ = this.actions$.pipe(
@@ -39,5 +41,11 @@ export class OnboardingEffects {
     updateSuccess$ = this.actions$.pipe(
         ofType<OnboardSuccess>(OnboardingActionTypes.OnboardSuccess),
         map(() => new LoadCurrentAttendee())
+    );
+
+    @Effect({ dispatch: false })
+    attendeeLoaded$ = this.actions$.pipe(
+        ofType<CurrentAttendeeLoaded>(AppActionTypes.CurrentAttendeeLoaded),
+        tap(() => this.router.navigate(["/"])),
     );
 }
