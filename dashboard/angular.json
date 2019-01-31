@@ -29,11 +29,7 @@
                         "styles": [
                             "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
                             "node_modules/bootstrap/dist/css/bootstrap.css",
-                            "node_modules/@fortawesome/fontawesome-pro-webfonts/css/fontawesome.css",
-                            "node_modules/@fortawesome/fontawesome-pro-webfonts/css/fa-brands.css",
-                            "node_modules/@fortawesome/fontawesome-pro-webfonts/css/fa-regular.css",
-                            "node_modules/@fortawesome/fontawesome-pro-webfonts/css/fa-solid.css",
-                            "node_modules/@fortawesome/fontawesome-pro-webfonts/css/fa-light.css",
+                            "node_modules/@fortawesome/fontawesome-pro/css/all.css",
                             "node_modules/animate.css/animate.css",
                             "src/styles.scss",
                             "node_modules/ngx-toastr/toastr.css",

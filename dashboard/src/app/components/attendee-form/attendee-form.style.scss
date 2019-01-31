@@ -1,3 +1,16 @@
 .input-group {
     padding-left: 4px;
 }
+
+.checkboxText {
+    -webkit-user-select: none; /* Safari */        
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* IE10+/Edge */
+    user-select: none; /* Standard */
+}
+
+.input-group-default .input-group-prepend {
+    margin-left: 3px;
+    margin-top: 7px;
+    width: 25px;
+}
