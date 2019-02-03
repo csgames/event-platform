@@ -70,3 +70,26 @@ export class RegisterAttendeeDto {
     @ValidateNested()
     attendee: CreateAttendeeDto;
 }
+
+export class RegisterAdminDto {
+    @IsEmail()
+    @IsString()
+    @IsNotEmpty()
+    @ApiModelProperty({ required: true })
+    username: string;
+
+    /*
+     * At least 6 characters
+     * At least one digit
+     * At least one uppercase
+     * At least one lowercase
+     */
+    @IsString()
+    @IsNotEmpty()
+    @ApiModelProperty({ required: true })
+    password: string;
+
+    @IsNotEmpty()
+    @ValidateNested()
+    attendee: CreateAttendeeDto;
+}

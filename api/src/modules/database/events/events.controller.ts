@@ -86,7 +86,6 @@ export class EventsController {
         return attendees.length;
     }
 
-    
     @Put('registration')
     public async confirmRegistration(@Body(NullPipe, ValidationPipe) dto: UpdateAttendeeDto, @UploadedFile() file: Express.Multer.File,
                                      @User() user: UserModel, @EventId() eventId: string) {

@@ -15,9 +15,16 @@ export class AttendeeGuard implements CanActivate {
     public async canActivate(context: ExecutionContext): Promise<boolean> {
         const req = context.switchToHttp().getRequest<IRequest>();
 
+        const role = req.header('token-claim-role');
         const email = req.header('token-claim-name');
         const eventId = req.header('Event-Id');
         req.eventId = eventId;
+
+        if (role === "super-admin") {
+            req.role = role;
+            req.permissions = JSON.parse(req.header('token-claim-permissions'));
+            return true;
+        }
 
         const cache = await this.cacheService.getUserCache(email, eventId);
         if (cache) {

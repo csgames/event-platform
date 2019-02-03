@@ -13,7 +13,7 @@ import {
     AttendeeAlreadyExistException, GodFatherAlreadyExist, InvalidCodeException, MaxTeamMemberException, TeamAlreadyExistException,
     TeamDoesntExistException
 } from './registration.exception';
-import { CreateRegistrationDto, RegisterAttendeeDto } from './registrations.dto';
+import { CreateRegistrationDto, RegisterAdminDto, RegisterAttendeeDto } from './registrations.dto';
 import { Registrations } from './registrations.model';
 
 @Injectable()
@@ -131,6 +131,35 @@ export class RegistrationsService {
 
             registration.used = true;
             await registration.save();
+        } catch (err) {
+            if (err instanceof HttpException) {
+                throw err;
+            }
+            if (err instanceof CodeException) {
+                throw err;
+            }
+
+            throw new HttpException('Error while creating attendee', HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    public async registerAdmin(userDto: RegisterAdminDto, eventId: string) {
+        if (!this.roles) {
+            await this.fetchRoles();
+        }
+
+        try {
+            await this.stsService.registerUser({
+                username: userDto.username,
+                password: userDto.password,
+                roleId: this.roles['attendee']
+            } as UserModel);
+
+            const attendee = await this.attendeeService.create({
+                ...userDto.attendee,
+                email: userDto.username
+            });
+            await this.eventService.addAttendee(eventId, attendee, "admin");
         } catch (err) {
             if (err instanceof HttpException) {
                 throw err;
