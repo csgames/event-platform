@@ -8,7 +8,9 @@ export enum Code {
     TEAM_NOT_FOUND,
     TEAM_FULL,
     ATTENDEE_HAS_TEAM,
-    ATTENDEE_NOT_IN_TEAM
+    ATTENDEE_NOT_IN_TEAM,
+    TEAM_ALREADY_CREATED,
+    INVALID_TEAM_NAME
 }
 
 export const codeMap: CodeMap = {
@@ -35,6 +37,14 @@ export const codeMap: CodeMap = {
     [Code.ATTENDEE_NOT_IN_TEAM]: {
         message: "Attendee is not in this team.",
         statusCode: HttpStatus.PRECONDITION_FAILED
+    },
+    [Code.TEAM_ALREADY_CREATED]: {
+        message: "Team already exists.",
+        statusCode: HttpStatus.PRECONDITION_FAILED
+    },
+    [Code.INVALID_TEAM_NAME]: {
+        message: 'Invalid team name.',
+        statusCode: HttpStatus.BAD_REQUEST
     }
 };
 
@@ -65,5 +75,17 @@ export class AttendeeHasTeamException extends CodeException {
 export class AttendeeNotInTeamException extends CodeException {
     constructor() {
         super(Code.ATTENDEE_NOT_IN_TEAM);
+    }
+}
+
+export class TeamAlreadyCreatedException extends CodeException {
+    constructor() {
+        super(Code.TEAM_ALREADY_CREATED);
+    }
+}
+
+export class InvalidNameException extends CodeException {
+    constructor() {
+        super(Code.INVALID_TEAM_NAME);
     }
 }

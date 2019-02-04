@@ -1,10 +1,10 @@
 import { Module } from "@nestjs/common";
 import { MongooseModule } from "@nestjs/mongoose";
 import { StorageModule, STSModule } from "@polyhx/nest-services";
-import { SchoolsModule } from "../schools/schools.module";
 import { AttendeesController } from "./attendees.controller";
 import { AttendeesSchema } from "./attendees.model";
 import { AttendeesService } from "./attendees.service";
+import { EventsSchema } from '../events/events.model';
 
 @Module({
     imports: [
@@ -12,7 +12,10 @@ import { AttendeesService } from "./attendees.service";
             name: "attendees",
             schema: AttendeesSchema
         }]),
-        SchoolsModule,
+        MongooseModule.forFeature([{
+            name: 'events',
+            schema: EventsSchema
+        }]),
         StorageModule,
         STSModule
     ],

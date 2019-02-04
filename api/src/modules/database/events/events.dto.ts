@@ -1,9 +1,8 @@
-import {
-    ArrayMaxSize, ArrayMinSize,
-    ArrayUnique, IsArray, IsDate, IsDefined, IsIn, IsMongoId, IsNotEmpty, IsNumber, IsOptional, IsString
-} from 'class-validator';
-import { EventRegistrations } from './events.model';
 import { ApiModelProperty } from '@nestjs/swagger';
+import {
+    ArrayMaxSize, ArrayMinSize, ArrayUnique, IsArray, IsDefined, IsMongoId, IsNotEmpty, IsNumber, IsOptional, IsString
+} from 'class-validator';
+import { EventAttendees } from './events.model';
 
 export class CreateEventDto {
     @IsString()
@@ -33,7 +32,7 @@ export class CreateEventDto {
     @IsArray()
     @ArrayUnique()
     @ApiModelProperty()
-    attendees: EventRegistrations[];
+    attendees: EventAttendees[];
 
     @IsOptional()
     @IsString()
@@ -99,7 +98,7 @@ export class UpdateEventDto {
     @IsArray()
     @ArrayUnique()
     @ApiModelProperty()
-    attendees: EventRegistrations[];
+    attendees: EventAttendees[];
 
     @IsOptional()
     @IsString()

@@ -1,15 +1,11 @@
 import { ApiModelProperty } from '@nestjs/swagger';
-import { IsDateString, IsEmail, IsMongoId, IsNotEmpty, IsString, IsUUID, Matches, ValidateIf, ValidateNested } from 'class-validator';
+import { IsEmail, IsIn, IsMongoId, IsNotEmpty, IsNumber, IsString, IsUUID, ValidateIf, ValidateNested } from 'class-validator';
 import { CreateAttendeeDto } from '../attendees/attendees.dto';
 
 export class CreateRegistrationDto {
-    @IsMongoId()
-    @IsNotEmpty()
-    @ApiModelProperty({ required: true })
-    eventId: string;
-
     @IsString()
     @IsNotEmpty()
+    @IsIn(['attendee', 'captain', 'godfather'])
     @ApiModelProperty({ required: true })
     role: string;
 
@@ -29,16 +25,22 @@ export class CreateRegistrationDto {
     @ApiModelProperty({ required: true })
     email: string;
 
-    @IsMongoId()
-    @IsNotEmpty()
-    @ApiModelProperty({ required: true })
-    schoolId: string;
-
     @IsString()
-    @ValidateIf(x => x.role === 'captain')
     @IsNotEmpty()
     @ApiModelProperty({ required: true })
     teamName: string;
+
+    @IsMongoId()
+    @IsNotEmpty()
+    @ValidateIf(x => x.role === 'captain')
+    @ApiModelProperty({ required: true })
+    schoolId: string;
+
+    @IsNumber()
+    @ValidateIf(x => x.role === 'captain')
+    @IsNotEmpty()
+    @ApiModelProperty({ required: true })
+    maxMembersNumber: number;
 }
 
 export class RegisterAttendeeDto {
@@ -64,10 +66,28 @@ export class RegisterAttendeeDto {
     @ApiModelProperty({ required: true })
     password: string;
 
-    @IsMongoId()
+    @IsNotEmpty()
+    @ValidateNested()
+    attendee: CreateAttendeeDto;
+}
+
+export class RegisterAdminDto {
+    @IsEmail()
+    @IsString()
     @IsNotEmpty()
     @ApiModelProperty({ required: true })
-    eventId: string;
+    username: string;
+
+    /*
+     * At least 6 characters
+     * At least one digit
+     * At least one uppercase
+     * At least one lowercase
+     */
+    @IsString()
+    @IsNotEmpty()
+    @ApiModelProperty({ required: true })
+    password: string;
 
     @IsNotEmpty()
     @ValidateNested()

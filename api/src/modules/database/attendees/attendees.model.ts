@@ -1,6 +1,5 @@
 import * as mongoose from "mongoose";
 import * as uuid from "uuid";
-import { Schools } from "../schools/schools.model";
 import { UserModel } from '@polyhx/nest-services';
 import { Notifications } from '../notifications/notifications.model';
 
@@ -36,11 +35,12 @@ export interface Attendees extends mongoose.Document {
     acceptSMSNotifications: boolean;
     hasDietaryRestrictions: boolean;
     dietaryRestrictions: string;
-    school: Schools | mongoose.Types.ObjectId | string;
     publicId: string;
     user: UserModel;
     messagingTokens: string[];
     notifications: AttendeeNotifications[];
+    handicapped: boolean;
+    needsTransportPass: boolean;
 }
 
 export const AttendeesSchema = new mongoose.Schema({
@@ -86,20 +86,15 @@ export const AttendeesSchema = new mongoose.Schema({
     },
     acceptSMSNotifications: {
         type: Boolean,
-        default: null
+        default: false
     },
     hasDietaryRestrictions: {
         type: Boolean,
-        default: null
+        default: false
     },
     dietaryRestrictions: {
         type: String,
         default: null
-    },
-    school: {
-        type: mongoose.Schema.Types.ObjectId,
-        required: true,
-        ref: 'schools'
     },
     publicId: {
         type: String,
@@ -113,5 +108,13 @@ export const AttendeesSchema = new mongoose.Schema({
         type: [String],
         default: []
     },
-    notifications: [AttendeeNotificationSchema]
+    notifications: [AttendeeNotificationSchema],
+    handicapped: {
+        type: Boolean,
+        default: false
+    },
+    needsTransportPass: {
+        type: Boolean,
+        default: false
+    }
 });

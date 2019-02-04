@@ -19,14 +19,11 @@ export interface EventSponsorDetails extends Sponsors {
     heightFactor: number;
 }
 
-export interface EventRegistrations extends mongoose.Document {
+export interface EventAttendees extends mongoose.Document {
     attendee: (Attendees | mongoose.Types.ObjectId | string);
     role: EventAttendeeTypes;
-    selected: boolean;
-    confirmed: boolean;
-    declined: boolean;
-    present: boolean;
     scannedAttendees: (Attendees | mongoose.Types.ObjectId | string)[];
+    registered: boolean;
 }
 
 export const EventRegistrationsSchema = new mongoose.Schema({
@@ -39,26 +36,15 @@ export const EventRegistrationsSchema = new mongoose.Schema({
         enum: ['admin', 'attendee', 'captain', 'director', 'godfather', 'sponsor', 'volunteer'],
         default: 'attendee'
     },
-    selected: {
-        type: Boolean,
-        default: false
-    },
-    confirmed: {
-        type: Boolean,
-        default: false
-    },
-    declined: {
-        type: Boolean,
-        default: false
-    },
-    present: {
-        type: Boolean,
-        default: false
-    },
     scannedAttendees: {
         type: [mongoose.Schema.Types.ObjectId],
         ref: 'attendees'
     },
+    registered: {
+        type: Boolean,
+        required: true,
+        default: false
+    }
 });
 
 export interface EventSponsors extends mongoose.Document {
@@ -99,7 +85,7 @@ export interface Events extends mongoose.Document {
     readonly beginDate: Date | string;
     readonly endDate: Date | string;
     readonly activities: (Activities | mongoose.Types.ObjectId | string)[];
-    readonly attendees: EventRegistrations[];
+    readonly attendees: EventAttendees[];
     readonly sponsors: EventSponsors[];
     readonly imageUrl: string;
     readonly coverUrl: string;

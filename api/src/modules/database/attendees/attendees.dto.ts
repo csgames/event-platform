@@ -2,6 +2,16 @@ import { IsString, IsOptional, IsIn, IsNotEmpty, IsBoolean, IsMongoId } from 'cl
 import { ApiModelProperty } from "@nestjs/swagger";
 
 export class CreateAttendeeDto {
+    @IsString()
+    @IsNotEmpty()
+    @ApiModelProperty()
+    firstName: string;
+
+    @IsString()
+    @IsNotEmpty()
+    @ApiModelProperty()
+    lastName: string;
+
     @IsOptional()
     @IsString()
     @ApiModelProperty()
@@ -22,22 +32,19 @@ export class CreateAttendeeDto {
     @ApiModelProperty()
     cv: string;
 
+    @IsOptional()
     @IsString()
     @IsNotEmpty()
     @IsIn(['male', 'female', 'other', 'no_answer'])
     @ApiModelProperty({ required: true })
     gender: string;
 
+    @IsOptional()
     @IsString()
     @IsNotEmpty()
     @IsIn(['small', 'medium', 'large', 'x-large', '2x-large'])
     @ApiModelProperty({ required: true })
     tshirt: string;
-
-    @IsString()
-    @IsOptional()
-    @ApiModelProperty()
-    school: string;
 
     @IsOptional()
     @IsString()
@@ -58,11 +65,33 @@ export class CreateAttendeeDto {
     @IsString()
     @ApiModelProperty()
     dietaryRestrictions: string;
+
+    @IsOptional()
+    @IsBoolean()
+    @ApiModelProperty()
+    handicapped: boolean;
+
+    @IsOptional()
+    @IsBoolean()
+    @ApiModelProperty()
+    needsTransportPass: boolean;
 }
 
 export class UpdateAttendeeDto {
     @IsOptional()
     @IsString()
+    @IsNotEmpty()
+    @ApiModelProperty()
+    firstName: string;
+
+    @IsOptional()
+    @IsString()
+    @IsNotEmpty()
+    @ApiModelProperty()
+    lastName: string;
+
+    @IsOptional()
+    @IsString()
     @ApiModelProperty()
     github: string;
 
@@ -96,11 +125,6 @@ export class UpdateAttendeeDto {
     @IsOptional()
     @IsString()
     @ApiModelProperty()
-    school: string;
-
-    @IsOptional()
-    @IsString()
-    @ApiModelProperty()
     phoneNumber: string;
 
     @IsOptional()
@@ -117,6 +141,16 @@ export class UpdateAttendeeDto {
     @IsString()
     @ApiModelProperty()
     dietaryRestrictions: string;
+
+    @IsOptional()
+    @IsBoolean()
+    @ApiModelProperty()
+    handicapped: boolean;
+
+    @IsOptional()
+    @IsBoolean()
+    @ApiModelProperty()
+    needsTransportPass: boolean;
 }
 
 export class AddTokenDto {

@@ -3,8 +3,7 @@ import { Events } from '../modules/database/events/events.model';
 import { Attendees } from '../modules/database/attendees/attendees.model';
 
 export interface IRequest extends express.Request {
-    event: Events;
-    attendee: Attendees;
+    eventId: string;
     role: string;
     permissions: string[];
 }

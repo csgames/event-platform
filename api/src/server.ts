@@ -15,13 +15,6 @@ async function bootstrap() {
 
     app.use(morgan("dev"));
     app.use(StorageService.multerMemoryStorageConfig());
-    app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
-        if (req.headers["origin"]) {
-            res.setHeader("Access-Control-Allow-Origin", req.headers["origin"]);
-            res.setHeader("Access-Control-Allow-Credentials", "true");
-        }
-        next();
-    });
 
     try {
         const nestApp = await NestFactory.create(ApplicationModule, app, {

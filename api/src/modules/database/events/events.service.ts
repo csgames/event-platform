@@ -1,11 +1,9 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { STSService } from '@polyhx/nest-services';
-import { GetAllWithIdsResponse } from '@polyhx/nest-services/modules/sts/sts.service';
 import * as mongoose from 'mongoose';
 import { Model } from 'mongoose';
 import { isNullOrUndefined } from 'util';
-import { DataTableModel, DataTableReturnModel } from '../../../models/data-table.model';
 import { BaseService } from '../../../services/base.service';
 import { EmailService } from '../../email/email.service';
 import { MessagingService } from '../../messaging/messaging.service';
@@ -18,10 +16,9 @@ import { Notifications } from '../notifications/notifications.model';
 import { NotificationsService } from '../notifications/notifications.service';
 import { Teams } from '../teams/teams.model';
 import { AddScannedAttendee, AddSponsorDto, CreateEventDto, SendNotificationDto } from './events.dto';
-import {
-    AttendeeAlreadyRegisteredException, AttendeeNotSelectedException, EventNotFoundException, UserNotAttendeeException
-} from './events.exception';
+import { AttendeeAlreadyRegisteredException, EventNotFoundException, UserNotAttendeeException } from './events.exception';
 import { Events, EventSponsorDetails } from './events.model';
+import { UpdateAttendeeDto } from '../attendees/attendees.dto';
 
 @Injectable()
 export class EventsService extends BaseService<Events, CreateEventDto> {
@@ -34,6 +31,15 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
                 private readonly messagingService: MessagingService,
                 private readonly notificationService: NotificationsService) {
         super(eventsModel);
+    }
+
+    public async getEventList(): Promise<Events[]> {
+        return await this.eventsModel.find().select({
+            name: true,
+            imageUrl: true,
+            beginDate: true,
+            endDate: true
+        }).exec();
     }
 
     public async addAttendee(eventId: string, userIdOrAttendee: string | Attendees, role: string): Promise<Events> {
@@ -71,37 +77,6 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
         }).exec();
     }
 
-    public async confirmAttendee(eventId: string, userId: string, attending: boolean) {
-        const attendee = await this.attendeeService.findOne({userId});
-
-        if (!attendee) {
-            throw new UserNotAttendeeException();
-        }
-
-        const event = await this.eventsModel.findOne({
-            _id: eventId
-        });
-
-        const attendeeRegistration = event.attendees.find(r => r.attendee.toString() === attendee._id.toString());
-
-        if (!attendeeRegistration.selected) {
-            throw new AttendeeNotSelectedException();
-        }
-
-        event.attendees.splice(event.attendees.indexOf(attendeeRegistration), 1);
-
-        if (attending) {
-            attendeeRegistration.confirmed = true;
-            attendeeRegistration.declined = false;
-        } else {
-            attendeeRegistration.confirmed = false;
-            attendeeRegistration.declined = true;
-        }
-
-        event.attendees.push(attendeeRegistration);
-        await event.save();
-    }
-
     public async hasAttendeeForUser(eventId: string, userId: string): Promise<boolean> {
         const attendee = await this.attendeeService.findOne({userId});
 
@@ -119,139 +94,6 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
         }).exec();
 
         return occurrencesOfAttendee > 0;
-    }
-
-    public async getAttendeeStatus(attendeeId: string, eventId: string): Promise<string> {
-        const event = await this.findOne({
-            _id: eventId
-        });
-        return this.getAttendeeStatusFromEvent(attendeeId, event);
-    }
-
-    public getAttendeeStatusFromEvent(attendeeId: string, event: Events): string {
-        const status = event.attendees.find(a => a.attendee.toString() === attendeeId.toString());
-        if (!status) {
-            return 'not-registered';
-        }
-        if (status.present) {
-            return 'present';
-        } else if (status.confirmed) {
-            return 'confirmed';
-        } else if (status.declined) {
-            return 'declined';
-        } else if (status.selected) {
-            return 'selected';
-        } else {
-            return 'registered';
-        }
-    }
-
-    /**
-     * From the attendees of a specified event (null-checked), filters them and returns the result as a promise of
-     * DataTableReturnModel.
-     */
-    public async getFilteredAttendees(eventId: string, dtObject: DataTableModel,
-            filter: { school: string[], status: string[] }): Promise<DataTableReturnModel> {
-        const event: Events = await this.findOne({
-            _id: eventId
-        });
-        if (!event) {
-            throw new EventNotFoundException();
-        }
-
-        const attendeeIds: string[] = event.attendees.filter(attendee => {
-            if (filter.status.length === 0) {
-                return true;
-            }
-
-            if (!attendee.selected && filter.status.indexOf('registered') >= 0) {
-                return true;
-            }
-            if (attendee.selected &&
-                !attendee.confirmed &&
-                !attendee.declined &&
-                filter.status.indexOf('selected') >= 0) {
-                return true;
-            }
-            if (attendee.confirmed && filter.status.indexOf('confirmed') >= 0) {
-                return true;
-            }
-            if (attendee.declined && filter.status.indexOf('declined') >= 0) {
-                return true;
-            }
-            if (attendee.present && filter.status.indexOf('present') >= 0) {
-                return true;
-            }
-
-            return false;
-        }).map(x => x.attendee.toString());
-
-        const res = await this.attendeeService.filterFrom(attendeeIds, dtObject, filter);
-
-        for (let attendee of res.data) {
-            let a = event.attendees[
-                event.attendees.findIndex(value => value.attendee.toString() === attendee._id.toString())
-                ];
-
-            if (a.present) {
-                attendee.status = 'present';
-            } else if (a.confirmed) {
-                attendee.status = 'confirmed';
-            } else if (a.declined) {
-                attendee.status = 'declined';
-            } else if (a.selected) {
-                attendee.status = 'selected';
-            } else {
-                attendee.status = 'registered';
-            }
-        }
-
-        return res;
-    }
-
-    public async selectAttendees(eventId, userIds: string[]) {
-        const res: GetAllWithIdsResponse = await this.stsService.getAllWithIds(userIds);
-
-        for (const user of res.users) {
-            try {
-                await this.emailService.sendEmail({
-                    from: 'PolyHx <info@polyhx.io>',
-                    to: [user.username],
-                    subject: 'Hackatown 2019 - Selection',
-                    text: 'LHGames 2018 - Selection',
-                    html: '<h1>Congrats</h1>',
-                    template: 'hackatown2019-selection',
-                    variables: {
-                        name: user.username
-                    }
-                });
-            } catch (err) {
-                console.log(err);
-            }
-        }
-
-        const attendees = await this.attendeeService.find({
-            userId: {
-                $in: userIds
-            }
-        });
-        for (const attendee of attendees) {
-            await this.eventsModel.update({
-                '_id': eventId,
-                'attendees.attendee': attendee._id
-            }, {
-                'attendees.$.selected': true
-            }).exec();
-        }
-    }
-
-    public async getFilteredActivities(eventId: string, filter: DataTableModel): Promise<DataTableReturnModel> {
-        const event: Events = await this.findOne({_id: eventId});
-        if (!event) {
-            throw new EventNotFoundException();
-        }
-
-        return this.activitiesService.filterFrom(event.activities as string[], filter);
     }
 
     public async createActivity(id: string, dto: CreateActivityDto): Promise<Events> {
@@ -276,53 +118,6 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
                 $in: event.activities
             }
         });
-    }
-
-    public async getStats(eventId: string): Promise<object> {
-        const event = await this.findById(eventId);
-        const activities = await this.getActivities(eventId);
-        const teams = await this.teamsModel.find({event: eventId});
-
-        const stats = {};
-        stats['registered'] = event.attendees.length;
-        stats['selected'] = event.attendees.filter(a => a.selected).length;
-        stats['confirmed'] = event.attendees.filter(a => a.confirmed).length;
-        stats['declined'] = event.attendees.filter(a => a.declined).length;
-        stats['present'] = event.attendees.filter(a => a.present).length;
-        stats['present_teams'] = teams.filter(t => t.present).length;
-
-        stats['activities'] = activities.reduce((acc, a) => Object.assign(acc, {[a.name]: a.attendees.length}), {});
-
-        return stats;
-    }
-
-    public async getFilteredSponsors(eventId: string, filter: DataTableModel): Promise<DataTableReturnModel> {
-        const event: Events = await this.eventsModel.findOne({
-            _id: eventId
-        })
-            .select('sponsors')
-            .populate('sponsors.sponsor')
-            .exec();
-        if (!event) {
-            throw new EventNotFoundException();
-        }
-
-        const data: DataTableReturnModel = <DataTableReturnModel> {
-            draw: filter.draw,
-            recordsTotal: event.sponsors.length
-        };
-
-        data.data = event.sponsors
-            .filter((value, index) => index >= filter.start && index <= (filter.start + filter.length))
-            .map(x => {
-                return {
-                    ...(x.sponsor as any)._doc,
-                    tier: x.tier
-                };
-            });
-        data.recordsFiltered = data.recordsTotal;
-
-        return data;
     }
 
     public async getSponsors(eventId: string): Promise<{ [tier: string]: EventSponsorDetails[] }> {
@@ -381,10 +176,6 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
             throw new NotFoundException("Scanned attendee not found in event");
         }
 
-        if (!attendee.present || !scanned.present) {
-            throw new BadRequestException("Attendee and scanned attendee must be present");
-        }
-
         if (attendee.scannedAttendees.indexOf(scanInfo.scannedAttendee) >= 0) {
             throw new BadRequestException("Scanned attendee already scanned by attendee");
         }
@@ -403,7 +194,7 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
         const event = await this.eventsModel.findOne({
             _id: id
         }).exec();
-        const ids = event.attendees.filter(x => x.present).map(x => x.attendee);
+        const ids = event.attendees.map(x => x.attendee);
 
         await this.notificationService.create({
             ...message,
@@ -453,7 +244,7 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
             throw new EventNotFoundException();
         }
 
-        const ids = event.attendees.filter(x => x.present).map(x => x.attendee);
+        const ids = event.attendees.map(x => x.attendee);
         const attendees = await this.attendeeService.find({
             _id: {
                 $in: ids
@@ -461,5 +252,25 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
         });
         const numbers = attendees.filter(x => x.acceptSMSNotifications).map(x => x.phoneNumber);
         await this.notificationService.sendSms(numbers, text);
+    }
+
+    public async confirmAttendee(id: string, email: string, dto: UpdateAttendeeDto, file: Express.Multer.File) {
+        const attendee = await this.attendeeService.findOne({
+            email
+        });
+        if (!attendee) {
+            throw new UserNotAttendeeException();
+        }
+
+        await this.eventsModel.updateOne({
+            _id: id,
+            "attendees.attendee": attendee._id
+        }, {
+            "attendees.$.registered": true
+        }).exec();
+
+        await this.attendeeService.updateAttendeeInfo({
+            email
+        }, dto, file);
     }
 }

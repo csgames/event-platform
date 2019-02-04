@@ -1,51 +1,66 @@
-import { BadRequestException, CanActivate, ExecutionContext, Injectable, NotFoundException } from '@nestjs/common';
-import { AttendeesService } from '../modules/database/attendees/attendees.service';
-import { EventsService } from '../modules/database/events/events.service';
+import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
+import { STSService } from '@polyhx/nest-services';
 import * as mongoose from 'mongoose';
 import { IRequest } from '../models/i-request';
-import { RedisService } from '../modules/redis/redis.service';
-import { STSService } from '@polyhx/nest-services';
+import { CacheService } from '../modules/cache/cache.service';
+import { AttendeesService } from '../modules/database/attendees/attendees.service';
+import { EventsService } from '../modules/database/events/events.service';
 
 @Injectable()
 export class AttendeeGuard implements CanActivate {
     constructor(private attendeeService: AttendeesService, private eventService: EventsService,
-                private redisService: RedisService, private stsService: STSService) {
+                private cacheService: CacheService, private stsService: STSService) {
     }
 
     public async canActivate(context: ExecutionContext): Promise<boolean> {
         const req = context.switchToHttp().getRequest<IRequest>();
 
-        const event = await this.eventService.findById(req.params.eventId);
-        if (!event) {
-            throw new NotFoundException('No event found');
+        const role = req.header('token-claim-role');
+        const email = req.header('token-claim-name');
+        const eventId = req.header('Event-Id');
+        req.eventId = eventId;
+
+        if (role === "super-admin") {
+            req.role = role;
+            req.permissions = JSON.parse(req.header('token-claim-permissions'));
+            return true;
         }
 
-        const email = req.header('token-claim-name');
+        const cache = await this.cacheService.getUserCache(email, eventId);
+        if (cache) {
+            req.permissions = cache.permissions;
+            req.role = cache.role;
+            return true;
+        }
+
+        const event = await this.eventService.findById(eventId);
+        if (!event) {
+            req.permissions = [];
+            return true;
+        }
+
         const attendee = await this.attendeeService.findOne({
             email
         });
         if (!attendee) {
-            throw new NotFoundException('No attendee found');
+            req.permissions = [];
+            return true;
         }
 
         const eventAttendee = event.attendees
             .find(x => (x.attendee as mongoose.Types.ObjectId).toHexString() === attendee._id.toHexString());
         if (!eventAttendee) {
-            throw new BadRequestException('Attendee not registered in event');
+            req.permissions = [];
+            return true;
         }
 
-        req.event = event;
-        req.attendee = attendee;
+        const rolePermissions = await this.getPermissionFromRole(eventAttendee.role);
+        req.permissions = rolePermissions;
         req.role = eventAttendee.role;
-
-        const permissions = await this.redisService.get(`${email}:event:${event._id}`);
-        if (!permissions) {
-            const rolePermissions = await this.getPermissionFromRole(eventAttendee.role);
-            req.permissions = rolePermissions;
-            await this.redisService.set(`${email}:event:${event._id}`, JSON.stringify(rolePermissions));
-        } else {
-            req.permissions = JSON.parse(permissions);
-        }
+        await this.cacheService.setUserCache(email, eventId, {
+            permissions: rolePermissions,
+            role: eventAttendee.role
+        });
 
         return true;
     }

@@ -1,23 +1,39 @@
 import { ApiModelProperty } from "@nestjs/swagger";
-import { IsMongoId, IsNotEmpty, IsString } from "class-validator";
+import { IsMongoId, IsNotEmpty, IsString, IsOptional, MaxLength, IsNumber } from "class-validator";
 
-export class CreateOrJoinTeamDto {
+export class CreateTeamDto {
     @IsString()
     @IsNotEmpty()
     @ApiModelProperty({required: true})
     name: string;
 
     @IsMongoId()
+    @IsNotEmpty()
     @ApiModelProperty({required: true})
     event: string;
-}
 
-export class LeaveTeamDto {
     @IsMongoId()
+    @IsNotEmpty()
+    @IsString()
+    @ApiModelProperty({required: true})
+    school: string;
+
+    @IsMongoId()
+    @IsNotEmpty()
+    @IsString()
     @ApiModelProperty({required: true})
     attendeeId: string;
 
-    @IsMongoId()
+    @IsNumber()
+    @IsNotEmpty()
+    @ApiModelProperty({ required: true })
+    maxMembersNumber: number;
+}
+
+export class UpdateTeamDto {
+    @IsNotEmpty()
+    @IsString()
+    @MaxLength(30)
     @ApiModelProperty({required: true})
-    teamId: string;
+    name: string;
 }

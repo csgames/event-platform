@@ -9,12 +9,13 @@ import { CodeExceptionFilter } from '../../../filters/code-error/code.filter';
 import { PermissionsGuard } from '../../../guards/permission.guard';
 import { UserModel } from '../../../models/user.model';
 import { ValidationPipe } from '../../../pipes/validation.pipe';
-import { SchoolsService } from '../schools/schools.service';
 import { AddTokenDto, CreateAttendeeDto, UpdateAttendeeDto, UpdateNotificationDto } from './attendees.dto';
 import { codeMap } from './attendees.exception';
-import { AttendeesGuard, CreateAttendeeGuard } from './attendees.guard';
+import { CreateAttendeeGuard } from './attendees.guard';
 import { Attendees } from './attendees.model';
-import { AttendeesService } from './attendees.service';
+import { AttendeeInfo, AttendeesService } from './attendees.service';
+import { EventId } from '../../../decorators/event-id.decorator';
+import { NullPipe } from '../../../pipes/null-pipe.service';
 
 @ApiUseTags('Attendee')
 @Controller('attendee')
@@ -22,7 +23,6 @@ import { AttendeesService } from './attendees.service';
 @UseFilters(new CodeExceptionFilter(codeMap))
 export class AttendeesController {
     constructor(private readonly attendeesService: AttendeesService,
-                private readonly schoolService: SchoolsService,
                 private readonly storageService: StorageService) {
     }
 
@@ -34,34 +34,27 @@ export class AttendeesController {
             value.cv = await this.storageService.upload(file);
         }
         let attendee: Partial<Attendees> = value;
-        attendee = Object.assign(attendee, { userId: user.id, school: (await this.getSchool(value.school))._id });
+        attendee = Object.assign(attendee, { userId: user.id });
         return {
             attendee: await this.attendeesService.create(attendee)
-                .then(async a => {
-                    return await a.populate({ path: 'school' }).execPopulate();
-                }).then(this.appendCvMetadata.bind(this))
         };
     }
 
     @Get()
-    @Permissions('event_management:get-all:attendee')
+    @Permissions('csgames-api:get-all:attendee')
     public async getAll(): Promise<Attendees[]> {
         return await this.attendeesService.findAll();
     }
 
     @Get('info')
-    public async getInfo(@User() user: UserModel): Promise<Attendees> {
-        const attendee = await this.attendeesService.findOne({ email: user.username }, { path: 'school' });
-        if (attendee) {
-            return await this.appendCvMetadata(attendee);
-        }
-        return attendee;
+    public async getInfo(@User() user: UserModel, @EventId() event: string): Promise<AttendeeInfo> {
+        return await this.attendeesService.getAttendeeInfo(user, event);
     }
 
     @Get('cv/url')
-    @UseGuards(AttendeesGuard)
+    @Permissions('csgames-api:get:attendee')
     public async getCvUrl(@User() user: UserModel): Promise<{ url: string }> {
-        const attendee = await this.attendeesService.findOne({ userId: user.id });
+        const attendee = await this.attendeesService.findOne({ email: user.username });
         if (attendee.cv) {
             return { url: await this.storageService.getDownloadUrl(attendee.cv) };
         } else {
@@ -70,7 +63,7 @@ export class AttendeesController {
     }
 
     @Get(':id')
-    @Permissions('event_management:get:attendee')
+    @Permissions('csgames-api:get:attendee')
     public async getById(@Param('id') id: string): Promise<Attendees> {
         return await this.attendeesService.findOne({
             $or: [{
@@ -82,78 +75,29 @@ export class AttendeesController {
     }
 
     @Put()
-    @UseGuards(AttendeesGuard)
+    @Permissions('csgames-api:update:attendee')
     public async update(@UploadedFile() file, @User() user: UserModel,
-                        @Body(new ValidationPipe()) value: UpdateAttendeeDto) {
-        if (file) {
-            const previousCv = (await this.attendeesService.findOne({ userId: user.id })).cv;
-            if (previousCv) {
-                await this.storageService.delete(previousCv);
-            }
-            value.cv = await this.storageService.upload(file);
-        } else if (value.cv === 'null') {
-            const attendee = await this.attendeesService.findOne({ userId: user.id });
-            if (attendee.cv) {
-                await this.storageService.delete(attendee.cv);
-            }
-            value.cv = null;
-        } else {
-            delete value.cv;
-        }
-        const attendee: Partial<Attendees> = value;
-        if (value.school) {
-            attendee.school = (await this.getSchool(value.school))._id;
-        }
-        await this.attendeesService.update({
-            userId: user.id
-        }, attendee);
-        await this.attendeesService.findOne({
-            userId: user.id
-        }, {
-            path: 'school'
-        });
+                        @Body(NullPipe, ValidationPipe) value: UpdateAttendeeDto) {
+        await this.attendeesService.updateAttendeeInfo({
+            email: user.username
+        }, value, file);
     }
 
     @Put('token')
-    @Permissions('event_management:update:attendee')
-    @UseGuards(AttendeesGuard)
+    @Permissions('csgames-api:update:attendee')
     public async addToken(@User() user: UserModel, @Body(ValidationPipe) dto: AddTokenDto) {
-        await this.attendeesService.addToken(user.id, dto.token);
+        await this.attendeesService.addToken(user.username, dto.token);
     }
 
     @Put('notification')
-    @Permissions('event_management:update:attendee')
-    @UseGuards(AttendeesGuard)
+    @Permissions('csgames-api:update:attendee')
     public async updateNotification(@User() user: UserModel, @Body(ValidationPipe) dto: UpdateNotificationDto) {
-        await this.attendeesService.updateNotification(user.id, dto);
+        await this.attendeesService.updateNotification(user.username, dto);
     }
 
     @Delete('/token/:token')
-    @Permissions('event_management:update:attendee')
-    @UseGuards(AttendeesGuard)
+    @Permissions('csgames-api:update:attendee')
     public async deleteToken(@User() user: UserModel, @Param('token') token) {
-        await this.attendeesService.removeToken(user.id, token);
-    }
-
-    private async getSchool(name: string) {
-        try {
-            const school = await this.schoolService.findOne({name});
-            if (school) {
-                return school;
-            }
-        } catch (err) {
-            throw new BadRequestException('School Invalid');
-        }
-
-        throw new BadRequestException('School Invalid');
-    }
-
-    private async appendCvMetadata(a: Attendees) {
-        if (!a.cv) {
-            return a;
-        }
-        const newAttendee = a.toObject();
-        newAttendee['cv'] = await this.storageService.getMetadata(a.cv);
-        return newAttendee;
+        await this.attendeesService.removeToken(user.username, token);
     }
 }
