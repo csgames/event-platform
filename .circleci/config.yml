@@ -77,7 +77,7 @@ workflows:
     - build:
       filters:
           branches:
-            ingore:
+            ignore:
             - master
           tags:
             ignore: /.*/
