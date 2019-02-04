@@ -45,12 +45,12 @@ jobs:
 
     - run:
         name: Building docker image
-        command: docker build -t polyhx/csgames-api:latest .
+        command: docker build -t polyhx/csgames-dashboard:latest .
     - run:
         name: Pushing docker image
         command: |
           docker login -u $DOCKER_USER -p $DOCKER_PASS
-          docker push polyhx/csgames-api:latest
+          docker push polyhx/csgames-dashboard:latest
 
   build-prod:
     docker:
@@ -63,12 +63,12 @@ jobs:
 
     - run:
         name: Building docker image
-        command: docker build -t polyhx/csgames-api:$CIRCLE_TAG .
+        command: docker build -t polyhx/csgames-dashboard:$CIRCLE_TAG .
     - run:
         name: Pushing docker image
         command: |
           docker login -u $DOCKER_USER -p $DOCKER_PASS
-          docker push polyhx/csgames-api:$CIRCLE_TAG
+          docker push polyhx/csgames-dashboard:$CIRCLE_TAG
 
 workflows:
   version: 2
