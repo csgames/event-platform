@@ -47,6 +47,12 @@ export class EventsController {
         return await this.eventsService.getEventList();
     }
 
+    @Get('sponsor')
+    @Permissions('csgames-api:get-all:sponsor')
+    public async getSponsor(@EventId() eventId: string): Promise<{ [tier: string]: EventSponsorDetails[] }> {
+        return await this.eventsService.getSponsors(eventId);
+    }
+
     @Get(':id')
     @Permissions('csgames-api:get:event')
     public async getById(@Param('id') id: string): Promise<Events> {
@@ -117,12 +123,6 @@ export class EventsController {
     @Permissions('csgames-api:get-all:activity')
     public async getActivity(@Param('id') eventId: string): Promise<Activities[]> {
         return await this.eventsService.getActivities(eventId);
-    }
-
-    @Get(':id/sponsor')
-    @Permissions('csgames-api:get-all:sponsor')
-    public async getSponsor(@Param('id') eventId: string): Promise<{ [tier: string]: EventSponsorDetails[] }> {
-        return await this.eventsService.getSponsors(eventId);
     }
 
     @Get(':id/notification')
