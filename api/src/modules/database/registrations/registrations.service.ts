@@ -10,7 +10,7 @@ import { AttendeesService } from '../attendees/attendees.service';
 import { EventsService } from '../events/events.service';
 import { TeamsService } from '../teams/teams.service';
 import {
-    AttendeeAlreadyExistException, GodFatherAlreadyExist, InvalidCodeException, MaxTeamMemberException, TeamAlreadyExistException,
+    AttendeeAlreadyExistException, GodParentAlreadyExist, InvalidCodeException, MaxTeamMemberException, TeamAlreadyExistException,
     TeamDoesntExistException
 } from './registration.exception';
 import { CreateRegistrationDto, RegisterAdminDto, RegisterAttendeeDto } from './registrations.dto';
@@ -21,7 +21,7 @@ export class RegistrationsService {
     private roleTemplate = {
         attendee: 'attendee_account_creation',
         captain: 'captain_account_creation',
-        godfather: 'godparent_account_creation'
+        godparent: 'godparent_account_creation'
     };
     private roles: { [name: string]: string };
 
@@ -211,7 +211,7 @@ export class RegistrationsService {
         const godfather = members.filter(attendeeEvent => attendeeEvent.role === 'godfather');
         if (role === 'godfather') {
             if (godfather.length > 0) {
-                throw new GodFatherAlreadyExist();
+                throw new GodParentAlreadyExist();
             }
         } else {
             const attendees = members.filter(attendeeEvent => attendeeEvent.role !== 'godfather');

@@ -5,7 +5,7 @@ import { CreateAttendeeDto } from '../attendees/attendees.dto';
 export class CreateRegistrationDto {
     @IsString()
     @IsNotEmpty()
-    @IsIn(['attendee', 'captain', 'godfather'])
+    @IsIn(['attendee', 'captain', 'godparent'])
     @ApiModelProperty({ required: true })
     role: string;
 
