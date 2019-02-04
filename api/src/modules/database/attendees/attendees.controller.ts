@@ -47,7 +47,6 @@ export class AttendeesController {
     }
 
     @Get('info')
-    @Permissions('csgames-api:get:attendee')
     public async getInfo(@User() user: UserModel, @EventId() event: string): Promise<AttendeeInfo> {
         return await this.attendeesService.getAttendeeInfo(user, event);
     }

@@ -13,7 +13,7 @@ import {
     AttendeeAlreadyExistException, GodFatherAlreadyExist, InvalidCodeException, MaxTeamMemberException, TeamAlreadyExistException,
     TeamDoesntExistException
 } from './registration.exception';
-import { CreateRegistrationDto, RegisterAttendeeDto } from './registrations.dto';
+import { CreateRegistrationDto, RegisterAdminDto, RegisterAttendeeDto } from './registrations.dto';
 import { Registrations } from './registrations.model';
 
 @Injectable()
@@ -54,7 +54,7 @@ export class RegistrationsService {
         });
         registration = await registration.save();
 
-        if (dto.role === 'captain' && role === 'admin') {
+        if (dto.role === 'captain' && (role === 'admin' || role === 'super-admin')) {
             await this.teamsService.createTeam({
                 name: dto.teamName,
                 event: eventId,
@@ -87,7 +87,7 @@ export class RegistrationsService {
                 template: template,
                 variables: {
                     name: dto.firstName,
-                    url: `${this.configService.registration.registrationUrl}/${registration.uuid}`,
+                    url: `${this.configService.registration.registrationUrl}${registration.uuid}`,
                     team: dto.teamName
                 }
             });
@@ -131,6 +131,35 @@ export class RegistrationsService {
 
             registration.used = true;
             await registration.save();
+        } catch (err) {
+            if (err instanceof HttpException) {
+                throw err;
+            }
+            if (err instanceof CodeException) {
+                throw err;
+            }
+
+            throw new HttpException('Error while creating attendee', HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    public async registerAdmin(userDto: RegisterAdminDto, eventId: string) {
+        if (!this.roles) {
+            await this.fetchRoles();
+        }
+
+        try {
+            await this.stsService.registerUser({
+                username: userDto.username,
+                password: userDto.password,
+                roleId: this.roles['attendee']
+            } as UserModel);
+
+            const attendee = await this.attendeeService.create({
+                ...userDto.attendee,
+                email: userDto.username
+            });
+            await this.eventService.addAttendee(eventId, attendee, "admin");
         } catch (err) {
             if (err instanceof HttpException) {
                 throw err;

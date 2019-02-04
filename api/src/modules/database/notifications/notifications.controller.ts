@@ -19,7 +19,7 @@ export class NotificationsController {
                 private attendeesService: AttendeesService) {}
 
     @Post()
-    @Permissions('event_management:create:notification')
+    @Permissions('csgames-api:create:notification')
     public async create(@Body(new ValidationPipe()) notificationDto: CreateNotificationsDto) {
         await this.notificationsService.create({
             ...notificationDto,
@@ -28,7 +28,7 @@ export class NotificationsController {
     }
 
     @Get()
-    @Permissions('event_management:get-all:notification')
+    @Permissions('csgames-api:get-all:notification')
     public async getAll(): Promise<{ notification: Notifications[] }> {
         return {
             notification: await this.notificationsService.findAll()
@@ -36,7 +36,7 @@ export class NotificationsController {
     }
 
     @Post('sms')
-    @Permissions('event_management:sms:notification')
+    @Permissions('csgames-api:sms:notification')
     public async sms(@Body(new ValidationPipe()) smsDto: SmsDto): Promise<{ message: string }> {
         const attendees = await this.attendeesService.find({
             publicId: { $in: smsDto.publicIds },
