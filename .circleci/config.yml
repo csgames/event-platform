@@ -75,7 +75,7 @@ workflows:
   build-always:
     jobs:
     - build-pr:
-      filters:
+        filters:
           branches:
             ignore:
             - master
