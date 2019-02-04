@@ -8,7 +8,7 @@ import { Subscription } from "rxjs";
 @Component({
     selector: "app-attendee-form",
     templateUrl: "./attendee-form.template.html",
-    styleUrls: ['attendee-form.style.scss'],
+    styleUrls: ["./attendee-form.style.scss"],
     providers: [
         {
             provide: NG_VALUE_ACCESSOR,
