@@ -34,19 +34,13 @@ export class UpdateTeamName implements Action {
 export class AddTeamMember implements Action {
     readonly type = TeamActionTypes.AddTeamMember;
 
-    constructor(public payload: {
-        newAttendee: Attendee;
-        role: string;
-    }) { }
+    constructor(public payload: Attendee) { }
 }
 
 export class AddTeamGodparent implements Action {
     readonly type = TeamActionTypes.AddTeamGodparent;
 
-    constructor(public payload: {
-        newGodparent: Attendee;
-        role: string;
-    }) { }
+    constructor(public payload: Attendee) { }
 }
 
 export type TeamActions =

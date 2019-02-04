@@ -1,5 +1,6 @@
 <h1>{{ "pages.onboarding.onboarding" | translate }}</h1>
 <div class="onboard-container">
+    <app-loading-spinner [loading]="(loading$ | async) || (saving$ | async)"></app-loading-spinner>
     <app-attendee-form [(ngModel)]="currentAttendee" (downloadCv)="downloadCv()"></app-attendee-form>
     <div class="row">
         <div class="col-sm-12">

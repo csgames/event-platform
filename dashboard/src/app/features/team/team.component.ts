@@ -1,10 +1,10 @@
 import { Component, OnInit } from "@angular/core";
-import { Store, select } from "@ngrx/store";
-import { State, getCurrentTeam, getTeamLoading, getTeamError, getTeamGodparent, getTeamAttendees } from "./store/team.reducer";
-import { LoadTeam, UpdateTeamName, AddTeamMember, AddTeamGodparent } from "./store/team.actions";
+import { select, Store } from "@ngrx/store";
+import { getCurrentTeam, getTeamAttendees, getTeamError, getTeamGodparent, getTeamLoading, State } from "./store/team.reducer";
+import { AddTeamGodparent, AddTeamMember, LoadTeam, UpdateTeamName } from "./store/team.actions";
 import { Team } from "src/app/api/models/team";
 import { Attendee } from "src/app/api/models/attendee";
-import { first, filter } from "rxjs/operators";
+import { filter } from "rxjs/operators";
 import * as fromApp from "../../store/app.reducers";
 
 @Component({
@@ -90,10 +90,7 @@ export class TeamComponent implements OnInit {
 
     public onAddTeamMember(newAttendee: Attendee): void {
         this.isAddingTeamMember = false;
-        this.store.dispatch(new AddTeamMember({
-            newAttendee,
-            role: "attendee"
-        }));
+        this.store.dispatch(new AddTeamMember(newAttendee));
     }
 
     public onCancelTeamName(): void {
@@ -111,9 +108,6 @@ export class TeamComponent implements OnInit {
 
     public onAddTeamGodparent(newGodparent: Attendee): void {
         this.isAddingTeamGodparent = false;
-        this.store.dispatch(new AddTeamGodparent({
-            newGodparent,
-            role: "godfather"
-        }));
+        this.store.dispatch(new AddTeamGodparent(newGodparent));
     }
 }

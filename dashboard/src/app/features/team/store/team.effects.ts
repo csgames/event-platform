@@ -41,8 +41,7 @@ export class TeamEffects {
     addTeamMember$ = this.actions$.pipe(
         ofType<AddTeamMember>(TeamActionTypes.AddTeamMember),
         withLatestFrom(this.store$.pipe(select(getCurrentTeam))),
-        switchMap(([action, team]: [AddTeamMember, Team]) => this.teamService.addTeamMember(action.payload.newAttendee, team.name,
-            action.payload.role).pipe(
+        switchMap(([action, team]: [AddTeamMember, Team]) => this.teamService.addTeamMember(action.payload, team.name, "attendee").pipe(
                 map(() => new LoadTeam()),
                 catchError((error: Error) => of(new GlobalError(error)))
             ))
@@ -52,11 +51,10 @@ export class TeamEffects {
     addTeamGodparent$ = this.actions$.pipe(
         ofType<AddTeamGodparent>(TeamActionTypes.AddTeamGodparent),
         withLatestFrom(this.store$.pipe(select(getCurrentTeam))),
-        exhaustMap(([action, team]: [AddTeamGodparent, Team]) => this.teamService.addTeamGodparent(action.payload.newGodparent, team.name,
-            action.payload.role).pipe(
+        exhaustMap(([action, team]: [AddTeamGodparent, Team]) => this.teamService.addTeamGodparent(action.payload, team.name,
+            "godparent").pipe(
                 map(() => new LoadTeam()),
                 catchError((error: Error) => of(new GlobalError(error)))
             ))
     );
-
 }
