@@ -45,7 +45,7 @@ jobs:
 
     - run:
         name: Building docker image
-        command: docker build -t polyhx/csgames-dashboard:latest .
+        command: docker build -t polyhx/csgames-dashboard:latest -f Dockerfile.staging .
     - run:
         name: Pushing docker image
         command: |
