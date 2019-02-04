@@ -34,7 +34,12 @@ export class AttendeesService extends BaseService<Attendees, CreateAttendeeDto> 
 
         const attendeeEvent = event.attendees.find(a => (a.attendee as mongoose.Types.ObjectId).equals(attendee._id));
         if (!attendeeEvent) {
-            throw new BadRequestException();
+            return {
+                ...attendee.toJSON(),
+                permissions: user.permissions,
+                role: user.role,
+                registered: false
+            };
         }
 
         return {

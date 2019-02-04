@@ -54,7 +54,7 @@ export class RegistrationsService {
         });
         registration = await registration.save();
 
-        if (dto.role === 'captain' && role === 'admin') {
+        if (dto.role === 'captain' && (role === 'admin' || role === 'super-admin')) {
             await this.teamsService.createTeam({
                 name: dto.teamName,
                 event: eventId,
@@ -87,7 +87,7 @@ export class RegistrationsService {
                 template: template,
                 variables: {
                     name: dto.firstName,
-                    url: `${this.configService.registration.registrationUrl}/${registration.uuid}`,
+                    url: `${this.configService.registration.registrationUrl}${registration.uuid}`,
                     team: dto.teamName
                 }
             });
