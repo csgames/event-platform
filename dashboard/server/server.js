@@ -9,7 +9,7 @@ app.use(compression())
 const project = require(path.join(__dirname, '../angular.json'));
 app.use(express.static(path.join(__dirname, '../dist', project.defaultProject)));
 
-app.get('/', function (req, res) {
+app.get('/*', function (req, res) {
   res.sendFile(path.join(__dirname, '../dist', project.defaultProject, 'index.html'));
 });
 
