@@ -31,7 +31,7 @@ export class TeamEffects {
     updateTeamName$ = this.actions$.pipe(
         ofType<UpdateTeamName>(TeamActionTypes.UpdateTeamName),
         withLatestFrom(this.store$.pipe(select(getCurrentTeam))),
-        exhaustMap(([action, team]: [UpdateTeamName, Team]) => this.teamService.updateTeamName(action.newTeamName, team._id).pipe(
+        switchMap(([action, team]: [UpdateTeamName, Team]) => this.teamService.updateTeamName(action.newTeamName, team._id).pipe(
             map(() => new LoadTeam()),
             catchError((error: Error) => of(new GlobalError(error)))
         ))

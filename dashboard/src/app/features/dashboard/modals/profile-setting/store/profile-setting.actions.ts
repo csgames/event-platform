@@ -6,7 +6,8 @@ export enum ProfileSettingActionTypes {
     DownloadCv = "[ProfileSetting] Download cv",
     CvDownloaded = "[ProfileSetting] Cv downloaded",
     UpdateAttendee = "[ProfileSetting] Update attendee",
-    AttendeeUpdated = "[ProfileSetting] Attendee updated"
+    AttendeeUpdated = "[ProfileSetting] Attendee updated",
+    ResetStore = "[ProfileSetting] Reset store"
 }
 
 export class LoadModal implements Action {
@@ -35,9 +36,14 @@ export class AttendeeUpdated implements Action {
     readonly type = ProfileSettingActionTypes.AttendeeUpdated;
 }
 
+export class ResetStore implements Action {
+    readonly type = ProfileSettingActionTypes.ResetStore;
+}
+
 export type ProfileSettingActions =
     | LoadModal
     | DownloadCv
     | CvDownloaded
     | UpdateAttendee
-    | AttendeeUpdated;
+    | AttendeeUpdated
+    | ResetStore;

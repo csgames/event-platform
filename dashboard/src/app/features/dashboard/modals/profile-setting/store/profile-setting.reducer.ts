@@ -6,6 +6,7 @@ import { GlobalState } from "../../../../../store/app.reducers";
 export interface ProfileSettingGlobalState {
     loading: boolean;
     saving: boolean;
+    closing: boolean;
 }
 
 export interface ProfileSettingState {
@@ -22,7 +23,8 @@ export const reducers: ActionReducerMap<ProfileSettingState> = {
 
 export const initialState: ProfileSettingGlobalState = {
     loading: false,
-    saving: false
+    saving: false,
+    closing: false
 };
 
 export function profileSettingGlobalReducerReducer(state = initialState, action: ProfileSettingActions): ProfileSettingGlobalState {
@@ -30,7 +32,8 @@ export function profileSettingGlobalReducerReducer(state = initialState, action:
         case ProfileSettingActionTypes.LoadModal:
             return {
                 ...state,
-                loading: true
+                loading: true,
+                closing: false
             };
         case ProfileSettingActionTypes.DownloadCv:
             return {
@@ -50,8 +53,11 @@ export function profileSettingGlobalReducerReducer(state = initialState, action:
         case ProfileSettingActionTypes.AttendeeUpdated:
             return {
                 ...state,
-                saving: false
+                saving: false,
+                closing: true
             };
+        case ProfileSettingActionTypes.ResetStore:
+            return initialState;
     }
     return state;
 }
@@ -66,6 +72,7 @@ export const getProfileSettingGlobalState = createSelector(
 export const getLoading = (state: ProfileSettingGlobalState) => state.loading;
 export const getSaving = (state: ProfileSettingGlobalState) => state.saving;
 export const getCurrentAttendee = (state: GlobalState) => state.currentAttendee;
+export const getClosing = (state: ProfileSettingGlobalState) => state.closing;
 
 export const selectProfileSettingGlobal = (selector: (state: ProfileSettingGlobalState) => any) =>
     select(

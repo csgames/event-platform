@@ -7,14 +7,15 @@ import {
     getSaving,
     selectGlobal,
     selectProfileSettingGlobal,
-    State
+    State,
+    getClosing
 } from "./store/profile-setting.reducer";
 import { Attendee } from "../../../../api/models/attendee";
 import { Subscription } from "rxjs";
 import { AttendeeFormComponent } from "../../../../components/attendee-form/attendee-form.component";
 import { UppyFile } from "@uppy/core";
 import { FileUtils } from "../../../../utils/file.utils";
-import { DownloadCv, UpdateAttendee } from "./store/profile-setting.actions";
+import { DownloadCv, UpdateAttendee, ResetStore } from "./store/profile-setting.actions";
 
 @Component({
     selector: "app-profile-setting-modal",
@@ -27,23 +28,33 @@ export class ProfileSettingComponent extends SimpleModalComponent<void, void> im
     public loading$ = this.store$.pipe(selectProfileSettingGlobal(getLoading));
     public saving$ = this.store$.pipe(selectProfileSettingGlobal(getSaving));
     public currentAttendee$ = this.store$.pipe(selectGlobal(getCurrentAttendee));
+    private closing$ = this.store$.pipe(selectProfileSettingGlobal(getClosing));
 
     public currentAttendee: Attendee;
 
     private currentAttendeeSub$: Subscription;
+    private closingSub$: Subscription;
 
     constructor(private store$: Store<State>) {
         super();
     }
 
     public ngOnInit() {
+        this.store$.dispatch(new ResetStore());
         this.currentAttendeeSub$ = this.currentAttendee$.subscribe((attendee) => {
             this.currentAttendee = attendee;
+        });
+
+        this.closingSub$ = this.closing$.subscribe((closing) => {
+            if (closing) {
+                this.close();
+            }
         });
     }
 
     public ngOnDestroy() {
         this.currentAttendeeSub$.unsubscribe();
+        this.closingSub$.unsubscribe();
         super.ngOnDestroy();
     }
 
