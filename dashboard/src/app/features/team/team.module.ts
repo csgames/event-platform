@@ -1,7 +1,7 @@
 import { NgModule } from "@angular/core";
 import { TeamComponent } from "./team.component";
 import { CommonModule } from "@angular/common";
-import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { FormBuilder, FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { RouterModule } from "@angular/router";
 import { TeamRoutingModule } from "./team-routing.module";
 import { TranslateModule } from "@ngx-translate/core";
@@ -14,6 +14,10 @@ import { GravatarModule } from "ngx-gravatar";
 import { LoadingSpinnerModule } from "src/app/components/loading-spinner/loading-spinner.module";
 import { DirectivesModule } from "src/app/directives/directives.module";
 import { TooltipModule } from "ngx-bootstrap";
+import { AddAttendeeFormComponent } from "./add-attendee-form/add-attendee-form.component";
+import { FormGeneratorFactory } from "../../form-generator/factory";
+import { ADD_ATTENDEE_FORM_GENERATOR } from "./team.constants";
+import { AddAttendeeFormDto } from "./add-attendee-form/dto/add-attendee-form.dto";
 
 @NgModule({
     imports: [
@@ -31,7 +35,9 @@ import { TooltipModule } from "ngx-bootstrap";
         TooltipModule
     ],
     exports: [],
-    declarations: [TeamComponent, AttendeeComponent],
-    providers: []
+    declarations: [TeamComponent, AttendeeComponent, AddAttendeeFormComponent],
+    providers: [
+        { provide: ADD_ATTENDEE_FORM_GENERATOR, useFactory: FormGeneratorFactory.transform(AddAttendeeFormDto), deps: [FormBuilder] }
+    ]
 })
 export class TeamModule {}
