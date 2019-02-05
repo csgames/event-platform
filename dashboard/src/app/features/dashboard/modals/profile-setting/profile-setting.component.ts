@@ -19,7 +19,8 @@ import { DownloadCv, UpdateAttendee, ResetStore } from "./store/profile-setting.
 
 @Component({
     selector: "app-profile-setting-modal",
-    templateUrl: "profile-setting.template.html"
+    templateUrl: "profile-setting.template.html",
+    styleUrls: ["profile-setting.style.scss"]
 })
 export class ProfileSettingComponent extends SimpleModalComponent<void, void> implements OnInit, OnDestroy {
     @ViewChild(AttendeeFormComponent)

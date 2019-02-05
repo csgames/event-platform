@@ -19,6 +19,7 @@ import { LoadingSpinnerModule } from "../../components/loading-spinner/loading-s
 import { ProfileSettingModule } from "./modals/profile-setting/profile-setting.module";
 import { RegisteredGuard } from "./utils/registered.guard";
 import { NotRegisteredGuard } from "./utils/not-registered.guard";
+import { ChangePasswordModule } from "./modals/change-password/change-password.module";
 
 @NgModule({
     imports: [
@@ -36,7 +37,8 @@ import { NotRegisteredGuard } from "./utils/not-registered.guard";
         MatToolbarModule,
         TranslateModule,
         MatSidenavModule,
-        ProfileSettingModule
+        ProfileSettingModule,
+        ChangePasswordModule
     ],
     declarations: [
         DashboardComponent,

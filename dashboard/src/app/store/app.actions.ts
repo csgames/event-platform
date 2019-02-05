@@ -12,7 +12,9 @@ export enum AppActionTypes {
     SetCurrentEvent = "[App] Set current event",
     EditProfile = "[App] Edit profile",
     Logout = "[App] Logout",
-    ChangeLanguage = "[App] Change Language"
+    ChangeLanguage = "[App] Change language",
+    ChangePassword = "[App] Change password",
+    EditAccount = "[App] Edit account"
 }
 
 export class ChangeLanguage implements Action {
@@ -61,6 +63,14 @@ export class Logout implements Action {
     readonly type = AppActionTypes.Logout;
 }
 
+export class ChangePassword implements Action {
+    readonly type = AppActionTypes.ChangePassword;
+}
+
+export class EditAccount implements Action {
+    readonly type = AppActionTypes.EditAccount;
+}
+
 export type AppActions =
     | GlobalError
     | Logout
@@ -71,4 +81,6 @@ export type AppActions =
     | SetCurrentEvent
     | EditProfile
     | LoadCurrentAttendee
-    | ChangeLanguage;
+    | ChangeLanguage
+    | ChangePassword
+    | EditAccount;

@@ -8,6 +8,7 @@ import { EventInterceptor } from "./interceptors/event.interceptor";
 import { RegistrationApi } from "./registration.api";
 import { PasswordApi } from "./password.api";
 import { TeamApi } from "./team.api";
+import { UserApi } from "./user.api";
 
 @NgModule({
     imports: [
@@ -21,7 +22,8 @@ import { TeamApi } from "./team.api";
         RegistrationApi,
         PasswordApi,
         TeamApi,
-        ApiService
+        ApiService,
+        UserApi
     ]
 })
 export class ApiModule {}
