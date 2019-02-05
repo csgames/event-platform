@@ -208,13 +208,13 @@ export class RegistrationsService {
         const members = event.attendees.filter(attendeeEvent => attendeeIds
             .includes((attendeeEvent.attendee as mongoose.Types.ObjectId).toHexString()));
 
-        const godfather = members.filter(attendeeEvent => attendeeEvent.role === 'godfather');
-        if (role === 'godfather') {
-            if (godfather.length > 0) {
+        const godparent = members.filter(attendeeEvent => attendeeEvent.role === 'godparent');
+        if (role === 'godparent') {
+            if (godparent.length > 0) {
                 throw new GodParentAlreadyExist();
             }
         } else {
-            const attendees = members.filter(attendeeEvent => attendeeEvent.role !== 'godfather');
+            const attendees = members.filter(attendeeEvent => attendeeEvent.role !== 'godparent');
             if (attendees.length >= 10) {
                 throw new MaxTeamMemberException();
             }

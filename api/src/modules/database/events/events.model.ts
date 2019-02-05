@@ -8,7 +8,7 @@ export enum EventAttendeeTypes {
     Attendee = 'attendee',
     Captain = 'captain',
     Director = 'director',
-    Godgfather = 'godfather',
+    GodParent = 'godparent',
     Sponsor = 'sponsor',
     Volunteer = 'volunteer'
 }
