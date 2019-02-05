@@ -35,8 +35,8 @@ export class FileUploadComponent implements OnInit, OnDestroy, AfterViewInit {
         return this._filename;
     }
 
+    public control: FormControl;
     private uppy: Uppy;
-    private control: FormControl;
     private valueChange$: Subscription;
 
     constructor(private formControlDirective: FormControlDirective) {
