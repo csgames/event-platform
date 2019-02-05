@@ -105,7 +105,9 @@ export class TeamComponent implements OnInit {
 
     public onSaveTeamName(teamName: string): void {
         this.isEditingTeamName = false;
-        this.store.dispatch(new UpdateTeamName(teamName));
+        if (teamName.length > 0) {
+            this.store.dispatch(new UpdateTeamName(teamName));
+        }
     }
 
     public onEditTeamMember(): void {
@@ -152,7 +154,6 @@ export class TeamComponent implements OnInit {
 
     public onCancelTeamName(): void {
         this.isEditingTeamName = false;
-        this.store.dispatch(new LoadTeam());
     }
 
     public onCancelTeamMember(): void {
