@@ -25,7 +25,7 @@ namespace STS.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create([FromBody] AskResetPasswordInput input)
+        public IActionResult Create(AskResetPasswordInput input)
         {
             Task.Run(async () =>
             {
@@ -111,7 +111,7 @@ namespace STS.Controllers
         }
 
         [HttpPut("{uuid}")]
-        public Task<IActionResult> UpdatePassword(string uuid, [FromBody] ResetPasswordInput input)
+        public Task<IActionResult> UpdatePassword(string uuid, ResetPasswordInput input)
         {
             return Task.Run<IActionResult>(() =>
             {
