@@ -3,8 +3,6 @@ import { ApiService } from "../api/api.service";
 import { Observable, of, throwError } from "rxjs";
 import { Team } from "../api/models/team";
 import { Attendee } from "../api/models/attendee";
-import { delay, tap } from "rxjs/operators";
-import { CreateInvitationDto } from "../api/dto/registration";
 
 @Injectable()
 export class TeamService {

@@ -139,7 +139,7 @@
             "schedule": "Horaire",
             "view_competition": "Voir la compétition"
         },
-        "sponsor": {
+        "sponsors": {
             "bronze": "Bronze",
             "gold": "Or",
             "partner": "Partenaire",

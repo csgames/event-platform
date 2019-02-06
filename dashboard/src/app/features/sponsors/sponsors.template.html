@@ -1,0 +1,32 @@
+<h1>{{ "pages.sponsors.sponsors" | translate }}</h1>
+<app-loading-spinner [loading]="loading$ | async"></app-loading-spinner>
+<div>
+    <div class="platinum-container" *ngIf="platinum">
+        <h2>Platinum</h2>
+        <hr>
+        <div *ngFor="let p of platinum">
+            <img [src]="p.imageUrl" class="center">
+        </div>
+    </div>
+    <div class="platinum-container" *ngIf="gold">
+        <h2>Gold</h2>
+        <hr>
+        <div *ngFor="let g of gold">
+            <img [src]="g.imageUrl" class="center">
+        </div>
+    </div>
+    <div class="platinum-container" *ngIf="silver">
+        <h2>Silver</h2>
+        <hr>
+        <div *ngFor="let s of silver">
+            <img [src]="s.imageUrl" class="center">
+        </div>
+    </div>
+    <div class="platinum-container" *ngIf="bronze">
+        <h2>Bronze</h2>
+        <hr>
+        <div *ngFor="let b of bronze">
+            <img [src]="b.imageUrl" class="center">
+        </div>
+    </div>
+</div>
