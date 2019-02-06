@@ -98,18 +98,18 @@ export class EventsController {
         await this.eventsService.confirmAttendee(eventId, user.username, dto, file);
     }
 
+    @Put(':id/activity')
+    @Permissions('csgames-api:update:event')
+    public async addActivity(@Param('id') id: string, @Body(new ValidationPipe()) activity: CreateActivityDto) {
+        await this.eventsService.createActivity(id, activity);
+    }
+
     @Put(':id')
     @Permissions('csgames-api:update:event')
     public async update(@Param('id') id: string, @Body(new ValidationPipe()) event: UpdateEventDto) {
         await this.eventsService.update({
             _id: id
         }, event);
-    }
-
-    @Put(':id/activity')
-    @Permissions('csgames-api:update:event')
-    public async addActivity(@Param('id') id: string, @Body(new ValidationPipe()) activity: CreateActivityDto) {
-        await this.eventsService.createActivity(id, activity);
     }
 
     @Get(':id/team')
