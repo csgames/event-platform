@@ -7,6 +7,7 @@ import { Events } from '../events/events.model';
 import { CreateTeamDto, UpdateTeamDto } from './teams.dto';
 import { InvalidNameException, TeamAlreadyCreatedException } from './teams.exception';
 import { Teams } from './teams.model';
+import { EventNotFoundException } from '../events/events.exception';
 type ObjectId = Types.ObjectId;
 
 @Injectable()
@@ -42,7 +43,14 @@ export class TeamsService extends BaseService<Teams, CreateTeamDto> {
     }
 
     public async getTeamFromEvent(eventId: string): Promise<Teams[]> {
-        return await this.teamsModel.find({
+        const event = await this.eventsModel.findOne({
+            _id: eventId
+        }).exec();
+        if (!event) {
+            throw new EventNotFoundException();
+        }
+
+        const teams = await this.teamsModel.find({
             event: eventId
         }).lean().populate([{
             model: 'attendees',
@@ -51,6 +59,12 @@ export class TeamsService extends BaseService<Teams, CreateTeamDto> {
             model: 'schools',
             path: 'school'
         }]).exec() as Teams[];
+
+        for (let team of teams) {
+            team = this.getTeamAttendeeInfo(team, event);
+        }
+
+        return teams;
     }
 
     public async getTeamInfo(attendeeId: string, eventId: string): Promise<Teams> {
@@ -76,18 +90,7 @@ export class TeamsService extends BaseService<Teams, CreateTeamDto> {
             throw new NotFoundException('No event found');
         }
 
-        const members = event.attendees
-            .filter(x => team.attendees.findIndex(a => (a as Attendees)._id.equals(x.attendee as ObjectId)) >= 0);
-        for (const member of team.attendees as (Attendees & { role: string, registered: boolean })[]) {
-            const eventMember = members.find(x => (x.attendee as ObjectId).equals(member._id));
-            if (!eventMember) {
-                continue;
-            }
-            member.role = eventMember.role;
-            member.registered = eventMember.registered;
-        }
-
-        return team;
+        return this.getTeamAttendeeInfo(team, event);
     }
 
     public async setTeamToPresent(eventId: string, attendeeId: string): Promise<Teams> {
@@ -101,5 +104,20 @@ export class TeamsService extends BaseService<Teams, CreateTeamDto> {
         }
 
         return null;
+    }
+
+    private getTeamAttendeeInfo(team: Teams, event: Events) {
+        const members = event.attendees
+            .filter(x => team.attendees.findIndex(a => (a as Attendees)._id.equals(x.attendee as ObjectId)) >= 0);
+        for (const member of team.attendees as (Attendees & { role: string, registered: boolean })[]) {
+            const eventMember = members.find(x => (x.attendee as ObjectId).equals(member._id));
+            if (!eventMember) {
+                continue;
+            }
+            member.role = eventMember.role;
+            member.registered = eventMember.registered;
+        }
+
+        return team;
     }
 }

@@ -10,7 +10,7 @@ import { AttendeesService } from '../attendees/attendees.service';
 import { EventsService } from '../events/events.service';
 import { TeamsService } from '../teams/teams.service';
 import {
-    AttendeeAlreadyExistException, GodFatherAlreadyExist, InvalidCodeException, MaxTeamMemberException, TeamAlreadyExistException,
+    AttendeeAlreadyExistException, GodParentAlreadyExist, InvalidCodeException, MaxTeamMemberException, TeamAlreadyExistException,
     TeamDoesntExistException
 } from './registration.exception';
 import { CreateRegistrationDto, RegisterAdminDto, RegisterAttendeeDto } from './registrations.dto';
@@ -21,7 +21,7 @@ export class RegistrationsService {
     private roleTemplate = {
         attendee: 'attendee_account_creation',
         captain: 'captain_account_creation',
-        godfather: 'godparent_account_creation'
+        godparent: 'godparent_account_creation'
     };
     private roles: { [name: string]: string };
 
@@ -208,13 +208,13 @@ export class RegistrationsService {
         const members = event.attendees.filter(attendeeEvent => attendeeIds
             .includes((attendeeEvent.attendee as mongoose.Types.ObjectId).toHexString()));
 
-        const godfather = members.filter(attendeeEvent => attendeeEvent.role === 'godfather');
-        if (role === 'godfather') {
-            if (godfather.length > 0) {
-                throw new GodFatherAlreadyExist();
+        const godparent = members.filter(attendeeEvent => attendeeEvent.role === 'godparent');
+        if (role === 'godparent') {
+            if (godparent.length > 0) {
+                throw new GodParentAlreadyExist();
             }
         } else {
-            const attendees = members.filter(attendeeEvent => attendeeEvent.role !== 'godfather');
+            const attendees = members.filter(attendeeEvent => attendeeEvent.role !== 'godparent');
             if (attendees.length >= 10) {
                 throw new MaxTeamMemberException();
             }

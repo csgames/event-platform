@@ -53,6 +53,12 @@ export class EventsController {
         return await this.eventsService.getSponsors(eventId);
     }
 
+    @Get('team')
+    @Permissions('csgames-api:get-all:team')
+    public async eventTeamQuery(@EventId() eventId: string): Promise<Teams[]> {
+        return await this.teamsService.getTeamFromEvent(eventId);
+    }
+
     @Get(':id')
     @Permissions('csgames-api:get:event')
     public async getById(@Param('id') id: string): Promise<Events> {
@@ -110,12 +116,6 @@ export class EventsController {
         await this.eventsService.update({
             _id: id
         }, event);
-    }
-
-    @Get(':id/team')
-    @Permissions('csgames-api:get-all:team')
-    public async eventTeamQuery(@Param('id') eventId: string): Promise<Teams[]> {
-        return await this.teamsService.getTeamFromEvent(eventId);
     }
 
     @Get(':id/activity')
