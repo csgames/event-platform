@@ -33,7 +33,7 @@ export const EventRegistrationsSchema = new mongoose.Schema({
     },
     role: {
         type: String,
-        enum: ['admin', 'attendee', 'captain', 'director', 'godfather', 'sponsor', 'volunteer'],
+        enum: ['admin', 'attendee', 'captain', 'director', 'godparent', 'sponsor', 'volunteer'],
         default: 'attendee'
     },
     scannedAttendees: {
