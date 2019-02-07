@@ -8,8 +8,6 @@ export enum ScheduleActionTypes {
 
 export class LoadActivities implements Action {
     readonly type = ScheduleActionTypes.LoadActivities;
-
-    constructor (public eventId: string) { }
 }
 
 export class ActivitiesLoaded implements Action {

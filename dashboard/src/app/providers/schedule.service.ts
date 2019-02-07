@@ -7,7 +7,7 @@ import { Observable } from "rxjs";
 export class ScheduleService {
     constructor(private apiService: ApiService) { }
 
-    public getActivitiesForEvent(eventId: string): Observable<Activity[]> {
-        return this.apiService.event.getActivitiesForEvent(eventId);
+    public getActivitiesForEvent(): Observable<Activity[]> {
+        return this.apiService.event.getActivitiesForEvent();
     }
 }
