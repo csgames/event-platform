@@ -51,7 +51,7 @@ export class EventApi extends CSGamesApi {
         return this.http.get<{ [id: string]: Sponsors[] }>(this.url("sponsor"), { withCredentials: true });
     }
 
-    public getActivitiesForEvent(eventId: string): Observable<Activity[]> {
-        return this.http.get<Activity[]>(this.url(`${eventId}/activity`), { withCredentials: true });
+    public getActivitiesForEvent(): Observable<Activity[]> {
+        return this.http.get<Activity[]>(this.url("activity"), { withCredentials: true });
     }
 }

@@ -13,18 +13,13 @@ import { getCurrentEvent } from "src/app/store/app.reducers";
 export class ScheduleComponent implements OnInit, OnDestroy {
     activities$ = this.store$.pipe(select(getActivities));
     loading$ = this.store$.pipe(select(getScheduleLoading));
-    currentEvent$ = this.store$.pipe(select(getCurrentEvent));
 
     private activitiesSub: Subscription;
-    private eventSub$: Subscription;
 
     constructor(private store$: Store<State>) { }
 
     public ngOnInit() {
-        this.eventSub$ = this.currentEvent$.subscribe((event) => {
-            if (event) this.store$.dispatch(new LoadActivities(event._id));
-        });
-
+        this.store$.dispatch(new LoadActivities());
         this.activitiesSub = this.activities$.subscribe((activities) => {
             console.log(activities);
         });
@@ -32,6 +27,5 @@ export class ScheduleComponent implements OnInit, OnDestroy {
 
     public ngOnDestroy() {
         this.activitiesSub.unsubscribe();
-        this.eventSub$.unsubscribe();
     }
 }

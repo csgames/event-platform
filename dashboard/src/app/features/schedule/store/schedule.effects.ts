@@ -14,8 +14,8 @@ export class ScheduleEffects {
     @Effect()
     loadActivities4 = this.actions$.pipe(
         ofType<LoadActivities>(ScheduleActionTypes.LoadActivities),
-        switchMap((action: LoadActivities) => {
-            return this.scheduleService.getActivitiesForEvent(action.eventId).pipe(
+        switchMap(() => {
+            return this.scheduleService.getActivitiesForEvent().pipe(
                 map(activities => new ActivitiesLoaded(activities)),
                 catchError(err => of(new GlobalError(err)))
             );
