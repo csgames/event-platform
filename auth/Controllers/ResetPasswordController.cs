@@ -72,7 +72,7 @@ namespace STS.Controllers
 
                 var mailInput = new SendMailInput
                 {
-                    From = "CS Games <support@polyhx.io>",
+                    From = "CS Games <support@csgames.org>",
                     To = new[] {user.Username},
                     Subject = "Réinitialisation du Mot de Passe | Password Reset",
                     Template = "password_reset",

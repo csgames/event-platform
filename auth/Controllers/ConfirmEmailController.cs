@@ -56,7 +56,7 @@ namespace STS.Controllers
                 
                 var mailInput = new SendMailInput
                 {
-                    From = "PolyHx <support@polyhx.io>",
+                    From = "PolyHx <support@csgames.org>",
                     To = new[] {user.Username},
                     Subject = "Confirmer votre compte | Confirm your account",
                     Template = "confirm_email",
