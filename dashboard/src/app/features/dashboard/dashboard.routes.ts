@@ -32,6 +32,11 @@ export const DASHBOARD_ROUTES: Routes = [
         canActivate: [RegisteredGuard]
     },
     {
+        path: "schedule",
+        loadChildren: "src/app/features/schedule/schedule.module#ScheduleModule",
+        canActivate: [RegisteredGuard]
+    },
+    {
         path: "**",
         redirectTo: "team",
         pathMatch: "full"

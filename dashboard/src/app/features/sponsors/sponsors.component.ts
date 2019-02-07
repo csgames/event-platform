@@ -22,7 +22,7 @@ export class SponsorsComponent implements OnInit, OnDestroy {
 
     constructor(private store$: Store<State>) {}
 
-    public async ngOnInit() {
+    public ngOnInit() {
         this.store$.dispatch(new LoadSponsors());
         this.sponsorsSub = this.sponsors$.subscribe((sponsors) => {
             if (!sponsors) return;
