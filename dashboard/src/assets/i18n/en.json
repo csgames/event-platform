@@ -29,7 +29,8 @@
 			"email_failed": "An error occured while sending the email.",
             "email_success": "Email successfully sent.",
             "password_success": "Password successfully changed!",
-            "password_failure": "An error occured while changing the password."
+            "password_failure": "An error occured while changing the password.",
+            "add_member_failure": "An error occured while adding a member to the team"
 		},
 		"top_bar": {
 			"change_language": "Français",
