@@ -23,6 +23,8 @@ export class TopNavComponent implements OnInit, OnDestroy {
     public toggleSideNav = new EventEmitter<boolean>();
     @Output()
     public editProfile = new EventEmitter();
+    @Output()
+    public changePassword = new EventEmitter();
 
     private _toggleSideNav = false;
 

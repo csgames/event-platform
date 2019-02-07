@@ -47,6 +47,11 @@ export function reducer(state = initialState, action: TeamActions): TeamState {
                 ...state,
                 loading: true
             };
+        case TeamActionTypes.AddMemberFailure:
+            return {
+                ...state,
+                loading: false
+            }
         default:
             return state;
     }

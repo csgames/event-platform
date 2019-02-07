@@ -8,7 +8,8 @@ export enum TeamActionTypes {
     LoadTeamFailure = "[Team] load team failure",
     UpdateTeamName = "[Team] update team name",
     AddTeamMember = "[Team] add team member",
-    AddTeamGodparent = "[Team] add team godparent"
+    AddMemberFailure = "[Team] add member failure",
+    AddTeamGodparent = "[Team] add team godparent",
 }
 
 export class LoadTeam implements Action {
@@ -43,10 +44,17 @@ export class AddTeamGodparent implements Action {
     constructor(public payload: Attendee) { }
 }
 
+export class AddMemberFailure implements Action {
+    readonly type = TeamActionTypes.AddMemberFailure;
+
+    constructor(public err: any) {}
+}
+
 export type TeamActions =
     | LoadTeam
     | LoadTeamSuccess
     | LoadTeamFailure
     | UpdateTeamName
     | AddTeamMember
-    | AddTeamGodparent;
+    | AddTeamGodparent
+    | AddMemberFailure;

@@ -22,8 +22,7 @@
         <button type="button" class="btn btn-primary btn-save" (click)="onSaveTeamName(teamName)">
             {{ "general.button.save" | translate }}<i class="fas fa-check"></i>
         </button>
-        <button type="button" class="btn btn-danger"
-                (click)="onCancelTeamName()">
+        <button type="button" class="btn btn-danger" (click)="onCancelTeamName()">
             {{ "general.button.cancel" | translate }} <i class="fas fa-times"></i>
         </button>
     </div>
@@ -39,8 +38,8 @@
             </app-attendee>
         </div>
         <div *ifRole="['admin', 'captain']">
-            <button *ngIf="!isAddingTeamMember && canAddTeamMember$ | async"
-                    type="button" class="btn btn-lg btn-block borders" (click)="onEditTeamMember()">
+            <button *ngIf="!isAddingTeamMember && canAddTeamMember$ | async" type="button" class="btn btn-lg btn-block borders"
+                (click)="onEditTeamMember()">
                 + {{ "pages.team.add_member" | translate }}
             </button>
         </div>
@@ -52,11 +51,14 @@
                 {{ "pages.team.add_a_member" | translate }}
                 <br>
                 <div class="row">
-                    <div class="col-sm-5">
+                    <div class="col-sm-12">
                         <app-add-attendee-form #attendee [(ngModel)]="newAttendee"></app-add-attendee-form>
                     </div>
+                </div>
+                <br><br>
+                <div class="row">
                     <div class="col-sm-7">
-                        <div class="button-group" [class.has-error]="attendeeForm?.invalidEmail">
+                        <div class="button-group">
                             <a class="btn btn-primary" (click)="onAddTeamMember()">
                                 {{ "general.button.add" | translate }} <i class="fas fa-plus"></i>
                             </a>
@@ -70,16 +72,16 @@
         </div>
     </div>
     <ng-container *ngIf="currentGodparent$ | async as currentGodparent">
-        <h4 class="team-members">{{ "pages.team.godparent" | translate }} <b>({{currentGodparent?.length}}/{{godparentSize$ | async}})</b></h4>
+        <h4 class="team-members">{{ "pages.team.godparent" | translate }} <b>({{currentGodparent?.length}}/{{godparentSize$
+                | async}})</b></h4>
         <hr>
         <div *ngFor="let member of currentGodparent">
             <app-attendee style="margin-bottom:20px;" [attendee]="member">
             </app-attendee>
         </div>
         <div *ifRole="['admin', 'captain']">
-            <button *ngIf="!isAddingTeamGodparent && canAddTeamGodparent$ | async" type="button"
-                    class="btn btn-lg btn-block borders"
-                    (click)="onEditTeamGodparent()">+ {{ "pages.team.add_godparent" | translate }}</button>
+            <button *ngIf="!isAddingTeamGodparent && canAddTeamGodparent$ | async" type="button" class="btn btn-lg btn-block borders"
+                (click)="onEditTeamGodparent()">+ {{ "pages.team.add_godparent" | translate }}</button>
         </div>
         <div *ngIf="isAddingTeamGodparent" class="card-wrapper">
             <div class="add-member-card">
@@ -87,11 +89,13 @@
                     {{ "pages.team.add_a_godparent" | translate }}
                     <br>
                     <div class="row">
-                        <div class="col-sm-5">
+                        <div class="col-sm-12">
                             <app-add-attendee-form #godparent [(ngModel)]="newGodparent"></app-add-attendee-form>
                         </div>
+                    </div>
+                    <div class="row">
                         <div class="col-sm-7">
-                            <div class="button-group" [class.has-error]="godparentForm?.invalidEmail">
+                            <div class="button-group">
                                 <a class="btn btn-primary" (click)="onAddTeamGodparent()">
                                     {{ "general.button.add" | translate }} <i class="fas fa-plus"></i>
                                 </a>
@@ -105,8 +109,7 @@
             </div>
         </div>
         <div *ifRole="['attendee']">
-            <div
-                *ngIf="currentGodparent.length < 1 || (currentGodparent?.length < 1 && currentTeam?.maxMembersNumber === 11)"
+            <div *ngIf="currentGodparent.length < 1 || (currentGodparent?.length < 1 && currentTeam?.maxMembersNumber === 11)"
                 class="no-godparent">
                 {{ "pages.team.no_godparent" | translate }}
             </div>

@@ -11,7 +11,8 @@ import {
     LoadCurrentAttendee,
     LoadEvents,
     Logout,
-    SetCurrentEvent
+    SetCurrentEvent,
+    ChangePassword
 } from "./app.actions";
 import { catchError, filter, map, switchMap, tap, withLatestFrom } from "rxjs/operators";
 import { Router } from "@angular/router";
@@ -26,6 +27,7 @@ import { TranslateService } from "@ngx-translate/core";
 import { ToastrService } from "ngx-toastr";
 import { select, Store } from "@ngrx/store";
 import { getCurrentAttendee, getEvents, State } from "./app.reducers";
+import { ChangePasswordComponent } from "../features/dashboard/modals/change-password/change-password.component";
 
 @Injectable()
 export class AppEffects {
@@ -133,6 +135,14 @@ export class AppEffects {
         ofType<EditProfile>(AppActionTypes.EditProfile),
         map(() => {
             const modal = this.modalService.addModal(ProfileSettingComponent);
+        })
+    );
+
+    @Effect({ dispatch: false })
+    changePassword$ = this.actions$.pipe(
+        ofType<ChangePassword>(AppActionTypes.ChangePassword),
+        map(() => {
+            const modal = this.modalService.addModal(ChangePasswordComponent);
         })
     );
 }
