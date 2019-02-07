@@ -9,6 +9,7 @@ export enum AppActionTypes {
     CurrentAttendeeLoaded = "[App] Current attendee loaded",
     LoadEvents = "[App] Load events",
     EventsLoaded = "[App] Events loaded",
+    AppLoaded = "[App] App loaded",
     SetCurrentEvent = "[App] Set current event",
     EditProfile = "[App] Edit profile",
     Logout = "[App] Logout",
@@ -47,6 +48,10 @@ export class EventsLoaded implements Action {
     constructor(public events: Event[]) {}
 }
 
+export class AppLoaded {
+    readonly type = AppActionTypes.AppLoaded;
+}
+
 export class SetCurrentEvent implements Action {
     readonly type = AppActionTypes.SetCurrentEvent;
 
@@ -68,6 +73,7 @@ export type AppActions =
     | EventsLoaded
     | LoadCurrentAttendee
     | CurrentAttendeeLoaded
+    | AppLoaded
     | SetCurrentEvent
     | EditProfile
     | LoadCurrentAttendee

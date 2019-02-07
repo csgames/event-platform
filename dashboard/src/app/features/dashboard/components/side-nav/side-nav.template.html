@@ -12,7 +12,7 @@
                 </div>
             </div>
         </a> -->
-        <a *ngIf="!((attendee$ | async)?.registered)" [routerLink]="['/onboarding']" routerLinkActive="active">
+        <a *ngIf="(attendee$ | async) && !((attendee$ | async)?.registered)" [routerLink]="['/onboarding']" routerLinkActive="active">
             <div [fxLayout]="'row'" fxFlexFill>
                 <div fxFlex="20">
                     <i class="fal fa-id-card"></i>
@@ -52,7 +52,7 @@
                 </div>
             </div>
         </a> -->
-        <a *ngIf="(attendee$ | async)?.registered" [routerLink]="['/team']" routerLinkActive="active">
+        <a *ngIf="!(attendee$ | async) || (attendee$ | async)?.registered" [routerLink]="['/team']" routerLinkActive="active">
             <div [fxLayout]="'row'" fxFlexFill>
                 <div fxFlex="20">
                     <i class="fal fa-users"></i>

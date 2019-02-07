@@ -26,8 +26,7 @@ export function reducer(state = initialState, action: OnboardingActions): Onboar
         case OnboardingActionTypes.OnboardSuccess:
             return {
                 ...state,
-                error: false,
-                loading: false
+                error: false
             };
         case OnboardingActionTypes.OnboardFailure:
             return {

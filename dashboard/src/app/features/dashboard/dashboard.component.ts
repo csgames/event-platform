@@ -14,7 +14,6 @@ import { Event } from "../../api/models/event";
 })
 
 export class DashboardComponent implements OnInit, OnDestroy {
-
     events$ = this.store$.pipe(select(getEvents));
     currentEvent$ = this.store$.pipe(select(getCurrentEvent));
     loading$ = this.store$.pipe(select(getLoading));

@@ -20,12 +20,12 @@ export const ROUTES: Routes = [
         canActivate: [NotAuthenticatedGuard]
     },
     {
-        path: 'forget',
+        path: "forget",
         component: ForgetComponent,
         canActivate: [NotAuthenticatedGuard]
     },
     {
-        path: 'reset/:uuid',
+        path: "reset/:uuid",
         component: ResetComponent,
         canActivate: [NotAuthenticatedGuard]
     },
