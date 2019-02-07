@@ -79,7 +79,7 @@ export class RegistrationsService {
 
         try {
             await this.emailService.sendEmail({
-                from: 'CS Games <info@polyhx.io>',
+                from: 'CS Games <info@csgames.org>',
                 to: [dto.email],
                 subject: 'CS Games Account creation',
                 text: 'CS Games Account creation',
