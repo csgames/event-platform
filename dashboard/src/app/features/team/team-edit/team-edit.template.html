@@ -1,0 +1,38 @@
+<h1>{{ "pages.team.teams" | translate }}</h1>
+<app-loading-spinner [loading]="loading$ | async">
+</app-loading-spinner>
+<div class="row">
+    <div class="col-sm-6 col-lg-6 col-xl-6">
+        <button type="button" class="add-button btn btn-lg btn-block borders" (click)="onEditTeamMember()">
+            + {{ "pages.team.add_team" | translate }}
+        </button>
+    </div>
+    <ng-container *ngIf="sortedTeams$ | async as teams">
+        <div class="col-sm-6 col-lg-6 col-xl-6" *ngFor="let team of teams">
+            <div class="card-wrapper">
+                <div class="card bg-white">
+                    <div class="card-body">
+                        <h3>
+                            {{ team?.name }}
+                            <a class="btn btn-link float-right"><i class="fas fa-eye"></i></a>
+                        </h3>
+                        <small>{{ team?.school?.name }}</small>
+                        <app-attendee-view [attendee]="getTeamCaptain(team)"></app-attendee-view>
+                        <h5 class="mt-1">{{ "pages.team.team_members" | translate }}
+                            <b>
+                                <a *ngIf="team?.maxMembersNumber === 11"> ({{ getTeamAttendees(team)?.length }}/10)</a>
+                                <a *ngIf="team?.maxMembersNumber !== 11">
+                                    ({{ getTeamAttendees(team)?.length }}/{{ team?.attendees?.maxMembersNumber - 1 }})
+                                </a>
+                            </b>
+                        </h5>
+                        <h5 class="mt-1">
+                            {{ "pages.team.godparent" | translate }}
+                            <b>({{ getTeamGodparent(team)?.length }}/1)</b>
+                        </h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ng-container>
+</div>

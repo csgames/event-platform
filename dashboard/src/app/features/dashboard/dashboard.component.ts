@@ -19,7 +19,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     currentEvent$ = this.store$.pipe(select(getCurrentEvent));
     loading$ = this.store$.pipe(select(getLoading));
 
-    isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
+    isHandset$: Observable<boolean> = this.breakpointObserver.observe([Breakpoints.TabletPortrait, Breakpoints.Handset])
         .pipe(
             map(result => result.matches)
         );

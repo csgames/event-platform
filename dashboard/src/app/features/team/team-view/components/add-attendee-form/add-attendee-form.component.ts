@@ -1,10 +1,10 @@
 import { Component, forwardRef, Inject, OnDestroy, OnInit } from "@angular/core";
 import { ControlValueAccessor, FormGroup, NG_VALUE_ACCESSOR } from "@angular/forms";
-import { ADD_ATTENDEE_FORM_GENERATOR } from "../team.constants";
-import { FormGenerator } from "../../../form-generator/form-generator";
+import { ADD_ATTENDEE_FORM_GENERATOR } from "../../team-view.constants";
+import { FormGenerator } from "../../../../../form-generator/form-generator";
 import { AddAttendeeFormDto } from "./dto/add-attendee-form.dto";
 import { Subscription } from "rxjs";
-import { Attendee } from "../../../api/models/attendee";
+import { Attendee } from "../../../../../api/models/attendee";
 
 @Component({
     selector: "app-add-attendee-form",

@@ -70,7 +70,7 @@ export class AppEffects {
                 progressBar: true,
                 positionClass: "toast-top-right",
                 timeOut: 10000
-            })
+            });
         })
     );
 

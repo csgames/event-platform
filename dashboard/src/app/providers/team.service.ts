@@ -1,10 +1,8 @@
 import { Injectable } from "@angular/core";
 import { ApiService } from "../api/api.service";
-import { Observable, of, throwError } from "rxjs";
+import { Observable } from "rxjs";
 import { Team } from "../api/models/team";
 import { Attendee } from "../api/models/attendee";
-import { delay, tap } from "rxjs/operators";
-import { CreateInvitationDto } from "../api/dto/registration";
 
 @Injectable()
 export class TeamService {
@@ -14,7 +12,10 @@ export class TeamService {
 
     getTeam(): Observable<Team> {
         return this.apiService.team.getTeam();
+    }
 
+    getTeamById(id: string): Observable<Team> {
+        return this.apiService.team.getTeamById(id);
     }
 
     updateTeamName(newName: string, id: string): Observable<void> {

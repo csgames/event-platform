@@ -153,12 +153,14 @@
 			"add_a_member": "Add a team member",
 			"add_godparent": "Add godparent",
 			"add_member": "Add member",
+			"add_team": "Add team",
 			"godparent": "Godparent",
 			"loading_error": "An error occured while loading the team.",
 			"no_godparent": "No godparent yet",
 			"not_registered": "Not registered",
 			"registered": "Registered",
 			"team": "Team",
+			"teams": "Teams",
 			"team_title": "Team",
 			"team_members": "Team members"
 		}

@@ -5,6 +5,7 @@ import { Observable } from "rxjs";
 import { Event } from "./models/event";
 import { map } from "rxjs/operators";
 import { AttendeeModel } from "./models/attendee";
+import { Team } from "./models/team";
 
 @Injectable()
 export class EventApi extends CSGamesApi {
@@ -41,6 +42,12 @@ export class EventApi extends CSGamesApi {
         }
 
         return this.http.put<void>(this.url("registration"), form, {
+            withCredentials: true
+        });
+    }
+
+    public getTeams(): Observable<Team[]> {
+        return this.http.get<Team[]>(this.url("team"), {
             withCredentials: true
         });
     }

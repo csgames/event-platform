@@ -1,0 +1,18 @@
+.borders {
+    background: transparent;
+    border: 1px dashed #9B9B9B;
+    width: 99%;
+    margin-bottom: 10px;
+
+    &:hover {
+        border: 1px dashed #00579c;
+    }
+}
+
+.add-button {
+    height: 300px;
+}
+
+hr {
+    margin: 0;
+}
