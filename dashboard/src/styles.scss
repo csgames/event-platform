@@ -1,6 +1,7 @@
 @import "./app/styles/ng-select.style";
 @import "./app/styles/check-box.style";
 @import "./app/styles/flipbash.style";
+@import "./app/styles/modal.style";
 
 html,
 body {
@@ -457,8 +458,14 @@ a {
     border-radius: 16px;
 }
 
+.modal {
+    overflow: auto !important;
+    background-color: rgba(0, 0, 0, 0.3);
+}
+
 .modal-right-side {
     overflow: auto !important;
+    height: 100%;
 
     .close {
         position: absolute;
@@ -571,7 +578,7 @@ a {
 }
 
 @media (max-width: 768px) {
-    .modal-right-side {
+    .modal {
         &.fill-in {
             .modal-dialog {
                 width: calc(100% - 20px);
@@ -587,7 +594,7 @@ a {
 }
 
 @media (min-width: 544px) {
-    .modal-right-side {
+    .modal {
         &.stick-up {
             .modal-dialog {
                 margin: -5px auto;

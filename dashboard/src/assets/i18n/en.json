@@ -27,12 +27,17 @@
 			"attendee_failed": "An error occured while saving the attendee info.",
 			"attendee_success": "Attendee info successfully saved.",
 			"email_failed": "An error occured while sending the email.",
-			"email_success": "Email successfully sent."
+            "email_success": "Email successfully sent.",
+            "password_success": "Password successfully changed!",
+            "password_failure": "An error occured while changing the password.",
+            "add_member_failure": "An error occured while adding a member to the team"
 		},
 		"top_bar": {
 			"change_language": "Français",
 			"profile_settings": "Profile settings",
-			"sign_out": "Sign Out"
+            "sign_out": "Sign Out",
+            "change_password": "Change password",
+            "edit_account": "Edit Account"
 		}
 	},
 	"errors": {
@@ -67,7 +72,10 @@
 			"email": "E-mail address",
 			"first_name": "First name",
 			"last_name": "Last name",
-			"password": "Password"
+            "password": "Password",
+            "new": "New password",
+            "old": "Old password",
+            "confirm": "Confirm new password"
 		},
 		"team": {
 			"name": "Team name",
@@ -110,7 +118,7 @@
 		"onboarding": {
             "onboarding": "Onboarding",
             "agree": "I have read and agree the conditions and rules cited in ",
-            "code": "this discharge"
+            "code": "this disclaimer"
 		},
 		"puzzle_hero": {
 			"other": "Other tracks",

@@ -41,6 +41,17 @@ export function reducer(state = initialState, action: TeamActions): TeamState {
                 error: true,
                 loading: false
             };
+        case TeamActionTypes.AddTeamMember:
+        case TeamActionTypes.AddTeamGodparent:
+            return {
+                ...state,
+                loading: true
+            };
+        case TeamActionTypes.AddMemberFailure:
+            return {
+                ...state,
+                loading: false
+            }
         default:
             return state;
     }
@@ -56,7 +67,7 @@ export const getCurrentTeam = createSelector(getTeamState, (state: TeamState) =>
 
 export const getTeamGodparent = createSelector(
     getCurrentTeam, 
-    (team: Team) => team && team.attendees.filter((attendee: Attendee) => attendee.role === "godfather")
+    (team: Team) => team && team.attendees.filter((attendee: Attendee) => attendee.role === "godparent")
 );
 
 export const getTeamAttendees = createSelector(

@@ -44,14 +44,12 @@ export function reducer(state = initialState, action: OnboardingActions): Onboar
             return {
                 ...state,
                 loading: false
-            }
+            };
         default:
             return state;
     }
 }
 
 export const getOnboardingState = createFeatureSelector<State, OnboardingState>("onboarding");
-
-export const getOnboardingLoading = createSelector(getOnboardingState, (state: OnboardingState) => state.loading);
-
-export const getOnboardingError = createSelector(getOnboardingState, (state: OnboardingState) => state.error);
+export const getLoading = createSelector(getOnboardingState, (state: OnboardingState) => state.loading);
+export const getError = createSelector(getOnboardingState, (state: OnboardingState) => state.error);

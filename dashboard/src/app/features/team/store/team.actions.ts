@@ -8,7 +8,8 @@ export enum TeamActionTypes {
     LoadTeamFailure = "[Team] load team failure",
     UpdateTeamName = "[Team] update team name",
     AddTeamMember = "[Team] add team member",
-    AddTeamGodparent = "[Team] add team godparent"
+    AddMemberFailure = "[Team] add member failure",
+    AddTeamGodparent = "[Team] add team godparent",
 }
 
 export class LoadTeam implements Action {
@@ -34,19 +35,19 @@ export class UpdateTeamName implements Action {
 export class AddTeamMember implements Action {
     readonly type = TeamActionTypes.AddTeamMember;
 
-    constructor(public payload: {
-        newAttendee: Attendee;
-        role: string;
-    }) { }
+    constructor(public payload: Attendee) { }
 }
 
 export class AddTeamGodparent implements Action {
     readonly type = TeamActionTypes.AddTeamGodparent;
 
-    constructor(public payload: {
-        newGodparent: Attendee;
-        role: string;
-    }) { }
+    constructor(public payload: Attendee) { }
+}
+
+export class AddMemberFailure implements Action {
+    readonly type = TeamActionTypes.AddMemberFailure;
+
+    constructor(public err: any) {}
 }
 
 export type TeamActions =
@@ -55,4 +56,5 @@ export type TeamActions =
     | LoadTeamFailure
     | UpdateTeamName
     | AddTeamMember
-    | AddTeamGodparent;
+    | AddTeamGodparent
+    | AddMemberFailure;

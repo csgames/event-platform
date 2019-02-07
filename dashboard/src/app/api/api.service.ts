@@ -5,6 +5,7 @@ import { EventApi } from "./event.api";
 import { RegistrationApi } from "./registration.api";
 import { PasswordApi } from "./password.api";
 import { TeamApi } from "./team.api";
+import { UserApi } from "./user.api";
 
 @Injectable({
     providedIn: "root"
@@ -17,7 +18,8 @@ export class ApiService {
         private eventApi: EventApi,
         private registrationApi: RegistrationApi,
         private passwordApi: PasswordApi,
-        private teamApi: TeamApi
+        private teamApi: TeamApi,
+        private userApi: UserApi
     ) { }
 
     public get auth(): AuthApi {
@@ -42,5 +44,9 @@ export class ApiService {
     
     public get team(): TeamApi {
         return this.teamApi;
+    }
+
+    public get user(): UserApi {
+        return this.userApi;
     }
 }

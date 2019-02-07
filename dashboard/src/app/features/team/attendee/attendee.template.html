@@ -1,13 +1,17 @@
 <div class="attendee-wrapper">
     <img ngxGravatar [email]="attendee.email" [size]="75">
     <div class="info-attendee">
-        <div><b class="name">{{ attendee.firstName }} {{ attendee.lastName }} </b>
-            <i
-                *ngIf="attendee.role === 'captain' "
-                class="fas fa-chess-king fa-lg"
-                tooltip="{{ 'general.roles.captain' | translate }}"
-                placement="right"
-            ></i>
+        <div >
+            <div class="attendee-name">
+                <b class="name">{{ attendee.firstName }} {{ attendee.lastName }} </b>
+            </div>
+            <div *ngIf="attendee.role === 'captain'" class="chess-king"> 
+                <i
+                    class="fas fa-chess-king fa-lg"
+                    tooltip="{{ 'general.roles.captain' | translate }}"
+                    placement="right"
+                ></i>
+            </div>
         </div>
         <div class="email"><b>{{ attendee.email }}</b></div>
     </div>

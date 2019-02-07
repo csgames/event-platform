@@ -9,6 +9,7 @@ import { Attendee } from "src/app/api/models/attendee";
 import { UppyFile } from "@uppy/core";
 import { Subscription } from "rxjs";
 import { TranslateService } from "@ngx-translate/core";
+import { getLoading } from "./store/onboarding.reducer";
 
 @Component({
     selector: "app-onboarding",
@@ -19,8 +20,9 @@ export class OnboardingComponent implements OnInit, OnDestroy {
     @ViewChild(AttendeeFormComponent)
     private attendeeForm: AttendeeFormComponent;
 
-    currentAttendee$ = this.store$.pipe(select(fromApp.getCurrentAttendee));
-    
+    public loading$ = this.store$.pipe(select(getLoading));
+    public currentAttendee$ = this.store$.pipe(select(fromApp.getCurrentAttendee));
+
     public currentAttendee: Attendee;
     private currentAttendeeSub$: Subscription;
 

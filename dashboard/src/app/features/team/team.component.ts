@@ -1,11 +1,13 @@
-import { Component, OnInit } from "@angular/core";
-import { Store, select } from "@ngrx/store";
-import { State, getCurrentTeam, getTeamLoading, getTeamError, getTeamGodparent, getTeamAttendees } from "./store/team.reducer";
-import { LoadTeam, UpdateTeamName, AddTeamMember, AddTeamGodparent } from "./store/team.actions";
+import { Component, OnInit, ViewChild } from "@angular/core";
+import { select, Store } from "@ngrx/store";
+import { getCurrentTeam, getTeamAttendees, getTeamError, getTeamGodparent, getTeamLoading, State } from "./store/team.reducer";
+import { AddTeamGodparent, AddTeamMember, LoadTeam, UpdateTeamName } from "./store/team.actions";
 import { Team } from "src/app/api/models/team";
 import { Attendee } from "src/app/api/models/attendee";
-import { first, filter } from "rxjs/operators";
+import { filter, map, withLatestFrom } from "rxjs/operators";
 import * as fromApp from "../../store/app.reducers";
+import { AddAttendeeFormComponent } from "./add-attendee-form/add-attendee-form.component";
+import { Observable } from "rxjs";
 
 @Component({
     selector: "app-team",
@@ -13,6 +15,10 @@ import * as fromApp from "../../store/app.reducers";
     styleUrls: ["team.style.scss"]
 })
 export class TeamComponent implements OnInit {
+    @ViewChild("attendee")
+    attendeeForm: AddAttendeeFormComponent;
+    @ViewChild("godparent")
+    godparentForm: AddAttendeeFormComponent;
 
     currentTeam$ = this.store.pipe(select(getCurrentTeam));
     loading$ = this.store.pipe(select(getTeamLoading));
@@ -28,6 +34,54 @@ export class TeamComponent implements OnInit {
     newAttendee: Attendee;
     newGodparent: Attendee;
     teamName: string;
+
+    get canAddTeamMember$(): Observable<boolean> {
+        return this.currentAttendees$.pipe(
+            withLatestFrom(this.currentGodparent$, this.currentTeam$),
+            map(([attendees, godparent, team]: [Attendee[], Attendee[], Team]) => {
+                if (team.attendees.length === team.maxMembersNumber) {
+                    return false;
+                }
+
+                return !(!godparent.length && team.maxMembersNumber === 11 && attendees.length === 10);
+            })
+        );
+    }
+
+    get canAddTeamGodparent$(): Observable<boolean> {
+        return this.currentAttendees$.pipe(
+            withLatestFrom(this.currentGodparent$, this.currentTeam$),
+            map(([attendees, godparent, team]: [Attendee[], Attendee[], Team]) => {
+                return !(team.attendees.length === team.maxMembersNumber || godparent.length);
+            })
+        );
+    }
+
+    get attendeesSize$(): Observable<number> {
+        return this.currentAttendees$.pipe(
+            withLatestFrom(this.currentGodparent$, this.currentTeam$),
+            map(([attendees, godparent, team]: [Attendee[], Attendee[], Team]) => {
+                if (team.maxMembersNumber === 11) {
+                    return 10;
+                }
+
+                return godparent.length ? team.maxMembersNumber - 1 : team.maxMembersNumber;
+            })
+        );
+    }
+
+    get godparentSize$(): Observable<number> {
+        return this.currentAttendees$.pipe(
+            withLatestFrom(this.currentGodparent$, this.currentTeam$),
+            map(([attendees, godparent, team]: [Attendee[], Attendee[], Team]) => {
+                if (team.maxMembersNumber === 11) {
+                    return 1;
+                }
+
+                return godparent.length ? 1 : attendees.length === team.maxMembersNumber ? 0 : 1;
+            })
+        );
+    }
 
     constructor(private store: Store<State>) { }
 
@@ -51,7 +105,9 @@ export class TeamComponent implements OnInit {
 
     public onSaveTeamName(teamName: string): void {
         this.isEditingTeamName = false;
-        this.store.dispatch(new UpdateTeamName(teamName));
+        if (teamName.length > 0) {
+            this.store.dispatch(new UpdateTeamName(teamName));
+        }
     }
 
     public onEditTeamMember(): void {
@@ -88,17 +144,16 @@ export class TeamComponent implements OnInit {
         return newAttendee;
     }
 
-    public onAddTeamMember(newAttendee: Attendee): void {
+    public onAddTeamMember(): void {
+        if (!this.attendeeForm.validate()) {
+            return;
+        }
         this.isAddingTeamMember = false;
-        this.store.dispatch(new AddTeamMember({
-            newAttendee,
-            role: "attendee"
-        }));
+        this.store.dispatch(new AddTeamMember(this.newAttendee));
     }
 
     public onCancelTeamName(): void {
         this.isEditingTeamName = false;
-        this.store.dispatch(new LoadTeam());
     }
 
     public onCancelTeamMember(): void {
@@ -109,11 +164,11 @@ export class TeamComponent implements OnInit {
         this.isAddingTeamGodparent = false;
     }
 
-    public onAddTeamGodparent(newGodparent: Attendee): void {
+    public onAddTeamGodparent(): void {
+        if (!this.godparentForm.validate()) {
+            return;
+        }
         this.isAddingTeamGodparent = false;
-        this.store.dispatch(new AddTeamGodparent({
-            newGodparent,
-            role: "godfather"
-        }));
+        this.store.dispatch(new AddTeamGodparent(this.newGodparent));
     }
 }

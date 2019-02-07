@@ -52,6 +52,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
 
     ngOnDestroy() {
         this.queryParamsSub$.unsubscribe();
+        this.registrationSub$.unsubscribe();
     }
 
     clickRegister() {

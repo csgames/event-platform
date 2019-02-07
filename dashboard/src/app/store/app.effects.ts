@@ -3,14 +3,17 @@ import { Actions, Effect, ofType } from "@ngrx/effects";
 import { AuthenticationService } from "../providers/authentication.service";
 import {
     AppActionTypes,
-    CurrentAttendeeLoaded, EditProfile,
+    CurrentAttendeeLoaded,
+    EditProfile,
     EventsLoaded,
     GlobalError,
     LoadCurrentAttendee,
     LoadEvents,
     Logout,
     SetCurrentEvent,
-    ChangeLanguage
+    ChangeLanguage,
+    ChangePassword,
+    EditAccount
 } from "./app.actions";
 import { catchError, exhaustMap, filter, map, switchMap, tap } from "rxjs/operators";
 import { Router } from "@angular/router";
@@ -23,6 +26,7 @@ import { SimpleModalService } from "ngx-simple-modal";
 import { ProfileSettingComponent } from "../features/dashboard/modals/profile-setting/profile-setting.component";
 import { TranslateService } from "@ngx-translate/core";
 import { ToastrService } from "ngx-toastr";
+import { ChangePasswordComponent } from "../features/dashboard/modals/change-password/change-password.component";
 
 @Injectable()
 export class AppEffects {
@@ -119,6 +123,14 @@ export class AppEffects {
         ofType<EditProfile>(AppActionTypes.EditProfile),
         map(() => {
             const modal = this.modalService.addModal(ProfileSettingComponent);
+        })
+    );
+
+    @Effect({ dispatch: false })
+    changePassword$ = this.actions$.pipe(
+        ofType<ChangePassword>(AppActionTypes.ChangePassword),
+        map(() => {
+            const modal = this.modalService.addModal(ChangePasswordComponent);
         })
     );
 }

@@ -15,6 +15,6 @@ export class PasswordService {
     }
 
     reset(uuid: string, password: string): Observable<void> {
-        return this.api.password.updatePassword(uuid, password);
+        return this.api.password.resetPassword(uuid, password);
     }
 }
