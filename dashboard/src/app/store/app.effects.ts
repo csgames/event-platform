@@ -13,7 +13,10 @@ import {
     SetCurrentEvent,
     ChangeLanguage,
     ChangePassword,
-    EditAccount
+    EditAccount,
+    CheckUnseenNotification,
+    HasUnseenNotification,
+    AllNotificationsSeen
 } from "./app.actions";
 import { catchError, exhaustMap, filter, map, switchMap, tap } from "rxjs/operators";
 import { Router } from "@angular/router";
@@ -27,6 +30,7 @@ import { ProfileSettingComponent } from "../features/dashboard/modals/profile-se
 import { TranslateService } from "@ngx-translate/core";
 import { ToastrService } from "ngx-toastr";
 import { ChangePasswordComponent } from "../features/dashboard/modals/change-password/change-password.component";
+import { NotificationService } from "../providers/notification.service";
 
 @Injectable()
 export class AppEffects {
@@ -38,8 +42,23 @@ export class AppEffects {
         private router: Router,
         private modalService: SimpleModalService,
         private translateService: TranslateService,
-        private toastr: ToastrService
+        private toastr: ToastrService,
+        private notificationService: NotificationService
     ) {}
+
+    @Effect()
+    checkUnseenNotification = this.actions$.pipe(
+        ofType<CheckUnseenNotification>(AppActionTypes.CheckUnseenNotification),
+        exhaustMap(() => {
+            return this.notificationService.checkUnseenNotification().pipe(
+                map((notifications) => {
+                    if (notifications.length > 0) return new HasUnseenNotification();
+                    return new AllNotificationsSeen();
+                }),
+                catchError((err) => of(new GlobalError(err)))
+            )
+        })
+    );
 
     @Effect({ dispatch: false })
     logout$ = this.actions$.pipe(

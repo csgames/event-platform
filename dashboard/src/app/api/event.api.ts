@@ -7,6 +7,7 @@ import { map } from "rxjs/operators";
 import { AttendeeModel } from "./models/attendee";
 import { Sponsors } from "./models/sponsors";
 import { Activity } from "./models/activity";
+import { Notification } from "./models/notification";
 
 @Injectable()
 export class EventApi extends CSGamesApi {
@@ -53,5 +54,13 @@ export class EventApi extends CSGamesApi {
 
     public getActivitiesForEvent(eventId: string): Observable<Activity[]> {
         return this.http.get<Activity[]>(this.url(`${eventId}/activity`), { withCredentials: true });
+    }
+
+    public checkUnseenNotifications(): Observable<Notification[]> {
+        return this.http.get<Notification[]>(this.url("notification?seen=false"), { withCredentials: true });
+    }
+
+    public getNotifications(): Observable<Notification[]> {
+        return this.http.get<Notification[]>(this.url("notification"), { withCredentials: true });
     }
 }

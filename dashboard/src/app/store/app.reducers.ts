@@ -10,6 +10,7 @@ export interface GlobalState {
     currentEvent: Event;
     loading: boolean;
     language: string;
+    unseen: boolean
 }
 
 export interface State {
@@ -25,7 +26,8 @@ export const initialState: GlobalState = {
     events: [],
     currentEvent: null,
     loading: false,
-    language: null
+    language: null,
+    unseen: false
 };
 
 export function globalReducer(state = initialState, action: AppActions): GlobalState {
@@ -62,6 +64,23 @@ export function globalReducer(state = initialState, action: AppActions): GlobalS
                 currentEvent: action.event,
                 loading: true
             };
+        case AppActionTypes.CheckUnseenNotification:
+            return {
+                ...state,
+                loading: true
+            }
+        case AppActionTypes.HasUnseenNotification:
+            return {
+                ...state,
+                loading: false,
+                unseen: true
+            }
+        case AppActionTypes.AllNotificationsSeen:
+            return {
+                ...state,
+                loading: false,
+                unseen: false
+            }
     }
     return state;
 }
@@ -84,3 +103,5 @@ export const getEvents = createSelector(getGlobalState, (state: GlobalState) => 
 export const getCurrentEvent = createSelector(getGlobalState, (state: GlobalState) => state.currentEvent);
 
 export const getCurrentLanguage = createSelector(getGlobalState, (state: GlobalState) => state.language);
+
+export const getUnseen = createSelector(getGlobalState, (state: GlobalState) => state.unseen);

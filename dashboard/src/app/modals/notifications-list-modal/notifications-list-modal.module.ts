@@ -4,6 +4,10 @@ import { CommonModule } from "@angular/common";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { RouterModule } from "@angular/router";
 import { FlexLayoutModule } from "@angular/flex-layout";
+import { StoreModule } from "@ngrx/store";
+import * as fromNotification from "./store/notifications.reducer";
+import { EffectsModule } from "@ngrx/effects";
+import { NotificationsEffects } from "./store/notifications.effects";
 
 @NgModule({
     imports: [
@@ -11,10 +15,13 @@ import { FlexLayoutModule } from "@angular/flex-layout";
         FormsModule,
         ReactiveFormsModule,
         RouterModule,
-        FlexLayoutModule
+        FlexLayoutModule,
+        StoreModule.forFeature("notifications", fromNotification.reducer),
+        EffectsModule.forFeature([NotificationsEffects])
     ],
     exports: [],
     declarations: [NotificationsListModalComponent],
-    providers: []
+    providers: [],
+    entryComponents: [NotificationsListModalComponent]
 })
 export class NotificationsListModalModule {}

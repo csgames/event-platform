@@ -1,4 +1,4 @@
-<app-loading-spinner [loading]="loading$ | async"></app-loading-spinner>
+<app-loading-spinner [hidden]="loading$ | async"></app-loading-spinner>
 <mat-sidenav-container class="sidenav-container">
     <mat-sidenav #drawer class="sidenav" fixedInViewport="true"
                  [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
