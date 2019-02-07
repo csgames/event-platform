@@ -360,8 +360,8 @@ namespace STS.Controllers
 
         [Authorize]
         [RequiresPermissions("sts:update:user")]
-        [HttpPut("{id}")]
-        public Task<IActionResult> UpdateAttendee(string id, EditAttendeeInput input)
+        [HttpPut]
+        public Task<IActionResult> UpdateAttendee(EditAttendeeInput input)
         {
             return Task.Run<IActionResult>(() =>
             {
@@ -370,29 +370,12 @@ namespace STS.Controllers
                     where c.Type == "user_id"
                     select c.Value;
 
-                if (authenticatedUserId.First() != id)
-                {
-                    return new ForbidResult();
-                }
-
                 // Check if user exist.
-                var user = _db.Single<User>(u => u.Id == id);
+                var user = _db.Single<User>(u => u.Id == authenticatedUserId.First());
 
                 if (user == null)
                 {
                     return new StatusCodeResult((int) HttpStatusCode.BadRequest);
-                }
-
-
-                // If the username changes, check if the new one is not taken.
-                input.Username = input.Username.ToLower();
-                if (input.Username != null && input.Username != user.Username)
-                {
-                    var u = _db.Single<User>(U => U.Username == input.Username);
-                    if (u != null)
-                    {
-                        return new StatusCodeResult((int) HttpStatusCode.Conflict);
-                    }
                 }
 
                 try

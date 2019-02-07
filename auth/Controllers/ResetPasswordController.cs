@@ -25,20 +25,23 @@ namespace STS.Controllers
         }
 
         [HttpPost]
-        public Task<IActionResult> Create([FromBody] AskResetPasswordInput input)
+        public IActionResult Create(AskResetPasswordInput input)
         {
-            return Task.Run<IActionResult>(async () =>
+            Task.Run(async () =>
             {
+                Console.WriteLine("Sending the reset password email to the user");
                 if (!ModelState.IsValid)
                 {
-                    return BadRequest();
+                    Console.WriteLine("The model isn't valid");
+                    return;
                 }
 
                 var user = _db.Single<User>(c => c.Username.ToLower() == input.Username.ToLower());
 
                 if (user == null)
                 {
-                    return new StatusCodeResult((int) HttpStatusCode.BadRequest);
+                    Console.WriteLine("No user found with this username {0}", input.Username);
+                    return;
                 }
 
                 ResetPassword resetPassword;
@@ -48,6 +51,7 @@ namespace STS.Controllers
                 }
                 catch (Exception)
                 {
+                    Console.WriteLine("An error occured while getting the reset password.");
                     resetPassword = null;
                 }
 
@@ -84,9 +88,9 @@ namespace STS.Controllers
                     }
                 };
                 var res = await _mailService.SendEmail(mailInput);
-
-                return res ? (IActionResult) Ok(new { }) : BadRequest();
+                Console.WriteLine("The email was sent successfully");
             });
+            return Ok();
         }
 
         [HttpGet("{uuid}")]
