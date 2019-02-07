@@ -31,18 +31,18 @@
                     {{ "pages.guide.guide" | translate }}
                 </div>
             </div>
-        </a>
+        </a> -->
         <a *ngIf="(attendee$ | async)?.registered" [routerLink]="['/schedule']" routerLinkActive="active">
             <div [fxLayout]="'row'" fxFlexFill>
                 <div fxFlex="20">
-                    <i class="far fa-calendar"></i>
+                    <i class="fal fa-calendar"></i>
                 </div>
                 <div fxFlex="80">
                     {{ "pages.schedule.schedule" | translate }}
                 </div>
             </div>
         </a>
-        <a *ngIf="(attendee$ | async)?.registered" [routerLink]="['/puzzle-hero']" routerLinkActive="active">
+        <!-- <a *ngIf="(attendee$ | async)?.registered" [routerLink]="['/puzzle-hero']" routerLinkActive="active">
             <div [fxLayout]="'row'" fxFlexFill>
                 <div fxFlex="20">
                     <i class="fas fa-puzzle-piece"></i>
@@ -62,17 +62,17 @@
                 </div>
             </div>
         </a>
-        <!-- <a *ngIf="(attendee$ | async)?.registered" [routerLink]="['/sponsor']" routerLinkActive="active">
+        <a *ngIf="(attendee$ | async)?.registered" [routerLink]="['/sponsors']" routerLinkActive="active">
             <div [fxLayout]="'row'" fxFlexFill>
                 <div fxFlex="20">
-                    <i class="far fa-gem"></i>
+                    <i class="fal fa-gem"></i>
                 </div>
                 <div fxFlex="80">
-                    {{ "pages.sponsor.sponsors" | translate }}
+                    {{ "pages.sponsors.sponsors" | translate }}
                 </div>
             </div>
         </a>
-        <a *ngIf="(attendee$ | async)?.registered" [routerLink]="['/competition']" routerLinkActive="active">
+        <!-- <a *ngIf="(attendee$ | async)?.registered" [routerLink]="['/competition']" routerLinkActive="active">
             <div [fxLayout]="'row'" fxFlexFill>
                 <div fxFlex="20">
                     <i class="fas fa-trophy"></i>

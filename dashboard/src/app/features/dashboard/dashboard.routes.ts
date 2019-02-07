@@ -27,6 +27,16 @@ export const DASHBOARD_ROUTES: Routes = [
         canActivate: [NotRegisteredGuard]
     },
     {
+        path: "sponsors",
+        loadChildren: "src/app/features/sponsors/sponsors.module#SponsorsModule",
+        canActivate: [RegisteredGuard]
+    },
+    {
+        path: "schedule",
+        loadChildren: "src/app/features/schedule/schedule.module#ScheduleModule",
+        canActivate: [RegisteredGuard]
+    },
+    {
         path: "**",
         redirectTo: "team",
         pathMatch: "full"

@@ -34,6 +34,8 @@ import { ToastrModule } from "ngx-toastr";
 import { NgxMaskModule } from "ngx-mask";
 import { ResetModule } from "./features/reset/reset.module";
 import { TooltipModule } from "ngx-bootstrap";
+import { SponsorsService } from "./providers/sponsors.service";
+import { ScheduleService } from "./providers/schedule.service";
 
 export function loadFactory(http: HttpClient): TranslateHttpLoader {
     return new TranslateHttpLoader(http, "../assets/i18n/", ".json");
@@ -80,7 +82,9 @@ export function loadFactory(http: HttpClient): TranslateHttpLoader {
         NotAuthenticatedGuard,
         TeamService,
         RegisterService,
-        PasswordService
+        PasswordService,
+        SponsorsService,
+        ScheduleService
     ],
     bootstrap: [AppComponent]
 })
