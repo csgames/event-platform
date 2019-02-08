@@ -3,7 +3,7 @@ import { Store, select } from "@ngrx/store";
 import { State, getActivities, getScheduleLoading } from "./store/schedule.reducer";
 import { LoadActivities } from "./store/schedule.actions";
 import { Subscription } from "rxjs";
-import { getCurrentEvent } from "src/app/store/app.reducers";
+import { ScheduleService } from "src/app/providers/schedule.service";
 
 @Component({
     selector: "app-schedule",
@@ -15,13 +15,17 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     loading$ = this.store$.pipe(select(getScheduleLoading));
 
     private activitiesSub: Subscription;
+    public dates: String[];
 
-    constructor(private store$: Store<State>) { }
+    constructor(private store$: Store<State>,
+                private scheduleService: ScheduleService) { }
 
     public ngOnInit() {
         this.store$.dispatch(new LoadActivities());
         this.activitiesSub = this.activities$.subscribe((activities) => {
-            console.log(activities);
+            const activitiesPerDay = this.scheduleService.getActivitiesPerDay(activities);
+            this.dates = Object.keys(activitiesPerDay);
+            console.log(this.dates)
         });
     }
 

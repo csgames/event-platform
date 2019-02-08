@@ -9,6 +9,8 @@ import { EffectsModule } from "@ngrx/effects";
 import { ScheduleEffects } from "./store/schedule.effects";
 import { ScheduleComponent } from "./schedule.component";
 import { LoadingSpinnerModule } from "src/app/components/loading-spinner/loading-spinner.module";
+import { TabsModule } from "ngx-bootstrap";
+import { FlexLayoutModule } from "@angular/flex-layout";
 
 @NgModule({
     imports: [
@@ -18,7 +20,9 @@ import { LoadingSpinnerModule } from "src/app/components/loading-spinner/loading
         LoadingSpinnerModule,
         DirectivesModule,
         StoreModule.forFeature("schedule", fromSchedule.reducer),
-        EffectsModule.forFeature([ScheduleEffects])
+        EffectsModule.forFeature([ScheduleEffects]),
+        TabsModule.forRoot(),
+        FlexLayoutModule
     ],
     declarations: [ScheduleComponent],
     entryComponents: [ScheduleComponent]

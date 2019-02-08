@@ -665,3 +665,19 @@ h4 {
 .toast {
     opacity: 1 !important;
 }
+
+.nav {
+    background: white;
+}
+
+.nav-pills .nav-link.active {
+    background-color: #0D5899 !important;
+}
+
+.nav-link > span {
+    color: black;
+}
+
+.nav-link.active > span {
+    color: white;
+}

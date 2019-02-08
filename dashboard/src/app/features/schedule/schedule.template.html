@@ -1,2 +1,5 @@
 <h1>{{ "pages.schedule.schedule" | translate }}</h1>
 <app-loading-spinner [loading]="loading$ | async"></app-loading-spinner>
+<tabset type="pills" fxLayoutAlign="center start">
+    <tab *ngFor="let date of dates" [heading]="date"></tab>
+</tabset>
