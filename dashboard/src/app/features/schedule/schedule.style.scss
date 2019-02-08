@@ -1,3 +1,55 @@
 h1 {
     text-transform: uppercase;
 }
+
+.time-card {
+    background-color: white;
+    border-radius: 6px;
+    box-shadow: 0 1px 4px 0 rgba(0, 0, 0, .14);
+    margin-bottom: 8px;
+}
+
+.activity-card {
+    margin-bottom: 8px;
+}
+
+.activity-card-body {
+    background-color: white;
+    border-radius: 6px;
+}
+
+.time-card-body {
+    padding-left: 10px !important;
+}
+
+.card-body {
+    padding: 0px;
+}
+
+.fal {
+    font-size: 40px;
+}
+
+.tile {
+    margin: 10px 10px 10px 20px;
+}
+
+i {
+    margin-top: 10px;
+    margin-right: 15px;
+}
+
+.hours {
+    font-size: 13px;
+    margin-bottom: 8px;
+}
+
+.name {
+    margin-top: 5px;
+    font-size: 20px;
+    margin-bottom: 3px;
+}
+
+.col-sm {
+    width: 70% !important;
+}

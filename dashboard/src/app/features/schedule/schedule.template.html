@@ -1,16 +1,30 @@
 <h1>{{ "pages.schedule.schedule" | translate }}</h1>
 <app-loading-spinner [loading]="loading$ | async"></app-loading-spinner>
-<tabset type="pills" fxLayoutAlign="center start">
+<tabset type="pills">
     <tab *ngFor="let date of dates" [heading]="date">
         <div *ngFor="let time of getSortedKeysForDaySchedule(activitiesPerDay[date])">
-            {{time}}
-            <div *ngFor="let a of activitiesPerDay[date][time]">
-                <div class="card">
-                    <div class="card-body">
-                        <p>{{ a.name }}</p>
-                    </div>
+            <div class="time-card">
+                <div class="card-body time-card-body">
+                    <span>{{ time }}</span>
                 </div>
             </div>
+            <ng-container *ngIf="activitiesPerDay[date][time].length == 1">
+                <div *ngFor="let a of activitiesPerDay[date][time]">
+                    <div class="card activity-card">
+                        <div class="card-body activity-card-body">
+                            <div class="row tile">
+                                <i *ngIf="a.type == 'competition'" class="fal fa-trophy"></i>
+                                <i *ngIf="a.type == 'other'" class="fal fa-calendar"></i>
+                                <i *ngIf="a.type == 'food'" class="fal fa-utensils"></i>
+                                <div class="col-sm">
+                                    <p class="name">{{ a.name }}</p>
+                                    <p class="hours">{{ time }} - </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </ng-container>
         </div>
     </tab>
 </tabset>
