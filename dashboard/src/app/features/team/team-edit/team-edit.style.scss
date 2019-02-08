@@ -1,0 +1,26 @@
+.borders {
+    background: transparent;
+    border: 1px dashed #9B9B9B;
+    width: 99%;
+    margin-bottom: 10px;
+
+    &:hover {
+        border: 1px dashed #00579c;
+    }
+}
+
+.add-team-card {
+    background-color: #ffffff;
+    margin-bottom: 20px;
+    width: 100%;
+    border-radius: 6px;
+    box-shadow: 0 1px 4px 0 rgba(0, 0, 0, .14);
+}
+
+.add-button {
+    height: 260px;
+}
+
+hr {
+    margin: 0;
+}

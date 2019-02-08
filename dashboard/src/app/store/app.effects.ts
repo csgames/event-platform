@@ -2,7 +2,8 @@ import { Injectable } from "@angular/core";
 import { Actions, Effect, ofType } from "@ngrx/effects";
 import { AuthenticationService } from "../providers/authentication.service";
 import {
-    AppActionTypes,
+    AppActionTypes, AppLoaded,
+    ChangeLanguage,
     CurrentAttendeeLoaded,
     EditProfile,
     EventsLoaded,
@@ -11,11 +12,9 @@ import {
     LoadEvents,
     Logout,
     SetCurrentEvent,
-    ChangeLanguage,
-    ChangePassword,
-    EditAccount
+    ChangePassword
 } from "./app.actions";
-import { catchError, exhaustMap, filter, map, switchMap, tap } from "rxjs/operators";
+import { catchError, filter, map, switchMap, tap, withLatestFrom } from "rxjs/operators";
 import { Router } from "@angular/router";
 import { AttendeeService } from "../providers/attendee.service";
 import { Event } from "../api/models/event";
@@ -26,12 +25,15 @@ import { SimpleModalService } from "ngx-simple-modal";
 import { ProfileSettingComponent } from "../features/dashboard/modals/profile-setting/profile-setting.component";
 import { TranslateService } from "@ngx-translate/core";
 import { ToastrService } from "ngx-toastr";
+import { select, Store } from "@ngrx/store";
+import { getCurrentAttendee, getEvents, State } from "./app.reducers";
 import { ChangePasswordComponent } from "../features/dashboard/modals/change-password/change-password.component";
 
 @Injectable()
 export class AppEffects {
     constructor(
         private actions$: Actions,
+        private store$: Store<State>,
         private authenticationService: AuthenticationService,
         private attendeeService: AttendeeService,
         private eventService: EventService,
@@ -44,7 +46,7 @@ export class AppEffects {
     @Effect({ dispatch: false })
     logout$ = this.actions$.pipe(
         ofType<Logout>(AppActionTypes.Logout),
-        exhaustMap(() => {
+        switchMap(() => {
             return this.authenticationService.logout().pipe(
                 tap(() => {
                     this.router.navigate(["/login"]);
@@ -70,8 +72,18 @@ export class AppEffects {
                 progressBar: true,
                 positionClass: "toast-top-right",
                 timeOut: 10000
-            })
+            });
         })
+    );
+
+    @Effect()
+    appLoaded$ = this.actions$.pipe(
+        ofType(AppActionTypes.CurrentAttendeeLoaded, AppActionTypes.EventsLoaded),
+        withLatestFrom(this.store$.pipe(select(getCurrentAttendee)), this.store$.pipe(select(getEvents))),
+        filter(([action, attendee, events]: [any, Attendee, Event[]]) => {
+            return [attendee, events].filter(x => x).length === 2;
+        }),
+        map(() => new AppLoaded())
     );
 
     @Effect()
@@ -88,7 +100,7 @@ export class AppEffects {
     @Effect()
     loadEvents$ = this.actions$.pipe(
         ofType<LoadEvents>(AppActionTypes.LoadEvents),
-        exhaustMap(() => {
+        switchMap(() => {
             return this.eventService.getEventList().pipe(
                 map((e: Event[]) => new EventsLoaded(e)),
                 catchError((e) => of(new GlobalError(e)))

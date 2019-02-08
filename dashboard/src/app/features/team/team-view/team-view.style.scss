@@ -1,7 +1,6 @@
 .borders {
     background: transparent;
     border: 1px dashed #9B9B9B;
-    width: 99%;
     margin-bottom: 10px;
 
     &:hover {
@@ -14,6 +13,10 @@
     background-color: #00579c;
     margin-top: 10px;
     height: 1000px;
+}
+
+.title {
+    font-size: 40px;
 }
 
 .error {
@@ -29,19 +32,13 @@
     box-shadow: 0 1px 4px 0 rgba(0, 0, 0, .14);
 }
 
+.edit-name-card {
+    flex-flow: row wrap;
+    margin: 10px 0;
+}
+
 .card-wrapper {
     width: 99%;
-}
-
-.input {
-    width: 30%;
-    display: inline-flex;
-    margin-left: 0px;
-}
-
-.btn-save {
-    display: inline-block;
-    margin-right: 10px;
 }
 
 .btn-primary {
@@ -87,6 +84,7 @@ h1 {
 
 .edit-name-button {
     background: transparent;
+    padding: 5px;
 
     &:hover {
         color: #0D5899;
@@ -94,12 +92,20 @@ h1 {
 }
 
 .button-group {
-    position: absolute;
     margin-bottom: 4px;
-    bottom: 0;
     margin-left: 5px;
 }
 
 .has-error {
     margin-bottom: 29px;
+}
+
+.team-members {
+    font-size: 22px;
+    font-weight: 300;
+    margin-bottom: 0;
+
+    b {
+        font-weight: 700;
+    }
 }

@@ -30,7 +30,8 @@
             "email_success": "Email successfully sent.",
             "password_success": "Password successfully changed!",
             "password_failure": "An error occured while changing the password.",
-            "add_member_failure": "An error occured while adding a member to the team"
+            "add_member_failure": "An error occured while adding a member to the team",
+            "update_team_name_failure": "An error occured while updating the team name"
 		},
 		"top_bar": {
 			"change_language": "Français",
@@ -63,7 +64,8 @@
 			"validate": "Validate"
 		},
 		"error": {
-			"something": "Something happened..."
+			"something": "Something happened...",
+            "reset_code_error": "Reset code is expired"
 		},
 		"loading": {
 			"loading": "Loading..."
@@ -134,7 +136,8 @@
 		"register": {
 			"already_have_account": "Already have an account?",
 			"confirm_password": "Confirm password",
-			"register": "Register"
+			"register": "Register",
+            "validation_error": "An error occured while validating your invitation."
 		},
 		"schedule": {
 			"schedule": "Schedule",
@@ -153,12 +156,14 @@
 			"add_a_member": "Add a team member",
 			"add_godparent": "Add godparent",
 			"add_member": "Add member",
+			"add_team": "Add team",
 			"godparent": "Godparent",
 			"loading_error": "An error occured while loading the team.",
 			"no_godparent": "No godparent yet",
 			"not_registered": "Not registered",
 			"registered": "Registered",
 			"team": "Team",
+			"teams": "Teams",
 			"team_title": "Team",
 			"team_members": "Team members"
 		}
