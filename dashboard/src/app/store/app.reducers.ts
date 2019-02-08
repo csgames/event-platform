@@ -1,4 +1,4 @@
-import { AppActions, AppActionTypes } from "./app.actions";
+import { AppActions, AppActionTypes, AppLoaded } from "./app.actions";
 import { ActionReducerMap, createFeatureSelector, createSelector, MetaReducer } from "@ngrx/store";
 import { environment } from "../../environments/environment";
 import { Attendee } from "../api/models/attendee";
@@ -24,7 +24,7 @@ export const initialState: GlobalState = {
     currentAttendee: null,
     events: [],
     currentEvent: null,
-    loading: false,
+    loading: true,
     language: null
 };
 
@@ -38,8 +38,7 @@ export function globalReducer(state = initialState, action: AppActions): GlobalS
         case AppActionTypes.CurrentAttendeeLoaded:
             return {
                 ...state,
-                currentAttendee: action.payload,
-                loading: false
+                currentAttendee: action.payload
             };
         case AppActionTypes.Logout:
             return {
@@ -55,6 +54,11 @@ export function globalReducer(state = initialState, action: AppActions): GlobalS
             return {
                 ...state,
                 events: action.events
+            };
+        case AppActionTypes.AppLoaded:
+            return {
+                ...state,
+                loading: false
             };
         case AppActionTypes.SetCurrentEvent:
             return {

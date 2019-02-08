@@ -29,7 +29,8 @@
             "email_failed": "Une erreur est survenue lors de l'envoie du courriel.",
             "email_success": "Courriel envoyé avec succès",
             "password_success": "Mot de passe mis à jour avec succès!",
-            "password_failure": "Une erreur est survenue en modifiant le mot de passe."
+            "password_failure": "Une erreur est survenue en modifiant le mot de passe.",
+            "add_member_failure": "Une erreur est survenue en ajoutant un membre à l'équipe"
         },
         "top_bar": {
             "change_language": "English",
@@ -62,7 +63,8 @@
             "validate": "Valider"
         },
         "error": {
-            "something": "Une erreur est survenue..."
+            "something": "Une erreur est survenue...",
+            "reset_code_error": "Le code est expiré"
         },
         "loading": {
             "loading": "Chargement..."
@@ -152,12 +154,14 @@
             "add_a_member": "Ajouter un membre",
             "add_godparent": "Ajouter un(e) parrain/marraine",
             "add_member": "Ajouter un membre",
+            "add_team": "Ajouter une équipe",
             "godparent": "Parrain/Marraine",
             "loading_error": "Une erreur est survenue lors du chargement de l'équipe.",
             "no_godparent": "Aucun(e) parrain/marraine pour l'instant",
             "not_registered": "Non-enregistré",
             "registered": "Enregistré",
             "team": "Équipe",
+            "teams": "Équipes",
             "team_title": "Equipe",
             "team_members": "Membres de l'équipe"
         }

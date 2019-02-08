@@ -19,6 +19,7 @@ import { LoadingSpinnerModule } from "../../components/loading-spinner/loading-s
 import { ProfileSettingModule } from "./modals/profile-setting/profile-setting.module";
 import { RegisteredGuard } from "./utils/registered.guard";
 import { NotRegisteredGuard } from "./utils/not-registered.guard";
+import { DirectivesModule } from "../../directives/directives.module";
 import { ChangePasswordModule } from "./modals/change-password/change-password.module";
 
 @NgModule({
@@ -28,6 +29,7 @@ import { ChangePasswordModule } from "./modals/change-password/change-password.m
         ReactiveFormsModule,
         RouterModule,
         FlexLayoutModule,
+        DirectivesModule,
         SimpleModalModule,
         BsDropdownModule,
         NotificationsListModalModule,

@@ -3,8 +3,8 @@ import { DashboardComponent } from "./features/dashboard/dashboard.component";
 import { DASHBOARD_ROUTES } from "./features/dashboard/dashboard.routes";
 import { LoginComponent } from "./features/login/login.component";
 import { RegisterComponent } from "./features/register/register.component";
-import { AuthenticatedGuard } from "./utils/authenticated.guard";
-import { NotAuthenticatedGuard } from "./utils/not-authenticated.guard";
+import { AuthenticatedGuard } from "./guards/authenticated.guard";
+import { NotAuthenticatedGuard } from "./guards/not-authenticated.guard";
 import { ForgetComponent } from "./features/forget/forget.component";
 import { ResetComponent } from "./features/reset/reset.component";
 
@@ -20,12 +20,12 @@ export const ROUTES: Routes = [
         canActivate: [NotAuthenticatedGuard]
     },
     {
-        path: 'forget',
+        path: "forget",
         component: ForgetComponent,
         canActivate: [NotAuthenticatedGuard]
     },
     {
-        path: 'reset/:uuid',
+        path: "reset/:uuid",
         component: ResetComponent,
         canActivate: [NotAuthenticatedGuard]
     },

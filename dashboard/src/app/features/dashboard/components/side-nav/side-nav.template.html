@@ -12,7 +12,7 @@
                 </div>
             </div>
         </a> -->
-        <a *ngIf="!((attendee$ | async)?.registered)" [routerLink]="['/onboarding']" routerLinkActive="active">
+        <a *ngIf="(attendee$ | async) && !((attendee$ | async)?.registered)" [routerLink]="['/onboarding']" routerLinkActive="active">
             <div [fxLayout]="'row'" fxFlexFill>
                 <div fxFlex="20">
                     <i class="fal fa-id-card"></i>
@@ -52,13 +52,25 @@
                 </div>
             </div>
         </a> -->
-        <a *ngIf="(attendee$ | async)?.registered" [routerLink]="['/team']" routerLinkActive="active">
+        <ng-container *ifRole="['attendee', 'captain']">
+            <a *ngIf="!(attendee$ | async) || (attendee$ | async)?.registered" [routerLink]="['/team']" routerLinkActive="active">
+                <div [fxLayout]="'row'" fxFlexFill>
+                    <div fxFlex="20">
+                        <i class="fal fa-users"></i>
+                    </div>
+                    <div fxFlex="80">
+                        {{ "pages.team.team" | translate }}
+                    </div>
+                </div>
+            </a>
+        </ng-container>
+        <a *ifRole="['admin']" [routerLink]="['/team/edit']" routerLinkActive="active">
             <div [fxLayout]="'row'" fxFlexFill>
                 <div fxFlex="20">
                     <i class="fal fa-users"></i>
                 </div>
                 <div fxFlex="80">
-                    {{ "pages.team.team" | translate }}
+                    {{ "pages.team.teams" | translate }}
                 </div>
             </div>
         </a>

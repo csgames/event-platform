@@ -31,10 +31,10 @@
                             "node_modules/bootstrap/dist/css/bootstrap.css",
                             "node_modules/@fortawesome/fontawesome-pro/css/all.css",
                             "node_modules/animate.css/animate.css",
-                            "src/styles.scss",
                             "node_modules/ngx-toastr/toastr.css",
                             "node_modules/@uppy/core/dist/style.min.css",
-                            "node_modules/@uppy/drag-drop/dist/style.min.css"
+                            "node_modules/@uppy/drag-drop/dist/style.min.css",
+                            "src/styles.scss"
                         ],
                         "scripts": []
                     },

@@ -9,22 +9,22 @@
 </ng-container>
 <ng-container *ngIf="currentTeam$ | async as currentTeam">
     <div *ngIf="!isEditingTeamName">
-        <h2>{{ currentTeam?.name}}
+        <h2 class="title">
+            {{ currentTeam?.name}}
             <button *ifRole="['admin', 'captain']" type="button" class="btn edit-name-button">
-                <i class="far fa-edit fa-lg" (click)="onEditTeamName(currentTeam)"></i>
+                <i class="fal fa-edit fa-md" (click)="onEditTeamName(currentTeam)"></i>
             </button>
         </h2>
     </div>
-    <div *ngIf="isEditingTeamName">
-        <div class="input-group input-group-default input" id="teamNameInput">
+    <div class="edit-name-card" *ngIf="isEditingTeamName" fxFlexLayout="row" fxLayoutAlign="start center">
+        <div fxFlex="0 0 30%" fxFlex.lt-md="0 0 100%" class="input-group input-group-default input" id="teamNameInput">
             <input class="form-control" type="text" id="teamName" [(ngModel)]="teamName">
         </div>
-        <button type="button" class="btn btn-primary btn-save" (click)="onSaveTeamName(teamName)">
-            {{ "general.button.save" | translate }}<i class="fas fa-check"></i>
+        <button type="button" class="btn btn-primary m-1" (click)="onSaveTeamName(teamName)">
+            {{ "general.button.save" | translate }}<i class="fal fa-check"></i>
         </button>
-        <button type="button" class="btn btn-danger"
-                (click)="onCancelTeamName()">
-            {{ "general.button.cancel" | translate }} <i class="fas fa-times"></i>
+        <button type="button" class="btn btn-danger m-1" (click)="onCancelTeamName()">
+            {{ "general.button.cancel" | translate }} <i class="fal fa-times"></i>
         </button>
     </div>
     <ng-container *ngIf="currentAttendees$ | async as currentAttendees">
@@ -33,14 +33,15 @@
                 ({{currentAttendees.length}}/{{ attendeesSize$ | async }})
             </b>
         </h4>
-        <hr>
+        <hr class="my-2">
         <div *ngFor="let member of currentAttendees">
-            <app-attendee style="margin-bottom:20px;" [attendee]="member">
-            </app-attendee>
+            <app-attendee-view class="mb-4" [attendee]="member">
+            </app-attendee-view>
         </div>
         <div *ifRole="['admin', 'captain']">
-            <button *ngIf="!isAddingTeamMember && canAddTeamMember$ | async"
-                    type="button" class="btn btn-lg btn-block borders" (click)="onEditTeamMember()">
+            <button *ngIf="!isAddingTeamMember && canAddTeamMember$ | async" type="button"
+                    class="btn btn-lg btn-block borders"
+                    (click)="onEditTeamMember()">
                 + {{ "pages.team.add_member" | translate }}
             </button>
         </div>
@@ -52,16 +53,18 @@
                 {{ "pages.team.add_a_member" | translate }}
                 <br>
                 <div class="row">
-                    <div class="col-sm-5">
+                    <div class="col-sm-12 col-lg-7">
                         <app-add-attendee-form #attendee [(ngModel)]="newAttendee"></app-add-attendee-form>
                     </div>
+                </div>
+                <div class="row">
                     <div class="col-sm-7">
                         <div class="button-group">
                             <a class="btn btn-primary" (click)="onAddTeamMember()">
-                                {{ "general.button.add" | translate }} <i class="fas fa-plus"></i>
+                                {{ "general.button.add" | translate }} <i class="fal fa-plus"></i>
                             </a>
                             <a class="btn btn-danger cancel" (click)="onCancelTeamMember()">
-                                {{ "general.button.cancel" | translate }}<i class="fas fa-times"></i>
+                                {{ "general.button.cancel" | translate }}<i class="fal fa-times"></i>
                             </a>
                         </div>
                     </div>
@@ -70,11 +73,14 @@
         </div>
     </div>
     <ng-container *ngIf="currentGodparent$ | async as currentGodparent">
-        <h4 class="team-members">{{ "pages.team.godparent" | translate }} <b>({{currentGodparent?.length}}/{{godparentSize$ | async}})</b></h4>
-        <hr>
+        <h4 class="team-members">
+            {{ "pages.team.godparent" | translate }}
+            <b>({{ currentGodparent?.length }}/{{ godparentSize$ | async}})</b>
+        </h4>
+        <hr class="my-2">
         <div *ngFor="let member of currentGodparent">
-            <app-attendee style="margin-bottom:20px;" [attendee]="member">
-            </app-attendee>
+            <app-attendee-view style="margin-bottom:20px;" [attendee]="member">
+            </app-attendee-view>
         </div>
         <div *ifRole="['admin', 'captain']">
             <button *ngIf="!isAddingTeamGodparent && canAddTeamGodparent$ | async" type="button"
@@ -87,16 +93,18 @@
                     {{ "pages.team.add_a_godparent" | translate }}
                     <br>
                     <div class="row">
-                        <div class="col-sm-5">
+                        <div class="col-sm-12 col-lg-7">
                             <app-add-attendee-form #godparent [(ngModel)]="newGodparent"></app-add-attendee-form>
                         </div>
+                    </div>
+                    <div class="row">
                         <div class="col-sm-7">
-                            <div class="button-group" [class.has-error]="godparentForm?.invalidEmail">
+                            <div class="button-group">
                                 <a class="btn btn-primary" (click)="onAddTeamGodparent()">
-                                    {{ "general.button.add" | translate }} <i class="fas fa-plus"></i>
+                                    {{ "general.button.add" | translate }} <i class="fal fa-plus"></i>
                                 </a>
                                 <a class="btn btn-danger cancel" (click)="onCancelTeamGodparent()">
-                                    {{ "general.button.cancel" | translate }} <i class="fas fa-times"></i>
+                                    {{ "general.button.cancel" | translate }} <i class="fal fa-times"></i>
                                 </a>
                             </div>
                         </div>

@@ -16,7 +16,7 @@
     <mat-sidenav-content>
         <app-top-nav [showToggleSideNav]="isHandset$ | async"
                      (toggleSideNav)="drawer.toggle()" (editProfile)="editProfile()"
-                     (changePassword)="changePassword()" (editAccount)="editAccount()"></app-top-nav>
+                     (changePassword)="changePassword()"></app-top-nav>
         <div class="content">
             <router-outlet></router-outlet>
         </div>

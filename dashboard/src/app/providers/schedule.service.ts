@@ -26,14 +26,4 @@ export class ScheduleService {
         }
         return dates
     }
-
-    public getSortedKeysForDaySchedule(day: { [id: string]: Activity[] }): string[] {
-        var list = Object.keys(day);
-        list = list.sort((t1, t2) => {
-            var activity1 = day[t1][0];
-            var activity2 = day[t2][0];
-            return activity1.beginDate < activity2.beginDate ? -1 : 1;
-        });
-        return list;
-    }
 }

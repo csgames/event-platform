@@ -7,7 +7,7 @@
                         <div class="card">
                             <app-loading-spinner [loading]="loading$ | async"></app-loading-spinner>
                             <img class="logo" src="../../../assets/logo-long.svg">
-                            <div class="link-error" *ngIf="validateError$ | async">Reset code is expired</div>
+                            <div class="link-error" *ngIf="validateError$ | async">{{ "general.error.reset_code_error" | translate }}</div>
                             <div class="card-body" *ngIf="!(validateError$ | async)">
                                 <form [formGroup]="formGroup">
                                     <div class="row">

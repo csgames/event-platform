@@ -5,7 +5,8 @@ export enum LoginActionTypes {
     PerformLogin = "[Login] Perform login",
     LoginSuccess = "[Login] Login success",
     LoginFailure = "[Login] Login failure",
-    ResetError = "[Login] Reset error"
+    ResetError = "[Login] Reset error",
+    ResetStore = "[Login] Reset store"
 }
 
 export class PerformLogin implements Action {
@@ -26,8 +27,14 @@ export class ResetError implements Action {
     readonly type = LoginActionTypes.ResetError;
 }
 
+export class ResetStore implements Action {
+    readonly type = LoginActionTypes.ResetStore;
+}
+
+
 export type LoginActions =
     | PerformLogin
     | LoginSuccess
     | LoginFailure
-    | ResetError;
+    | ResetError
+    | ResetStore;
