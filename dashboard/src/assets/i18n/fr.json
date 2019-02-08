@@ -30,7 +30,8 @@
             "email_success": "Courriel envoyé avec succès",
             "password_success": "Mot de passe mis à jour avec succès!",
             "password_failure": "Une erreur est survenue en modifiant le mot de passe.",
-            "add_member_failure": "Une erreur est survenue en ajoutant un membre à l'équipe"
+            "add_member_failure": "Une erreur est survenue en ajoutant un membre à l'équipe",
+            "update_team_name_failure": "Une erreur est survenue en modifiant le nom de l'équipe"
         },
         "top_bar": {
             "change_language": "English",
@@ -135,7 +136,8 @@
         "register": {
             "already_have_account": "Vous avez déjà un compte?",
             "confirm_password": "Confirmer le mot de passe",
-            "register": "Enregistrer"
+            "register": "Enregistrer",
+            "validation_error": "Une erreur est survenue durant la validation de votre invitation."
         },
         "schedule": {
             "schedule": "Horaire",

@@ -30,7 +30,8 @@
             "email_success": "Email successfully sent.",
             "password_success": "Password successfully changed!",
             "password_failure": "An error occured while changing the password.",
-            "add_member_failure": "An error occured while adding a member to the team"
+            "add_member_failure": "An error occured while adding a member to the team",
+            "update_team_name_failure": "An error occured while updating the team name"
 		},
 		"top_bar": {
 			"change_language": "Français",
@@ -135,7 +136,8 @@
 		"register": {
 			"already_have_account": "Already have an account?",
 			"confirm_password": "Confirm password",
-			"register": "Register"
+			"register": "Register",
+            "validation_error": "An error occured while validating your invitation."
 		},
 		"schedule": {
 			"schedule": "Schedule",

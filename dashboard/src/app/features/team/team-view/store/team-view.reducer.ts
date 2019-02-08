@@ -47,6 +47,16 @@ export function reducer(state = initialState, action: TeamViewActions): TeamView
                 ...state,
                 loading: true
             };
+        case TeamViewActionTypes.AddMemberFailure:
+            return {
+                ...state,
+                loading: false
+            }
+        case TeamViewActionTypes.UpdateTeamNameFailure:
+            return {
+                ...state,
+                loading: false
+            }
         default:
             return state;
     }

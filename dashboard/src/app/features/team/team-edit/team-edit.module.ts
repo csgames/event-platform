@@ -11,7 +11,6 @@ import { LoadingSpinnerModule } from "../../../components/loading-spinner/loadin
 import { TeamViewModule } from "../team-view/team-view.module";
 import { CollapseModule, TooltipModule } from "ngx-bootstrap";
 import { AttendeeViewModule } from "../../../components/attendee-view/attendee-view.module";
-import { AddTeamFormComponent } from "./components/add-team-form/add-team-form.component";
 
 @NgModule({
     imports: [
@@ -28,7 +27,7 @@ import { AddTeamFormComponent } from "./components/add-team-form/add-team-form.c
         TeamEditRoutingModule
     ],
     exports: [],
-    declarations: [TeamEditComponent, AddTeamFormComponent],
+    declarations: [TeamEditComponent],
     providers: []
 })
 export class TeamEditModule {}
