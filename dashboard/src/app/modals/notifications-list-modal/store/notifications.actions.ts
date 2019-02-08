@@ -1,5 +1,5 @@
 import { Action } from "@ngrx/store";
-import { Notification } from "../../../api/models/notification";
+import { AppNotification } from "../../../api/models/notification";
 
 export enum NotificationActionTypes {
     LoadNotifications = "[Notification] Load notifications",
@@ -15,7 +15,7 @@ export class LoadNotifications implements Action {
 export class NotificationsLoaded implements Action {
     readonly type = NotificationActionTypes.NotificationsLoaded;
 
-    constructor(public notificatons: Notification[]) { }
+    constructor(public notificatons: AppNotification[]) { }
 }
 
 export class MarkNotificationsAsSeen implements Action {

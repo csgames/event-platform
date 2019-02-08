@@ -8,6 +8,8 @@ import { StoreModule } from "@ngrx/store";
 import * as fromNotification from "./store/notifications.reducer";
 import { EffectsModule } from "@ngrx/effects";
 import { NotificationsEffects } from "./store/notifications.effects";
+import { TranslateModule } from "@ngx-translate/core";
+import { PipeModule } from "src/app/pipe/pipe.module";
 
 @NgModule({
     imports: [
@@ -17,7 +19,9 @@ import { NotificationsEffects } from "./store/notifications.effects";
         RouterModule,
         FlexLayoutModule,
         StoreModule.forFeature("notifications", fromNotification.reducer),
-        EffectsModule.forFeature([NotificationsEffects])
+        EffectsModule.forFeature([NotificationsEffects]),
+        TranslateModule,
+        PipeModule
     ],
     exports: [],
     declarations: [NotificationsListModalComponent],

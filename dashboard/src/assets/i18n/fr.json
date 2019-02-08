@@ -38,6 +38,9 @@
             "sign_out": "Déconnexion",
             "change_password": "Changer le mot de passe",
             "edit_account": "Modifier le compte"
+        },
+        "notification": {
+            "no_notification": "Vous n'avez pas de notifications"
         }
     },
     "errors": {

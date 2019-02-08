@@ -1,10 +1,10 @@
-import { Notification } from "../../../api/models/notification";
+import { AppNotification } from "../../../api/models/notification";
 import * as fromApp from "src/app/store/app.reducers";
 import { NotificationActionTypes, NotificationsActions } from "./notifications.actions";
 import { createFeatureSelector, createSelector } from "@ngrx/store";
 
 export interface NotificationsState {
-    notifications: Notification[];
+    notifications: AppNotification[];
     loading: boolean;
 }
 

@@ -38,7 +38,10 @@
             "sign_out": "Sign Out",
             "change_password": "Change password",
             "edit_account": "Edit Account"
-		}
+        },
+        "notification": {
+            "no_notification": "You have no notifications"
+        }
 	},
 	"errors": {
 		"/^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{8,}$/": "The password must contain at least 8 characters including a number, a lower case letter and a upper case letter",

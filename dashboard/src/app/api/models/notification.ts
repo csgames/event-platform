@@ -1,6 +1,6 @@
 import { Activity } from "./activity";
 
-export interface Notification {
+export interface AppNotification {
     _id?: string;
     title: string;
     body: string;

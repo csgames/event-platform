@@ -3,7 +3,7 @@ import { NotificationService } from "src/app/providers/notification.service";
 import { Actions, Effect, ofType } from "@ngrx/effects";
 import { LoadNotifications, NotificationActionTypes, NotificationsLoaded, MarkNotificationsAsSeen, NotificationsMarked } from "./notifications.actions";
 import { switchMap, map, catchError, filter } from "rxjs/operators";
-import { Notification } from "../../../api/models/notification";
+import { AppNotification } from "../../../api/models/notification";
 import { GlobalError } from "src/app/store/app.actions";
 import { of } from "rxjs";
 import { Action } from "@ngrx/store";
@@ -20,7 +20,7 @@ export class NotificationsEffects {
         ofType<LoadNotifications>(NotificationActionTypes.LoadNotifications),
         switchMap(() => {
             return this.notificationsService.loadNotifications().pipe(
-                map((notifications: Notification[]) => new NotificationsLoaded(notifications)),
+                map((notifications: AppNotification[]) => new NotificationsLoaded(notifications)),
                 catchError((err) => of(new GlobalError(err)))
             );
         })
