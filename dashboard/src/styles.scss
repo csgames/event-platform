@@ -665,3 +665,12 @@ h4 {
 .toast {
     opacity: 1 !important;
 }
+
+.clickable {
+    cursor: pointer;
+}
+
+.scroll {
+    overflow-y: scroll !important;
+    height: 100vh;
+}

@@ -4,6 +4,8 @@ import { State, getSponsors, getSponsorsLoading } from "./store/sponsors.reducer
 import { LoadSponsors } from "./store/sponsors.actions";
 import { Subscription } from "rxjs";
 import { Sponsors } from "src/app/api/models/sponsors";
+import { SimpleModalComponent, SimpleModalService } from "ngx-simple-modal";
+import { InfoSponsorComponent } from "./info-sponsor/info-sponsor.component";
 
 @Component({
     selector: "app-sponsors",
@@ -20,7 +22,7 @@ export class SponsorsComponent implements OnInit, OnDestroy {
     public bronze: Sponsors[];
     private sponsorsSub: Subscription;
 
-    constructor(private store$: Store<State>) {}
+    constructor(private store$: Store<State>, private modalService: SimpleModalService) {}
 
     public async ngOnInit() {
         this.store$.dispatch(new LoadSponsors());
@@ -35,5 +37,9 @@ export class SponsorsComponent implements OnInit, OnDestroy {
 
     public ngOnDestroy() {
         this.sponsorsSub.unsubscribe();
+    }
+
+    public onShowInfo(sponsor: Sponsors) {
+        this.modalService.addModal(InfoSponsorComponent, {sponsor});
     }
 }
