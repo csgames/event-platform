@@ -32,13 +32,16 @@ export function reducer(state = initialState, action: LoginActions): LoginState 
         case LoginActionTypes.LoginSuccess:
             return {
                 ...state,
-                loading: false,
                 error: false
             };
         case LoginActionTypes.ResetError:
             return {
                 ...state,
                 error: false
+            };
+        case LoginActionTypes.ResetStore:
+            return {
+                ...initialState
             };
         default:
             return state;

@@ -28,11 +28,19 @@
 }
 
 .content {
-    margin: 20px;
+    margin: 5px;
+    padding: 20px;
+    overflow: auto;
+    height: calc(100% - 64px);
 }
 
 .mat-drawer-side {
     border: none !important;
     box-shadow: rgba(0, 0, 0, 0.2) 4px 0 8px;
     z-index: 0 !important;
+}
+
+.mat-drawer-content {
+    height: 100%;
+    overflow: hidden;
 }

@@ -15,6 +15,8 @@ export class TeamEditComponent implements OnInit {
     teams$ = this.store$.pipe(select(getTeamEditTeams));
     loading$ = this.store$.pipe(select(getTeamEditLoading));
 
+    showCreateTeamCard = false;
+
     get sortedTeams$() {
         return this.teams$.pipe(
             map(t => t.sort((a, b) => b.attendees.length - a.attendees.length))
@@ -38,5 +40,13 @@ export class TeamEditComponent implements OnInit {
 
     getTeamGodparent(team: Team): Attendee[] {
         return team && team.attendees && team.attendees.filter(a => ["godparent"].includes(a.role));
+    }
+
+    areTeamMembersAllRegistered(team: Team): boolean {
+        return this.getTeamAttendees(team).every(a => a.registered);
+    }
+
+    clickCreateTeam() {
+        this.showCreateTeamCard = true;
     }
 }

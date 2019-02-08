@@ -9,12 +9,12 @@ export enum AppActionTypes {
     CurrentAttendeeLoaded = "[App] Current attendee loaded",
     LoadEvents = "[App] Load events",
     EventsLoaded = "[App] Events loaded",
+    AppLoaded = "[App] App loaded",
     SetCurrentEvent = "[App] Set current event",
     EditProfile = "[App] Edit profile",
     Logout = "[App] Logout",
     ChangeLanguage = "[App] Change language",
-    ChangePassword = "[App] Change password",
-    EditAccount = "[App] Edit account"
+    ChangePassword = "[App] Change password"
 }
 
 export class ChangeLanguage implements Action {
@@ -49,6 +49,10 @@ export class EventsLoaded implements Action {
     constructor(public events: Event[]) {}
 }
 
+export class AppLoaded {
+    readonly type = AppActionTypes.AppLoaded;
+}
+
 export class SetCurrentEvent implements Action {
     readonly type = AppActionTypes.SetCurrentEvent;
 
@@ -67,10 +71,6 @@ export class ChangePassword implements Action {
     readonly type = AppActionTypes.ChangePassword;
 }
 
-export class EditAccount implements Action {
-    readonly type = AppActionTypes.EditAccount;
-}
-
 export type AppActions =
     | GlobalError
     | Logout
@@ -78,9 +78,9 @@ export type AppActions =
     | EventsLoaded
     | LoadCurrentAttendee
     | CurrentAttendeeLoaded
+    | AppLoaded
     | SetCurrentEvent
     | EditProfile
     | LoadCurrentAttendee
     | ChangeLanguage
-    | ChangePassword
-    | EditAccount;
+    | ChangePassword;

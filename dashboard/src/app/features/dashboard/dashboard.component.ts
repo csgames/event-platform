@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from "@angular/core";
 import { Observable } from "rxjs";
 import { BreakpointObserver, Breakpoints } from "@angular/cdk/layout";
 import { map } from "rxjs/operators";
-import { EditProfile, SetCurrentEvent, ChangePassword, EditAccount } from "../../store/app.actions";
+import { EditProfile, SetCurrentEvent, ChangePassword } from "../../store/app.actions";
 import { getCurrentEvent, getEvents, getLoading, State } from "../../store/app.reducers";
 import { select, Store } from "@ngrx/store";
 import { Event } from "../../api/models/event";
@@ -14,7 +14,6 @@ import { Event } from "../../api/models/event";
 })
 
 export class DashboardComponent implements OnInit, OnDestroy {
-
     events$ = this.store$.pipe(select(getEvents));
     currentEvent$ = this.store$.pipe(select(getCurrentEvent));
     loading$ = this.store$.pipe(select(getLoading));
@@ -43,9 +42,5 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
     changePassword() {
         this.store$.dispatch(new ChangePassword());
-    }
-
-    editAccount() {
-        this.store$.dispatch(new EditAccount());
     }
 }

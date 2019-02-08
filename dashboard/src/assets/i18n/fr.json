@@ -63,7 +63,8 @@
             "validate": "Valider"
         },
         "error": {
-            "something": "Une erreur est survenue..."
+            "something": "Une erreur est survenue...",
+            "reset_code_error": "Le code est expiré"
         },
         "loading": {
             "loading": "Chargement..."

@@ -2,13 +2,17 @@
 <app-loading-spinner [loading]="loading$ | async">
 </app-loading-spinner>
 <div class="row">
-    <div class="col-sm-6 col-lg-6 col-xl-6">
-        <button type="button" class="add-button btn btn-lg btn-block borders" (click)="onEditTeamMember()">
+    <div class="col-sm-6 col-lg-6 col-xl-4">
+        <button *ngIf="!showCreateTeamCard" type="button" class="add-button btn btn-lg btn-block borders"
+                (click)="clickCreateTeam()">
             + {{ "pages.team.add_team" | translate }}
         </button>
+        <div *ngIf="showCreateTeamCard" class="add-team-card">
+            <label>TEST</label>
+        </div>
     </div>
     <ng-container *ngIf="sortedTeams$ | async as teams">
-        <div class="col-sm-6 col-lg-6 col-xl-6" *ngFor="let team of teams">
+        <div class="col-sm-6 col-lg-6 col-xl-4" *ngFor="let team of teams">
             <div class="card-wrapper">
                 <div class="card bg-white">
                     <div class="card-body">
@@ -25,10 +29,22 @@
                                     ({{ getTeamAttendees(team)?.length }}/{{ team?.attendees?.maxMembersNumber - 1 }})
                                 </a>
                             </b>
+                            <i class="fal fa-check-circle text-white text-primary float-right"
+                               tooltip="{{ 'pages.team.registered' | translate }}"
+                               placement="left" *ngIf="areTeamMembersAllRegistered(team)"></i>
+                            <i class="fal fa-times-circle text-white text-danger float-right"
+                               tooltip="{{ 'pages.team.not_registered' | translate }}"
+                               placement="left" *ngIf="!areTeamMembersAllRegistered(team)"></i>
                         </h5>
                         <h5 class="mt-1">
                             {{ "pages.team.godparent" | translate }}
                             <b>({{ getTeamGodparent(team)?.length }}/1)</b>
+                            <i class="fal fa-check-circle text-white text-primary float-right"
+                               tooltip="{{ 'pages.team.registered' | translate }}"
+                               placement="left" *ngIf="areTeamMembersAllRegistered(team)"></i>
+                            <i class="fal fa-times-circle text-white text-danger float-right"
+                               tooltip="{{ 'pages.team.not_registered' | translate }}"
+                               placement="left" *ngIf="!areTeamMembersAllRegistered(team)"></i>
                         </h5>
                     </div>
                 </div>

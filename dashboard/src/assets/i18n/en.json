@@ -63,7 +63,8 @@
 			"validate": "Validate"
 		},
 		"error": {
-			"something": "Something happened..."
+			"something": "Something happened...",
+            "reset_code_error": "Reset code is expired"
 		},
 		"loading": {
 			"loading": "Loading..."

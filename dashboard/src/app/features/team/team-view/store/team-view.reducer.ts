@@ -41,6 +41,12 @@ export function reducer(state = initialState, action: TeamViewActions): TeamView
                 error: true,
                 loading: false
             };
+        case TeamViewActionTypes.AddTeamMember:
+        case TeamViewActionTypes.AddTeamGodparent:
+            return {
+                ...state,
+                loading: true
+            };
         default:
             return state;
     }
