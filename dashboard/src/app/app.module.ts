@@ -35,6 +35,7 @@ import { NgxMaskModule } from "ngx-mask";
 import { ResetModule } from "./features/reset/reset.module";
 import { TooltipModule } from "ngx-bootstrap";
 import { RoleGuard } from "./guards/role.guard";
+import { SchoolService } from "./providers/school.service";
 
 export function loadFactory(http: HttpClient): TranslateHttpLoader {
     return new TranslateHttpLoader(http, "../assets/i18n/", ".json");
@@ -80,6 +81,7 @@ export function loadFactory(http: HttpClient): TranslateHttpLoader {
         AuthenticatedGuard,
         NotAuthenticatedGuard,
         RoleGuard,
+        SchoolService,
         TeamService,
         RegisterService,
         PasswordService
