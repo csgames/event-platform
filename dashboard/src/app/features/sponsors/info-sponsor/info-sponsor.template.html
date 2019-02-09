@@ -7,7 +7,6 @@
                 </div>
                 <br>
                 <div class="modal-body description">
-                    <app-loading-spinner [loading]="(loading$ | async) || (saving$ | async)"></app-loading-spinner>
                     <div>
                         <div *ngIf="lang === 'en'">{{ sponsor?.description?.en }}</div>
                         <div *ngIf="lang === 'fr'">{{ sponsor?.description?.fr }}</div>
