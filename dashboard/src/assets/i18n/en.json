@@ -21,7 +21,8 @@
             "accept_sms": "I would like to receive SMS notifications during the event",
             "handicapped": "I will need a wheelchair access during the event",
             "transport": "I will need a 3 days transport pass for the event as I do not own one STM pass myself",
-            "size": "T-Shirt Size"
+            "size": "T-Shirt Size",
+            "school": "School"
 		},
 		"toast": {
 			"attendee_failed": "An error occured while saving the attendee info.",
@@ -30,7 +31,8 @@
             "email_success": "Email successfully sent.",
             "password_success": "Password successfully changed!",
             "password_failure": "An error occured while changing the password.",
-            "add_member_failure": "An error occured while adding a member to the team"
+            "add_member_failure": "An error occured while adding a member to the team",
+            "update_team_name_failure": "An error occured while updating the team name"
 		},
 		"top_bar": {
 			"change_language": "Français",
@@ -38,7 +40,12 @@
             "sign_out": "Sign Out",
             "change_password": "Change password",
             "edit_account": "Edit Account"
-		}
+		},
+        "add_team_form": {
+            "captain_informations": "Captain informations",
+            "team_informations": "Team informations",
+            "max_members": "Nombre de membres maximal"
+        }
 	},
 	"errors": {
 		"/^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{8,}$/": "The password must contain at least 8 characters including a number, a lower case letter and a upper case letter",
@@ -76,7 +83,8 @@
             "password": "Password",
             "new": "New password",
             "old": "Old password",
-            "confirm": "Confirm new password"
+            "confirm": "Confirm new password",
+            "team_name": "Team name"
 		},
 		"team": {
 			"name": "Team name",
@@ -89,6 +97,9 @@
 		},
         "roles": {
             "captain": "Captain"
+        },
+        "search": {
+            "search": "Search"
         }
 	},
 	"pages": {
@@ -135,7 +146,8 @@
 		"register": {
 			"already_have_account": "Already have an account?",
 			"confirm_password": "Confirm password",
-			"register": "Register"
+			"register": "Register",
+            "validation_error": "An error occured while validating your invitation."
 		},
 		"schedule": {
 			"schedule": "Schedule",
@@ -157,6 +169,7 @@
 			"add_team": "Add team",
 			"godparent": "Godparent",
 			"loading_error": "An error occured while loading the team.",
+            "teams_loading_error": "An error occured while loading the teams.",
 			"no_godparent": "No godparent yet",
 			"not_registered": "Not registered",
 			"registered": "Registered",

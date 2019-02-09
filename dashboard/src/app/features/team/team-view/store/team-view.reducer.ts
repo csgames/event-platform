@@ -26,8 +26,7 @@ export function reducer(state = initialState, action: TeamViewActions): TeamView
             return {
                 ...state,
                 loading: true,
-                error: false,
-                currentTeam: null
+                error: false
             };
         case TeamViewActionTypes.LoadTeamSuccess:
             return {
@@ -46,6 +45,16 @@ export function reducer(state = initialState, action: TeamViewActions): TeamView
             return {
                 ...state,
                 loading: true
+            };
+        case TeamViewActionTypes.AddMemberFailure:
+            return {
+                ...state,
+                loading: false
+            };
+        case TeamViewActionTypes.UpdateTeamNameFailure:
+            return {
+                ...state,
+                loading: false
             };
         default:
             return state;
