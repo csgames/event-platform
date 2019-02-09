@@ -3,7 +3,7 @@ import { Attendees } from "../attendees/attendees.model";
 
 export const ActivityTypes = [
     'food',
-    'competitions',
+    'competition',
     'other'
 ];
 

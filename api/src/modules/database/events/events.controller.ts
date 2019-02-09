@@ -59,6 +59,19 @@ export class EventsController {
         return await this.teamsService.getTeamFromEvent(eventId);
     }
 
+    @Get('activity')
+    @Permissions('csgames-api:get-all:activity')
+    public async getActivity(@EventId() eventId: string,): Promise<Activities[]> {
+        return await this.eventsService.getActivities(eventId);
+    }
+    
+    @Get('notification')
+    @Permissions('csgames-api:get:notification')
+    public async getNotifications(@EventId() eventId: string, @User() user: UserModel,
+                                  @Query('seen') seen: boolean): Promise<AttendeeNotifications[]> {
+        return await this.eventsService.getNotifications(eventId, user.id, seen);
+    }
+
     @Get(':id')
     @Permissions('csgames-api:get:event')
     public async getById(@Param('id') id: string): Promise<Events> {
@@ -104,10 +117,10 @@ export class EventsController {
         await this.eventsService.confirmAttendee(eventId, user.username, dto, file);
     }
 
-    @Put(':id/activity')
+    @Put('activity')
     @Permissions('csgames-api:update:event')
-    public async addActivity(@Param('id') id: string, @Body(new ValidationPipe()) activity: CreateActivityDto) {
-        await this.eventsService.createActivity(id, activity);
+    public async addActivity(@EventId() eventId: string, @Body(new ValidationPipe()) activity: CreateActivityDto) {
+        await this.eventsService.createActivity(eventId, activity);
     }
 
     @Put(':id')
@@ -116,19 +129,6 @@ export class EventsController {
         await this.eventsService.update({
             _id: id
         }, event);
-    }
-
-    @Get(':id/activity')
-    @Permissions('csgames-api:get-all:activity')
-    public async getActivity(@Param('id') eventId: string): Promise<Activities[]> {
-        return await this.eventsService.getActivities(eventId);
-    }
-
-    @Get(':id/notification')
-    @Permissions('csgames-api:get:notification')
-    public async getNotifications(@Param('id') id: string, @User() user: UserModel,
-                                  @Query('seen') seen: boolean): Promise<AttendeeNotifications[]> {
-        return await this.eventsService.getNotifications(id, user.id, seen);
     }
 
     @Put(':id/sponsor')
