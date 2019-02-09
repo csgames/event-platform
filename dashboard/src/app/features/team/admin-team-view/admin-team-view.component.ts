@@ -8,7 +8,7 @@ import { map } from "rxjs/operators";
     templateUrl: "admin-team-view.template.html"
 })
 export class AdminTeamViewComponent implements OnInit {
-    private teamId$: Observable<string>;
+    public teamId$: Observable<string>;
 
     constructor(private activatedRoute: ActivatedRoute) { }
 
