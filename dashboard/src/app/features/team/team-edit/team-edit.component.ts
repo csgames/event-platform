@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
-import { getTeamEditLoading, getTeamEditTeams, getTeamSchools, State } from "./store/team-edit.reducer";
+import { getTeamEditError, getTeamEditLoading, getTeamEditTeams, getTeamSchools, State } from "./store/team-edit.reducer";
 import { select, Store } from "@ngrx/store";
 import { AddTeam, LoadSchools, LoadTeams } from "./store/team-edit.actions";
 import { Attendee } from "../../../api/models/attendee";
@@ -16,6 +16,7 @@ import { AddTeamFormComponent } from "./components/add-team-form/add-team-form.c
 export class TeamEditComponent implements OnInit {
     teams$ = this.store$.pipe(select(getTeamEditTeams));
     loading$ = this.store$.pipe(select(getTeamEditLoading));
+    error$ = this.store$.pipe(select(getTeamEditError));
 
     schools$ = this.store$.pipe(select(getTeamSchools));
 
