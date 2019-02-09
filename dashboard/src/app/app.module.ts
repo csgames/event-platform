@@ -34,6 +34,7 @@ import { ToastrModule } from "ngx-toastr";
 import { NgxMaskModule } from "ngx-mask";
 import { ResetModule } from "./features/reset/reset.module";
 import { TooltipModule } from "ngx-bootstrap";
+import { SponsorsService } from "./providers/sponsors.service";
 import { RoleGuard } from "./guards/role.guard";
 import { SchoolService } from "./providers/school.service";
 
@@ -84,7 +85,8 @@ export function loadFactory(http: HttpClient): TranslateHttpLoader {
         SchoolService,
         TeamService,
         RegisterService,
-        PasswordService
+        PasswordService,
+        SponsorsService
     ],
     bootstrap: [AppComponent]
 })

@@ -1,0 +1,28 @@
+<div class="modal-centered fade slide-up show animated slideInDown scroll" tabindex="-1" role="dialog" style="display: block;">
+    <div class="modal-dialog" [ngClass]="modalClass">
+        <div class="modal-content-wrapper">
+            <div class="modal-content card">
+                <div class="modal-header">
+                    <img [src]="sponsor?.imageUrl" class="center">
+                </div>
+                <br>
+                <div class="modal-body description">
+                    <div>
+                        <div *ngIf="lang === 'en'">{{ sponsor?.description?.en }}</div>
+                        <div *ngIf="lang === 'fr'">{{ sponsor?.description?.fr }}</div>
+                    </div>
+                    <div>
+                        <a [href]="sponsor?.website">
+                            <i class="fas fa-globe-americas link"></i>
+                            {{ sponsor?.website }}
+                        </a>
+                    </div>
+                    <div class="text-center">
+                        <a class="btn btn-primary btn-rounded mt-3 px-3"
+                           (click)="onClose()">{{ "general.button.close" | translate }}</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -5,6 +5,7 @@ import { Observable } from "rxjs";
 import { Event } from "./models/event";
 import { map } from "rxjs/operators";
 import { AttendeeModel } from "./models/attendee";
+import { Sponsors } from "./models/sponsors";
 import { Team } from "./models/team";
 
 @Injectable()
@@ -46,6 +47,12 @@ export class EventApi extends CSGamesApi {
         });
     }
 
+    public getSponsorsList(): Observable<{ [id: string]: Sponsors[] }> {
+        return this.http.get<{ [id: string]: Sponsors[] }>(this.url("sponsor"), {
+            withCredentials: true
+        });
+    }
+    
     public getTeams(): Observable<Team[]> {
         return this.http.get<Team[]>(this.url("team"), {
             withCredentials: true

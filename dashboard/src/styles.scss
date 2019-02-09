@@ -700,6 +700,15 @@ h4 {
     opacity: 1 !important;
 }
 
+.clickable {
+    cursor: pointer;
+}
+
+.scroll {
+    overflow-y: scroll !important;
+    height: 100vh;
+}
+
 .ellipsis {
     white-space: nowrap;
     overflow: hidden;
