@@ -21,7 +21,8 @@
             "accept_sms": "J'aimerais recevoir des notifications par SMS durant l'événements",
             "handicapped": "J'ai besoin d'un accès en fauteuil roulant",
             "transport": "J'ai besoin d'un billet de 3 jours pour l'événement car, je ne possède pas déjà de passe de transport STM",
-            "size": "Taille de T-Shirt"
+            "size": "Taille de T-Shirt",
+            "school": "École"
         },
         "toast": {
             "attendee_failed": "Une erreur est survenue lors de la sauvegarde des informations du participant.",
@@ -30,7 +31,8 @@
             "email_success": "Courriel envoyé avec succès",
             "password_success": "Mot de passe mis à jour avec succès!",
             "password_failure": "Une erreur est survenue en modifiant le mot de passe.",
-            "add_member_failure": "Une erreur est survenue en ajoutant un membre à l'équipe"
+            "add_member_failure": "Une erreur est survenue en ajoutant un membre à l'équipe",
+            "update_team_name_failure": "Une erreur est survenue en modifiant le nom de l'équipe"
         },
         "top_bar": {
             "change_language": "English",
@@ -38,6 +40,11 @@
             "sign_out": "Déconnexion",
             "change_password": "Changer le mot de passe",
             "edit_account": "Modifier le compte"
+        },
+        "add_team_form": {
+            "captain_informations": "Informations sur le capitaine",
+            "team_informations": "Informations sur l'équipe",
+            "max_members": "Nombre de membres maximal"
         }
     },
     "errors": {
@@ -46,10 +53,10 @@
         "group": {
             "required": "Un ou plusieurs champs sont manquant"
         },
-        "maxlength": "Ce champs doit avoir au plus {{value}} caractères",
-        "minlength": "Ce champs doit avoir un minimum de {{value}} caractères",
+        "maxlength": "Ce champ doit avoir au plus {{value}} caractères",
+        "minlength": "Ce champ doit avoir un minimum de {{value}} caractères",
         "passwords_mismatch": "Les mots de passe ne correspondent pas.",
-        "required": "Ce champs est requis"
+        "required": "Ce champ est requis"
     },
     "general": {
         "button": {
@@ -76,7 +83,8 @@
             "password": "Mot de passe",
             "new": "Nouveau mot de passe",
             "old": "Ancien mot de passe",
-            "confirm": "Confirmer le nouveau mot de passe"
+            "confirm": "Confirmer le nouveau mot de passe",
+            "team_name": "Nom de l'équipe"
         },
         "team": {
             "name": "Nom d'équipe",
@@ -89,6 +97,9 @@
         },
         "roles": {
             "captain": "Capitaine"
+        },
+        "search": {
+            "search": "Rechercher"
         }
     },
     "pages": {
@@ -135,7 +146,8 @@
         "register": {
             "already_have_account": "Vous avez déjà un compte?",
             "confirm_password": "Confirmer le mot de passe",
-            "register": "Enregistrer"
+            "register": "Enregistrer",
+            "validation_error": "Une erreur est survenue durant la validation de votre invitation."
         },
         "schedule": {
             "schedule": "Horaire",
@@ -157,6 +169,7 @@
             "add_team": "Ajouter une équipe",
             "godparent": "Parrain/Marraine",
             "loading_error": "Une erreur est survenue lors du chargement de l'équipe.",
+            "teams_loading_error": "Une erreur est survenue lors du chargement des équipes.",
             "no_godparent": "Aucun(e) parrain/marraine pour l'instant",
             "not_registered": "Non-enregistré",
             "registered": "Enregistré",

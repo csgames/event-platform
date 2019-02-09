@@ -6,12 +6,20 @@ const routes: Routes = [
     {
         path: "",
         loadChildren: "src/app/features/team/attendee-team-view/attendee-team-view.module#AttendeeTeamViewModule",
-        // canActivate: [RoleGuard],
-        // data: { roles: ["attendee", "captain"], redirect: "team/" }
+        canActivate: [RoleGuard],
+        data: { roles: ["attendee", "captain"], redirect: "team/edit" }
     },
     {
         path: "edit",
-        loadChildren: "src/app/features/team/team-edit/team-edit.module#TeamEditModule"
+        loadChildren: "src/app/features/team/team-edit/team-edit.module#TeamEditModule",
+        canActivate: [RoleGuard],
+        data: { roles: ["admin"], redirect: "team" }
+    },
+    {
+        path: ":id",
+        loadChildren: "src/app/features/team/admin-team-view/admin-team-view.module#AdminTeamViewModule",
+        canActivate: [RoleGuard],
+        data: { roles: ["admin"], redirect: "team" }
     }
 ];
 

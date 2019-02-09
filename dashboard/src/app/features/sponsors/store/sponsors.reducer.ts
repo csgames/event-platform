@@ -29,7 +29,7 @@ export function reducer(state = initialState, action: SponsorsActions): Sponsors
                 ...state,
                 loading: false,
                 sponsors: action.sponsors
-            }
+            };
         default:
             return state;
     }

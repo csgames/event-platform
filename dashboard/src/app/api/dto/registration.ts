@@ -12,5 +12,7 @@ export interface CreateInvitationDto {
     lastName: string;
     email: string;
     role: string;
-    teamName: string;
+    teamName?: string;
+    schoolId?: string;
+    maxMembersNumber?: number;
 }

@@ -9,6 +9,8 @@ import { StoreModule } from "@ngrx/store";
 import * as fromSponsors from "./store/sponsors.reducer";
 import { EffectsModule } from "@ngrx/effects";
 import { SponsorsEffects } from "./store/sponsors.effects";
+import { InfoSponsorComponent } from "./info-sponsor/info-sponsor.component";
+import { SimpleModalModule } from "ngx-simple-modal";
 
 @NgModule({
     imports: [
@@ -18,9 +20,10 @@ import { SponsorsEffects } from "./store/sponsors.effects";
         LoadingSpinnerModule,
         DirectivesModule,
         StoreModule.forFeature("sponsors", fromSponsors.reducer),
-        EffectsModule.forFeature([SponsorsEffects])
+        EffectsModule.forFeature([SponsorsEffects]),
+        SimpleModalModule
     ],
-    declarations: [SponsorsComponent],
-    entryComponents: [SponsorsComponent]
+    declarations: [SponsorsComponent, InfoSponsorComponent],
+    entryComponents: [SponsorsComponent, InfoSponsorComponent]
 })
 export class SponsorsModule { }

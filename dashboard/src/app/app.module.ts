@@ -37,6 +37,7 @@ import { TooltipModule } from "ngx-bootstrap";
 import { SponsorsService } from "./providers/sponsors.service";
 import { ScheduleService } from "./providers/schedule.service";
 import { RoleGuard } from "./guards/role.guard";
+import { SchoolService } from "./providers/school.service";
 
 export function loadFactory(http: HttpClient): TranslateHttpLoader {
     return new TranslateHttpLoader(http, "../assets/i18n/", ".json");
@@ -82,6 +83,7 @@ export function loadFactory(http: HttpClient): TranslateHttpLoader {
         AuthenticatedGuard,
         NotAuthenticatedGuard,
         RoleGuard,
+        SchoolService,
         TeamService,
         RegisterService,
         PasswordService,

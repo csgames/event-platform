@@ -1,10 +1,12 @@
-import { Component, OnInit } from "@angular/core";
-import { getTeamEditLoading, getTeamEditTeams, State } from "./store/team-edit.reducer";
+import { Component, OnInit, ViewChild } from "@angular/core";
+import { getTeamEditError, getTeamEditLoading, getTeamEditTeams, getTeamSchools, State } from "./store/team-edit.reducer";
 import { select, Store } from "@ngrx/store";
-import { LoadTeams } from "./store/team-edit.actions";
+import { AddTeam, LoadSchools, LoadTeams } from "./store/team-edit.actions";
 import { Attendee } from "../../../api/models/attendee";
 import { Team } from "../../../api/models/team";
 import { map } from "rxjs/operators";
+import { AddTeamFormDto } from "./components/add-team-form/dto/add-team-form.dto";
+import { AddTeamFormComponent } from "./components/add-team-form/add-team-form.component";
 
 @Component({
     selector: "app-team-edit",
@@ -14,11 +16,22 @@ import { map } from "rxjs/operators";
 export class TeamEditComponent implements OnInit {
     teams$ = this.store$.pipe(select(getTeamEditTeams));
     loading$ = this.store$.pipe(select(getTeamEditLoading));
+    error$ = this.store$.pipe(select(getTeamEditError));
+
+    schools$ = this.store$.pipe(select(getTeamSchools));
 
     showCreateTeamCard = false;
 
-    get sortedTeams$() {
+    newTeamDto = new AddTeamFormDto();
+
+    @ViewChild(AddTeamFormComponent)
+    teamForm: AddTeamFormComponent;
+
+    searchInput = "";
+
+    get sortedFilteredTeams$() {
         return this.teams$.pipe(
+            map(t => t.filter((team: Team) => team.name.toLowerCase().includes(this.searchInput.toLowerCase()))),
             map(t => t.sort((a, b) => b.attendees.length - a.attendees.length))
         );
     }
@@ -28,6 +41,7 @@ export class TeamEditComponent implements OnInit {
 
     ngOnInit() {
         this.store$.dispatch(new LoadTeams());
+        this.store$.dispatch(new LoadSchools());
     }
 
     getTeamCaptain(team: Team): Attendee {
@@ -48,5 +62,22 @@ export class TeamEditComponent implements OnInit {
 
     clickCreateTeam() {
         this.showCreateTeamCard = true;
+    }
+
+    onEditNewTeam(teamDto: AddTeamFormDto) {
+        this.newTeamDto = teamDto;
+    }
+
+    onAddTeam() {
+        if (this.teamForm.validate()) {
+            this.store$.dispatch(new AddTeam(this.newTeamDto));
+            this.newTeamDto = new AddTeamFormDto();
+            this.showCreateTeamCard = false;
+        }
+    }
+
+    onCancelTeam() {
+        this.newTeamDto = new AddTeamFormDto();
+        this.showCreateTeamCard = false;
     }
 }
