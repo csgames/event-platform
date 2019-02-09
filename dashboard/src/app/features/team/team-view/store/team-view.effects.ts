@@ -12,7 +12,7 @@ import {
     AddMemberFailure,
     UpdateTeamNameFailure
 } from "./team-view.actions";
-import { exhaustMap, map, catchError, withLatestFrom, switchMap, concatMap, tap } from "rxjs/operators";
+import { map, catchError, withLatestFrom, switchMap, concatMap, tap } from "rxjs/operators";
 import { Team } from "src/app/api/models/team";
 import { of } from "rxjs";
 import { GlobalError } from "src/app/store/app.actions";
@@ -20,6 +20,8 @@ import { Store, select, Action } from "@ngrx/store";
 import { State, getCurrentTeam } from "./team-view.reducer";
 import { TranslateService } from "@ngx-translate/core";
 import { ToastrService } from "ngx-toastr";
+import { getCurrentAttendee } from "../../../../store/app.reducers";
+import { Attendee } from "../../../../api/models/attendee";
 
 @Injectable()
 export class TeamViewEffects {
@@ -32,9 +34,10 @@ export class TeamViewEffects {
     @Effect()
     loadTeam$ = this.actions$.pipe(
         ofType<LoadTeam>(TeamViewActionTypes.LoadTeam),
-        switchMap((action: LoadTeam) =>
-            action.teamId ?
-                this.teamService.getTeamById(action.teamId).pipe(
+        withLatestFrom(this.store$.pipe(select(getCurrentAttendee)), this.store$.pipe(select(getCurrentTeam))),
+        switchMap(([action, attendee, currentTeam]: [LoadTeam, Attendee, Team]) =>
+            attendee.role === "admin" ?
+                this.teamService.getTeamById(action.teamId || currentTeam._id).pipe(
                     map((team: Team) => new LoadTeamSuccess(team)),
                     catchError(() => of(new LoadTeamFailure()))
                 ) :
@@ -93,7 +96,7 @@ export class TeamViewEffects {
             ))
     );
 
-    @Effect({ dispatch: false})
+    @Effect({ dispatch: false })
     addMemberFailure$ = this.actions$.pipe(
         ofType<AddMemberFailure>(TeamViewActionTypes.AddMemberFailure),
         tap((action: AddMemberFailure) => {

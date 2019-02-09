@@ -9,6 +9,7 @@ import { RegistrationApi } from "./registration.api";
 import { PasswordApi } from "./password.api";
 import { TeamApi } from "./team.api";
 import { UserApi } from "./user.api";
+import { SchoolApi } from "./school.api";
 
 @NgModule({
     imports: [
@@ -21,6 +22,7 @@ import { UserApi } from "./user.api";
         EventApi,
         RegistrationApi,
         PasswordApi,
+        SchoolApi,
         TeamApi,
         ApiService,
         UserApi
