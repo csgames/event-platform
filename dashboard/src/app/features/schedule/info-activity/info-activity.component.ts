@@ -1,20 +1,21 @@
 import { Component, OnDestroy, OnInit, ViewChild, Input } from "@angular/core";
 import { SimpleModalComponent } from "ngx-simple-modal";
-import { Sponsors } from "src/app/api/models/sponsors";
+import { Activity } from "src/app/api/models/activity";
 import { TranslateService } from "@ngx-translate/core";
 
-export interface InfoSponsorModal {
-    sponsor: Sponsors;
+export interface InfoActivityModal {
+    activity: Activity;
+    time: string;
 }
 
 @Component({
-    selector: "app-info-sponsor-modal",
-    templateUrl: "info-sponsor.template.html",
-    styleUrls: ["info-sponsor.style.scss"]
+    selector: "app-info-activity-modal",
+    templateUrl: "info-activity.template.html",
+    styleUrls: ["info-activity.style.scss"]
 })
-export class InfoSponsorComponent extends SimpleModalComponent<InfoSponsorModal, void> implements OnInit, OnDestroy {
+export class InfoActivityComponent extends SimpleModalComponent<InfoActivityModal, void> implements OnInit, OnDestroy {
     
-    public sponsor: Sponsors;
+    public activity: Activity;
     public MAX_CHAR_DESCRIPTION = 1000;
 
     constructor(private translateService: TranslateService) {
@@ -34,7 +35,7 @@ export class InfoSponsorComponent extends SimpleModalComponent<InfoSponsorModal,
     }
 
     public get modalClass(): string {
-        if (this.sponsor.description[this.lang].length > this.MAX_CHAR_DESCRIPTION ) {
+        if (this.activity.details[this.lang].length > this.MAX_CHAR_DESCRIPTION ) {
             return "modal-lg";
         }
         return "modal-md";

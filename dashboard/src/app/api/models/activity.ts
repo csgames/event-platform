@@ -6,5 +6,5 @@ export interface Activity {
     endDate: Date | string;
     location: string;
     attendees: string[];
-    details: object;
+    details: any;
 }
