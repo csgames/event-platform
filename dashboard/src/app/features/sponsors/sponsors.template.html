@@ -5,7 +5,12 @@
         <h2>{{ "pages.sponsors.platinum" | translate }}</h2>
         <hr>
         <div *ngFor="let p of platinum">
-            <img [src]="p.imageUrl" class="platinum clickable" (click)="onShowInfo(p)">
+            <div class="row justify-content-center">
+                <div class="col col-lg-12 col-sm-12">
+                    <img [src]="p.imageUrl" class="platinum clickable" (click)="onShowInfo(p)"
+                        [ngStyle]="getStyle(p)">
+                </div>
+            </div>
         </div>
     </div>
     <div class="gold-container" *ngIf="gold">
@@ -13,37 +18,50 @@
         <hr>
         <div class="row gold-sponsors">
             <div class="col-sm-6">
-                <img [src]="gold[0]?.imageUrl" class="gold clickable bnc" (click)="onShowInfo(gold[0])">
+                <img [src]="gold[0]?.imageUrl" class="gold clickable" (click)="onShowInfo(gold[0])"
+                    [ngStyle]="getStyle(gold[0])">
             </div>
             <div class="col-sm-6">
-                <img [src]="gold[1]?.imageUrl" class="gold clickable cse" (click)="onShowInfo(gold[1])">
+                <img [src]="gold[1]?.imageUrl" class="gold clickable" (click)="onShowInfo(gold[1])"
+                    [ngStyle]="getStyle(gold[1])">
             </div>
         </div>
-        <img [src]="gold[2]?.imageUrl" class="psc clickable" (click)="onShowInfo(gold[2])">
+        <div class="row justify-content-center">
+            <div class="col col-lg-6 col-sm-2">
+                <img [src]="gold[2]?.imageUrl" class="gold clickable" (click)="onShowInfo(gold[2])"
+                    [ngStyle]="getStyle(gold[2])">
+            </div>
+        </div>
     </div>
     <div class="silver-container" *ngIf="silver">
             <h2>{{ "pages.sponsors.silver" | translate }}</h2>
             <hr>
             <div class="row">
                 <div class="col-sm-4">
-                    <img [src]="silver[0]?.imageUrl" class="clickable silver" (click)="onShowInfo(silver[0])">
+                    <img [src]="silver[0]?.imageUrl" class="clickable silver" (click)="onShowInfo(silver[0])"
+                        [ngStyle]="getStyle(silver[0])">
                 </div>
                 <div class="col-sm-4">
-                    <img [src]="silver[1]?.imageUrl" class="clickable silver" (click)="onShowInfo(silver[1])">
+                    <img [src]="silver[1]?.imageUrl" class="clickable silver" (click)="onShowInfo(silver[1])"
+                        [ngStyle]="getStyle(silver[1])">
                 </div>
                 <div class="col-sm-4">
-                    <img [src]="silver[2]?.imageUrl" class="clickable silver google" (click)="onShowInfo(silver[2])">
+                    <img [src]="silver[2]?.imageUrl" class="clickable silver" (click)="onShowInfo(silver[2])"
+                        [ngStyle]="getStyle(silver[2])">
                 </div>
             </div>
             <div class="row">
                 <div class="col-sm-4">
-                    <img [src]="silver[3]?.imageUrl" class="clickable silver" (click)="onShowInfo(silver[0])">
+                    <img [src]="silver[3]?.imageUrl" class="clickable silver" (click)="onShowInfo(silver[3])"
+                        [ngStyle]="getStyle(silver[3])">
                 </div>
                 <div class="col-sm-4">
-                    <img [src]="silver[4]?.imageUrl" class="clickable silver bell" (click)="onShowInfo(silver[1])">
+                    <img [src]="silver[4]?.imageUrl" class="clickable silver" (click)="onShowInfo(silver[4])"
+                        [ngStyle]="getStyle(silver[4])">
                 </div>
                 <div class="col-sm-4">
-                    <img [src]="silver[5]?.imageUrl" class="clickable silver" (click)="onShowInfo(silver[5])">
+                    <img [src]="silver[5]?.imageUrl" class="clickable silver" (click)="onShowInfo(silver[5])"
+                        [ngStyle]="getStyle(silver[5])">
                 </div>
             </div>
         </div>

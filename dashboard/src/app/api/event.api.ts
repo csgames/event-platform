@@ -8,6 +8,7 @@ import { AttendeeModel } from "./models/attendee";
 import { Sponsors } from "./models/sponsors";
 import { Activity } from "./models/activity";
 import { Team } from "./models/team";
+import { AppNotification } from "./models/notification";
 
 @Injectable()
 export class EventApi extends CSGamesApi {
@@ -58,5 +59,13 @@ export class EventApi extends CSGamesApi {
 
     public getTeams(): Observable<Team[]> {
         return this.http.get<Team[]>(this.url("team"), { withCredentials: true });
+    }
+    
+    public checkUnseenNotifications(): Observable<AppNotification[]> {
+        return this.http.get<AppNotification[]>(this.url("notification?seen=false"), { withCredentials: true });
+    }
+
+    public getNotifications(): Observable<AppNotification[]> {
+        return this.http.get<AppNotification[]>(this.url("notification"), { withCredentials: true });
     }
 }

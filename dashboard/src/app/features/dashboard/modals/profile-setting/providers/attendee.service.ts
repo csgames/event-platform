@@ -22,4 +22,8 @@ export class AttendeeService {
 
         return this.api.attendee.update(attendee, file);
     }
+
+    public markNotificationAsSeen(id: string): Observable<void> {
+        return this.api.attendee.markNotificationAsSeen(id);
+    }
 }

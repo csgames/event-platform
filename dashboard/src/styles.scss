@@ -465,7 +465,7 @@ a {
 }
 
 .modal {
-    overflow: auto !important;
+    overflow-y: auto !important;
     background-color: rgba(0, 0, 0, 0.3);
 }
 
@@ -713,7 +713,7 @@ h4 {
 
 .nav-pills {
     margin-top: 20px;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
 }
 
 .nav-link > span {

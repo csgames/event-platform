@@ -14,7 +14,10 @@ export enum AppActionTypes {
     EditProfile = "[App] Edit profile",
     Logout = "[App] Logout",
     ChangeLanguage = "[App] Change language",
-    ChangePassword = "[App] Change password"
+    ChangePassword = "[App] Change password",
+    CheckUnseenNotification = "[App] Check unseen notification",
+    HasUnseenNotification = "[App] Has unseen notification",
+    AllNotificationsSeen = "[App] All notifications seen"
 }
 
 export class ChangeLanguage implements Action {
@@ -71,6 +74,18 @@ export class ChangePassword implements Action {
     readonly type = AppActionTypes.ChangePassword;
 }
 
+export class CheckUnseenNotification implements Action {
+    readonly type = AppActionTypes.CheckUnseenNotification;
+}
+
+export class HasUnseenNotification implements Action {
+    readonly type = AppActionTypes.HasUnseenNotification;
+}
+
+export class AllNotificationsSeen implements Action {
+    readonly type = AppActionTypes.AllNotificationsSeen;
+}
+
 export type AppActions =
     | GlobalError
     | Logout
@@ -83,4 +98,7 @@ export type AppActions =
     | EditProfile
     | LoadCurrentAttendee
     | ChangeLanguage
-    | ChangePassword;
+    | ChangePassword
+    | CheckUnseenNotification
+    | HasUnseenNotification
+    | AllNotificationsSeen;

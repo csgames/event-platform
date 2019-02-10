@@ -42,4 +42,13 @@ export class SponsorsComponent implements OnInit, OnDestroy {
     public onShowInfo(sponsor: Sponsors) {
         this.modalService.addModal(InfoSponsorComponent, {sponsor});
     }
+
+    public getStyle(sponsors: Sponsors) {
+        return {
+            'padding-left': `${sponsors.padding[0]}px`,
+            'padding-top': `${sponsors.padding[1]}px`,
+            'padding-right': `${sponsors.padding[2]}px`,
+            'padding-bottom': `${sponsors.padding[3]}px`
+        }
+    }
 }

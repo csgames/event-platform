@@ -38,6 +38,7 @@ import { SponsorsService } from "./providers/sponsors.service";
 import { ScheduleService } from "./providers/schedule.service";
 import { RoleGuard } from "./guards/role.guard";
 import { SchoolService } from "./providers/school.service";
+import { NotificationService } from "./providers/notification.service";
 
 export function loadFactory(http: HttpClient): TranslateHttpLoader {
     return new TranslateHttpLoader(http, "../assets/i18n/", ".json");
@@ -88,7 +89,8 @@ export function loadFactory(http: HttpClient): TranslateHttpLoader {
         RegisterService,
         PasswordService,
         SponsorsService,
-        ScheduleService
+        ScheduleService,
+        NotificationService
     ],
     bootstrap: [AppComponent]
 })

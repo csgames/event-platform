@@ -45,6 +45,9 @@
             "captain_informations": "Captain informations",
             "team_informations": "Team informations",
             "max_members": "Nombre de membres maximal"
+        },
+        "notification": {
+            "no_notification": "You have no notifications"
         }
 	},
 	"errors": {
