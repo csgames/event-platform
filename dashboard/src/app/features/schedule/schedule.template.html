@@ -12,9 +12,9 @@
                 <div class="card activity-card">
                     <div class="card-body activity-card-body">
                         <div class="row tile">
-                            <i *ngIf="activitiesPerDay[date][time][0].type == 'competition'" class="fal fa-trophy"></i>
-                            <i *ngIf="activitiesPerDay[date][time][0].type == 'other'" class="fal fa-calendar"></i>
-                            <i *ngIf="activitiesPerDay[date][time][0].type == 'food'" class="fal fa-utensils"></i>
+                            <i *ngIf="activitiesPerDay[date][time][0].type == 'competition'" class="fal fa-trophy clickable" (click)="onShowInfo(activitiesPerDay[date][time][0], time)"></i>
+                            <i *ngIf="activitiesPerDay[date][time][0].type == 'other'" class="fal fa-calendar clickable" (click)="onShowInfo(activitiesPerDay[date][time][0], time)"></i>
+                            <i *ngIf="activitiesPerDay[date][time][0].type == 'food'" class="fal fa-utensils clickable" (click)="onShowInfo(activitiesPerDay[date][time][0], time)"></i>
                             <div class="col-sm">
                                 <p class="name">{{ activitiesPerDay[date][time][0].name }}</p>
                                 <p class="hours">{{ time }} - {{ activitiesPerDay[date][time][0].endDate | hours }}</p>
@@ -30,9 +30,9 @@
                         <div class="card activity-card third-card">
                             <div class="card-body activity-card-body">
                                 <div class="row tile">
-                                    <i *ngIf="activitiesPerDay[date][time][0].type == 'competition'" class="fal fa-trophy"></i>
-                                    <i *ngIf="activitiesPerDay[date][time][0].type == 'other'" class="fal fa-calendar"></i>
-                                    <i *ngIf="activitiesPerDay[date][time][0].type == 'food'" class="fal fa-utensils"></i>
+                                    <i *ngIf="activitiesPerDay[date][time][0].type == 'competition'" class="fal fa-trophy clickable" (click)="onShowInfo(activitiesPerDay[date][time][0], time)"></i>
+                                    <i *ngIf="activitiesPerDay[date][time][0].type == 'other'" class="fal fa-calendar clickable" (click)="onShowInfo(activitiesPerDay[date][time][0], time)"></i>
+                                    <i *ngIf="activitiesPerDay[date][time][0].type == 'food'" class="fal fa-utensils clickable" (click)="onShowInfo(activitiesPerDay[date][time][0], time)"></i>
                                     <div class="col-sm">
                                         <p class="name">{{ activitiesPerDay[date][time][0].name }}</p>
                                         <p class="hours">{{ time }} - {{ activitiesPerDay[date][time][0].endDate | hours }}</p>
@@ -46,9 +46,9 @@
                         <div class="card activity-card third-card">
                             <div class="card-body activity-card-body">
                                 <div class="row tile">
-                                    <i *ngIf="activitiesPerDay[date][time][1].type == 'competition'" class="fal fa-trophy"></i>
-                                    <i *ngIf="activitiesPerDay[date][time][1].type == 'other'" class="fal fa-calendar"></i>
-                                    <i *ngIf="activitiesPerDay[date][time][1].type == 'food'" class="fal fa-utensils"></i>
+                                    <i *ngIf="activitiesPerDay[date][time][1].type == 'competition'" class="fal fa-trophy clickable" (click)="onShowInfo(activitiesPerDay[date][time][1], time)"></i>
+                                    <i *ngIf="activitiesPerDay[date][time][1].type == 'other'" class="fal fa-calendar clickable" (click)="onShowInfo(activitiesPerDay[date][time][1], time)"></i>
+                                    <i *ngIf="activitiesPerDay[date][time][1].type == 'food'" class="fal fa-utensils clickable" (click)="onShowInfo(activitiesPerDay[date][time][1], time)"></i>
                                     <div class="col-sm">
                                         <p class="name">{{ activitiesPerDay[date][time][1].name }}</p>
                                         <p class="hours">{{ time }} - {{ activitiesPerDay[date][time][1].endDate | hours }}</p>
@@ -64,9 +64,9 @@
                         <div class="card activity-card third-card">
                             <div class="card-body activity-card-body">
                                 <div class="row tile">
-                                    <i *ngIf="activitiesPerDay[date][time][2].type == 'competition'" class="fal fa-trophy"></i>
-                                    <i *ngIf="activitiesPerDay[date][time][2].type == 'other'" class="fal fa-calendar"></i>
-                                    <i *ngIf="activitiesPerDay[date][time][2].type == 'food'" class="fal fa-utensils"></i>
+                                    <i *ngIf="activitiesPerDay[date][time][2].type == 'competition'" class="fal fa-trophy clickable" (click)="onShowInfo(activitiesPerDay[date][time][2], time)"></i>
+                                    <i *ngIf="activitiesPerDay[date][time][2].type == 'other'" class="fal fa-calendar clickable" (click)="onShowInfo(activitiesPerDay[date][time][2], time)"></i>
+                                    <i *ngIf="activitiesPerDay[date][time][2].type == 'food'" class="fal fa-utensils clickable" (click)="onShowInfo(activitiesPerDay[date][time][2], time)"></i>
                                     <div class="col-sm">
                                         <p class="name">{{ activitiesPerDay[date][time][2].name }}</p>
                                         <p class="hours">{{ time }} - {{ activitiesPerDay[date][time][2].endDate | hours }}</p>
@@ -80,9 +80,9 @@
                         <div class="card activity-card third-card">
                             <div class="card-body activity-card-body">
                                 <div class="row tile">
-                                    <i *ngIf="activitiesPerDay[date][time][3].type == 'competition'" class="fal fa-trophy"></i>
-                                    <i *ngIf="activitiesPerDay[date][time][3].type == 'other'" class="fal fa-calendar"></i>
-                                    <i *ngIf="activitiesPerDay[date][time][3].type == 'food'" class="fal fa-utensils"></i>
+                                    <i *ngIf="activitiesPerDay[date][time][3].type == 'competition'" class="fal fa-trophy clickable" (click)="onShowInfo(activitiesPerDay[date][time][3], time)"></i>
+                                    <i *ngIf="activitiesPerDay[date][time][3].type == 'other'" class="fal fa-calendar clickable" (click)="onShowInfo(activitiesPerDay[date][time][3], time)"></i>
+                                    <i *ngIf="activitiesPerDay[date][time][3].type == 'food'" class="fal fa-utensils clickable" (click)="onShowInfo(activitiesPerDay[date][time][3], time)"></i>
                                     <div class="col-sm">
                                         <p class="name">{{ activitiesPerDay[date][time][3].name }}</p>
                                         <p class="hours">{{ time }} - {{ activitiesPerDay[date][time][3].endDate | hours }}</p>
@@ -100,9 +100,9 @@
                         <div class="card activity-card third-card">
                             <div class="card-body activity-card-body">
                                 <div class="row tile">
-                                    <i *ngIf="activitiesPerDay[date][time][0].type == 'competition'" class="fal fa-trophy"></i>
-                                    <i *ngIf="activitiesPerDay[date][time][0].type == 'other'" class="fal fa-calendar"></i>
-                                    <i *ngIf="activitiesPerDay[date][time][0].type == 'food'" class="fal fa-utensils"></i>
+                                    <i *ngIf="activitiesPerDay[date][time][0].type == 'competition'" class="fal fa-trophy clickable" (click)="onShowInfo(activitiesPerDay[date][time][0], time)"></i>
+                                    <i *ngIf="activitiesPerDay[date][time][0].type == 'other'" class="fal fa-calendar clickable" (click)="onShowInfo(activitiesPerDay[date][time][0], time)"></i>
+                                    <i *ngIf="activitiesPerDay[date][time][0].type == 'food'" class="fal fa-utensils clickable" (click)="onShowInfo(activitiesPerDay[date][time][0], time)"></i>
                                     <div class="col-sm">
                                         <p class="name">{{ activitiesPerDay[date][time][0].name }}</p>
                                         <p class="hours">{{ time }} - {{ activitiesPerDay[date][time][0].endDate | hours }}</p>
@@ -116,9 +116,9 @@
                         <div class="card activity-card third-card">
                             <div class="card-body activity-card-body">
                                 <div class="row tile">
-                                    <i *ngIf="activitiesPerDay[date][time][1].type == 'competition'" class="fal fa-trophy"></i>
-                                    <i *ngIf="activitiesPerDay[date][time][1].type == 'other'" class="fal fa-calendar"></i>
-                                    <i *ngIf="activitiesPerDay[date][time][1].type == 'food'" class="fal fa-utensils"></i>
+                                    <i *ngIf="activitiesPerDay[date][time][1].type == 'competition'" class="fal fa-trophy clickable" (click)="onShowInfo(activitiesPerDay[date][time][1], time)"></i>
+                                    <i *ngIf="activitiesPerDay[date][time][1].type == 'other'" class="fal fa-calendar clickable" (click)="onShowInfo(activitiesPerDay[date][time][1], time)"></i>
+                                    <i *ngIf="activitiesPerDay[date][time][1].type == 'food'" class="fal fa-utensils clickable" (click)="onShowInfo(activitiesPerDay[date][time][1], time)"></i>
                                     <div class="col-sm">
                                         <p class="name">{{ activitiesPerDay[date][time][1].name }}</p>
                                         <p class="hours">{{ time }} - {{ activitiesPerDay[date][time][1].endDate | hours }}</p>
@@ -132,9 +132,9 @@
                         <div class="card activity-card third-card">
                             <div class="card-body activity-card-body">
                                 <div class="row tile">
-                                    <i *ngIf="activitiesPerDay[date][time][2].type == 'competition'" class="fal fa-trophy"></i>
-                                    <i *ngIf="activitiesPerDay[date][time][2].type == 'other'" class="fal fa-calendar"></i>
-                                    <i *ngIf="activitiesPerDay[date][time][2].type == 'food'" class="fal fa-utensils"></i>
+                                    <i *ngIf="activitiesPerDay[date][time][2].type == 'competition'" class="fal fa-trophy clickable" (click)="onShowInfo(activitiesPerDay[date][time][2], time)"></i>
+                                    <i *ngIf="activitiesPerDay[date][time][2].type == 'other'" class="fal fa-calendar clickable" (click)="onShowInfo(activitiesPerDay[date][time][2], time)"></i>
+                                    <i *ngIf="activitiesPerDay[date][time][2].type == 'food'" class="fal fa-utensils clickable" (click)="onShowInfo(activitiesPerDay[date][time][2], time)"></i>
                                     <div class="col-sm">
                                         <p class="name">{{ activitiesPerDay[date][time][2].name }}</p>
                                         <p class="hours">{{ time }} - {{ activitiesPerDay[date][time][2].endDate | hours }}</p>

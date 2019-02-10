@@ -12,6 +12,8 @@ import { LoadingSpinnerModule } from "src/app/components/loading-spinner/loading
 import { TabsModule } from "ngx-bootstrap";
 import { FlexLayoutModule } from "@angular/flex-layout";
 import { PipeModule } from "src/app/pipe/pipe.module";
+import { SimpleModalModule } from "ngx-simple-modal";
+import { InfoActivityComponent } from "./info-activity/info-activity.component";
 
 @NgModule({
     imports: [
@@ -24,9 +26,10 @@ import { PipeModule } from "src/app/pipe/pipe.module";
         EffectsModule.forFeature([ScheduleEffects]),
         TabsModule.forRoot(),
         FlexLayoutModule,
-        PipeModule
+        PipeModule,
+        SimpleModalModule
     ],
-    declarations: [ScheduleComponent],
-    entryComponents: [ScheduleComponent]
+    declarations: [ScheduleComponent, InfoActivityComponent],
+    entryComponents: [ScheduleComponent, InfoActivityComponent]
 })
 export class ScheduleModule { }

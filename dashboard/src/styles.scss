@@ -713,7 +713,10 @@ h4 {
 
 .nav-pills {
     margin-top: 20px;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
+    width: fit-content;
+    margin-right:auto;
+    margin-left:auto;
 }
 
 .nav-link > span {

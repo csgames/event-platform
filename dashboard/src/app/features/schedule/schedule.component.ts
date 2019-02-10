@@ -5,6 +5,8 @@ import { LoadActivities } from "./store/schedule.actions";
 import { Subscription } from "rxjs";
 import { ScheduleService } from "src/app/providers/schedule.service";
 import { Activity } from "src/app/api/models/activity";
+import { SimpleModalService } from "ngx-simple-modal";
+import { InfoActivityComponent } from "./info-activity/info-activity.component";
 
 @Component({
     selector: "app-schedule",
@@ -20,7 +22,8 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     public activitiesPerDay: { [date: string]: { [time: string]: Activity[] } };
 
     constructor(private store$: Store<State>,
-                private scheduleService: ScheduleService) { }
+                private scheduleService: ScheduleService,
+                private modalService: SimpleModalService) { }
 
     public ngOnInit() {
         this.store$.dispatch(new LoadActivities());
@@ -42,5 +45,9 @@ export class ScheduleComponent implements OnInit, OnDestroy {
             return activity1.beginDate < activity2.beginDate ? -1 : 1;
         });
         return list;
+    }
+
+    public onShowInfo(activity: Activity, time: string) {
+        this.modalService.addModal(InfoActivityComponent, {activity, time});
     }
 }
