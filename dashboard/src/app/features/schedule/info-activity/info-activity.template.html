@@ -12,7 +12,7 @@
                         <i *ngIf="activity.type == 'food'" class="fal fa-utensils"></i>
                         <div class="col-sm">
                             <p class="name">{{ activity.name }}</p>
-                            <p class="hours">{{ time }} - </p>
+                            <p class="hours">{{ time }} - {{ activity.endDate | hours }}</p>
                         </div>
                     </div>
                 </div>
