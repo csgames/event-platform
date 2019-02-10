@@ -57,15 +57,7 @@ export class TeamsController {
 
     @Get(':id')
     @Permissions('csgames-api:get:team')
-    public async get(@Param('id') id: string): Promise<Teams> {
-        return await this.teamsService.findOneLean({
-            _id: id
-        }, [{
-            path: 'attendees',
-            model: 'attendees'
-        }, {
-            path: 'school',
-            model: 'schools'
-        }]);
+    public get(@Param('id') id: string, @EventId() eventId: string): Promise<Teams> {
+        return this.teamsService.getTeamById(id, eventId);
     }
 }
