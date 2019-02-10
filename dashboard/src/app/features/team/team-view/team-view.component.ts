@@ -1,31 +1,37 @@
-import { Component, Input, OnInit, ViewChild } from "@angular/core";
+import { Component, Input, OnDestroy, OnInit, ViewChild } from "@angular/core";
 import { Store, select } from "@ngrx/store";
-import { State, getCurrentTeam, getTeamLoading, getTeamError, getTeamGodparent, getTeamAttendees } from "./store/team-view.reducer";
+import {
+    State, getCurrentTeam, getTeamLoading, getTeamError, getTeamGodparent, getTeamAttendees, getCurrentAttendee
+} from "./store/team-view.reducer";
 import { LoadTeam, UpdateTeamName, AddTeamMember, AddTeamGodparent } from "./store/team-view.actions";
 import { Team } from "src/app/api/models/team";
 import { Attendee } from "src/app/api/models/attendee";
 import { filter, map, withLatestFrom } from "rxjs/operators";
 import * as fromApp from "../../../store/app.reducers";
 import { AddAttendeeFormComponent } from "./components/add-attendee-form/add-attendee-form.component";
-import { Observable } from "rxjs";
+import { Observable, Subscription } from "rxjs";
 
 @Component({
     selector: "app-team-view",
     templateUrl: "./team-view.template.html",
     styleUrls: ["./team-view.style.scss"]
 })
-export class TeamViewComponent implements OnInit {
+export class TeamViewComponent implements OnInit, OnDestroy {
+    private _id: string;
+
     @Input()
     set teamId(value: string) {
-        this.currentEvent$.pipe(filter((e) => !!e)).subscribe(() => {
+        this._id = value;
+        this.currentEventSub$ = this.currentEvent$.pipe(filter((e) => !!e)).subscribe(() => {
             this.store.dispatch(new LoadTeam(value));
         });
     }
 
     @Input()
     set loadAttendeeTeam(value: boolean) {
+        this._id = null;
         if (value) {
-            this.currentEvent$.pipe(filter((e) => !!e)).subscribe(() => {
+            this.currentEventSub$ = this.currentEvent$.pipe(filter((e) => !!e)).subscribe(() => {
                 this.store.dispatch(new LoadTeam());
             });
         }
@@ -42,6 +48,10 @@ export class TeamViewComponent implements OnInit {
     currentEvent$ = this.store.pipe(select(fromApp.getCurrentEvent));
     currentGodparent$ = this.store.pipe(select(getTeamGodparent));
     currentAttendees$ = this.store.pipe(select(getTeamAttendees));
+    currentAttendee$ = this.store.pipe(select(getCurrentAttendee));
+
+    currentEventSub$: Subscription;
+    currentAttendeeSub$: Subscription;
 
     isEditingTeamName: boolean;
     isAddingTeamMember: boolean;
@@ -111,6 +121,17 @@ export class TeamViewComponent implements OnInit {
 
         this.newAttendee = this.setDefaultAttendee();
         this.newGodparent = this.setDefaultAttendee();
+
+        this.currentAttendeeSub$ = this.currentAttendee$.pipe(filter(a => !!a)).subscribe(a => {
+            this.store.dispatch(new LoadTeam(this._id));
+        });
+    }
+
+    ngOnDestroy() {
+        if (this.currentEventSub$) {
+            this.currentEventSub$.unsubscribe();
+        }
+        this.currentAttendeeSub$.unsubscribe();
     }
 
     public onEditTeamName(currentTeam: Team): void {
