@@ -1,5 +1,6 @@
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
+import { FlexLayoutModule } from "@angular/flex-layout";
 import { TranslateModule } from "@ngx-translate/core";
 import { SponsorsRoutingModule } from "./sponsors-routing.module";
 import { LoadingSpinnerModule } from "src/app/components/loading-spinner/loading-spinner.module";
@@ -19,6 +20,7 @@ import { SimpleModalModule } from "ngx-simple-modal";
         SponsorsRoutingModule,
         LoadingSpinnerModule,
         DirectivesModule,
+        FlexLayoutModule,
         StoreModule.forFeature("sponsors", fromSponsors.reducer),
         EffectsModule.forFeature([SponsorsEffects]),
         SimpleModalModule

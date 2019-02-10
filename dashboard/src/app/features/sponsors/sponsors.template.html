@@ -4,54 +4,32 @@
     <div class="platinum-container" *ngIf="platinum">
         <h2>{{ "pages.sponsors.platinum" | translate }}</h2>
         <hr>
-        <div *ngFor="let p of platinum">
-            <img [src]="p.imageUrl" class="platinum clickable" (click)="onShowInfo(p)">
+        <div fxFlexLayout="row" fxLayoutAlign="center center" *ngFor="let p of platinum">
+            <img class="clickable" fxFlex="0 0 50%" [src]="p.imageUrl" [alt]="p.name" [ngStyle]="getStyle(p)"
+                 (click)="onShowInfo(p)"/>
         </div>
     </div>
     <div class="gold-container" *ngIf="gold">
         <h2>{{ "pages.sponsors.gold" | translate }}</h2>
         <hr>
-        <div class="row gold-sponsors">
-            <div class="col-sm-6">
-                <img [src]="gold[0]?.imageUrl" class="gold clickable bnc" (click)="onShowInfo(gold[0])">
-            </div>
-            <div class="col-sm-6">
-                <img [src]="gold[1]?.imageUrl" class="gold clickable cse" (click)="onShowInfo(gold[1])">
-            </div>
+        <div fxFlexLayout="row" fxLayoutGap="60px" fxLayoutAlign="center center" *ngFor="let g of gold">
+            <img class="clickable" fxFlex="0 0 40%" [src]="sponsor.imageUrl" [alt]="sponsor.name" [ngStyle]="getStyle(sponsor)"
+                 (click)="onShowInfo(sponsor)"  *ngFor="let sponsor of g"/>
         </div>
-        <img [src]="gold[2]?.imageUrl" class="psc clickable" (click)="onShowInfo(gold[2])">
     </div>
     <div class="silver-container" *ngIf="silver">
-            <h2>{{ "pages.sponsors.silver" | translate }}</h2>
-            <hr>
-            <div class="row">
-                <div class="col-sm-4">
-                    <img [src]="silver[0]?.imageUrl" class="clickable silver" (click)="onShowInfo(silver[0])">
-                </div>
-                <div class="col-sm-4">
-                    <img [src]="silver[1]?.imageUrl" class="clickable silver" (click)="onShowInfo(silver[1])">
-                </div>
-                <div class="col-sm-4">
-                    <img [src]="silver[2]?.imageUrl" class="clickable silver google" (click)="onShowInfo(silver[2])">
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-4">
-                    <img [src]="silver[3]?.imageUrl" class="clickable silver" (click)="onShowInfo(silver[0])">
-                </div>
-                <div class="col-sm-4">
-                    <img [src]="silver[4]?.imageUrl" class="clickable silver bell" (click)="onShowInfo(silver[1])">
-                </div>
-                <div class="col-sm-4">
-                    <img [src]="silver[5]?.imageUrl" class="clickable silver" (click)="onShowInfo(silver[5])">
-                </div>
-            </div>
+        <h2>{{ "pages.sponsors.silver" | translate }}</h2>
+        <hr>
+        <div fxFlexLayout="row" fxLayoutGap="100px" fxLayoutAlign="center center" *ngFor="let s of silver">
+            <img class="clickable" fxFlex="0 0 25%" [src]="sponsor.imageUrl" [alt]="sponsor.name" [ngStyle]="getStyle(sponsor)"
+                 (click)="onShowInfo(sponsor)" *ngFor="let sponsor of s"/>
         </div>
+    </div>
     <div class="platinum-container" *ngIf="bronze">
         <h2>{{ "pages.sponsors.bronze" | translate }}</h2>
         <hr>
         <div *ngFor="let b of bronze">
-            <img [src]="b.imageUrl" class="bronze clickable" (click)="onShowInfo(b)">
+            <img [src]="b.imageUrl" class="clickable" (click)="onShowInfo(b)">
         </div>
     </div>
 </div>
