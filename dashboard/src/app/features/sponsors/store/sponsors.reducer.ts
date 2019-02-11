@@ -4,7 +4,7 @@ import { SponsorsActions, SponsorsActionTypes } from "./sponsors.actions";
 import { createFeatureSelector, createSelector } from "@ngrx/store";
 
 export interface SponsorsState {
-    sponsors: { [id: string] : Sponsors[] };
+    sponsors: { [tier: string]: Sponsors[] };
     loading: boolean;
 }
 
