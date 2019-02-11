@@ -1,0 +1,8 @@
+<h2>{{ "pages.sponsors." + tier.name | translate }}</h2>
+<hr>
+<ng-container *ngIf="tier">
+    <div fxFlexLayout="row" fxLayoutAlign="center center" *ngFor="let sponsor of sponsors">
+        <img class="clickable" [fxFlex]="flex" [fxLayoutGap]="gap" [src]="s.imageUrl" [alt]="s.name" [ngStyle]="getStyle(s)"
+             (click)="info.emit(s)" *ngFor="let s of sponsor"/>
+    </div>
+</ng-container>

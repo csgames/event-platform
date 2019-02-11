@@ -1,35 +1,16 @@
 <h1>{{ "pages.sponsors.sponsors" | translate }}</h1>
 <app-loading-spinner [loading]="loading$ | async"></app-loading-spinner>
 <div>
-    <div class="platinum-container" *ngIf="platinum">
-        <h2>{{ "pages.sponsors.platinum" | translate }}</h2>
-        <hr>
-        <div fxFlexLayout="row" fxLayoutAlign="center center" *ngFor="let p of platinum">
-            <img class="clickable" fxFlex="0 0 50%" [src]="p.imageUrl" [alt]="p.name" [ngStyle]="getStyle(p)"
-                 (click)="onShowInfo(p)"/>
-        </div>
-    </div>
-    <div class="gold-container" *ngIf="gold">
-        <h2>{{ "pages.sponsors.gold" | translate }}</h2>
-        <hr>
-        <div fxFlexLayout="row" fxLayoutGap="60px" fxLayoutAlign="center center" *ngFor="let g of gold">
-            <img class="clickable" fxFlex="0 0 40%" [src]="sponsor.imageUrl" [alt]="sponsor.name" [ngStyle]="getStyle(sponsor)"
-                 (click)="onShowInfo(sponsor)"  *ngFor="let sponsor of g"/>
-        </div>
-    </div>
-    <div class="silver-container" *ngIf="silver">
-        <h2>{{ "pages.sponsors.silver" | translate }}</h2>
-        <hr>
-        <div fxFlexLayout="row" fxLayoutGap="100px" fxLayoutAlign="center center" *ngFor="let s of silver">
-            <img class="clickable" fxFlex="0 0 25%" [src]="sponsor.imageUrl" [alt]="sponsor.name" [ngStyle]="getStyle(sponsor)"
-                 (click)="onShowInfo(sponsor)" *ngFor="let sponsor of s"/>
-        </div>
-    </div>
-    <div class="platinum-container" *ngIf="bronze">
-        <h2>{{ "pages.sponsors.bronze" | translate }}</h2>
-        <hr>
-        <div *ngFor="let b of bronze">
-            <img [src]="b.imageUrl" class="clickable" (click)="onShowInfo(b)">
-        </div>
-    </div>
+    <ng-container *ngIf="platinum">
+        <app-sponsor-tier [tier]="platinumTier" (info)="onShowInfo($event)"></app-sponsor-tier>
+    </ng-container>
+    <ng-container *ngIf="gold">
+        <app-sponsor-tier [tier]="goldTier" (info)="onShowInfo($event)"></app-sponsor-tier>
+    </ng-container>
+    <ng-container *ngIf="silver">
+        <app-sponsor-tier [tier]="silverTier" (info)="onShowInfo($event)"></app-sponsor-tier>
+    </ng-container>
+    <ng-container *ngIf="bronze">
+        <app-sponsor-tier [tier]="bronzeTier" (info)="onShowInfo($event)"></app-sponsor-tier>
+    </ng-container>
 </div>

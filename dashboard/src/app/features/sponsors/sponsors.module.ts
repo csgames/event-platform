@@ -2,6 +2,7 @@ import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { FlexLayoutModule } from "@angular/flex-layout";
 import { TranslateModule } from "@ngx-translate/core";
+import { SponsorTierComponent } from "./sponsor-tier/sponsor-tier.component";
 import { SponsorsRoutingModule } from "./sponsors-routing.module";
 import { LoadingSpinnerModule } from "src/app/components/loading-spinner/loading-spinner.module";
 import { DirectivesModule } from "src/app/directives/directives.module";
@@ -25,7 +26,7 @@ import { SimpleModalModule } from "ngx-simple-modal";
         EffectsModule.forFeature([SponsorsEffects]),
         SimpleModalModule
     ],
-    declarations: [SponsorsComponent, InfoSponsorComponent],
+    declarations: [SponsorsComponent, InfoSponsorComponent, SponsorTierComponent],
     entryComponents: [SponsorsComponent, InfoSponsorComponent]
 })
 export class SponsorsModule { }
