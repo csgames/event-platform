@@ -4,7 +4,8 @@ import { SponsorTier } from "../models/sponsor-tier";
 
 @Component({
     selector: "app-sponsor-tier",
-    templateUrl: "./sponsor-tier.template.html"
+    templateUrl: "./sponsor-tier.template.html",
+    styleUrls: ["./sponsor-tier.style.scss"]
 })
 export class SponsorTierComponent {
     @Input()
@@ -48,7 +49,8 @@ export class SponsorTierComponent {
             "padding-left": `${sponsors.web.padding[0]}px`,
             "padding-top": `${sponsors.web.padding[1]}px`,
             "padding-right": `${sponsors.web.padding[2]}px`,
-            "padding-bottom": `${sponsors.web.padding[3]}px`
+            "padding-bottom": `${sponsors.web.padding[3]}px`,
+            "width": "100%"
         };
     }
 }
