@@ -67,6 +67,23 @@ export class TeamsService extends BaseService<Teams, CreateTeamDto> {
         return teams;
     }
 
+    public async getTeamById(id: string, eventId: string) {
+        const event = await this.eventsModel.findOne({
+            _id: eventId
+        }).exec();
+        const team = await this.findOneLean({
+            _id: id
+        }, [{
+            path: 'attendees',
+            model: 'attendees'
+        }, {
+            path: 'school',
+            model: 'schools'
+        }]);
+
+        return this.getTeamAttendeeInfo(team, event);
+    }
+
     public async getTeamInfo(attendeeId: string, eventId: string): Promise<Teams> {
         const team = await this.findOneLean({
             attendees: attendeeId,
