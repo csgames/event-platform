@@ -1,27 +1,20 @@
 import { Injectable } from "@angular/core";
 import { Actions, Effect, ofType } from "@ngrx/effects";
-import { TeamService } from "src/app/providers/team.service";
-import {
-    LoadTeam,
-    TeamViewActionTypes,
-    LoadTeamSuccess,
-    LoadTeamFailure,
-    UpdateTeamName,
-    AddTeamMember,
-    AddTeamGodparent,
-    AddMemberFailure,
-    UpdateTeamNameFailure
-} from "./team-view.actions";
-import { map, catchError, withLatestFrom, switchMap, concatMap, tap } from "rxjs/operators";
-import { Team } from "src/app/api/models/team";
-import { of } from "rxjs";
-import { GlobalError } from "src/app/store/app.actions";
-import { Store, select, Action } from "@ngrx/store";
-import { State, getCurrentTeam } from "./team-view.reducer";
+import { Action, select, Store } from "@ngrx/store";
 import { TranslateService } from "@ngx-translate/core";
 import { ToastrService } from "ngx-toastr";
-import { getCurrentAttendee } from "../../../../store/app.reducers";
+import { of } from "rxjs";
+import { catchError, filter, map, switchMap, tap, withLatestFrom } from "rxjs/operators";
+import { Team } from "src/app/api/models/team";
+import { TeamService } from "src/app/providers/team.service";
+import { GlobalError } from "src/app/store/app.actions";
 import { Attendee } from "../../../../api/models/attendee";
+import { getCurrentAttendee } from "../../../../store/app.reducers";
+import {
+    AddMemberFailure, AddTeamGodparent, AddTeamMember, LoadTeam, LoadTeamFailure, LoadTeamSuccess, TeamViewActionTypes, UpdateTeamName,
+    UpdateTeamNameFailure
+} from "./team-view.actions";
+import { getCurrentTeam, State } from "./team-view.reducer";
 
 @Injectable()
 export class TeamViewEffects {
@@ -35,6 +28,7 @@ export class TeamViewEffects {
     loadTeam$ = this.actions$.pipe(
         ofType<LoadTeam>(TeamViewActionTypes.LoadTeam),
         withLatestFrom(this.store$.pipe(select(getCurrentAttendee)), this.store$.pipe(select(getCurrentTeam))),
+        filter(([action, attendee, currentTeam]: [LoadTeam, Attendee, Team]) => !!attendee),
         switchMap(([action, attendee, currentTeam]: [LoadTeam, Attendee, Team]) =>
             attendee.role === "admin" ?
                 this.teamService.getTeamById(action.teamId || currentTeam._id).pipe(
