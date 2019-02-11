@@ -1,6 +1,6 @@
 import { ApiModelProperty } from '@nestjs/swagger';
 import {
-    ArrayMaxSize, ArrayMinSize, ArrayUnique, IsArray, IsDefined, IsMongoId, IsNotEmpty, IsNumber, IsOptional, IsString
+    ArrayMaxSize, ArrayMinSize, ArrayUnique, IsArray, IsDefined, IsMongoId, IsNotEmpty, IsNumber, IsOptional, IsString, ValidateNested
 } from 'class-validator';
 import { EventAttendees } from './events.model';
 
@@ -142,17 +142,7 @@ export class SendConfirmEmailDto {
     userIds: string[];
 }
 
-export class AddSponsorDto {
-    @IsString()
-    @IsNotEmpty()
-    @ApiModelProperty({ required: true })
-    tier: string;
-
-    @IsMongoId()
-    @IsNotEmpty()
-    @ApiModelProperty({ required: true })
-    sponsor: string;
-
+export class SponsorDetailsDto {
     @ApiModelProperty()
     @IsArray()
     @ArrayMaxSize(4)
@@ -169,6 +159,26 @@ export class AddSponsorDto {
     @IsNumber()
     @IsOptional()
     heightFactor: number;
+}
+
+export class AddSponsorDto {
+    @IsString()
+    @IsNotEmpty()
+    @ApiModelProperty({ required: true })
+    tier: string;
+
+    @IsMongoId()
+    @IsNotEmpty()
+    @ApiModelProperty({ required: true })
+    sponsor: string;
+
+    @IsOptional()
+    @ValidateNested()
+    web: SponsorDetailsDto;
+
+    @IsOptional()
+    @ValidateNested()
+    mobile: SponsorDetailsDto;
 }
 
 export class AddScannedAttendee {
