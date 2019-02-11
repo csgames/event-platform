@@ -24,8 +24,8 @@ export class Auth {
         const rememberMe = req.body.remember;
 
         if (!email || !password || email === "" || password === "") {
-            res.json({ error: "Email and password fields must not be empty." });
             res.statusCode = 422;
+            res.json({ error: "Email and password fields must not be empty." });
             return;
         }
 
