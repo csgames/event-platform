@@ -732,7 +732,7 @@ h4 {
 }
 
 .scroll {
-    overflow-y: scroll !important;
+    overflow-y: auto !important;
     height: 100vh;
 }
 
@@ -740,4 +740,18 @@ h4 {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+
+@media(max-width: 320px) {
+    body {
+        font-size: 15px;
+    }
+
+    .nav {
+        font-size: 13px;
+    }
+
+    .nav-item {
+        width: 90px;
+    }
 }
