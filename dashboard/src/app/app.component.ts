@@ -1,4 +1,7 @@
 import { Component } from "@angular/core";
+import { registerLocaleData } from "@angular/common";
+import localeFr from "@angular/common/locales/fr";
+import localeFrCa from "@angular/common/locales/fr-CA";
 import { TranslateService } from "@ngx-translate/core";
 import { getCurrentAttendee, State } from "./store/app.reducers";
 import { select, Store } from "@ngrx/store";
@@ -18,6 +21,8 @@ export class AppComponent {
     constructor(private translate: TranslateService,
                 private authService: AuthenticationService,
                 private store$: Store<State>) {
+        registerLocaleData(localeFr);
+        registerLocaleData(localeFrCa);
         this.translate.setDefaultLang(this.translate.getBrowserLang());
 
         this.currentAttendeeSub$ = this.currentAttendee$.subscribe(async attendee => {

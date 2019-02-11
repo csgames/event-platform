@@ -15,15 +15,23 @@ export class ScheduleService {
     }
 
     public getActivitiesPerDay(activities: Activity[]): { [date: string]: { [time: string]: Activity[] } } {
-        let dates: { [date: string]: { [time: string]: Activity[] } } = {};
+        const dates: { [date: string]: { [time: string]: Activity[] } } = {};
         for (const a of activities) {
             const date = new Date(a.beginDate);
-            const day = formatDate(date, "MMMM d", this.translateService.getDefaultLang(), 'utc');
-            const time = formatDate(date, "h:mm a", this.translateService.getDefaultLang(), 'utc');
-            if (!dates[day]) dates[day] = {};
-            if (!dates[day][time]) dates[day][time] = [];
+            const day = formatDate(date, this.getDateFormat(), this.translateService.getDefaultLang(), "utc");
+            const time = formatDate(date, "h:mm a", this.translateService.getDefaultLang(), "utc");
+            if (!dates[day]) { dates[day] = {}; }
+            if (!dates[day][time]) { dates[day][time] = []; }
             dates[day][time].push(a);
         }
-        return dates
+        return dates;
+    }
+
+    private getDateFormat(): string {
+        if (this.translateService.getDefaultLang() === "en") {
+            return "MMMM d";
+        }
+
+        return "d MMMM";
     }
 }
