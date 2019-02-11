@@ -133,9 +133,8 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
             }
             result[sponsor.tier].push({
                 ...(sponsor.sponsor as any)._doc,
-                padding: sponsor.padding,
-                widthFactor: sponsor.widthFactor,
-                heightFactor: sponsor.heightFactor
+                web: sponsor.web,
+                mobile: sponsor.mobile
             } as EventSponsorDetails);
         }
 

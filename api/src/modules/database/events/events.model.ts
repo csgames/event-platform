@@ -50,9 +50,8 @@ export const EventRegistrationsSchema = new mongoose.Schema({
 export interface EventSponsors extends mongoose.Document {
     tier: string;
     sponsor: Sponsors | mongoose.Types.ObjectId | string;
-    padding: number[];
-    widthFactor: number;
-    heightFactor: number;
+    web: EventSponsorDetails;
+    mobile: EventSponsorDetails;
 }
 
 export const EventSponsorsSchema = new mongoose.Schema({
@@ -65,16 +64,12 @@ export const EventSponsorsSchema = new mongoose.Schema({
         ref: 'sponsors',
         required: true
     },
-    padding: {
-        type: [Number],
+    web: {
+        type: Object,
         required: false
     },
-    widthFactor: {
-        type: Number,
-        required: false
-    },
-    heightFactor: {
-        type: Number,
+    mobile: {
+        type: Object,
         required: false
     }
 });
