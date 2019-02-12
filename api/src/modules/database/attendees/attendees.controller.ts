@@ -84,7 +84,6 @@ export class AttendeesController {
     }
 
     @Put('token')
-    @Permissions('csgames-api:update:attendee')
     public async addToken(@User() user: UserModel, @Body(ValidationPipe) dto: AddTokenDto) {
         await this.attendeesService.addToken(user.username, dto.token);
     }
@@ -96,7 +95,6 @@ export class AttendeesController {
     }
 
     @Delete('/token/:token')
-    @Permissions('csgames-api:update:attendee')
     public async deleteToken(@User() user: UserModel, @Param('token') token) {
         await this.attendeesService.removeToken(user.username, token);
     }

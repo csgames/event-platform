@@ -61,7 +61,7 @@ export class EventsController {
 
     @Get('activity')
     @Permissions('csgames-api:get-all:activity')
-    public async getActivity(@EventId() eventId: string,): Promise<Activities[]> {
+    public async getActivity(@EventId() eventId: string): Promise<Activities[]> {
         return await this.eventsService.getActivities(eventId);
     }
     
