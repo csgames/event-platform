@@ -5,8 +5,8 @@ import { FormGenerator } from "src/app/form-generator/form-generator";
 import { ForgetFormDto } from "../dto/forget-form-dto";
 
 @Component({
-    selector: 'app-forget-form',
-    templateUrl: 'forget-form.template.html',
+    selector: "app-forget-form",
+    templateUrl: "forget-form.template.html",
     providers: [
         {
             provide: NG_VALUE_ACCESSOR,
@@ -17,7 +17,7 @@ import { ForgetFormDto } from "../dto/forget-form-dto";
 })
 export class ForgetFormComponent implements OnInit, ControlValueAccessor {
     public formGroup: FormGroup;
-    
+
     constructor(@Inject(FORGET_FORM_GENERATOR) private formGenerator: FormGenerator<ForgetFormDto>) { }
 
     private propagate: (dto: ForgetFormDto) => void;

@@ -48,7 +48,7 @@
         }
 	},
 	"errors": {
-		"/^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{8,}$/": "The password must contain at least 8 characters including a number, a lower case letter and a upper case letter",
+		"/^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).{8,}$/": "The password must contain at least 8 characters including a number, a lower case letter and a upper case letter",
 		"email": "The email is invalid.",
 		"group": {
 			"required": "One or more fields are required."
