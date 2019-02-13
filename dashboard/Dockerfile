@@ -11,7 +11,7 @@ RUN cp -a /tmp/node_modules /usr/src/webapp
 
 # Bundle app source
 ADD . /usr/src/webapp
-RUN npm run production
+RUN npm run build:prod
 
 EXPOSE 4200
 CMD [ "npm", "run", "server" ]

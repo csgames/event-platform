@@ -1,0 +1,95 @@
+.borders {
+    background: transparent;
+    border: 1px dashed #9B9B9B;
+    margin-bottom: 10px;
+
+    &:hover {
+        border: 1px dashed #00579c;
+    }
+}
+
+.btn .save-btn {
+    border-radius: 2px;
+    background-color: #00579c;
+    margin-top: 10px;
+    height: 1000px;
+}
+
+.title {
+    font-size: 40px;
+}
+
+.error {
+    color: #f15e58;
+    text-align: center;
+}
+
+.add-member-card {
+    background-color: #ffffff;
+    margin-bottom: 20px;
+    width: 100%;
+    border-radius: 6px;
+    box-shadow: 0 1px 4px 0 rgba(0, 0, 0, .14);
+}
+
+.edit-name-card {
+    flex-flow: row wrap;
+    margin: 10px 0;
+}
+
+.card-wrapper {
+    width: 99%;
+}
+
+.email {
+    width: 61%;
+}
+
+.cancel {
+    margin-left: 10px;
+}
+
+.no-godparent {
+    font-weight: bold;
+    text-align: center;
+}
+
+.fa-check {
+    padding-left: 5px;
+}
+
+.fa-times {
+    padding-left: 5px;
+}
+
+h1 {
+    text-transform: uppercase;
+}
+
+.edit-name-button {
+    background: transparent;
+    padding: 5px;
+
+    &:hover {
+        color: #0D5899;
+    }
+}
+
+.button-group {
+    margin-bottom: 4px;
+    margin-left: 5px;
+}
+
+.has-error {
+    margin-bottom: 29px;
+}
+
+.team-members {
+    font-size: 22px;
+    font-weight: 300;
+    margin-bottom: 0;
+
+    b {
+        font-weight: 700;
+    }
+}

@@ -12,7 +12,6 @@ import { AuthenticationService } from "./providers/authentication.service";
     styleUrls: ["./app.style.scss"]
 })
 export class AppComponent {
-
     currentAttendee$ = this.store$.pipe(select(getCurrentAttendee));
     currentAttendeeSub$: Subscription;
 
@@ -25,8 +24,8 @@ export class AppComponent {
             const isLoggedIn = await this.authService.isLoggedIn().toPromise();
             if (!attendee && isLoggedIn) {
                 this.store$.dispatch(new LoadEvents());
-                this.currentAttendeeSub$.unsubscribe();
             }
+            this.currentAttendeeSub$.unsubscribe();
         });
     }
 }

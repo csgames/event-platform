@@ -19,7 +19,7 @@ export class UserFormDto {
     lastName: string;
 
     @Control()
-    @MatchesPattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/)
+    @MatchesPattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/)
     @Required()
     password: string;
 

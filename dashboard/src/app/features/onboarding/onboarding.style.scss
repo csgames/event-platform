@@ -5,3 +5,17 @@ h1 {
 .onboard-container {
     padding-right: 10px;
 }
+
+.flex-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: stretch;
+    align-content: stretch;
+}
+
+.flex-content {
+    width: 90%;
+    margin-top: 5px;
+}

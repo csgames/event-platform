@@ -1,11 +1,14 @@
 import { Injectable } from "@angular/core";
-import { EventApi } from "../api/event.api";
 import { Event } from "../api/models/event";
 import { Observable } from "rxjs";
 import { Attendee } from "../api/models/attendee";
 import { ApiService } from "../api/api.service";
 import { UppyFile } from "@uppy/core";
 import { EventGuide } from "../api/models/guide";
+import { Team } from "../api/models/team";
+import { EventApi } from "../api/event.api";
+
+
 
 const CURRENT_EVENT = "CURRENT_EVENT";
 
@@ -15,6 +18,10 @@ export class EventService {
 
     public getEventList(): Observable<Event[]> {
         return this.apiService.event.getEventList();
+    }
+
+    public getTeams(): Observable<Team[]> {
+        return this.apiService.event.getTeams();
     }
 
     public saveCurrentEvent(eventId: string) {

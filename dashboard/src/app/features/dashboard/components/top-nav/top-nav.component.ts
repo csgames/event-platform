@@ -15,7 +15,6 @@ import { TranslateService } from "@ngx-translate/core";
 })
 
 export class TopNavComponent implements OnInit, OnDestroy {
-
     @Input()
     public showToggleSideNav = false;
 
@@ -23,6 +22,8 @@ export class TopNavComponent implements OnInit, OnDestroy {
     public toggleSideNav = new EventEmitter<boolean>();
     @Output()
     public editProfile = new EventEmitter();
+    @Output()
+    public changePassword = new EventEmitter();
 
     private _toggleSideNav = false;
 
@@ -62,8 +63,8 @@ export class TopNavComponent implements OnInit, OnDestroy {
 
     changeLanguage() {
         if (!this.language) {
-            let lang: string = this.translateService.getBrowserLang();
-            this.store$.dispatch(new ChangeLanguage(lang === 'en' ? 'fr' : 'en'));
+            const lang: string = this.translateService.getBrowserLang();
+            this.store$.dispatch(new ChangeLanguage(lang === "en" ? "fr" : "en"));
             return;
         } 
 

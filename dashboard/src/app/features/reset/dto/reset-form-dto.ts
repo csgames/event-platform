@@ -5,7 +5,7 @@ import { MatchesControl } from "src/app/form-generator/decorators/matches-contro
 
 export class ResetFormDto {
     @Control()
-    @MatchesPattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/)
+    @MatchesPattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/)
     password: string;
     
     @Control()

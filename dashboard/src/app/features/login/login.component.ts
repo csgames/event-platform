@@ -3,7 +3,7 @@ import { Router } from "@angular/router";
 import { State } from "./store/login.reducer";
 import { select, Store } from "@ngrx/store";
 import * as fromLogin from "./store/login.reducer";
-import { PerformLogin, ResetError } from "./store/login.actions";
+import { PerformLogin, ResetError, ResetStore } from "./store/login.actions";
 
 @Component({
     selector: "app-login",
@@ -20,7 +20,9 @@ export class LoginComponent implements OnInit {
     constructor(private router: Router,
                 private store$: Store<State>) { }
 
-    ngOnInit() { }
+    ngOnInit() {
+        this.store$.dispatch(new ResetStore());
+    }
 
     clickSignIn() {
         this.store$.dispatch(new PerformLogin({

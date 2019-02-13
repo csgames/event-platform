@@ -26,7 +26,7 @@ export class PasswordApi extends IdentityApi {
         return this.http.get<void>(this.url(`${uuid}`));
     }
 
-    public updatePassword(uuid: string, password: string): Observable<void> {
+    public resetPassword(uuid: string, password: string): Observable<void> {
         const body = new HttpParams({
             encoder: new CustomEncoder()
         }).set("password", password);

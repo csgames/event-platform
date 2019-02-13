@@ -19,6 +19,8 @@ import { LoadingSpinnerModule } from "../../components/loading-spinner/loading-s
 import { ProfileSettingModule } from "./modals/profile-setting/profile-setting.module";
 import { RegisteredGuard } from "./utils/registered.guard";
 import { NotRegisteredGuard } from "./utils/not-registered.guard";
+import { DirectivesModule } from "../../directives/directives.module";
+import { ChangePasswordModule } from "./modals/change-password/change-password.module";
 
 @NgModule({
     imports: [
@@ -27,6 +29,7 @@ import { NotRegisteredGuard } from "./utils/not-registered.guard";
         ReactiveFormsModule,
         RouterModule,
         FlexLayoutModule,
+        DirectivesModule,
         SimpleModalModule,
         BsDropdownModule,
         NotificationsListModalModule,
@@ -36,7 +39,8 @@ import { NotRegisteredGuard } from "./utils/not-registered.guard";
         MatToolbarModule,
         TranslateModule,
         MatSidenavModule,
-        ProfileSettingModule
+        ProfileSettingModule,
+        ChangePasswordModule
     ],
     declarations: [
         DashboardComponent,

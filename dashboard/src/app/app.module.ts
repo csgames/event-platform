@@ -21,8 +21,8 @@ import { TranslateLoader, TranslateModule } from "@ngx-translate/core";
 import { TranslateHttpLoader } from "@ngx-translate/http-loader";
 import { HttpClient } from "@angular/common/http";
 import { AuthenticationService } from "./providers/authentication.service";
-import { AuthenticatedGuard } from "./utils/authenticated.guard";
-import { NotAuthenticatedGuard } from "./utils/not-authenticated.guard";
+import { AuthenticatedGuard } from "./guards/authenticated.guard";
+import { NotAuthenticatedGuard } from "./guards/not-authenticated.guard";
 import { AttendeeService } from "./providers/attendee.service";
 import { StoreRouterConnectingModule } from "@ngrx/router-store";
 import { TeamService } from "./providers/team.service";
@@ -34,6 +34,9 @@ import { ToastrModule } from "ngx-toastr";
 import { NgxMaskModule } from "ngx-mask";
 import { ResetModule } from "./features/reset/reset.module";
 import { TooltipModule } from "ngx-bootstrap";
+import { SponsorsService } from "./providers/sponsors.service";
+import { RoleGuard } from "./guards/role.guard";
+import { SchoolService } from "./providers/school.service";
 
 export function loadFactory(http: HttpClient): TranslateHttpLoader {
     return new TranslateHttpLoader(http, "../assets/i18n/", ".json");
@@ -78,9 +81,12 @@ export function loadFactory(http: HttpClient): TranslateHttpLoader {
         EventService,
         AuthenticatedGuard,
         NotAuthenticatedGuard,
+        RoleGuard,
+        SchoolService,
         TeamService,
         RegisterService,
-        PasswordService
+        PasswordService,
+        SponsorsService
     ],
     bootstrap: [AppComponent]
 })

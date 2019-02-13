@@ -10,12 +10,6 @@
             "@csgames/components/*": [
                 "./app/components/*"
             ],
-            "@csgames/domain/*": [
-                "./app/domain/*"
-            ],
-            "@csgames/services/*": [
-                "./app/services/*"
-            ],
             "@csgames/utils/*": [
                 "./app/utils/*"
             ],
