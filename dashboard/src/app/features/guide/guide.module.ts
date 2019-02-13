@@ -7,7 +7,7 @@ import { GuideRoutingModule } from "./guide-routing.module";
 import { GuideComponent } from "./guide.component";
 import { RouterModule } from "@angular/router";
 import { GuideAccordionModule } from "../../components/guide-accordion/accordion.module";
-import { AgmCoreModule } from '@agm/core';
+import { AgmCoreModule } from "@agm/core";
 import { StoreModule } from "@ngrx/store";
 import { GuideEffects } from "./store/guide.effects";
 import * as fromGuide from "./store/guide.reducer";

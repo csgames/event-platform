@@ -1,5 +1,4 @@
-import { Component, OnInit, Input, ContentChild, TemplateRef, ViewChild, AfterViewInit } from "@angular/core";
-import { AccordionPanelComponent } from "ngx-bootstrap";
+import { Component, OnInit, Input } from "@angular/core";
 
 
 @Component({
@@ -18,7 +17,7 @@ export class AccordionComponent implements OnInit {
     public title: string;
 
     @Input()
-    public startsOpened: boolean = false;
+    public startsOpened = false;
 
 
     ngOnInit() { 

@@ -2,8 +2,8 @@ import { Action } from "@ngrx/store";
 import { EventGuide } from "../../../api/models/guide";
 
 export enum GuideActionTypes {
-    LoadGuide = '[Guide] Load guide',
-    GuideLoaded = '[Guide] Guide loading success'
+    LoadGuide = "[Guide] Load guide",
+    GuideLoaded = "[Guide] Guide loading success"
 }
 
 export class LoadGuide implements Action {
@@ -18,4 +18,3 @@ export class GuideLoaded implements Action {
 export type GuideActions =
     | LoadGuide
     | GuideLoaded;
-    

@@ -1,5 +1,5 @@
 export interface EventGuide {
-    bring: { [key:string]: string[] },
+    bring: { [key: string]: string[] };
     school: {
         latitude: number,
         longitude: number,
@@ -7,32 +7,31 @@ export interface EventGuide {
         address: string,
         name: string,
         maps: [string]
-    },
+    };
     hotel: {
         latitude: number,
         longitude: number,
         zoom: number,
         address: string,
         name: string
-    },
+    };
     parkings: {
         latitude: number,
         longitude: number,
         zoom: number,
-        coordinates:[{ 
+        coordinates: [ { 
             latitude: number,
             longitude: number
         }]
-    },
+    };
     restaurant: {
         latitude: number,
         longitude: number,
         zoom: number,
-        coordinates:[{ 
+        coordinates: [{ 
             info: string,
             latitude: number,
             longitude: number
         }]
-    }
-    
+    };
 }

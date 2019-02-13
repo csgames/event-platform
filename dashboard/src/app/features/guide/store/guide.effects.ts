@@ -22,6 +22,5 @@ export class GuideEffects {
                 catchError((error) => of(new GlobalError(error)))
             )
         )
-    );
-    
+    );    
 }

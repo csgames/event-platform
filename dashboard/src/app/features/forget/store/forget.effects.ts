@@ -31,7 +31,7 @@ export class ForgetEffects {
     resetSuccess$ = this.actions$.pipe(
         ofType<ForgetSuccess>(ForgetActionTypes.ForgetSuccess),
         tap(() => {
-            const text = this.translateService.instant('components.toast.email_success');
+            const text = this.translateService.instant("components.toast.email_success");
             this.toastr.success(text);
         })
     );
@@ -40,7 +40,7 @@ export class ForgetEffects {
     resetFail$ = this.actions$.pipe(
         ofType<ForgetFailure>(ForgetActionTypes.ForgetFailure),
         tap(() => {
-            const text = this.translateService.instant('components.toast.email_failed');
+            const text = this.translateService.instant("components.toast.email_failed");
             this.toastr.error(text);
         })
     );    

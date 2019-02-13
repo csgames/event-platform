@@ -1,4 +1,4 @@
-import { EventGuide } from './guide';
+import { EventGuide } from "./guide";
 
 export interface Event {
     _id: string;

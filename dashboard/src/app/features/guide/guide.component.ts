@@ -34,5 +34,4 @@ export class GuideComponent implements OnInit {
     public lang() {
         return this.translateService.defaultLang;
     }
-
 }

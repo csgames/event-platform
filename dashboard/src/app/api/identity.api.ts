@@ -8,7 +8,7 @@ export class IdentityApi {
         this.path = path;
     }
 
-    protected url(route = ''): string {
+    protected url(route = ""): string {
         return `${this.API_URL}/${this.path}/${route}`;
     }
 }

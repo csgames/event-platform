@@ -11,7 +11,7 @@ export interface GuideState {
 const initialState: GuideState = {
     loading: false,
     guide: null
-}
+};
 
 export interface State extends fromApp.State {
     guide: GuideState;
