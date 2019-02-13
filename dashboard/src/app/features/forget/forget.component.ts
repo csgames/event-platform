@@ -25,7 +25,7 @@ export class ForgetComponent {
     constructor(private store$: Store<State>) { }
 
     clickForget() {
-        if (!this.form.validate()) return;
+        if (!this.form.validate()) { return; }
         this.store$.dispatch(new PerformForget({
             email: this.forgetFormDto.email
         }));

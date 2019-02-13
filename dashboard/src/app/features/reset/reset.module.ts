@@ -24,7 +24,7 @@ import { ResetFormDto } from "./dto/reset-form-dto";
         FlexLayoutModule,
         LoadingSpinnerModule,
         TranslateModule,
-        StoreModule.forFeature('reset', fromReset.reducer),
+        StoreModule.forFeature("reset", fromReset.reducer),
         EffectsModule.forFeature([ResetEffects]),
         DirectivesModule
     ],

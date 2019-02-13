@@ -48,9 +48,9 @@ export class ResetComponent implements OnInit {
     }
 
     clickReset() {
-        if (!this.validate()) return;
+        if (!this.validate()) { return; }
         this.store$.dispatch(new PerformReset({
-            uuid: this.route.snapshot.paramMap.get('uuid'),
+            uuid: this.route.snapshot.paramMap.get("uuid"),
             password: this.resetFormDto.password
         }));
         this.resetFormDto = new ResetFormDto();

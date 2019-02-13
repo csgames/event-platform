@@ -6,42 +6,42 @@ import { GlobalState } from "../../../../../store/app.reducers";
 export interface ChangePasswordState {
     loading: boolean;
     closing: boolean;
-    error: boolean
+    error: boolean;
 }
 
 const initialState: ChangePasswordState = {
     loading: false,
     closing: false,
     error: false
-}
+};
 
 export interface State extends fromApp.State {
     changePassword: ChangePasswordState;
 }
 
 export function reducer(state = initialState, action: ChangePasswordActions): ChangePasswordState {
-    switch(action.type) {
+    switch (action.type) {
         case ChangePasswordActionTypes.PerformChangePassword:
             return {
                 ...state,
                 loading: true
-            }
+            };
         case ChangePasswordActionTypes.PasswordChanged:
             return {
                 ...state,
                 loading: false,
                 closing: true,
                 error: false
-            }
+            };
         case ChangePasswordActionTypes.ChangePasswordFailure:
             return {
                 ...state,
                 loading: false,
                 closing: false,
                 error: true
-            }
+            };
         case ChangePasswordActionTypes.ResetStore:
-            return initialState
+            return initialState;
     }
     return state;
 }

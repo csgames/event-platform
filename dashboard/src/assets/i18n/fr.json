@@ -114,9 +114,11 @@
         "guide": {
             "guide": "Guide",
             "hotel": "Se rendre à l'hôtel",
+            "school": "Se rendre à l'école",
             "parking": "Stationnements",
             "restaurants": "Restaurants et bars",
-            "what_to_bring": "Que faut-il apporter?"
+            "what_to_bring": "Que faut-il apporter?",
+            "map": "Plan de l'école"
         },
         "home": {
             "home": "Accueil"

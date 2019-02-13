@@ -5,8 +5,10 @@ import { Observable } from "rxjs";
 import { Event } from "./models/event";
 import { map } from "rxjs/operators";
 import { AttendeeModel } from "./models/attendee";
+import { EventGuide } from "./models/guide";
 import { Sponsors } from "./models/sponsors";
 import { Team } from "./models/team";
+
 
 @Injectable()
 export class EventApi extends CSGamesApi {
@@ -29,6 +31,12 @@ export class EventApi extends CSGamesApi {
                 });
             })
         );
+    }
+
+    public getGuide(): Observable<EventGuide> {
+        return this.http.get<EventGuide>(this.url("guide"), {
+            withCredentials: true
+        });
     }
 
     public onboardAttendee(attendee: AttendeeModel, file: File) {

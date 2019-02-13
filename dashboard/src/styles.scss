@@ -700,6 +700,56 @@ h4 {
     opacity: 1 !important;
 }
 
+// start accordion 
+
+.card-header {
+    border-bottom: none;
+}
+
+.accordion-toggle {
+    font-size: 24px;
+    padding: 1px 0px 0px 0px;
+}
+
+.accordion-toggle > div > .firstIcon {
+    color: #0D5899;
+    font-size: 50px;
+    display: inline-block;
+    vertical-align: middle;
+}
+.accordion-toggle > div > div > span {
+    margin-left: 25px;
+    vertical-align: middle;
+}
+.accordion-toggle > div > div {
+    padding-top: 4px;
+    user-select: none;
+    display: inline-block;
+}
+
+.panel, .panel-open, .panel-heading {
+    border-radius: 15px !important;
+    background-color: white;
+    border-width: 0px;
+}
+
+.panel-collapse {
+    border-radius: 0px 0px 15px 15px !important;
+}
+
+.accordion-toggle > div > .fa-caret-down {
+    vertical-align: middle;
+    display: inline-block;
+    margin-top: 12px;
+    user-select: none;
+}
+
+i.fa-caret-down {
+    transition: all 0.4s ease-out;
+}
+
+// end accordion
+
 .clickable {
     cursor: pointer;
 }
@@ -714,3 +764,4 @@ h4 {
     overflow: hidden;
     text-overflow: ellipsis;
 }
+
