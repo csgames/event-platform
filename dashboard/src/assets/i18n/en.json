@@ -94,9 +94,11 @@
 		"guide": {
 			"guide": "Guide",
 			"hotel": "Get to the hotel",
+			"school": "Get to the school",
 			"parking": "Parkings",
 			"restaurants": "Restaurants and bars",
-			"what_to_bring": "What to bring?"
+			"what_to_bring": "What to bring?",
+			"map": "School map"
 		},
 		"home": {
 			"home": "Home"

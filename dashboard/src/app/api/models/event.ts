@@ -1,3 +1,5 @@
+import { EventGuide } from './guide';
+
 export interface Event {
     _id: string;
     name: string;
@@ -12,4 +14,5 @@ export interface Event {
     locationName?: string;
     locationAddress?: string;
     maxTeamMembers?: number;
+    guide: EventGuide;
 }

@@ -5,12 +5,13 @@ import { Observable } from "rxjs";
 import { Attendee } from "../api/models/attendee";
 import { ApiService } from "../api/api.service";
 import { UppyFile } from "@uppy/core";
+import { EventGuide } from "../api/models/guide";
 
 const CURRENT_EVENT = "CURRENT_EVENT";
 
 @Injectable()
 export class EventService {
-    constructor(private apiService: ApiService) {}
+    constructor(private apiService: ApiService, private eventApi: EventApi) {}
 
     public getEventList(): Observable<Event[]> {
         return this.apiService.event.getEventList();
@@ -22,6 +23,10 @@ export class EventService {
 
     public getCurrentEvent(): string {
         return localStorage.getItem(CURRENT_EVENT);
+    }
+
+    public getGuideEvent(): Observable<EventGuide> {
+        return this.eventApi.getGuide();
     }
     
     public onboardAttendee(attendee: Attendee): Observable<void> {

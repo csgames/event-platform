@@ -27,6 +27,11 @@ export const DASHBOARD_ROUTES: Routes = [
         canActivate: [NotRegisteredGuard]
     },
     {
+        path: "guide",
+        loadChildren: "src/app/features/guide/guide.module#GuideModule",
+        canActivate: [RegisteredGuard]
+    },
+    {
         path: "**",
         redirectTo: "team",
         pathMatch: "full"
