@@ -6,15 +6,13 @@ import { ApiService } from "../api/api.service";
 import { UppyFile } from "@uppy/core";
 import { EventGuide } from "../api/models/guide";
 import { Team } from "../api/models/team";
-import { EventApi } from "../api/event.api";
-
 
 
 const CURRENT_EVENT = "CURRENT_EVENT";
 
 @Injectable()
 export class EventService {
-    constructor(private apiService: ApiService, private eventApi: EventApi) {}
+    constructor(private apiService: ApiService) {}
 
     public getEventList(): Observable<Event[]> {
         return this.apiService.event.getEventList();
@@ -33,7 +31,7 @@ export class EventService {
     }
 
     public getGuideEvent(): Observable<EventGuide> {
-        return this.eventApi.getGuide();
+        return this.apiService.event.getGuide();
     }
     
     public onboardAttendee(attendee: Attendee): Observable<void> {

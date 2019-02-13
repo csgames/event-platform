@@ -3,7 +3,7 @@ import { CommonModule } from "@angular/common";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { TranslateModule } from "@ngx-translate/core";
 import { LoadingSpinnerModule } from "src/app/components/loading-spinner/loading-spinner.module";
-import { OnboardingRoutingModule } from "./guide-routing.module";
+import { GuideRoutingModule } from "./guide-routing.module";
 import { GuideComponent } from "./guide.component";
 import { RouterModule } from "@angular/router";
 import { GuideAccordionModule } from "../../components/guide-accordion/accordion.module";
@@ -21,7 +21,7 @@ import { environment } from "src/environments/environment";
         CommonModule,
         FormsModule,
         RouterModule,
-        OnboardingRoutingModule,
+        GuideRoutingModule,
         ReactiveFormsModule,
         TranslateModule,
         LoadingSpinnerModule, 
