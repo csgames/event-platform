@@ -74,6 +74,44 @@ export const EventSponsorsSchema = new mongoose.Schema({
     }
 });
 
+export interface EventGuide {
+    bring: { [key:string]: string[] },
+    school: {
+        latitude: number,
+        longitude: number,
+        zoom: number,
+        address: string,
+        name: string,
+        maps: [string]
+    };
+    hotel: {
+        latitude: number,
+        longitude: number,
+        zoom: number,
+        address: string,
+        name: string
+    };
+    parkings: {
+        latitude: number,
+        longitude: number,
+        zoom: number,
+        coordinates:[{ 
+            latitude: number,
+            longitude: number
+        }]
+    };
+    restaurant: {
+        latitude: number,
+        longitude: number,
+        zoom: number,
+        coordinates:[{ 
+            info: string
+            latitude: number,
+            longitude: number
+        }]
+    };
+}
+
 export interface Events extends mongoose.Document {
     readonly name: string;
     readonly details: object;
@@ -89,6 +127,7 @@ export interface Events extends mongoose.Document {
     readonly locationName: string;
     readonly locationAddress: string;
     readonly maxTeamMembers: number;
+    readonly guide: EventGuide;
 }
 
 export const EventsSchema = new mongoose.Schema({
