@@ -47,6 +47,15 @@ export class EventsController {
         return await this.eventsService.getEventList();
     }
 
+    @Get("guide")
+    @Permissions('csgames-api:get:event')
+    public async getGuideById(@EventId() id: string): Promise<EventGuide> {
+        let event = await this.eventsService.findOne({
+            _id: id
+        });
+        return event.guide;
+    }
+
     @Get('sponsor')
     @Permissions('csgames-api:get-all:sponsor')
     public async getSponsor(@EventId() eventId: string): Promise<{ [tier: string]: EventSponsorDetails[] }> {
@@ -135,15 +144,6 @@ export class EventsController {
     @Permissions('csgames-api:update:event')
     public async addSponsor(@Param('id') eventId: string, @Body(new ValidationPipe()) dto: AddSponsorDto): Promise<Events> {
         return await this.eventsService.addSponsor(eventId, dto);
-    }
-
-    @Get('guide')
-    @Permissions('csgames-api:get:event')
-    public async getGuideById(@EventId() id: string): Promise<EventGuide> {
-        let event = await this.eventsService.findOne({
-            _id: id
-        });
-        return event.guide;
     }
 
     @Put(':event_id/:attendee_id/scan')

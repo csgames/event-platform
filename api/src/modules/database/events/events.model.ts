@@ -175,5 +175,9 @@ export const EventsSchema = new mongoose.Schema({
         type: Number,
         default: 4
     },
+    guide: {
+        type: Object,
+        required: false
+    },
     sponsors: [EventSponsorsSchema]
 });
