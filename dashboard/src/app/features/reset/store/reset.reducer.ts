@@ -12,14 +12,14 @@ const initialState: ResetState = {
     loading: false,
     resetError: false,
     validateError: false
-}
+};
 
 export interface State extends fromApp.State {
     reset: ResetState;
 }
 
 export function reducer(state = initialState, action: ResetActions): ResetState {
-    switch(action.type) {
+    switch (action.type) {
         case ResetActionTypes.PerformReset:
             return {
                 ...state,
@@ -35,7 +35,7 @@ export function reducer(state = initialState, action: ResetActions): ResetState 
                 ...state,
                 loading: false,
                 resetError: true
-            }
+            };
         case ResetActionTypes.ResetSuccess:
             return {
                 ...state,
@@ -53,13 +53,13 @@ export function reducer(state = initialState, action: ResetActions): ResetState 
                 ...state,
                 loading: false,
                 validateError: false
-            }
+            };
         default:
             return state;
     }
 }
 
-export const getResetState = createFeatureSelector<State, ResetState>('reset');
+export const getResetState = createFeatureSelector<State, ResetState>("reset");
 
 export const getResetLoading = createSelector(getResetState, (state: ResetState) => state.loading);
 

@@ -2,12 +2,12 @@ import { Action } from "@ngrx/store";
 import { ResetDto, ValidateDto } from "src/app/api/dto/auth";
 
 export enum ResetActionTypes {
-    PerformReset = '[Reset] Perform Reset',
-    ResetSuccess = '[Reset] Reset success',
-    ResetFailure = '[Reset] Reset failure',
-    PerformValidate = '[Reset] Perform Validate',
-    ValidateFailure = '[Reset] Validate failure',
-    ValidateSuccess = '[Reset] Validate success'
+    PerformReset = "[Reset] Perform Reset",
+    ResetSuccess = "[Reset] Reset success",
+    ResetFailure = "[Reset] Reset failure",
+    PerformValidate = "[Reset] Perform Validate",
+    ValidateFailure = "[Reset] Validate failure",
+    ValidateSuccess = "[Reset] Validate success"
 }
 
 export class PerformReset implements Action {

@@ -1,0 +1,12 @@
+<accordion class="card-wrapper" id="accordion">
+    <accordion-group (isOpenChange)="clickAccordion()" [isOpen]="startsOpened">
+        <div accordion-heading class="caret-clicker">
+            <i class='fal firstIcon' [ngClass]="iconClass"></i>
+            <div>
+                <span>{{ title }}</span>
+            </div>
+            <i class='fas fa-caret-down float-right' [class.fa-rotate-90]="!isOpen"></i>
+        </div>
+        <ng-content></ng-content>
+    </accordion-group>
+</accordion>

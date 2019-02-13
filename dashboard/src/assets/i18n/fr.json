@@ -51,7 +51,7 @@
         }
     },
     "errors": {
-        "/^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{8,}$/": "Le mot de passe doit contenir au moins 8 caractères dont un chiffre, une lettre minuscule et une lettre majuscule",
+        "/^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).{8,}$/": "Le mot de passe doit contenir au moins 8 caractères dont un chiffre, une lettre minuscule et une lettre majuscule",
         "email": "Le courriel est invalide.",
         "group": {
             "required": "Un ou plusieurs champs sont manquant"
@@ -117,9 +117,11 @@
         "guide": {
             "guide": "Guide",
             "hotel": "Se rendre à l'hôtel",
+            "school": "Se rendre à l'école",
             "parking": "Stationnements",
             "restaurants": "Restaurants et bars",
-            "what_to_bring": "Que faut-il apporter?"
+            "what_to_bring": "Que faut-il apporter?",
+            "map": "Plan de l'école"
         },
         "home": {
             "home": "Accueil"

@@ -55,8 +55,8 @@ export class OnboardingComponent implements OnInit, OnDestroy {
     }
 
     saveInfo() {
-        if (!this.attendeeForm.validate()) return;
-        if (!this.acceptedCode) return;
+        if (!this.attendeeForm.validate()) { return; }
+        if (!this.acceptedCode) { return; }
         this.store$.dispatch(new OnboardAttendee(this.currentAttendee));
     }
 }
