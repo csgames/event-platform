@@ -35,7 +35,7 @@ export class RegistrationsService {
     }
 
     public async create(dto: CreateRegistrationDto, role: string, eventId: string) {
-        const att = await this.attendeeService.findOne({ email: dto.email });
+        const att = await this.attendeeService.findOne({email: dto.email});
         if (att) {
             throw new AttendeeAlreadyExistException();
         }
@@ -43,7 +43,7 @@ export class RegistrationsService {
         await this.validateTeam(dto.teamName, dto.role, eventId);
 
         const attendee = await this.attendeeService.create({
-            email: dto.email,
+            email: dto.email.toLowerCase(),
             firstName: dto.firstName,
             lastName: dto.lastName
         });
@@ -63,7 +63,7 @@ export class RegistrationsService {
                 maxMembersNumber: dto.maxMembersNumber
             });
         } else {
-            await this.teamsService.update({ name: dto.teamName, event: eventId }, {
+            await this.teamsService.update({name: dto.teamName, event: eventId}, {
                 $push: {
                     attendees: attendee._id
                 }
@@ -159,7 +159,7 @@ export class RegistrationsService {
                 ...userDto.attendee,
                 email: userDto.username
             });
-            await this.eventService.addAttendee(eventId, attendee, "admin");
+            await this.eventService.addAttendee(eventId, attendee, 'admin');
         } catch (err) {
             if (err instanceof HttpException) {
                 throw err;
@@ -189,7 +189,7 @@ export class RegistrationsService {
     }
 
     private async validateTeam(name: string, role: string, eventId: string) {
-        const team = await this.teamsService.findOne({ name: name, event: eventId });
+        const team = await this.teamsService.findOne({name: name, event: eventId});
         if (role === 'captain') {
             if (team) {
                 throw new TeamAlreadyExistException();
@@ -203,7 +203,7 @@ export class RegistrationsService {
             throw new MaxTeamMemberException();
         }
 
-        const event = await this.eventService.findOne({ _id: eventId });
+        const event = await this.eventService.findOne({_id: eventId});
         const attendeeIds = team.attendees.map(x => (x as mongoose.Types.ObjectId).toHexString());
         const members = event.attendees.filter(attendeeEvent => attendeeIds
             .includes((attendeeEvent.attendee as mongoose.Types.ObjectId).toHexString()));

@@ -14,7 +14,7 @@ import { Teams } from '../teams/teams.model';
 import { TeamsService } from '../teams/teams.service';
 import { AddScannedAttendee, AddSponsorDto, CreateEventDto, SendNotificationDto, SendSmsDto, UpdateEventDto } from './events.dto';
 import { codeMap, EventNotFoundException } from './events.exception';
-import { Events, EventSponsorDetails } from './events.model';
+import { Events, EventSponsorDetails, EventGuide } from './events.model';
 import { EventsService } from './events.service';
 import { UpdateAttendeeDto } from '../attendees/attendees.dto';
 import { EventId } from '../../../decorators/event-id.decorator';
@@ -45,6 +45,15 @@ export class EventsController {
     @Get()
     public async getAll(): Promise<Events[]> {
         return await this.eventsService.getEventList();
+    }
+
+    @Get("guide")
+    @Permissions('csgames-api:get:event')
+    public async getGuideById(@EventId() id: string): Promise<EventGuide> {
+        let event = await this.eventsService.findOne({
+            _id: id
+        });
+        return event.guide;
     }
 
     @Get('sponsor')
