@@ -31,10 +31,6 @@ jobs:
         key: v2-dependencies-{{ checksum "package.json" }}
 
     - run:
-        name: Lint application
-        command: npm run lint
-
-    - run:
         name: Building application
         command: npm run build:prod
 
