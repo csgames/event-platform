@@ -137,9 +137,9 @@ export class EventsController {
         return await this.eventsService.addSponsor(eventId, dto);
     }
 
-    @Put(':event_id/:attendee_id/scan')
-    @Permissions('csgames-api:set-status:event')
-    public async addScannedAttendee(@Param('event_id') eventId: string, @Param('attendee_id') attendeeId: string,
+    @Put(':attendee_id/scan')
+    @Permissions('csgames-api:set-scan:event')
+    public async addScannedAttendee(@EventId() eventId: string, @Param('attendee_id') attendeeId: string,
                                     @Body(new ValidationPipe()) body: AddScannedAttendee) {
         await this.eventsService.addScannedAttendee(eventId, attendeeId, body);
     }

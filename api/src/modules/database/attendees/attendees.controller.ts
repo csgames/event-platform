@@ -70,6 +70,8 @@ export class AttendeesController {
                 publicId: id
             }, {
                 userId: id
+            }, {
+                email: id
             }]
         });
     }
