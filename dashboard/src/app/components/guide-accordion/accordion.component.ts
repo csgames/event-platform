@@ -9,16 +9,16 @@ import { AccordionPanelComponent } from "ngx-bootstrap";
 })
 
 export class AccordionComponent implements OnInit {
-    isOpen: boolean;
+    public isOpen: boolean;
 
     @Input()
-    iconClass: string;
+    public iconClass: string;
 
     @Input()
-    title: string;
+    public title: string;
 
     @Input()
-    startsOpened: boolean = false;
+    public startsOpened: boolean = false;
 
 
     ngOnInit() { 
