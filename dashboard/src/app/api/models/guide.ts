@@ -34,4 +34,5 @@ export interface EventGuide {
             longitude: number
         }]
     }
+    
 }

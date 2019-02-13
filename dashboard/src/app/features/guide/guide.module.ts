@@ -37,4 +37,5 @@ import { environment } from "src/environments/environment";
     providers: [],
     entryComponents: [GuideComponent]
 })
+
 export class GuideModule {}

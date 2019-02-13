@@ -18,7 +18,7 @@ export interface State extends fromApp.State {
 }
 
 export function reducer(state = initialState, action: GuideActions): GuideState {
-    switch(action.type) {
+    switch (action.type) {
         case GuideActionTypes.GuideLoaded:
             return {
                 ...state,
@@ -29,13 +29,13 @@ export function reducer(state = initialState, action: GuideActions): GuideState 
             return {
                 ...state,
                 loading: true
-            }
+            };
         default:
             return state;
     }
 }
 
-export const getGuideState = createFeatureSelector<State, GuideState>('guide');
+export const getGuideState = createFeatureSelector<State, GuideState>("guide");
 
 export const getGuideLoading = createSelector(getGuideState, (state: GuideState) => state.loading);
 

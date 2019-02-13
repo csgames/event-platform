@@ -18,7 +18,7 @@ export class GuideComponent implements OnInit {
     private currentGuide$ = this.store$.pipe(select(getGuide));
     loading$ = this.store$.pipe(select(getGuideLoading));
     private currentGuideSub$: Subscription;
-    private guide: EventGuide;
+    public guide: EventGuide;
 
     constructor(private store$: Store<State>,
                 private translateService: TranslateService) {}
@@ -34,4 +34,5 @@ export class GuideComponent implements OnInit {
     public lang() {
         return this.translateService.defaultLang;
     }
+
 }
