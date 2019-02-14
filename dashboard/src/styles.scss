@@ -703,7 +703,7 @@ h4 {
 .nav {
     background: white;
     border-radius: 8px;
-    box-shadow: rgba(0, 0, 0, 0.2) 2px 2px 2px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.06) !important;
 }
 
 .nav-pills .nav-link.active {

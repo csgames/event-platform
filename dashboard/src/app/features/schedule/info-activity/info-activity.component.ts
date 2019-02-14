@@ -47,10 +47,7 @@ export class InfoActivityComponent extends SimpleModalComponent<InfoActivityModa
 
     public subscribe() {
         if (this.attendee) {
-            this.store$.dispatch(new SubscribeToActivity({
-                attendeeId: this.attendee._id,
-                activityId: this.activity._id
-            }));
+            this.store$.dispatch(new SubscribeToActivity(this.activity._id));
         }
     }
 

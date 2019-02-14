@@ -21,7 +21,7 @@ export class SponsorsComponent implements OnInit, OnDestroy {
     public gold: Sponsors[];
     public silver: Sponsors[];
     public bronze: Sponsors[];
-    private sponsorsSub: Subscription;
+    private sponsorsSub$: Subscription;
 
     public get platinumTier(): SponsorTier {
         return {
@@ -67,7 +67,7 @@ export class SponsorsComponent implements OnInit, OnDestroy {
 
     public ngOnInit() {
         this.store$.dispatch(new LoadSponsors());
-        this.sponsorsSub = this.sponsors$.subscribe((sponsors) => {
+        this.sponsorsSub$ = this.sponsors$.subscribe((sponsors) => {
             if (!sponsors) { return; }
             if (sponsors["Platinum"]) { this.platinum = sponsors["Platinum"]; }
             if (sponsors["Gold"]) { this.gold = sponsors["Gold"]; }
@@ -77,7 +77,7 @@ export class SponsorsComponent implements OnInit, OnDestroy {
     }
 
     public ngOnDestroy() {
-        this.sponsorsSub.unsubscribe();
+        this.sponsorsSub$.unsubscribe();
     }
 
     public onShowInfo(sponsor: Sponsors) {

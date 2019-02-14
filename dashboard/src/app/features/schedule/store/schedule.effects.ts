@@ -12,7 +12,7 @@ export class ScheduleEffects {
                 private scheduleService: ScheduleService) { }
 
     @Effect()
-    loadActivities4 = this.actions$.pipe(
+    loadActivities$ = this.actions$.pipe(
         ofType<LoadActivities>(ScheduleActionTypes.LoadActivities),
         switchMap(() => {
             return this.scheduleService.getActivitiesForEvent().pipe(

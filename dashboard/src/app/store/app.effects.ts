@@ -49,7 +49,7 @@ export class AppEffects {
     ) {}
 
     @Effect()
-    checkUnseenNotification = this.actions$.pipe(
+    checkUnseenNotification$ = this.actions$.pipe(
         ofType<CheckUnseenNotification>(AppActionTypes.CheckUnseenNotification),
         switchMap(() => {
             return this.notificationService.checkUnseenNotification().pipe(

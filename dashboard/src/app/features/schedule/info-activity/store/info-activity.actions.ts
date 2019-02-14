@@ -13,7 +13,7 @@ export enum InfoActivityActionTypes {
 export class SubscribeToActivity implements Action {
     readonly type = InfoActivityActionTypes.SubscribeToActivity;
 
-    constructor(public subscription: SubscriptionDto) { }
+    constructor(public activityId: string) { }
 }
 
 export class SubscribedToActivity implements Action {

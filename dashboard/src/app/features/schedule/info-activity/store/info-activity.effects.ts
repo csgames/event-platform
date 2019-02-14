@@ -9,13 +9,18 @@ import {
     SubscribeToActivity,
     SubscriptionError
 } from "./info-activity.actions";
-import { switchMap, map, catchError } from "rxjs/operators";
+import { State } from "./info-activity.reducer";
+import { switchMap, map, catchError, withLatestFrom } from "rxjs/operators";
 import { of } from "rxjs";
+import { Store, select } from "@ngrx/store";
+import { getCurrentAttendee } from "src/app/store/app.reducers";
+import { Attendee } from "src/app/api/models/attendee";
 
 @Injectable()
 export class InfoActivityEffects {
     constructor(private action$: Actions,
-                private subscriptionService: SubscriptionService) {}
+                private subscriptionService: SubscriptionService,
+                private store$: Store<State>) {}
 
     @Effect()
     checkSubscription$ = this.action$.pipe(
@@ -31,8 +36,12 @@ export class InfoActivityEffects {
     @Effect()
     subscribe$ = this.action$.pipe(
         ofType<SubscribeToActivity>(InfoActivityActionTypes.SubscribeToActivity),
-        switchMap((action: SubscribeToActivity) => {
-            return this.subscriptionService.addSubscription(action.subscription).pipe(
+        withLatestFrom(this.store$.pipe(select(getCurrentAttendee))),
+        switchMap(([action, attendee]: [SubscribeToActivity, Attendee]) => {
+            return this.subscriptionService.addSubscription({
+                attendeeId: attendee._id,
+                activityId: action.activityId
+            }).pipe(
                 map(() => new SubscribedToActivity()),
                 catchError(() => of(new SubscriptionError()))
             );
