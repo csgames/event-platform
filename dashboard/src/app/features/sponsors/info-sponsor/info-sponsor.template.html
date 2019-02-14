@@ -12,7 +12,7 @@
                         <div *ngIf="lang === 'fr'">{{ sponsor?.description?.fr }}</div>
                     </div>
                     <div>
-                        <a [href]="sponsor?.website">
+                        <a [href]="sponsor?.website" class="ellipsis">
                             <i class="fas fa-globe-americas link"></i>
                             {{ sponsor?.website }}
                         </a>
