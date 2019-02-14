@@ -70,6 +70,7 @@
 			"save": "Save",
 			"send": "Send",
 			"subscribe": "Subscribe",
+            "subscribed": "Subscribed",
 			"validate": "Validate"
 		},
 		"error": {

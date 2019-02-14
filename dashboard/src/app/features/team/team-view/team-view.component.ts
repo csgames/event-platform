@@ -160,6 +160,7 @@ export class TeamViewComponent implements OnInit, OnDestroy {
 
     public setDefaultAttendee(): Attendee {
         const newAttendee = {
+            _id: "",
             firstName: "",
             lastName: "",
             email: "",

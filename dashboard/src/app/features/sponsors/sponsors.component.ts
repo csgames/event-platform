@@ -5,7 +5,7 @@ import { State, getSponsors, getSponsorsLoading } from "./store/sponsors.reducer
 import { LoadSponsors } from "./store/sponsors.actions";
 import { Subscription } from "rxjs";
 import { Sponsors } from "src/app/api/models/sponsors";
-import { SimpleModalComponent, SimpleModalService } from "ngx-simple-modal";
+import { SimpleModalService } from "ngx-simple-modal";
 import { InfoSponsorComponent } from "./info-sponsor/info-sponsor.component";
 
 @Component({
