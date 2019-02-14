@@ -4,7 +4,9 @@ import { Observable } from "rxjs";
 import { Attendee } from "../api/models/attendee";
 import { ApiService } from "../api/api.service";
 import { UppyFile } from "@uppy/core";
+import { EventGuide } from "../api/models/guide";
 import { Team } from "../api/models/team";
+
 
 const CURRENT_EVENT = "CURRENT_EVENT";
 
@@ -28,6 +30,10 @@ export class EventService {
         return localStorage.getItem(CURRENT_EVENT);
     }
 
+    public getGuideEvent(): Observable<EventGuide> {
+        return this.apiService.event.getGuide();
+    }
+    
     public onboardAttendee(attendee: Attendee): Observable<void> {
         let file: File = null;
         if (attendee.cv && typeof attendee.cv !== "string") {

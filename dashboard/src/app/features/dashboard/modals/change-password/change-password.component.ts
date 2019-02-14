@@ -59,7 +59,7 @@ export class ChangePasswordComponent extends SimpleModalComponent<void, void> im
     }
 
     public clickSave() {
-        if (!this.validate()) return;
+        if (!this.validate()) { return; }
         this.store$.dispatch(new PerformChangePassword(this.dto));
         this.dto = new ChangePasswordDto();
     }
