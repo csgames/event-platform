@@ -8,31 +8,31 @@ export interface InfoActivityState {
 
 const initialState: InfoActivityState = {
     subscribed: false
-}
+};
 
 export interface State extends fromApp.State {
     infoActivity: InfoActivityState;
 }
 
 export function reducer(state = initialState, action: InfoActivityActions): InfoActivityState {
-    switch(action.type) {
+    switch (action.type) {
         case InfoActivityActionTypes.CheckIfSubscribedToActivity:
             return {
                 ...state,
-            }
+            };
         case InfoActivityActionTypes.SubscribeToActivity:
             return {
                 ...state,
-            }
+            };
         case InfoActivityActionTypes.SubscribedToActivity:
             return {
                 ...state,
                 subscribed: true
-            }
+            };
         case InfoActivityActionTypes.SubscriptionError:
             return {
                 ...state,
-            }
+            };
         case InfoActivityActionTypes.ResetStore:
             return initialState;
         default:

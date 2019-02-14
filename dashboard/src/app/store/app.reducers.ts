@@ -10,7 +10,7 @@ export interface GlobalState {
     currentEvent: Event;
     loading: boolean;
     language: string;
-    unseen: boolean
+    unseen: boolean;
 }
 
 export interface State {
@@ -72,19 +72,19 @@ export function globalReducer(state = initialState, action: AppActions): GlobalS
             return {
                 ...state,
                 loading: true
-            }
+            };
         case AppActionTypes.HasUnseenNotification:
             return {
                 ...state,
                 loading: false,
                 unseen: true
-            }
+            };
         case AppActionTypes.AllNotificationsSeen:
             return {
                 ...state,
                 loading: false,
                 unseen: false
-            }
+            };
     }
     return state;
 }

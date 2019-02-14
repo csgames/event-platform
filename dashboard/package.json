@@ -9,6 +9,7 @@
         "build:staging": "ng build -c staging",
         "test": "ng test",
         "lint": "ng lint",
+        "lint-fix": "ng lint --fix",
         "e2e": "ng e2e",
         "server": "node server/server.js"
     },

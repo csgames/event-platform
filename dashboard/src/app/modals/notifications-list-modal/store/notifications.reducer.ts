@@ -11,7 +11,7 @@ export interface NotificationsState {
 const initialState: NotificationsState = {
     notifications: [],
     loading: false
-}
+};
 
 export interface State extends fromApp.State {
     notifications: NotificationsState;
@@ -23,13 +23,13 @@ export function reducer(state = initialState, action: NotificationsActions): Not
             return {
                 ...state,
                 loading: true
-            }
+            };
         case NotificationActionTypes.NotificationsLoaded:
             return {
                 ...state,
                 loading: false,
                 notifications: action.notificatons
-            }
+            };
         default:
             return state;
     }

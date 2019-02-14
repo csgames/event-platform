@@ -29,7 +29,7 @@ export function reducer(state = initialState, action: ScheduleActions): Schedule
                 ...state,
                 loading: false,
                 activities: action.activities
-            }
+            };
         default:
             return state;
     }

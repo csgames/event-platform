@@ -1,7 +1,13 @@
 import { Injectable } from "@angular/core";
 import { NotificationService } from "src/app/providers/notification.service";
 import { Actions, Effect, ofType } from "@ngrx/effects";
-import { LoadNotifications, NotificationActionTypes, NotificationsLoaded, MarkNotificationsAsSeen, NotificationsMarked } from "./notifications.actions";
+import {
+    LoadNotifications,
+    NotificationActionTypes,
+    NotificationsLoaded,
+    MarkNotificationsAsSeen,
+    NotificationsMarked
+} from "./notifications.actions";
 import { switchMap, map, catchError, filter } from "rxjs/operators";
 import { AppNotification } from "../../../api/models/notification";
 import { GlobalError } from "src/app/store/app.actions";
@@ -33,7 +39,7 @@ export class NotificationsEffects {
         switchMap((action) => {
             const actions: Action[] = [];
             for (const n of action.notificatons) {
-                if (!n.seen) actions.push(new MarkNotificationsAsSeen(n._id));
+                if (!n.seen) { actions.push(new MarkNotificationsAsSeen(n._id)); }
             }
             return actions;
         })

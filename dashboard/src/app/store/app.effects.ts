@@ -54,11 +54,11 @@ export class AppEffects {
         switchMap(() => {
             return this.notificationService.checkUnseenNotification().pipe(
                 map((notifications) => {
-                    if (notifications.length > 0) return new HasUnseenNotification();
+                    if (notifications.length > 0) { return new HasUnseenNotification(); }
                     return new AllNotificationsSeen();
                 }),
                 catchError((err) => of(new GlobalError(err)))
-            )
+            );
         })
     );
 

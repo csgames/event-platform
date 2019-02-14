@@ -25,7 +25,7 @@ export class NotificationsListModalComponent extends SimpleModalComponent<void, 
     ngOnInit() {
         this.store$.dispatch(new LoadNotifications());
         this.notificationSub$ = this.notifications$.subscribe((notifications) => {
-            if (!notifications) return;
+            if (!notifications) { return; }
             this.notifications = notifications.sort((a, b) => a.date > b.date ? -1 : 1);
         });
     }

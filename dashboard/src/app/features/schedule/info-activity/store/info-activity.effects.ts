@@ -1,7 +1,14 @@
 import { Injectable } from "@angular/core";
 import { Actions, Effect, ofType } from "@ngrx/effects";
 import { SubscriptionService } from "../providers/subscription.service";
-import { CheckIfSubscribedToActivity, InfoActivityActionTypes, SubscribedToActivity, NotSubscribedToActivity, SubscribeToActivity, SubscriptionError } from "./info-activity.actions";
+import {
+    CheckIfSubscribedToActivity,
+    InfoActivityActionTypes,
+    SubscribedToActivity,
+    NotSubscribedToActivity,
+    SubscribeToActivity,
+    SubscriptionError
+} from "./info-activity.actions";
 import { switchMap, map, catchError } from "rxjs/operators";
 import { of } from "rxjs";
 

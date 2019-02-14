@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { ApiService } from "../api/api.service";
-import { AppNotification} from "../../app/api/models/notification"
+import { AppNotification } from "../../app/api/models/notification";
 import { Observable } from "rxjs";
 
 @Injectable()
