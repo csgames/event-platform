@@ -23,7 +23,7 @@ export class SubscribedToActivity implements Action {
 export class CheckIfSubscribedToActivity implements Action {
     readonly type = InfoActivityActionTypes.CheckIfSubscribedToActivity;
 
-    constructor(public subscription: SubscriptionDto) { }
+    constructor(public activityId: string) { }
 }
 
 export class SubscriptionError implements Action {

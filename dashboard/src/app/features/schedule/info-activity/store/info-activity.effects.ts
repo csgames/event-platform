@@ -25,8 +25,12 @@ export class InfoActivityEffects {
     @Effect()
     checkSubscription$ = this.action$.pipe(
         ofType<CheckIfSubscribedToActivity>(InfoActivityActionTypes.CheckIfSubscribedToActivity),
-        switchMap((action: CheckIfSubscribedToActivity) => {
-            return this.subscriptionService.checkIfSubscribed(action.subscription).pipe(
+        withLatestFrom(this.store$.pipe(select(getCurrentAttendee))),
+        switchMap(([action, attendee]: [CheckIfSubscribedToActivity, Attendee]) => {
+            return this.subscriptionService.checkIfSubscribed({
+                attendeeId: attendee._id,
+                activityId: action.activityId
+            }).pipe(
                 map(() => new SubscribedToActivity()),
                 catchError(() => of(new NotSubscribedToActivity()))
             );
