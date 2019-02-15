@@ -210,7 +210,7 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
         });
     }
 
-    public async getNotifications(id: string, userId: string, seen?: boolean): Promise<AttendeeNotifications[]> {
+    public async getNotifications(id: string, email: string, seen?: boolean): Promise<AttendeeNotifications[]> {
         const notifications = await this.notificationService.find({
             event: id
         });
@@ -220,7 +220,7 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
         }
 
         const attendee = await this.attendeeService.findOne({
-            userId
+            email
         }, {
             model: 'notifications',
             path: 'notifications.notification',
