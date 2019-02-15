@@ -8,143 +8,55 @@
                     <span>{{ time }}</span>
                 </div>
             </div>
-            <ng-container *ngIf="activitiesPerDay[date][time].length == 1">
-                <div class="card activity-card clickable" (click)="onShowInfo(activitiesPerDay[date][time][0], time)">
-                    <div class="card-body activity-card-body">
-                        <div class="row tile">
-                            <i *ngIf="activitiesPerDay[date][time][0].type == 'competition'" class="fal fa-trophy"></i>
-                            <i *ngIf="activitiesPerDay[date][time][0].type == 'other'" class="fal fa-calendar"></i>
-                            <i *ngIf="activitiesPerDay[date][time][0].type == 'food'" class="fal fa-utensils"></i>
-                            <div class="col-sm">
-                                <p class="name">{{ activitiesPerDay[date][time][0].name }}</p>
-                                <p class="hours">{{ time }} - {{ activitiesPerDay[date][time][0].endDate | hours }}</p>
-                                <p class="location">{{ activitiesPerDay[date][time][0].location }}</p>
-                            </div>
+            <ng-container [ngSwitch]="activitiesPerDay[date][time].length">
+                <ng-container *ngSwitchCase="1">
+                    <div class="row">
+                        <div class="col-12">
+                            <app-activity-card [activity]="activitiesPerDay[date][time][0]" [time]="time" (info)="onShowInfo(activitiesPerDay[date][time][0], time)"></app-activity-card>
                         </div>
                     </div>
-                </div>
-            </ng-container>
-            <ng-container *ngIf="activitiesPerDay[date][time].length == 4">
-                <div class="row">
-                    <div class="col-lg-6 col-sm-12">
-                        <div class="card activity-card third-card clickable" (click)="onShowInfo(activitiesPerDay[date][time][0], time)">
-                            <div class="card-body activity-card-body">
-                                <div class="row tile">
-                                    <i *ngIf="activitiesPerDay[date][time][0].type == 'competition'" class="fal fa-trophy"></i>
-                                    <i *ngIf="activitiesPerDay[date][time][0].type == 'other'" class="fal fa-calendar"></i>
-                                    <i *ngIf="activitiesPerDay[date][time][0].type == 'food'" class="fal fa-utensils"></i>
-                                    <div class="col-sm">
-                                        <p class="name">{{ activitiesPerDay[date][time][0].name }}</p>
-                                        <p class="hours">{{ time }} - {{ activitiesPerDay[date][time][0].endDate | hours }}</p>
-                                        <p class="location">{{ activitiesPerDay[date][time][0].location }}</p>
-                                    </div>
-                                </div>
-                            </div>
+                </ng-container>
+                <ng-container *ngSwitchCase="2">
+                    <div class="row">
+                        <div class="col-lg-6 col-sm-12">
+                            <app-activity-card [activity]="activitiesPerDay[date][time][0]" [time]="time" (info)="onShowInfo(activitiesPerDay[date][time][0], time)"></app-activity-card>
+                        </div>
+                        <div class="col-lg-6 col-sm-12">
+                            <app-activity-card [activity]="activitiesPerDay[date][time][1]" [time]="time" (info)="onShowInfo(activitiesPerDay[date][time][1], time)"></app-activity-card>
                         </div>
                     </div>
-                    <div class="col-lg-6 col-sm-12">
-                        <div class="card activity-card third-card clickable" (click)="onShowInfo(activitiesPerDay[date][time][1], time)">
-                            <div class="card-body activity-card-body">
-                                <div class="row tile">
-                                    <i *ngIf="activitiesPerDay[date][time][1].type == 'competition'" class="fal fa-trophy clickable"></i>
-                                    <i *ngIf="activitiesPerDay[date][time][1].type == 'other'" class="fal fa-calendar clickable"></i>
-                                    <i *ngIf="activitiesPerDay[date][time][1].type == 'food'" class="fal fa-utensils clickable"></i>
-                                    <div class="col-sm">
-                                        <p class="name">{{ activitiesPerDay[date][time][1].name }}</p>
-                                        <p class="hours">{{ time }} - {{ activitiesPerDay[date][time][1].endDate | hours }}</p>
-                                        <p class="location">{{ activitiesPerDay[date][time][1].location }}</p>
-                                    </div>
-                                </div>
-                            </div>
+                </ng-container>
+                <ng-container *ngSwitchCase="3">
+                    <div class="row">
+                        <div class="col-xl-4 col-lg-12">
+                            <app-activity-card [activity]="activitiesPerDay[date][time][0]" [time]="time" (info)="onShowInfo(activitiesPerDay[date][time][0], time)"></app-activity-card>
+                        </div>
+                        <div class="col-xl-4 col-lg-12">
+                            <app-activity-card [activity]="activitiesPerDay[date][time][1]" [time]="time" (info)="onShowInfo(activitiesPerDay[date][time][1], time)"></app-activity-card>
+                        </div>
+                        <div class="col-xl-4 col-lg-12">
+                            <app-activity-card [activity]="activitiesPerDay[date][time][2]" [time]="time" (info)="onShowInfo(activitiesPerDay[date][time][2], time)"></app-activity-card>
                         </div>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col-lg-6 col-sm-12">
-                        <div class="card activity-card third-card clickable" (click)="onShowInfo(activitiesPerDay[date][time][2], time)">
-                            <div class="card-body activity-card-body">
-                                <div class="row tile">
-                                    <i *ngIf="activitiesPerDay[date][time][2].type == 'competition'" class="fal fa-trophy"></i>
-                                    <i *ngIf="activitiesPerDay[date][time][2].type == 'other'" class="fal fa-calendar"></i>
-                                    <i *ngIf="activitiesPerDay[date][time][2].type == 'food'" class="fal fa-utensils"></i>
-                                    <div class="col-sm">
-                                        <p class="name">{{ activitiesPerDay[date][time][2].name }}</p>
-                                        <p class="hours">{{ time }} - {{ activitiesPerDay[date][time][2].endDate | hours }}</p>
-                                        <p class="location">{{ activitiesPerDay[date][time][2].location }}</p>
-                                    </div>
-                                </div>
-                            </div>
+                </ng-container>
+                <ng-container *ngSwitchCase="4">
+                    <div class="row">
+                        <div class="col-lg-6 col-sm-12">
+                            <app-activity-card [activity]="activitiesPerDay[date][time][0]" [time]="time" (info)="onShowInfo(activitiesPerDay[date][time][0], time)"></app-activity-card>
+                        </div>
+                        <div class="col-lg-6 col-sm-12">
+                            <app-activity-card [activity]="activitiesPerDay[date][time][1]" [time]="time" (info)="onShowInfo(activitiesPerDay[date][time][1], time)"></app-activity-card>
                         </div>
                     </div>
-                    <div class="col-lg-6 col-sm-12">
-                        <div class="card activity-card third-card clickable" (click)="onShowInfo(activitiesPerDay[date][time][3], time)">
-                            <div class="card-body activity-card-body">
-                                <div class="row tile">
-                                    <i *ngIf="activitiesPerDay[date][time][3].type == 'competition'" class="fal fa-trophy"></i>
-                                    <i *ngIf="activitiesPerDay[date][time][3].type == 'other'" class="fal fa-calendar"></i>
-                                    <i *ngIf="activitiesPerDay[date][time][3].type == 'food'" class="fal fa-utensils"></i>
-                                    <div class="col-sm">
-                                        <p class="name">{{ activitiesPerDay[date][time][3].name }}</p>
-                                        <p class="hours">{{ time }} - {{ activitiesPerDay[date][time][3].endDate | hours }}</p>
-                                        <p class="location">{{ activitiesPerDay[date][time][3].location }}</p>
-                                    </div>
-                                </div>
-                            </div>
+                    <div class="row">
+                        <div class="col-lg-6 col-sm-12">
+                            <app-activity-card [activity]="activitiesPerDay[date][time][2]" [time]="time" (info)="onShowInfo(activitiesPerDay[date][time][2], time)"></app-activity-card>
+                        </div>
+                        <div class="col-lg-6 col-sm-12">
+                            <app-activity-card [activity]="activitiesPerDay[date][time][3]" [time]="time" (info)="onShowInfo(activitiesPerDay[date][time][3], time)"></app-activity-card>
                         </div>
                     </div>
-                </div>
-            </ng-container>
-            <ng-container *ngIf="activitiesPerDay[date][time].length == 3">
-                <div class="row">
-                    <div class="col-xl-4 col-lg-12">
-                        <div class="card activity-card third-card clickable" (click)="onShowInfo(activitiesPerDay[date][time][0], time)">
-                            <div class="card-body activity-card-body">
-                                <div class="row tile">
-                                    <i *ngIf="activitiesPerDay[date][time][0].type == 'competition'" class="fal fa-trophy"></i>
-                                    <i *ngIf="activitiesPerDay[date][time][0].type == 'other'" class="fal fa-calendar"></i>
-                                    <i *ngIf="activitiesPerDay[date][time][0].type == 'food'" class="fal fa-utensils"></i>
-                                    <div class="col-sm">
-                                        <p class="name">{{ activitiesPerDay[date][time][0].name }}</p>
-                                        <p class="hours">{{ time }} - {{ activitiesPerDay[date][time][0].endDate | hours }}</p>
-                                        <p class="location">{{ activitiesPerDay[date][time][0].location }}</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-4 col-lg-12">
-                        <div class="card activity-card third-card clickable" (click)="onShowInfo(activitiesPerDay[date][time][1], time)">
-                            <div class="card-body activity-card-body">
-                                <div class="row tile">
-                                    <i *ngIf="activitiesPerDay[date][time][1].type == 'competition'" class="fal fa-trophy"></i>
-                                    <i *ngIf="activitiesPerDay[date][time][1].type == 'other'" class="fal fa-calendar"></i>
-                                    <i *ngIf="activitiesPerDay[date][time][1].type == 'food'" class="fal fa-utensils"></i>
-                                    <div class="col-sm">
-                                        <p class="name">{{ activitiesPerDay[date][time][1].name }}</p>
-                                        <p class="hours">{{ time }} - {{ activitiesPerDay[date][time][1].endDate | hours }}</p>
-                                        <p class="location">{{ activitiesPerDay[date][time][1].location }}</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-4 col-lg-12">
-                        <div class="card activity-card third-card clickable" (click)="onShowInfo(activitiesPerDay[date][time][2], time)">
-                            <div class="card-body activity-card-body">
-                                <div class="row tile">
-                                    <i *ngIf="activitiesPerDay[date][time][2].type == 'competition'" class="fal fa-trophy"></i>
-                                    <i *ngIf="activitiesPerDay[date][time][2].type == 'other'" class="fal fa-calendar"></i>
-                                    <i *ngIf="activitiesPerDay[date][time][2].type == 'food'" class="fal fa-utensils"></i>
-                                    <div class="col-sm">
-                                        <p class="name">{{ activitiesPerDay[date][time][2].name }}</p>
-                                        <p class="hours">{{ time }} - {{ activitiesPerDay[date][time][2].endDate | hours }}</p>
-                                        <p class="location">{{ activitiesPerDay[date][time][2].location }}</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                </ng-container>
             </ng-container>
         </div>
     </tab>

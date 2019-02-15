@@ -17,6 +17,7 @@
                 </div>
                 <br>
                 <div class="modal-body description">
+                    <app-loading-spinner [loading]="loading$ | async"></app-loading-spinner>
                     <div>
                         <div *ngIf="lang === 'en'">{{ activity?.details?.en }}</div>
                         <div *ngIf="lang === 'fr'">{{ activity?.details?.fr }}</div>

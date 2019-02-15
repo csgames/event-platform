@@ -3,10 +3,12 @@ import { InfoActivityActions, InfoActivityActionTypes } from "./info-activity.ac
 import { createFeatureSelector, createSelector } from "@ngrx/store";
 
 export interface InfoActivityState {
+    loading: boolean;
     subscribed: boolean;
 }
 
 const initialState: InfoActivityState = {
+    loading: false,
     subscribed: false
 };
 
@@ -18,20 +20,23 @@ export function reducer(state = initialState, action: InfoActivityActions): Info
     switch (action.type) {
         case InfoActivityActionTypes.CheckIfSubscribedToActivity:
             return {
-                ...state,
+                ...state
             };
         case InfoActivityActionTypes.SubscribeToActivity:
             return {
                 ...state,
+                loading: true
             };
         case InfoActivityActionTypes.SubscribedToActivity:
             return {
                 ...state,
-                subscribed: true
+                subscribed: true,
+                loading: false
             };
         case InfoActivityActionTypes.SubscriptionError:
             return {
                 ...state,
+                loading: false
             };
         case InfoActivityActionTypes.ResetStore:
             return initialState;
@@ -43,3 +48,4 @@ export function reducer(state = initialState, action: InfoActivityActions): Info
 export const getInfoActivityState = createFeatureSelector<State, InfoActivityState>("infoActivity");
 
 export const getSubscribed = createSelector(getInfoActivityState, (state: InfoActivityState) => state.subscribed);
+export const getLoading = createSelector(getInfoActivityState, (state: InfoActivityState) => state.loading);

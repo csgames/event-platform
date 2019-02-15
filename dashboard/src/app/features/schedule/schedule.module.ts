@@ -13,8 +13,8 @@ import { TabsModule } from "ngx-bootstrap";
 import { FlexLayoutModule } from "@angular/flex-layout";
 import { PipeModule } from "src/app/pipe/pipe.module";
 import { SimpleModalModule } from "ngx-simple-modal";
-import { InfoActivityComponent } from "./info-activity/info-activity.component";
 import { InfoActivityModule } from "./info-activity/info-activity.module";
+import { ActivityCardComponent } from "./activity-card/activity-card.component";
 
 @NgModule({
     imports: [
@@ -31,7 +31,7 @@ import { InfoActivityModule } from "./info-activity/info-activity.module";
         SimpleModalModule,
         InfoActivityModule
     ],
-    declarations: [ScheduleComponent],
+    declarations: [ScheduleComponent, ActivityCardComponent],
     entryComponents: [ScheduleComponent]
 })
 export class ScheduleModule { }

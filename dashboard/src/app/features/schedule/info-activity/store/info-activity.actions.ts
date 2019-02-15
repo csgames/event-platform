@@ -1,5 +1,4 @@
 import { Action } from "@ngrx/store";
-import { SubscriptionDto } from "../dto/subscription.dto";
 
 export enum InfoActivityActionTypes {
     SubscribeToActivity = "[InfoActivity] Subscribe to activity",

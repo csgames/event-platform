@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
 import { Store, select } from "@ngrx/store";
 import { State, getActivities, getScheduleLoading } from "./store/schedule.reducer";
-import { LoadActivities } from "./store/schedule.actions";
+import { LoadActivities, ShowActivityInfo } from "./store/schedule.actions";
 import { Subscription } from "rxjs";
 import { ScheduleService } from "src/app/providers/schedule.service";
 import { Activity } from "src/app/api/models/activity";
@@ -26,7 +26,6 @@ export class ScheduleComponent implements OnInit, OnDestroy {
 
     constructor(private store$: Store<State>,
                 private scheduleService: ScheduleService,
-                private modalService: SimpleModalService,
                 private translateService: TranslateService) { }
 
     public ngOnInit() {
@@ -58,6 +57,6 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     }
 
     public onShowInfo(activity: Activity, time: string) {
-        this.modalService.addModal(InfoActivityComponent, {activity, time});
+        this.store$.dispatch(new ShowActivityInfo({activity, time}));
     }
 }
