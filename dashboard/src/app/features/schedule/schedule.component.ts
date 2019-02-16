@@ -5,8 +5,6 @@ import { LoadActivities, ShowActivityInfo } from "./store/schedule.actions";
 import { Subscription } from "rxjs";
 import { ScheduleService } from "src/app/providers/schedule.service";
 import { Activity } from "src/app/api/models/activity";
-import { SimpleModalService } from "ngx-simple-modal";
-import { InfoActivityComponent } from "./info-activity/info-activity.component";
 import { TranslateService } from "@ngx-translate/core";
 
 @Component({

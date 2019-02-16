@@ -5,7 +5,7 @@
                 <div class="col-lg-5 col-md-8 col-sm-10 ml-auto mr-auto">
                     <div class="card-wrapper animated fadeInDown">
                         <div class="card">
-                            <app-loading-spinner [loading]="loading$ | async"></app-loading-spinner>
+                            <app-loading-spinner [loading]="loading$"></app-loading-spinner>
                             <img class="logo" src="../../../assets/logo-long.svg">
                             <div class="card-body">
                                 <app-forget-form [(ngModel)]="forgetFormDto"></app-forget-form>

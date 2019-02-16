@@ -1,5 +1,5 @@
 <h1>{{ "pages.team.teams" | translate }}</h1>
-<app-loading-spinner [loading]="loading$ | async">
+<app-loading-spinner [loading]="loading$">
 </app-loading-spinner>
 <ng-container *ngIf="error$ | async">
     <div style="text-align: center">
