@@ -1,5 +1,5 @@
 import {
-    BadRequestException, Body, Controller, Delete, Get, Param, Post, Put, UploadedFile, UseFilters, UseGuards
+    BadRequestException, Body, Controller, Delete, Get, Param, Post, Put, UploadedFile, UseFilters, UseGuards, NotFoundException
 } from '@nestjs/common';
 import { ApiUseTags } from '@nestjs/swagger';
 import { StorageService } from '@polyhx/nest-services';
@@ -94,6 +94,22 @@ export class AttendeesController {
     @Permissions('csgames-api:update:attendee')
     public async updateNotification(@User() user: UserModel, @Body(ValidationPipe) dto: UpdateNotificationDto) {
         await this.attendeesService.updateNotification(user.username, dto);
+    }
+
+    @Put(':attendee_id/public-id/:public_id')
+    @Permissions('csgames-api:set-public-id:attendee')
+    async setPublicId(@Param('attendee_id') attendeeId: string, @Param('public_id') publicId: string) {
+        let attendee: Attendees = await this.attendeesService.findById(attendeeId);
+
+        if (!attendee) {
+            throw new NotFoundException(`Attendee ${attendeeId} not found.`);
+        }
+
+        attendee.publicId = publicId;
+
+        await attendee.save();
+
+        return attendee;
     }
 
     @Delete('/token/:token')
