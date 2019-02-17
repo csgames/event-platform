@@ -1,37 +1,27 @@
 import { Injectable } from "@angular/core";
-import { Actions, Effect, ofType } from "@ngrx/effects";
-import { AuthenticationService } from "../providers/authentication.service";
-import {
-    AppActionTypes, AppLoaded,
-    ChangeLanguage,
-    CurrentAttendeeLoaded,
-    EditProfile,
-    EventsLoaded,
-    GlobalError,
-    LoadCurrentAttendee,
-    LoadEvents,
-    Logout,
-    SetCurrentEvent,
-    ChangePassword,
-    CheckUnseenNotification,
-    HasUnseenNotification,
-    AllNotificationsSeen
-} from "./app.actions";
-import { catchError, filter, map, switchMap, tap, withLatestFrom } from "rxjs/operators";
+import { AngularFireMessaging } from "@angular/fire/messaging";
 import { Router } from "@angular/router";
-import { AttendeeService } from "../providers/attendee.service";
-import { Event } from "../api/models/event";
-import { Attendee } from "../api/models/attendee";
-import { of } from "rxjs";
-import { EventService } from "../providers/event.service";
-import { SimpleModalService } from "ngx-simple-modal";
-import { ProfileSettingComponent } from "../features/dashboard/modals/profile-setting/profile-setting.component";
-import { TranslateService } from "@ngx-translate/core";
-import { ToastrService } from "ngx-toastr";
+import { Actions, Effect, ofType } from "@ngrx/effects";
 import { select, Store } from "@ngrx/store";
-import { getCurrentAttendee, getEvents, State } from "./app.reducers";
+import { TranslateService } from "@ngx-translate/core";
+import { SimpleModalService } from "ngx-simple-modal";
+import { ToastrService } from "ngx-toastr";
+import { of } from "rxjs";
+import { catchError, delay, filter, map, mergeMapTo, switchMap, tap, withLatestFrom } from "rxjs/operators";
+import { Attendee } from "../api/models/attendee";
+import { Event } from "../api/models/event";
 import { ChangePasswordComponent } from "../features/dashboard/modals/change-password/change-password.component";
+import { ProfileSettingComponent } from "../features/dashboard/modals/profile-setting/profile-setting.component";
+import { AttendeeService } from "../providers/attendee.service";
+import { AuthenticationService } from "../providers/authentication.service";
+import { EventService } from "../providers/event.service";
 import { NotificationService } from "../providers/notification.service";
+import {
+    AllNotificationsSeen, AppActionTypes, AppLoaded, ChangeLanguage, ChangePassword, CheckUnseenNotification, CurrentAttendeeLoaded,
+    EditProfile, EventsLoaded, GlobalError, HasUnseenNotification, InitializeMessaging, LoadCurrentAttendee, LoadEvents, Logout,
+    SetCurrentEvent, SetupMessagingToken
+} from "./app.actions";
+import { getCurrentAttendee, getEvents, State } from "./app.reducers";
 
 @Injectable()
 export class AppEffects {
@@ -45,7 +35,8 @@ export class AppEffects {
         private modalService: SimpleModalService,
         private translateService: TranslateService,
         private toastr: ToastrService,
-        private notificationService: NotificationService
+        private notificationService: NotificationService,
+        private afMessaging: AngularFireMessaging
     ) {}
 
     @Effect()
@@ -65,6 +56,13 @@ export class AppEffects {
     @Effect({ dispatch: false })
     logout$ = this.actions$.pipe(
         ofType<Logout>(AppActionTypes.Logout),
+        tap(async () => {
+            const token = await this.afMessaging.getToken.toPromise();
+            if (token) {
+                await this.attendeeService.removeMessagingToken(token).toPromise();
+            }
+        }),
+        delay(500),
         switchMap(() => {
             return this.authenticationService.logout().pipe(
                 tap(() => {
@@ -153,7 +151,7 @@ export class AppEffects {
     editProfile$ = this.actions$.pipe(
         ofType<EditProfile>(AppActionTypes.EditProfile),
         map(() => {
-            const modal = this.modalService.addModal(ProfileSettingComponent);
+            this.modalService.addModal(ProfileSettingComponent);
         })
     );
 
@@ -161,7 +159,30 @@ export class AppEffects {
     changePassword$ = this.actions$.pipe(
         ofType<ChangePassword>(AppActionTypes.ChangePassword),
         map(() => {
-            const modal = this.modalService.addModal(ChangePasswordComponent);
+            this.modalService.addModal(ChangePasswordComponent);
+        })
+    );
+
+    @Effect({ dispatch: false })
+    initializeMessaging$ = this.actions$.pipe(
+        ofType<InitializeMessaging>(AppActionTypes.InitializeMessaging),
+        map(() => {
+            const sub$ = this.afMessaging.requestPermission
+                .pipe(
+                    mergeMapTo(this.afMessaging.tokenChanges),
+                    filter((token) => !!token))
+                .subscribe((token) => {
+                    sub$.unsubscribe();
+                    this.store$.dispatch(new SetupMessagingToken(token));
+                });
+        })
+    );
+
+    @Effect({ dispatch: false })
+    setupMessagingToken$ = this.actions$.pipe(
+        ofType<SetupMessagingToken>(AppActionTypes.SetupMessagingToken),
+        switchMap((action: SetupMessagingToken) => {
+            return this.attendeeService.addMessagingToken(action.payload);
         })
     );
 }

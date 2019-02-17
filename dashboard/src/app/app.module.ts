@@ -1,3 +1,5 @@
+import { AngularFireModule } from "@angular/fire";
+import { AngularFireMessagingModule } from "@angular/fire/messaging";
 import { BrowserModule } from "@angular/platform-browser";
 import { NgModule } from "@angular/core";
 
@@ -56,6 +58,8 @@ export function loadFactory(http: HttpClient): TranslateHttpLoader {
         LoginModule,
         RegisterModule,
         RouterModule.forRoot(ROUTES),
+        AngularFireModule.initializeApp(environment.FIREBASE),
+        AngularFireMessagingModule,
         TranslateModule.forRoot({
             loader: {
                 provide: TranslateLoader,

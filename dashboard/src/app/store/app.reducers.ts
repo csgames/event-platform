@@ -1,8 +1,8 @@
-import { AppActions, AppActionTypes, AppLoaded } from "./app.actions";
 import { ActionReducerMap, createFeatureSelector, createSelector, MetaReducer } from "@ngrx/store";
 import { environment } from "../../environments/environment";
 import { Attendee } from "../api/models/attendee";
 import { Event } from "../api/models/event";
+import { AppActions, AppActionTypes } from "./app.actions";
 
 export interface GlobalState {
     currentAttendee: Attendee;

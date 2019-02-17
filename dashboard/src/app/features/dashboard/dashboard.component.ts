@@ -1,11 +1,11 @@
-import { Component, OnDestroy, OnInit } from "@angular/core";
-import { Observable } from "rxjs";
 import { BreakpointObserver, Breakpoints } from "@angular/cdk/layout";
-import { map } from "rxjs/operators";
-import { EditProfile, SetCurrentEvent, ChangePassword } from "../../store/app.actions";
-import { getCurrentEvent, getEvents, getLoading, State } from "../../store/app.reducers";
+import { Component, OnDestroy, OnInit } from "@angular/core";
 import { select, Store } from "@ngrx/store";
+import { Observable } from "rxjs";
+import { map } from "rxjs/operators";
 import { Event } from "../../api/models/event";
+import { ChangePassword, EditProfile, SetCurrentEvent } from "../../store/app.actions";
+import { getCurrentEvent, getEvents, getLoading, State } from "../../store/app.reducers";
 
 @Component({
     selector: "app-dashboard",

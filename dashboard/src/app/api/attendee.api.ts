@@ -43,4 +43,18 @@ export class AttendeeApi extends CSGamesApi {
             withCredentials: true
         });
     }
+
+    public addMessagingToken(token: string): Observable<void> {
+        return this.http.put<void>(this.url("token"), {
+            token
+        }, {
+            withCredentials: true
+        });
+    }
+
+    public removeMessagingToken(token: string): Observable<void> {
+        return this.http.delete<void>(this.url(`token/${token}`), {
+            withCredentials: true
+        });
+    }
 }
