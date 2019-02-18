@@ -8,7 +8,7 @@ import { AccordionModule } from "ngx-bootstrap";
     imports: [
         CommonModule,
         TranslateModule,
-        AccordionModule.forRoot()
+        AccordionModule
     ],
     declarations: [AccordionComponent],
     providers: [

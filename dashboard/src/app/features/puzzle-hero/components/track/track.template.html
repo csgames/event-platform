@@ -1,0 +1,57 @@
+<accordion class="card-wrapper">
+    <accordion-group (isOpenChange)="onOpen($event)">
+        <div accordion-heading fxLayout="row" fxLayoutAlign="start center">
+            <i class="fal firstIcon" [ngClass]="icon"></i>
+            <div>
+                <span class="title">{{ track?.label }}</span>
+            </div>
+            <div fxFlex></div>
+            <a class="fa-star star-button" [ngClass]="{fal: !isStarred, fas: isStarred}" [class.starred]="isStarred"
+               (click)="onClickStar($event)"></a>
+            <i class="fas fa-caret-down" [class.fa-rotate-90]="!isOpen"></i>
+        </div>
+        <div class="track-container">
+            <div class="track" xmlns:svg="http://www.w3.org/1999/XSL/Transform">
+                <ngx-graph
+                    track
+                    class="chart-container"
+                    [links]="links"
+                    [nodes]="nodes"
+                    [curve]="curve"
+                    [nodeHeight]="77"
+                    [nodeWidth]="77"
+                    [enableZoom]="false"
+                    [panningEnabled]="false"
+                    [draggingEnabled]="false"
+                >
+                    <ng-template #defsTemplate>
+                        <svg:marker id="arrow" viewBox="0 -5 10 10" refX="8" refY="0" markerWidth="4" markerHeight="4"
+                                    orient="auto">
+                            <svg:path d="M0,-5L10,0L0,5" class="arrow-head"/>
+                        </svg:marker>
+                    </ng-template>
+
+                    <ng-template #nodeTemplate let-node>
+                        <svg:g puzzle-tile [puzzle]="node" (clickPuzzle)="clickPuzzle($event)"></svg:g>
+                    </ng-template>
+
+                    <ng-template #linkTemplate let-link>
+                        <svg:g class="edge">
+                            <svg:path
+                                class="line"
+                                stroke-width="2"
+                                marker-end="url(#arrow)">
+                            </svg:path>
+                            <svg:text
+                                class="edge-label"
+                                text-anchor="middle">
+                            </svg:text>
+                        </svg:g>
+                    </ng-template>
+
+                </ngx-graph>
+            </div>
+        </div>
+
+    </accordion-group>
+</accordion>

@@ -1,0 +1,27 @@
+.title {
+    font-size: 18px;
+    font-weight: 200;
+}
+
+.track-container {
+    position: relative;
+    overflow-x: scroll;
+}
+
+.track {
+    display: grid;
+    max-width: 10000px;
+    max-height: 800px;
+}
+
+.star-button {
+    margin-right: 20px;
+
+    &:hover {
+        color: #FED265 !important;
+    }
+}
+
+.starred {
+    color: #FED265 !important;
+}

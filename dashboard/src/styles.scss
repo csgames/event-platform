@@ -641,10 +641,17 @@ a {
 
 .text-primary {
     color: #00579c !important;
+    fill: #00579c !important;
+}
+
+.text-success {
+    color: #B8E986 !important;
+    fill: #B8E986 !important;
 }
 
 .text-danger {
     color: #f15e58 !important;
+    fill: #f15e58 !important;
 }
 
 html, body {
@@ -713,14 +720,14 @@ h4 {
 
 .accordion-toggle > div > .firstIcon {
     color: #0D5899;
-    font-size: 50px;
-    display: inline-block;
-    vertical-align: middle;
+    font-size: 40px;
 }
+
 .accordion-toggle > div > div > span {
     margin-left: 25px;
     vertical-align: middle;
 }
+
 .accordion-toggle > div > div {
     padding-top: 4px;
     user-select: none;
@@ -733,6 +740,10 @@ h4 {
     border-width: 0px;
 }
 
+.panel-heading {
+    cursor: pointer;
+}
+
 .panel-collapse {
     border-radius: 0px 0px 15px 15px !important;
 }
@@ -740,7 +751,6 @@ h4 {
 .accordion-toggle > div > .fa-caret-down {
     vertical-align: middle;
     display: inline-block;
-    margin-top: 12px;
     user-select: none;
 }
 
@@ -765,3 +775,66 @@ i.fa-caret-down {
     text-overflow: ellipsis;
 }
 
+svg {
+    overflow-x: scroll;
+    display: block;
+
+    p {
+        text-align: center;
+    }
+}
+
+.graph {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.graph .edge {
+    stroke: #979797;
+    fill: none;
+}
+
+.graph .edge .edge-label {
+    stroke: none;
+    font-size: 12px;
+    fill: #979797;
+}
+
+.graph .panning-rect {
+    fill: transparent;
+    cursor: default !important;
+}
+
+.graph .node-group .node:focus {
+    outline: none;
+}
+
+.graph {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.graph .edge {
+    stroke: #979797;
+    fill: none;
+}
+
+.graph .edge .edge-label {
+    stroke: none;
+    font-size: 12px;
+    fill: #979797;
+}
+
+.graph .node-group .node:focus {
+    outline: none;
+}
+
+.edge {
+    path {
+        stroke: #979797 !important;
+    }
+}

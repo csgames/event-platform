@@ -17,10 +17,10 @@ export const DASHBOARD_ROUTES: Routes = [
         loadChildren: "src/app/features/team/team.module#TeamModule",
         canActivate: [RegisteredGuard]
     },
-    // {
-    //     path: "puzzle-hero",
-    //     loadChildren: "src/app/features/puzzle-hero/puzzle-hero.module#PuzzleHeroModule",
-    // },
+    {
+        path: "puzzle-hero",
+        loadChildren: "src/app/features/puzzle-hero/puzzle-hero.module#PuzzleHeroModule",
+    },
     {
         path: "onboarding",
         loadChildren: "src/app/features/onboarding/onboarding.module#OnboardingModule",

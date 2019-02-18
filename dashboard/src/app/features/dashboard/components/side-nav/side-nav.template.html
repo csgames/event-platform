@@ -41,7 +41,7 @@
                     {{ "pages.schedule.schedule" | translate }}
                 </div>
             </div>
-        </a>
+        </a> -->
         <a *ngIf="(attendee$ | async)?.registered" [routerLink]="['/puzzle-hero']" routerLinkActive="active">
             <div [fxLayout]="'row'" fxFlexFill>
                 <div fxFlex="20">
@@ -51,7 +51,7 @@
                     {{ "pages.puzzle_hero.puzzle_hero" | translate }}
                 </div>
             </div>
-        </a> -->
+        </a>
         <ng-container *ifRole="['attendee', 'captain']">
             <a *ngIf="!(attendee$ | async) || (attendee$ | async)?.registered" [routerLink]="['/team']" routerLinkActive="active">
                 <div [fxLayout]="'row'" fxFlexFill>
