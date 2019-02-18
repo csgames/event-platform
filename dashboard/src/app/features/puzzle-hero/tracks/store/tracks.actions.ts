@@ -1,7 +1,7 @@
 import { Action } from "@ngrx/store";
 import { Track } from "../models/track";
 
-export enum PuzzleHeroActionTypes {
+export enum TracksActionTypes {
     LoadTracks = "[Puzzle Hero] Load tracks",
     TracksLoaded = "[Puzzle Hero] Tracks loaded",
     LoadTracksError = "[Puzzle Hero] Load tracks error",
@@ -12,36 +12,36 @@ export enum PuzzleHeroActionTypes {
 }
 
 export class LoadTracks implements Action {
-    readonly type = PuzzleHeroActionTypes.LoadTracks;
+    readonly type = TracksActionTypes.LoadTracks;
 }
 
 export class TracksLoaded implements Action {
-    readonly type = PuzzleHeroActionTypes.TracksLoaded;
+    readonly type = TracksActionTypes.TracksLoaded;
 
     constructor(public tracks: Track[]) {}
 }
 
 export class LoadTracksError implements Action {
-    readonly type = PuzzleHeroActionTypes.LoadTracksError;
+    readonly type = TracksActionTypes.LoadTracksError;
 }
 
 export class LoadStarredTracks implements Action {
-    readonly type = PuzzleHeroActionTypes.LoadStarredTracks;
+    readonly type = TracksActionTypes.LoadStarredTracks;
 }
 
 export class StarredTracksLoaded implements Action {
-    readonly type = PuzzleHeroActionTypes.StarredTracksLoaded;
+    readonly type = TracksActionTypes.StarredTracksLoaded;
 
     constructor(public starredTracks: string[]) {}
 }
 
 export class StarTrack {
-    readonly type = PuzzleHeroActionTypes.StarTrack;
+    readonly type = TracksActionTypes.StarTrack;
 
     constructor(public track: Track) {}
 }
 
-export type PuzzleHeroActions =
+export type TracksActions =
     | LoadTracks
     | TracksLoaded
     | LoadTracksError

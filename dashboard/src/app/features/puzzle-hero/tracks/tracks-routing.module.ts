@@ -1,14 +1,14 @@
 import { NgModule } from "@angular/core";
 import { Routes, RouterModule } from "@angular/router";
 
+import { TracksComponent } from "./tracks.component";
+
 const routes: Routes = [
-    { path: "**", redirectTo: "tracks" },
-    { path: "tracks", loadChildren: "src/app/features/puzzle-hero/tracks/tracks.module#TracksModule" }
+    { path: "", component: TracksComponent }
 ];
 
 @NgModule({
     imports: [RouterModule.forChild(routes)],
     exports: [RouterModule]
 })
-export class PuzzleHeroRoutingModule {}
-
+export class TracksRoutingModule {}

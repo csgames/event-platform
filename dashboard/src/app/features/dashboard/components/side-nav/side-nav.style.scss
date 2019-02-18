@@ -26,10 +26,32 @@
     padding: 5px 20px;
     border-radius: 4px;
     user-select: none;
+    color: #4A4A4A;
 }
 
-.navigation a {
-    color: #4A4A4A;
+.sublinks {
+    margin-left: 30px;
+}
+
+.navigation > .sublinks > a {
+    display: block;
+    height: auto;
+    margin-top: 5px;
+    padding: 5px 20px;
+    font-size: 15px;
+    border-radius: 0;
+    user-select: none;
+
+    &:hover {
+        background-color: transparent;
+        text-decoration: none;
+        color: #0D5899;
+    }
+
+    &.active {
+        background-color: transparent;
+        color: #0D5899;
+    }
 }
 
 .navigation a:hover {

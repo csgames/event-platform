@@ -5,17 +5,17 @@ import {
     getPuzzleHeroNotStarredTracks,
     getPuzzleHeroStarredTracks,
     State
-} from "./store/puzzle-hero.reducer";
+} from "./store/tracks.reducer";
 import { select, Store } from "@ngrx/store";
-import { LoadStarredTracks, LoadTracks, StarTrack } from "./store/puzzle-hero.actions";
+import { LoadStarredTracks, LoadTracks, StarTrack } from "./store/tracks.actions";
 import { Track } from "./models/track";
 
 @Component({
     selector: "app-puzzle-hero",
-    templateUrl: "puzzle-hero.template.html",
-    styleUrls: ["./puzzle-hero.style.scss"]
+    templateUrl: "tracks.template.html",
+    styleUrls: ["./tracks.style.scss"]
 })
-export class PuzzleHeroComponent implements OnInit {
+export class TracksComponent implements OnInit {
 
     notStarredTracks$ = this.store$.pipe(select(getPuzzleHeroNotStarredTracks));
     starredTracks$ = this.store$.pipe(select(getPuzzleHeroStarredTracks));
