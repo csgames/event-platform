@@ -44,6 +44,13 @@ export class PuzzleHeroesController {
         return await this.puzzleHeroService.createPuzzle(eventId, trackId, dto);
     }
 
+    @Post("validate")
+    @Permissions('csgames-api:get:event')
+    public async validateAnswer(@EventId() id: string): Promise<null> {
+        console.log("VALIDATE IS CALLED");
+        return null;
+    }
+
     @Get()
     @Permissions('csgames-api:get:puzzle-hero')
     public async get(@Query("team") team: string, @EventId() eventId: string): Promise<PuzzleHeroes> {
