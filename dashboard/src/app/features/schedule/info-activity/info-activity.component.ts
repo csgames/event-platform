@@ -5,7 +5,6 @@ import { TranslateService } from "@ngx-translate/core";
 import { select, Store } from "@ngrx/store";
 import { getLoading, getSubscribed, State } from "./store/info-activity.reducer";
 import { CheckIfSubscribedToActivity, ResetStore, SubscribeToActivity } from "./store/info-activity.actions";
-import { getScheduleLoading } from "../store/schedule.reducer";
 
 export interface InfoActivityModal {
     activity: Activity;
@@ -17,7 +16,8 @@ export interface InfoActivityModal {
     templateUrl: "info-activity.template.html",
     styleUrls: ["info-activity.style.scss"]
 })
-export class InfoActivityComponent extends SimpleModalComponent<InfoActivityModal, void> implements InfoActivityModal, OnInit, OnDestroy {
+export class InfoActivityComponent extends SimpleModalComponent<InfoActivityModal, boolean>
+        implements InfoActivityModal, OnInit, OnDestroy {
     public activity: Activity;
     public time: string;
     public MAX_CHAR_DESCRIPTION = 1000;
@@ -31,11 +31,13 @@ export class InfoActivityComponent extends SimpleModalComponent<InfoActivityModa
     }
 
     public ngOnInit() {
+        this.result = false;
         this.store$.dispatch(new CheckIfSubscribedToActivity(this.activity._id));
     }
 
     public subscribe() {
         this.store$.dispatch(new SubscribeToActivity(this.activity._id));
+        this.result = true;
     }
 
     public onClose() {

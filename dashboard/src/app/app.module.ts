@@ -2,6 +2,7 @@ import { AngularFireModule } from "@angular/fire";
 import { AngularFireMessagingModule } from "@angular/fire/messaging";
 import { BrowserModule } from "@angular/platform-browser";
 import { NgModule } from "@angular/core";
+import { ServiceWorkerModule } from "@angular/service-worker";
 
 import { AppComponent } from "./app.component";
 import { StoreModule } from "@ngrx/store";
@@ -41,6 +42,7 @@ import { ScheduleService } from "./providers/schedule.service";
 import { RoleGuard } from "./guards/role.guard";
 import { SchoolService } from "./providers/school.service";
 import { NotificationService } from "./providers/notification.service";
+import { UpdateModule } from "./update/update.module";
 
 export function loadFactory(http: HttpClient): TranslateHttpLoader {
     return new TranslateHttpLoader(http, "../assets/i18n/", ".json");
@@ -71,6 +73,7 @@ export function loadFactory(http: HttpClient): TranslateHttpLoader {
         ApiModule,
         ForgetModule,
         ResetModule,
+        ServiceWorkerModule.register("/ngsw-worker.js", { enabled: environment.production }),
         StoreModule.forRoot(fromApp.appReducers, { metaReducers: fromApp.appMetaReducers }),
         EffectsModule.forRoot([
             AppEffects
@@ -79,7 +82,8 @@ export function loadFactory(http: HttpClient): TranslateHttpLoader {
         !environment.production ? StoreDevtoolsModule.instrument() : [],
         BrowserAnimationsModule,
         ToastrModule.forRoot(),
-        NoopAnimationsModule
+        NoopAnimationsModule,
+        UpdateModule
     ],
     providers: [
         AuthenticationService,

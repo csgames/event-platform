@@ -104,6 +104,10 @@
         },
         "search": {
             "search": "Rechercher"
+        },
+        "update": {
+            "update_available": "Nouvelle version disponible!",
+            "update": "Mettre à jour"
         }
     },
     "pages": {

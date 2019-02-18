@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { ScheduleService } from "src/app/providers/schedule.service";
 import { Actions, Effect, ofType } from "@ngrx/effects";
 import { LoadActivities, ScheduleActionTypes, ActivitiesLoaded, ShowActivityInfo } from "./schedule.actions";
-import { switchMap, map, catchError } from "rxjs/operators";
+import { switchMap, map, catchError, filter } from "rxjs/operators";
 import { of } from "rxjs";
 import { GlobalError } from "src/app/store/app.actions";
 import { SimpleModalService } from "ngx-simple-modal";
@@ -30,6 +30,7 @@ export class ScheduleEffects {
         ofType<ShowActivityInfo>(ScheduleActionTypes.ShowActivityInfo),
         switchMap((action: ShowActivityInfo) => {
             return this.modalService.addModal(InfoActivityComponent, action.payload).pipe(
+                filter((x) => x),
                 map(() => new LoadActivities()),
                 catchError(err => of(new GlobalError(err)))
             );
