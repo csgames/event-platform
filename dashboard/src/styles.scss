@@ -465,7 +465,7 @@ a {
 }
 
 .modal {
-    overflow: auto !important;
+    overflow-y: auto !important;
     background-color: rgba(0, 0, 0, 0.3);
 }
 
@@ -700,6 +700,33 @@ h4 {
     opacity: 1 !important;
 }
 
+.nav {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.06) !important;
+}
+
+.nav-pills .nav-link.active {
+    background-color: #0D5899 !important;
+    border-radius: 8px;
+}
+
+.nav-pills {
+    margin-top: 20px;
+    margin-bottom: 10px;
+    width: fit-content;
+    margin-right:auto;
+    margin-left:auto;
+}
+
+.nav-link > span {
+    color: black;
+}
+
+.nav-link.active > span {
+    color: white;
+}
+
 // start accordion 
 
 .card-header {
@@ -755,7 +782,7 @@ i.fa-caret-down {
 }
 
 .scroll {
-    overflow-y: scroll !important;
+    overflow-y: auto !important;
     height: 100vh;
 }
 
@@ -765,3 +792,16 @@ i.fa-caret-down {
     text-overflow: ellipsis;
 }
 
+@media(max-width: 320px) {
+    body {
+        font-size: 15px;
+    }
+
+    .nav {
+        font-size: 13px;
+    }
+
+    .nav-item {
+        width: 90px;
+    }
+}

@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy, Inject } from "@angular/core";
 import { SimpleModalComponent } from "ngx-simple-modal";
-import { Store, select } from "@ngrx/store";
+import { Store } from "@ngrx/store";
 import { State, getLoading, getClosing, selectChangePassword } from "./store/change-password.reducer";
 import { ResetStore, PerformChangePassword } from "./store/change-password.actions";
 import { Subscription } from "rxjs";

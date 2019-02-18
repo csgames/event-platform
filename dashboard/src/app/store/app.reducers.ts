@@ -1,8 +1,8 @@
-import { AppActions, AppActionTypes, AppLoaded } from "./app.actions";
 import { ActionReducerMap, createFeatureSelector, createSelector, MetaReducer } from "@ngrx/store";
 import { environment } from "../../environments/environment";
 import { Attendee } from "../api/models/attendee";
 import { Event } from "../api/models/event";
+import { AppActions, AppActionTypes } from "./app.actions";
 
 export interface GlobalState {
     currentAttendee: Attendee;
@@ -10,6 +10,7 @@ export interface GlobalState {
     currentEvent: Event;
     loading: boolean;
     language: string;
+    unseen: boolean;
 }
 
 export interface State {
@@ -25,7 +26,8 @@ export const initialState: GlobalState = {
     events: [],
     currentEvent: null,
     loading: true,
-    language: null
+    language: null,
+    unseen: false
 };
 
 export function globalReducer(state = initialState, action: AppActions): GlobalState {
@@ -66,6 +68,23 @@ export function globalReducer(state = initialState, action: AppActions): GlobalS
                 currentEvent: action.event,
                 loading: true
             };
+        case AppActionTypes.CheckUnseenNotification:
+            return {
+                ...state,
+                loading: true
+            };
+        case AppActionTypes.HasUnseenNotification:
+            return {
+                ...state,
+                loading: false,
+                unseen: true
+            };
+        case AppActionTypes.AllNotificationsSeen:
+            return {
+                ...state,
+                loading: false,
+                unseen: false
+            };
     }
     return state;
 }
@@ -88,3 +107,5 @@ export const getEvents = createSelector(getGlobalState, (state: GlobalState) => 
 export const getCurrentEvent = createSelector(getGlobalState, (state: GlobalState) => state.currentEvent);
 
 export const getCurrentLanguage = createSelector(getGlobalState, (state: GlobalState) => state.language);
+
+export const getUnseen = createSelector(getGlobalState, (state: GlobalState) => state.unseen);

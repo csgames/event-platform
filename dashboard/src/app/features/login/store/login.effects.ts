@@ -2,10 +2,10 @@ import { Injectable } from "@angular/core";
 import { Actions, Effect, ofType } from "@ngrx/effects";
 import { Router } from "@angular/router";
 import { LoginActionTypes, LoginFailure, LoginSuccess, PerformLogin } from "./login.actions";
-import { catchError, exhaustMap, map, tap } from "rxjs/operators";
+import { catchError, exhaustMap, map, switchMap, tap } from "rxjs/operators";
 import { of } from "rxjs";
 import { AuthenticationService } from "../../../providers/authentication.service";
-import { LoadEvents } from "../../../store/app.actions";
+import { InitializeMessaging, LoadEvents } from "../../../store/app.actions";
 
 @Injectable()
 export class LoginEffects {
@@ -30,6 +30,6 @@ export class LoginEffects {
     loginSuccess$ = this.actions$.pipe(
         ofType<LoginSuccess>(LoginActionTypes.LoginSuccess),
         tap(() => this.router.navigate(["/dashboard"])),
-        map(() => new LoadEvents())
+        switchMap(() => [new LoadEvents(), new InitializeMessaging()])
     );
 }

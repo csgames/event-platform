@@ -23,7 +23,7 @@ export class TeamViewComponent implements OnInit, OnDestroy {
     set teamId(value: string) {
         this._id = value;
         this.currentEventSub$ = this.currentEvent$.pipe(filter((e) => !!e)).subscribe(() => {
-            this.store.dispatch(new LoadTeam(value));
+            this.store$.dispatch(new LoadTeam(value));
         });
     }
 
@@ -32,7 +32,7 @@ export class TeamViewComponent implements OnInit, OnDestroy {
         this._id = null;
         if (value) {
             this.currentEventSub$ = this.currentEvent$.pipe(filter((e) => !!e)).subscribe(() => {
-                this.store.dispatch(new LoadTeam());
+                this.store$.dispatch(new LoadTeam());
             });
         }
     }
@@ -42,13 +42,13 @@ export class TeamViewComponent implements OnInit, OnDestroy {
     @ViewChild("godparent")
     godparentForm: AddAttendeeFormComponent;
 
-    currentTeam$ = this.store.pipe(select(getCurrentTeam));
-    loading$ = this.store.pipe(select(getTeamLoading));
-    error$ = this.store.pipe(select(getTeamError));
-    currentEvent$ = this.store.pipe(select(fromApp.getCurrentEvent));
-    currentGodparent$ = this.store.pipe(select(getTeamGodparent));
-    currentAttendees$ = this.store.pipe(select(getTeamAttendees));
-    currentAttendee$ = this.store.pipe(select(getCurrentAttendee));
+    currentTeam$ = this.store$.pipe(select(getCurrentTeam));
+    loading$ = this.store$.pipe(select(getTeamLoading));
+    error$ = this.store$.pipe(select(getTeamError));
+    currentEvent$ = this.store$.pipe(select(fromApp.getCurrentEvent));
+    currentGodparent$ = this.store$.pipe(select(getTeamGodparent));
+    currentAttendees$ = this.store$.pipe(select(getTeamAttendees));
+    currentAttendee$ = this.store$.pipe(select(getCurrentAttendee));
 
     currentEventSub$: Subscription;
     currentAttendeeSub$: Subscription;
@@ -112,7 +112,7 @@ export class TeamViewComponent implements OnInit, OnDestroy {
         );
     }
 
-    constructor(private store: Store<State>) { }
+    constructor(private store$: Store<State>) { }
 
     ngOnInit() {
         this.isEditingTeamName = false;
@@ -123,7 +123,7 @@ export class TeamViewComponent implements OnInit, OnDestroy {
         this.newGodparent = this.setDefaultAttendee();
 
         this.currentAttendeeSub$ = this.currentAttendee$.pipe(filter(a => !!a)).subscribe(a => {
-            this.store.dispatch(new LoadTeam(this._id));
+            this.store$.dispatch(new LoadTeam(this._id));
         });
     }
 
@@ -142,7 +142,7 @@ export class TeamViewComponent implements OnInit, OnDestroy {
     public onSaveTeamName(teamName: string): void {
         this.isEditingTeamName = false;
         if (teamName.length > 0) {
-            this.store.dispatch(new UpdateTeamName(teamName));
+            this.store$.dispatch(new UpdateTeamName(teamName));
         }
     }
 
@@ -160,6 +160,7 @@ export class TeamViewComponent implements OnInit, OnDestroy {
 
     public setDefaultAttendee(): Attendee {
         const newAttendee = {
+            _id: "",
             firstName: "",
             lastName: "",
             email: "",
@@ -185,7 +186,7 @@ export class TeamViewComponent implements OnInit, OnDestroy {
             return;
         }
         this.isAddingTeamMember = false;
-        this.store.dispatch(new AddTeamMember(this.newAttendee));
+        this.store$.dispatch(new AddTeamMember(this.newAttendee));
     }
 
     public onCancelTeamName(): void {
@@ -205,6 +206,6 @@ export class TeamViewComponent implements OnInit, OnDestroy {
             return;
         }
         this.isAddingTeamGodparent = false;
-        this.store.dispatch(new AddTeamGodparent(this.newGodparent));
+        this.store$.dispatch(new AddTeamGodparent(this.newGodparent));
     }
 }
