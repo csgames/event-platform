@@ -2,7 +2,6 @@ import { Component, OnDestroy, OnInit, ViewChild, Input } from "@angular/core";
 import { SimpleModalComponent } from "ngx-simple-modal";
 import { Sponsors } from "src/app/api/models/sponsors";
 import { TranslateService } from "@ngx-translate/core";
-import { SponsorsActionTypes } from "../store/sponsors.actions";
 
 export interface InfoSponsorModal {
     sponsor: Sponsors;

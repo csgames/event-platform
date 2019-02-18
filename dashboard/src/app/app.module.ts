@@ -1,3 +1,5 @@
+import { AngularFireModule } from "@angular/fire";
+import { AngularFireMessagingModule } from "@angular/fire/messaging";
 import { BrowserModule } from "@angular/platform-browser";
 import { NgModule } from "@angular/core";
 
@@ -35,8 +37,10 @@ import { NgxMaskModule } from "ngx-mask";
 import { ResetModule } from "./features/reset/reset.module";
 import { TooltipModule } from "ngx-bootstrap";
 import { SponsorsService } from "./providers/sponsors.service";
+import { ScheduleService } from "./providers/schedule.service";
 import { RoleGuard } from "./guards/role.guard";
 import { SchoolService } from "./providers/school.service";
+import { NotificationService } from "./providers/notification.service";
 
 export function loadFactory(http: HttpClient): TranslateHttpLoader {
     return new TranslateHttpLoader(http, "../assets/i18n/", ".json");
@@ -54,6 +58,8 @@ export function loadFactory(http: HttpClient): TranslateHttpLoader {
         LoginModule,
         RegisterModule,
         RouterModule.forRoot(ROUTES),
+        AngularFireModule.initializeApp(environment.FIREBASE),
+        AngularFireMessagingModule,
         TranslateModule.forRoot({
             loader: {
                 provide: TranslateLoader,
@@ -86,7 +92,9 @@ export function loadFactory(http: HttpClient): TranslateHttpLoader {
         TeamService,
         RegisterService,
         PasswordService,
-        SponsorsService
+        SponsorsService,
+        ScheduleService,
+        NotificationService
     ],
     bootstrap: [AppComponent]
 })

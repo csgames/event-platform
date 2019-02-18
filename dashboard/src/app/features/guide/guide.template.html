@@ -1,5 +1,5 @@
 <h1>{{ "pages.guide.guide" | translate }}</h1>
-<app-loading-spinner [loading]="loading$ | async"></app-loading-spinner>
+<app-loading-spinner [loading]="loading$"></app-loading-spinner>
 <div class="guide" *ngIf="guide"> 
     <!-- What to bring -->
     <app-accordion-component 
