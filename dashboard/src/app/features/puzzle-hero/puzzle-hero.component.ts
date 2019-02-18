@@ -8,7 +8,7 @@ import {
 } from "./store/puzzle-hero.reducer";
 import { select, Store } from "@ngrx/store";
 import { LoadStarredTracks, LoadTracks, StarTrack } from "./store/puzzle-hero.actions";
-import { Track } from "./models/track";
+import { Track } from "../../api/models/puzzle-hero";
 
 @Component({
     selector: "app-puzzle-hero",
