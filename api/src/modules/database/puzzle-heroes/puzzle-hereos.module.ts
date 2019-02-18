@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from "@nestjs/mongoose";
 import { PuzzleHeroesSchema } from './puzzle-heroes.model';
+import { PuzzleController } from './puzzle-heroes.controller';
 
 @Module({
     imports: [
@@ -8,6 +9,9 @@ import { PuzzleHeroesSchema } from './puzzle-heroes.model';
             name: "puzzleHeroes",
             schema: PuzzleHeroesSchema
         }])
+    ],
+    controllers: [
+        PuzzleController
     ],
     providers: [
     ]

@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from "@nestjs/mongoose";
 import { QuestionsSchema } from './questions.model';
+import { QuestionsService } from './questions.service';
 
 @Module({
     imports: [
@@ -10,7 +11,9 @@ import { QuestionsSchema } from './questions.model';
         }])
     ],
     providers: [
+    ],
+    exports: [
+        QuestionsService
     ]
 })
-export class QuestionsModule {
-}
+export class QuestionsModule { }
