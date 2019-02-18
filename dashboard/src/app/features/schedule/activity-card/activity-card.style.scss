@@ -7,6 +7,11 @@
     border-radius: 6px;
 }
 
+.card {
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.06) !important;
+    border: none;
+}
+
 .card-body {
     padding: 0;
 }
