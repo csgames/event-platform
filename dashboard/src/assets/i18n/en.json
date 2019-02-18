@@ -100,6 +100,10 @@
         },
         "search": {
             "search": "Search"
+        },
+        "update": {
+            "update_available": "New version available!",
+            "update": "Update"
         }
 	},
 	"pages": {
