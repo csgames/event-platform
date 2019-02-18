@@ -1,8 +1,10 @@
 import * as mongoose from "mongoose";
-import { Tracks } from './tracks/tracks.model';
-import { TracksAnswers } from './tracks/tracks-answers.model';
+import { Tracks, TracksSchema } from './tracks/tracks.model';
+import { TracksAnswers, TracksAnswersSchema } from './tracks/tracks-answers.model';
+import { Events } from '../events/events.model';
 
 export interface PuzzleHeroes extends mongoose.Document {
+    event: Events | mongoose.Types.ObjectId | string;
     tracks: Tracks[];
     answers: TracksAnswers[];
     releaseDate: Date | string;
@@ -10,12 +12,17 @@ export interface PuzzleHeroes extends mongoose.Document {
 }
 
 export const PuzzleHeroesSchema = new mongoose.Schema({
-    tracks: {
-        type: [Object],
+    event: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "events",
         required: true
     },
+    tracks: {
+        type: [TracksSchema],
+        default: []
+    },
     answers: {
-        type: [Object],
+        type: [TracksAnswersSchema],
         default: []
     },
     releaseDate: {

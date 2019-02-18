@@ -10,6 +10,7 @@ import { SchoolsModule } from './schools/schools.module';
 import { SponsorsModule } from './sponsors/sponsors.module';
 import { TeamsModule } from './teams/teams.module';
 import { RegistrationsModule } from './registrations/registrations.module';
+import { PuzzleHeroesModule } from './puzzle-heroes/puzzle-heroes.module';
 
 @Module({
     imports: [
@@ -24,7 +25,8 @@ import { RegistrationsModule } from './registrations/registrations.module';
         RegistrationsModule,
         SchoolsModule,
         SponsorsModule,
-        TeamsModule
+        TeamsModule,
+        PuzzleHeroesModule
     ]
 })
 export class DatabaseModule {
