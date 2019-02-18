@@ -82,7 +82,8 @@ export interface EventGuide {
         zoom: number,
         address: string,
         name: string,
-        maps: [string]
+        maps: [string],
+        website: { [lang: string]: string }
     };
     hotel: {
         latitude: number,
@@ -110,6 +111,16 @@ export interface EventGuide {
             longitude: number
         }]
     };
+    transport: {
+        info: { [lang: string]: string },
+        image: string,
+        school: string,
+        hotel: string,
+        schoolLatitude: number,
+        schoolLongitude: number,
+        hotelLatitude: number,
+        hotelLongitude: number
+    }
 }
 
 export interface Events extends mongoose.Document {

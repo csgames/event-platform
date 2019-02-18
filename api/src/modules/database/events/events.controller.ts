@@ -68,6 +68,19 @@ export class EventsController {
         return await this.teamsService.getTeamFromEvent(eventId);
     }
 
+    @Get('activity')
+    @Permissions('csgames-api:get-all:activity')
+    public async getActivity(@EventId() eventId: string, @User() user: UserModel): Promise<Activities[]> {
+        return await this.eventsService.getActivities(eventId);
+    }
+
+    @Get('notification')
+    @Permissions('csgames-api:get:notification')
+    public async getNotifications(@EventId() eventId: string, @User() user: UserModel,
+                                  @Query('seen') seen: boolean): Promise<AttendeeNotifications[]> {
+        return await this.eventsService.getNotifications(eventId, user.username, seen);
+    }
+
     @Get(':id')
     @Permissions('csgames-api:get:event')
     public async getById(@Param('id') id: string): Promise<Events> {
@@ -113,6 +126,12 @@ export class EventsController {
         await this.eventsService.confirmAttendee(eventId, user.username, dto, file);
     }
 
+    @Put('activity')
+    @Permissions('csgames-api:update:event')
+    public async addActivity(@EventId() eventId: string, @Body(new ValidationPipe()) activity: CreateActivityDto) {
+        await this.eventsService.createActivity(eventId, activity);
+    }
+
     @Put(':id')
     @Permissions('csgames-api:update:event')
     public async update(@Param('id') id: string, @Body(new ValidationPipe()) event: UpdateEventDto) {
@@ -121,34 +140,15 @@ export class EventsController {
         }, event);
     }
 
-    @Put(':id/activity')
-    @Permissions('csgames-api:update:event')
-    public async addActivity(@Param('id') id: string, @Body(new ValidationPipe()) activity: CreateActivityDto) {
-        await this.eventsService.createActivity(id, activity);
-    }
-
-    @Get(':id/activity')
-    @Permissions('csgames-api:get-all:activity')
-    public async getActivity(@Param('id') eventId: string): Promise<Activities[]> {
-        return await this.eventsService.getActivities(eventId);
-    }
-
-    @Get(':id/notification')
-    @Permissions('csgames-api:get:notification')
-    public async getNotifications(@Param('id') id: string, @User() user: UserModel,
-                                  @Query('seen') seen: boolean): Promise<AttendeeNotifications[]> {
-        return await this.eventsService.getNotifications(id, user.id, seen);
-    }
-
     @Put(':id/sponsor')
     @Permissions('csgames-api:update:event')
     public async addSponsor(@Param('id') eventId: string, @Body(new ValidationPipe()) dto: AddSponsorDto): Promise<Events> {
         return await this.eventsService.addSponsor(eventId, dto);
     }
 
-    @Put(':event_id/:attendee_id/scan')
-    @Permissions('csgames-api:set-status:event')
-    public async addScannedAttendee(@Param('event_id') eventId: string, @Param('attendee_id') attendeeId: string,
+    @Put(':attendee_id/scan')
+    @Permissions('csgames-api:set-scan:event')
+    public async addScannedAttendee(@EventId() eventId: string, @Param('attendee_id') attendeeId: string,
                                     @Body(new ValidationPipe()) body: AddScannedAttendee) {
         await this.eventsService.addScannedAttendee(eventId, attendeeId, body);
     }

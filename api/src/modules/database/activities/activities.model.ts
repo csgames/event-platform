@@ -2,8 +2,9 @@ import * as mongoose from "mongoose";
 import { Attendees } from "../attendees/attendees.model";
 
 export const ActivityTypes = [
-    'lunch',
-    'workshop'
+    'food',
+    'competition',
+    'other'
 ];
 
 export interface Activities extends mongoose.Document {
