@@ -10,7 +10,7 @@ import {
     SelectTeams,
     TeamsSeriesLoaded
 } from "./scoreboard.actions";
-import { catchError, debounceTime, map, switchMap } from "rxjs/operators";
+import { catchError, debounceTime, filter, map, switchMap } from "rxjs/operators";
 import { of } from "rxjs";
 import { GlobalError } from "../../../../store/app.actions";
 import { TeamSeries } from "../../../../api/models/puzzle-hero";
@@ -40,6 +40,7 @@ export class ScoreboardEffects {
     selectTeams$ = this.actions$.pipe(
         ofType<SelectTeams>(ScoreboardActionTypes.SelectTeams),
         debounceTime(500),
+        filter((action: SelectTeams) => action.selectedTeams.length > 0),
         map((action: SelectTeams) => new LoadTeamsSeries(action.selectedTeams))
     );
 

@@ -55,11 +55,11 @@
         </a>
         <div class="sublinks" *ngIf="isActive('puzzle-hero')">
             <a [routerLink]="['/puzzle-hero/tracks']" routerLinkActive="active">
-                Tracks
+                {{ "pages.puzzle_hero.tracks" | translate }}
             </a>
 
             <a [routerLink]="['/puzzle-hero/scoreboard']" routerLinkActive="active">
-                Scoreboard
+                {{ "pages.puzzle_hero.scoreboard" | translate }}
             </a>
         </div>
 

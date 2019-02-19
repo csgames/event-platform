@@ -143,6 +143,7 @@
 			"scoreboard": "Scoreboard",
 			"starred": "Starred tracks",
 			"track": "Track",
+			"tracks": "Tracks",
 			"wrong_answer": "Wrong answer!",
             "loading_error": "An error occured while loading the puzzle hero",
             "scoreboard_loading_error": "An error occured while loading the scoreboard"
