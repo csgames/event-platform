@@ -1,4 +1,4 @@
-import { BadRequestException, Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Get, Param, Post, Query, UseGuards } from '@nestjs/common';
 import { ApiUseTags } from '@nestjs/swagger';
 import { Permissions } from '../../../decorators/permission.decorator';
 import { PermissionsGuard } from '../../../guards/permission.guard';
@@ -11,9 +11,11 @@ import { User } from '../../../decorators/user.decorator';
 import { UserModel } from '../../../models/user.model';
 import { PuzzleGraphNodes } from './puzzle-graph-nodes/puzzle-graph.nodes.model';
 import { Tracks } from './tracks/tracks.model';
+import { Score } from './scoreboard/score.model';
+import { TeamSeries } from './scoreboard/team-series.model';
 
 @ApiUseTags('PuzzleHero')
-@Controller("puzzle-hero")
+@Controller('puzzle-hero')
 @UseGuards(PermissionsGuard)
 export class PuzzleHeroesController {
     constructor(private puzzleHeroService: PuzzleHeroesService) {
@@ -26,7 +28,7 @@ export class PuzzleHeroesController {
             event: eventId
         });
         if (puzzleHero) {
-            throw new BadRequestException("Cannot create more then one puzzle hero per event");
+            throw new BadRequestException('Cannot create more then one puzzle hero per event');
         }
         return await this.puzzleHeroService.create({
             ...dto,
@@ -48,10 +50,10 @@ export class PuzzleHeroesController {
         return await this.puzzleHeroService.createPuzzle(eventId, trackId, dto);
     }
 
-    @Post("validate")
+    @Post('validate')
     @Permissions('csgames-api:get:event')
     public async validateAnswer(@EventId() id: string): Promise<null> {
-        console.log("VALIDATE IS CALLED");
+        console.log('VALIDATE IS CALLED');
         return null;
     }
 
@@ -59,5 +61,17 @@ export class PuzzleHeroesController {
     @Permissions('csgames-api:get:puzzle-hero')
     public async get(@EventId() eventId: string, @User() user: UserModel): Promise<PuzzleHeroes> {
         return await this.puzzleHeroService.getByEvent(eventId, user.username);
+    }
+
+    @Get('scoreboard')
+    @Permissions('csgames-api:get:puzzle-hero')
+    public async getScoreboard(@EventId() eventId: string): Promise<Score[]> {
+        return await this.puzzleHeroService.getScoreboard(eventId);
+    }
+
+    @Get('team-series')
+    @Permissions('csgames-api:get:puzzle-hero')
+    public async getTeamsSeries(@EventId() eventId: string, @Query('teams-ids') teamsIds: string): Promise<TeamSeries[]> {
+        return await this.puzzleHeroService.getTeamsSeries(eventId, teamsIds.split(","));
     }
 }
