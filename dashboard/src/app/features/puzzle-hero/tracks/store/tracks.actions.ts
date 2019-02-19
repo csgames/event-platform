@@ -1,5 +1,5 @@
 import { Action } from "@ngrx/store";
-import { Track } from "../models/track";
+import { Track } from "../../../../api/models/puzzle-hero";
 
 export enum TracksActionTypes {
     LoadTracks = "[Puzzle Hero Tracks] Load tracks",

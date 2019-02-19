@@ -1,7 +1,7 @@
-import { Track } from "../models/track";
 import * as fromApp from "../../../../store/app.reducers";
 import { TracksActions, TracksActionTypes } from "./tracks.actions";
 import { createFeatureSelector, createSelector } from "@ngrx/store";
+import { Track } from "../../../../api/models/puzzle-hero";
 
 export interface TracksState {
     tracks: Track[];
@@ -60,9 +60,9 @@ export const getTracksState = createFeatureSelector<State, TracksState>("puzzleH
 export const getPuzzleHeroTracks = createSelector(getTracksState, (state: TracksState) => state.tracks);
 
 export const getPuzzleHeroStarredTracks = createSelector(getTracksState,
-    (state: TracksState) => state.tracks.filter(t => state.starredTracks.includes(t.id)));
+    (state: TracksState) => state.tracks.filter(t => state.starredTracks.includes(t._id)));
 export const getPuzzleHeroNotStarredTracks = createSelector(getTracksState,
-    (state: TracksState) => state.tracks.filter(t => !state.starredTracks.includes(t.id)));
+    (state: TracksState) => state.tracks.filter(t => !state.starredTracks.includes(t._id)));
 
 export const getPuzzleHeroLoading = createSelector(getTracksState, (state: TracksState) => state.loading);
 export const getPuzzleHeroError = createSelector(getTracksState, (state: TracksState) => state.error);

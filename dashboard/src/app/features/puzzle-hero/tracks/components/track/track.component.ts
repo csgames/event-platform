@@ -1,7 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 import * as shape from "d3-shape";
-import { PuzzleInfo, PuzzleTypes } from "../../models/puzzle";
-import { Track } from "../../models/track";
+import { PuzzleInfo, PuzzleTypes, Track } from "../../../../../api/models/puzzle-hero";
 import { PuzzleHeroService } from "../../../../../providers/puzzle-hero.service";
 
 @Component({
@@ -63,7 +62,7 @@ export class TrackComponent implements OnInit {
     }
 
     clickPuzzle(puzzle: PuzzleInfo) {
-        console.log(puzzle.id);
+        console.log(puzzle);
     }
 
     onClickStar(event: MouseEvent) {

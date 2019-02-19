@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from "@angular/core";
-import { PuzzleInfo, PuzzleTypes } from "../../models/puzzle";
+import { PuzzleInfo, PuzzleTypes } from "../../../../../api/models/puzzle-hero";
 
 @Component({
     selector: "[puzzle-tile]",
