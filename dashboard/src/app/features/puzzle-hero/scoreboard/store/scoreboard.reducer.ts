@@ -1,8 +1,7 @@
 import * as fromApp from "../../../../store/app.reducers";
-import { Score } from "../models/score";
 import { ScoreboardActions, ScoreboardActionTypes } from "./scoreboard.actions";
 import { createFeatureSelector, createSelector } from "@ngrx/store";
-import { TeamSeries } from "../models/team-series";
+import { Score, TeamSeries } from "../../../../api/models/puzzle-hero";
 
 export interface ScoreboardState {
     scores: Score[];

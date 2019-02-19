@@ -32,3 +32,15 @@ export interface PuzzleHero {
     releaseDate: string | Date;
     endDate: string | Date;
 }
+
+export interface Score {
+    teamId: string;
+    teamName: string;
+    schoolName: string;
+    score: number;
+}
+
+export interface TeamSeries {
+    name: string;
+    series: { value: number, name: Date }[];
+}

@@ -1,6 +1,5 @@
 import { Action } from "@ngrx/store";
-import { Score } from "../models/score";
-import { TeamSeries } from "../models/team-series";
+import { Score, TeamSeries } from "../../../../api/models/puzzle-hero";
 
 export enum ScoreboardActionTypes {
     LoadScores = "[Puzzle Hero Scoreboard] Load scores",

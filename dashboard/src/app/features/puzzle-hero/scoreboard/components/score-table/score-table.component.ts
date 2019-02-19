@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
+import { Score } from "../../../../../api/models/puzzle-hero";
 
 @Component({
     selector: "app-score-table",
@@ -13,7 +14,7 @@ export class ScoreTableComponent implements OnInit {
     selectedTeamsChange = new EventEmitter<string[]>();
 
     @Input()
-    scores: { teamId: string, teamName: string, schoolName: string, score: number }[];
+    scores: Score[];
 
     constructor() { }
 

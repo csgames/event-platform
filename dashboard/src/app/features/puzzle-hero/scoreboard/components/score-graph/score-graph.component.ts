@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from "@angular/core";
-import { TeamSeries } from "../../models/team-series";
+import { TeamSeries } from "../../../../../api/models/puzzle-hero";
 
 @Component({
     selector: "app-score-graph",

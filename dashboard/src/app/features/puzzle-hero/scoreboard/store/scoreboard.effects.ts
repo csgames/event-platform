@@ -12,8 +12,8 @@ import {
 } from "./scoreboard.actions";
 import { catchError, debounceTime, map, switchMap } from "rxjs/operators";
 import { of } from "rxjs";
-import { TeamSeries } from "../models/team-series";
 import { GlobalError } from "../../../../store/app.actions";
+import { TeamSeries } from "../../../../api/models/puzzle-hero";
 
 @Injectable()
 export class ScoreboardEffects {
