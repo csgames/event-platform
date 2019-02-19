@@ -13,7 +13,7 @@ import { Teams } from '../teams/teams.model';
 import { RedisService } from '../../redis/redis.service';
 import { Score } from './scoreboard/score.model';
 import { Schools } from '../schools/schools.model';
-import { TeamSeries } from './scoreboard/team-series.model';
+import { Serie, TeamSeries } from './scoreboard/team-series.model';
 
 export interface PuzzleDefinition extends PuzzleGraphNodes {
     completed: boolean;
@@ -140,12 +140,19 @@ export class PuzzleHeroesService extends BaseService<PuzzleHeroes, PuzzleHeroes>
         return track;
     }
 
-    public async setTeamScore(eventId: string, teamId: string, score: number): Promise<void> {
-        await this.redisService.zadd(`puzzle-hero:scoreboard:${eventId}`, teamId, score);
+    public async addTeamScore(eventId: string, teamId: string, score: number): Promise<void> {
+        let lastScore = await this.getTeamLastScore(eventId, teamId);
+        const newScore = lastScore + score;
+        const newSerie = {
+            name: new Date().toISOString(),
+            value: newScore
+        };
+        await this.redisService.lpush(this.getTeamSeriesKey(eventId, teamId), JSON.stringify(newSerie));
+        await this.redisService.zadd(this.getScoreboardKey(eventId), teamId, newScore);
     }
 
     public async getScoreboard(eventId: string): Promise<Score[]> {
-        const scores = await this.redisService.zrange(`puzzle-hero:scoreboard:${eventId}`, 0, -1);
+        const scores = await this.redisService.zrange(this.getScoreboardKey(eventId), 0, -1);
         return (await Promise.all(scores.map(async (s) => {
             try {
                 const team = await this.teamsModel.findOne({
@@ -182,23 +189,34 @@ export class PuzzleHeroesService extends BaseService<PuzzleHeroes, PuzzleHeroes>
         return await Promise.all(
             teamsIds.map(async (teamId: string) => {
                 const team = await this.teamsModel.findById(teamId);
-                const answers = puzzleHero.answers
-                    .filter(a => a.teamId.toString() === teamId)
-                    .sort(((a, b) => (a.timestamp < b.timestamp) ? -1 : ((a.timestamp > b.timestamp) ? 1 : 0)));
-                let lastScore = 0;
-                const teamSeries: TeamSeries = {
+                const series = await this.getAllTeamSeries(eventId, teamId);
+                return {
                     name: team.name,
-                    series: []
+                    series: series
                 };
-                for (let answer of answers) {
-                    lastScore += (answer.question as Questions).score;
-                    teamSeries.series.push({
-                        name: new Date(answer.timestamp),
-                        value: lastScore
-                    });
-                }
-                return teamSeries;
             })
         );
+    }
+
+    // Temporary TO REMOVE
+    public getAllTeams(): Promise<Teams[]> {
+        return this.teamsModel.find().exec();
+    }
+
+    private async getAllTeamSeries(eventId: string, teamId: string): Promise<Serie[]> {
+        return (await this.redisService.lrange(this.getTeamSeriesKey(eventId, teamId), 0, -1))
+            .map(s => JSON.parse(s) as Serie);
+    }
+
+    private getTeamLastScore(eventId: string, teamId: string): Promise<number> {
+        return this.redisService.zscore(this.getScoreboardKey(eventId), teamId);
+    }
+
+    private getScoreboardKey(eventId: string): string {
+        return `puzzle-hero:${eventId}:scoreboard`;
+    }
+
+    private getTeamSeriesKey(eventId: string, teamId: string): string {
+        return `puzzle-hero:${eventId}:${teamId}:scores`;
     }
 }

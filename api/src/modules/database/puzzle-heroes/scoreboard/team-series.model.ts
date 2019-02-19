@@ -1,4 +1,9 @@
 export interface TeamSeries {
     name: string;
-    series: { value: number, name: Date }[];
+    series: Serie[];
+}
+
+export interface Serie {
+    value: number;
+    name: Date;
 }

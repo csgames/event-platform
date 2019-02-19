@@ -57,6 +57,17 @@ export class PuzzleHeroesController {
         return null;
     }
 
+    @Post('mock')
+    @Permissions('csgames-api:get:puzzle-hero')
+    public async mockData(@EventId() eventId: string) {
+        setInterval(async () => {
+
+            const teams = await this.puzzleHeroService.getAllTeams();
+            const randTeam = teams[Math.floor(Math.random() * teams.length)];
+            await this.puzzleHeroService.addTeamScore(eventId, randTeam._id.toHexString(), Math.ceil(Math.random() * 20));
+        }, 30 * 1000);
+    }
+
     @Get()
     @Permissions('csgames-api:get:puzzle-hero')
     public async get(@EventId() eventId: string, @User() user: UserModel): Promise<PuzzleHeroes> {
@@ -72,6 +83,6 @@ export class PuzzleHeroesController {
     @Get('team-series')
     @Permissions('csgames-api:get:puzzle-hero')
     public async getTeamsSeries(@EventId() eventId: string, @Query('teams-ids') teamsIds: string): Promise<TeamSeries[]> {
-        return await this.puzzleHeroService.getTeamsSeries(eventId, teamsIds.split(","));
+        return await this.puzzleHeroService.getTeamsSeries(eventId, teamsIds.split(','));
     }
 }

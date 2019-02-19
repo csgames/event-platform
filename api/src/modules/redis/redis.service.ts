@@ -68,4 +68,8 @@ export class RedisService {
         }
         return scores.reverse();
     }
+
+    public async zscore(key: string, value: string): Promise<number> {
+        return +(await this.client.zscore(key, value));
+    }
 }
