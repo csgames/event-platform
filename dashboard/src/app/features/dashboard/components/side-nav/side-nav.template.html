@@ -22,7 +22,7 @@
                 </div>
             </div>
         </a>
-        <a *ngIf="(attendee$ | async)?.registered" [routerLink]="['/guide']" routerLinkActive="active">
+        <!-- <a *ngIf="(attendee$ | async)?.registered" [routerLink]="['/guide']" routerLinkActive="active">
             <div [fxLayout]="'row'" fxFlexFill>
                 <div fxFlex="20">
                     <i class="fas fa-book"></i>
@@ -31,8 +31,8 @@
                     {{ "pages.guide.guide" | translate }}
                 </div>
             </div>
-        </a>
-        <a *ngIf="(attendee$ | async)?.registered" [routerLink]="['/schedule']" routerLinkActive="active">
+        </a> -->
+        <!-- <a *ngIf="(attendee$ | async)?.registered" [routerLink]="['/schedule']" routerLinkActive="active">
             <div [fxLayout]="'row'" fxFlexFill>
                 <div fxFlex="20">
                     <i class="fal fa-calendar"></i>
@@ -41,7 +41,7 @@
                     {{ "pages.schedule.schedule" | translate }}
                 </div>
             </div>
-        </a>
+        </a> -->
         <!-- <a *ngIf="(attendee$ | async)?.registered" [routerLink]="['/puzzle-hero']" routerLinkActive="active">
             <div [fxLayout]="'row'" fxFlexFill>
                 <div fxFlex="20">
@@ -52,7 +52,7 @@
                 </div>
             </div>
         </a> -->
-        <ng-container *ifRole="['attendee', 'captain']">
+        <ng-container *ifRole="['attendee', 'captain', 'godparent']">
             <a *ngIf="!(attendee$ | async) || (attendee$ | async)?.registered" [routerLink]="['/team']" routerLinkActive="active">
                 <div [fxLayout]="'row'" fxFlexFill>
                     <div fxFlex="20">
@@ -74,7 +74,7 @@
                 </div>
             </div>
         </a>
-        <a *ngIf="(attendee$ | async)?.registered" [routerLink]="['/sponsors']" routerLinkActive="active">
+        <!-- <a *ngIf="(attendee$ | async)?.registered" [routerLink]="['/sponsors']" routerLinkActive="active">
             <div [fxLayout]="'row'" fxFlexFill>
                 <div fxFlex="20">
                     <i class="fal fa-gem"></i>
@@ -83,7 +83,7 @@
                     {{ "pages.sponsors.sponsors" | translate }}
                 </div>
             </div>
-        </a>
+        </a> -->
         <!-- <a *ngIf="(attendee$ | async)?.registered" [routerLink]="['/competition']" routerLinkActive="active">
             <div [fxLayout]="'row'" fxFlexFill>
                 <div fxFlex="20">
