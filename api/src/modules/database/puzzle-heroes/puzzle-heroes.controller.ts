@@ -1,4 +1,4 @@
-import { BadRequestException, Body, Controller, Get, Param, Post, Query, UseGuards } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
 import { ApiUseTags } from '@nestjs/swagger';
 import { Permissions } from '../../../decorators/permission.decorator';
 import { PermissionsGuard } from '../../../guards/permission.guard';
@@ -7,6 +7,10 @@ import { PuzzleHeroes } from './puzzle-heroes.model';
 import { EventId } from '../../../decorators/event-id.decorator';
 import { ValidationPipe } from '../../../pipes/validation.pipe';
 import { CreatePuzzleDto, CreatePuzzleHeroDto, CreateTrackDto } from './puzzle-heroes.dto';
+import { User } from '../../../decorators/user.decorator';
+import { UserModel } from '../../../models/user.model';
+import { PuzzleGraphNodes } from './puzzle-graph-nodes/puzzle-graph.nodes.model';
+import { Tracks } from './tracks/tracks.model';
 
 @ApiUseTags('PuzzleHero')
 @Controller("puzzle-hero")
@@ -32,7 +36,7 @@ export class PuzzleHeroesController {
 
     @Post('track')
     @Permissions('csgames-api:create:puzzle-hero')
-    public async createTrack(@Body(ValidationPipe) dto: CreateTrackDto, @EventId() eventId: string): Promise<void> {
+    public async createTrack(@Body(ValidationPipe) dto: CreateTrackDto, @EventId() eventId: string): Promise<Tracks> {
         return await this.puzzleHeroService.createTrack(eventId, dto);
     }
 
@@ -40,7 +44,7 @@ export class PuzzleHeroesController {
     @Permissions('csgames-api:create:puzzle-hero')
     public async createPuzzle(@Body(ValidationPipe) dto: CreatePuzzleDto,
                               @Param('trackId') trackId: string,
-                              @EventId() eventId: string): Promise<void> {
+                              @EventId() eventId: string): Promise<PuzzleGraphNodes> {
         return await this.puzzleHeroService.createPuzzle(eventId, trackId, dto);
     }
 
@@ -53,7 +57,7 @@ export class PuzzleHeroesController {
 
     @Get()
     @Permissions('csgames-api:get:puzzle-hero')
-    public async get(@Query("team") team: string, @EventId() eventId: string): Promise<PuzzleHeroes> {
-        return await this.puzzleHeroService.getByEvent(eventId, team);
+    public async get(@EventId() eventId: string, @User() user: UserModel): Promise<PuzzleHeroes> {
+        return await this.puzzleHeroService.getByEvent(eventId, user.username);
     }
 }

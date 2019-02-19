@@ -1,9 +1,10 @@
 import { Questions } from '../../questions/questions.model';
 import * as mongoose from 'mongoose';
 
-export interface PuzzleGraphNodes {
+export interface PuzzleGraphNodes extends mongoose.Document {
+    _id: mongoose.Types.ObjectId;
     question: (Questions | mongoose.Types.ObjectId | string);
-    depends: (Questions | mongoose.Types.ObjectId | string);
+    dependsOn: (Questions | mongoose.Types.ObjectId | string);
 }
 
 export const PuzzleGraphNodesSchema = new mongoose.Schema({
@@ -12,7 +13,7 @@ export const PuzzleGraphNodesSchema = new mongoose.Schema({
         ref: "questions",
         required: true
     },
-    depends: {
+    dependsOn: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "questions",
         required: false

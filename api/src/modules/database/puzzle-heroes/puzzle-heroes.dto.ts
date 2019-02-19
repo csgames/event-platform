@@ -24,5 +24,5 @@ export class CreateTrackDto {
 export class CreatePuzzleDto extends CreateQuestionDto {
     @IsOptional()
     @IsMongoId()
-    depends: string;
+    dependsOn: string;
 }
