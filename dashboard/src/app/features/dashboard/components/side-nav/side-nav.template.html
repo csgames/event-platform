@@ -12,7 +12,8 @@
                 </div>
             </div>
         </a> -->
-        <a *ngIf="(attendee$ | async) && !((attendee$ | async)?.registered)" [routerLink]="['/onboarding']" routerLinkActive="active">
+        <a *ngIf="(attendee$ | async) && !((attendee$ | async)?.registered)" [routerLink]="['/onboarding']"
+           routerLinkActive="active">
             <div [fxLayout]="'row'" fxFlexFill>
                 <div fxFlex="20">
                     <i class="fal fa-id-card"></i>
@@ -52,8 +53,19 @@
                 </div>
             </div>
         </a>
+        <div class="sublinks" *ngIf="isActive('puzzle-hero')">
+            <a [routerLink]="['/puzzle-hero/tracks']" routerLinkActive="active">
+                Tracks
+            </a>
+
+            <a [routerLink]="['/puzzle-hero/scoreboard']" routerLinkActive="active">
+                Scoreboard
+            </a>
+        </div>
+
         <ng-container *ifRole="['attendee', 'captain']">
-            <a *ngIf="!(attendee$ | async) || (attendee$ | async)?.registered" [routerLink]="['/team']" routerLinkActive="active">
+            <a *ngIf="!(attendee$ | async) || (attendee$ | async)?.registered" [routerLink]="['/team']"
+               routerLinkActive="active">
                 <div [fxLayout]="'row'" fxFlexFill>
                     <div fxFlex="20">
                         <i class="fal fa-users"></i>

@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 import * as shape from "d3-shape";
-import { PuzzleHeroService } from "../../../../providers/puzzle-hero.service";
-import { PuzzleInfo, PuzzleTypes, Track } from "../../../../api/models/puzzle-hero";
+import { PuzzleInfo, PuzzleTypes, Track } from "../../../../../api/models/puzzle-hero";
+import { PuzzleHeroService } from "../../../../../providers/puzzle-hero.service";
 
 @Component({
     selector: "app-track",
@@ -34,7 +34,6 @@ export class TrackComponent implements OnInit {
     showGraph() {
         this.nodes = this.track.puzzles;
         this.links = this.getLinks(this.track.puzzles);
-        console.log(this.links);
     }
 
     getLinks(puzzles: PuzzleInfo[]): { source: string, target: string }[] {
