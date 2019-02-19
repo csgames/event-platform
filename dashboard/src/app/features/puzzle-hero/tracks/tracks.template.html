@@ -1,4 +1,4 @@
-<h1>PUZZLE HERO</h1>
+<h1>{{ "pages.puzzle_hero.puzzle_hero" | translate }}</h1>
 
 <app-loading-spinner [loading]="loading$ | async">
 </app-loading-spinner>
@@ -15,7 +15,7 @@
             <div class="row mt-4">
                 <div class="col-sm-7">
                     <h3>
-                        Starred tracks
+                        {{ "pages.puzzle_hero.starred" }}
                     </h3>
                 </div>
             </div>
@@ -29,7 +29,7 @@
         <div class="row mt-4">
             <div class="col-sm-7">
                 <h3>
-                    All tracks
+                    {{ "pages.puzzle_hero.all" | translate }}
                 </h3>
             </div>
         </div>

@@ -2,13 +2,13 @@ import { Action } from "@ngrx/store";
 import { Track } from "../models/track";
 
 export enum TracksActionTypes {
-    LoadTracks = "[Puzzle Hero] Load tracks",
-    TracksLoaded = "[Puzzle Hero] Tracks loaded",
-    LoadTracksError = "[Puzzle Hero] Load tracks error",
+    LoadTracks = "[Puzzle Hero Tracks] Load tracks",
+    TracksLoaded = "[Puzzle Hero Tracks] Tracks loaded",
+    LoadTracksError = "[Puzzle Hero Tracks] Load tracks error",
 
-    LoadStarredTracks = "[Puzzle Hero] Load starred tracks",
-    StarredTracksLoaded = "[Puzzle Hero] Starred tracks loaded",
-    StarTrack = "[Puzzle Hero] Star track"
+    LoadStarredTracks = "[Puzzle Hero Tracks] Load starred tracks",
+    StarredTracksLoaded = "[Puzzle Hero Tracks] Starred tracks loaded",
+    StarTrack = "[Puzzle Hero Tracks] Star track"
 }
 
 export class LoadTracks implements Action {

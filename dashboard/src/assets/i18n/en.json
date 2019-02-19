@@ -135,7 +135,7 @@
             "code": "this disclaimer"
 		},
 		"puzzle_hero": {
-			"other": "Other tracks",
+			"all": "All tracks",
 			"position": "Position",
 			"puzzle": "Puzzle",
 			"puzzle_hero": "Puzzle Hero",
@@ -143,7 +143,9 @@
 			"scoreboard": "Scoreboard",
 			"starred": "Starred tracks",
 			"track": "Track",
-			"wrong_answer": "Wrong answer!"
+			"wrong_answer": "Wrong answer!",
+            "loading_error": "An error occured while loading the puzzle hero",
+            "scoreboard_loading_error": "An error occured while loading the scoreboard"
 		},
 		"register": {
 			"already_have_account": "Already have an account?",

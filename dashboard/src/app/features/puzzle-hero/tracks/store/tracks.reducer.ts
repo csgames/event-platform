@@ -11,7 +11,7 @@ export interface TracksState {
 }
 
 export interface State extends fromApp.State {
-    puzzleHero: TracksState;
+    puzzleHeroTracks: TracksState;
 }
 
 export const initialState: TracksState = {
@@ -55,7 +55,7 @@ export function reducer(state = initialState, action: TracksActions): TracksStat
     return state;
 }
 
-export const getTracksState = createFeatureSelector<State, TracksState>("puzzleHero");
+export const getTracksState = createFeatureSelector<State, TracksState>("puzzleHeroTracks");
 
 export const getPuzzleHeroTracks = createSelector(getTracksState, (state: TracksState) => state.tracks);
 

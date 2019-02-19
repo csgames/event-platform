@@ -30,7 +30,7 @@ import { LoadingSpinnerModule } from "../../../components/loading-spinner/loadin
         LoadingSpinnerModule,
         TranslateModule,
 
-        StoreModule.forFeature("puzzleHero", fromPuzzleHero.reducer),
+        StoreModule.forFeature("puzzleHeroTracks", fromPuzzleHero.reducer),
         EffectsModule.forFeature([TracksEffects])
     ],
     exports: [],
