@@ -130,8 +130,9 @@ export class PuzzleHeroesService extends BaseService<PuzzleHeroes, PuzzleHeroes>
             puzzle.completed = puzzleHero.answers.some(x => x.teamId === teamId && x.question === puzzle.question);
 
             puzzle.label = (puzzle.question as Questions).label;
-            puzzle.description = (puzzle.question as Questions).description;
             puzzle.type = (puzzle.question as Questions).type;
+
+            puzzle.description = (puzzle.question as Questions).description;
             if (type && puzzle.type !== type) {
                 continue;
             }
@@ -145,6 +146,7 @@ export class PuzzleHeroesService extends BaseService<PuzzleHeroes, PuzzleHeroes>
             const depends = puzzleHero.answers.find(x => x.teamId === teamId && x.question === puzzle.dependsOn);
             if (!depends) {
                 puzzle.locked = true;
+                delete puzzle.description;
             }
         }
         track.puzzles = puzzles;
