@@ -14,6 +14,7 @@ import { RedisService } from '../../redis/redis.service';
 import { Score } from './scoreboard/score.model';
 import { Schools } from '../schools/schools.model';
 import { Serie, TeamSeries } from './scoreboard/team-series.model';
+import { PuzzleHeroesGateway } from './puzzle-heroes.gateway';
 
 export interface PuzzleDefinition extends PuzzleGraphNodes {
     completed: boolean;
@@ -26,11 +27,12 @@ export interface PuzzleDefinition extends PuzzleGraphNodes {
 @Injectable()
 export class PuzzleHeroesService extends BaseService<PuzzleHeroes, PuzzleHeroes> {
     constructor(@InjectModel('puzzle-heroes') private readonly puzzleHeroesModel: Model<PuzzleHeroes>,
-        @InjectModel('questions') private readonly questionsModel: Model<Questions>,
-        @InjectModel('attendees') private readonly attendeesModel: Model<Attendees>,
-        @InjectModel('teams') private readonly teamsModel: Model<Teams>,
-        @InjectModel('schools') private readonly schoolsModel: Model<Schools>,
-        private redisService: RedisService) {
+                @InjectModel('questions') private readonly questionsModel: Model<Questions>,
+                @InjectModel('attendees') private readonly attendeesModel: Model<Attendees>,
+                @InjectModel('teams') private readonly teamsModel: Model<Teams>,
+                @InjectModel('schools') private readonly schoolsModel: Model<Schools>,
+                private puzzleHeroesGateway: PuzzleHeroesGateway,
+                private redisService: RedisService) {
         super(puzzleHeroesModel);
     }
 
@@ -162,8 +164,9 @@ export class PuzzleHeroesService extends BaseService<PuzzleHeroes, PuzzleHeroes>
         };
         await this.redisService.lpush(this.getTeamSeriesKey(eventId, teamId), JSON.stringify(newSerie));
         await this.redisService.zadd(this.getScoreboardKey(eventId), teamId, newScore);
+        this.puzzleHeroesGateway.sendScoreboardUpdateMessage();
     }
-    
+
     public async getScoreboard(eventId: string): Promise<Score[]> {
         const scores = await this.redisService.zrange(this.getScoreboardKey(eventId), 0, -1);
         return (await Promise.all(scores.map(async (s) => {
