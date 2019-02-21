@@ -2,7 +2,7 @@ import { BadRequestException, Body, Controller, Get, Param, Post, Query, UseGuar
 import { ApiUseTags } from '@nestjs/swagger';
 import { Permissions } from '../../../decorators/permission.decorator';
 import { PermissionsGuard } from '../../../guards/permission.guard';
-import { PuzzleHeroesService } from './puzzle-heroes.service';
+import { PuzzleHeroesService, PuzzleDefinition } from './puzzle-heroes.service';
 import { PuzzleHeroes } from './puzzle-heroes.model';
 import { EventId } from '../../../decorators/event-id.decorator';
 import { ValidationPipe } from '../../../pipes/validation.pipe';
@@ -70,8 +70,9 @@ export class PuzzleHeroesController {
 
     @Get()
     @Permissions('csgames-api:get:puzzle-hero')
-    public async get(@EventId() eventId: string, @User() user: UserModel): Promise<PuzzleHeroes> {
-        return await this.puzzleHeroService.getByEvent(eventId, user.username);
+    public async get(@EventId() eventId: string, @User() user: UserModel,
+                     @Query('type') type: string): Promise<PuzzleHeroes> {
+        return await this.puzzleHeroService.getByEvent(eventId, user.username, type);
     }
 
     @Get('scoreboard')

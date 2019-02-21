@@ -4,7 +4,7 @@ import * as mongoose from "mongoose";
 export enum TrackTypes {
     Crypto = "crypto",
     Gaming = "gaming",
-    Scavender = "scavenger",
+    Scavenger = "scavenger",
     Sponsor = "sponsor"
 }
 
@@ -13,7 +13,8 @@ export interface Tracks extends mongoose.Document {
     label: string;
     type: TrackTypes;
     puzzles: PuzzleGraphNodes[];
-    releaseDate: Date;
+    releaseDate: Date | string;
+    endDate: Date | string;
 }
 
 export const TracksSchema = new mongoose.Schema({
@@ -31,6 +32,10 @@ export const TracksSchema = new mongoose.Schema({
         required: true
     },
     releaseDate: {
+        type: Date,
+        required: true
+    },
+    endDate: {
         type: Date,
         required: true
     }

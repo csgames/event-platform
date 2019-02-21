@@ -19,21 +19,22 @@ export interface PuzzleDefinition extends PuzzleGraphNodes {
     completed: boolean;
     locked: boolean;
     label: string;
+    description: string;
     type: string;
 }
 
 @Injectable()
 export class PuzzleHeroesService extends BaseService<PuzzleHeroes, PuzzleHeroes> {
     constructor(@InjectModel('puzzle-heroes') private readonly puzzleHeroesModel: Model<PuzzleHeroes>,
-                @InjectModel('questions') private readonly questionsModel: Model<Questions>,
-                @InjectModel('attendees') private readonly attendeesModel: Model<Attendees>,
-                @InjectModel('teams') private readonly teamsModel: Model<Teams>,
-                @InjectModel('schools') private readonly schoolsModel: Model<Schools>,
-                private redisService: RedisService) {
+        @InjectModel('questions') private readonly questionsModel: Model<Questions>,
+        @InjectModel('attendees') private readonly attendeesModel: Model<Attendees>,
+        @InjectModel('teams') private readonly teamsModel: Model<Teams>,
+        @InjectModel('schools') private readonly schoolsModel: Model<Schools>,
+        private redisService: RedisService) {
         super(puzzleHeroesModel);
     }
 
-    public async getByEvent(eventId: string, email: string): Promise<PuzzleHeroes> {
+    public async getByEvent(eventId: string, email: string, type: string): Promise<PuzzleHeroes> {
         const puzzleHero = await this.puzzleHeroesModel.findOne({
             event: eventId
         }).populate({
@@ -55,11 +56,16 @@ export class PuzzleHeroesService extends BaseService<PuzzleHeroes, PuzzleHeroes>
 
         const res = [];
         for (const track of puzzleHero.tracks) {
-            res.push(await this.formatTrack(track.toJSON(), puzzleHero, teamId));
+            const t = await this.formatTrack(track.toJSON(), puzzleHero, teamId, type);
+            if (t.puzzles.length > 0) {
+                res.push(t);
+            }
         }
 
         return {
-            tracks: res
+            tracks: res,
+            endDate: puzzleHero.endDate,
+            releaseDate: puzzleHero.releaseDate
         } as PuzzleHeroes;
     }
 
@@ -118,15 +124,20 @@ export class PuzzleHeroesService extends BaseService<PuzzleHeroes, PuzzleHeroes>
             .puzzles.find(x => (x.question as mongoose.Types.ObjectId).equals(question._id));
     }
 
-    private async formatTrack(track: Tracks, puzzleHero: PuzzleHeroes, teamId: string): Promise<Tracks> {
+    private async formatTrack(track: Tracks, puzzleHero: PuzzleHeroes, teamId: string, type?: string): Promise<Tracks> {
+        const puzzles = [];
         for (const puzzle of track.puzzles as PuzzleDefinition[]) {
             puzzle.completed = puzzleHero.answers.some(x => x.teamId === teamId && x.question === puzzle.question);
-        }
-        for (const puzzle of track.puzzles as PuzzleDefinition[]) {
+
             puzzle.label = (puzzle.question as Questions).label;
+            puzzle.description = (puzzle.question as Questions).description;
             puzzle.type = (puzzle.question as Questions).type;
+            if (type && puzzle.type !== type) {
+                continue;
+            }
             delete puzzle.question;
 
+            puzzles.push(puzzle);
             puzzle.locked = false;
             if (!puzzle.dependsOn) {
                 continue;
@@ -136,7 +147,7 @@ export class PuzzleHeroesService extends BaseService<PuzzleHeroes, PuzzleHeroes>
                 puzzle.locked = true;
             }
         }
-
+        track.puzzles = puzzles;
         return track;
     }
 
@@ -150,7 +161,7 @@ export class PuzzleHeroesService extends BaseService<PuzzleHeroes, PuzzleHeroes>
         await this.redisService.lpush(this.getTeamSeriesKey(eventId, teamId), JSON.stringify(newSerie));
         await this.redisService.zadd(this.getScoreboardKey(eventId), teamId, newScore);
     }
-
+    
     public async getScoreboard(eventId: string): Promise<Score[]> {
         const scores = await this.redisService.zrange(this.getScoreboardKey(eventId), 0, -1);
         return (await Promise.all(scores.map(async (s) => {
@@ -197,6 +208,7 @@ export class PuzzleHeroesService extends BaseService<PuzzleHeroes, PuzzleHeroes>
             })
         );
     }
+
 
     // Temporary TO REMOVE
     public getAllTeams(): Promise<Teams[]> {
