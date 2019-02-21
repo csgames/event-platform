@@ -2,6 +2,8 @@ import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 import * as shape from "d3-shape";
 import { PuzzleInfo, PuzzleTypes, Track } from "../../../../../api/models/puzzle-hero";
 import { PuzzleHeroService } from "../../../../../providers/puzzle-hero.service";
+import { SimpleModalService } from "ngx-simple-modal";
+import { InfoPuzzleHeroComponent } from "../info-puzzle-hero/info-puzzle-hero.component";
 
 @Component({
     selector: "app-track",
@@ -22,7 +24,7 @@ export class TrackComponent implements OnInit {
 
     isOpen = false;
 
-    constructor(private puzzleHeroService: PuzzleHeroService) {}
+    constructor(private puzzleHeroService: PuzzleHeroService, private modalService: SimpleModalService) {}
 
     public ngOnInit() {}
 
@@ -62,7 +64,10 @@ export class TrackComponent implements OnInit {
     }
 
     clickPuzzle(puzzle: PuzzleInfo) {
-        console.log(puzzle);
+        if (!puzzle.locked) {
+            console.log(puzzle);
+            this.modalService.addModal(InfoPuzzleHeroComponent, {puzzle});
+        }
     }
 
     onClickStar(event: MouseEvent) {
