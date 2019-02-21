@@ -7,7 +7,9 @@ import { map } from "rxjs/operators";
 import { AttendeeModel } from "./models/attendee";
 import { EventGuide } from "./models/guide";
 import { Sponsors } from "./models/sponsors";
+import { Activity } from "./models/activity";
 import { Team } from "./models/team";
+import { AppNotification } from "./models/notification";
 
 
 @Injectable()
@@ -56,14 +58,22 @@ export class EventApi extends CSGamesApi {
     }
 
     public getSponsorsList(): Observable<{ [id: string]: Sponsors[] }> {
-        return this.http.get<{ [id: string]: Sponsors[] }>(this.url("sponsor"), {
-            withCredentials: true
-        });
+        return this.http.get<{ [id: string]: Sponsors[] }>(this.url("sponsor"), { withCredentials: true });
+    }
+
+    public getActivitiesForEvent(): Observable<Activity[]> {
+        return this.http.get<Activity[]>(this.url("activity"), { withCredentials: true });
+    }
+
+    public getTeams(): Observable<Team[]> {
+        return this.http.get<Team[]>(this.url("team"), { withCredentials: true });
     }
     
-    public getTeams(): Observable<Team[]> {
-        return this.http.get<Team[]>(this.url("team"), {
-            withCredentials: true
-        });
+    public checkUnseenNotifications(): Observable<AppNotification[]> {
+        return this.http.get<AppNotification[]>(this.url("notification?seen=false"), { withCredentials: true });
+    }
+
+    public getNotifications(): Observable<AppNotification[]> {
+        return this.http.get<AppNotification[]>(this.url("notification"), { withCredentials: true });
     }
 }

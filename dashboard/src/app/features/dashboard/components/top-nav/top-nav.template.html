@@ -3,10 +3,10 @@
         <i class="fas fa-bars toggle-side-nav-icon"></i>
     </div>
     <span fxFlex></span>
-    <div *ngIf="false" class="nav-link" (click)="clickNotificationsButton()">
+    <!-- <div class="nav-link" (click)="clickNotificationsButton()">
         <i class="far fa-bell notification-icon"></i>
-        <span class="badge badge-danger count-info">&nbsp;</span>
-    </div>
+        <span *ngIf="unseen$ | async" class="badge badge-danger count-info">&nbsp;</span>
+    </div> -->
     <div class="btn-group" dropdown placement="bottom left">
         <ng-container *ngIf="currentAttendee$ | async as currentAttendee">
             <a dropdownToggle class="dropdown-identity-toggle nav-link">

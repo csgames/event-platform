@@ -14,7 +14,13 @@ export enum AppActionTypes {
     EditProfile = "[App] Edit profile",
     Logout = "[App] Logout",
     ChangeLanguage = "[App] Change language",
-    ChangePassword = "[App] Change password"
+    ChangePassword = "[App] Change password",
+    CheckUnseenNotification = "[App] Check unseen notification",
+    HasUnseenNotification = "[App] Has unseen notification",
+    AllNotificationsSeen = "[App] All notifications seen",
+    InitializeMessaging = "[App] Initialize messaging",
+    SetMessagingToken = "[App] Set messaging",
+    SetupMessagingToken = "[App] Setup messaging token"
 }
 
 export class ChangeLanguage implements Action {
@@ -71,6 +77,28 @@ export class ChangePassword implements Action {
     readonly type = AppActionTypes.ChangePassword;
 }
 
+export class CheckUnseenNotification implements Action {
+    readonly type = AppActionTypes.CheckUnseenNotification;
+}
+
+export class HasUnseenNotification implements Action {
+    readonly type = AppActionTypes.HasUnseenNotification;
+}
+
+export class AllNotificationsSeen implements Action {
+    readonly type = AppActionTypes.AllNotificationsSeen;
+}
+
+export class InitializeMessaging implements Action {
+    readonly type = AppActionTypes.InitializeMessaging;
+}
+
+export class SetupMessagingToken implements Action {
+    readonly type = AppActionTypes.SetupMessagingToken;
+
+    constructor(public payload: string) {}
+}
+
 export type AppActions =
     | GlobalError
     | Logout
@@ -83,4 +111,9 @@ export type AppActions =
     | EditProfile
     | LoadCurrentAttendee
     | ChangeLanguage
-    | ChangePassword;
+    | ChangePassword
+    | CheckUnseenNotification
+    | HasUnseenNotification
+    | AllNotificationsSeen
+    | InitializeMessaging
+    | SetupMessagingToken;

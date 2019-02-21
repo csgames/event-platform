@@ -45,6 +45,9 @@
             "captain_informations": "Captain informations",
             "team_informations": "Team informations",
             "max_members": "Nombre de membres maximal"
+        },
+        "notification": {
+            "no_notification": "You have no notifications"
         }
 	},
 	"errors": {
@@ -66,7 +69,8 @@
 			"reset": "Reset",
 			"save": "Save",
 			"send": "Send",
-			"subscribe": "Subscribe",
+            "subscribe": "Subscribe",
+            "subscribed": "Subscribed",
 			"validate": "Validate"
 		},
 		"error": {
@@ -100,6 +104,10 @@
         },
         "search": {
             "search": "Search"
+        },
+        "update": {
+            "update_available": "New version available!",
+            "update": "Update"
         }
 	},
 	"pages": {

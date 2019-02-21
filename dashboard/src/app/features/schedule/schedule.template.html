@@ -1,0 +1,63 @@
+<h1>{{ "pages.schedule.schedule" | translate }}</h1>
+<app-loading-spinner [loading]="loading$"></app-loading-spinner>
+<tabset type="pills">
+    <tab *ngFor="let date of dates" [heading]="date">
+        <div *ngFor="let time of getSortedKeysForDaySchedule(activitiesPerDay[date])">
+            <div class="time-card">
+                <div class="card-body time-card-body">
+                    <span>{{ time }}</span>
+                </div>
+            </div>
+            <ng-container [ngSwitch]="activitiesPerDay[date][time].length">
+                <ng-container *ngSwitchCase="1">
+                    <div class="row">
+                        <div class="col-12">
+                            <app-activity-card [activity]="activitiesPerDay[date][time][0]" [time]="time" (info)="onShowInfo(activitiesPerDay[date][time][0], time)"></app-activity-card>
+                        </div>
+                    </div>
+                </ng-container>
+                <ng-container *ngSwitchCase="2">
+                    <div class="row">
+                        <div class="col-lg-6 col-sm-12">
+                            <app-activity-card [activity]="activitiesPerDay[date][time][0]" [time]="time" (info)="onShowInfo(activitiesPerDay[date][time][0], time)"></app-activity-card>
+                        </div>
+                        <div class="col-lg-6 col-sm-12">
+                            <app-activity-card [activity]="activitiesPerDay[date][time][1]" [time]="time" (info)="onShowInfo(activitiesPerDay[date][time][1], time)"></app-activity-card>
+                        </div>
+                    </div>
+                </ng-container>
+                <ng-container *ngSwitchCase="3">
+                    <div class="row">
+                        <div class="col-xl-4 col-lg-12">
+                            <app-activity-card [activity]="activitiesPerDay[date][time][0]" [time]="time" (info)="onShowInfo(activitiesPerDay[date][time][0], time)"></app-activity-card>
+                        </div>
+                        <div class="col-xl-4 col-lg-12">
+                            <app-activity-card [activity]="activitiesPerDay[date][time][1]" [time]="time" (info)="onShowInfo(activitiesPerDay[date][time][1], time)"></app-activity-card>
+                        </div>
+                        <div class="col-xl-4 col-lg-12">
+                            <app-activity-card [activity]="activitiesPerDay[date][time][2]" [time]="time" (info)="onShowInfo(activitiesPerDay[date][time][2], time)"></app-activity-card>
+                        </div>
+                    </div>
+                </ng-container>
+                <ng-container *ngSwitchCase="4">
+                    <div class="row">
+                        <div class="col-lg-6 col-sm-12">
+                            <app-activity-card [activity]="activitiesPerDay[date][time][0]" [time]="time" (info)="onShowInfo(activitiesPerDay[date][time][0], time)"></app-activity-card>
+                        </div>
+                        <div class="col-lg-6 col-sm-12">
+                            <app-activity-card [activity]="activitiesPerDay[date][time][1]" [time]="time" (info)="onShowInfo(activitiesPerDay[date][time][1], time)"></app-activity-card>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6 col-sm-12">
+                            <app-activity-card [activity]="activitiesPerDay[date][time][2]" [time]="time" (info)="onShowInfo(activitiesPerDay[date][time][2], time)"></app-activity-card>
+                        </div>
+                        <div class="col-lg-6 col-sm-12">
+                            <app-activity-card [activity]="activitiesPerDay[date][time][3]" [time]="time" (info)="onShowInfo(activitiesPerDay[date][time][3], time)"></app-activity-card>
+                        </div>
+                    </div>
+                </ng-container>
+            </ng-container>
+        </div>
+    </tab>
+</tabset>

@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from "@angular/core";
 import { TeamSeries } from "../../../../../api/models/puzzle-hero";
+import { Observable } from "rxjs";
 
 @Component({
     selector: "app-score-graph",
@@ -35,7 +36,7 @@ export class ScoreGraphComponent implements OnInit {
     teamsSeries: TeamSeries[] = [];
 
     @Input()
-    loading = false;
+    loading: Observable<boolean>;
 
     constructor() { }
 

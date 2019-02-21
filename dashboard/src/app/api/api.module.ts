@@ -11,6 +11,7 @@ import { TeamApi } from "./team.api";
 import { UserApi } from "./user.api";
 import { SchoolApi } from "./school.api";
 import { PuzzleHeroApi } from "./puzzle-hero.api";
+import { ActivityApi } from "./activity.api";
 
 @NgModule({
     imports: [
@@ -27,7 +28,8 @@ import { PuzzleHeroApi } from "./puzzle-hero.api";
         TeamApi,
         PuzzleHeroApi,
         ApiService,
-        UserApi
+        UserApi,
+        ActivityApi
     ]
 })
 export class ApiModule {}

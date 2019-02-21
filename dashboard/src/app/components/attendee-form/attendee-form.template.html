@@ -92,7 +92,7 @@
         <div class="col-sm-12 ellipsis">
             <div class="input-group">
                 <app-file-upload class="upload" placeholder='{{ "components.profile.cv" | translate }}'
-                                 [formControl]="formGroup?.controls.cv" controlStatus ngDefaultControl
+                                 [formControl]="formGroup?.controls['cv']" controlStatus ngDefaultControl
                                  (download)="downloadCv.emit()">
                 </app-file-upload>
             </div>

@@ -7,7 +7,7 @@ const routes: Routes = [
         path: "",
         loadChildren: "src/app/features/team/attendee-team-view/attendee-team-view.module#AttendeeTeamViewModule",
         canActivate: [RoleGuard],
-        data: { roles: ["attendee", "captain"], redirect: "team/edit" }
+        data: { roles: ["attendee", "captain", "godparent"], redirect: "team/edit" }
     },
     {
         path: "edit",

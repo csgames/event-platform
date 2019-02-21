@@ -11,4 +11,12 @@ export class AttendeeService {
     getAttendeeInfo(): Observable<Attendee> {
         return this.apiService.attendee.getAttendeeInfo();
     }
+
+    addMessagingToken(token: string): Observable<void> {
+        return this.apiService.attendee.addMessagingToken(token);
+    }
+
+    removeMessagingToken(token: string): Observable<void> {
+        return this.apiService.attendee.removeMessagingToken(token);
+    }
 }

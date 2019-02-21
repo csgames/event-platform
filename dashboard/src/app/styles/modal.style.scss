@@ -1,3 +1,36 @@
+.modal-dialog {
+    margin: 0 auto !important;
+}
+
+@media(max-width: 544px) {
+    .modal-content {
+        margin-bottom: 0 !important;
+    }
+
+    .modal-centered .modal-lg .modal-content {
+        border-radius: 0 !important;
+    }
+
+    .modal-lg {
+        width: 100%;
+    }
+}
+
+@media(max-width: 320px) {
+    .modal-content {
+        margin-bottom: 0 !important;
+    }
+
+    .modal-centered .modal-lg .modal-content {
+        border-radius: 0 !important;
+        width: 320px;
+    }
+
+    .modal-lg {
+        width: 320px;
+    }
+}
+
 .modal-centered {
     overflow: hidden !important;
     height: 100%;
@@ -24,7 +57,7 @@
     }
 
     .modal-content {
-        border-radius: 10px !important;
+        border-radius: 10px;
         background-color: #fff !important;
         border: 1px solid #f2f6f7 !important;
         box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px;

@@ -1,6 +1,6 @@
 <h1>SCOREBOARD</h1>
 
-<app-loading-spinner [loading]="loading$ | async">
+<app-loading-spinner [loading]="loading$">
 </app-loading-spinner>
 <ng-container *ngIf="error$ | async; else scoreboard">
     <div style="text-align: center">
@@ -13,7 +13,7 @@
     <ng-container *ngIf="selectedTeamIds$ | async as selectedTeamIds">
         <app-score-graph
             *ngIf="selectedTeamIds.length > 0"
-            [loading]="scoreGraphLoading$ | async"
+            [loading]="scoreGraphLoading$"
             [teamsSeries]="teamsSeries$ | async"></app-score-graph>
     </ng-container>
     <app-score-table

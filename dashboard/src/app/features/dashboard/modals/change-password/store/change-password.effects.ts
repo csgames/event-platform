@@ -5,8 +5,6 @@ import { ToastrService } from "ngx-toastr";
 import { ChangePasswordActionTypes, PerformChangePassword, PasswordChanged, ChangePasswordFailure } from "./change-password.actions";
 import { switchMap, map, catchError, tap } from "rxjs/operators";
 import { UserService } from "../providers/user.service";
-import { AttendeeUpdated } from "../../profile-setting/store/profile-setting.actions";
-import { GlobalError } from "src/app/store/app.actions";
 import { of } from "rxjs";
 
 @Injectable()
