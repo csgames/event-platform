@@ -33,6 +33,8 @@ export class QuestionsService {
         switch (question.validationType) {
             case ValidationTypes.String:
                 return this.validateString(answer, question.answer);
+            case ValidationTypes.Regex:
+                return this.validateRegex(answer, question.answer);
             default:
                 return false;
         } 
@@ -42,11 +44,10 @@ export class QuestionsService {
         return userAnswer === answer;
     }
 
-    // public async validateRegex(answer: string, questionId: string): Promise<boolean> {
-    //     let questionAnswer = await this.getAnswerObject(questionId);
-    //     let regex = new RegExp(questionAnswer);
-    //     return regex.test(answer);
-    // }
+    public async validateRegex(userAnswer: string, questionRegex: string): Promise<boolean> {
+        let regex = new RegExp(questionRegex);
+        return regex.test(userAnswer);
+    }
 
     // public validateCustomFunction(): boolean {
     //     return null;
