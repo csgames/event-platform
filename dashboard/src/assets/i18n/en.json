@@ -154,7 +154,8 @@
 			"tracks": "Tracks",
 			"wrong_answer": "Wrong answer!",
             "loading_error": "An error occured while loading the puzzle hero",
-            "scoreboard_loading_error": "An error occured while loading the scoreboard"
+			"scoreboard_loading_error": "An error occured while loading the scoreboard",
+			"answer":"Answer here"
 		},
 		"register": {
 			"already_have_account": "Already have an account?",

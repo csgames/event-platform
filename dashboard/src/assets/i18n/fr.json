@@ -154,7 +154,8 @@
             "tracks": "Pistes",
             "wrong_answer": "Mauvaise réponse!",
             "loading_error": "Une erreur est survenue lors du chargement des puzzle hero",
-            "scoreboard_loading_error": "Une erreur est survenue lors du chargement du classement"
+            "scoreboard_loading_error": "Une erreur est survenue lors du chargement du classement",
+            "answer":"Réponse ici"
         },
         "register": {
             "already_have_account": "Vous avez déjà un compte?",

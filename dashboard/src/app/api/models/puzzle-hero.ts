@@ -18,6 +18,7 @@ export interface PuzzleInfo {
     completed: boolean;
     locked: boolean;
     dependsOn?: string;
+    question_id: string;
 }
 
 export interface Track {

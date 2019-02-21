@@ -6,12 +6,27 @@
                     <button type="button" class="close" (click)="onClose()"><span aria-hidden="true">×</span><span
                         class="sr-only">{{ "general.button.close" | translate }}</span>
                     </button>
+                    <div class="row tile">
+                        <i class="fal firstIcon" [ngClass]="icon"></i>
+                        <div class="col-sm">
+                            <p class="name">Nom du puzzle</p>
+                            <p class="hours">Nom de la track</p>
+                        </div>
+                    </div>
                 </div>
                 <br>
                 <div class="modal-body description">
+                    <div>
+                        <div *ngIf="lang === 'en'" [innerHTML]=""></div>
+                        <div *ngIf="lang === 'fr'" [innerHTML]=""></div>
+                    </div>
+                    <div class="input-group input-group-default input answer">
+                        <input class="form-control" type="text" placeholder='{{ "pages.puzzle_hero.answer" | translate }}'>
+                    </div>
+                    <br>
                     <div class="text-center">
                         <a class="btn btn-primary btn-rounded mt-3 px-3"
-                           (click)="onClose()">{{ "general.button.validate" | translate }}</a>
+                        (click)="onClose()">{{ "general.button.validate" | translate }}</a>
                     </div>
                 </div>
             </div>
