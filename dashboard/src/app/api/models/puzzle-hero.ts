@@ -1,14 +1,14 @@
 export enum TrackTypes {
     Crypto = "crypto",
     Gaming = "gaming",
-    Scavender = "scavenger",
+    Scavenger = "scavenger",
     Sponsor = "sponsor"
 }
 
 export enum PuzzleTypes {
     Crypto = "crypto",
     Gaming = "gaming",
-    Scavender = "scavenger"
+    Scavenger = "scavenger"
 }
 
 export interface PuzzleInfo {

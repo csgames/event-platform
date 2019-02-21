@@ -19,6 +19,8 @@ export class PuzzleTileComponent {
                 return "&#xf084;";
             case PuzzleTypes.Gaming:
                 return "&#xf11b;";
+            case PuzzleTypes.Scavenger:
+                return "&#xf332;";
         }
     }
 

@@ -55,6 +55,8 @@ export class TrackComponent implements OnInit {
                 return "fa-key";
             case PuzzleTypes.Gaming:
                 return "fa-gamepad";
+            case PuzzleTypes.Scavenger:
+                return "fa-camera-alt";
         }
         return "";
     }
