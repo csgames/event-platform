@@ -8,6 +8,7 @@ import { AttendeesSchema } from '../attendees/attendees.model';
 import { TeamsSchema } from '../teams/teams.model';
 import { RedisModule } from '../../redis/redis.module';
 import { SchoolsSchema } from '../schools/schools.model';
+import { QuestionsService } from '../questions/questions.service';
 import { PuzzleHeroesGateway } from './puzzle-heroes.gateway';
 
 @Module({
@@ -37,7 +38,8 @@ import { PuzzleHeroesGateway } from './puzzle-heroes.gateway';
     controllers: [PuzzleHeroesController],
     providers: [
         PuzzleHeroesService,
-        PuzzleHeroesGateway
+        PuzzleHeroesGateway,
+        QuestionsService
     ],
     exports: [
         PuzzleHeroesService
