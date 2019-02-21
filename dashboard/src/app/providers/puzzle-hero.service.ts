@@ -8,7 +8,9 @@ const STARRED_TRACKS = "STARRED_TRACKS";
 
 @Injectable()
 export class PuzzleHeroService {
-    constructor(private apiService: ApiService) {}
+
+    constructor(private apiService: ApiService) {
+    }
 
     getTracks(): Observable<Track[]> {
         return this.apiService.puzzleHero.getPuzzleHero().pipe(
@@ -74,21 +76,5 @@ export class PuzzleHeroService {
                 };
             }))
         );
-        // const now = Date.now();
-        // return of(teams.map(t => {
-        //     let lastValue = 0;
-        //     let lastTime = now;
-        //     return {
-        //         name: "TEAM AVEC UN ESTI DE NOM TROP LONG NUMÉRO " + t,
-        //         series: Array(50).fill(0).map((_, index) => {
-        //             lastValue += (Math.random() * 100 > 80) ? Math.random() * 100 : Math.random() * 10;
-        //             lastTime += Math.random() * 60 * 1000;
-        //             return {
-        //                 value: lastValue,
-        //                 name: new Date(lastTime)
-        //             };
-        //         })
-        //     };
-        // })).pipe(delay(500));
     }
 }

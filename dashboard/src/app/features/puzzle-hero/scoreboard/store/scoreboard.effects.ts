@@ -10,14 +10,16 @@ import {
     SelectTeams,
     TeamsSeriesLoaded
 } from "./scoreboard.actions";
-import { catchError, debounceTime, filter, map, switchMap } from "rxjs/operators";
+import { catchError, debounceTime, filter, map, switchMap, withLatestFrom } from "rxjs/operators";
 import { of } from "rxjs";
 import { GlobalError } from "../../../../store/app.actions";
 import { TeamSeries } from "../../../../api/models/puzzle-hero";
+import { getScoreboardSelectedTeamIds, State } from "./scoreboard.reducer";
+import { select, Store } from "@ngrx/store";
 
 @Injectable()
 export class ScoreboardEffects {
-    constructor(private actions$: Actions, private puzzleHeroService: PuzzleHeroService) {}
+    constructor(private actions$: Actions, private puzzleHeroService: PuzzleHeroService, private store$: Store<State>) {}
 
     @Effect()
     loadScores$ = this.actions$.pipe(
@@ -33,7 +35,10 @@ export class ScoreboardEffects {
     @Effect()
     scoresLoaded$ = this.actions$.pipe(
         ofType<ScoresLoaded>(ScoreboardActionTypes.ScoresLoaded),
-        map((action: ScoresLoaded) => new SelectTeams(action.scores.slice(0, 10).map(s => s.teamId)))
+        withLatestFrom(this.store$.pipe(select(getScoreboardSelectedTeamIds))),
+        map(([action, teams]: [ScoresLoaded, string[]]) =>
+            new SelectTeams(teams.length === 0 ? action.scores.slice(0, 10).map(s => s.teamId) : teams)
+        )
     );
 
     @Effect()
