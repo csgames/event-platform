@@ -2,7 +2,7 @@ import { BadRequestException, Body, Controller, Get, Param, Post, Query, UseGuar
 import { ApiUseTags } from '@nestjs/swagger';
 import { Permissions } from '../../../decorators/permission.decorator';
 import { PermissionsGuard } from '../../../guards/permission.guard';
-import { PuzzleHeroesService, PuzzleDefinition } from './puzzle-heroes.service';
+import { PuzzleHeroesService } from './puzzle-heroes.service';
 import { PuzzleHeroes } from './puzzle-heroes.model';
 import { EventId } from '../../../decorators/event-id.decorator';
 import { ValidationPipe } from '../../../pipes/validation.pipe';
@@ -13,12 +13,14 @@ import { PuzzleGraphNodes } from './puzzle-graph-nodes/puzzle-graph.nodes.model'
 import { Tracks } from './tracks/tracks.model';
 import { Score } from './scoreboard/score.model';
 import { TeamSeries } from './scoreboard/team-series.model';
+import { QuestionsService } from '../questions/questions.service';
+import { PuzzleAnswerDto } from '../questions/puzzle-answer.dto';
 
 @ApiUseTags('PuzzleHero')
 @Controller('puzzle-hero')
 @UseGuards(PermissionsGuard)
 export class PuzzleHeroesController {
-    constructor(private puzzleHeroService: PuzzleHeroesService) {
+    constructor(private puzzleHeroService: PuzzleHeroesService, private questionsService: QuestionsService) {
     }
 
     @Post()
@@ -50,11 +52,10 @@ export class PuzzleHeroesController {
         return await this.puzzleHeroService.createPuzzle(eventId, trackId, dto);
     }
 
-    @Post('validate')
+    @Post('puzzle/:puzzleId/validate')
     @Permissions('csgames-api:get:event')
-    public async validateAnswer(@EventId() id: string): Promise<null> {
-        console.log('VALIDATE IS CALLED');
-        return null;
+    public async validateAnswer(@EventId() id: string, @Param("puzzleId") puzzleId, @Body(ValidationPipe) dto: PuzzleAnswerDto): Promise<boolean> {
+        return await this.questionsService.validateAnswer(dto.answer, puzzleId, id);
     }
 
     @Post('mock')
