@@ -10,14 +10,16 @@
 </ng-container>
 
 <ng-template #scoreboard>
-    <ng-container *ngIf="selectedTeamIds$ | async as selectedTeamIds">
-        <app-score-graph
-            *ngIf="selectedTeamIds.length > 0"
-            [loading]="scoreGraphLoading$"
-            [teamsSeries]="teamsSeries$ | async"></app-score-graph>
-    </ng-container>
-    <app-score-table
-        [scores]="scores$ | async"
-        [selectedTeams]="selectedTeamIds$ | async"
-        (selectedTeamsChange)="selectedTeamsChange($event)"></app-score-table>
+    <div class="animated fadeIn">
+        <ng-container *ngIf="selectedTeamIds$ | async as selectedTeamIds">
+            <app-score-graph
+                *ngIf="selectedTeamIds.length > 0"
+                [loading]="scoreGraphLoading$"
+                [teamsSeries]="teamsSeries$ | async"></app-score-graph>
+        </ng-container>
+        <app-score-table
+            [scores]="scores$ | async"
+            [selectedTeams]="selectedTeamIds$ | async"
+            (selectedTeamsChange)="selectedTeamsChange($event)"></app-score-table>
+    </div>
 </ng-template>

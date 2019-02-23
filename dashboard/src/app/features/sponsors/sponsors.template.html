@@ -1,6 +1,6 @@
 <h1>{{ "pages.sponsors.sponsors" | translate }}</h1>
 <app-loading-spinner [loading]="loading$"></app-loading-spinner>
-<div>
+<div class="animated fadeIn">
     <ng-container *ngIf="platinum">
         <app-sponsor-tier [tier]="platinumTier" (info)="onShowInfo($event)"></app-sponsor-tier>
     </ng-container>

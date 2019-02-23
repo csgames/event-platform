@@ -11,34 +11,35 @@
 
 <ng-container *ngIf="starredTracks$ | async as starredTracks">
     <ng-container *ngIf="notStarredTracks$ | async as otherTracks">
-        <ng-container *ngIf="starredTracks?.length > 0">
-            <div class="row mt-4">
-                <div class="col-sm-7">
-                    <h3>
-                        {{ "pages.puzzle_hero.starred" | translate }}
-                    </h3>
+        <div class="animated fadeIn">
+            <ng-container *ngIf="starredTracks?.length > 0">
+                <div class="row mt-4">
+                    <div class="col-sm-7">
+                        <h3>
+                            {{ "pages.puzzle_hero.starred" | translate }}
+                        </h3>
+                    </div>
                 </div>
-            </div>
 
-            <hr>
+                <hr>
 
-            <app-track *ngFor="let track of starredTracks" (clickStar)="clickStar(track)" [track]="track"></app-track>
+                <app-track *ngFor="let track of starredTracks" (clickStar)="clickStar(track)"
+                           [track]="track"></app-track>
 
-        </ng-container>
-        <ng-container *ngIf="otherTracks?.length > 0">
-            <div class="row mt-4">
-                <div class="col-sm-7">
-                    <h3>
-                        {{ "pages.puzzle_hero.all" | translate }}
-                    </h3>
+            </ng-container>
+            <ng-container *ngIf="otherTracks?.length > 0">
+                <div class="row mt-4">
+                    <div class="col-sm-7">
+                        <h3>
+                            {{ "pages.puzzle_hero.all" | translate }}
+                        </h3>
+                    </div>
                 </div>
-            </div>
 
-            <hr>
-            <app-track *ngFor="let track of otherTracks" (clickStar)="clickStar(track)" [track]="track"></app-track>
-        </ng-container>
-
-
+                <hr>
+                <app-track *ngFor="let track of otherTracks" (clickStar)="clickStar(track)" [track]="track"></app-track>
+            </ng-container>
+        </div>
     </ng-container>
 
 </ng-container>

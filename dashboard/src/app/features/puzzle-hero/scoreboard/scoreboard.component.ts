@@ -36,7 +36,6 @@ export class ScoreboardComponent implements OnInit {
         });
         socket.on("scoreboard_update", () => {
             this.store$.dispatch(new LoadScores());
-            console.log("TEST");
         });
     }
 

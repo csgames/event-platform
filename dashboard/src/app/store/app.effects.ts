@@ -22,6 +22,8 @@ import {
     SetCurrentEvent, SetupMessagingToken
 } from "./app.actions";
 import { getCurrentAttendee, getEvents, State } from "./app.reducers";
+import { promise } from "selenium-webdriver";
+import delayed = promise.delayed;
 
 @Injectable()
 export class AppEffects {
@@ -100,6 +102,7 @@ export class AppEffects {
         filter(([action, attendee, events]: [any, Attendee, Event[]]) => {
             return [attendee, events].filter(x => x).length === 2;
         }),
+        delay(1000),
         map(() => new AppLoaded())
     );
 

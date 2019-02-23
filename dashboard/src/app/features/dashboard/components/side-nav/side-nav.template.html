@@ -1,110 +1,127 @@
 <div class="side-nav-wrapper">
-    <img class="logo" src="http://2019.csgames.org/assets/file/CSGames_19_logoOriginal.png">
-
-    <div class="navigation">
-        <!-- <a *ngIf="(attendee$ | async)?.registered" [routerLink]="['/home']" routerLinkActive="active">
-            <div [fxLayout]="'row'" fxFlexFill>
-                <div fxFlex="20">
-                    <i class="fas fa-home"></i>
-                </div>
-                <div fxFlex="80">
-                    {{ "pages.home.home" | translate }}
-                </div>
-            </div>
-        </a> -->
-        <a *ngIf="(attendee$ | async) && !((attendee$ | async)?.registered)" [routerLink]="['/onboarding']"
-           routerLinkActive="active">
-            <div [fxLayout]="'row'" fxFlexFill>
-                <div fxFlex="20">
-                    <i class="fal fa-id-card"></i>
-                </div>
-                <div fxFlex="80">
-                    {{ "pages.onboarding.onboarding" | translate }}
-                </div>
-            </div>
-        </a>
-        <a *ngIf="(attendee$ | async)?.registered" [routerLink]="['/guide']" routerLinkActive="active">
-            <div [fxLayout]="'row'" fxFlexFill>
-                <div fxFlex="20">
-                    <i class="fal fa-book"></i>
-                </div>
-                <div fxFlex="80">
-                    {{ "pages.guide.guide" | translate }}
-                </div>
-            </div>
-        </a>
-        <a *ngIf="(attendee$ | async)?.registered" [routerLink]="['/schedule']" routerLinkActive="active">
-            <div [fxLayout]="'row'" fxFlexFill>
-                <div fxFlex="20">
-                    <i class="fal fa-calendar"></i>
-                </div>
-                <div fxFlex="80">
-                    {{ "pages.schedule.schedule" | translate }}
-                </div>
-            </div>
-        </a>
-        <a *ngIf="(attendee$ | async)?.registered" [routerLink]="['/puzzle-hero']" routerLinkActive="active">
-            <div [fxLayout]="'row'" fxFlexFill>
-                <div fxFlex="20">
-                    <i class="fal fa-puzzle-piece"></i>
-                </div>
-                <div fxFlex="80">
-                    {{ "pages.puzzle_hero.puzzle_hero" | translate }}
-                </div>
-            </div>
-        </a>
-        <div class="sublinks" *ngIf="isActive('puzzle-hero')">
-            <a [routerLink]="['/puzzle-hero/tracks']" routerLinkActive="active">
-                {{ "pages.puzzle_hero.tracks" | translate }}
-            </a>
-
-            <a [routerLink]="['/puzzle-hero/scoreboard']" routerLinkActive="active">
-                {{ "pages.puzzle_hero.scoreboard" | translate }}
-            </a>
+    <ng-container *ngIf="loading; else content">
+        <div class="sidenav-placeholder">
+            <content-loader [primaryColor]="'#D8D8D8'"
+                            [secondaryOpacity]="0.2"
+                            [width]="240" [height]="550">
+                <svg:circle cx="120" cy="100" r="100"/>
+                <svg:rect x="10" y="240" rx="8" ry="8" width="220" height="34"/>
+                <svg:rect x="10" y="279" rx="8" ry="8" width="220" height="34"/>
+                <svg:rect x="10" y="319" rx="8" ry="8" width="220" height="34"/>
+                <svg:rect x="10" y="358" rx="8" ry="8" width="220" height="34"/>
+                <svg:rect x="10" y="397" rx="8" ry="8" width="220" height="34"/>
+                <svg:rect x="10" y="436" rx="8" ry="8" width="220" height="34"/>
+            </content-loader>
         </div>
+    </ng-container>
+    <ng-template #content>
+        <img class="logo" [src]="(currentEvent$ | async)?.imageUrl">
 
-        <ng-container *ifRole="['attendee', 'captain', 'godparent']">
-            <a *ngIf="!(attendee$ | async) || (attendee$ | async)?.registered" [routerLink]="['/team']"
+        <div class="navigation">
+            <!-- <a *ngIf="(attendee$ | async)?.registered" [routerLink]="['/home']" routerLinkActive="active">
+                <div [fxLayout]="'row'" fxFlexFill>
+                    <div fxFlex="20">
+                        <i class="fas fa-home"></i>
+                    </div>
+                    <div fxFlex="80">
+                        {{ "pages.home.home" | translate }}
+                    </div>
+                </div>
+            </a> -->
+            <a *ngIf="(attendee$ | async) && !((attendee$ | async)?.registered)" [routerLink]="['/onboarding']"
                routerLinkActive="active">
+                <div [fxLayout]="'row'" fxFlexFill>
+                    <div fxFlex="20">
+                        <i class="fal fa-id-card"></i>
+                    </div>
+                    <div fxFlex="80">
+                        {{ "pages.onboarding.onboarding" | translate }}
+                    </div>
+                </div>
+            </a>
+            <a *ngIf="(attendee$ | async)?.registered" [routerLink]="['/guide']" routerLinkActive="active">
+                <div [fxLayout]="'row'" fxFlexFill>
+                    <div fxFlex="20">
+                        <i class="fal fa-book"></i>
+                    </div>
+                    <div fxFlex="80">
+                        {{ "pages.guide.guide" | translate }}
+                    </div>
+                </div>
+            </a>
+            <a *ngIf="(attendee$ | async)?.registered" [routerLink]="['/schedule']" routerLinkActive="active">
+                <div [fxLayout]="'row'" fxFlexFill>
+                    <div fxFlex="20">
+                        <i class="fal fa-calendar"></i>
+                    </div>
+                    <div fxFlex="80">
+                        {{ "pages.schedule.schedule" | translate }}
+                    </div>
+                </div>
+            </a>
+            <a *ngIf="(attendee$ | async)?.registered" [routerLink]="['/puzzle-hero']" routerLinkActive="active">
+                <div [fxLayout]="'row'" fxFlexFill>
+                    <div fxFlex="20">
+                        <i class="fal fa-puzzle-piece"></i>
+                    </div>
+                    <div fxFlex="80">
+                        {{ "pages.puzzle_hero.puzzle_hero" | translate }}
+                    </div>
+                </div>
+            </a>
+            <div class="sublinks" *ngIf="isActive('puzzle-hero')">
+                <a [routerLink]="['/puzzle-hero/tracks']" routerLinkActive="active">
+                    {{ "pages.puzzle_hero.tracks" | translate }}
+                </a>
+
+                <a [routerLink]="['/puzzle-hero/scoreboard']" routerLinkActive="active">
+                    {{ "pages.puzzle_hero.scoreboard" | translate }}
+                </a>
+            </div>
+
+            <ng-container *ifRole="['attendee', 'captain', 'godparent']">
+                <a *ngIf="!(attendee$ | async) || (attendee$ | async)?.registered" [routerLink]="['/team']"
+                   routerLinkActive="active">
+                    <div [fxLayout]="'row'" fxFlexFill>
+                        <div fxFlex="20">
+                            <i class="fal fa-users"></i>
+                        </div>
+                        <div fxFlex="80">
+                            {{ "pages.team.team" | translate }}
+                        </div>
+                    </div>
+                </a>
+            </ng-container>
+            <a *ifRole="['admin']" [routerLink]="['/team/edit']" routerLinkActive="active">
                 <div [fxLayout]="'row'" fxFlexFill>
                     <div fxFlex="20">
                         <i class="fal fa-users"></i>
                     </div>
                     <div fxFlex="80">
-                        {{ "pages.team.team" | translate }}
+                        {{ "pages.team.teams" | translate }}
                     </div>
                 </div>
             </a>
-        </ng-container>
-        <a *ifRole="['admin']" [routerLink]="['/team/edit']" routerLinkActive="active">
-            <div [fxLayout]="'row'" fxFlexFill>
-                <div fxFlex="20">
-                    <i class="fal fa-users"></i>
+            <a *ngIf="(attendee$ | async)?.registered" [routerLink]="['/sponsors']" routerLinkActive="active">
+                <div [fxLayout]="'row'" fxFlexFill>
+                    <div fxFlex="20">
+                        <i class="fal fa-gem"></i>
+                    </div>
+                    <div fxFlex="80">
+                        {{ "pages.sponsors.sponsors" | translate }}
+                    </div>
                 </div>
-                <div fxFlex="80">
-                    {{ "pages.team.teams" | translate }}
+            </a>
+            <!-- <a *ngIf="(attendee$ | async)?.registered" [routerLink]="['/competition']" routerLinkActive="active">
+                <div [fxLayout]="'row'" fxFlexFill>
+                    <div fxFlex="20">
+                        <i class="fas fa-trophy"></i>
+                    </div>
+                    <div fxFlex="80">
+                        {{ "pages.competition.competitions" | translate }}
+                    </div>
                 </div>
-            </div>
-        </a>
-        <a *ngIf="(attendee$ | async)?.registered" [routerLink]="['/sponsors']" routerLinkActive="active">
-            <div [fxLayout]="'row'" fxFlexFill>
-                <div fxFlex="20">
-                    <i class="fal fa-gem"></i>
-                </div>
-                <div fxFlex="80">
-                    {{ "pages.sponsors.sponsors" | translate }}
-                </div>
-            </div>
-        </a>
-        <!-- <a *ngIf="(attendee$ | async)?.registered" [routerLink]="['/competition']" routerLinkActive="active">
-            <div [fxLayout]="'row'" fxFlexFill>
-                <div fxFlex="20">
-                    <i class="fas fa-trophy"></i>
-                </div>
-                <div fxFlex="80">
-                    {{ "pages.competition.competitions" | translate }}
-                </div>
-            </div>
-        </a> -->
-    </div>
+            </a> -->
+        </div>
+    </ng-template>
 </div>

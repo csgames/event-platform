@@ -19,6 +19,9 @@ export class TopNavComponent implements OnInit, OnDestroy {
     @Input()
     public showToggleSideNav = false;
 
+    @Input()
+    public loading = false;
+
     @Output()
     public toggleSideNav = new EventEmitter<boolean>();
     @Output()
@@ -74,7 +77,7 @@ export class TopNavComponent implements OnInit, OnDestroy {
             const lang: string = this.translateService.getBrowserLang();
             this.store$.dispatch(new ChangeLanguage(lang === "en" ? "fr" : "en"));
             return;
-        } 
+        }
 
         if (this.language === "fr") {
             this.store$.dispatch(new ChangeLanguage("en"));

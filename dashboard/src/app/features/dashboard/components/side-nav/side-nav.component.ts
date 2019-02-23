@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, Input, OnInit } from "@angular/core";
 import { Store, select } from "@ngrx/store";
 import { State } from "src/app/store/app.reducers";
 import * as fromApp from "src/app/store/app.reducers";
@@ -12,6 +12,10 @@ import { Router } from "@angular/router";
 
 export class SideNavComponent implements OnInit {
     attendee$ = this.store$.pipe(select(fromApp.getCurrentAttendee));
+    currentEvent$ = this.store$.pipe(select(fromApp.getCurrentEvent));
+
+    @Input()
+    loading = false;
 
     constructor(private store$: Store<State>, private router: Router) { }
 

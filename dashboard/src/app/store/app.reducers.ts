@@ -71,18 +71,15 @@ export function globalReducer(state = initialState, action: AppActions): GlobalS
         case AppActionTypes.CheckUnseenNotification:
             return {
                 ...state,
-                loading: true
             };
         case AppActionTypes.HasUnseenNotification:
             return {
                 ...state,
-                loading: false,
                 unseen: true
             };
         case AppActionTypes.AllNotificationsSeen:
             return {
                 ...state,
-                loading: false,
                 unseen: false
             };
     }
