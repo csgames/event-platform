@@ -16,7 +16,7 @@ import { Schools } from '../schools/schools.model';
 import { Serie, TeamSeries } from './scoreboard/team-series.model';
 import { PuzzleHeroesGateway } from './puzzle-heroes.gateway';
 import { QuestionsService } from '../questions/questions.service';
-import { TracksAnswers } from './tracks/tracks-answers.model';
+import { TracksAnswers, TracksAnswersUtils } from './tracks/tracks-answers.model';
 
 export interface PuzzleDefinition extends PuzzleGraphNodes {
     completed: boolean;
@@ -50,15 +50,7 @@ export class PuzzleHeroesService extends BaseService<PuzzleHeroes, PuzzleHeroes>
             throw new NotFoundException('No puzzle hero found');
         }
 
-        const attendee = await this.attendeesModel.findOne({
-            email
-        }).select('_id').exec();
-        const team = await this.teamsModel.findOne({
-            attendees: attendee ? attendee._id : null,
-            event: eventId
-        }).select('_id').exec();
-        const teamId = team ? team._id.toHexString() : null;
-
+        const teamId = await this.getTeamId(email, eventId);
         const res = [];
         for (const track of puzzleHero.tracks) {
             const t = await this.formatTrack(track.toJSON(), puzzleHero, teamId, type);
@@ -132,7 +124,7 @@ export class PuzzleHeroesService extends BaseService<PuzzleHeroes, PuzzleHeroes>
     private async formatTrack(track: Tracks, puzzleHero: PuzzleHeroes, teamId: string, type?: string): Promise<Tracks> {
         const puzzles = [];
         for (const puzzle of track.puzzles as PuzzleDefinition[]) {
-            puzzle.completed = puzzleHero.answers.some(x => x.teamId === teamId && x.question === puzzle.question);
+            puzzle.completed = puzzleHero.answers.some(TracksAnswersUtils.find(puzzle, teamId));
 
             puzzle.label = (puzzle.question as Questions).label;
             puzzle.type = (puzzle.question as Questions).type;
@@ -148,7 +140,7 @@ export class PuzzleHeroesService extends BaseService<PuzzleHeroes, PuzzleHeroes>
             if (!puzzle.dependsOn) {
                 continue;
             }
-            const depends = puzzleHero.answers.find(x => x.teamId === teamId && x.question === puzzle.dependsOn);
+            const depends = puzzleHero.answers.find(TracksAnswersUtils.findDepends(puzzle, teamId));
             if (!depends) {
                 puzzle.locked = true;
                 delete puzzle.description;
@@ -227,7 +219,7 @@ export class PuzzleHeroesService extends BaseService<PuzzleHeroes, PuzzleHeroes>
 
         const puzzle = puzzleHero.tracks
             .map(track => track.puzzles.find(x => x._id.toHexString() === puzzleId))
-            .find(x => x._id.toHexString() === puzzleId);
+            .find(x => x && x._id.toHexString() === puzzleId);
         if (!puzzle) {
             throw new NotFoundException('No puzzle found');
         }
@@ -239,7 +231,7 @@ export class PuzzleHeroesService extends BaseService<PuzzleHeroes, PuzzleHeroes>
         const utcTimestamp = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(),
             now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds(), now.getUTCMilliseconds()));
         puzzleHero.answers.push({
-            question: puzzle.question as string,
+            puzzle: puzzle._id.toHexString(),
             teamId,
             timestamp: utcTimestamp
         } as TracksAnswers);
@@ -247,7 +239,7 @@ export class PuzzleHeroesService extends BaseService<PuzzleHeroes, PuzzleHeroes>
         await this.addTeamScore(eventId, teamId, score);
     }
 
-        // Temporary TO REMOVE
+    // Temporary TO REMOVE
     public getAllTeams(): Promise<Teams[]> {
         return this.teamsModel.find().exec();
     }
