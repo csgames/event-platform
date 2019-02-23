@@ -55,6 +55,7 @@ export class QuestionsService {
 
         switch (question.validationType) {
             case ValidationTypes.String:
+<<<<<<< HEAD
                 const result = this.validateString(answer, question.answer);
                 if (!result) {
                     throw new BadRequestException('Invalid answer');
@@ -68,6 +69,11 @@ export class QuestionsService {
                     timestamp: utc_timestamp
                 } as TracksAnswers);
                 this.puzzleHeroService.addTeamScore(eventId, teamId, question.score);
+=======
+                return this.validateString(answer, question.answer);
+            case ValidationTypes.Regex:
+                return this.validateRegex(answer, question.answer);
+>>>>>>> 32e4a34506a4056b8e3234c96904b7a176012a06
             default:
                 throw new BadRequestException('Invalid answer');
         } 
@@ -77,11 +83,10 @@ export class QuestionsService {
         return userAnswer === answer;
     }
 
-    // public async validateRegex(answer: string, questionId: string): Promise<boolean> {
-    //     let questionAnswer = await this.getAnswerObject(questionId);
-    //     let regex = new RegExp(questionAnswer);
-    //     return regex.test(answer);
-    // }
+    public async validateRegex(userAnswer: string, questionRegex: string): Promise<boolean> {
+        let regex = new RegExp(questionRegex);
+        return regex.test(userAnswer);
+    }
 
     // public validateCustomFunction(): boolean {
     //     return null;
