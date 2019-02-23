@@ -15,6 +15,8 @@ import { Score } from './scoreboard/score.model';
 import { Schools } from '../schools/schools.model';
 import { Serie, TeamSeries } from './scoreboard/team-series.model';
 import { PuzzleHeroesGateway } from './puzzle-heroes.gateway';
+import { QuestionsService } from '../questions/questions.service';
+import { TracksAnswers } from './tracks/tracks-answers.model';
 
 export interface PuzzleDefinition extends PuzzleGraphNodes {
     completed: boolean;
@@ -31,6 +33,7 @@ export class PuzzleHeroesService extends BaseService<PuzzleHeroes, PuzzleHeroes>
                 @InjectModel('attendees') private readonly attendeesModel: Model<Attendees>,
                 @InjectModel('teams') private readonly teamsModel: Model<Teams>,
                 @InjectModel('schools') private readonly schoolsModel: Model<Schools>,
+                private questionsService: QuestionsService,
                 private puzzleHeroesGateway: PuzzleHeroesGateway,
                 private redisService: RedisService) {
         super(puzzleHeroesModel);
@@ -214,8 +217,37 @@ export class PuzzleHeroesService extends BaseService<PuzzleHeroes, PuzzleHeroes>
         );
     }
 
+    public async validateAnswer(answer: string, puzzleId: string, eventId: string, email: string): Promise<void> {
+        const puzzleHero = await this.findOne({
+            event: eventId
+        });
+        if (!puzzleHero) {
+            throw new NotFoundException('No puzzle hero found');
+        }
 
-    // Temporary TO REMOVE
+        const puzzle = puzzleHero.tracks
+            .map(track => track.puzzles.find(x => x._id.toHexString() === puzzleId))
+            .find(x => x._id.toHexString() === puzzleId);
+        if (!puzzle) {
+            throw new NotFoundException('No puzzle found');
+        }
+
+        const score = await this.questionsService.validateAnswer(answer, puzzle.question as string);
+
+        const teamId = await this.getTeamId(email, eventId);
+        const now = new Date();
+        const utcTimestamp = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(),
+            now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds(), now.getUTCMilliseconds()));
+        puzzleHero.answers.push({
+            question: puzzle.question as string,
+            teamId,
+            timestamp: utcTimestamp
+        } as TracksAnswers);
+        await puzzleHero.save();
+        await this.addTeamScore(eventId, teamId, score);
+    }
+
+        // Temporary TO REMOVE
     public getAllTeams(): Promise<Teams[]> {
         return this.teamsModel.find().exec();
     }
@@ -235,5 +267,16 @@ export class PuzzleHeroesService extends BaseService<PuzzleHeroes, PuzzleHeroes>
 
     private getTeamSeriesKey(eventId: string, teamId: string): string {
         return `puzzle-hero:${eventId}:${teamId}:scores`;
+    }
+
+    private async getTeamId(email: string, eventId: string): Promise<string> {
+        const attendee = await this.attendeesModel.findOne({
+            email
+        }).select('_id').exec();
+        const team = await this.teamsModel.findOne({
+            attendees: attendee ? attendee._id : null,
+            event: eventId
+        }).select('_id').exec();
+        return team ? team._id.toHexString() : null;
     }
 }

@@ -10,6 +10,7 @@ import { RedisModule } from '../../redis/redis.module';
 import { SchoolsSchema } from '../schools/schools.model';
 import { QuestionsService } from '../questions/questions.service';
 import { PuzzleHeroesGateway } from './puzzle-heroes.gateway';
+import { QuestionsModule } from '../questions/questions.module';
 
 @Module({
     imports: [
@@ -33,13 +34,13 @@ import { PuzzleHeroesGateway } from './puzzle-heroes.gateway';
             name: 'schools',
             schema: SchoolsSchema
         }]),
+        QuestionsModule,
         RedisModule
     ],
     controllers: [PuzzleHeroesController],
     providers: [
         PuzzleHeroesService,
-        PuzzleHeroesGateway,
-        QuestionsService
+        PuzzleHeroesGateway
     ],
     exports: [
         PuzzleHeroesService

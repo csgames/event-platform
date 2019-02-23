@@ -2,7 +2,7 @@ import { BadRequestException, Body, Controller, Get, Param, Post, Query, UseGuar
 import { ApiUseTags } from '@nestjs/swagger';
 import { Permissions } from '../../../decorators/permission.decorator';
 import { PermissionsGuard } from '../../../guards/permission.guard';
-import { PuzzleHeroesService } from './puzzle-heroes.service';
+import { PuzzleDefinition, PuzzleHeroesService } from './puzzle-heroes.service';
 import { PuzzleHeroes } from './puzzle-heroes.model';
 import { EventId } from '../../../decorators/event-id.decorator';
 import { ValidationPipe } from '../../../pipes/validation.pipe';
@@ -20,7 +20,7 @@ import { PuzzleAnswerDto } from '../questions/puzzle-answer.dto';
 @Controller('puzzle-hero')
 @UseGuards(PermissionsGuard)
 export class PuzzleHeroesController {
-    constructor(private puzzleHeroService: PuzzleHeroesService, private questionsService: QuestionsService) {
+    constructor(private puzzleHeroService: PuzzleHeroesService) {
     }
 
     @Post()
@@ -57,7 +57,7 @@ export class PuzzleHeroesController {
     @HttpCode(HttpStatus.OK)
     public async validateAnswer(@EventId() id: string, @Param("puzzleId") puzzleId, @Body(ValidationPipe) dto: PuzzleAnswerDto,
                                 @User() user: UserModel): Promise<void> {
-        return await this.questionsService.validateAnswer(dto.answer, puzzleId, id, user.username);
+        return await this.puzzleHeroService.validateAnswer(dto.answer, puzzleId, id, user.username);
     }
 
     // TEMPORARY TO REMOVE
