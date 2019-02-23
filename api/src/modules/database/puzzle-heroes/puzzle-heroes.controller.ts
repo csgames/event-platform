@@ -1,4 +1,4 @@
-import { BadRequestException, Body, Controller, Get, Param, Post, Query, UseGuards } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Get, Param, Post, Query, UseGuards, HttpCode, HttpStatus } from '@nestjs/common';
 import { ApiUseTags } from '@nestjs/swagger';
 import { Permissions } from '../../../decorators/permission.decorator';
 import { PermissionsGuard } from '../../../guards/permission.guard';
@@ -54,8 +54,10 @@ export class PuzzleHeroesController {
 
     @Post('puzzle/:puzzleId/validate')
     @Permissions('csgames-api:get:event')
-    public async validateAnswer(@EventId() id: string, @Param("puzzleId") puzzleId, @Body(ValidationPipe) dto: PuzzleAnswerDto): Promise<boolean> {
-        return await this.questionsService.validateAnswer(dto.answer, puzzleId, id);
+    @HttpCode(HttpStatus.OK)
+    public async validateAnswer(@EventId() id: string, @Param("puzzleId") puzzleId, @Body(ValidationPipe) dto: PuzzleAnswerDto,
+                                @User() user: UserModel): Promise<void> {
+        return await this.questionsService.validateAnswer(dto.answer, puzzleId, id, user.username);
     }
 
     @Post('mock')
