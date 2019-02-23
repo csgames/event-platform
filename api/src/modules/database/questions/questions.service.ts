@@ -52,38 +52,37 @@ export class QuestionsService {
             event: eventId
         }).select('_id').exec();
         const teamId = team ? team._id.toHexString() : null;
+        let validationResult: boolean;
 
         switch (question.validationType) {
             case ValidationTypes.String:
-<<<<<<< HEAD
-                const result = this.validateString(answer, question.answer);
-                if (!result) {
+                validationResult = this.validateString(answer, question.answer);
+                if (!validationResult) {
                     throw new BadRequestException('Invalid answer');
                 }
-                const now = new Date();
-                var utc_timestamp = new Date(Date.UTC(now.getUTCFullYear(),now.getUTCMonth(), now.getUTCDate(), 
-                    now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds(), now.getUTCMilliseconds()));
-                puzzleHero.answers.push({
-                    question,
-                    teamId,
-                    timestamp: utc_timestamp
-                } as TracksAnswers);
-                this.puzzleHeroService.addTeamScore(eventId, teamId, question.score);
-=======
-                return this.validateString(answer, question.answer);
             case ValidationTypes.Regex:
-                return this.validateRegex(answer, question.answer);
->>>>>>> 32e4a34506a4056b8e3234c96904b7a176012a06
-            default:
-                throw new BadRequestException('Invalid answer');
-        } 
+                validationResult = this.validateRegex(answer, question.answer);
+                if (!validationResult) {
+                    throw new BadRequestException('Invalid answer');
+                }
+        }
+        
+        const now = new Date();
+        var utc_timestamp = new Date(Date.UTC(now.getUTCFullYear(),now.getUTCMonth(), now.getUTCDate(), 
+            now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds(), now.getUTCMilliseconds()));
+        puzzleHero.answers.push({
+            question,
+            teamId,
+            timestamp: utc_timestamp
+        } as TracksAnswers);
+        this.puzzleHeroService.addTeamScore(eventId, teamId, question.score);
     }
 
     public validateString(userAnswer: string, answer: string): boolean {
         return userAnswer === answer;
     }
 
-    public async validateRegex(userAnswer: string, questionRegex: string): Promise<boolean> {
+    public validateRegex(userAnswer: string, questionRegex: string): boolean {
         let regex = new RegExp(questionRegex);
         return regex.test(userAnswer);
     }
