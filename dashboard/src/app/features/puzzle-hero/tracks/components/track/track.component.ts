@@ -5,6 +5,11 @@ import { PuzzleHeroService } from "../../../../../providers/puzzle-hero.service"
 import { SimpleModalService } from "ngx-simple-modal";
 import { InfoPuzzleHeroComponent } from "../info-puzzle-hero/info-puzzle-hero.component";
 
+export interface InfoPuzzleHeroModal {
+    puzzle: PuzzleInfo;
+    track: Track;
+}
+
 @Component({
     selector: "app-track",
     templateUrl: "track.template.html",
@@ -67,8 +72,7 @@ export class TrackComponent implements OnInit {
 
     clickPuzzle(puzzle: PuzzleInfo) {
         if (!puzzle.locked) {
-            console.log(puzzle);
-            this.modalService.addModal(InfoPuzzleHeroComponent, {puzzle});
+            this.modalService.addModal(InfoPuzzleHeroComponent, {puzzle, track: this.track});
         }
     }
 

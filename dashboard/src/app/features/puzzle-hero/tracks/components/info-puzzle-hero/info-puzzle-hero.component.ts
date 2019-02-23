@@ -1,10 +1,11 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { SimpleModalComponent } from "ngx-simple-modal";
-import { PuzzleInfo, PuzzleTypes } from "src/app/api/models/puzzle-hero";
+import { PuzzleInfo, PuzzleTypes, Track } from "src/app/api/models/puzzle-hero";
 import { TranslateService } from "@ngx-translate/core";
 
 export interface InfoPuzzleHeroModal {
     puzzle: PuzzleInfo;
+    track: Track;
 }
 
 @Component({
@@ -15,6 +16,7 @@ export interface InfoPuzzleHeroModal {
 export class InfoPuzzleHeroComponent extends SimpleModalComponent<InfoPuzzleHeroModal, void> implements OnInit, OnDestroy {
     
     public puzzle: PuzzleInfo;
+    public track: Track;
 
     constructor(private translateService: TranslateService) {
         super();

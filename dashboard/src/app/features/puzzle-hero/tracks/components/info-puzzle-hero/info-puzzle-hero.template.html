@@ -9,16 +9,16 @@
                     <div class="row tile">
                         <i class="fal firstIcon" [ngClass]="icon"></i>
                         <div class="col-sm">
-                            <p class="name">Nom du puzzle</p>
-                            <p class="hours">Nom de la track</p>
+                            <p class="name">{{ puzzle.label }}</p>
+                            <p class="hours">{{ track.label }}</p>
                         </div>
                     </div>
                 </div>
                 <br>
                 <div class="modal-body description">
                     <div>
-                        <div *ngIf="lang === 'en'" [innerHTML]=""></div>
-                        <div *ngIf="lang === 'fr'" [innerHTML]=""></div>
+                        <div *ngIf="lang === 'en'" [innerHTML]="puzzle.description"></div>
+                        <div *ngIf="lang === 'fr'" [innerHTML]="puzzle.description"></div>
                     </div>
                     <div class="input-group input-group-default input answer">
                         <input class="form-control" type="text" placeholder='{{ "pages.puzzle_hero.answer" | translate }}'>
