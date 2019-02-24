@@ -1,17 +1,19 @@
 <div class="card activity-card clickable" (click)="info.emit()">
     <div class="card-body activity-card-body">
-        <div class="row tile">
-            <ng-container [ngSwitch]="activity.type">
+        <div fxLayout="row" class="tile">
+            <div fxFlex="initial" [ngSwitch]="activity.type">
                 <i *ngSwitchCase="'competition'" class="fal fa-trophy"></i>
                 <i *ngSwitchCase="'other'" class="fal fa-calendar"></i>
                 <i *ngSwitchCase="'food'" class="fal fa-utensils"></i>
-            </ng-container>
-            <div class="col-sm">
+            </div>
+            <div fxFlex>
                 <p class="name">{{ activity.name }}</p>
                 <p class="hours">{{ time }} - {{ activity.endDate | hours }}</p>
                 <p class="location">{{ activity.location }}</p>
             </div>
-            <i class="fal fa-check text-success" *ngIf="subscribed | async"></i>
+            <div fxFlex="nogrow">
+                <i class="fal fa-check text-success" *ngIf="subscribed | async"></i>
+            </div>
         </div>
     </div>
 </div>
