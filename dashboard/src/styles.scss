@@ -479,6 +479,10 @@ a {
         top: 15px;
     }
 
+    .modal-md {
+        min-width: 400px;
+    }
+
     .close:focus {
         outline: 0;
     }
@@ -628,6 +632,15 @@ a {
         }
 
         .modal-sm {
+            min-width: auto;
+        }
+    }
+}
+
+@media (max-width: 480px) {
+    .modal-right-side {
+        .modal-md {
+            width: 100%;
             min-width: auto;
         }
     }

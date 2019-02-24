@@ -9,7 +9,7 @@ import {
     NotificationsMarked
 } from "./notifications.actions";
 import { switchMap, map, catchError, filter } from "rxjs/operators";
-import { AppNotification } from "../../../api/models/notification";
+import { AttendeeNotification } from "../../../api/models/notification";
 import { GlobalError } from "src/app/store/app.actions";
 import { of } from "rxjs";
 import { Action } from "@ngrx/store";
@@ -26,7 +26,7 @@ export class NotificationsEffects {
         ofType<LoadNotifications>(NotificationActionTypes.LoadNotifications),
         switchMap(() => {
             return this.notificationsService.loadNotifications().pipe(
-                map((notifications: AppNotification[]) => new NotificationsLoaded(notifications)),
+                map((notifications: AttendeeNotification[]) => new NotificationsLoaded(notifications)),
                 catchError((err) => of(new GlobalError(err)))
             );
         })
@@ -35,11 +35,11 @@ export class NotificationsEffects {
     @Effect()
     notificationsLoaded$ = this.actions$.pipe(
         ofType<NotificationsLoaded>(NotificationActionTypes.NotificationsLoaded),
-        filter((action) => action.notificatons.some(n => !n.seen)),
+        filter((action) => action.notifications.some(n => !n.seen)),
         switchMap((action) => {
             const actions: Action[] = [];
-            for (const n of action.notificatons) {
-                if (!n.seen) { actions.push(new MarkNotificationsAsSeen(n._id)); }
+            for (const n of action.notifications) {
+                if (!n.seen) { actions.push(new MarkNotificationsAsSeen(n.notification._id)); }
             }
             return actions;
         })
