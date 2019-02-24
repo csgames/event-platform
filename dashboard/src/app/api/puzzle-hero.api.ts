@@ -2,12 +2,16 @@ import { Injectable } from "@angular/core";
 import { CSGamesApi } from "./csgames.api";
 import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
-import { PuzzleHero, Score, TeamSeries } from "./models/puzzle-hero";
+import { PuzzleHero, PuzzleHeroInfo, Score, TeamSeries } from "./models/puzzle-hero";
 
 @Injectable()
 export class PuzzleHeroApi extends CSGamesApi {
     constructor(private http: HttpClient) {
         super("puzzle-hero");
+    }
+
+    public getInfo(): Observable<PuzzleHeroInfo> {
+        return this.http.get<PuzzleHeroInfo>(this.url("info"), { withCredentials: true });
     }
 
     public getPuzzleHero(): Observable<PuzzleHero> {

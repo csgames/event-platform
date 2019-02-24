@@ -59,7 +59,7 @@
                     </div>
                 </div>
             </a>
-            <a *ngIf="(attendee$ | async)?.registered" [routerLink]="['/puzzle-hero']" routerLinkActive="active">
+            <a *ngIf="(attendee$ | async)?.registered && (puzzleHeroOpen$ | async)" [routerLink]="['/puzzle-hero']" routerLinkActive="active">
                 <div [fxLayout]="'row'" fxFlexFill>
                     <div fxFlex="20">
                         <i class="fal fa-puzzle-piece"></i>
@@ -74,7 +74,7 @@
                     {{ "pages.puzzle_hero.tracks" | translate }}
                 </a>
 
-                <a [routerLink]="['/puzzle-hero/scoreboard']" routerLinkActive="active">
+                <a *ngIf="scoreboardOpen$ | async" [routerLink]="['/puzzle-hero/scoreboard']" routerLinkActive="active">
                     {{ "pages.puzzle_hero.scoreboard" | translate }}
                 </a>
             </div>

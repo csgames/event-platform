@@ -1,6 +1,8 @@
 import { Component, Input, OnInit } from "@angular/core";
 import { Store, select } from "@ngrx/store";
-import { State } from "src/app/store/app.reducers";
+import { Observable } from "rxjs";
+import { map } from "rxjs/operators";
+import { getPuzzleHeroInfo, State } from "src/app/store/app.reducers";
 import * as fromApp from "src/app/store/app.reducers";
 import { Router } from "@angular/router";
 
@@ -13,6 +15,19 @@ import { Router } from "@angular/router";
 export class SideNavComponent implements OnInit {
     attendee$ = this.store$.pipe(select(fromApp.getCurrentAttendee));
     currentEvent$ = this.store$.pipe(select(fromApp.getCurrentEvent));
+    puzzleHeroInfo$ = this.store$.pipe(select(getPuzzleHeroInfo));
+
+    get puzzleHeroOpen$(): Observable<boolean> {
+        return this.puzzleHeroInfo$.pipe(
+            map(info => info.open)
+        );
+    }
+
+    get scoreboardOpen$(): Observable<boolean> {
+        return this.puzzleHeroInfo$.pipe(
+            map(info => info.scoreboardOpen)
+        );
+    }
 
     @Input()
     loading = false;

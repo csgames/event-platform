@@ -34,6 +34,11 @@ export interface PuzzleHero {
     endDate: string | Date;
 }
 
+export interface PuzzleHeroInfo {
+    open: boolean;
+    scoreboardOpen: boolean;
+}
+
 export interface Score {
     teamId: string;
     teamName: string;

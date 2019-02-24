@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
 import { ApiService } from "../api/api.service";
-import { Score, TeamSeries, Track } from "../api/models/puzzle-hero";
+import { PuzzleHeroInfo, Score, TeamSeries, Track } from "../api/models/puzzle-hero";
 
 const STARRED_TRACKS = "STARRED_TRACKS";
 
@@ -10,6 +10,10 @@ const STARRED_TRACKS = "STARRED_TRACKS";
 export class PuzzleHeroService {
 
     constructor(private apiService: ApiService) {
+    }
+
+    getInfo(): Observable<PuzzleHeroInfo> {
+        return this.apiService.puzzleHero.getInfo();
     }
 
     getTracks(): Observable<Track[]> {

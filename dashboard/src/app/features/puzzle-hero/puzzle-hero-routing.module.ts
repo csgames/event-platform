@@ -1,9 +1,15 @@
 import { NgModule } from "@angular/core";
 import { Routes, RouterModule } from "@angular/router";
+import { PuzzleHeroGuard } from "./guards/puzzle-hero.guard";
+import { ScoreboardGuard } from "./guards/scoreboard.guard";
 
 const routes: Routes = [
-    { path: "tracks", loadChildren: "src/app/features/puzzle-hero/tracks/tracks.module#TracksModule" },
-    { path: "scoreboard", loadChildren: "src/app/features/puzzle-hero/scoreboard/scoreboard.module#ScoreboardModule" },
+    { path: "tracks", loadChildren: "src/app/features/puzzle-hero/tracks/tracks.module#TracksModule", canActivate: [PuzzleHeroGuard] },
+    {
+        path: "scoreboard",
+        loadChildren: "src/app/features/puzzle-hero/scoreboard/scoreboard.module#ScoreboardModule",
+        canActivate: [ScoreboardGuard]
+    },
     { path: "**", redirectTo: "tracks" }
 ];
 
