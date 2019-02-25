@@ -1,15 +1,14 @@
-import { BadRequestException, Injectable, NotFoundException, HttpService, InternalServerErrorException } from '@nestjs/common';
+import { BadRequestException, Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
+import { HttpService } from '@nestjs/common/http';
 import { InjectModel } from '@nestjs/mongoose';
+import { AxiosResponse } from 'axios';
 import { Model } from 'mongoose';
 import { Questions, ValidationTypes } from './questions.model';
-import Axios, { AxiosResponse } from 'axios';
 
 @Injectable()
 export class QuestionsService {
-
-    private httpService: HttpService;
-    constructor(@InjectModel('questions') private readonly questionsModel: Model<Questions>) { 
-        this.httpService = new HttpService;
+    constructor(@InjectModel('questions') private readonly questionsModel: Model<Questions>,
+                private httpService: HttpService) {
     }
 
     public async validateAnswer(answer: string, questionId: string): Promise<number> {
@@ -41,7 +40,7 @@ export class QuestionsService {
                 }
                 break;
             default:
-                throw new BadRequestException("Invalid validation type");
+                throw new BadRequestException('Invalid validation type');
         }
 
         return question.score;
@@ -57,31 +56,32 @@ export class QuestionsService {
     }
 
     public async validateCustomFunction(answer: string, url: string): Promise<boolean> {
-        let jsonAnswer: JSON = null;
+        let jsonAnswer: object = null;
         try {
             jsonAnswer = JSON.parse(answer);
         } catch (e) {
-            throw new BadRequestException("Custom function validation requires the answer to be a valid JSON object.");
+            throw new BadRequestException('Custom function validation requires the answer to be a valid JSON object.');
         }
 
         if (jsonAnswer) {
-            
+            let response: AxiosResponse;
             try {
-                const response = await this.httpService.post(url, jsonAnswer, 
-                    { 
-                        "headers": { "Secret" : process.env.PUZZLE_HERO_VALIDATION_SECRET}
-                    }).toPromise();
-
-                if (!response) {
-                    throw new InternalServerErrorException("Custom validation endpoint does not respond.");
-                }
-                if (response.status !== 200) {
-                    throw new BadRequestException('Invalid answer');
-                }
-                return true;
+                response = await this.httpService.post(url, jsonAnswer, {
+                    headers: {
+                        Secret: process.env.PUZZLE_HERO_VALIDATION_SECRET
+                    }
+                }).toPromise();
             } catch (e) {
                 throw new BadRequestException('Invalid answer');
             }
+
+            if (!response) {
+                throw new InternalServerErrorException('Custom validation endpoint does not respond.');
+            }
+            if (response.status !== 200) {
+                throw new BadRequestException('Invalid answer');
+            }
+            return true;
         } else {
             throw new BadRequestException('Problem with JSON answer.');
         }
