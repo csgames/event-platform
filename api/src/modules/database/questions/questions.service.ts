@@ -2,12 +2,15 @@ import { BadRequestException, Injectable, NotFoundException, HttpService, Intern
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Questions, ValidationTypes } from './questions.model';
-import Axios from 'axios';
+import Axios, { AxiosResponse } from 'axios';
 
 @Injectable()
 export class QuestionsService {
 
-    constructor(@InjectModel('questions') private readonly questionsModel: Model<Questions>) { }
+    private httpService: HttpService;
+    constructor(@InjectModel('questions') private readonly questionsModel: Model<Questions>) { 
+        this.httpService = new HttpService;
+    }
 
     public async validateAnswer(answer: string, questionId: string): Promise<number> {
         const question = await this.questionsModel.findOne({
@@ -61,22 +64,24 @@ export class QuestionsService {
             throw new BadRequestException("Custom function validation requires the answer to be a valid JSON object.");
         }
 
-        if (jsonAnswer) {            
-            let response = await Axios.post(url, jsonAnswer, 
-                { 
-                    "headers": { "Secret" : process.env.PUZZLE_HERO_VALIDATION_SECRET}
-                }).catch((error) => {
-                    throw new BadRequestException('Invalid answer');
-                });
+        if (jsonAnswer) {
+            
+            try {
+                const response = await this.httpService.post(url, jsonAnswer, 
+                    { 
+                        "headers": { "Secret" : process.env.PUZZLE_HERO_VALIDATION_SECRET}
+                    }).toPromise();
 
-            console.log(response);
-            if (!response) {
-                throw new InternalServerErrorException("Custom validation endpoint does not respond.");
-            }
-            if (response.status !== 200) {
+                if (!response) {
+                    throw new InternalServerErrorException("Custom validation endpoint does not respond.");
+                }
+                if (response.status !== 200) {
+                    throw new BadRequestException('Invalid answer');
+                }
+                return true;
+            } catch (e) {
                 throw new BadRequestException('Invalid answer');
             }
-            return true;
         } else {
             throw new BadRequestException('Problem with JSON answer.');
         }
