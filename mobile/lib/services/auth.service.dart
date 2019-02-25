@@ -1,64 +1,29 @@
 import 'dart:async';
 import 'dart:convert';
-import 'package:http/http.dart';
-import 'package:CSGamesApp/domain/user.dart';
-import 'package:CSGamesApp/services/token.service.dart';
-import 'package:CSGamesApp/utils/environment.dart';
-import 'package:CSGamesApp/utils/url-encoded-params.dart';
+import 'package:CSGamesApp/services/gateway.api.dart';
+import 'package:CSGamesApp/utils/http-client.dart';
 
-class AuthService {
-  final Client _http;
-  final TokenService _tokenService;
+class AuthService extends GatewayApi {
+  final HttpClient _http;
 
-  User _currentUser;
-  User get currentUser => _currentUser;
+  AuthService(this._http);
 
-  bool loggedIn;
+  Future<bool> checkLoggedIn() async {
+    var headers = {"With-Event": "false"};
+    var response = await _http.get(url("isloggedin"), headers: headers);
+    var body = json.decode(response.body);
+    return body["logged_in"];
+  }
 
-  AuthService(this._http, this._tokenService) {
-    checkLoggedIn();
-    if (_tokenService.tokenPayload != null) {
-      updateCurrentUser();
+  Future<void> login(String email, String password, {remember: "true"}) async {
+    var body = {"email": email, "password": password, "remember": remember};
+    var headers = {"With-Event": "false"};
+    var response = await _http.post(url("login"), body: body, headers: headers);
+    if (response.statusCode != 200) throw 'Unauthenticated';
+  }
+
+    Future<void> logout() async {
+        var headers = {"With-Event": "false"};
+        await _http.get(url("logout"), headers: headers);
     }
-  }
-
-  void updateCurrentUser() {
-    var payload = _tokenService.tokenPayload;
-    this._currentUser = User()
-      ..id = payload["user_id"]
-      ..permissions = List.castFrom<dynamic, String>(json.decode(payload["permissions"]))
-      ..firstName = payload["firstname"]
-      ..lastName = payload["lastname"]
-      ..role = payload["role"]
-      ..username = payload["name"]
-      ..email = payload["name"]
-      ..birthDate = payload["birthDate"];
-  }
-
-  Future checkLoggedIn() async {
-    loggedIn = await _tokenService.validateTokens();
-  }
-
-  Future<void> login(String email, String password) async {
-    String url = '${Environment.stsUrl}/connect/token';
-    var body = UrlEncodedParams()
-      ..set('client_id', Environment.stsClientId)
-      ..set('client_secret', Environment.stsClientSecret)
-      ..set('scope', 'sts_api+offline_access')
-      ..set('grant_type', 'password')
-      ..set('username', email)
-      ..set('password', password);
-    var headers = { 'Content-Type': 'application/x-www-form-urlencoded' };
-    var response = await _http.post(url, body: body.toString(), headers: headers);
-    Map responseBody = json.decode(response.body);
-    _tokenService.setup(responseBody['access_token'], responseBody['refresh_token']);
-    if (!await _tokenService.validateTokens()) throw('Unauthenticated');
-    if (_tokenService.tokenPayload != null) {
-      updateCurrentUser();
-    }
-  }
-
-  void logout() {
-    _tokenService.clear();
-  }
 }

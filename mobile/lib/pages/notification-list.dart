@@ -13,14 +13,14 @@ import 'package:timeago/timeago.dart' as timeago;
 
 class NotificationListPage extends StatelessWidget {
 
-    IconData _getIcon(AppNotification notification) {
+    _getIcon(AppNotification notification) {
         switch (notification.type) {
             case NotificationTypes.Activity:
                 if (notification.activity != null) {
                     switch (notification.activity.type) {
-                        case ActivityTypes.Workshop:
+                        case ActivityTypes.Competition:
                             return FontAwesomeIcons.laptopCode;
-                        case ActivityTypes.Lunch:
+                        case ActivityTypes.Food:
                             return FontAwesomeIcons.utensils;
                     }
                 }

@@ -1,32 +1,19 @@
 import 'dart:async';
 import 'dart:convert';
-import 'package:CSGamesApp/services/event-management.service.dart';
+import 'package:CSGamesApp/services/csgames.api.dart';
 import 'package:CSGamesApp/utils/http-client.dart';
 import 'package:CSGamesApp/domain/attendee.dart';
 
-class AttendeesService extends EventManagementService {
+class AttendeesService extends CSGamesApi {
   HttpClient _httpClient;
 
   AttendeesService(this._httpClient) : super('attendee');
 
-  Future<Attendee> getAttendeeByUserId(String userId) async {
-    try {
-      final response = await _httpClient.get(this.get(path: 'user/$userId'));
-      var responseMap = json.decode(response.body);
-      var attendee = Attendee.fromMap(responseMap["attendee"]);
-      return attendee;
-    }
-    catch (e) {
-      print('AttendeesService.getAttendeeByUserId(): $e');
-      return null;
-    }
-  }
-
     Future<Attendee> getAttendeeInfo() async {
         try {
-            final response = await _httpClient.get(this.get(path: 'info'));
+            final response = await _httpClient.get(url('info'));
             var responseMap = json.decode(response.body);
-            var attendee = Attendee.fromInfoMap(responseMap["attendee"]);
+            var attendee = Attendee.fromInfoMap(responseMap);
             return attendee;
         }
         catch (e) {
@@ -37,9 +24,9 @@ class AttendeesService extends EventManagementService {
 
   Future<Attendee> getAttendeeByPublicId(String publicId) async {
     try {
-      final response = await _httpClient.get(this.get(path: '$publicId'));
+      final response = await _httpClient.get(url('$publicId'));
       var responseMap = json.decode(response.body);
-      var attendee = Attendee.fromMap(responseMap["attendee"]);
+      var attendee = Attendee.fromMap(responseMap);
       return attendee;
     }
     catch (e) {
@@ -48,9 +35,22 @@ class AttendeesService extends EventManagementService {
     }
   }
 
+  Future<Attendee> getAttendeeByEmail(String email) async {
+      try {
+      final response = await _httpClient.get(url('$email'));
+      var responseMap = json.decode(response.body);
+      var attendee = Attendee.fromMap(responseMap);
+      return attendee;
+    }
+    catch (e) {
+      print('AttendeesService.getAttendeeByEmail(): $e');
+      return null;
+    }
+  }
+
   Future<bool> updateAttendeePublicId(Attendee attendee) async {
     try {
-      final response = await _httpClient.put(this.get(path: '${attendee.id}/public_id/${attendee.publicId}'));
+      final response = await _httpClient.put(url('${attendee.id}/public-id/${attendee.publicId}'));
       return response.statusCode == 200;
     }
     catch (e) {
@@ -61,12 +61,27 @@ class AttendeesService extends EventManagementService {
 
   Future<bool> setFcmToken(String token) async {
     final body = {'token': token};
-    final response = await _httpClient.put(this.get(path: 'token'), body: body);
+    final response = await _httpClient.put(url('token'), body: body, headers: {"With-Event": "false"});
     return response.statusCode == 200;
   }
 
   Future<bool> removeFcmToken(String token) async {
-    final response = await _httpClient.delete(this.get(path: 'token/$token'));
+    final response = await _httpClient.delete(url('token/$token'), headers: {"With-Event": "false"});
     return response.statusCode == 200;
   }
+
+    Future<bool> markNotificationAsSeen(String id) async {
+        final headers = {
+            'Content-type': 'application/json',
+            'Accept': 'application/json'
+        };
+        final body = json.encode({'notification': id, 'seen': true});
+
+        final response = await _httpClient.put(
+            url('notification'),
+            body: body,
+            headers: headers
+        );
+        return response.statusCode == 200;
+    }
 }

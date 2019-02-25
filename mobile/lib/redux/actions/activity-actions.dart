@@ -1,21 +1,9 @@
 import 'package:CSGamesApp/domain/activity.dart';
-import 'package:CSGamesApp/domain/user.dart';
-
-class RaffleAction {
-  final String activityId;
-
-  RaffleAction(this.activityId);
-}
-
-class WinnerSelected {
-  final User winner;
-
-  WinnerSelected(this.winner);
-}
-
-class RaffleError {}
+import 'package:CSGamesApp/domain/attendee.dart';
 
 class ResetActivity {}
+
+class PopAction {}
 
 class InitAction {
   final String activityId;
@@ -33,7 +21,19 @@ class ScanError {
 
 class AttendeeScanned {
   final Activity activity;
-  final User user;
+  final Attendee attendee;
 
-  AttendeeScanned(this.activity, this.user);
+  AttendeeScanned(this.activity, this.attendee);
+}
+
+class GetCurrentActivity {
+    final String activityId;
+
+    GetCurrentActivity(this.activityId);
+}
+
+class SetCurrentActivity {
+    final Activity activity;
+
+    SetCurrentActivity(this.activity);
 }

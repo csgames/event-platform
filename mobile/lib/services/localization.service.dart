@@ -88,4 +88,8 @@ class LocalizationService {
   Map<String, dynamic> get notification {
     return values['notification'];
   }
+
+  Map<String, dynamic> get puzzle {
+      return values['puzzle'];
+  }
 }

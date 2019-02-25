@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:CSGamesApp/components/pill-button.dart';
+import 'package:CSGamesApp/domain/guide.dart';
 import 'package:CSGamesApp/services/localization.service.dart';
 import 'package:CSGamesApp/utils/constants.dart';
 import 'package:flutter/material.dart';
@@ -8,31 +9,36 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ParkingState extends StatefulWidget {
+    final Parking _parking;
+
+    ParkingState(this._parking);
+
     @override
-    State createState() => _ParkingPageState();
+    State createState() => _ParkingPageState(_parking);
 }
 
 class _ParkingPageState extends State<ParkingState> {
-    final _latitudePrincipal = 45.5054887;
-    final _longitudePrincipal = -73.6132495;
     final _iosOffsetX = -0.0015;
     final _iosOffsetY = 0.001;
+    final Parking _parking;
 
     var showMap = false;
 
     GoogleMapController mapController;
 
-    _ParkingPageState();
+    _ParkingPageState(this._parking);
 
     Future _onMapCreated(GoogleMapController controller) async {
         setState(() => mapController = controller);
 
-        mapController.addMarker(
-            MarkerOptions(
-                position: LatLng(_latitudePrincipal, _longitudePrincipal),
-                infoWindowText: InfoWindowText("Pavillon principal", "Payant"),
-            )
-        );
+        for (var c in _parking.coordinates) {
+            mapController.addMarker(
+                MarkerOptions(
+                    position: LatLng(c.latitude, c.longitude)
+                )
+            );
+
+        }
     }
 
     void _close(BuildContext context) {
@@ -43,9 +49,9 @@ class _ParkingPageState extends State<ParkingState> {
     Future _clickNavigate() async {
         var url = '';
         if (Platform.isIOS) {
-            url = 'http://maps.apple.com/?daddr=$_latitudePrincipal,$_longitudePrincipal';
+            url = 'http://maps.apple.com/?daddr=${_parking.latitude},${_parking.longitude}';
         } else if (Platform.isAndroid) {
-            url = 'https://www.google.com/maps/search/?api=1&query=École+Polytechnique+de+Montréal';
+            url = 'https://www.google.com/maps/search/?api=1&query=${_parking.latitude},${_parking.longitude}';
         }
         if (await canLaunch(url)) {
             await launch(url);
@@ -57,7 +63,7 @@ class _ParkingPageState extends State<ParkingState> {
     Widget _buildMap(BuildContext context) {
         return Container(
             child: Hero(
-                tag: "guide-card-2",
+                tag: "guide-card-parking",
                 child: Stack(
                     children: <Widget>[
                         Positioned(
@@ -132,18 +138,16 @@ class _ParkingPageState extends State<ParkingState> {
                                                 height: MediaQuery
                                                     .of(context)
                                                     .size
-                                                    .height * 0.50,
+                                                    .height * 0.6,
                                                 child: showMap ? GoogleMap(
                                                     onMapCreated: _onMapCreated,
-                                                    options: GoogleMapOptions(
-                                                        cameraPosition: CameraPosition(
-                                                            target: LatLng(
-                                                                _latitudePrincipal + (Platform.isIOS ? _iosOffsetY : 0),
-                                                                _longitudePrincipal + (Platform.isIOS ? _iosOffsetX : 0)
-                                                            ),
-                                                            zoom: 17.0
+                                                    initialCameraPosition: CameraPosition(
+                                                        target: LatLng(
+                                                            _parking.latitude + (Platform.isIOS ? _iosOffsetY : 0),
+                                                            _parking.longitude + (Platform.isIOS ? _iosOffsetX : 0)
                                                         ),
-                                                    ),
+                                                        zoom: _parking.zoom
+                                                    )
                                                 ) : Container()
                                             )
                                         ),

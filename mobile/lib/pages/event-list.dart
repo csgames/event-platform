@@ -1,7 +1,5 @@
-import 'package:CSGamesApp/redux/actions/attendee-retrieval-actions.dart';
 import 'package:CSGamesApp/redux/actions/login-actions.dart';
 import 'package:CSGamesApp/redux/actions/notification-actions.dart';
-import 'package:CSGamesApp/redux/actions/profile-actions.dart';
 import 'package:CSGamesApp/services/localization.service.dart';
 import 'package:CSGamesApp/utils/constants.dart';
 import 'package:flutter/material.dart';
@@ -62,12 +60,8 @@ class EventList extends StatelessWidget {
         action.completer.future.then((isLoggedIn) {
           final eventState = store.state.eventState;
           if (isLoggedIn && eventState.events.isEmpty && !eventState.hasErrors) {
-            store.dispatch(SetupNotificationAction());
-            store.dispatch(LoadEventsAction());
-
-            GetCurrentUserAction action = GetCurrentUserAction();
-            store.dispatch(action);
-            action.completer.future.then((id) => store.dispatch(GetCurrentAttendeeAction()));
+              store.dispatch(LoadEventsAction());
+              store.dispatch(SetupNotificationAction());
           } else if (!isLoggedIn) {
             Navigator.pushReplacementNamed(context, Routes.LOGIN);
           }
@@ -128,6 +122,7 @@ class _EventListPageViewModel {
   Function logOut;
   Function reset;
   Function setCurrentEvent;
+  Function getCurrentAttendee;
 
   _EventListPageViewModel(
     this.events,
@@ -135,7 +130,8 @@ class _EventListPageViewModel {
     this.hasErrors,
     this.logOut,
     this.reset,
-    this.setCurrentEvent
+    this.setCurrentEvent,
+    this.getCurrentAttendee
   );
 
   _EventListPageViewModel.fromStore(Store<AppState> store) {

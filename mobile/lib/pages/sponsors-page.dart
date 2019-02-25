@@ -5,10 +5,10 @@ import 'package:CSGamesApp/domain/sponsors.dart';
 import 'package:CSGamesApp/pages/sponsors-dialog.dart';
 import 'package:CSGamesApp/redux/actions/sponsors-actions.dart';
 import 'package:CSGamesApp/redux/state.dart';
+import 'package:CSGamesApp/redux/states/sponsors-state.dart';
 import 'package:CSGamesApp/services/localization.service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:redux/redux.dart';
 
 class SponsorsPage extends StatelessWidget {
     void _openDialog(BuildContext context, Sponsors sponsors) {
@@ -31,13 +31,13 @@ class SponsorsPage extends StatelessWidget {
 
     Widget _buildImage(BuildContext context, Sponsors sponsors) {
         return TouchableImage(
-            sponsors.widthFactor,
-            sponsors.heightFactor,
+            sponsors.details.widthFactor.toDouble(),
+            sponsors.details.heightFactor.toDouble(),
             EdgeInsets.fromLTRB(
-                sponsors.padding[0].toDouble(),
-                sponsors.padding[1].toDouble(),
-                sponsors.padding[2].toDouble(),
-                sponsors.padding[3].toDouble()
+                sponsors.details.padding[0].toDouble(),
+                sponsors.details.padding[1].toDouble(),
+                sponsors.details.padding[2].toDouble(),
+                sponsors.details.padding[3].toDouble()
             ),
             sponsors.imageUrl,
                 () => _openDialog(context, sponsors)
@@ -64,8 +64,8 @@ class SponsorsPage extends StatelessWidget {
         return Column(children: rows);
     }
 
-    Widget _buildSponsors(BuildContext context, _SponsorsPageViewModel model) {
-        return model.hasErrors
+    Widget _buildSponsors(BuildContext context, SponsorsState state) {
+        return state.hasErrors
             ? Text(LocalizationService
             .of(context)
             .sponsors['error'])
@@ -79,7 +79,7 @@ class SponsorsPage extends StatelessWidget {
                         padding: EdgeInsets.symmetric(vertical: 15.0),
                         scrollDirection: Axis.vertical,
                         shrinkWrap: true,
-                        children: model.sponsors.isEmpty ? [] : _groupSponsors(context, model.sponsors)
+                        children: state.sponsors.isEmpty ? [] : _groupSponsors(context, state.sponsors)
                     )
                 )
             ]
@@ -113,33 +113,17 @@ class SponsorsPage extends StatelessWidget {
 
     @override
     Widget build(BuildContext context) {
-        return StoreConnector<AppState, _SponsorsPageViewModel>(
+        return StoreConnector<AppState, SponsorsState>(
             onInit: (store) {
                 final sponsorsState = store.state.sponsorsState;
                 if (sponsorsState.sponsors.isEmpty && !sponsorsState.hasErrors) {
-                    store.dispatch(LoadSponsorsAction(store.state.currentEvent.id));
+                    store.dispatch(LoadSponsorsAction());
                 }
             },
-            converter: (store) => _SponsorsPageViewModel.fromStore(store),
-            builder: (BuildContext context, _SponsorsPageViewModel model) {
-                return model.isLoading ? LoadingSpinner() : _buildSponsors(context, model);
+            converter: (store) => store.state.sponsorsState,
+            builder: (BuildContext context, SponsorsState state) {
+                return state.isLoading ? LoadingSpinner() : _buildSponsors(context, state);
             }
         );
-    }
-}
-
-class _SponsorsPageViewModel {
-    Map<String, List<Sponsors>> sponsors;
-    bool isLoading;
-    bool hasErrors;
-
-    _SponsorsPageViewModel(this.sponsors,
-        this.isLoading,
-        this.hasErrors);
-
-    _SponsorsPageViewModel.fromStore(Store<AppState> store) {
-        sponsors = store.state.sponsorsState.sponsors;
-        isLoading = store.state.sponsorsState.isLoading;
-        hasErrors = store.state.sponsorsState.hasErrors;
     }
 }

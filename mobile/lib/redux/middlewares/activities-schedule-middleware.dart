@@ -18,7 +18,7 @@ class ActivitiesScheduleMiddleware implements EpicClass<AppState> {
   Stream call(Stream actions, EpicStore<AppState> store) {
     return Observable(actions)
       .ofType(TypeToken<LoadActivitiesScheduleAction>())
-      .switchMap((action) => _fetchActivities(action.eventId, action.code, action.completer));
+      .switchMap((action) => _fetchActivities(store.state.currentEvent.id, action.code, action.completer));
   }
 
   Stream<dynamic> _fetchActivities(String eventId, String code, Completer completer) async* {

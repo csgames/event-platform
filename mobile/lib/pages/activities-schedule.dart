@@ -15,26 +15,24 @@ import 'package:CSGamesApp/domain/activity.dart';
 import 'package:CSGamesApp/pages/activity.dart';
 
 class ActivitiesSchedulePage extends StatefulWidget {
-    final String _eventId;
     final String _userRole;
 
-    ActivitiesSchedulePage(this._eventId, this._userRole);
+    ActivitiesSchedulePage(this._userRole);
 
     @override
-    State<StatefulWidget> createState() => _ActivitiesScheduleState(_eventId, this._userRole);
+    State<StatefulWidget> createState() => _ActivitiesScheduleState(this._userRole);
 }
 
 class _ActivitiesScheduleState extends State<ActivitiesSchedulePage> with TickerProviderStateMixin {
-    String _eventId;
     String _userRole;
     TabController _tabController;
     Map<String, Map<String, List<Activity>>> _activities;
     int currentTabIndex = 0;
 
-    _ActivitiesScheduleState(this._eventId, this._userRole);
+    _ActivitiesScheduleState(this._userRole);
 
     void _showActivity(Activity activity) {
-        if (_userRole == "attendee") {
+        if (_userRole == "attendee" || _userRole == "godparent" || _userRole == "captain") {
             return;
         }
         Navigator.push(
@@ -139,7 +137,7 @@ class _ActivitiesScheduleState extends State<ActivitiesSchedulePage> with Ticker
             onInit: (store) {
                 final state = store.state.activitiesScheduleState;
                 if (state.activities.isEmpty && !state.isLoading && !state.hasErrors) {
-                    store.dispatch(LoadActivitiesScheduleAction(_eventId, LocalizationService
+                    store.dispatch(LoadActivitiesScheduleAction(LocalizationService
                         .of(context)
                         .code));
                 }

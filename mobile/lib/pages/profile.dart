@@ -1,7 +1,8 @@
 import 'package:CSGamesApp/components/gravatar.dart';
 import 'package:CSGamesApp/components/pill-button.dart';
 import 'package:CSGamesApp/components/title.dart';
-import 'package:CSGamesApp/domain/user.dart';
+import 'package:CSGamesApp/domain/attendee.dart';
+import 'package:CSGamesApp/domain/team.dart';
 import 'package:CSGamesApp/redux/actions/profile-actions.dart';
 import 'package:CSGamesApp/redux/state.dart';
 import 'package:CSGamesApp/services/localization.service.dart';
@@ -24,7 +25,7 @@ class ProfilePage extends StatelessWidget {
         shape: BoxShape.circle,
         image: DecorationImage(
           fit: BoxFit.fill,
-          image: Gravatar(model.user.username)
+          image: Gravatar(model.attendee.email)
         )
       )
     );
@@ -34,7 +35,7 @@ class ProfilePage extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.all(10.0),
       child: Text(
-        '${model.user.firstName} ${model.user.lastName}',
+        '${model.attendee.firstName} ${model.attendee.lastName}',
         style: TextStyle(
           fontFamily: 'Raleway',
           fontSize: 40.0
@@ -43,9 +44,34 @@ class ProfilePage extends StatelessWidget {
     );
   }
 
+  Widget _buildTeam(_ProfilePageViewModel model) {
+    return Text(
+        '${model.team.name}',
+        style: TextStyle(
+          fontFamily: 'Raleway',
+          fontSize: 30.0,
+          fontWeight: FontWeight.w400
+        )
+    );
+  }
+
+  Widget _buildSchool(_ProfilePageViewModel model) {
+      return Padding(
+          padding: EdgeInsets.all(10.0),
+          child: Text(
+            '${model.team.school.name}',
+            style: TextStyle(
+                fontFamily: 'Raleway',
+                fontSize: 20.0,
+                fontWeight: FontWeight.w100
+            )
+        )
+      );
+  }
+
   Widget _buildQR(BuildContext context, _ProfilePageViewModel model) {
     return QrImage(
-      data: model.user.id,
+      data: model.attendee.publicId,
       size: MediaQuery.of(context).size.width * 0.4
     );
   }
@@ -106,6 +132,8 @@ class ProfilePage extends StatelessWidget {
               AppTitle(LocalizationService.of(context).profile['title'], MainAxisAlignment.start),
               _buildAvatar(context, model),
               _buildName(model),
+              model.team != null ?_buildTeam(model) : Container(),
+              model.team != null ? _buildSchool(model) : Container(),
               _buildQR(context, model),
               _buildButton(context, model)
             ]
@@ -147,7 +175,8 @@ class _ProfilePageViewModel {
   bool isScanned;
   String errorTitle;
   String errorDescription;
-  User user;
+  Attendee attendee;
+  Team team;
   Function scan;
   Function reset;
 
@@ -156,7 +185,7 @@ class _ProfilePageViewModel {
     this.isScanned,
     this.errorTitle,
     this.errorDescription,
-    this.user,
+    this.attendee,
     this.scan,
     this.reset
   );
@@ -166,8 +195,9 @@ class _ProfilePageViewModel {
     isScanned = store.state.profileState.isScanned;
     errorTitle = store.state.profileState.errorTitle;
     errorDescription = store.state.profileState.errorDescription;
-    user = store.state.currentUser;
-    scan = (errorMessages) => store.dispatch(ScanAction(store.state.currentAttendee?.id ?? '', store.state.currentEvent, errorMessages));
+    attendee = store.state.currentAttendee;
+    team = store.state.currentTeam;
+    scan = (errorMessages) => store.dispatch(ScanAction(errorMessages));
     reset = () => store.dispatch(ResetProfileAction());
   }
 }

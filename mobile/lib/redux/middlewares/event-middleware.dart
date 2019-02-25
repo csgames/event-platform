@@ -2,16 +2,18 @@ import 'dart:async';
 
 import 'package:CSGamesApp/redux/actions/event-actions.dart';
 import 'package:CSGamesApp/redux/state.dart';
+import 'package:CSGamesApp/services/auth.service.dart';
 import 'package:CSGamesApp/services/events.service.dart';
-import 'package:CSGamesApp/services/token.service.dart';
+import 'package:CSGamesApp/utils/http-client.dart';
 import 'package:redux_epics/redux_epics.dart';
 import 'package:rxdart/rxdart.dart';
 
 class EventMiddleware implements EpicClass<AppState> {
   final EventsService _eventsService;
-  final TokenService _tokenService;
+  final AuthService _authService;
+  final HttpClient _httpClient;
   
-  EventMiddleware(this._eventsService, this._tokenService);
+  EventMiddleware(this._eventsService, this._authService, this._httpClient);
 
   @override
   Stream call(Stream actions, EpicStore<AppState> store) {
@@ -21,7 +23,10 @@ class EventMiddleware implements EpicClass<AppState> {
         .switchMap((_) => _fetchEvents()),
       Observable(actions)
         .ofType(TypeToken<IsLoggedInAction>())
-        .switchMap((action) => _checkLogin(action.completer))
+        .switchMap((action) => _checkLogin(action.completer)),
+      Observable(actions)
+        .ofType(TypeToken<SetCurrentEventAction>())
+        .switchMap((action) => _setCurrentEvent(store.state.currentEvent.id))
     ]);
   }
 
@@ -35,8 +40,12 @@ class EventMiddleware implements EpicClass<AppState> {
   }
 
   Stream<dynamic> _checkLogin(Completer completer) async* {
-    bool result = await this._tokenService.validateTokens();
+    bool result = await this._authService.checkLoggedIn();
     completer.complete(result);
     yield InitAction();
+  }
+
+  Stream<dynamic> _setCurrentEvent(String eventId) async* {
+    this._httpClient.eventId = eventId;
   }
 }

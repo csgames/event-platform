@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:CSGamesApp/components/bullet-point.dart';
 import 'package:CSGamesApp/components/pill-button.dart';
+import 'package:CSGamesApp/domain/guide.dart';
 import 'package:CSGamesApp/services/localization.service.dart';
 import 'package:CSGamesApp/utils/constants.dart';
 import 'package:flutter/material.dart';
@@ -10,12 +11,20 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class RestaurantState extends StatefulWidget {
+    final Restaurant _restaurant;
+
+    RestaurantState(this._restaurant);
+
     @override
-    State createState() => _RestaurantPageState();
+    State createState() => _RestaurantPageState(_restaurant);
 }
 
 class _RestaurantPageState extends State<RestaurantState> {
+    final Restaurant _restaurant;
+
     GoogleMapController mapController;
+
+  _RestaurantPageState(this._restaurant);
 
     Widget _buildBulletPoint(String value) {
         return Padding(
@@ -53,9 +62,9 @@ class _RestaurantPageState extends State<RestaurantState> {
     Future _clickNavigate() async {
         var url = '';
         if (Platform.isIOS) {
-            // url = 'http://maps.apple.com/?daddr=$_latitudePrincipal,$_longitudePrincipal';
+            url = 'http://maps.apple.com/?daddr=${_restaurant.latitude},${_restaurant.longitude}';
         } else if (Platform.isAndroid) {
-            url = 'https://www.google.com/maps/search/?api=1&query=restaurant+cote+des+neiges+montreal';
+            url = 'https://www.google.com/maps/search/?api=1&query=${_restaurant.latitude},${_restaurant.longitude}';
         }
         if (await canLaunch(url)) {
             await launch(url);
@@ -67,7 +76,7 @@ class _RestaurantPageState extends State<RestaurantState> {
     Widget _buildMap(BuildContext context) {
         return Container(
             child: Hero(
-                tag: "guide-card-4",
+                tag: "guide-card-restaurant",
                 child: Stack(
                     children: <Widget>[
                         Positioned(
@@ -135,18 +144,7 @@ class _RestaurantPageState extends State<RestaurantState> {
                                         ),
                                         Expanded(
                                             child: ListView(
-                                                children: <Widget>[
-                                                    _buildBulletPoint('Frite Alors'),
-                                                    _buildBulletPoint('La caverne'),
-                                                    _buildBulletPoint('Saint-Houblon Côte-des-neiges'),
-                                                    _buildBulletPoint('Atami Sushi'),
-                                                    _buildBulletPoint('Kinto Ramen'),
-                                                    _buildBulletPoint('McCarold'),
-                                                    _buildBulletPoint('Piri Piri Côte des Neiges'),
-                                                    _buildBulletPoint('Resto-Bar La Maisonnée'),
-                                                    _buildBulletPoint('Al Amine'),
-                                                    _buildBulletPoint('Caravane Café')
-                                                ]
+                                                children: _restaurant.coordinates.map((c) => _buildBulletPoint(c.info)).toList()
                                             )
                                         ),
                                         Padding(

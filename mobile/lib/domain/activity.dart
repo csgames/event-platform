@@ -1,6 +1,6 @@
 class ActivityTypes {
-    static const String Workshop = 'workshop';
-    static const String Lunch = 'lunch';
+    static const String Competition = 'competition';
+    static const String Food = 'food';
 }
 
 class Activity {
@@ -41,3 +41,4 @@ class Activity {
         type = map['type'];
     }
 }
+

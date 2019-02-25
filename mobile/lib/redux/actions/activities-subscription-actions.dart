@@ -1,8 +1,7 @@
 class SubscribeAction {
     final String activityId;
-    final String attendeeId;
 
-    SubscribeAction(this.activityId, this.attendeeId);
+    SubscribeAction(this.activityId);
 }
 
 class NotSubscribedAction {
@@ -19,7 +18,6 @@ class SubscribedAction {
 
 class VerifySubscriptionAction {
     final String activityId;
-    final String attendeeId;
 
-    VerifySubscriptionAction(this.activityId, this.attendeeId);
+    VerifySubscriptionAction(this.activityId);
 }

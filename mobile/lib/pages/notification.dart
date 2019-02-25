@@ -44,6 +44,7 @@ class _NotificationPageState extends State<NotificationPage> {
         return Padding(
             padding: EdgeInsets.all(15.0),
             child: TextField(
+                maxLines: null,
                 keyboardType: TextInputType.multiline,
                 decoration: InputDecoration(labelText: LocalizationService
                     .of(context)
@@ -63,6 +64,7 @@ class _NotificationPageState extends State<NotificationPage> {
         return Padding(
             padding: EdgeInsets.all(15.0),
             child: TextField(
+                maxLines: null,
                 keyboardType: TextInputType.multiline,
                 decoration: InputDecoration(labelText: LocalizationService
                     .of(context)
@@ -82,6 +84,7 @@ class _NotificationPageState extends State<NotificationPage> {
         return Padding(
             padding: EdgeInsets.all(15.0),
             child: TextField(
+                maxLines: null,
                 keyboardType: TextInputType.multiline,
                 decoration: InputDecoration(labelText: LocalizationService
                     .of(context)
@@ -100,7 +103,7 @@ class _NotificationPageState extends State<NotificationPage> {
     Widget _buildSendButton(BuildContext context, VoidCallback onPressed) {
         return Center(
             child: PillButton(
-                color: Constants.csRed,
+                color: Constants.csBlue,
                 onPressed: onPressed,
                 child: Padding(
                     padding: EdgeInsets.fromLTRB(25.0, 12.5, 25.0, 12.5),
@@ -146,13 +149,13 @@ class _NotificationPageState extends State<NotificationPage> {
     Widget build(BuildContext context) {
         return StoreConnector<AppState, _NotificationViewModel>(
             onInit: (store) {
-                LoadActivitiesScheduleAction action = LoadActivitiesScheduleAction(store.state.currentEvent.id, LocalizationService
+                LoadActivitiesScheduleAction action = LoadActivitiesScheduleAction(LocalizationService
                     .of(context)
                     .code);
                 store.dispatch(action);
                 action.completer.future.then((activities) {
                     _activities = activities;
-                    _activities.add(Activity(name: 'Event'));
+                    _activities.insert(0, Activity(name: 'Event'));
                 });
             },
             converter: (store) => _NotificationViewModel.fromStore(store),

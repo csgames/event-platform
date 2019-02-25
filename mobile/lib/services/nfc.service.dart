@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:flutter/services.dart';
 
 class NfcService {
-  static const platform = const MethodChannel('app.polyhx.io/nfc');
+  static const platform = const MethodChannel('app.csgames.org/nfc');
 
   StreamController<String> _controller = StreamController<String>.broadcast();
 

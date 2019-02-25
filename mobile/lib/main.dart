@@ -3,23 +3,28 @@ import 'package:CSGamesApp/redux/middlewares/activities-schedule-middleware.dart
 import 'package:CSGamesApp/redux/middlewares/activities-subscription-middleware.dart';
 import 'package:CSGamesApp/redux/middlewares/activity-middleware.dart';
 import 'package:CSGamesApp/redux/middlewares/attendee-retrieval-middleware.dart';
+import 'package:CSGamesApp/redux/middlewares/guide-middleware.dart';
 import 'package:CSGamesApp/redux/middlewares/login-middleware.dart';
 import 'package:CSGamesApp/redux/middlewares/notification-middleware.dart';
 import 'package:CSGamesApp/redux/middlewares/profile-middleware.dart';
+import 'package:CSGamesApp/redux/middlewares/puzzle-hero-middleware.dart';
+import 'package:CSGamesApp/redux/middlewares/puzzle-middleware.dart';
 import 'package:CSGamesApp/redux/middlewares/sponsors-middleware.dart';
 import 'package:CSGamesApp/redux/states/activities-schedule-state.dart';
 import 'package:CSGamesApp/redux/states/activities-subscription-state.dart';
 import 'package:CSGamesApp/redux/states/activity-state.dart';
 import 'package:CSGamesApp/redux/states/attendee-retrieval-state.dart';
 import 'package:CSGamesApp/redux/states/event-state.dart';
+import 'package:CSGamesApp/redux/states/guide-state.dart';
 import 'package:CSGamesApp/redux/states/login-state.dart';
 import 'package:CSGamesApp/redux/states/notification-state.dart';
 import 'package:CSGamesApp/redux/states/profile-state.dart';
+import 'package:CSGamesApp/redux/states/puzzle-state.dart';
 import 'package:CSGamesApp/redux/states/sponsors-state.dart';
 import 'package:CSGamesApp/services/activities.service.dart';
-import 'package:CSGamesApp/services/notification.service.dart';
+import 'package:CSGamesApp/services/puzzle-hero.service.dart';
 import 'package:CSGamesApp/services/schedule.service.dart';
-import 'package:CSGamesApp/services/sponsors.service.dart';
+import 'package:CSGamesApp/services/team.service.dart';
 import 'package:CSGamesApp/utils/http-client.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:http/http.dart';
@@ -35,8 +40,6 @@ import 'package:CSGamesApp/services/attendees.service.dart';
 import 'package:CSGamesApp/services/auth.service.dart';
 import 'package:CSGamesApp/services/events.service.dart';
 import 'package:CSGamesApp/services/nfc.service.dart';
-import 'package:CSGamesApp/services/token.service.dart';
-import 'package:CSGamesApp/services/users.service.dart';
 import 'package:CSGamesApp/utils/constants.dart';
 import 'package:CSGamesApp/utils/routes.dart';
 import 'package:CSGamesApp/redux/middlewares/event-middleware.dart';
@@ -48,23 +51,23 @@ void main() {
     final client = Client();
     final nfcService = NfcService();
     final qrCodeReader = QRCodeReader();
+    final httpClient = HttpClient(client);
     final scheduleService = ScheduleService();
-    final tokenService = TokenService(client);
+    final teamService = TeamService(httpClient);
+    final authService = AuthService(httpClient);
     final firebaseMessaging = FirebaseMessaging();
-    final httpClient = HttpClient(client, tokenService);
-    final authService = AuthService(client, tokenService);
-    final usersService = UsersService(httpClient);
     final eventsService = EventsService(httpClient);
-    final sponsorsService = SponsorsService(httpClient);
     final attendeesService = AttendeesService(httpClient);
+    final puzzleHeroService = PuzzleHeroService(httpClient);
     final activitiesService = ActivitiesService(httpClient);
-    final notificationService = NotificationService(httpClient);
     final store = Store<AppState>(
         appReducer,
         initialState: AppState(
+            guideState: GuideState.initial(),
             eventState: EventState.loading(),
             loginState: LoginState.initial(),
             profileState: ProfileState.initial(),
+            puzzlesState: PuzzlesState.initial(),
             activityState: ActivityState.initial(),
             sponsorsState: SponsorsState.initial(),
             notificationState: NotificationState.initial(),
@@ -73,15 +76,18 @@ void main() {
             activitiesSubscriptionState: ActivitiesSubscriptionState.initial()
         ),
         middleware: [
-            EpicMiddleware<AppState>(SponsorsMiddleware(sponsorsService)),
-            EpicMiddleware<AppState>(EventMiddleware(eventsService, tokenService)),
+            EpicMiddleware<AppState>(GuideMiddleware(eventsService)),
+            EpicMiddleware<AppState>(SponsorsMiddleware(eventsService)),
+            EpicMiddleware<AppState>(PuzzleHeroMiddleware(puzzleHeroService)),
             EpicMiddleware<AppState>(ActivityDescriptionMiddleware(activitiesService)),
+            EpicMiddleware<AppState>(PuzzleMiddleware(puzzleHeroService, qrCodeReader)),
+            EpicMiddleware<AppState>(EventMiddleware(eventsService, authService, httpClient)),
             EpicMiddleware<AppState>(ActivitiesScheduleMiddleware(eventsService, scheduleService)),
             EpicMiddleware<AppState>(LoginMiddleware(authService, firebaseMessaging, attendeesService)),
-            EpicMiddleware<AppState>(ProfileMiddleware(tokenService, qrCodeReader, attendeesService, eventsService)),
-            EpicMiddleware<AppState>(NotificationMiddleware(notificationService, firebaseMessaging, attendeesService)),
-            EpicMiddleware<AppState>(ActivityMiddleware(eventsService, nfcService, attendeesService, usersService, activitiesService)),
-            EpicMiddleware<AppState>(AttendeeRetrievalMiddleware(nfcService, attendeesService, eventsService, usersService, qrCodeReader))
+            EpicMiddleware<AppState>(ActivityMiddleware(nfcService, attendeesService, activitiesService)),
+            EpicMiddleware<AppState>(AttendeeRetrievalMiddleware(nfcService, attendeesService, qrCodeReader)),
+            EpicMiddleware<AppState>(ProfileMiddleware(qrCodeReader, attendeesService, eventsService, teamService)),
+            EpicMiddleware<AppState>(NotificationMiddleware(firebaseMessaging, attendeesService, eventsService, activitiesService))
         ]
     );
     runApp(CSGamesApp(store));
@@ -97,7 +103,7 @@ class CSGamesApp extends StatelessWidget {
         return StoreProvider(
             store: store,
             child: MaterialApp(
-                title: 'PolyHx',
+                title: 'CSGames',
                 debugShowCheckedModeBanner: false,
                 theme: ThemeData(
                     platform: TargetPlatform.android,

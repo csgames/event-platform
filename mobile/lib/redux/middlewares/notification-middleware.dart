@@ -4,45 +4,47 @@ import 'package:CSGamesApp/domain/activity.dart';
 import 'package:CSGamesApp/domain/notification.dart';
 import 'package:CSGamesApp/redux/actions/notification-actions.dart';
 import 'package:CSGamesApp/redux/state.dart';
+import 'package:CSGamesApp/services/activities.service.dart';
 import 'package:CSGamesApp/services/attendees.service.dart';
-import 'package:CSGamesApp/services/notification.service.dart';
+import 'package:CSGamesApp/services/events.service.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:redux_epics/redux_epics.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 class NotificationMiddleware implements EpicClass<AppState> {
-    final NotificationService _notificationService;
     final FirebaseMessaging _firebaseMessaging;
     final AttendeesService _attendeesService;
+    final EventsService _eventService;
+    final ActivitiesService _activitiesService;
 
-    NotificationMiddleware(this._notificationService, this._firebaseMessaging, this._attendeesService);
+    NotificationMiddleware(this._firebaseMessaging, this._attendeesService, this._eventService, this._activitiesService);
 
     @override
     Stream call(Stream actions, EpicStore<AppState> store) {
         return Observable.merge([
             Observable(actions)
                 .ofType(TypeToken<LoadNotificationsAction>())
-                .switchMap((action) => _fetchNotifications(action.eventId)),
+                .switchMap((action) => _fetchNotifications()),
             Observable(actions)
                 .ofType(TypeToken<SendSmsAction>())
-                .switchMap((action) => _sendSms(action.eventId, action.message)),
+                .switchMap((action) => _sendSms(action.message)),
             Observable(actions)
                 .ofType(TypeToken<SetupNotificationAction>())
                 .switchMap((action) => _setupNotifications()),
             Observable(actions)
                 .ofType(TypeToken<CheckUnseenNotificationsAction>())
-                .switchMap((action) => _checkUnseenNotifications(action.eventId)),
+                .switchMap((action) => _checkUnseenNotifications()),
             Observable(actions)
                 .ofType(TypeToken<SendPushAction>())
-                .switchMap((action) => _sendPush(action.eventId, action.title, action.body, action.activity))
+                .switchMap((action) => _sendPush(action.title, action.body, action.activity))
         ]);
     }
 
-    Stream<dynamic> _fetchNotifications(String eventId) async* {
+    Stream<dynamic> _fetchNotifications() async* {
         List<AppNotification> notifications = [];
         try {
-            notifications = await _notificationService.getNotificationsForEvent(eventId);
+            notifications = await _eventService.getNotificationsForEvent();
             yield NotificationsLoadedAction(notifications);
         } catch (err) {
             print('An error occured while getting the notifications: $err');
@@ -51,16 +53,16 @@ class NotificationMiddleware implements EpicClass<AppState> {
 
         try {
             for (AppNotification n in notifications) {
-                if (!n.seen) await _notificationService.markNotificationAsSeen(n.id);
+                if (!n.seen) await _attendeesService.markNotificationAsSeen(n.id);
             }
         } catch (err) {
             print('An error occured while marking the notification as seen $err');
         }
     }
 
-    Stream<dynamic> _sendSms(String eventId, String message) async* {
+    Stream<dynamic> _sendSms(String message) async* {
         try {
-            bool result = await _notificationService.sendSms(eventId, message);
+            bool result = await _eventService.sendSms(message);
             if (result)
                 yield SmsSentAction();
             else
@@ -71,13 +73,13 @@ class NotificationMiddleware implements EpicClass<AppState> {
         }
     }
 
-    Stream<dynamic> _sendPush(String eventId, String title, String body, Activity activity) async* {
+    Stream<dynamic> _sendPush(String title, String body, Activity activity) async* {
         try {
             bool result;
             if (activity.name == 'Event')
-                result = await _notificationService.sendPushToEvent(eventId, title, body);
+                result = await _eventService.sendPushToEvent(title, body);
             else
-                result = await _notificationService.sendPushToActivity(activity.id, title, body);
+                result = await _activitiesService.sendPushToActivity(activity.id, title, body);
 
             if (result)
                 yield PushSentAction();
@@ -99,7 +101,7 @@ class NotificationMiddleware implements EpicClass<AppState> {
             flutterLocalNotificationsPlugin.initialize(initializationSettings, onSelectNotification: (r) {});
 
             var androidPlatformChannelSpecifics = new AndroidNotificationDetails(
-                'polyhx', 'polyhx', 'PolyHx Channel',
+                'csgames', 'csgames', 'CSGames Channel',
                 importance: Importance.Default, priority: Priority.Default);
             var iOSPlatformChannelSpecifics = new IOSNotificationDetails();
             var platformChannelSpecifics = new NotificationDetails(
@@ -131,9 +133,9 @@ class NotificationMiddleware implements EpicClass<AppState> {
         }
     }
 
-    Stream<dynamic> _checkUnseenNotifications(String eventId) async* {
+    Stream<dynamic> _checkUnseenNotifications() async* {
         try {
-            int unseen = await _notificationService.getUnseenNotification(eventId);
+            int unseen = await _eventService.getUnseenNotification();
             if (unseen > 0) yield HasUnseenNotificationsAction();
         } catch (err) {
             print('An error occured while checking if the user has unseen notifications $err');

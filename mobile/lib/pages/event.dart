@@ -1,14 +1,18 @@
 import 'dart:async';
 
-import 'package:CSGamesApp/domain/user.dart';
-import 'package:CSGamesApp/pages/info.dart';
+import 'package:CSGamesApp/domain/attendee.dart';
 import 'package:CSGamesApp/pages/notification-list.dart';
 import 'package:CSGamesApp/pages/notification.dart';
 import 'package:CSGamesApp/pages/profile.dart';
+import 'package:CSGamesApp/pages/puzzle-hero.dart';
 import 'package:CSGamesApp/pages/sponsors-page.dart';
 import 'package:CSGamesApp/redux/actions/activities-schedule-actions.dart';
 import 'package:CSGamesApp/redux/actions/attendee-retrieval-actions.dart';
+import 'package:CSGamesApp/redux/actions/guide-actions.dart';
 import 'package:CSGamesApp/redux/actions/notification-actions.dart';
+import 'package:CSGamesApp/redux/actions/profile-actions.dart';
+import 'package:CSGamesApp/redux/actions/puzzle-actions.dart';
+import 'package:CSGamesApp/redux/actions/puzzle-hero-actions.dart';
 import 'package:CSGamesApp/redux/actions/sponsors-actions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -40,13 +44,13 @@ class _EventPageState extends State<EventPage> {
         Widget body;
         switch (EventTabs.values[_currentTabIndex]) {
             case EventTabs.Puzzle:
-                body = Container();
+                body = PuzzleHeroPage();
                 break;
             case EventTabs.Guide:
                 body = EventInfoPage();
                 break;
             case EventTabs.Activities:
-                body = ActivitiesSchedulePage(model.event.id, model.user.role);
+                body = ActivitiesSchedulePage(model.attendee?.role);
                 break;
             case EventTabs.Profile:
                 body = ProfilePage();
@@ -70,7 +74,7 @@ class _EventPageState extends State<EventPage> {
                 body = EventInfoPage();
                 break;
             case VolunteerTabs.Activities:
-                body = ActivitiesSchedulePage(model.event.id, model.user.role);
+                body = ActivitiesSchedulePage(model.attendee.role);
                 break;
             case VolunteerTabs.Profile:
                 body = ProfilePage();
@@ -94,7 +98,7 @@ class _EventPageState extends State<EventPage> {
                 body = NotificationPage();
                 break;
             case AdminEventTabs.Activities:
-                body = ActivitiesSchedulePage(model.event.id, model.user.role);
+                body = ActivitiesSchedulePage(model.attendee.role);
                 break;
             case AdminEventTabs.Profile:
                 body = ProfilePage();
@@ -112,6 +116,10 @@ class _EventPageState extends State<EventPage> {
         model.resetAttendeeRetrieval();
         model.resetSchedule();
         model.resetSponsors();
+        model.resetGuide();
+        model.resetTeam();
+        model.resetPuzzle();
+        model.resetPuzzleCard();
         return true;
     }
 
@@ -165,7 +173,7 @@ class _EventPageState extends State<EventPage> {
         ];
     }
 
-    List<Widget> _buildVolunteerItems() {
+    List<Widget> _buildVolunteerItems(_EventPageViewModel model) {
         return <Widget>[
             IconButton(
                 icon: Icon(
@@ -182,6 +190,9 @@ class _EventPageState extends State<EventPage> {
                     color: _currentTabIndex == VolunteerTabs.Guide.index ? Constants.csBlue : Colors.black
                 ),
                 onPressed: () {
+                    if (_currentTabIndex == VolunteerTabs.Scan.index) {
+                        model.unsubscribe();
+                    }
                     setState(() => _currentTabIndex = VolunteerTabs.Guide.index);
                 }
             ),
@@ -191,6 +202,9 @@ class _EventPageState extends State<EventPage> {
                     color: _currentTabIndex == VolunteerTabs.Sponsors.index ? Constants.csBlue : Colors.black
                 ),
                 onPressed: () {
+                    if (_currentTabIndex == VolunteerTabs.Scan.index) {
+                        model.unsubscribe();
+                    }
                     setState(() => _currentTabIndex = VolunteerTabs.Sponsors.index);
                 }
             ),
@@ -200,6 +214,9 @@ class _EventPageState extends State<EventPage> {
                     color: _currentTabIndex == VolunteerTabs.Activities.index ? Constants.csBlue : Colors.black
                 ),
                 onPressed: () {
+                    if (_currentTabIndex == VolunteerTabs.Scan.index) {
+                        model.unsubscribe();
+                    }
                     setState(() => _currentTabIndex = VolunteerTabs.Activities.index);
                 }
             ),
@@ -209,13 +226,16 @@ class _EventPageState extends State<EventPage> {
                     color: _currentTabIndex == VolunteerTabs.Profile.index ? Constants.csBlue : Colors.black
                 ),
                 onPressed: () {
+                    if (_currentTabIndex == VolunteerTabs.Scan.index) {
+                        model.unsubscribe();
+                    }
                     setState(() => _currentTabIndex = VolunteerTabs.Profile.index);
                 }
             )
         ];
     }
 
-    List<Widget> _buildAdminItems() {
+    List<Widget> _buildAdminItems(_EventPageViewModel model) {
         return <Widget>[
             IconButton(
                 icon: Icon(
@@ -232,6 +252,9 @@ class _EventPageState extends State<EventPage> {
                     color: _currentTabIndex == AdminEventTabs.Notification.index ? Constants.csBlue : Colors.black
                 ),
                 onPressed: () {
+                    if (_currentTabIndex == VolunteerTabs.Scan.index) {
+                        model.unsubscribe();
+                    }
                     setState(() => _currentTabIndex = AdminEventTabs.Notification.index);
                 }
             ),
@@ -241,6 +264,9 @@ class _EventPageState extends State<EventPage> {
                     color: _currentTabIndex == AdminEventTabs.Sponsors.index ? Constants.csBlue : Colors.black
                 ),
                 onPressed: () {
+                    if (_currentTabIndex == VolunteerTabs.Scan.index) {
+                        model.unsubscribe();
+                    }
                     setState(() => _currentTabIndex = AdminEventTabs.Sponsors.index);
                 }
             ),
@@ -250,6 +276,9 @@ class _EventPageState extends State<EventPage> {
                     color: _currentTabIndex == AdminEventTabs.Activities.index ? Constants.csBlue : Colors.black
                 ),
                 onPressed: () {
+                    if (_currentTabIndex == VolunteerTabs.Scan.index) {
+                        model.unsubscribe();
+                    }
                     setState(() => _currentTabIndex = AdminEventTabs.Activities.index);
                 }
             ),
@@ -259,6 +288,9 @@ class _EventPageState extends State<EventPage> {
                     color: _currentTabIndex == AdminEventTabs.Profile.index ? Constants.csBlue : Colors.black
                 ),
                 onPressed: () {
+                    if (_currentTabIndex == VolunteerTabs.Scan.index) {
+                        model.unsubscribe();
+                    }
                     setState(() => _currentTabIndex = AdminEventTabs.Profile.index);
                 }
             )
@@ -267,12 +299,13 @@ class _EventPageState extends State<EventPage> {
 
     Widget _buildNavigationBar(_EventPageViewModel vm) {
         List<Widget> items;
-        switch (vm.user.role) {
+        String role = vm.attendee != null ? vm.attendee.role : "";
+        switch (role) {
             case 'admin':
-                items = _buildAdminItems();
+                items = _buildAdminItems(vm);
                 break;
             case 'volunteer':
-                items = _buildVolunteerItems();
+                items = _buildVolunteerItems(vm);
                 break;
             default:
                 items = _buildItems();
@@ -331,31 +364,47 @@ class _EventPageState extends State<EventPage> {
         );
     }
 
+    Widget _selectBody(_EventPageViewModel model) {
+        Widget body;
+        String role = model.attendee != null ? model.attendee.role : "";
+        switch (role) {
+            case 'admin':
+                body = _buildBodyAdmin(model);
+                break;
+            case 'volunteer':
+                body = _buildBodyVolunteer(model);
+                break;
+            default:
+                body = _buildBody(model);
+                break;
+        }
+        return body;
+    }
+
     @override
     Widget build(BuildContext context) {
         return StoreConnector<AppState, _EventPageViewModel>(
-            onInit: (store) => store.dispatch(CheckUnseenNotificationsAction(store.state.currentEvent.id)),
+            onInit: (store) {
+                GetCurrentAttendeeAction action = GetCurrentAttendeeAction();
+                store.dispatch(action);
+                store.dispatch(CheckUnseenNotificationsAction(store.state.currentEvent.id));
+                action.completer.future.then((role) {
+                    if (role == "attendee"
+                        || role == "godparent"
+                        || role == "captain") {
+                        store.dispatch(GetCurrentTeamAction());
+                        store.dispatch(LoadPuzzleHeroAction());
+                    }
+                });
+            },
             converter: (store) => _EventPageViewModel.fromStore(store),
             builder: (BuildContext context, _EventPageViewModel model) {
-                Widget body;
-                switch (model.user.role) {
-                    case 'admin':
-                        body = _buildBodyAdmin(model);
-                        break;
-                    case 'volunteer':
-                        body = _buildBodyVolunteer(model);
-                        break;
-                    default:
-                        body = _buildBody(model);
-                        break;
-                }
                 return WillPopScope(
                     onWillPop: () => _reset(model),
                     child: Scaffold(
                         appBar: _buildAppBar(context, model),
-                        body: body,
+                        body: _selectBody(model),
                         resizeToAvoidBottomPadding: false,
-                        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
                         bottomNavigationBar: _buildNavigationBar(model)
                     )
                 );
@@ -367,24 +416,44 @@ class _EventPageState extends State<EventPage> {
 class _EventPageViewModel {
     bool hasUnseenNotifications;
     Event event;
-    User user;
+    Attendee attendee;
     Function resetSchedule;
     Function resetAttendeeRetrieval;
+    Function resetCurrentAttendee;
     Function resetSponsors;
+    Function resetGuide;
+    Function resetTeam;
+    Function unsubscribe;
+    Function resetPuzzle;
+    Function resetPuzzleCard;
 
-    _EventPageViewModel(this.hasUnseenNotifications,
+    _EventPageViewModel(
+        this.hasUnseenNotifications,
         this.event,
-        this.user,
+        this.attendee,
         this.resetSchedule,
         this.resetAttendeeRetrieval,
-        this.resetSponsors);
+        this.resetSponsors,
+        this.resetGuide,
+        this.resetTeam,
+        this.unsubscribe,
+        this.resetPuzzle,
+        this.resetCurrentAttendee,
+        this.resetPuzzleCard,
+    );
 
     _EventPageViewModel.fromStore(Store<AppState> store) {
         hasUnseenNotifications = store.state.notificationState.hasUnseenNotifications;
         event = store.state.currentEvent;
-        user = store.state.currentUser;
+        attendee = store.state.currentAttendee;
         resetSchedule = () => store.dispatch(ResetScheduleAction());
         resetAttendeeRetrieval = () => store.dispatch(ResetAttendeeAction());
+        resetCurrentAttendee = () => store.dispatch(ResetCurrentAttendeeAction());
         resetSponsors = () => store.dispatch(ResetSponsorsAction());
+        resetGuide = () => store.dispatch(InitGuideAction());
+        resetTeam = () => store.dispatch(ResetTeamAction());
+        unsubscribe = () => store.dispatch(UnsubscribeAction());
+        resetPuzzle = () => store.dispatch(ResetPuzzleHeroAction());
+        resetPuzzleCard = () => store.dispatch(ResetPuzzleAction());
     }
 }

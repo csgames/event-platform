@@ -1,4 +1,14 @@
 Map<String, dynamic> en = {
+  'puzzle': {
+    'error': 'An error occured while loading the puzzle hero.',
+    'date': 'The puzzle hero is currently not available.',
+    'title': 'Puzzle hero',
+    'submit': 'Submit',
+    'scan': 'Scan',
+    'completed': 'Completed',
+    'scan-error': 'An error occured while scanning the qr code.',
+    'validation-error': 'An error occured while validating the answer.'
+  },
   'login': {
     'title': 'Login',
     'pwd': 'Password',
@@ -23,14 +33,14 @@ Map<String, dynamic> en = {
       'attendee-desc': 'Current attendee is not registered to any events',
       'permission-title': 'Pemission error',
       'permission-desc': 'You don\'t have the user permission to access the camera.',
-      'save-title': 'Save error',
-      'save-desc': 'An error occured while saving the scanned attendee.',
       'same-title': 'Scanned attendee error',
       'same-desc': 'Can not add yourself as a scanned attendee.',
       'register-title': 'Attendee not registered',
       'register-desc': 'Current attendee is not registered to this event.',
       'register-scan-title': 'Attendee scanned not registered',
-      'register-scan-desc': 'Attendee scanned is not registered to this event.'
+      'register-scan-desc': 'Attendee scanned is not registered to this event.',
+      'twice-title': 'Participant already scanned',
+      'twice-desc': 'Can not scan an attendee twice.'
     }
   },
   'sponsors': {
@@ -46,24 +56,11 @@ Map<String, dynamic> en = {
     'hotel': 'Hotel',
     'transport': 'Transport',
     'school': 'School',
-    'transport-info': 'This year, transportation is provided by the STM (Société des transports de Montréal). Use the ticket you received at registration.',
-    'campus': 'Polytechnique Montréal Access Map',
-    'map': 'Map of Polytechnique',
     'visit': 'Visit website'
   },
   'event-list': {
     'title': 'Events',
     'error': 'An error occured while loading events.'
-  },
-  'bring': {
-    'clothes': 'Clothes for 3 days',
-    'degrise': 'Clothes for the degrises (clothes and shoes you don\'t mind getting dirty)',
-    'banquet': 'Fancy clothes for the banquet',
-    'laptop': 'Your laptop & charger',
-    'pool': 'Swimsuit for the pool at the hotel',
-    'snack': 'Snacks',
-    'beverage': 'Beverages containing electrolytes',
-    'costume': 'Costumes that fit with your delegation\'s theme.'
   },
   'parking': {
     'guide': 'Guide',
@@ -111,7 +108,6 @@ Map<String, dynamic> en = {
     'winner': 'Winner!',
     'done': 'Done',
     'scan': 'Scan to Attend',
-    'raffle': 'RAFFLE',
     'count': 'Attendee count',
     'subscribe': 'Subscribe',
     'subscribed': 'Subscribed!',

@@ -1,18 +1,18 @@
+import 'package:CSGamesApp/domain/attendee.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:CSGamesApp/components/circle-gravatar.dart';
-import 'package:CSGamesApp/domain/user.dart';
 import 'package:CSGamesApp/utils/constants.dart';
 
 class UserProfile extends StatelessWidget {
-  final User _user;
+  final Attendee _attendee;
   final Widget content;
   final Color color;
   final double elevation;
   final double opacity;
   final StackFit fit;
 
-  UserProfile(this._user,
+  UserProfile(this._attendee,
       {
         this.content,
         this.color = Colors.white,
@@ -25,7 +25,7 @@ class UserProfile extends StatelessWidget {
     return Center(
       child: Padding(
         padding: EdgeInsets.only(top: 100.0),
-        child: Text('${_user.firstName} ${_user.lastName}',
+        child: Text('${_attendee.firstName} ${_attendee.lastName}',
           style: TextStyle(
             color: Constants.polyhxGrey,
             fontSize: 24.0,
@@ -60,7 +60,7 @@ class UserProfile extends StatelessWidget {
   Widget _buildAvatar() {
     return Align(
       alignment: Alignment.topCenter,
-      child: CircleGravatar(_user.username),
+      child: CircleGravatar(_attendee.email),
     );
   }
 

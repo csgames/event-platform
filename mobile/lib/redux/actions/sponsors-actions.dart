@@ -1,10 +1,6 @@
 import 'package:CSGamesApp/domain/sponsors.dart';
 
-class LoadSponsorsAction {
-  String eventId;
-
-  LoadSponsorsAction(this.eventId);
-}
+class LoadSponsorsAction {}
 
 class SponsorsLoadedAction {
   final Map<String, List<Sponsors>> sponsors;

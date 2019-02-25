@@ -10,7 +10,6 @@ import 'package:CSGamesApp/components/pill-button.dart';
 import 'package:CSGamesApp/components/pill-textfield.dart';
 import 'package:CSGamesApp/domain/attendee.dart';
 import 'package:CSGamesApp/domain/event.dart';
-import 'package:CSGamesApp/domain/user.dart';
 import 'package:CSGamesApp/pages/attendee-profile.dart';
 import 'package:CSGamesApp/utils/constants.dart';
 import 'package:redux/redux.dart';
@@ -31,7 +30,6 @@ class _AttendeeRetrievalPageState extends State<AttendeeRetrievalPage> {
   Map<String, dynamic> _values;
   bool _isErrorDialogOpen = false;
   bool _isSnackBarOpen = false;
-  bool _isInit = false;
   bool _isAttendeeUpdated = false;
 
   _AttendeeRetrievalPageState(this._event);
@@ -65,11 +63,11 @@ class _AttendeeRetrievalPageState extends State<AttendeeRetrievalPage> {
       padding: EdgeInsets.all(20.0),
       child: PillTextField(
         keyboardType: TextInputType.emailAddress,
-        onSubmitted: (username) => model.search(username, _event, _values['errors']),
+        onSubmitted: (username) => model.search(username, _values['errors']),
         decoration: InputDecoration(
           prefixIcon: Icon(
             Icons.search,
-            color: Constants.csRed
+            color: Constants.csBlue
           ),
           border: InputBorder.none
         )
@@ -117,7 +115,8 @@ class _AttendeeRetrievalPageState extends State<AttendeeRetrievalPage> {
             )
           ),
           enabled: !model.isLoading,
-          onPressed: () => model.scan(_event, _values['errors'])
+          onPressed: () => model.scan(_values['errors']),
+          color: Constants.csBlue
         )
       )
     );
@@ -128,24 +127,20 @@ class _AttendeeRetrievalPageState extends State<AttendeeRetrievalPage> {
       padding: EdgeInsets.fromLTRB(30.0, 20.0, 30.0, 20.0),
       child: AttendeeProfilePage(
         model.attendee,
-        model.user,
-        _event.getRegistrationStatus(model.attendee.id),
-        model.isScanned && !model.hasErrors && model.idSaved && model.statusSaved,
+        model.isScanned && !model.hasErrors && model.idSaved,
         LocalizationService.of(context).attendeeProfile,
         onDone: () {
           model.reset();
-          _isInit = false;
         },
         onCancel: () {
           model.reset();
-          _isInit = false;
         }
       )
     );
   }
 
   Widget _buildPage(BuildContext context, _AttendeeRetrievalViewModel model) {
-    return model.attendee != null && model.user != null
+    return model.attendee != null
       ? _buildAttendeeProfile(model)
       : Column(
         children: <Widget>[
@@ -170,7 +165,7 @@ class _AttendeeRetrievalPageState extends State<AttendeeRetrievalPage> {
           });
           Scaffold.of(context).showSnackBar(
             SnackBar(
-              content: model.idSaved && model.statusSaved
+              content: model.idSaved
                 ? Text(
                   _values['saved'],
                   style: TextStyle(color: Colors.white)
@@ -192,29 +187,28 @@ class _AttendeeRetrievalPageState extends State<AttendeeRetrievalPage> {
           showDialog(context: context, builder: (_) => _buildAlertDialog(model));
         }
 
-        if (model.user != null && model.attendee != null && !_isInit) {
-          _isInit = true;
+        if (model.attendee != null && !model.isInit) {
           model.init();
         }
 
         if (model.hasErrors && model.isScanned && !_isSnackBarOpen) {
           _isSnackBarOpen = true;
-          model.init();
           Future.delayed(Duration(seconds: 2), () {
-            model.clean(model.attendee, model.user);
+            model.clean(model.attendee);
             _isSnackBarOpen = false;
           });
 
           Scaffold.of(context).showSnackBar(
             SnackBar(
-              content: Text(
-                _values['errors']['tag'],
-                style: TextStyle(color: Colors.white)
-              ),
-              action: SnackBarAction(
-                label: 'OK',
-                onPressed: Scaffold.of(context).hideCurrentSnackBar
-              )
+                duration: Duration(seconds: 1),
+                content: Text(
+                    _values['errors']['tag'],
+                    style: TextStyle(color: Colors.white)
+                ),
+                action: SnackBarAction(
+                    label: 'OK',
+                    onPressed: Scaffold.of(context).hideCurrentSnackBar
+                )
             )
           );
         }
@@ -228,11 +222,10 @@ class _AttendeeRetrievalViewModel {
   bool hasErrors;
   bool isScanned;
   bool idSaved;
-  bool statusSaved;
+  bool isInit;
   String errorTitle;
   String errorDescription;
   Attendee attendee;
-  User user;
   Function init;
   Function search;
   Function scan;
@@ -244,16 +237,15 @@ class _AttendeeRetrievalViewModel {
     this.hasErrors,
     this.isScanned,
     this.idSaved,
-    this.statusSaved,
     this.errorTitle,
     this.errorDescription,
     this.attendee,
-    this.user,
     this.init,
     this.search,
     this.scan,
     this.reset,
-    this.clean
+    this.clean,
+    this.isInit
   );
 
   _AttendeeRetrievalViewModel.fromStore(Store<AppState> store) {
@@ -261,15 +253,14 @@ class _AttendeeRetrievalViewModel {
     hasErrors = store.state.attendeeRetrievalState.hasErrors;
     isScanned = store.state.attendeeRetrievalState.isScanned;
     idSaved = store.state.attendeeRetrievalState.idSaved;
-    statusSaved = store.state.attendeeRetrievalState.statusSaved;
     errorTitle = store.state.attendeeRetrievalState.errorTitle;
     errorDescription = store.state.attendeeRetrievalState.errorDescription;
     attendee = store.state.attendeeRetrievalState.attendee;
-    user = store.state.attendeeRetrievalState.user;
     init = () => store.dispatch(InitAction());
-    search = (username, event, errorMessages) => store.dispatch(SearchAction(username, event, errorMessages));
-    scan = (event, errorMessages) => store.dispatch(ScanAction(event, errorMessages));
+    search = (username, errorMessages) => store.dispatch(SearchAction(username, errorMessages));
+    scan = (errorMessages) => store.dispatch(ScanAction(errorMessages));
     reset = () => store.dispatch(ResetAttendeeAction());
-    clean = (attendee, user) => store.dispatch(CleanAction(attendee, user));  
+    clean = (attendee) => store.dispatch(CleanAction(attendee));
+    isInit = store.state.attendeeRetrievalState.isInit;
   }
 }

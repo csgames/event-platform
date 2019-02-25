@@ -146,8 +146,7 @@ class _LoginPageState extends State<LoginPage> {
                                         textAlign: TextAlign.left,
                                         style: TextStyle(
                                             fontFamily: 'flipbash',
-                                            fontSize: 30.0,
-                                            color: Constants.csBlue
+                                            fontSize: 30.0
                                         )
                                     )
                                 )

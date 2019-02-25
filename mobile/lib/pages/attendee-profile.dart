@@ -4,25 +4,21 @@ import 'package:CSGamesApp/components/circle-gravatar.dart';
 import 'package:CSGamesApp/components/pill-button.dart';
 import 'package:CSGamesApp/components/shirt-size-icon.dart';
 import 'package:CSGamesApp/domain/attendee.dart';
-import 'package:CSGamesApp/domain/event.dart';
-import 'package:CSGamesApp/domain/user.dart';
 import 'package:CSGamesApp/utils/constants.dart';
 
 class AttendeeProfilePage extends StatelessWidget {
   final Attendee _attendee;
-  final User _user;
-  final RegistrationStatus _registrationStatus;
   final VoidCallback onDone;
   final VoidCallback onCancel;
   final bool _doneEnabled;
   final Map<String, dynamic> _values;
 
-  AttendeeProfilePage(this._attendee, this._user, this._registrationStatus, this._doneEnabled, this._values, {this.onDone, this.onCancel});
+  AttendeeProfilePage(this._attendee, this._doneEnabled, this._values, {this.onDone, this.onCancel});
 
   Widget _buildAvatar() {
     return Align(
       alignment: Alignment.topCenter,
-      child: CircleGravatar(_user.username),
+      child: CircleGravatar(_attendee.email),
     );
   }
 
@@ -31,50 +27,13 @@ class AttendeeProfilePage extends StatelessWidget {
       padding: EdgeInsets.only(top: 100.0),
       child: 
         Text(
-          '${_user.firstName} ${_user.lastName}',
+          '${_attendee.firstName} ${_attendee.lastName}',
           style: TextStyle(
             color: Constants.polyhxGrey,
             fontSize: 24.0,
             fontWeight: FontWeight.w900
           )
       ),
-    );
-  }
-
-  Widget _buildAttendeeStatusWidget() {
-    final statusInfo = {
-      RegistrationStatus.AwaitingConfirmation:  {
-        'text': _values['awaiting'],
-        'color': Colors.yellow
-      },
-      RegistrationStatus.Confirmed:  {
-        'text': _values['confirmed'],
-        'color': Colors.green
-      },
-      RegistrationStatus.Declined:  {
-        'text': _values['declined'],
-        'color': Colors.red
-      },
-      RegistrationStatus.NotSelected:  {
-        'text': _values['not-selected'],
-        'color': Colors.red
-      },
-      RegistrationStatus.Present: {
-        'text': _values['present'],
-        'color': Colors.green
-      },
-    };
-    return Padding(
-      padding: EdgeInsets.only(top: 20.0),
-      child: 
-        Text(
-          _values['status'] + statusInfo[_registrationStatus]['text'],
-          style: TextStyle(
-            color: statusInfo[_registrationStatus]['color'],
-            fontSize: 20.0,
-            fontWeight: FontWeight.w900
-          )
-      )
     );
   }
 
@@ -92,6 +51,7 @@ class AttendeeProfilePage extends StatelessWidget {
         child: PillButton(
           enabled: _doneEnabled,
           onPressed: onDone,
+          color: Constants.csBlue,
           child: Padding(
             padding: EdgeInsets.fromLTRB(25.0, 15.0, 25.0, 15.0),
             child: Text(
@@ -147,7 +107,6 @@ class AttendeeProfilePage extends StatelessWidget {
         child: Column(
           children: <Widget>[
             _buildAttendeeNameWidget(),
-            _buildAttendeeStatusWidget(),
             _buildShirtSizeWidget(),
             _buildPublicIdWidget(),
             _buildDoneButton()

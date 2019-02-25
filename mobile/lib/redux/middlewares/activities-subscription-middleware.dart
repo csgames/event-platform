@@ -14,10 +14,10 @@ class ActivityDescriptionMiddleware extends EpicClass<AppState> {
         return Observable.merge([
             Observable(actions)
                 .ofType(TypeToken<SubscribeAction>())
-                .concatMap((action) => _subscribe(action.activityId, action.attendeeId)),
+                .concatMap((action) => _subscribe(action.activityId, store.state.currentAttendee.id)),
             Observable(actions)
                 .ofType(TypeToken<VerifySubscriptionAction>())
-                .concatMap((action) => _verify(action.activityId, action.attendeeId))
+                .concatMap((action) => _verify(action.activityId, store.state.currentAttendee.id))
         ]);
     }
 

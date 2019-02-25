@@ -13,7 +13,7 @@ class EventsLoadedAction {
 class EventsNotLoadedAction {}
 
 class SetCurrentEventAction {
-  final Event event;
+    final Event event;
 
   SetCurrentEventAction(this.event);
 }

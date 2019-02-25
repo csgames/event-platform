@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:CSGamesApp/components/pill-button.dart';
+import 'package:CSGamesApp/domain/guide.dart';
 import 'package:CSGamesApp/services/localization.service.dart';
 import 'package:CSGamesApp/utils/constants.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +9,10 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class TransportPage extends StatelessWidget {
+    final Transport _transport;
+
+    TransportPage(this._transport);
+
     void _close(BuildContext context) {
         Navigator.of(context).pop();
     }
@@ -17,7 +22,7 @@ class TransportPage extends StatelessWidget {
         if (Platform.isIOS) {
             // url = 'http://maps.apple.com/?daddr=$_latitudePrincipal,$_longitudePrincipal';
         } else if (Platform.isAndroid) {
-            url = 'https://www.google.com/maps/dir/H%C3%B4tels+Gouverneur+Montr%C3%A9al,+Saint+Hubert+Street,+Montreal,+QC/Polytechnique+Montr%C3%A9al,+2900+Edouard+Montpetit+Blvd,+Montreal,+QC+H3T+1J4/@45.5174678,-73.605435,14z/data=!4m14!4m13!1m5!1m1!1s0x4cc91bb29428a18d:0x84b2c38a5e2ec635!2m2!1d-73.5591572!2d45.5157006!1m5!1m1!1s0x4cc919f2a9fc4d71:0xda267ca95684133e!2m2!1d-73.6128829!2d45.504384!3e3';
+            url = 'https://www.google.com/maps/dir/?api=1&origin=${_transport.hotelLatitude},${_transport.hotelLongitude}&destination=${_transport.schoolLatitude},${_transport.schoolLongitude}&travelmode=transit';
         }
         if (await canLaunch(url)) {
             await launch(url);
@@ -29,7 +34,7 @@ class TransportPage extends StatelessWidget {
     Widget _buildCard(BuildContext context) {
         return Container(
             child: Hero(
-                tag: "guide-card-5",
+                tag: "guide-card-transport",
                 child: Stack(
                     children: <Widget>[
                         Positioned(
@@ -98,7 +103,7 @@ class TransportPage extends StatelessWidget {
                                         Padding(
                                             padding: EdgeInsets.only(left: 20.0, right: 20.0),
                                             child: Text(
-                                                LocalizationService.of(context).eventInfo['transport-info'],
+                                                _transport.info[LocalizationService.of(context).language],
                                                 textAlign: TextAlign.justify,
                                                 style: TextStyle(
                                                     fontFamily: 'Raleway',
@@ -107,8 +112,8 @@ class TransportPage extends StatelessWidget {
                                                 )
                                             )
                                         ),
-                                        Image.asset(
-                                            'assets/transport.png',
+                                        Image.network(
+                                            _transport.image,
                                             width: MediaQuery.of(context).size.width * 0.8
                                         ),
                                         Row(
@@ -126,7 +131,7 @@ class TransportPage extends StatelessWidget {
                                                     child: Padding(
                                                         padding: EdgeInsets.only(right: 20.0, left: 20.0),
                                                         child: Text(
-                                                            '2900 Edouard Montpetit Blvd, Montreal, QC H3T 1J4',
+                                                            _transport.school,
                                                             style: TextStyle(
                                                                 fontFamily: 'Raleway',
                                                                 fontSize: 17.0
@@ -151,7 +156,7 @@ class TransportPage extends StatelessWidget {
                                                     child: Padding(
                                                         padding: EdgeInsets.only(right: 20.0, left: 20.0),
                                                         child: Text(
-                                                            '1415 St Hubert St, Montreal, QC H2L 3Y9',
+                                                            _transport.hotel,
                                                             style: TextStyle(
                                                                 fontFamily: 'Raleway',
                                                                 fontSize: 17.0

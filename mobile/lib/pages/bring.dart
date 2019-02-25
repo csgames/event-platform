@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class BringPage extends StatelessWidget {
-    final Map<String, dynamic> _values;
+    final Map<String, List<dynamic>> _values;
 
     BringPage(this._values);
 
@@ -31,7 +31,7 @@ class BringPage extends StatelessWidget {
                                     maxLines: 3,
                                     style: TextStyle(
                                         fontFamily: 'OpenSans',
-                                        fontSize: 18.0
+                                        fontSize: 15.0
                                     )
                                 )
                             )
@@ -45,7 +45,7 @@ class BringPage extends StatelessWidget {
     Widget _buildCard(BuildContext context) {
         return Container(
             child: Hero(
-                tag: "guide-card-1",
+                tag: "guide-card-bring",
                 child: Stack(
                     children: <Widget>[
                         Positioned(
@@ -112,16 +112,9 @@ class BringPage extends StatelessWidget {
                                         ),
                                         Expanded(
                                             child: ListView(
-                                                children: <Widget>[
-                                                    _buildBulletPoint(_values['clothes']),
-                                                    _buildBulletPoint(_values['degrise']),
-                                                    _buildBulletPoint(_values['banquet']),
-                                                    _buildBulletPoint(_values['laptop']),
-                                                    _buildBulletPoint(_values['pool']),
-                                                    _buildBulletPoint(_values['snack']),
-                                                    _buildBulletPoint(_values['beverage']),
-                                                    _buildBulletPoint(_values['costume'])
-                                                ]
+                                                children: _values[LocalizationService.of(context).language].map((v) => 
+                                                    _buildBulletPoint(v)
+                                                ).toList()
                                             )
                                         )
                                     ]

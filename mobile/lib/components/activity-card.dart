@@ -20,9 +20,9 @@ class ActivityCard extends StatelessWidget {
 
     IconData get _icon {
         switch (_activity.type) {
-            case ActivityTypes.Lunch:
+            case ActivityTypes.Food:
                 return FontAwesomeIcons.utensils;
-            case ActivityTypes.Workshop:
+            case ActivityTypes.Competition:
                 return FontAwesomeIcons.laptopCode;
             default:
                 return FontAwesomeIcons.calendar;
@@ -30,7 +30,7 @@ class ActivityCard extends StatelessWidget {
     }
 
     Widget _buildRightIcon(_ActivitySubscriptionViewModel vm) {
-        if (vm.userRole != "attendee") {
+        if (vm.userRole == "admin" || vm.userRole == "volunteer" || vm.userRole == "super-admin") {
             return Icon(
                 Icons.nfc,
                 size: 30
@@ -62,7 +62,7 @@ class ActivityCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
                 Padding(
-                    padding: EdgeInsets.only(left: 10.0, right: 10.0),
+                    padding: EdgeInsets.only(left: 15.0, right: 10.0),
                     child: Icon(
                         _icon,
                         size: 45.0
@@ -100,7 +100,7 @@ class ActivityCard extends StatelessWidget {
                                         _activity.location,
                                         style: TextStyle(
                                             fontWeight: FontWeight.w100,
-                                            fontSize: 15.0,
+                                            fontSize: 12.0,
                                             fontFamily: 'OpenSans'
                                         )
                                     )
@@ -171,8 +171,10 @@ class ActivityCard extends StatelessWidget {
             onInit: (store) {
                 if ((store.state.activitiesSubscriptionState.activities[_activity.id] == null ||
                     store.state.activitiesSubscriptionState.activities[_activity.id].isSubscribed == null) &&
-                    store.state.currentUser.role == "attendee") {
-                    store.dispatch(VerifySubscriptionAction(_activity.id, store.state.currentAttendee?.id ?? ''));
+                    (store.state.currentAttendee.role == "attendee" ||
+                    store.state.currentAttendee.role == "godparent" ||
+                    store.state.currentAttendee.role == "captain")) {
+                    store.dispatch(VerifySubscriptionAction(_activity.id));
                 }
             },
             converter: (store) => _ActivitySubscriptionViewModel.fromStore(_activity.id, store),
@@ -183,7 +185,6 @@ class ActivityCard extends StatelessWidget {
                         children: <Widget>[
                             Positioned(
                                 top: 23.0,
-                                left: 0.0,
                                 child: Center(
                                     child: Container(
                                         width: 20,
@@ -214,7 +215,9 @@ class ActivityCard extends StatelessWidget {
                                     color: Colors.white,
                                     child: Theme(
                                         data: Theme.of(context).copyWith(accentColor: Colors.black),
-                                        child: model.userRole == "attendee" ? ExpansionCard(
+                                        child: model.userRole == "attendee" ||
+                                            model.userRole == "captain" ||
+                                            model.userRole == "godparent" ? ExpansionCard(
                                             title: _buildCardTitle(context, model),
                                             children: _buildCardContent(context, model)
                                         ) : _buildCardTitle(context, model)
@@ -223,9 +226,9 @@ class ActivityCard extends StatelessWidget {
                             )
                         ]
                     )
-                    
                 );
-            });
+            }
+        );
     }
 }
 
@@ -243,12 +246,12 @@ class _ActivitySubscriptionViewModel {
         this.subscribe);
 
     _ActivitySubscriptionViewModel.fromStore(String activityId, Store<AppState> store) {
-        userRole = store.state.currentUser.role;
+        userRole = store.state.currentAttendee.role;
         if (store.state.activitiesSubscriptionState.activities[activityId] != null) {
             hasErrors = store.state.activitiesSubscriptionState.activities[activityId].hasErrors;
             isLoading = store.state.activitiesSubscriptionState.activities[activityId].isLoading;
             isSubscribed = store.state.activitiesSubscriptionState.activities[activityId].isSubscribed;
-            subscribe = (activityId) => store.dispatch(SubscribeAction(activityId, store.state.currentAttendee?.id ?? ''));
+            subscribe = (activityId) => store.dispatch(SubscribeAction(activityId));
         } else {
             hasErrors = false;
             isLoading = false;

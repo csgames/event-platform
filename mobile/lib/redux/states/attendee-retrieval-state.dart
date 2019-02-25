@@ -1,5 +1,4 @@
 import 'package:CSGamesApp/domain/attendee.dart';
-import 'package:CSGamesApp/domain/user.dart';
 import 'package:meta/meta.dart';
 
 @immutable
@@ -8,22 +7,20 @@ class AttendeeRetrievalState {
   final bool hasErrors;
   final bool isScanned;
   final bool idSaved;
-  final bool statusSaved;
+  final bool isInit;
   final String errorTitle;
   final String errorDescription;
   final Attendee attendee;
-  final User user;
 
   AttendeeRetrievalState({
     this.isLoading,
     this.hasErrors,
     this.isScanned,
     this.idSaved,
-    this.statusSaved,
+    this.isInit,
     this.errorTitle,
     this.errorDescription,
-    this.attendee,
-    this.user
+    this.attendee
   });
 
   factory AttendeeRetrievalState.initial() => AttendeeRetrievalState(
@@ -31,11 +28,10 @@ class AttendeeRetrievalState {
     hasErrors: false,
     isScanned: false,
     idSaved: false,
-    statusSaved: false,
+    isInit: false,
     errorTitle: '',
     errorDescription: '',
-    attendee: null,
-    user: null
+    attendee: null
   );
 
   factory AttendeeRetrievalState.loading() => AttendeeRetrievalState(
@@ -43,10 +39,9 @@ class AttendeeRetrievalState {
     hasErrors: false,
     isScanned: false,
     idSaved: false,
-    statusSaved: false,
+    isInit: false,
     errorTitle: '',
     errorDescription: '',
-    attendee: null,
-    user: null
+    attendee: null
   );
 }

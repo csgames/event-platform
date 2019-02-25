@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:CSGamesApp/components/pill-button.dart';
+import 'package:CSGamesApp/domain/guide.dart';
 import 'package:CSGamesApp/services/localization.service.dart';
 import 'package:CSGamesApp/utils/constants.dart';
 import 'package:flutter/material.dart';
@@ -9,26 +10,31 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class HotelState extends StatefulWidget {
+    final Hotel _hotel;
+
+    HotelState(this._hotel);
+
     @override
-    State createState() => _HotelPageState();
+    State createState() => _HotelPageState(_hotel);
 }
 
 class _HotelPageState extends State<HotelState> {
-    final _latitudePrincipal = 45.5157006;
-    final _longitudePrincipal = -73.5591572;
     final _iosOffsetX = -0.0015;
     final _iosOffsetY = 0.001;
+    final Hotel _hotel;
 
     var showMap = false;
 
     GoogleMapController mapController;
+
+    _HotelPageState(this._hotel);
 
     Future _onMapCreated(GoogleMapController controller) async {
         setState(() => mapController = controller);
 
         mapController.addMarker(
             MarkerOptions(
-                position: LatLng(_latitudePrincipal, _longitudePrincipal)
+                position: LatLng(_hotel.latitude, _hotel.longitude)
             )
         );
     }
@@ -41,9 +47,9 @@ class _HotelPageState extends State<HotelState> {
     Future _clickNavigate() async {
         var url = '';
         if (Platform.isIOS) {
-            url = 'http://maps.apple.com/?daddr=$_latitudePrincipal,$_longitudePrincipal';
+            url = 'http://maps.apple.com/?daddr=${_hotel.latitude},${_hotel.longitude}';
         } else if (Platform.isAndroid) {
-            url = 'https://www.google.com/maps/search/?api=1&query=Hôtels+Gouverneur+Montréal';
+            url = 'https://www.google.com/maps/search/?api=1&query=${_hotel.latitude},${_hotel.longitude}';
         }
         if (await canLaunch(url)) {
             await launch(url);
@@ -55,7 +61,7 @@ class _HotelPageState extends State<HotelState> {
     Widget _buildMap(BuildContext context) {
         return Container(
             child: Hero(
-                tag: 'guide-card-3',
+                tag: 'guide-card-hotel',
                 child: Stack(
                     children: <Widget>[
                         Positioned(
@@ -133,23 +139,14 @@ class _HotelPageState extends State<HotelState> {
                                                     .height * 0.45,
                                                 child: showMap ? GoogleMap(
                                                     onMapCreated: _onMapCreated,
-                                                    options: GoogleMapOptions(
-                                                        cameraPosition: CameraPosition(
-                                                            target: LatLng(
-                                                                _latitudePrincipal + (Platform.isIOS ? _iosOffsetY : 0),
-                                                                _longitudePrincipal + (Platform.isIOS ? _iosOffsetX : 0)
-                                                            ),
-                                                            zoom: 17.0
+                                                    initialCameraPosition: CameraPosition(
+                                                        target: LatLng(
+                                                            _hotel.latitude + (Platform.isIOS ? _iosOffsetY : 0),
+                                                            _hotel.longitude + (Platform.isIOS ? _iosOffsetX : 0)
                                                         ),
-                                                    ),
+                                                        zoom: _hotel.zoom
+                                                    )
                                                 ) : Container()
-                                            )
-                                        ),
-                                        Text(
-                                            'Hôtels Gouverneur Montréal',
-                                            style: TextStyle(
-                                                fontFamily: 'Raleway',
-                                                fontSize: 23.0
                                             )
                                         ),
                                         Row(
@@ -158,15 +155,39 @@ class _HotelPageState extends State<HotelState> {
                                                 Padding(
                                                     padding: EdgeInsets.only(left: 20.0),
                                                     child: Icon(
-                                                        FontAwesomeIcons.mapMarkedAlt,
-                                                        size: 40.0
+                                                        Icons.hotel,
+                                                        size: 35.0
                                                     )
                                                 ),
                                                 Expanded(
                                                     child: Padding(
                                                         padding: EdgeInsets.only(right: 20.0, left: 20.0),
                                                         child: Text(
-                                                            '1415 St Hubert St, Montreal, QC H2L 3Y9',
+                                                            _hotel.name,
+                                                            style: TextStyle(
+                                                                fontFamily: 'Raleway',
+                                                                fontSize: 23.0
+                                                            )
+                                                        )
+                                                    )
+                                                )
+                                            ]
+                                        ),
+                                        Row(
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            children: <Widget>[
+                                                Padding(
+                                                    padding: EdgeInsets.only(left: 20.0),
+                                                    child: Icon(
+                                                        FontAwesomeIcons.mapMarkedAlt,
+                                                        size: 35.0
+                                                    )
+                                                ),
+                                                Expanded(
+                                                    child: Padding(
+                                                        padding: EdgeInsets.only(right: 20.0, left: 20.0),
+                                                        child: Text(
+                                                            _hotel.address,
                                                             style: TextStyle(
                                                                 fontFamily: 'Raleway',
                                                                 fontSize: 17.0

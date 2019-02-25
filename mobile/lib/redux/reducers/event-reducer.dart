@@ -1,4 +1,5 @@
 import 'package:CSGamesApp/redux/actions/event-actions.dart';
+import 'package:CSGamesApp/redux/actions/login-actions.dart';
 import 'package:CSGamesApp/redux/states/event-state.dart';
 import 'package:redux/redux.dart';
 
@@ -6,8 +7,8 @@ final eventReducer = combineReducers<EventState>([
   TypedReducer<EventState, EventsLoadedAction>(_setLoadedEvents),
   TypedReducer<EventState, EventsNotLoadedAction>(_setNoEvents),
   TypedReducer<EventState, LoadEventsAction>(_onLoadEvents),
-  TypedReducer<EventState, ResetAction>(_setLoading),
-  TypedReducer<EventState, InitAction>(_setInitial)
+  TypedReducer<EventState, InitAction>(_setInitial),
+  TypedReducer<EventState, LogOut>(_setInitial)
 ]);
 
 EventState _setLoadedEvents(EventState eventstate, EventsLoadedAction action) {
@@ -22,10 +23,6 @@ EventState _onLoadEvents(EventState eventstate, LoadEventsAction action) {
   return EventState.loading();
 }
 
-EventState _setInitial(EventState eventstate, InitAction action) {
+EventState _setInitial(EventState eventstate, dynamic action) {
   return EventState.initial();
-}
-
-EventState _setLoading(EventState eventstate, ResetAction action) {
-  return EventState.loading();
 }
