@@ -19,8 +19,8 @@
                 <br>
                 <div class="modal-body description">
                     <div>
-                        <div *ngIf="lang === 'en'" [innerHTML]="puzzle.description"></div>
-                        <div *ngIf="lang === 'fr'" [innerHTML]="puzzle.description"></div>
+                        <div *ngIf="lang === 'en'" [innerHTML]="puzzle.description?.en"></div>
+                        <div *ngIf="lang === 'fr'" [innerHTML]="puzzle.description?.fr"></div>
                     </div>
                     <div class="input-group input-group-default input answer" [class.has-error]="error$ | async">
                         <input class="form-control" [(ngModel)]="answer" type="text"
