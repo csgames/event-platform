@@ -31,10 +31,10 @@
     <hr>
     <div class="row mt-2" *ngIf="!(error$ | async)">
         <div class="col-sm-6 col-lg-6">
-            <a *ngIf="!showCreateTeamCard" class="add-button btn btn-lg btn-block borders"
+            <button *ngIf="!showCreateTeamCard" type="button" class="add-button btn btn-lg btn-block borders"
                     (click)="clickCreateTeam()">
                 + {{ "pages.team.add_team" | translate }}
-            </a>
+            </button>
             <div *ngIf="showCreateTeamCard" class="add-team-card">
                 <div class="card-body">
                     <div class="row">
