@@ -11,9 +11,9 @@
     <div *ngIf="!isEditingTeamName">
         <h2 class="title">
             {{ currentTeam?.name}}
-            <button *ifRole="['admin', 'captain']" type="button" class="btn edit-name-button">
+            <a *ifRole="['admin', 'captain']" class="btn edit-name-button">
                 <i class="fal fa-edit fa-md" (click)="onEditTeamName(currentTeam)"></i>
-            </button>
+            </a>
         </h2>
     </div>
     <div class="edit-name-card" *ngIf="isEditingTeamName" fxFlexLayout="row" fxLayoutAlign="start center">
