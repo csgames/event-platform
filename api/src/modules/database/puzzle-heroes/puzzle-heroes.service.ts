@@ -23,7 +23,7 @@ export interface PuzzleDefinition extends PuzzleGraphNodes {
     completed: boolean;
     locked: boolean;
     label: string;
-    description: string;
+    description: { [lang: string]: string };
     type: string;
 }
 
