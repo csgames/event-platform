@@ -11,6 +11,7 @@ import { TrackDirective } from "./components/track/track.directive";
 import { PuzzleTileComponent } from "./components/puzzle-tile/puzzle-tile.component";
 import { FlexLayoutModule } from "@angular/flex-layout";
 import { StoreModule } from "@ngrx/store";
+import * as fromInfoPuzzleHero from "./components/info-puzzle-hero/store/info-puzzle-hero.reducer";
 import * as fromPuzzleHero from "./store/tracks.reducer";
 import { EffectsModule } from "@ngrx/effects";
 import { TracksEffects } from "./store/tracks.effects";
@@ -18,6 +19,7 @@ import { TranslateModule } from "@ngx-translate/core";
 import { LoadingSpinnerModule } from "../../../components/loading-spinner/loading-spinner.module";
 import { InfoPuzzleHeroComponent } from "./components/info-puzzle-hero/info-puzzle-hero.component";
 import { SimpleModalModule } from "ngx-simple-modal";
+import { InfoPuzzleHeroEffects } from "./components/info-puzzle-hero/store/info-puzzle-hero.effects";
 
 @NgModule({
     imports: [
@@ -33,8 +35,9 @@ import { SimpleModalModule } from "ngx-simple-modal";
         TranslateModule,
 
         StoreModule.forFeature("puzzleHeroTracks", fromPuzzleHero.reducer),
+        StoreModule.forFeature("infoPuzzleHero", fromInfoPuzzleHero.reducer),
         SimpleModalModule,
-        EffectsModule.forFeature([TracksEffects])
+        EffectsModule.forFeature([TracksEffects, InfoPuzzleHeroEffects])
     ],
     exports: [],
     entryComponents: [InfoPuzzleHeroComponent],

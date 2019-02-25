@@ -81,4 +81,8 @@ export class PuzzleHeroService {
             }))
         );
     }
+
+    validatePuzzleHero(puzzleId: string, answer: string): Observable<void> {
+        return this.apiService.puzzleHero.validatePuzzleHero(puzzleId, answer);
+    }
 }

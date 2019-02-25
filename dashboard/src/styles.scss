@@ -625,11 +625,21 @@ a {
 
         .modal-sm {
             width: 300px;
-        }
-
-        .modal-sm {
             min-width: auto;
         }
+
+        .modal-md {
+            width: 500px;
+            min-width: auto;
+        }
+    }
+}
+
+@media (max-width: 544px) {
+    .modal-sm,
+    .modal-lg,
+    .modal-md {
+        width: calc(100% - 30px);
     }
 }
 

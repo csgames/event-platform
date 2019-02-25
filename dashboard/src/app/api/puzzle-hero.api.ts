@@ -25,4 +25,8 @@ export class PuzzleHeroApi extends CSGamesApi {
     public getTeamsSeries(teamsIds: string[]): Observable<TeamSeries[]> {
         return this.http.get<TeamSeries[]>(this.url(`team-series?teams-ids=${teamsIds.join(",")}`), { withCredentials: true });
     }
+
+    public validatePuzzleHero(puzzleId: string, answer: string): Observable<void> {
+        return this.http.post<void>(this.url(`puzzle/${puzzleId}/validate`), { answer }, { withCredentials: true });
+    }
 }
