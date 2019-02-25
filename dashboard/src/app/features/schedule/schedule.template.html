@@ -10,49 +10,49 @@
             </div>
             <ng-container [ngSwitch]="activitiesPerDay[date][time].length">
                 <ng-container *ngSwitchCase="1">
-                    <div class="row">
-                        <div class="col-12">
+                    <div fxLayout="row">
+                        <div fxFlex="100">
                             <app-activity-card [activity]="activitiesPerDay[date][time][0]" [time]="time" (info)="onShowInfo(activitiesPerDay[date][time][0], time)"></app-activity-card>
                         </div>
                     </div>
                 </ng-container>
                 <ng-container *ngSwitchCase="2">
-                    <div class="row">
-                        <div class="col-lg-6 col-sm-12">
+                    <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="30px" fxLayoutGap.xs="5px">
+                        <div fxFlex="50" fxFlex.xs="100">
                             <app-activity-card [activity]="activitiesPerDay[date][time][0]" [time]="time" (info)="onShowInfo(activitiesPerDay[date][time][0], time)"></app-activity-card>
                         </div>
-                        <div class="col-lg-6 col-sm-12">
+                        <div fxFlex="50" fxFlex.xs="100">
                             <app-activity-card [activity]="activitiesPerDay[date][time][1]" [time]="time" (info)="onShowInfo(activitiesPerDay[date][time][1], time)"></app-activity-card>
                         </div>
                     </div>
                 </ng-container>
                 <ng-container *ngSwitchCase="3">
-                    <div class="row">
-                        <div class="col-xl-4 col-lg-12">
+                    <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="30px" fxLayoutGap.xs="5px">
+                        <div fxFlex="33" fxFlex.xs="100">
                             <app-activity-card [activity]="activitiesPerDay[date][time][0]" [time]="time" (info)="onShowInfo(activitiesPerDay[date][time][0], time)"></app-activity-card>
                         </div>
-                        <div class="col-xl-4 col-lg-12">
+                        <div fxFlex="33" fxFlex.xs="100">
                             <app-activity-card [activity]="activitiesPerDay[date][time][1]" [time]="time" (info)="onShowInfo(activitiesPerDay[date][time][1], time)"></app-activity-card>
                         </div>
-                        <div class="col-xl-4 col-lg-12">
+                        <div fxFlex="33" fxFlex.xs="100">
                             <app-activity-card [activity]="activitiesPerDay[date][time][2]" [time]="time" (info)="onShowInfo(activitiesPerDay[date][time][2], time)"></app-activity-card>
                         </div>
                     </div>
                 </ng-container>
                 <ng-container *ngSwitchCase="4">
-                    <div class="row">
-                        <div class="col-lg-6 col-sm-12">
+                    <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="30px" fxLayoutGap.xs="5px">
+                        <div fxFlex="50" fxFlex.xs="100">
                             <app-activity-card [activity]="activitiesPerDay[date][time][0]" [time]="time" (info)="onShowInfo(activitiesPerDay[date][time][0], time)"></app-activity-card>
                         </div>
-                        <div class="col-lg-6 col-sm-12">
+                        <div fxFlex="50" fxFlex.xs="100">
                             <app-activity-card [activity]="activitiesPerDay[date][time][1]" [time]="time" (info)="onShowInfo(activitiesPerDay[date][time][1], time)"></app-activity-card>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-lg-6 col-sm-12">
+                    <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="30px" fxLayoutGap.xs="5px">
+                        <div fxFlex="50" fxFlex.xs="100">
                             <app-activity-card [activity]="activitiesPerDay[date][time][2]" [time]="time" (info)="onShowInfo(activitiesPerDay[date][time][2], time)"></app-activity-card>
                         </div>
-                        <div class="col-lg-6 col-sm-12">
+                        <div fxFlex="50" fxFlex.xs="100">
                             <app-activity-card [activity]="activitiesPerDay[date][time][3]" [time]="time" (info)="onShowInfo(activitiesPerDay[date][time][3], time)"></app-activity-card>
                         </div>
                     </div>

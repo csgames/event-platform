@@ -24,7 +24,7 @@ import { environment } from "src/environments/environment";
         GuideRoutingModule,
         ReactiveFormsModule,
         TranslateModule,
-        LoadingSpinnerModule, 
+        LoadingSpinnerModule,
         GuideAccordionModule,
         StoreModule.forFeature("guide", fromGuide.reducer),
         EffectsModule.forFeature([GuideEffects]),

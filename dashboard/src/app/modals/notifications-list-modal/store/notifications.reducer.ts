@@ -1,10 +1,10 @@
-import { AppNotification } from "../../../api/models/notification";
+import { AttendeeNotification } from "../../../api/models/notification";
 import * as fromApp from "src/app/store/app.reducers";
 import { NotificationActionTypes, NotificationsActions } from "./notifications.actions";
 import { createFeatureSelector, createSelector } from "@ngrx/store";
 
 export interface NotificationsState {
-    notifications: AppNotification[];
+    notifications: AttendeeNotification[];
     loading: boolean;
 }
 
@@ -28,7 +28,7 @@ export function reducer(state = initialState, action: NotificationsActions): Not
             return {
                 ...state,
                 loading: false,
-                notifications: action.notificatons
+                notifications: action.notifications
             };
         default:
             return state;

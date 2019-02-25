@@ -479,6 +479,10 @@ a {
         top: 15px;
     }
 
+    .modal-md {
+        min-width: 400px;
+    }
+
     .close:focus {
         outline: 0;
     }
@@ -633,6 +637,15 @@ a {
     }
 }
 
+@media (max-width: 480px) {
+    .modal-right-side {
+        .modal-md {
+            width: 100%;
+            min-width: auto;
+        }
+    }
+}
+
 .control-error {
     color: #cc5965;
     display: inline-block;
@@ -767,7 +780,6 @@ h4 {
 .accordion-toggle > div > .fa-caret-down {
     vertical-align: middle;
     display: inline-block;
-    margin-top: 12px;
     user-select: none;
 }
 
