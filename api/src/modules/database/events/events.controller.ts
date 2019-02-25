@@ -81,6 +81,18 @@ export class EventsController {
         return await this.eventsService.getNotifications(eventId, user.username, seen);
     }
 
+    @Post('sms')
+    @Permissions('csgames-api:update:event')
+    public async sendSms(@EventId() eventId: string, @Body(ValidationPipe) dto: SendSmsDto) {
+        await this.eventsService.sendSms(eventId, dto.text);
+    }
+
+    @Post('notification')
+    @Permissions('csgames-api:update:event')
+    public async createNotification(@EventId() eventId: string, @Body(ValidationPipe) dto: SendNotificationDto) {
+        await this.eventsService.createNotification(eventId, dto);
+    }
+
     @Get(':id')
     @Permissions('csgames-api:get:event')
     public async getById(@Param('id') id: string): Promise<Events> {
@@ -151,17 +163,5 @@ export class EventsController {
     public async addScannedAttendee(@EventId() eventId: string, @Param('attendee_id') attendeeId: string,
                                     @Body(new ValidationPipe()) body: AddScannedAttendee) {
         await this.eventsService.addScannedAttendee(eventId, attendeeId, body);
-    }
-
-    @Post(':id/notification')
-    @Permissions('csgames-api:update:event')
-    public async createNotification(@Param('id') id: string, @Body(ValidationPipe) dto: SendNotificationDto) {
-        await this.eventsService.createNotification(id, dto);
-    }
-
-    @Post(':id/sms')
-    @Permissions('csgames-api:update:event')
-    public async sendSms(@Param('id') id: string, @Body(ValidationPipe) dto: SendSmsDto) {
-        await this.eventsService.sendSms(id, dto.text);
     }
 }
