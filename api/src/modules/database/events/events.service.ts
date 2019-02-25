@@ -41,7 +41,9 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
             endDate: true,
             details: true,
             coverUrl: true,
-            attendees: true
+            attendees: true,
+            teamEditLocked: true,
+            teamEditLockDate: true
         }).exec();
     }
 
