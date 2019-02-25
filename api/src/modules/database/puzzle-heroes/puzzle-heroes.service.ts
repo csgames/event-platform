@@ -151,7 +151,7 @@ export class PuzzleHeroesService extends BaseService<PuzzleHeroes, PuzzleHeroes>
     }
 
     public async addTeamScore(eventId: string, teamId: string, score: number): Promise<void> {
-        let lastScore = await this.getTeamLastScore(eventId, teamId);
+        const lastScore = await this.getTeamLastScore(eventId, teamId);
         const newScore = lastScore + score;
         const newSerie = {
             name: new Date().toISOString(),
@@ -237,6 +237,22 @@ export class PuzzleHeroesService extends BaseService<PuzzleHeroes, PuzzleHeroes>
         } as TracksAnswers);
         await puzzleHero.save();
         await this.addTeamScore(eventId, teamId, score);
+    }
+
+    public async start(eventId: string): Promise<void> {
+        const teams = await this.teamsModel.find({
+            event: eventId
+        }).exec();
+
+        for (const team of teams) {
+            const serie = {
+                name: new Date().toISOString(),
+                value: 0
+            };
+            await this.redisService.scanDel(this.getTeamSeriesKey(eventId, team._id.toHexString()));
+            await this.redisService.lpush(this.getTeamSeriesKey(eventId, team._id.toHexString()), JSON.stringify(serie));
+            await this.redisService.zadd(this.getScoreboardKey(eventId), team._id.toHexString(), 0);
+        }
     }
 
     // Temporary TO REMOVE

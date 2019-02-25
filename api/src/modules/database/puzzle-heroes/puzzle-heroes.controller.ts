@@ -38,6 +38,12 @@ export class PuzzleHeroesController {
         });
     }
 
+    @Post('start')
+    @Permissions('csgames-api:create:puzzle-hero')
+    public async start(@EventId() eventId: string): Promise<void> {
+        await this.puzzleHeroService.start(eventId);
+    }
+
     @Post('track')
     @Permissions('csgames-api:create:puzzle-hero')
     public async createTrack(@Body(ValidationPipe) dto: CreateTrackDto, @EventId() eventId: string): Promise<Tracks> {
