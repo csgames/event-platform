@@ -31,10 +31,10 @@
     <hr>
     <div class="row mt-2" *ngIf="!(error$ | async)">
         <div class="col-sm-6 col-lg-6">
-            <button *ngIf="!showCreateTeamCard" type="button" class="add-button btn btn-lg btn-block borders"
+            <a *ngIf="!showCreateTeamCard" class="add-button btn btn-lg btn-block borders"
                     (click)="clickCreateTeam()">
                 + {{ "pages.team.add_team" | translate }}
-            </button>
+            </a>
             <div *ngIf="showCreateTeamCard" class="add-team-card">
                 <div class="card-body">
                     <div class="row">
@@ -75,7 +75,7 @@
                             <b>
                                 <a *ngIf="team?.maxMembersNumber === 11"> ({{ getTeamAttendees(team)?.length }}/10)</a>
                                 <a *ngIf="team?.maxMembersNumber !== 11">
-                                    ({{ getTeamAttendees(team)?.length }}/{{ team?.attendees?.maxMembersNumber - 1 }})
+                                    ({{ getTeamAttendees(team)?.length }}/{{ team?.maxMembersNumber - 1 }})
                                 </a>
                             </b>
                             <i class="fal fa-check-circle text-white text-primary float-right"
