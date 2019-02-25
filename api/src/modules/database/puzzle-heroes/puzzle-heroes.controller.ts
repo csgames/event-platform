@@ -65,17 +65,6 @@ export class PuzzleHeroesController {
         return await this.puzzleHeroService.validateAnswer(dto.answer, puzzleId, id, user.username);
     }
 
-    // TEMPORARY TO REMOVE
-    @Post('mock')
-    @Permissions('csgames-api:get:puzzle-hero')
-    public async mockData(@EventId() eventId: string) {
-        setInterval(async () => {
-            const teams = await this.puzzleHeroService.getAllTeams();
-            const randTeam = teams[Math.floor(Math.random() * teams.length)];
-            await this.puzzleHeroService.addTeamScore(eventId, randTeam._id.toHexString(), Math.ceil(Math.random() * 20));
-        }, 1000);
-    }
-
     @Get()
     @Permissions('csgames-api:get:puzzle-hero')
     public async get(@EventId() eventId: string, @User() user: UserModel,

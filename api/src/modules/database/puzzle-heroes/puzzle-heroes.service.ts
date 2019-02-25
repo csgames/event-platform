@@ -23,7 +23,7 @@ export interface PuzzleDefinition extends PuzzleGraphNodes {
     completed: boolean;
     locked: boolean;
     label: string;
-    description: string;
+    description: { [lang: string]: string };
     type: string;
 }
 
@@ -267,19 +267,9 @@ export class PuzzleHeroesService extends BaseService<PuzzleHeroes, PuzzleHeroes>
         }).exec();
 
         for (const team of teams) {
-            const serie = {
-                name: new Date().toISOString(),
-                value: 0
-            };
             await this.redisService.scanDel(this.getTeamSeriesKey(eventId, team._id.toHexString()));
-            await this.redisService.lpush(this.getTeamSeriesKey(eventId, team._id.toHexString()), JSON.stringify(serie));
-            await this.redisService.zadd(this.getScoreboardKey(eventId), team._id.toHexString(), 0);
+            await this.addTeamScore(eventId, team._id.toHexString(), 0);
         }
-    }
-
-    // Temporary TO REMOVE
-    public getAllTeams(): Promise<Teams[]> {
-        return this.teamsModel.find().exec();
     }
 
     private async formatTrack(track: Tracks, puzzleHero: PuzzleHeroes, teamId: string, type?: string): Promise<Tracks> {
@@ -287,10 +277,10 @@ export class PuzzleHeroesService extends BaseService<PuzzleHeroes, PuzzleHeroes>
         for (const puzzle of track.puzzles as PuzzleDefinition[]) {
             puzzle.completed = puzzleHero.answers.some(TracksAnswersUtils.find(puzzle, teamId));
 
-            puzzle.label = (puzzle.question as Questions).label;
-            puzzle.type = (puzzle.question as Questions).type;
-
-            puzzle.description = (puzzle.question as Questions).description;
+            const question = puzzle.question as Questions;
+            puzzle.label = question.label;
+            puzzle.type = question.type;
+            puzzle.description = question.description;
             if (type && puzzle.type !== type) {
                 continue;
             }

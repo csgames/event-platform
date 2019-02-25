@@ -6,7 +6,7 @@ export class CreateQuestionDto {
     label: string;
 
     @IsNotEmpty()
-    description: string;
+    description: object;
 
     @IsNotEmpty()
     @IsIn(["crypto", "gaming", "scavenger"])

@@ -64,31 +64,16 @@ export class ActivitiesController {
         return ActivityTypes;
     }
 
-    @Get(':id/raffle')
-    @Permissions('csgames-api:raffle:activity')
-    public async raffle(@Param('id') activityId: string): Promise<UserModel> {
-        const activity: Activities = await this.activitiesService.findById(activityId);
-
-        if (!activity) {
-            throw new HttpException(`Activity ${activityId} not found.`, HttpStatus.NOT_FOUND);
-        }
-
-        const attendees: string[] = activity.attendees as string[];
-
-        if (attendees.length === 0) {
-            throw new HttpException(`Activity ${activityId} has no attendee.`, HttpStatus.EXPECTATION_FAILED);
-        }
-
-        const winnerId = this.getRandomIndex(attendees.length);
-        const attendee = await this.attendeesService.findById(attendees[winnerId]);
-
-        return (await this.stsService.getAllWithIds([attendee.email])).users[0];
-    }
-
     @Get(":activity_id/:attendee_id/subscription")
     @Permissions("csgames-api:get:activity")
     public async getAttendeeSubscription(@Param('activity_id') activityId: string, @Param('attendee_id') attendeeId: string) {
         await this.activitiesService.getAttendeeSubscription(activityId, attendeeId);
+    }
+
+    @Get(":activity_id")
+    @Permissions("csgames-api:get:activity")
+    public async getActivity(@Param('activity_id') activityId: string) {
+        return await this.activitiesService.findById(activityId);
     }
 
     @Put(":activity_id/:attendee_id/subscription")
@@ -107,9 +92,5 @@ export class ActivitiesController {
     @Permissions("csgames-api:update:activity")
     public async createNotification(@Param("id") id: string, @Body(ValidationPipe) dto: SendNotificationDto) {
         await this.activitiesService.createNotification(id, dto);
-    }
-
-    private getRandomIndex(size: number) {
-        return Math.floor(Math.random() * Math.floor(size));
     }
 }

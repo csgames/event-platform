@@ -14,7 +14,7 @@ export enum ValidationTypes {
 
 export interface Questions extends mongoose.Document {
     label: string;
-    description: string;
+    description: { [lang: string]: string };
     type: QuestionTypes;
     validationType: ValidationTypes;
     answer: any;
@@ -27,7 +27,7 @@ export const QuestionsSchema = new mongoose.Schema({
         required: true
     },
     description: {
-        type: String,
+        type: Object,
         required: true
     },
     type: {
