@@ -60,7 +60,7 @@ export class AttendeesService extends BaseService<Attendees, CreateAttendeeDto> 
         }
 
         if (attendee.messagingTokens.indexOf(token) >= 0) {
-            throw new BadRequestException('Token already exist');
+            return;
         }
 
         return this.attendeesModel.updateOne({
@@ -82,7 +82,7 @@ export class AttendeesService extends BaseService<Attendees, CreateAttendeeDto> 
         }
 
         if (attendee.messagingTokens.indexOf(token) < 0) {
-            throw new BadRequestException("Token doesn't exist");
+            return;
         }
 
         return this.attendeesModel.updateOne({

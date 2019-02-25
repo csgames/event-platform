@@ -70,15 +70,15 @@ export class EventsController {
 
     @Get('activity')
     @Permissions('csgames-api:get-all:activity')
-    public async getActivity(@EventId() eventId: string): Promise<Activities[]> {
+    public async getActivity(@EventId() eventId: string, @User() user: UserModel): Promise<Activities[]> {
         return await this.eventsService.getActivities(eventId);
     }
-    
+
     @Get('notification')
     @Permissions('csgames-api:get:notification')
     public async getNotifications(@EventId() eventId: string, @User() user: UserModel,
                                   @Query('seen') seen: boolean): Promise<AttendeeNotifications[]> {
-        return await this.eventsService.getNotifications(eventId, user.id, seen);
+        return await this.eventsService.getNotifications(eventId, user.username, seen);
     }
 
     @Post('sms')
