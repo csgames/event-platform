@@ -20,7 +20,8 @@ export function reducer(state = initialState, action: InfoActivityActions): Info
     switch (action.type) {
         case InfoActivityActionTypes.CheckIfSubscribedToActivity:
             return {
-                ...state
+                ...state,
+                loading: true
             };
         case InfoActivityActionTypes.SubscribeToActivity:
             return {

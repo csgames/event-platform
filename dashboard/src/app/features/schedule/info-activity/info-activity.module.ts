@@ -9,6 +9,7 @@ import { InfoActivityComponent } from "./info-activity.component";
 import { SubscriptionService } from "./providers/subscription.service";
 import { PipeModule } from "src/app/pipe/pipe.module";
 import { TranslateModule } from "@ngx-translate/core";
+import { FlexLayoutModule } from "@angular/flex-layout";
 
 @NgModule({
     imports: [
@@ -16,6 +17,7 @@ import { TranslateModule } from "@ngx-translate/core";
         StoreModule.forFeature("infoActivity", reducer),
         EffectsModule.forFeature([InfoActivityEffects]),
         LoadingSpinnerModule,
+        FlexLayoutModule,
         PipeModule,
         TranslateModule
     ],
@@ -23,4 +25,4 @@ import { TranslateModule } from "@ngx-translate/core";
     entryComponents: [InfoActivityComponent],
     providers: [SubscriptionService]
 })
-export class InfoActivityModule { }
+export class InfoActivityModule {}

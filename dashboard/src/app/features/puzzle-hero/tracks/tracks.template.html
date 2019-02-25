@@ -24,7 +24,8 @@
                 <hr>
 
                 <app-track *ngFor="let track of starredTracks" (clickStar)="clickStar(track)"
-                           [track]="track"></app-track>
+                           (openChange)="trackOpenChange(track, $event)" [track]="track"
+                           [startsOpen]="isTrackOpen(track)"></app-track>
 
             </ng-container>
             <ng-container *ngIf="otherTracks?.length > 0">
@@ -37,7 +38,8 @@
                 </div>
 
                 <hr>
-                <app-track *ngFor="let track of otherTracks" (clickStar)="clickStar(track)" [track]="track"></app-track>
+                <app-track *ngFor="let track of otherTracks" (openChange)="trackOpenChange(track, $event)"
+                           (clickStar)="clickStar(track)" [track]="track" [startsOpen]="isTrackOpen(track)"></app-track>
             </ng-container>
         </div>
     </ng-container>

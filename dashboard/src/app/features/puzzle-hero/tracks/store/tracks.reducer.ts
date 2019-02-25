@@ -26,8 +26,7 @@ export function reducer(state = initialState, action: TracksActions): TracksStat
         case TracksActionTypes.LoadTracks:
             return {
                 ...state,
-                loading: true,
-                tracks: []
+                loading: true
             };
 
         case TracksActionTypes.TracksLoaded:

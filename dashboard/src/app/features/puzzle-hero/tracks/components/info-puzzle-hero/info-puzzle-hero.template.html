@@ -8,9 +8,9 @@
                     <button type="button" class="close" (click)="onClose()"><span aria-hidden="true">×</span><span
                         class="sr-only">{{ "general.button.close" | translate }}</span>
                     </button>
-                    <div class="row tile">
-                        <i class="fal firstIcon" [ngClass]="icon"></i>
-                        <div class="col-sm">
+                    <div fxLayout="row" fxLayoutGap="10px"  class="tile">
+                        <i class="fal" [ngClass]="icon"></i>
+                        <div fxFlex>
                             <p class="name">{{ puzzle.label }}</p>
                             <p class="hours">{{ track.label }}</p>
                         </div>

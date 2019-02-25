@@ -1,15 +1,15 @@
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
+import { FlexLayoutModule } from "@angular/flex-layout";
 import { TranslateModule } from "@ngx-translate/core";
 import { AccordionComponent } from "./accordion.component";
 import { AccordionModule } from "ngx-bootstrap";
-import { FlexLayoutModule } from "@angular/flex-layout";
 
 @NgModule({
     imports: [
         CommonModule,
         TranslateModule,
-        AccordionModule,
+        AccordionModule.forRoot(),
         FlexLayoutModule
     ],
     declarations: [AccordionComponent],

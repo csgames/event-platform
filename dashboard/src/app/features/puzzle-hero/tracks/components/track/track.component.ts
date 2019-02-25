@@ -5,11 +5,6 @@ import { PuzzleHeroService } from "../../../../../providers/puzzle-hero.service"
 import { SimpleModalService } from "ngx-simple-modal";
 import { InfoPuzzleHeroComponent } from "../info-puzzle-hero/info-puzzle-hero.component";
 
-export interface InfoPuzzleHeroModal {
-    puzzle: PuzzleInfo;
-    track: Track;
-}
-
 @Component({
     selector: "app-track",
     templateUrl: "track.template.html",
@@ -19,8 +14,14 @@ export class TrackComponent implements OnInit {
     @Input()
     track: Track;
 
+    @Input()
+    startsOpen = false;
+
     @Output()
     clickStar = new EventEmitter();
+
+    @Output()
+    openChange = new EventEmitter();
 
     nodes: PuzzleInfo[] = [];
     links: { source: string, target: string }[] = [];
@@ -35,6 +36,7 @@ export class TrackComponent implements OnInit {
 
     onOpen() {
         this.isOpen = !this.isOpen;
+        this.openChange.emit(this.isOpen);
         this.showGraph();
     }
 
@@ -72,7 +74,7 @@ export class TrackComponent implements OnInit {
 
     clickPuzzle(puzzle: PuzzleInfo) {
         if (!puzzle.locked) {
-            this.modalService.addModal(InfoPuzzleHeroComponent, {puzzle, track: this.track});
+            this.modalService.addModal(InfoPuzzleHeroComponent, { puzzle, track: this.track });
         }
     }
 

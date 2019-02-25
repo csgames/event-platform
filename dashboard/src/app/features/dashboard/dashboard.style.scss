@@ -6,6 +6,12 @@
     background: #F5F4F0;
 }
 
+@media (max-width: 960px) {
+    .sidenav {
+        transition: 0.6s all;
+    }
+}
+
 .mat-toolbar.mat-primary {
     position: sticky;
     top: 0;

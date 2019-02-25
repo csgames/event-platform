@@ -479,6 +479,10 @@ a {
         top: 15px;
     }
 
+    .modal-md {
+        min-width: 400px;
+    }
+
     .close:focus {
         outline: 0;
     }
@@ -640,6 +644,15 @@ a {
     .modal-lg,
     .modal-md {
         width: calc(100% - 30px);
+    }
+}
+
+@media (max-width: 480px) {
+    .modal-right-side {
+        .modal-md {
+            width: 100%;
+            min-width: auto;
+        }
     }
 }
 

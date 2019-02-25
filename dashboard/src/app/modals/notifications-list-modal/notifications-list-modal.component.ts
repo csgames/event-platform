@@ -3,7 +3,7 @@ import { SimpleModalComponent } from "ngx-simple-modal";
 import { Store, select } from "@ngrx/store";
 import { State, getNotifications } from "./store/notifications.reducer";
 import { Subscription } from "rxjs";
-import { AppNotification } from "../../api/models/notification";
+import { AttendeeNotification } from "../../api/models/notification";
 import { LoadNotifications } from "./store/notifications.actions";
 
 @Component({
@@ -16,7 +16,7 @@ export class NotificationsListModalComponent extends SimpleModalComponent<void, 
     notifications$ = this.store$.pipe(select(getNotifications));
 
     private notificationSub$: Subscription;
-    public notifications: AppNotification[];
+    public notifications: AttendeeNotification[];
 
     constructor(private store$: Store<State>) {
         super();
@@ -26,7 +26,7 @@ export class NotificationsListModalComponent extends SimpleModalComponent<void, 
         this.store$.dispatch(new LoadNotifications());
         this.notificationSub$ = this.notifications$.subscribe((notifications) => {
             if (!notifications) { return; }
-            this.notifications = notifications.sort((a, b) => a.date > b.date ? -1 : 1);
+            this.notifications = notifications.sort((a, b) => a.notification.timestamp > b.notification.timestamp ? -1 : 1);
         });
     }
 
