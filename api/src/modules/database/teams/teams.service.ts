@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
 import { BaseService } from '../../../services/base.service';
@@ -28,6 +28,7 @@ export class TeamsService extends BaseService<Teams, CreateTeamDto> {
     }
 
     public async updateTeam(id: string, updateTeamDto: UpdateTeamDto, eventId: string): Promise<Teams> {
+        await this.checkForLocked(eventId);
         const name = updateTeamDto.name.trim();
         for (let i = 0; i < name.length; ++i) {
             if (name.charCodeAt(i) > 255) {
@@ -136,5 +137,19 @@ export class TeamsService extends BaseService<Teams, CreateTeamDto> {
         }
 
         return team;
+    }
+
+    private async checkForLocked(eventId: string): Promise<void> {
+        const event = await this.eventsModel.findOne({
+            _id: eventId
+        });
+        if (!event) {
+            throw new NotFoundException("No event found");
+        }
+
+        const now = Date();
+        if (now > event.teamEditLockDate && event.teamEditLocked) {
+            throw new BadRequestException("Edit locked");
+        }
     }
 }

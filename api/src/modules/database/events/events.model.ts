@@ -75,7 +75,7 @@ export const EventSponsorsSchema = new mongoose.Schema({
 });
 
 export interface EventGuide {
-    bring: { [key:string]: string[] },
+    bring: { [key: string]: string[] };
     school: {
         latitude: number,
         longitude: number,
@@ -96,7 +96,7 @@ export interface EventGuide {
         latitude: number,
         longitude: number,
         zoom: number,
-        coordinates:[{ 
+        coordinates: [{
             latitude: number,
             longitude: number
         }]
@@ -105,7 +105,7 @@ export interface EventGuide {
         latitude: number,
         longitude: number,
         zoom: number,
-        coordinates:[{ 
+        coordinates: [{
             info: string
             latitude: number,
             longitude: number
@@ -120,7 +120,7 @@ export interface EventGuide {
         schoolLongitude: number,
         hotelLatitude: number,
         hotelLongitude: number
-    }
+    };
 }
 
 export interface Events extends mongoose.Document {
@@ -139,6 +139,8 @@ export interface Events extends mongoose.Document {
     readonly locationAddress: string;
     readonly maxTeamMembers: number;
     readonly guide: EventGuide;
+    readonly teamEditLocked: boolean;
+    readonly teamEditLockDate: Date | string;
 }
 
 export const EventsSchema = new mongoose.Schema({
@@ -190,5 +192,13 @@ export const EventsSchema = new mongoose.Schema({
         type: Object,
         required: false
     },
-    sponsors: [EventSponsorsSchema]
+    sponsors: [EventSponsorsSchema],
+    teamEditLocked: {
+        type: Boolean,
+        default: true
+    },
+    teamEditLockDate: {
+        type: Date,
+        required: true
+    }
 });
