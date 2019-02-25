@@ -79,12 +79,14 @@ export class Application {
     public routes() {
         this.app.use(this.renewToken.bind(this));
         let proxy = proxyConfig();
+
         this.app.use(httpProxy(proxy.path, {
             target: proxy.path,
             router: proxy.options.router,
             logLevel: proxy.options.logLevel,
             onProxyReq: this.onRequest,
             changeOrigin: true,
+            ws: true,
             ignorePath: true
         }));
         const auth: Auth = new Auth();
