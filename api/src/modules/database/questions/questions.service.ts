@@ -61,9 +61,7 @@ export class QuestionsService {
             throw new BadRequestException("Custom function validation requires the answer to be a valid JSON object.");
         }
 
-        if (jsonAnswer) {
-            console.log("JSON answer:" + jsonAnswer);
-            
+        if (jsonAnswer) {            
             let response = await Axios.post(url, jsonAnswer, 
                 { 
                     "headers": { "Secret" : process.env.PUZZLE_HERO_VALIDATION_SECRET}
@@ -75,8 +73,6 @@ export class QuestionsService {
             if (!response) {
                 throw new InternalServerErrorException("Custom validation endpoint does not respond.");
             }
-            console.log("status code: " + response.status);
-            console.log("data: " + response.data);
             if (response.status !== 200) {
                 throw new BadRequestException('Invalid answer');
             }
