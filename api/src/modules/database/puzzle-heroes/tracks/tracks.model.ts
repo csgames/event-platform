@@ -1,3 +1,4 @@
+import { DateUtils } from '../../../../utils/date.utils';
 import { PuzzleGraphNodes, PuzzleGraphNodesSchema } from '../puzzle-graph-nodes/puzzle-graph.nodes.model';
 import * as mongoose from "mongoose";
 
@@ -40,3 +41,10 @@ export const TracksSchema = new mongoose.Schema({
         required: true
     }
 });
+
+export class TracksUtils {
+    public static isAvailable(track: Tracks): boolean {
+        const now = DateUtils.nowUTC();
+        return now > track.releaseDate && now < track.endDate;
+    }
+}

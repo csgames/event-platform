@@ -1,20 +1,19 @@
-import { BadRequestException, Body, Controller, Get, Param, Post, Query, UseGuards, HttpCode, HttpStatus } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Get, HttpCode, HttpStatus, Param, Post, Query, UseGuards } from '@nestjs/common';
 import { ApiUseTags } from '@nestjs/swagger';
-import { Permissions } from '../../../decorators/permission.decorator';
-import { PermissionsGuard } from '../../../guards/permission.guard';
-import { PuzzleDefinition, PuzzleHeroesService } from './puzzle-heroes.service';
-import { PuzzleHeroes } from './puzzle-heroes.model';
 import { EventId } from '../../../decorators/event-id.decorator';
-import { ValidationPipe } from '../../../pipes/validation.pipe';
-import { CreatePuzzleDto, CreatePuzzleHeroDto, CreateTrackDto } from './puzzle-heroes.dto';
+import { Permissions } from '../../../decorators/permission.decorator';
 import { User } from '../../../decorators/user.decorator';
+import { PermissionsGuard } from '../../../guards/permission.guard';
 import { UserModel } from '../../../models/user.model';
+import { ValidationPipe } from '../../../pipes/validation.pipe';
+import { PuzzleAnswerDto } from '../questions/puzzle-answer.dto';
 import { PuzzleGraphNodes } from './puzzle-graph-nodes/puzzle-graph.nodes.model';
-import { Tracks } from './tracks/tracks.model';
+import { CreatePuzzleDto, CreatePuzzleHeroDto, CreateTrackDto } from './puzzle-heroes.dto';
+import { PuzzleHeroes } from './puzzle-heroes.model';
+import { PuzzleHeroesService, PuzzleHeroInfo } from './puzzle-heroes.service';
 import { Score } from './scoreboard/score.model';
 import { TeamSeries } from './scoreboard/team-series.model';
-import { QuestionsService } from '../questions/questions.service';
-import { PuzzleAnswerDto } from '../questions/puzzle-answer.dto';
+import { Tracks } from './tracks/tracks.model';
 
 @ApiUseTags('PuzzleHero')
 @Controller('puzzle-hero')
@@ -82,6 +81,12 @@ export class PuzzleHeroesController {
     public async get(@EventId() eventId: string, @User() user: UserModel,
                      @Query('type') type: string): Promise<PuzzleHeroes> {
         return await this.puzzleHeroService.getByEvent(eventId, user.username, type);
+    }
+
+    @Get('info')
+    @Permissions('csgames-api:get:puzzle-hero')
+    public async getInfo(@EventId() eventId: string): Promise<PuzzleHeroInfo> {
+        return await this.puzzleHeroService.getInfo(eventId);
     }
 
     @Get('scoreboard')
