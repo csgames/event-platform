@@ -10,6 +10,7 @@ import { TranslateModule } from "@ngx-translate/core";
 import { LoadingSpinnerModule } from "../../../components/loading-spinner/loading-spinner.module";
 import { SimpleModalModule } from "ngx-simple-modal";
 import { PuzzleAdminComponent } from "./puzzle-admin.component";
+import { EditPuzzleHeroComponent } from "./components/edit-puzzle-hero/edit-puzzle-hero.component";
 
 @NgModule({
     imports: [
@@ -26,8 +27,8 @@ import { PuzzleAdminComponent } from "./puzzle-admin.component";
         SimpleModalModule
     ],
     exports: [],
-    // entryComponents: [PuzzleAdminComponent],
-    declarations: [PuzzleAdminComponent],
+    entryComponents: [EditPuzzleHeroComponent],
+    declarations: [PuzzleAdminComponent, EditPuzzleHeroComponent],
     providers: []
 })
 export class PuzzleAdminModule {}
