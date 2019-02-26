@@ -69,7 +69,23 @@
                     </div>
                 </div>
             </a>
-            <div class="sublinks" *ngIf="isActive('puzzle-hero')">
+            <ng-container *ifNotRole="['admin']">
+                <div class="sublinks" *ngIf="isActive('puzzle-hero')">
+                    <a [routerLink]="['/puzzle-hero/tracks']" routerLinkActive="active">
+                        {{ "pages.puzzle_hero.tracks" | translate }}
+                    </a>
+
+                    <a *ngIf="scoreboardOpen$ | async" [routerLink]="['/puzzle-hero/scoreboard']" routerLinkActive="active">
+                        {{ "pages.puzzle_hero.scoreboard" | translate }}
+                    </a>
+                </div>
+            </ng-container>
+            
+            <div class="sublinks" *ifRole="['admin']">
+                <a [routerLink]="['/puzzle-hero/admin']" routerLinkActive="active">
+                    {{ "general.roles.admin" | translate }}
+                </a>
+
                 <a [routerLink]="['/puzzle-hero/tracks']" routerLinkActive="active">
                     {{ "pages.puzzle_hero.tracks" | translate }}
                 </a>
@@ -78,7 +94,7 @@
                     {{ "pages.puzzle_hero.scoreboard" | translate }}
                 </a>
             </div>
-
+        
             <ng-container *ifRole="['attendee', 'captain', 'godparent']">
                 <a *ngIf="!(attendee$ | async) || (attendee$ | async)?.registered" [routerLink]="['/team']"
                    routerLinkActive="active">

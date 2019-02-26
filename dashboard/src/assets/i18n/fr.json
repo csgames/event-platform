@@ -100,7 +100,8 @@
             "success": "Succès!"
         },
         "roles": {
-            "captain": "Capitaine"
+            "captain": "Capitaine",
+            "admin": "Admin"
         },
         "search": {
             "search": "Rechercher"
