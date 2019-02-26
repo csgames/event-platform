@@ -1,0 +1,22 @@
+<div class="card competition-card clickable" (click)="info.emit()">
+    <div class="card-body competition-card-body">
+        <div fxLayout="row" class="tile">
+            <div fxFlex="initial">
+                <i class="fal fa-trophy"></i>
+            </div>
+            <div fxFlex>
+                <p class="name">{{ competition.activity.name }}</p>
+                <p class="hours">{{ competition.activity.beginDate | hours }} - {{ competition.activity.endDate | hours }}</p>
+                <p class="location">{{ competition.activity.location }}</p>
+            </div>
+        </div>
+        <div fxLayout="row" class="tile">
+            <div *ngIf="lang === 'fr'">{{ competition.activity.details.fr }}</div>
+            <div *ngIf="lang === 'en'">{{ competition.activity.details.en }}</div>
+        </div>
+        <div fxLayout="row" fxLayoutAlign="center" class="tile">
+            <a class="not-subscribed btn btn-primary btn-rounded mt-3 px-3" (click)="subscribe()">{{ "general.button.subscribe"
+                    | translate }}</a>
+        </div>
+    </div>
+</div>
