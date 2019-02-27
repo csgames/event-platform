@@ -1,7 +1,7 @@
 class PuzzleInfo {
     String id;
     String label;
-    String description;
+    Map<String, dynamic> description;
     bool completed;
     bool locked;
 
@@ -15,7 +15,7 @@ class PuzzleInfo {
     PuzzleInfo.fromMap(Map<String, dynamic> map) {
         id = map["_id"];
         label = map["label"];
-        description = map["description"];
+        description = Map.castFrom<String, dynamic, String, String>(map['description'] ?? {});
         completed = map["completed"];
         locked = map["locked"];
     }

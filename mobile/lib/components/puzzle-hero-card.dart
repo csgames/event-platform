@@ -102,7 +102,9 @@ class PuzzleHeroCard extends StatelessWidget  {
             Container(
                 padding: EdgeInsets.only(left: 20.0, right: 20.0, bottom: 15.0),
                 child: Text(
-                    _puzzle.description,
+                    _puzzle.description[LocalizationService
+                        .of(context)
+                        .language] ?? "",
                     textAlign: TextAlign.justify,
                     style: TextStyle(
                         color: Colors.black,
