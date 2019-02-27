@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from "@angular/core";
 import { Store, select } from "@ngrx/store";
 import { Subscription } from "rxjs";
 import { SimpleModalService } from "ngx-simple-modal";
-import { State, getCompetitionsLoading, getCompetitions } from "./store/competitions.reducer";
+import { State, getCompetitionsLoading, getCompetitions, getCompetitionsError } from "./store/competitions.reducer";
 import { Competition } from "src/app/api/models/competition";
 
 @Component({
@@ -13,6 +13,7 @@ import { Competition } from "src/app/api/models/competition";
 export class CompetitionsComponent implements OnInit {
     // competitions$ = this.store$.pipe(select(getCompetitions));
     // loading$ = this.store$.pipe(select(getCompetitionsLoading));
+    // error$ = this.store$.pipe(select(getCompetitionsError));
     private competitions: Competition[] = [
         {
             "activity": {
@@ -31,7 +32,7 @@ export class CompetitionsComponent implements OnInit {
                 
             },
             "maxMembersNumber": 2,
-            "live": false,
+            "live": true,
             "members": null,
             "answers": null,
             "questions": null,
@@ -68,9 +69,5 @@ export class CompetitionsComponent implements OnInit {
 
     public ngOnInit() {
         
-    }
-
-    public getCompetitions(): Competition[] {
-        return this.competitions;
     }
 }

@@ -117,7 +117,9 @@
 			"other": "Other competitions",
 			"participate": "Participate",
 			"subscribed": "Subscribed competitions",
-			"wrong_password": "Wrong password"
+			"wrong_password": "Wrong password",
+			"loading_error": "An error occured while loading the competitions",
+			"live": "Happening now"
 		},
 		"guide": {
 			"guide": "Guide",

@@ -9,6 +9,11 @@
                 <p class="hours">{{ competition.activity.beginDate | hours }} - {{ competition.activity.endDate | hours }}</p>
                 <p class="location">{{ competition.activity.location }}</p>
             </div>
+            <div fxFlex *ngIf="competition.live" fxLayout="column" fxLayoutAlign="end end">
+                {{ "pages.competition.live" | translate }}
+                <a class="btn btn-primary btn-rounded participate px-3" (click)="onShowInfo(competition, competition.activity.beginDate)">
+                    {{ "pages.competition.participate" | translate }}</a>
+            </div>
         </div>
         <div fxLayout="row" class="tile">
             <div *ngIf="lang === 'fr'">{{ competition.activity.details.fr }}</div>

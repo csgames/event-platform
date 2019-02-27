@@ -13,6 +13,7 @@ import { FlexLayoutModule } from "@angular/flex-layout";
 import { PipeModule } from "src/app/pipe/pipe.module";
 import { SimpleModalModule } from "ngx-simple-modal";
 import { CompetitionCardComponent } from "./competition-card/competition-card.component";
+import { InfoCompetitionComponent } from "./info-competition/info-competition.component";
 
 @NgModule({
     imports: [
@@ -27,7 +28,7 @@ import { CompetitionCardComponent } from "./competition-card/competition-card.co
         PipeModule,
         SimpleModalModule,
     ],
-    declarations: [CompetitionsComponent, CompetitionCardComponent],
-    entryComponents: [CompetitionsComponent]
+    declarations: [CompetitionsComponent, CompetitionCardComponent, InfoCompetitionComponent],
+    entryComponents: [CompetitionsComponent, InfoCompetitionComponent]
 })
 export class CompetitionsModule { }

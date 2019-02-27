@@ -69,7 +69,7 @@
             "reset": "Réinitialiser",
             "save": "Enregistrer",
             "send": "Envoyer",
-            "subscribe": "S' abonner",
+            "subscribe": "S'abonner",
             "subscribed": "Abonné",
             "validate": "Valider"
         },
@@ -117,7 +117,9 @@
             "other": "Autres compétitions",
             "participate": "Participer",
             "subscribed": "Compétitions abonnées",
-            "wrong_password": "Mauvais mot de passe"
+            "wrong_password": "Mauvais mot de passe",
+            "loading_error": "Une erreur est survenue lors du chargement des compétitions",
+            "live": "En ce moment"
         },
         "guide": {
             "guide": "Guide",

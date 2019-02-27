@@ -1,8 +1,8 @@
-.activity-card {
+.competition-card {
     margin-bottom: 8px;
 }
 
-.activity-card-body {
+.competition-card-body {
     background-color: white;
     border-radius: 6px;
 }
@@ -52,6 +52,7 @@ i {
 
 .btn-primary {
     height: 100% !important;
+    
 }
 
 .not-subscribed {
@@ -62,4 +63,8 @@ i {
 .subscribed {
     background-color: gray !important;
     border-color: gray !important;
+}
+
+.participate {
+    margin-top: 2px !important;
 }
