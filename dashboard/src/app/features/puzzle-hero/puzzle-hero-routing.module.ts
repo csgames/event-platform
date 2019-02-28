@@ -5,7 +5,7 @@ import { ScoreboardGuard } from "./guards/scoreboard.guard";
 
 const routes: Routes = [
     {
-        path: "admin",
+        path: "edit",
         loadChildren: "src/app/features/puzzle-hero/admin/puzzle-admin.module#PuzzleAdminModule"
     },
     { path: "tracks", loadChildren: "src/app/features/puzzle-hero/tracks/tracks.module#TracksModule", canActivate: [PuzzleHeroGuard] },

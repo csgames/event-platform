@@ -3,6 +3,16 @@
     font-weight: 200;
 }
 
+.track-title {
+    line-height: 1;
+}
+
+.release-date {
+    font-size: 12px;
+    font-weight: 600;
+    color: #dc3545;
+}
+
 .track-container {
     position: relative;
     overflow-x: auto;
@@ -20,6 +30,10 @@
     &:hover {
         color: #FED265 !important;
     }
+}
+
+.button {
+    font-size: 17px;
 }
 
 .starred {

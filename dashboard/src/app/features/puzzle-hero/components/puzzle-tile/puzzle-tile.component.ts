@@ -1,5 +1,6 @@
-import { Component, EventEmitter, Input, Output } from "@angular/core";
-import { PuzzleInfo, PuzzleTypes } from "../../../../../api/models/puzzle-hero";
+import { Component, EventEmitter, Input, Output, ViewChild } from "@angular/core";
+import { PuzzleInfo, PuzzleTypes } from "../../../../api/models/puzzle-hero";
+import { PopoverDirective } from "ngx-bootstrap";
 
 @Component({
     selector: "[puzzle-tile]",
@@ -7,11 +8,20 @@ import { PuzzleInfo, PuzzleTypes } from "../../../../../api/models/puzzle-hero";
     styleUrls: ["./puzzle-tile.style.scss"]
 })
 export class PuzzleTileComponent {
+    @ViewChild("pop")
+    popover: PopoverDirective;
+
     @Input()
     puzzle: PuzzleInfo;
 
+    @Input()
+    adminMode = false;
+
     @Output()
     clickPuzzle = new EventEmitter<PuzzleInfo>();
+
+    @Output()
+    clickAddPuzzle = new EventEmitter<PuzzleInfo>();
 
     get icon(): string {
         switch (this.puzzle.type) {
@@ -22,9 +32,16 @@ export class PuzzleTileComponent {
             case PuzzleTypes.Scavenger:
                 return "&#xf332;";
         }
+        return "";
     }
 
     onClickPuzzle() {
+        this.popover.hide();
         this.clickPuzzle.emit(this.puzzle);
+    }
+
+    onClickAddLink() {
+        this.popover.hide();
+        this.clickAddPuzzle.emit(this.puzzle);
     }
 }

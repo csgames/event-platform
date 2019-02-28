@@ -720,6 +720,12 @@ h4 {
     margin-bottom: 1px;
 }
 
+.btn-default {
+    &:hover {
+        color: #0D5899 !important;
+    }
+}
+
 .badge-primary {
     background-color: #08579d;
 }
@@ -953,4 +959,17 @@ svg {
 
 .btn:hover {
     cursor: pointer !important;
+}
+
+.popover {
+    border: none;
+
+    box-shadow: 0 1px 4px 0 rgba(0, 0, 0, .14);
+
+    .arrow {
+        &:before,
+        &:after {
+            border: none;
+        }
+    }
 }

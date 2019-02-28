@@ -69,9 +69,10 @@
             "reset": "Réinitialiser",
             "save": "Enregistrer",
             "send": "Envoyer",
-            "subscribe": "S' abonner",
+            "subscribe": "S'abonner",
             "subscribed": "Abonné",
-            "validate": "Valider"
+            "validate": "Valider",
+            "edit": "Modifier"
         },
         "error": {
             "something": "Une erreur est survenue...",

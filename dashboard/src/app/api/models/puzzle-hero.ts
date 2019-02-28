@@ -11,14 +11,24 @@ export enum PuzzleTypes {
     Scavenger = "scavenger"
 }
 
+export interface Question {
+    label: string;
+    description: { [lang: string]: string };
+    type: PuzzleTypes;
+    validationType: string;
+    answer: any;
+    score: number;
+}
+
 export interface PuzzleInfo {
     id: string;
-    label: string;
-    type: PuzzleTypes;
-    completed: boolean;
-    locked: boolean;
-    description: { [lang: string]: string };
+    label?: string;
+    type?: PuzzleTypes;
+    completed?: boolean;
+    locked?: boolean;
+    description?: { [lang: string]: string };
     dependsOn?: string;
+    question?: Question;
 }
 
 export interface Track {

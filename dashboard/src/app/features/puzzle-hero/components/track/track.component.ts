@@ -1,9 +1,9 @@
 import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 import * as shape from "d3-shape";
-import { PuzzleInfo, PuzzleTypes, Track } from "../../../../../api/models/puzzle-hero";
-import { PuzzleHeroService } from "../../../../../providers/puzzle-hero.service";
+import { PuzzleInfo, PuzzleTypes, Track } from "../../../../api/models/puzzle-hero";
+import { PuzzleHeroService } from "../../../../providers/puzzle-hero.service";
 import { SimpleModalService } from "ngx-simple-modal";
-import { InfoPuzzleHeroComponent } from "../info-puzzle-hero/info-puzzle-hero.component";
+import { InfoPuzzleHeroComponent } from "../../tracks/components/info-puzzle-hero/info-puzzle-hero.component";
 
 @Component({
     selector: "app-track",
@@ -17,8 +17,20 @@ export class TrackComponent implements OnInit {
     @Input()
     startsOpen = false;
 
+    @Input()
+    showStar = true;
+
+    @Input()
+    adminMode = false;
+
     @Output()
     clickStar = new EventEmitter();
+
+    @Output()
+    clickPuzzle = new EventEmitter<PuzzleInfo>();
+
+    @Output()
+    clickAddPuzzle = new EventEmitter<PuzzleInfo>();
 
     @Output()
     openChange = new EventEmitter();
@@ -72,10 +84,12 @@ export class TrackComponent implements OnInit {
         return this.puzzleHeroService.isTrackStarred(this.track);
     }
 
-    clickPuzzle(puzzle: PuzzleInfo) {
-        if (!puzzle.locked) {
-            this.modalService.addModal(InfoPuzzleHeroComponent, { puzzle, track: this.track });
-        }
+    onClickPuzzle(puzzle: PuzzleInfo) {
+        this.clickPuzzle.emit(puzzle);
+    }
+
+    onClickAddPuzzle(puzzle: PuzzleInfo) {
+        this.clickAddPuzzle.emit(puzzle);
     }
 
     onClickStar(event: MouseEvent) {

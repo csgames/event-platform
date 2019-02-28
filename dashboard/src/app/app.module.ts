@@ -36,7 +36,7 @@ import { PasswordService } from "./providers/password.service";
 import { ToastrModule } from "ngx-toastr";
 import { NgxMaskModule } from "ngx-mask";
 import { ResetModule } from "./features/reset/reset.module";
-import { AccordionModule, TooltipModule } from "ngx-bootstrap";
+import { AccordionModule, PopoverModule, TooltipModule } from "ngx-bootstrap";
 import { SponsorsService } from "./providers/sponsors.service";
 import { ScheduleService } from "./providers/schedule.service";
 import { RoleGuard } from "./guards/role.guard";
@@ -58,6 +58,7 @@ export function loadFactory(http: HttpClient): TranslateHttpLoader {
         BsDropdownModule.forRoot(),
         TooltipModule.forRoot(),
         AccordionModule.forRoot(),
+        PopoverModule.forRoot(),
         DashboardModule,
         LoginModule,
         RegisterModule,
