@@ -34,6 +34,12 @@ export function reducer(state = initialState, action: InfoActivityActions): Info
                 subscribed: true,
                 loading: false
             };
+        case InfoActivityActionTypes.NotSubscribedToActivity:
+            return {
+                ...state,
+                subscribed: false,
+                loading: false
+            };
         case InfoActivityActionTypes.SubscriptionError:
             return {
                 ...state,

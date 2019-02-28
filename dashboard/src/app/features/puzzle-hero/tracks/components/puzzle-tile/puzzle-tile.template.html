@@ -1,19 +1,19 @@
 <svg:g xmlns:svg="http://www.w3.org/1999/XSL/Transform" (click)="onClickPuzzle()"
        xmlns:xhtml="http://www.w3.org/1999/xhtml" class="tile">
 
-    <svg:rect rx="11" ry="11" class="background"
+    <svg:rect width="77" height="77" rx="11" ry="11" class="background"
               [class.locked]="puzzle.locked"
               [class.completed]="puzzle.completed"/>
 
     <svg width="77" height="77">
-        <svg:text class="fal fa-3x" x="50%" y="50%" alignment-baseline="middle"
+        <svg:text class="fal fa-3x" x="50%" y="50%" alignment-baseline="middle" dominant-baseline="middle"
                   text-anchor="middle" [innerHTML]="icon">
         </svg:text>
-        <svg:text class="fa fa-3x text-danger" x="50%" y="50%" alignment-baseline="middle"
+        <svg:text class="fa fa-3x text-danger" x="50%" y="50%" alignment-baseline="middle" dominant-baseline="middle"
                   text-anchor="middle" *ngIf="puzzle.locked">
             &#xf023;
         </svg:text>
-        <svg:text class="fa fa-4x text-success" x="50%" y="50%" alignment-baseline="middle"
+        <svg:text class="fa fa-4x text-success" x="50%" y="50%" alignment-baseline="middle" dominant-baseline="middle"
                   text-anchor="middle" *ngIf="puzzle.completed">
             &#xf00c;
         </svg:text>

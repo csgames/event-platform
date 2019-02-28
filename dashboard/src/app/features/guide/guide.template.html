@@ -1,139 +1,143 @@
-<h1>{{ "pages.guide.guide" | translate }}</h1>
-<app-loading-spinner [loading]="loading$"></app-loading-spinner>
-<div class="guide animated fadeIn" *ngIf="guide">
-    <!-- What to bring -->
-    <app-accordion-component 
-        iconClass="fa-clipboard-check"
-        title="{{ 'pages.guide.what_to_bring' | translate }}"
-        [startsOpened]="false">
-        <div class="row">
-            <div class="inside-text-div col-12" *ngIf="lang() !== 'fr'">
-                <ul class="bullet-list">
-                    <li class="bullet-point" *ngFor="let item of guide.bring.en">{{ item }}</li>
-                </ul>
+<div class="page-wrapper">
+    <h1>{{ "pages.guide.guide" | translate }}</h1>
+    <app-loading-spinner [loading]="loading$"></app-loading-spinner>
+    <div class="guide animated fadeIn" *ngIf="guide">
+        <!-- What to bring -->
+        <app-accordion-component
+            iconClass="fa-clipboard-check"
+            title="{{ 'pages.guide.what_to_bring' | translate }}"
+            [startsOpened]="false">
+            <div class="row">
+                <div class="inside-text-div col-12" *ngIf="lang() !== 'fr'">
+                    <ul class="bullet-list">
+                        <li class="bullet-point" *ngFor="let item of guide.bring.en">{{ item }}</li>
+                    </ul>
+                </div>
+                <div class="inside-text-div col-12" *ngIf="lang() === 'fr'">
+                    <ul class="bullet-list">
+                        <li class="bullet-point" *ngFor="let item of guide.bring.fr">{{ item }}</li>
+                    </ul>
+                </div>
             </div>
-            <div class="inside-text-div col-12" *ngIf="lang() === 'fr'">
-                <ul class="bullet-list">
-                    <li class="bullet-point" *ngFor="let item of guide.bring.fr">{{ item }}</li>
-                </ul>
+        </app-accordion-component>
+        <!-- Hotel -->
+        <app-accordion-component
+            iconClass="fa-hotel"
+            title="{{ 'pages.guide.hotel' | translate }}">
+            <div class="row">
+                <div class="inside-text-div col-12">
+                    <p><i class="fal fa-hotel hotel-text-icon"></i>{{ guide.hotel.name }}</p>
+                </div>
+                <div class="inside-text-div col-12">
+                    <p><i class="fal fa-map-marker-alt hotel-text-icon"></i>{{ guide.hotel.address }}</p>
+                </div>
             </div>
-        </div>
-    </app-accordion-component>
-    <!-- Hotel -->
-    <app-accordion-component 
-        iconClass="fa-hotel" 
-        title="{{ 'pages.guide.hotel' | translate }}">
-        <div class="row">
-            <div class="inside-text-div col-12">
-                <p><i class="fal fa-hotel hotel-text-icon"></i>{{ guide.hotel.name }}</p>    
-            </div>
-            <div class="inside-text-div col-12">
-                <p><i class="fal fa-map-marker-alt hotel-text-icon"></i>{{ guide.hotel.address }}</p>    
-            </div>
-        </div>
-        
-        <agm-map 
-            *ngIf="guide"
-            [latitude]="guide.hotel.latitude"
-            [longitude]="guide.hotel.longitude"
-            [zoom]="guide.hotel.zoom"
-            [disableDefaultUI]="false"
-            [zoomControl]="false">
-            <agm-marker 
+
+            <agm-map
                 *ngIf="guide"
-                (markerClick)="clickedMarker(m.label, i)"
                 [latitude]="guide.hotel.latitude"
                 [longitude]="guide.hotel.longitude"
-                [label]=""
-                [markerDraggable]="false">
-                <agm-info-window>
-                    <strong>{{ guide.hotel.name }}</strong>
-                </agm-info-window>
-            </agm-marker>
-        </agm-map>
-    </app-accordion-component>
-    <!-- School -->
-    <app-accordion-component 
-        iconClass="fa-graduation-cap" 
-        title="{{ 'pages.guide.school' | translate }}">
-        <div class="row">
+                [zoom]="guide.hotel.zoom"
+                [disableDefaultUI]="false"
+                [zoomControl]="false">
+                <agm-marker
+                    *ngIf="guide"
+                    (markerClick)="clickedMarker(m.label, i)"
+                    [latitude]="guide.hotel.latitude"
+                    [longitude]="guide.hotel.longitude"
+                    [label]=""
+                    [markerDraggable]="false">
+                    <agm-info-window>
+                        <strong>{{ guide.hotel.name }}</strong>
+                    </agm-info-window>
+                </agm-marker>
+            </agm-map>
+        </app-accordion-component>
+        <!-- School -->
+        <app-accordion-component
+            iconClass="fa-graduation-cap"
+            title="{{ 'pages.guide.school' | translate }}">
+            <div class="row">
                 <div class="inside-text-div col-12">
-                    <p><i class="fal fa-school school-text-icon"></i>{{ guide.school.name }}</p>    
+                    <p><i class="fal fa-school school-text-icon"></i>{{ guide.school.name }}</p>
                 </div>
                 <div class="inside-text-div col-12">
-                    <p><i class="fal fa-map-marker-alt school-text-icon school-location-icon"></i>{{ guide.school.address }}</p>    
+                    <p><i
+                        class="fal fa-map-marker-alt school-text-icon school-location-icon"></i>{{ guide.school.address }}
+                    </p>
                 </div>
-            </div>        
-        <agm-map 
-            *ngIf="guide"
-            [latitude]="guide.school.latitude"
-            [longitude]="guide.school.longitude"
-            [zoom]="guide.school.zoom"
-            [disableDefaultUI]="false"
-            [zoomControl]="false">>
-            <agm-marker 
+            </div>
+            <agm-map
+                *ngIf="guide"
                 [latitude]="guide.school.latitude"
                 [longitude]="guide.school.longitude"
-                [label]=""
-                [markerDraggable]="false">
-                <agm-info-window>
-                    <strong>{{ guide.school.name }}</strong>
-                </agm-info-window>
-            </agm-marker>
-        </agm-map>
-    </app-accordion-component>
-    <!-- Inside the school -->
-    <app-accordion-component *ngIf="guide.school.maps.length > 0"
-        iconClass="fa-map-marked-alt" 
-        title="{{ 'pages.guide.map' | translate }}">
-        <div class="row">
-            <div *ngFor="let map of guide.school.maps" class="col-lg-6 col-md-6 col-sm-12">
-                <img [src]="map" class="img-fluid">
+                [zoom]="guide.school.zoom"
+                [disableDefaultUI]="false"
+                [zoomControl]="false">>
+                <agm-marker
+                    [latitude]="guide.school.latitude"
+                    [longitude]="guide.school.longitude"
+                    [label]=""
+                    [markerDraggable]="false">
+                    <agm-info-window>
+                        <strong>{{ guide.school.name }}</strong>
+                    </agm-info-window>
+                </agm-marker>
+            </agm-map>
+        </app-accordion-component>
+        <!-- Inside the school -->
+        <app-accordion-component *ngIf="guide.school.maps.length > 0"
+                                 iconClass="fa-map-marked-alt"
+                                 title="{{ 'pages.guide.map' | translate }}">
+            <div class="row">
+                <div *ngFor="let map of guide.school.maps" class="col-lg-6 col-md-6 col-sm-12">
+                    <img [src]="map" class="img-fluid">
+                </div>
             </div>
-        </div>
-    </app-accordion-component>
-    <!-- Parkings -->
-    <app-accordion-component 
-        iconClass="fa-parking" 
-        title="{{ 'pages.guide.parking' | translate }}">
-                
-        <agm-map 
-            *ngIf="guide"
-            [latitude]="guide.parking.latitude"
-            [longitude]="guide.parking.longitude"
-            [zoom]="guide.parking.zoom"
-            [disableDefaultUI]="false"
-            [zoomControl]="false">>
-            <agm-marker 
-                *ngFor="let marker of guide.parking.coordinates"
-                [latitude]="marker.latitude"
-                [longitude]="marker.longitude"
-                [label]=""
-                [markerDraggable]="false">
-            </agm-marker>
-        </agm-map>
-    </app-accordion-component>
-    <!-- Restaurants -->
-    <app-accordion-component 
-        iconClass="fa-utensils" 
-        title="{{ 'pages.guide.restaurants' | translate }}">        
-        <agm-map 
-            *ngIf="guide"
-            [latitude]="guide.restaurant.latitude"
-            [longitude]="guide.restaurant.longitude"
-            [zoom]="guide.restaurant.zoom"
-            [disableDefaultUI]="false"
-            [zoomControl]="false">>
-            <agm-marker 
-                *ngFor="let marker of guide.restaurant.coordinates"
-                [latitude]="marker.latitude"
-                [longitude]="marker.longitude"
-                [label]=""
-                [markerDraggable]="false">
-                <agm-info-window>
-                    <strong>{{ marker.info }}</strong>
-                </agm-info-window>
-            </agm-marker>
-        </agm-map>
-    </app-accordion-component>
+        </app-accordion-component>
+        <!-- Parkings -->
+        <app-accordion-component
+            iconClass="fa-parking"
+            title="{{ 'pages.guide.parking' | translate }}">
+
+            <agm-map
+                *ngIf="guide"
+                [latitude]="guide.parking.latitude"
+                [longitude]="guide.parking.longitude"
+                [zoom]="guide.parking.zoom"
+                [disableDefaultUI]="false"
+                [zoomControl]="false">>
+                <agm-marker
+                    *ngFor="let marker of guide.parking.coordinates"
+                    [latitude]="marker.latitude"
+                    [longitude]="marker.longitude"
+                    [label]=""
+                    [markerDraggable]="false">
+                </agm-marker>
+            </agm-map>
+        </app-accordion-component>
+        <!-- Restaurants -->
+        <app-accordion-component
+            iconClass="fa-utensils"
+            title="{{ 'pages.guide.restaurants' | translate }}">
+            <agm-map
+                *ngIf="guide"
+                [latitude]="guide.restaurant.latitude"
+                [longitude]="guide.restaurant.longitude"
+                [zoom]="guide.restaurant.zoom"
+                [disableDefaultUI]="false"
+                [zoomControl]="false">>
+                <agm-marker
+                    *ngFor="let marker of guide.restaurant.coordinates"
+                    [latitude]="marker.latitude"
+                    [longitude]="marker.longitude"
+                    [label]=""
+                    [markerDraggable]="false">
+                    <agm-info-window>
+                        <strong>{{ marker.info }}</strong>
+                    </agm-info-window>
+                </agm-marker>
+            </agm-map>
+        </app-accordion-component>
+    </div>
 </div>

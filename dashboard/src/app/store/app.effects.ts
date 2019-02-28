@@ -65,7 +65,6 @@ export class AppEffects {
                 await this.attendeeService.removeMessagingToken(token).toPromise();
             }
         }),
-        delay(500),
         switchMap(() => {
             return this.authenticationService.logout().pipe(
                 tap(() => {
@@ -107,7 +106,6 @@ export class AppEffects {
         filter(([action, attendee, events, status]: [any, Attendee, Event[], PuzzleHeroInfo]) => {
             return [attendee, events, status].filter(x => x).length === 3;
         }),
-        delay(1000),
         map(() => new AppLoaded())
     );
 

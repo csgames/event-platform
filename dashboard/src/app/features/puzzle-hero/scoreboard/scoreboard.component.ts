@@ -8,15 +8,15 @@ import {
 } from "./store/scoreboard.reducer";
 import { select, Store } from "@ngrx/store";
 import { LoadScores, SelectTeams } from "./store/scoreboard.actions";
-import * as io from "socket.io-client";
-import { environment } from "../../../../environments/environment";
+import { PuzzleHeroService } from "../../../providers/puzzle-hero.service";
+import { Subscription } from "rxjs";
 
 @Component({
     selector: "scoreboard",
     templateUrl: "scoreboard.template.html",
     styleUrls: ["./scoreboard.style.scss"]
 })
-export class ScoreboardComponent implements OnInit {
+export class ScoreboardComponent implements OnInit, OnDestroy {
 
     loading$ = this.store$.pipe(select(getScoreboardLoading));
     error$ = this.store$.pipe(select(getScoreboardError));
@@ -26,17 +26,20 @@ export class ScoreboardComponent implements OnInit {
     scoreGraphLoading$ = this.store$.pipe(select(getScoreboardScoreGraphLoading));
     teamsSeries$ = this.store$.pipe(select(getScoreboardTeamsSeries));
 
-    constructor(private store$: Store<State>) {
-    }
+    private scoreboardUpdateSubscription$: Subscription;
+
+    constructor(private store$: Store<State>, private puzzleHeroService: PuzzleHeroService) {}
 
     ngOnInit() {
         this.store$.dispatch(new LoadScores());
-        const socket = io.connect(environment.GATEWAY_URL, {
-            path: "/v1/socket/socket.io"
+
+        this.scoreboardUpdateSubscription$ = this.puzzleHeroService.scoreboardUpdate$.subscribe(() => {
+            this.store$.dispatch(new LoadScores(false));
         });
-        socket.on("scoreboard_update", () => {
-            this.store$.dispatch(new LoadScores());
-        });
+    }
+
+    ngOnDestroy(): void {
+        this.scoreboardUpdateSubscription$.unsubscribe();
     }
 
     selectedTeamsChange(teams: string[]) {

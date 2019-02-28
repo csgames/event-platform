@@ -32,7 +32,7 @@ export function reducer(state = initialState, action: ScoreboardActions): Scoreb
         case ScoreboardActionTypes.LoadScores:
             return {
                 ...state,
-                loading: true
+                loading: action.showLoading
             };
 
         case ScoreboardActionTypes.ScoresLoaded:
