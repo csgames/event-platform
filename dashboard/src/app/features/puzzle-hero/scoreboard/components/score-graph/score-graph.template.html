@@ -1,0 +1,16 @@
+<div class="score-graph-container">
+    <!--<app-loading-spinner [loading]="loading"></app-loading-spinner>-->
+    <ngx-charts-line-chart
+        [xAxis]="true"
+        [yAxis]="true"
+        [timeline]="true"
+        [autoScale]="true"
+        [xAxis]="true"
+        [yAxis]="true"
+        [roundDomains]="true"
+        [legend]="true"
+        [showGridLines]="false"
+        [scheme]="colorScheme"
+        [results]="teamsSeries">
+    </ngx-charts-line-chart>
+</div>

@@ -2,6 +2,7 @@ import { ActionReducerMap, createFeatureSelector, createSelector, MetaReducer } 
 import { environment } from "../../environments/environment";
 import { Attendee } from "../api/models/attendee";
 import { Event } from "../api/models/event";
+import { PuzzleHeroInfo } from "../api/models/puzzle-hero";
 import { AppActions, AppActionTypes } from "./app.actions";
 
 export interface GlobalState {
@@ -11,6 +12,7 @@ export interface GlobalState {
     loading: boolean;
     language: string;
     unseen: boolean;
+    puzzleHeroInfo: PuzzleHeroInfo;
 }
 
 export interface State {
@@ -27,7 +29,8 @@ export const initialState: GlobalState = {
     currentEvent: null,
     loading: true,
     language: null,
-    unseen: false
+    unseen: false,
+    puzzleHeroInfo: null
 };
 
 export function globalReducer(state = initialState, action: AppActions): GlobalState {
@@ -71,19 +74,21 @@ export function globalReducer(state = initialState, action: AppActions): GlobalS
         case AppActionTypes.CheckUnseenNotification:
             return {
                 ...state,
-                loading: true
             };
         case AppActionTypes.HasUnseenNotification:
             return {
                 ...state,
-                loading: false,
                 unseen: true
             };
         case AppActionTypes.AllNotificationsSeen:
             return {
                 ...state,
-                loading: false,
                 unseen: false
+            };
+        case AppActionTypes.UpdatePuzzleHeroStatus:
+            return {
+                ...state,
+                puzzleHeroInfo: action.payload
             };
     }
     return state;
@@ -109,3 +114,5 @@ export const getCurrentEvent = createSelector(getGlobalState, (state: GlobalStat
 export const getCurrentLanguage = createSelector(getGlobalState, (state: GlobalState) => state.language);
 
 export const getUnseen = createSelector(getGlobalState, (state: GlobalState) => state.unseen);
+
+export const getPuzzleHeroInfo = createSelector(getGlobalState, (state: GlobalState) => state.puzzleHeroInfo);

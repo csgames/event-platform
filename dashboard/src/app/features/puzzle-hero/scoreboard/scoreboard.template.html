@@ -1,0 +1,26 @@
+<div class="page-wrapper">
+    <h1>{{ "pages.puzzle_hero.scoreboard" | translate }}</h1>
+    <app-loading-spinner [loading]="loading$">
+    </app-loading-spinner>
+    <ng-container *ngIf="error$ | async; else scoreboard">
+        <div style="text-align: center">
+            <i class="far fa-times-circle text-danger fa-8x"></i>
+            <h5>{{ "pages.puzzle_hero.scoreboard_loading_error" | translate }}</h5>
+        </div>
+    </ng-container>
+
+    <ng-template #scoreboard>
+        <div class="animated fadeIn">
+            <ng-container *ngIf="selectedTeamIds$ | async as selectedTeamIds">
+                <app-score-graph
+                    *ngIf="selectedTeamIds.length > 0"
+                    [loading]="scoreGraphLoading$"
+                    [teamsSeries]="teamsSeries$ | async"></app-score-graph>
+            </ng-container>
+            <app-score-table
+                [scores]="scores$ | async"
+                [selectedTeams]="selectedTeamIds$ | async"
+                (selectedTeamsChange)="selectedTeamsChange($event)"></app-score-table>
+        </div>
+    </ng-template>
+</div>

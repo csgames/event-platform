@@ -1,20 +1,19 @@
 import { NgModule } from "@angular/core";
-import { PuzzleHeroComponent } from "./puzzle-hero.component";
 import { CommonModule } from "@angular/common";
-import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { PuzzleHeroGuard } from "./guards/puzzle-hero.guard";
+import { ScoreboardGuard } from "./guards/scoreboard.guard";
 import { PuzzleHeroRoutingModule } from "./puzzle-hero-routing.module";
-import { RouterModule } from "@angular/router";
 
 @NgModule({
     imports: [
         CommonModule,
-        FormsModule,
-        ReactiveFormsModule,
-        RouterModule,
         PuzzleHeroRoutingModule
+        
     ],
     exports: [],
-    declarations: [PuzzleHeroComponent],
-    providers: []
+    providers: [
+        PuzzleHeroGuard,
+        ScoreboardGuard
+    ]
 })
 export class PuzzleHeroModule {}
