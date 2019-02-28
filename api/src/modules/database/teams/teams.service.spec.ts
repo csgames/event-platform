@@ -14,9 +14,10 @@ import { EventsService } from '../events/events.service';
 import { Code } from './teams.exception';
 import { Teams } from './teams.model';
 import { TeamsService } from './teams.service';
+import * as mongoose from 'mongoose';
 
 class FakeTeams implements Teams {
-    public _id: string;
+    public _id: mongoose.Types.ObjectId;
 
     constructor(team: Teams) {
         Object.assign(this, team);
@@ -26,7 +27,7 @@ class FakeTeams implements Teams {
         if (condition.name === 'This team exist' || condition.attendees === '5bde6ec00000000000000000'
             || condition._id === '5bde6ec00000000000000001') {
             return new FakeDocumentQuery(new FakeTeams({
-                _id: '5bde6ec00000000000000001',
+                _id: mongoose.Types.ObjectId('5bde6ec00000000000000001'),
                 name: 'This team exist',
                 attendees: ['5bde6ec00000000000000000'],
                 event: '',
@@ -34,7 +35,7 @@ class FakeTeams implements Teams {
             } as Teams));
         } else if (condition._id === '5bde6ec00000000000000002') {
             return new FakeDocumentQuery(new FakeTeams({
-                _id: '5bde6ec00000000000000001',
+                _id: mongoose.Types.ObjectId('5bde6ec00000000000000001'),
                 name: 'This team exist with more than one member',
                 attendees: ['5bde6ec00000000000000000', '5bde6ec00000000000000001'],
                 event: '',
@@ -51,7 +52,7 @@ class FakeTeams implements Teams {
     // @ts-ignore
     public save(): Promise<FakeTeams> {
         if (!this._id) {
-            this._id = '5bde6ec00000000000000000';
+            this._id = mongoose.Types.ObjectId('5bde6ec00000000000000000');
         }
         return Promise.resolve(this);
     }

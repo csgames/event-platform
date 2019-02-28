@@ -1,5 +1,5 @@
-import { Injectable } from "@nestjs/common";
-import * as Redis from "ioredis";
+import { Injectable } from '@nestjs/common';
+import * as Redis from 'ioredis';
 import { ConfigService } from '../configs/config.service';
 
 @Injectable()
@@ -19,7 +19,7 @@ export class RedisService {
     }
 
     public get(key: string): Promise<string> {
-       return this.client.get(key);
+        return this.client.get(key);
     }
 
     public lpush(key: string, value: string): Promise<number> {
@@ -47,9 +47,31 @@ export class RedisService {
                 }
             });
             stream.on('end', async () => {
-                await this.client.del(...keys);
+                if (keys && keys.length) {
+                    await this.client.del(...keys);
+                }
                 resolve();
             });
         });
+    }
+
+    public zadd(key: string, value: string, score: number): Promise<string | number> {
+        return this.client.zadd(key, score.toString(), value);
+    }
+
+    public async zrange(key: string, start: number, end: number): Promise<{ value: string, score: number }[]> {
+        const res = await this.client.zrange(key, start, end, 'WITHSCORES');
+        const scores = [];
+        for (let i = 0; i < res.length / 2; ++i) {
+            scores.push({
+                value: res[i * 2],
+                score: res[i * 2 + 1]
+            });
+        }
+        return scores.reverse();
+    }
+
+    public async zscore(key: string, value: string): Promise<number> {
+        return +(await this.client.zscore(key, value));
     }
 }
