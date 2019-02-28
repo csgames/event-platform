@@ -3,7 +3,7 @@ import { CommonModule } from "@angular/common";
 import { FormBuilder, FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { PuzzleAdminRoutingModule } from "./puzzle-admin-routing.module";
 import { RouterModule } from "@angular/router";
-import { AccordionModule, DatepickerModule, BsDatepickerModule, PopoverModule } from "ngx-bootstrap";
+import { AccordionModule, DatepickerModule, BsDatepickerModule, PopoverModule, TimepickerModule } from "ngx-bootstrap";
 import { NgxGraphModule } from "@swimlane/ngx-graph";
 import { FlexLayoutModule } from "@angular/flex-layout";
 import { TranslateModule } from "@ngx-translate/core";
@@ -11,7 +11,6 @@ import { LoadingSpinnerModule } from "../../../components/loading-spinner/loadin
 import { SimpleModalModule } from "ngx-simple-modal";
 import { PuzzleAdminComponent } from "./puzzle-admin.component";
 import { EditPuzzleHeroComponent } from "./components/edit-puzzle-hero/edit-puzzle-hero.component";
-import { EditPuzzleHeroModule } from "./components/edit-puzzle-hero/edit-puzzle-hero.module";
 import { StoreModule } from "@ngrx/store";
 import * as fromPuzzleAdmin from "./store/puzzle-admin.reducer";
 import { EffectsModule } from "@ngrx/effects";
@@ -38,9 +37,12 @@ import { CreateTrackComponent } from "./components/create-track/create-track.com
         PopoverModule,
         TranslateModule,
         SimpleModalModule,
-        EditPuzzleHeroModule,
         PuzzleComponentsModule,
         NgSelectModule,
+        DatepickerModule,
+        BsDatepickerModule,
+        TimepickerModule,
+    
 
         StoreModule.forFeature("puzzleHeroAdmin", fromPuzzleAdmin.reducer),
         EffectsModule.forFeature([PuzzleAdminEffects])      
