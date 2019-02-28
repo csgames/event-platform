@@ -31,6 +31,7 @@ export class ScoreboardComponent implements OnInit, OnDestroy {
     constructor(private store$: Store<State>, private puzzleHeroService: PuzzleHeroService) {}
 
     ngOnInit() {
+        this.puzzleHeroService.open();
         this.store$.dispatch(new LoadScores());
 
         this.scoreboardUpdateSubscription$ = this.puzzleHeroService.scoreboardUpdate$.subscribe(() => {
@@ -39,6 +40,7 @@ export class ScoreboardComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy(): void {
+        this.puzzleHeroService.close();
         this.scoreboardUpdateSubscription$.unsubscribe();
     }
 

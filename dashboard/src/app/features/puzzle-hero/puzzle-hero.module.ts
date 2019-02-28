@@ -8,7 +8,6 @@ import { PuzzleHeroRoutingModule } from "./puzzle-hero-routing.module";
     imports: [
         CommonModule,
         PuzzleHeroRoutingModule
-        
     ],
     exports: [],
     providers: [
