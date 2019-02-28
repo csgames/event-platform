@@ -69,7 +69,7 @@ export class PuzzleHeroesController {
     @Permissions('csgames-api:get:puzzle-hero')
     public async get(@EventId() eventId: string, @User() user: UserModel,
                      @Query('type') type: string): Promise<PuzzleHeroes> {
-        return await this.puzzleHeroService.getByEvent(eventId, user.username, type);
+        return await this.puzzleHeroService.getByEvent(eventId, user, type);
     }
 
     @Get('info')
