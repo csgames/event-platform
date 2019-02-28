@@ -23,6 +23,12 @@ a {
     }
 }
 
+.page-wrapper {
+    padding: 20px;
+    position: relative;
+    min-height: 100%;
+}
+
 .mat-drawer-container {
     color: #4A4A4A !important;
 }
@@ -745,8 +751,8 @@ h4 {
     margin-top: 20px;
     margin-bottom: 10px;
     width: fit-content;
-    margin-right:auto;
-    margin-left:auto;
+    margin-right: auto;
+    margin-left: auto;
 }
 
 .nav-link > span {

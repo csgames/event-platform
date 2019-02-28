@@ -13,6 +13,8 @@ export enum ScoreboardActionTypes {
 
 export class LoadScores implements Action {
     readonly type = ScoreboardActionTypes.LoadScores;
+
+    constructor(public showLoading: boolean = true) {}
 }
 
 export class ScoresLoaded implements Action {
