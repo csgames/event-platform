@@ -37,7 +37,7 @@ export class RegistrationsController {
     @Post('admin')
     @Permissions('csgames-api:create-admin:invitation')
     public async registerAdmin(@Body(new ValidationPipe()) user: RegisterAdminDto, @EventId() eventId: string) {
-        await this.registrationService.registerAdmin(user, eventId);
+        await this.registrationService.registerUser(user, eventId, 'admin');
     }
 
     @Get(':uuid')

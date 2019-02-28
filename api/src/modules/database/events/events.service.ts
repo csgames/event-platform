@@ -275,4 +275,17 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
             email
         }, dto, file);
     }
+
+    public async getAttendeeRole(eventId: string, attendeeId: string): Promise<string> {
+        const event = await this.findById(eventId);
+        if (!event) {
+            throw new EventNotFoundException();
+        }
+
+        const attendee = event.attendees.find(x => (x.attendee as mongoose.Types.ObjectId).equals(attendeeId));
+        if (!attendee) {
+            return null;
+        }
+        return attendee.role;
+    }
 }

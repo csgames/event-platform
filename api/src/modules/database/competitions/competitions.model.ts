@@ -48,7 +48,8 @@ export const CompetitionsSchema = new mongoose.Schema({
     },
     maxMembers: {
         type: Number,
-        default: 2
+        default: 2,
+        required: true
     },
     password: {
         type: String

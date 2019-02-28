@@ -26,6 +26,9 @@ import { ConfigModule } from '../../configs/config.module';
     ],
     providers: [
         RegistrationsService
+    ],
+    exports: [
+        RegistrationsService
     ]
 })
 export class RegistrationsModule {
