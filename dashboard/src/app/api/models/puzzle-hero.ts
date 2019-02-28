@@ -17,7 +17,7 @@ export interface PuzzleInfo {
     type: PuzzleTypes;
     completed: boolean;
     locked: boolean;
-    description: string;
+    description: { [lang: string]: string };
     dependsOn?: string;
 }
 
