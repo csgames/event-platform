@@ -14,7 +14,7 @@ if (environment.production) {
 const eventListener = HTMLElement.prototype.addEventListener;
 HTMLElement.prototype.addEventListener =
     function() {
-        if (arguments[0] === "mousewheel") {
+        if (["mousewheel", "onmousewheel", "DOMMouseScroll"].includes(arguments[0])) {
             return;
         } else {
             eventListener.apply(this, arguments);
