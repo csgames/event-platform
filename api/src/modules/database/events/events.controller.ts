@@ -10,6 +10,7 @@ import { CreateActivityDto } from '../activities/activities.dto';
 import { Activities } from '../activities/activities.model';
 import { AttendeeNotifications } from '../attendees/attendees.model';
 import { AttendeesService } from '../attendees/attendees.service';
+import { Competitions } from '../competitions/competitions.model';
 import { Teams } from '../teams/teams.model';
 import { TeamsService } from '../teams/teams.service';
 import { AddScannedAttendee, AddSponsorDto, CreateEventDto, SendNotificationDto, SendSmsDto, UpdateEventDto } from './events.dto';
@@ -79,6 +80,12 @@ export class EventsController {
     public async getNotifications(@EventId() eventId: string, @User() user: UserModel,
                                   @Query('seen') seen: boolean): Promise<AttendeeNotifications[]> {
         return await this.eventsService.getNotifications(eventId, user.username, seen);
+    }
+
+    @Get('competition')
+    @Permissions('csgames-api:get:competition')
+    public async getCompetitions(@EventId() eventId: string): Promise<Competitions[]> {
+        return await this.eventsService.getCompetitions(eventId);
     }
 
     @Post('sms')

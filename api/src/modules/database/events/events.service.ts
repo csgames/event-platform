@@ -12,6 +12,7 @@ import { Activities } from '../activities/activities.model';
 import { ActivitiesService } from '../activities/activities.service';
 import { AttendeeNotifications, Attendees } from '../attendees/attendees.model';
 import { AttendeesService } from '../attendees/attendees.service';
+import { Competitions } from '../competitions/competitions.model';
 import { Notifications } from '../notifications/notifications.model';
 import { NotificationsService } from '../notifications/notifications.service';
 import { Teams } from '../teams/teams.model';
@@ -24,6 +25,7 @@ import { UpdateAttendeeDto } from '../attendees/attendees.dto';
 export class EventsService extends BaseService<Events, CreateEventDto> {
     constructor(@InjectModel('events') private readonly eventsModel: Model<Events>,
                 @InjectModel('teams') private readonly teamsModel: Model<Teams>,
+                @InjectModel('competitions') private readonly competitionsModel: Model<Competitions>,
                 private readonly attendeeService: AttendeesService,
                 private readonly emailService: EmailService,
                 private readonly stsService: STSService,
@@ -287,5 +289,17 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
             return null;
         }
         return attendee.role;
+    }
+
+    public async getCompetitions(eventId: string): Promise<Competitions[]> {
+        return await this.competitionsModel.find({
+            event: eventId
+        }).select({
+            activities: true,
+            isLive: true
+        }).populate({
+            path: 'activities',
+            model: 'activities'
+        }).exec();
     }
 }
