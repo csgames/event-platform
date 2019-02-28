@@ -4,6 +4,7 @@ import { Events } from "../events/events.model";
 import { Schools } from "../schools/schools.model";
 
 export interface Teams extends mongoose.Document {
+    _id: mongoose.Types.ObjectId;
     name: string;
     attendees: (Attendees | mongoose.Types.ObjectId | string)[];
     event: Events | mongoose.Types.ObjectId | string;
