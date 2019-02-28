@@ -4,9 +4,10 @@ import { EditPuzzleHeroComponent } from "./components/edit-puzzle-hero/edit-puzz
 import { getPuzzleHeroAdminError, getPuzzleHeroAdminLoading, getPuzzleHeroAdminPuzzleHero, State } from "./store/puzzle-admin.reducer";
 import { select, Store } from "@ngrx/store";
 import { LoadPuzzleHero } from "./store/puzzle-admin.actions";
-import { map, tap } from "rxjs/operators";
+import { map } from "rxjs/operators";
 import { PuzzleHeroUtils } from "../utils/puzzle-hero.utils";
 import { PuzzleInfo } from "../../../api/models/puzzle-hero";
+import { CreateTrackComponent } from "./components/create-track/create-track.component";
 
 @Component({
     selector: "app-puzzle-hero-admin",
@@ -39,5 +40,9 @@ export class PuzzleAdminComponent implements OnInit {
 
     clickPuzzle(puzzle: PuzzleInfo) {
         this.modalService.addModal(EditPuzzleHeroComponent);
+    }
+
+    clickAddTrack() {
+        this.modalService.addModal(CreateTrackComponent);
     }
 }

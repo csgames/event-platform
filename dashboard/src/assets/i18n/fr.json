@@ -48,6 +48,12 @@
         },
         "notification": {
             "no_notification": "Vous n'avez pas de notifications"
+        },
+        "add_track_form": {
+            "label": "Nom de la piste",
+            "type": "Type de la piste",
+            "release_date": "Date de disponibilité",
+            "end_date": "Date de fin"
         }
     },
     "errors": {
@@ -110,6 +116,14 @@
         "update": {
             "update_available": "Nouvelle version disponible!",
             "update": "Mettre à jour"
+        },
+        "track": {
+            "types": {
+                "crypto": "Cryptographie",
+                "gaming": "Jouage de jeux",
+                "scavenger": "Cherchage d'affaires",
+                "sponsor": "Commanditaire"
+            }
         }
     },
     "pages": {
@@ -157,7 +171,7 @@
             "wrong_answer": "Mauvaise réponse!",
             "loading_error": "Une erreur est survenue lors du chargement des puzzle hero",
             "scoreboard_loading_error": "Une erreur est survenue lors du chargement du classement",
-            "answer":"Réponse ici",
+            "answer": "Réponse ici",
             "validate_success": "Bonne réponse!"
         },
         "register": {

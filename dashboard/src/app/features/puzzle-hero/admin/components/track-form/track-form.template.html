@@ -1,0 +1,47 @@
+<form [formGroup]="formGroup">
+    <div class="row">
+        <div class="col-sm-6 pr-sm-1">
+            <div class="input-group input-group-default">
+                <div class="input-group-prepend">
+                    <i class="fal fa-file-signature"></i>
+                </div>
+                <input autofocus class="form-control" type="text" name="label" controlStatus
+                       formControlName="label" placeholder='{{ "components.add_track_form.label" | translate }}'>
+            </div>
+        </div>
+        <div class="col-sm-6 pl-sm-1">
+            <div class="input-group input-group-default">
+                <ng-select [items]="types" placeholder='{{ "components.add_track_form.type" | translate }}'
+                           formControlName="type" controlStatus>
+                    <ng-template ng-option-tmp ng-label-tmp let-item="item">
+                        <i class="fal" [ngClass]="getIcon(item)"></i>
+                        <span class="ng-option-label">
+                            {{ "general.track.types." + item | translate }}
+                        </span>
+                    </ng-template>
+                </ng-select>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6 pr-sm-1">
+            <div class="input-group input-group-default">
+                <div class="input-group-prepend">
+                    <i class="fal fa-calendar"></i>
+                </div>
+                <input autofocus class="form-control" type="text" name="releaseDate" controlStatus
+                       formControlName="releaseDate"
+                       placeholder='{{ "components.add_track_form.release_date" | translate }}'>
+            </div>
+        </div>
+        <div class="col-sm-6 pl-sm-1">
+            <div class="input-group input-group-default">
+                <div class="input-group-prepend">
+                    <i class="fal fa-calendar"></i>
+                </div>
+                <input autofocus class="form-control" type="text" name="endDate" controlStatus
+                       formControlName="endDate" placeholder='{{ "components.add_track_form.end_date" | translate }}'>
+            </div>
+        </div>
+    </div>
+</form>

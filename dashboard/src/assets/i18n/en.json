@@ -48,6 +48,12 @@
         },
         "notification": {
             "no_notification": "You have no notifications"
+        },
+        "add_track_form": {
+            "label": "Track name",
+            "type": "Track type",
+            "releaseDate": "Release date",
+            "endDate": "End date"
         }
     },
     "errors": {
@@ -110,6 +116,14 @@
         "update": {
             "update_available": "New version available!",
             "update": "Update"
+        },
+        "track": {
+            "types": {
+                "crypto": "Cryptography",
+                "gaming": "Gaming",
+                "scavenger": "Scavenger Hunt",
+                "sponsor": "Sponsor"
+            }
         }
     },
     "pages": {
