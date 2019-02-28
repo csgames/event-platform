@@ -122,7 +122,7 @@ export class CompetitionsService extends BaseService<Competitions, Competitions>
         }
 
         for (const activity of competition.activities) {
-            await this.activityService.subscribeAttendee(activity as string, attendee._id);
+            await this.activityService.subscribeAttendee(activity as string, attendee._id.toHexString());
         }
     }
 
@@ -143,7 +143,7 @@ export class CompetitionsService extends BaseService<Competitions, Competitions>
         }
 
         for (const activity of competition.activities) {
-            await this.activityService.unsubscribeAttendee(activity as string, attendee._id);
+            await this.activityService.unsubscribeAttendee(activity as string, attendee._id.toHexString());
         }
     }
 }
