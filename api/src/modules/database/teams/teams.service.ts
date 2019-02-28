@@ -9,6 +9,7 @@ import { InvalidNameException, TeamAlreadyCreatedException } from './teams.excep
 import { Teams } from './teams.model';
 import { EventNotFoundException } from '../events/events.exception';
 import { UserModel } from '../../../models/user.model';
+import { DateUtils } from '../../../utils/date.utils';
 type ObjectId = Types.ObjectId;
 
 @Injectable()
@@ -151,7 +152,7 @@ export class TeamsService extends BaseService<Teams, CreateTeamDto> {
             throw new NotFoundException("No event found");
         }
 
-        const now = Date();
+        const now = DateUtils.nowUTC();
         if (now > event.teamEditLockDate && event.teamEditLocked) {
             throw new BadRequestException("Edit locked");
         }
