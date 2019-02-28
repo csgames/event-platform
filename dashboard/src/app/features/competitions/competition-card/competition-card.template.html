@@ -5,19 +5,19 @@
                 <i class="fal fa-trophy"></i>
             </div>
             <div fxFlex>
-                <p class="name">{{ competition.activity.name }}</p>
-                <p class="hours">{{ competition.activity.beginDate | hours }} - {{ competition.activity.endDate | hours }}</p>
-                <p class="location">{{ competition.activity.location }}</p>
+                <p class="name">{{ competition.activities[0].name }}</p>
+                <p class="hours">{{ competition.activities[0].beginDate | hours }} - {{ competition.activities[0].endDate | hours }}</p>
+                <p class="location">{{ competition.activities[0].location }}</p>
             </div>
-            <div fxFlex *ngIf="competition.live" fxLayout="column" fxLayoutAlign="end end">
+            <div fxFlex *ngIf="competition.isLive" fxLayout="column" fxLayoutAlign="end end">
                 {{ "pages.competition.live" | translate }}
                 <a class="btn btn-primary btn-rounded participate px-3" (click)="onShowInfo(competition, competition.activity.beginDate)">
                     {{ "pages.competition.participate" | translate }}</a>
             </div>
         </div>
         <div fxLayout="row" class="tile">
-            <div *ngIf="lang === 'fr'">{{ competition.activity.details.fr }}</div>
-            <div *ngIf="lang === 'en'">{{ competition.activity.details.en }}</div>
+            <div *ngIf="lang === 'fr'">{{ competition.activities[0].details.fr }}</div>
+            <div *ngIf="lang === 'en'">{{ competition.activities[0].details.en }}</div>
         </div>
         <div fxLayout="row" fxLayoutAlign="center" class="tile">
             <a class="not-subscribed btn btn-primary btn-rounded mt-3 px-3" (click)="subscribe()">{{ "general.button.subscribe"

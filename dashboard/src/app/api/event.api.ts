@@ -10,6 +10,7 @@ import { Sponsors } from "./models/sponsors";
 import { Activity } from "./models/activity";
 import { Team } from "./models/team";
 import { AttendeeNotification } from "./models/notification";
+import { Competition } from "./models/competition";
 
 
 @Injectable()
@@ -75,5 +76,9 @@ export class EventApi extends CSGamesApi {
 
     public getNotifications(): Observable<AttendeeNotification[]> {
         return this.http.get<AttendeeNotification[]>(this.url("notification"), { withCredentials: true });
+    }
+
+    public getCompetitions(): Observable<Competition[]> {
+        return this.http.get<Competition[]>(this.url("competition"), { withCredentials: true });
     }
 }

@@ -36,13 +36,15 @@ import { PasswordService } from "./providers/password.service";
 import { ToastrModule } from "ngx-toastr";
 import { NgxMaskModule } from "ngx-mask";
 import { ResetModule } from "./features/reset/reset.module";
-import { TooltipModule } from "ngx-bootstrap";
+import { AccordionModule, TooltipModule } from "ngx-bootstrap";
 import { SponsorsService } from "./providers/sponsors.service";
 import { ScheduleService } from "./providers/schedule.service";
 import { RoleGuard } from "./guards/role.guard";
 import { SchoolService } from "./providers/school.service";
+import { PuzzleHeroService } from "./providers/puzzle-hero.service";
 import { NotificationService } from "./providers/notification.service";
 import { UpdateModule } from "./update/update.module";
+import { CompetitionsService } from "./providers/competitions.service";
 
 export function loadFactory(http: HttpClient): TranslateHttpLoader {
     return new TranslateHttpLoader(http, "../assets/i18n/", ".json");
@@ -56,6 +58,7 @@ export function loadFactory(http: HttpClient): TranslateHttpLoader {
         BrowserModule,
         BsDropdownModule.forRoot(),
         TooltipModule.forRoot(),
+        AccordionModule.forRoot(),
         DashboardModule,
         LoginModule,
         RegisterModule,
@@ -97,8 +100,10 @@ export function loadFactory(http: HttpClient): TranslateHttpLoader {
         RegisterService,
         PasswordService,
         SponsorsService,
+        PuzzleHeroService,
         ScheduleService,
-        NotificationService
+        NotificationService,
+        CompetitionsService
     ],
     bootstrap: [AppComponent]
 })

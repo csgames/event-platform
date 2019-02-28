@@ -10,7 +10,7 @@ import {
     SubscriptionError
 } from "./info-activity.actions";
 import { State } from "./info-activity.reducer";
-import { switchMap, map, catchError, withLatestFrom } from "rxjs/operators";
+import { switchMap, map, catchError, withLatestFrom, delay } from "rxjs/operators";
 import { of } from "rxjs";
 import { Store, select } from "@ngrx/store";
 import { getCurrentAttendee } from "src/app/store/app.reducers";

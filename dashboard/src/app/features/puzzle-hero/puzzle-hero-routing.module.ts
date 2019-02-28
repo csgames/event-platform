@@ -1,10 +1,16 @@
 import { NgModule } from "@angular/core";
 import { Routes, RouterModule } from "@angular/router";
-
-import { PuzzleHeroComponent } from "./puzzle-hero.component";
+import { PuzzleHeroGuard } from "./guards/puzzle-hero.guard";
+import { ScoreboardGuard } from "./guards/scoreboard.guard";
 
 const routes: Routes = [
-    { path: "", component: PuzzleHeroComponent }
+    { path: "tracks", loadChildren: "src/app/features/puzzle-hero/tracks/tracks.module#TracksModule", canActivate: [PuzzleHeroGuard] },
+    {
+        path: "scoreboard",
+        loadChildren: "src/app/features/puzzle-hero/scoreboard/scoreboard.module#ScoreboardModule",
+        canActivate: [ScoreboardGuard]
+    },
+    { path: "**", redirectTo: "tracks" }
 ];
 
 @NgModule({

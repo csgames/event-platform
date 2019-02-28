@@ -145,7 +145,7 @@
             "code": "cette décharge"
         },
         "puzzle_hero": {
-            "other": "Autres pistes",
+            "all": "Toutes les pistes",
             "position": "Position",
             "puzzle": "Défi",
             "puzzle_hero": "Puzzle Hero",
@@ -153,7 +153,12 @@
             "scoreboard": "Classement",
             "starred": "Pistes favorites",
             "track": "Piste",
-            "wrong_answer": "Mauvaise réponse!"
+            "tracks": "Pistes",
+            "wrong_answer": "Mauvaise réponse!",
+            "loading_error": "Une erreur est survenue lors du chargement des puzzle hero",
+            "scoreboard_loading_error": "Une erreur est survenue lors du chargement du classement",
+            "answer":"Réponse ici",
+            "validate_success": "Bonne réponse!"
         },
         "register": {
             "already_have_account": "Vous avez déjà un compte?",

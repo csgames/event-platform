@@ -6,11 +6,11 @@ export enum CompetitionsActionTypes {
     LoadCompetitions = "[Competitions] Load competitions",
     CompetitionsLoaded = "[Competitions] Competitions loaded",
     LoadCompetitionsError = "[Competitions] Competitions error",
-    ShowCompetitionInfo = "[Competition] Show competition info",
 
     LoadSubscribedCompetitions = "[Subscribed Competitions] Load subscribed competitions",
     SubscribedCompetitionsLoaded = "[Subscribed Competitions] Subscribed competitions loaded",
-    SubscribeCompetition = "[Subscribed Competitions] Subscribe Competition"
+    SubscribeCompetition = "[Subscribed Competitions] Subscribe competition",
+    LoadSubscribedCompetitionsError = "[Subscribed Competitions] Subscribed competitions error"
 
 }
 
@@ -42,10 +42,8 @@ export class SubscribeCompetition implements Action {
     readonly type = CompetitionsActionTypes.SubscribeCompetition;
 }
 
-export class ShowCompetitionInfo implements Action {
-    readonly type = CompetitionsActionTypes.ShowCompetitionInfo;
-
-    constructor(public payload: InfoCompetitionModal) { }
+export class LoadSubscribedCompetitionsError implements Action {
+    readonly type = CompetitionsActionTypes.LoadSubscribedCompetitionsError;
 }
 
 export type CompetitionsActions =
@@ -55,4 +53,4 @@ export type CompetitionsActions =
     | LoadSubscribedCompetitions
     | SubscribedCompetitionsLoaded
     | SubscribeCompetition
-    | ShowCompetitionInfo;
+    | LoadSubscribedCompetitionsError;

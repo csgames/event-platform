@@ -4,7 +4,7 @@ import { getCurrentAttendee } from "../../../store/app.reducers";
 import { Competition } from "src/app/api/models/competition";
 import { State } from "src/app/features/competitions/store/competitions.reducer";
 import { TranslateService } from "@ngx-translate/core";
-import { ShowCompetitionInfo } from "../store/competitions.actions";
+// import { ShowCompetitionInfo } from "../store/competitions.actions";
 import { SimpleModalService } from "ngx-simple-modal";
 import { InfoCompetitionComponent } from "../info-competition/info-competition.component";
 

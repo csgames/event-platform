@@ -5,7 +5,7 @@ import { CompetitionsRoutingModule } from "./competitions-routing.module";
 import { DirectivesModule } from "src/app/directives/directives.module";
 import { StoreModule } from "@ngrx/store";
 import { EffectsModule } from "@ngrx/effects";
-// import * as fromSponsors from "./store/competitions.reducer";
+import * as fromCompetitions from "./store/competitions.reducer";
 import { CompetitionsComponent } from "./competitions.component";
 import { LoadingSpinnerModule } from "src/app/components/loading-spinner/loading-spinner.module";
 import { TabsModule } from "ngx-bootstrap";
@@ -14,6 +14,7 @@ import { PipeModule } from "src/app/pipe/pipe.module";
 import { SimpleModalModule } from "ngx-simple-modal";
 import { CompetitionCardComponent } from "./competition-card/competition-card.component";
 import { InfoCompetitionComponent } from "./info-competition/info-competition.component";
+import { CompetitionsEffects } from "./store/competitions.effects";
 
 @NgModule({
     imports: [
@@ -22,7 +23,8 @@ import { InfoCompetitionComponent } from "./info-competition/info-competition.co
         CompetitionsRoutingModule,
         LoadingSpinnerModule,
         DirectivesModule,
-        // StoreModule.forFeature("competitions"),
+        StoreModule.forFeature("competitions", fromCompetitions.reducer),
+        EffectsModule.forFeature([CompetitionsEffects]),
         TabsModule.forRoot(),
         FlexLayoutModule,
         PipeModule,

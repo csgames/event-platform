@@ -17,7 +17,7 @@ export interface InfoActivityModal {
     styleUrls: ["info-activity.style.scss"]
 })
 export class InfoActivityComponent extends SimpleModalComponent<InfoActivityModal, boolean>
-        implements InfoActivityModal, OnInit, OnDestroy {
+    implements InfoActivityModal, OnInit, OnDestroy {
     public activity: Activity;
     public time: string;
     public MAX_CHAR_DESCRIPTION = 1000;
@@ -32,6 +32,7 @@ export class InfoActivityComponent extends SimpleModalComponent<InfoActivityModa
 
     public ngOnInit() {
         this.result = false;
+        this.store$.dispatch(new ResetStore());
         this.store$.dispatch(new CheckIfSubscribedToActivity(this.activity._id));
     }
 
@@ -42,7 +43,6 @@ export class InfoActivityComponent extends SimpleModalComponent<InfoActivityModa
 
     public onClose() {
         this.close();
-        setTimeout(() => this.store$.dispatch(new ResetStore()), 1000);
     }
 
     public get lang(): string {

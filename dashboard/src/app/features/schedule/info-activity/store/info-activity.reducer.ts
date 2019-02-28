@@ -20,7 +20,8 @@ export function reducer(state = initialState, action: InfoActivityActions): Info
     switch (action.type) {
         case InfoActivityActionTypes.CheckIfSubscribedToActivity:
             return {
-                ...state
+                ...state,
+                loading: true
             };
         case InfoActivityActionTypes.SubscribeToActivity:
             return {
@@ -31,6 +32,12 @@ export function reducer(state = initialState, action: InfoActivityActions): Info
             return {
                 ...state,
                 subscribed: true,
+                loading: false
+            };
+        case InfoActivityActionTypes.NotSubscribedToActivity:
+            return {
+                ...state,
+                subscribed: false,
                 loading: false
             };
         case InfoActivityActionTypes.SubscriptionError:

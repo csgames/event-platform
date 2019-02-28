@@ -7,8 +7,15 @@ import { Competition } from "../api/models/competition";
 export class CompetitionsService {
     constructor(private apiService: ApiService) { }
 
-    // public getCompetitionsForEvent(): Observable<Competition[]> {
-    //     // TO DO
-    //     return null;
-    // }
+    public getCompetitionsForEvent(): Observable<Competition[]> {
+        return this.apiService.event.getCompetitions();
+    }
+
+    public getSubscribedCompetitions(): Observable<string[]> {
+        return null;
+    }
+
+    public toggleCompetitionSubscribed(): Observable<Competition> {
+        return null;
+    }
 }
