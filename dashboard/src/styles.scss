@@ -940,3 +940,9 @@ svg {
         width: 90px;
     }
 }
+
+bs-datepicker-container { z-index: 3000; }
+
+.bs-timepicker-field:focus {
+    border: 1px solid #0D5899;
+}

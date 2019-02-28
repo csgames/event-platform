@@ -11,8 +11,10 @@ import { EditPuzzleHeroComponent } from "./components/edit-puzzle-hero/edit-puzz
 })
 export class PuzzleAdminComponent implements OnInit {
     constructor(private modalService: SimpleModalService) { }
-
-    ngOnInit() { }
+    public myDateValue: Date;
+    ngOnInit() { 
+        this.myDateValue = new Date();
+    }
 
     editPuzzle() {
         this.modalService.addModal(EditPuzzleHeroComponent);

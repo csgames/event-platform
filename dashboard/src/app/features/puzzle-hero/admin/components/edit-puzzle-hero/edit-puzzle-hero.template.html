@@ -3,22 +3,96 @@
     <div class="modal-dialog modal-md">
         <div class="modal-content-wrapper">
             <div class="modal-content card">
-                <app-loading-spinner [loading]="loading$"></app-loading-spinner>
+                <!-- <app-loading-spinner [loading]="loading$"></app-loading-spinner> -->
                 <div class="modal-header">
                     <button type="button" class="close" (click)="onClose()"><span aria-hidden="true">×</span><span
                         class="sr-only">{{ "general.button.close" | translate }}</span>
                     </button>
-                    <div fxLayout="row" fxLayoutGap="10px"  class="tile">
-                        <i class="fal" [ngClass]="icon"></i>
-                        <div fxFlex>
-                            <p class="name">name</p>
-                            <p class="hours">hours</p>
+                    <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="start center" class="container">
+                        <h4 class="title">
+                            {{ pInfo?.label }}
+                            <button type="button" class="btn edit-button">
+                                <i class="fal fa-edit fa-md" (click)="onEditPuzzleName()"></i>
+                            </button>
+                        </h4>
+                    </div>
+                    <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="start center" class="container">
+                        <div fxFlex="25%" class="text-only">
+                            <span class="infoText">{{ "general.label.start_at" | translate }} :</span>
+                        </div>
+                        <div fxFlex="40%">
+                            <input type="text"
+                                class="form-control datepicker"
+                                #dp="bsDatepicker"
+                                [(bsValue)]="myDateValue"
+                                [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY', containerClass: 'theme-dark-blue'}"
+                                bsDatepicker/>
+                        </div>
+                        <div fxFlex="35%">
+                            <timepicker class="timepicker" [(ngModel)]="myTime" [showMeridian]="isMeridian" [showSpinners]="showSpinners"></timepicker>
+                        </div>                        
+                    </div>
+                    <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="start center" class="container">
+                        <div fxFlex="25%" class="text-only">
+                            <span class="infoText">{{ "general.label.end_at" | translate }} :</span>
+                        </div>
+                        <div fxFlex="40%">
+                            <input type="text"
+                                class="form-control datepicker"
+                                #dp="bsDatepicker"
+                                [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY', containerClass: 'theme-dark-blue'}"
+                                [(bsValue)]="myDateValue" bsDatepicker/>
+                        </div>
+                        <div fxFlex="35%">
+                            <timepicker class="timepicker" [(ngModel)]="myTime" [showMeridian]="isMeridian" [showSpinners]="showSpinners"></timepicker>
+                        </div>                        
+                    </div>
+                    <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="start center" class="container">
+                        <span class="infoText">
+                            {{ "general.label.description" | translate }} :
+                        </span>
+                    </div>
+                    <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="start center" class="container">
+                        <div fxFlex="100%" class="input-group input-group-default">
+                            <input type="text" class="form-control full-width" placeholder="{{ 'pages.puzzle_hero.description_placeholder' | translate }}"/>
                         </div>
                     </div>
-                </div>
-                <br>
-                <div class="modal-body description">
-                    <p>description</p>
+                    <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="start center" class="container">
+                        <div fxFlex="50%" class="input-group input-group-default">
+                            <ng-select [items]="puzzleTypes" placeholder='{{ "pages.puzzle_hero.puzzle_types" | translate }}'
+                                            controlStatus>
+                                <ng-template ng-option-tmp ng-label-tmp let-item="item">
+                                    <span class="ng-option-label">
+                                        {{ item }}
+                                    </span>
+                                </ng-template>
+                            </ng-select>
+                        </div>
+                        <div fxFlex="50%" class="input-group input-group-default">
+                            <ng-select [items]="validationTypes" placeholder='{{ "pages.puzzle_hero.validation_types" | translate }}'
+                                         controlStatus>
+                                <ng-template ng-option-tmp ng-label-tmp let-item="item">
+                                    <span class="ng-option-label">
+                                        {{ item }}
+                                    </span>
+                                </ng-template>
+                            </ng-select>
+                        </div>
+                    </div>
+                    <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="start center" class="container">
+                        <span class="infoText">
+                            {{ "pages.puzzle_hero.answer_admin" | translate }} :
+                        </span>
+                    </div>
+                    <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="start center" class="container">
+                        <div fxFlex="100%" class="input-group input-group-default">
+                            <input class="form-control full-width" type="text"  placeholder="{{ 'pages.puzzle_hero.answer_placeholder' | translate }}"/>
+                        </div>
+                    </div>
+                    <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="center center" class="container">
+                        <a class="btn btn-primary btn-rounded mt-1 mb-3 px-3"
+                                (click)="clickSave()">{{ "general.button.save" | translate }}</a>
+                    </div>
                 </div>
             </div>
         </div>

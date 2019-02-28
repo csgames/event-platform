@@ -109,6 +109,11 @@
         "update": {
             "update_available": "New version available!",
             "update": "Update"
+        },
+        "label": {
+            "start_at": "Starts at",
+            "end_at": "Ends at",
+            "description": "Description"
         }
 	},
 	"pages": {
@@ -157,7 +162,12 @@
             "loading_error": "An error occured while loading the puzzle hero",
 			"scoreboard_loading_error": "An error occured while loading the scoreboard",
 			"answer":"Answer here",
-            "validate_success": "Good answer!"
+            "validate_success": "Good answer!",
+            "validation_types": "Validation type",
+            "puzzle_types": "Puzzle type",
+            "answer_admin": "Answer",
+            "answer_placeholder": "Answer / URL",
+            "description_placeholder": "Your puzzle description here"
 		},
 		"register": {
 			"already_have_account": "Already have an account?",

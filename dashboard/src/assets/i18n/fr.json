@@ -109,6 +109,11 @@
         "update": {
             "update_available": "Nouvelle version disponible!",
             "update": "Mettre à jour"
+        },
+        "label": {
+            "start_at": "Débute à",
+            "end_at": "Fini à",
+            "description": "Description"
         }
     },
     "pages": {
@@ -157,7 +162,12 @@
             "loading_error": "Une erreur est survenue lors du chargement des puzzle hero",
             "scoreboard_loading_error": "Une erreur est survenue lors du chargement du classement",
             "answer":"Réponse ici",
-            "validate_success": "Bonne réponse!"
+            "validate_success": "Bonne réponse!",
+            "validation_types": "Type de réponse",
+            "puzzle_types": "Type de défi",
+            "answer_admin": "Réponse",
+            "answer_placeholder": "Réponse / URL",
+            "description_placeholder": "Votre description de puzzle ici"
         },
         "register": {
             "already_have_account": "Vous avez déjà un compte?",

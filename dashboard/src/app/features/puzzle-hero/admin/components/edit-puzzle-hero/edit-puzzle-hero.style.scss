@@ -22,11 +22,7 @@ i {
 .tile {
     margin: 10px 10px 10px 0px;
     display: flex;
-    justify-content: space-around;
-}
-
-.fal {
-    font-size: 40px;
+    justify-content: flex-start;
 }
 
 .btn-primary {
@@ -35,4 +31,40 @@ i {
 
 .answer {
     margin: 20px 5px 5px 0px;
+}
+
+.edit-button {
+    background: transparent !important;
+    padding: 5px;
+    border: none;
+
+    &:hover {
+        color: #0D5899;
+    }
+}
+
+.title {
+    font-size: 30px;
+}
+
+.infoText {
+    font-size: 18px;
+    text-align: left;
+}
+
+.container {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.text-only {
+    text-align: left;
+}
+
+.full-width {
+    width: 100%;
+}
+
+.datepicker:focus {
+    border: 1px solid #0D5899;
 }

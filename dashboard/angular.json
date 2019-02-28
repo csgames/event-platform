@@ -35,6 +35,7 @@
                             "node_modules/ngx-toastr/toastr.css",
                             "node_modules/@uppy/core/dist/style.min.css",
                             "node_modules/@uppy/drag-drop/dist/style.min.css",
+                            "node_modules/ngx-bootstrap/datepicker/bs-datepicker.scss",
                             "src/styles.scss"
                         ],
                         "scripts": []
