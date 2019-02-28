@@ -8,11 +8,14 @@ import { EventsService } from '../events/events.service';
 import { RegistrationsService } from '../registrations/registrations.service';
 import { CreateDirectorDto } from './competitions.dto';
 import { Competitions } from './competitions.model';
+import { UserModel } from '../../../models/user.model';
+import { ActivitiesService } from '../activities/activities.service';
 
 @Injectable()
 export class CompetitionsService extends BaseService<Competitions, Competitions> {
     constructor(@InjectModel('competitions') private readonly competitionsModel: Model<Competitions>,
                 @InjectModel('attendees') private readonly attendeesModel: Model<Attendees>,
+                private readonly activityService: ActivitiesService,
                 private readonly registrationService: RegistrationsService,
                 private readonly eventsService: EventsService) {
         super(competitionsModel);
@@ -100,5 +103,47 @@ export class CompetitionsService extends BaseService<Competitions, Competitions>
                 directors: attendeeId
             }
         }).exec();
+    }
+
+    public async subscribe(eventId: string, competitionId: string, user: UserModel): Promise<void> {
+        const competition = await this.competitionsModel.findOne({
+            _id: competitionId,
+            event: eventId
+        }).exec();
+        if (!competition) {
+            throw new NotFoundException();
+        }
+
+        const attendee = await this.attendeesModel.findOne({
+            email: user.username
+        });
+        if (!attendee) {
+            throw new NotFoundException("No attendee found");
+        }
+
+        for (const activity of competition.activities) {
+            await this.activityService.subscribeAttendee(activity as string, attendee._id);
+        }
+    }
+
+    public async unsubscribe(eventId: string, competitionId: string, user: UserModel): Promise<void> {
+        const competition = await this.competitionsModel.findOne({
+            _id: competitionId,
+            event: eventId
+        }).exec();
+        if (!competition) {
+            throw new NotFoundException();
+        }
+
+        const attendee = await this.attendeesModel.findOne({
+            email: user.username
+        });
+        if (!attendee) {
+            throw new NotFoundException("No attendee found");
+        }
+
+        for (const activity of competition.activities) {
+            await this.activityService.unsubscribeAttendee(activity as string, attendee._id);
+        }
     }
 }

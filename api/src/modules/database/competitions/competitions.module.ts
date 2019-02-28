@@ -6,6 +6,7 @@ import { RegistrationsModule } from '../registrations/registrations.module';
 import { CompetitionsController } from './competitions.controller';
 import { CompetitionsSchema } from './competitions.model';
 import { CompetitionsService } from './competitions.service';
+import { ActivitiesModule } from '../activities/activities.module';
 
 @Module({
     imports: [
@@ -18,7 +19,8 @@ import { CompetitionsService } from './competitions.service';
             schema: AttendeesSchema
         }]),
         EventsModule,
-        RegistrationsModule
+        RegistrationsModule,
+        ActivitiesModule
     ],
     controllers: [CompetitionsController],
     providers: [
