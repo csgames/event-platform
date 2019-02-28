@@ -1,5 +1,4 @@
 import { Team } from "src/app/api/models/team";
-import { GlobalState } from "src/app/store/app.reducers";
 import * as fromApp from "src/app/store/app.reducers";
 import { TeamViewActions, TeamViewActionTypes } from "./team-view.actions";
 import { createFeatureSelector, createSelector } from "@ngrx/store";

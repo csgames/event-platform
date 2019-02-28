@@ -23,6 +23,12 @@ a {
     }
 }
 
+.page-wrapper {
+    padding: 20px;
+    position: relative;
+    min-height: 100%;
+}
+
 .mat-drawer-container {
     color: #4A4A4A !important;
 }
@@ -714,6 +720,12 @@ h4 {
     margin-bottom: 1px;
 }
 
+.btn-default {
+    &:hover {
+        color: #0D5899 !important;
+    }
+}
+
 .badge-primary {
     background-color: #08579d;
 }
@@ -745,8 +757,8 @@ h4 {
     margin-top: 20px;
     margin-bottom: 10px;
     width: fit-content;
-    margin-right:auto;
-    margin-left:auto;
+    margin-right: auto;
+    margin-left: auto;
 }
 
 .nav-link > span {
@@ -821,7 +833,7 @@ i.fa-caret-down {
 }
 
 .ellipsis {
-    white-space: nowrap;
+    white-space: nowrap !important;
     overflow: hidden;
     text-overflow: ellipsis;
 }
@@ -945,4 +957,25 @@ bs-datepicker-container { z-index: 3000; }
 
 .bs-timepicker-field:focus {
     border: 1px solid #0D5899;
+}
+
+.btn-primary {
+    height: 100% !important;
+}
+
+.btn:hover {
+    cursor: pointer !important;
+}
+
+.popover {
+    border: none;
+
+    box-shadow: 0 1px 4px 0 rgba(0, 0, 0, .14);
+
+    .arrow {
+        &:before,
+        &:after {
+            border: none;
+        }
+    }
 }

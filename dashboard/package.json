@@ -33,7 +33,6 @@
         "@fortawesome/fontawesome": "^1.1.8",
         "@fortawesome/fontawesome-pro": "^5.7.0",
         "@fortawesome/fontawesome-pro-webfonts": "^1.0.9",
-        "@netbasal/content-loader": "^1.1.0",
         "@ng-select/ng-select": "^2.15.1",
         "@ngrx/effects": "^6.1.1",
         "@ngrx/router-store": "^6.1.1",

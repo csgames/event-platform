@@ -2,13 +2,16 @@
     <accordion-group (isOpenChange)="onOpen()" [isOpen]="startsOpen">
         <div accordion-heading fxLayout="row" fxLayoutAlign="start center">
             <i class="fal firstIcon" [ngClass]="icon"></i>
-            <div>
-                <span class="title">{{ track?.label }}</span>
+            <div class="track-title">
+                <span class="title">{{ track?.label }}</span><br>
+                <span class="release-date">Released on {{ track?.releaseDate | date: "medium" }}</span>
             </div>
             <div fxFlex></div>
             <a class="fa-star star-button" [ngClass]="{fal: !isStarred, fas: isStarred}" [class.starred]="isStarred"
-               (click)="onClickStar($event)"></a>
-            <i class="fas fa-caret-down" [class.fa-rotate-90]="!isOpen"></i>
+               (click)="onClickStar($event)" *ngIf="showStar"></a>
+            <a class="btn btn-primary" *ngIf="adminMode">Ajouter un puzzle <i class="fal fa-plus"></i> </a>
+            <a class="btn btn-default" *ngIf="adminMode"><i class="fal fa-edit"></i></a>
+            <i class="fas fa-caret-down ml-2" [class.fa-rotate-90]="!isOpen"></i>
         </div>
         <div class="track-container">
             <div class="track" xmlns:svg="http://www.w3.org/1999/XSL/Transform">
@@ -32,7 +35,9 @@
                     </ng-template>
 
                     <ng-template #nodeTemplate let-node>
-                        <svg:g puzzle-tile [puzzle]="node" (clickPuzzle)="clickPuzzle($event)"></svg:g>
+                        <svg:g puzzle-tile [puzzle]="node" (clickPuzzle)="onClickPuzzle($event)"
+                               (clickAddPuzzle)="onClickAddPuzzle($event)"
+                               [adminMode]="adminMode"></svg:g>
                     </ng-template>
 
                     <ng-template #linkTemplate let-link>

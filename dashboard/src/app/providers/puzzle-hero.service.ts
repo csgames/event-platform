@@ -2,12 +2,24 @@ import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
 import { ApiService } from "../api/api.service";
-import { PuzzleHeroInfo, Score, TeamSeries, Track } from "../api/models/puzzle-hero";
+import { PuzzleHero, PuzzleHeroInfo, Score, TeamSeries, Track } from "../api/models/puzzle-hero";
+import * as io from "socket.io-client";
+import { environment } from "../../environments/environment";
+import { PuzzleHeroUtils } from "../features/puzzle-hero/utils/puzzle-hero.utils";
 
 const STARRED_TRACKS = "STARRED_TRACKS";
 
 @Injectable()
 export class PuzzleHeroService {
+    private socket = io.connect(environment.GATEWAY_URL, {
+        path: environment.SOCKET_IO_PATH
+    });
+
+    public scoreboardUpdate$ = new Observable((observer) => {
+        this.socket.on("scoreboard_update", () => {
+            observer.next();
+        });
+    });
 
     constructor(private apiService: ApiService) {
     }
@@ -16,20 +28,13 @@ export class PuzzleHeroService {
         return this.apiService.puzzleHero.getInfo();
     }
 
+    getPuzzleHero(): Observable<PuzzleHero> {
+        return this.apiService.puzzleHero.getPuzzleHero();
+    }
+
     getTracks(): Observable<Track[]> {
         return this.apiService.puzzleHero.getPuzzleHero().pipe(
-            map(x => x.tracks),
-            map(x => x.map(track => {
-                return {
-                    ...track,
-                    puzzles: track.puzzles.map(puzzle => {
-                        return {
-                            ...puzzle,
-                            id: (puzzle as any)._id
-                        };
-                    })
-                };
-            }))
+            map(puzzleHero => PuzzleHeroUtils.formatPuzzleHeroTracksIds(puzzleHero))
         );
     }
 

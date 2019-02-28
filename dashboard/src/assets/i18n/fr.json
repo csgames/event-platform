@@ -48,6 +48,12 @@
         },
         "notification": {
             "no_notification": "Vous n'avez pas de notifications"
+        },
+        "add_track_form": {
+            "label": "Nom de la piste",
+            "type": "Type de la piste",
+            "release_date": "Date de disponibilité",
+            "end_date": "Date de fin"
         }
     },
     "errors": {
@@ -69,9 +75,10 @@
             "reset": "Réinitialiser",
             "save": "Enregistrer",
             "send": "Envoyer",
-            "subscribe": "S' abonner",
+            "subscribe": "S'abonner",
             "subscribed": "Abonné",
-            "validate": "Valider"
+            "validate": "Valider",
+            "edit": "Modifier"
         },
         "error": {
             "something": "Une erreur est survenue...",
@@ -114,6 +121,14 @@
             "start_at": "Débute à",
             "end_at": "Fini à",
             "description": "Description"
+        },
+        "track": {
+            "types": {
+                "crypto": "Cryptographie",
+                "gaming": "Jouage de jeux",
+                "scavenger": "Cherchage d'affaires",
+                "sponsor": "Commanditaire"
+            }
         }
     },
     "pages": {

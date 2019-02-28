@@ -2,7 +2,7 @@
     <accordion-group (isOpenChange)="clickAccordion()" [isOpen]="startsOpened">
         <div accordion-heading fxLayout="row" fxLayoutAlign="center center" class="caret-clicker clickable">
             <i fxFlex="initial" class='fal firstIcon' [ngClass]="iconClass"></i>
-            <div fxFlex class="accordion-title">
+            <div fxFlex class="title">
                 {{ title }}
             </div>
             <i fxFlex="nogrow" class='fas fa-caret-down float-right' [class.fa-rotate-90]="!isOpen"></i>
