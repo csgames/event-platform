@@ -4,23 +4,22 @@
     </app-loading-spinner>
     <ng-container *ngIf="error$ | async">
         <div style="text-align: center">
-            <i class="far fa-times-circle text-danger fa-8x"></i>
+            <i class="far fa-times-circle error fa-8x"></i>
             <h5>{{ "pages.team.loading_error" | translate }}</h5>
         </div>
     </ng-container>
     <ng-container *ngIf="currentTeam$ | async as currentTeam">
         <div *ngIf="!isEditingTeamName">
             <h2 class="title">
-                {{ currentTeam?.name}}
+                {{ currentTeam?.name }}
                 <button *ifRole="['admin', 'captain']" type="button" class="btn edit-name-button">
                     <i class="fal fa-edit fa-md" (click)="onEditTeamName(currentTeam)"></i>
                 </button>
             </h2>
         </div>
         <div class="edit-name-card" *ngIf="isEditingTeamName" fxFlexLayout="row" fxLayoutAlign="start center">
-            <div fxFlex="0 0 30%" fxFlex.lt-md="0 0 100%" class="input-group input-group-default input"
-                 id="teamNameInput">
-                <input class="form-control" type="text" id="teamName" [(ngModel)]="teamName">
+            <div fxFlex="0 0 30%" fxFlex.lt-md="0 0 100%" class="input-group input-group-default input">
+                <input class="form-control" type="text" [(ngModel)]="teamName">
             </div>
             <button type="button" class="btn btn-primary m-1" (click)="onSaveTeamName(teamName)">
                 {{ "general.button.save" | translate }}<i class="fal fa-check"></i>

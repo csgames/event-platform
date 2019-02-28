@@ -827,7 +827,7 @@ i.fa-caret-down {
 }
 
 .ellipsis {
-    white-space: nowrap;
+    white-space: nowrap !important;
     overflow: hidden;
     text-overflow: ellipsis;
 }
@@ -945,4 +945,12 @@ svg {
     .nav-item {
         width: 90px;
     }
+}
+
+.btn-primary {
+    height: 100% !important;
+}
+
+.btn:hover {
+    cursor: pointer !important;
 }
