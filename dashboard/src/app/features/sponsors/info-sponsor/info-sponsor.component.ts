@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewChild, Input } from "@angular/core";
+import { Component, OnDestroy, OnInit } from "@angular/core";
 import { SimpleModalComponent } from "ngx-simple-modal";
 import { Sponsors } from "src/app/api/models/sponsors";
 import { TranslateService } from "@ngx-translate/core";

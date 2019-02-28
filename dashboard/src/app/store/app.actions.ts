@@ -2,6 +2,7 @@ import { Action } from "@ngrx/store";
 import { Attendee } from "../api/models/attendee";
 import { HttpErrorResponse } from "@angular/common/http";
 import { Event } from "../api/models/event";
+import { PuzzleHeroInfo } from "../api/models/puzzle-hero";
 
 export enum AppActionTypes {
     GlobalError = "[App] Global error",
@@ -20,7 +21,9 @@ export enum AppActionTypes {
     AllNotificationsSeen = "[App] All notifications seen",
     InitializeMessaging = "[App] Initialize messaging",
     SetMessagingToken = "[App] Set messaging",
-    SetupMessagingToken = "[App] Setup messaging token"
+    SetupMessagingToken = "[App] Setup messaging token",
+    GetPuzzleHeroInfo = "[App] Get puzzle hero info",
+    UpdatePuzzleHeroStatus = "[App] Update puzzle hero status"
 }
 
 export class ChangeLanguage implements Action {
@@ -99,6 +102,16 @@ export class SetupMessagingToken implements Action {
     constructor(public payload: string) {}
 }
 
+export class GetPuzzleHeroInfo {
+    readonly type = AppActionTypes.GetPuzzleHeroInfo;
+}
+
+export class UpdatePuzzleHeroStatus {
+    readonly type = AppActionTypes.UpdatePuzzleHeroStatus;
+
+    constructor(public payload: PuzzleHeroInfo) {}
+}
+
 export type AppActions =
     | GlobalError
     | Logout
@@ -116,4 +129,6 @@ export type AppActions =
     | HasUnseenNotification
     | AllNotificationsSeen
     | InitializeMessaging
-    | SetupMessagingToken;
+    | SetupMessagingToken
+    | GetPuzzleHeroInfo
+    | UpdatePuzzleHeroStatus;

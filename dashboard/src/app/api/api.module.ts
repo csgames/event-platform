@@ -10,6 +10,7 @@ import { PasswordApi } from "./password.api";
 import { TeamApi } from "./team.api";
 import { UserApi } from "./user.api";
 import { SchoolApi } from "./school.api";
+import { PuzzleHeroApi } from "./puzzle-hero.api";
 import { ActivityApi } from "./activity.api";
 
 @NgModule({
@@ -25,6 +26,7 @@ import { ActivityApi } from "./activity.api";
         PasswordApi,
         SchoolApi,
         TeamApi,
+        PuzzleHeroApi,
         ApiService,
         UserApi,
         ActivityApi

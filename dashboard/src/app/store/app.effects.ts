@@ -10,18 +10,20 @@ import { of } from "rxjs";
 import { catchError, delay, filter, map, mergeMapTo, switchMap, tap, withLatestFrom } from "rxjs/operators";
 import { Attendee } from "../api/models/attendee";
 import { Event } from "../api/models/event";
+import { PuzzleHeroInfo } from "../api/models/puzzle-hero";
 import { ChangePasswordComponent } from "../features/dashboard/modals/change-password/change-password.component";
 import { ProfileSettingComponent } from "../features/dashboard/modals/profile-setting/profile-setting.component";
 import { AttendeeService } from "../providers/attendee.service";
 import { AuthenticationService } from "../providers/authentication.service";
 import { EventService } from "../providers/event.service";
 import { NotificationService } from "../providers/notification.service";
+import { PuzzleHeroService } from "../providers/puzzle-hero.service";
 import {
     AllNotificationsSeen, AppActionTypes, AppLoaded, ChangeLanguage, ChangePassword, CheckUnseenNotification, CurrentAttendeeLoaded,
-    EditProfile, EventsLoaded, GlobalError, HasUnseenNotification, InitializeMessaging, LoadCurrentAttendee, LoadEvents, Logout,
-    SetCurrentEvent, SetupMessagingToken
+    EditProfile, EventsLoaded, GetPuzzleHeroInfo, GlobalError, HasUnseenNotification, InitializeMessaging, LoadCurrentAttendee, LoadEvents,
+    Logout, SetCurrentEvent, SetupMessagingToken, UpdatePuzzleHeroStatus
 } from "./app.actions";
-import { getCurrentAttendee, getEvents, State } from "./app.reducers";
+import { getCurrentAttendee, getEvents, getPuzzleHeroInfo, State } from "./app.reducers";
 
 @Injectable()
 export class AppEffects {
@@ -36,7 +38,8 @@ export class AppEffects {
         private translateService: TranslateService,
         private toastr: ToastrService,
         private notificationService: NotificationService,
-        private afMessaging: AngularFireMessaging
+        private afMessaging: AngularFireMessaging,
+        private puzzleHeroService: PuzzleHeroService
     ) {}
 
     @Effect()
@@ -62,7 +65,6 @@ export class AppEffects {
                 await this.attendeeService.removeMessagingToken(token).toPromise();
             }
         }),
-        delay(500),
         switchMap(() => {
             return this.authenticationService.logout().pipe(
                 tap(() => {
@@ -95,10 +97,14 @@ export class AppEffects {
 
     @Effect()
     appLoaded$ = this.actions$.pipe(
-        ofType(AppActionTypes.CurrentAttendeeLoaded, AppActionTypes.EventsLoaded),
-        withLatestFrom(this.store$.pipe(select(getCurrentAttendee)), this.store$.pipe(select(getEvents))),
-        filter(([action, attendee, events]: [any, Attendee, Event[]]) => {
-            return [attendee, events].filter(x => x).length === 2;
+        ofType(AppActionTypes.CurrentAttendeeLoaded, AppActionTypes.EventsLoaded, AppActionTypes.UpdatePuzzleHeroStatus),
+        withLatestFrom(
+            this.store$.pipe(select(getCurrentAttendee)),
+            this.store$.pipe(select(getEvents)),
+            this.store$.pipe(select(getPuzzleHeroInfo))
+        ),
+        filter(([action, attendee, events, status]: [any, Attendee, Event[], PuzzleHeroInfo]) => {
+            return [attendee, events, status].filter(x => x).length === 3;
         }),
         map(() => new AppLoaded())
     );
@@ -144,7 +150,7 @@ export class AppEffects {
     setCurrentEvent$ = this.actions$.pipe(
         ofType<SetCurrentEvent>(AppActionTypes.SetCurrentEvent),
         tap((action) => this.eventService.saveCurrentEvent(action.event._id)),
-        map(() => new LoadCurrentAttendee())
+        switchMap(() => [new LoadCurrentAttendee(), new GetPuzzleHeroInfo()])
     );
 
     @Effect({ dispatch: false })
@@ -184,5 +190,15 @@ export class AppEffects {
         switchMap((action: SetupMessagingToken) => {
             return this.attendeeService.addMessagingToken(action.payload);
         })
+    );
+
+    @Effect()
+    getPuzzleHeroInfo$ = this.actions$.pipe(
+        ofType<GetPuzzleHeroInfo>(AppActionTypes.GetPuzzleHeroInfo),
+        switchMap(() => {
+            return this.puzzleHeroService.getInfo().pipe(
+                map((info: PuzzleHeroInfo) => new UpdatePuzzleHeroStatus(info))
+            );
+        }),
     );
 }

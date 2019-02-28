@@ -1,4 +1,3 @@
-<app-loading-spinner [loading]="loading$"></app-loading-spinner>
 <mat-sidenav-container class="sidenav-container">
     <mat-sidenav #drawer class="sidenav" fixedInViewport="true"
                  [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
@@ -6,19 +5,21 @@
                  [opened]="!(isHandset$ | async)">
         <div class="dashboard-container">
             <app-events-bar
-                            [events]="events$ | async"
-                            [currentEvent]="currentEvent$ | async"
-                            (currentEventChange)="changeCurrentEvent($event)"
+                [events]="events$ | async"
+                [currentEvent]="currentEvent$ | async"
+                (currentEventChange)="changeCurrentEvent($event)"
             ></app-events-bar>
-            <app-side-nav></app-side-nav>
+            <app-side-nav [loading]="loading$ | async"></app-side-nav>
         </div>
     </mat-sidenav>
     <mat-sidenav-content>
-        <app-top-nav [showToggleSideNav]="isHandset$ | async"
+        <app-top-nav [loading]="loading$ | async"
+                     [showToggleSideNav]="isHandset$ | async"
                      (toggleSideNav)="drawer.toggle()" (editProfile)="editProfile()"
                      (changePassword)="changePassword()"></app-top-nav>
         <div class="content">
-            <router-outlet></router-outlet>
+            <router-outlet *ngIf="!(loading$ | async)"></router-outlet>
+            <app-loading-spinner [loading]="loading$"></app-loading-spinner>
         </div>
     </mat-sidenav-content>
 </mat-sidenav-container>
