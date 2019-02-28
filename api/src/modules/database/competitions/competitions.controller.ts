@@ -36,7 +36,7 @@ export class CompetitionsController {
     }
 
     @Put(':id/subscription')
-    @Permissions('csgames-api:subscribe:competition')
+    @Permissions('csgames-api:subscribtion:competition')
     public async subscribe(@EventId() eventId: string,
                            @Param('id') competitionId: string,
                            @User() user: UserModel) {
@@ -52,7 +52,7 @@ export class CompetitionsController {
     }
 
     @Delete(':id/subscription')
-    @Permissions('csgames-api:subscribe:competition')
+    @Permissions('csgames-api:subscribtion:competition')
     public async unsubscribe(@EventId() eventId: string,
                            @Param('id') competitionId: string,
                            @User() user: UserModel) {
