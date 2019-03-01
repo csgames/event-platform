@@ -203,7 +203,7 @@ export class PuzzleHeroesService extends BaseService<PuzzleHeroes, PuzzleHeroes>
         this.puzzleHeroesGateway.sendScoreboardUpdateMessage();
     }
 
-    public async getScoreboard(eventId: string): Promise<Score[]> {
+    public async getScoreboard(eventId: string, user: UserModel): Promise<Score[]> {
         const puzzleHero = await this.findOne({
             event: eventId
         });
@@ -211,7 +211,7 @@ export class PuzzleHeroesService extends BaseService<PuzzleHeroes, PuzzleHeroes>
             throw new NotFoundException('No puzzle hero found');
         }
 
-        if (!PuzzleHeroesUtils.isScoreboardAvailable(puzzleHero)) {
+        if (!PuzzleHeroesUtils.isScoreboardAvailable(puzzleHero) && user.role !== 'admin') {
             return;
         }
 
@@ -237,7 +237,7 @@ export class PuzzleHeroesService extends BaseService<PuzzleHeroes, PuzzleHeroes>
         }))).filter(s => !!s);
     }
 
-    public async getTeamsSeries(eventId: string, teamsIds: string[]): Promise<TeamSeries[]> {
+    public async getTeamsSeries(eventId: string, user: UserModel, teamsIds: string[]): Promise<TeamSeries[]> {
         const puzzleHero = await this.puzzleHeroesModel.findOne({
             event: eventId
         }).populate({
@@ -247,6 +247,10 @@ export class PuzzleHeroesService extends BaseService<PuzzleHeroes, PuzzleHeroes>
 
         if (!puzzleHero) {
             throw new NotFoundException('No puzzle hero found');
+        }
+
+        if (!PuzzleHeroesUtils.isScoreboardAvailable(puzzleHero) && user.role !== 'admin') {
+            return;
         }
 
         return await Promise.all(

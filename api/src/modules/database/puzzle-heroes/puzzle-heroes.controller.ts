@@ -87,13 +87,14 @@ export class PuzzleHeroesController {
 
     @Get('scoreboard')
     @Permissions('csgames-api:get:puzzle-hero')
-    public async getScoreboard(@EventId() eventId: string): Promise<Score[]> {
-        return await this.puzzleHeroService.getScoreboard(eventId);
+    public async getScoreboard(@EventId() eventId: string, @User() user: UserModel): Promise<Score[]> {
+        return await this.puzzleHeroService.getScoreboard(eventId, user);
     }
 
     @Get('team-series')
     @Permissions('csgames-api:get:puzzle-hero')
-    public async getTeamsSeries(@EventId() eventId: string, @Query('teams-ids') teamsIds: string): Promise<TeamSeries[]> {
-        return await this.puzzleHeroService.getTeamsSeries(eventId, teamsIds.split(','));
+    public async getTeamsSeries(@EventId() eventId: string,
+                                @User() user: UserModel, @Query('teams-ids') teamsIds: string): Promise<TeamSeries[]> {
+        return await this.puzzleHeroService.getTeamsSeries(eventId, user, teamsIds.split(','));
     }
 }
