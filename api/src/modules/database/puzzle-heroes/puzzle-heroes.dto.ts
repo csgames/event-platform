@@ -19,6 +19,24 @@ export class CreateTrackDto {
 
     @IsNotEmpty()
     releaseDate: Date | string;
+
+    @IsNotEmpty()
+    endDate: Date | string;
+}
+
+export class UpdateTrackDto {
+    @IsNotEmpty()
+    label: string;
+
+    @IsNotEmpty()
+    @IsIn(["crypto", "gaming", "scavenger", "sponsor"])
+    type: string;
+
+    @IsNotEmpty()
+    releaseDate: Date | string;
+
+    @IsNotEmpty()
+    endDate: Date | string;
 }
 
 export class CreatePuzzleDto extends CreateQuestionDto {

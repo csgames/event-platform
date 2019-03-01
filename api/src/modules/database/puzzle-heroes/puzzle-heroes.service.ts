@@ -7,7 +7,7 @@ import * as mongoose from 'mongoose';
 import { Model } from 'mongoose';
 import { Tracks, TracksUtils } from './tracks/tracks.model';
 import { PuzzleGraphNodes } from './puzzle-graph-nodes/puzzle-graph.nodes.model';
-import { CreatePuzzleDto, CreateTrackDto } from './puzzle-heroes.dto';
+import { CreatePuzzleDto, CreateTrackDto, UpdateTrackDto } from './puzzle-heroes.dto';
 import { Questions } from '../questions/questions.model';
 import { Attendees } from '../attendees/attendees.model';
 import { Teams } from '../teams/teams.model';
@@ -125,6 +125,29 @@ export class PuzzleHeroesService extends BaseService<PuzzleHeroes, PuzzleHeroes>
         puzzleHero = await puzzleHero.save();
 
         return puzzleHero.tracks.pop();
+    }
+
+    public async updateTrack(eventId: string, id: string, dto: UpdateTrackDto): Promise<void> {
+        let puzzleHero = await this.findOne({
+            event: eventId
+        });
+        if (!puzzleHero) {
+            throw new NotFoundException('No puzzle hero found');
+        }
+
+        await this.puzzleHeroesModel.update({
+                _id: puzzleHero._id,
+                'tracks._id': id
+            },
+            {
+                '$set': {
+                    'tracks.$.label': dto.label,
+                    'tracks.$.type': dto.type,
+                    'tracks.$.endDate': dto.endDate,
+                    'tracks.$.releaseDate': dto.releaseDate
+                }
+            }
+        ).exec();
     }
 
     public async createPuzzle(eventId: string, trackId: string, dto: CreatePuzzleDto): Promise<PuzzleGraphNodes> {

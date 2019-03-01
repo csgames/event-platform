@@ -1,4 +1,4 @@
-import { BadRequestException, Body, Controller, Get, HttpCode, HttpStatus, Param, Post, Query, UseGuards } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Get, HttpCode, HttpStatus, Param, Post, Put, Query, UseGuards } from '@nestjs/common';
 import { ApiUseTags } from '@nestjs/swagger';
 import { EventId } from '../../../decorators/event-id.decorator';
 import { Permissions } from '../../../decorators/permission.decorator';
@@ -8,7 +8,7 @@ import { UserModel } from '../../../models/user.model';
 import { ValidationPipe } from '../../../pipes/validation.pipe';
 import { PuzzleAnswerDto } from '../questions/puzzle-answer.dto';
 import { PuzzleGraphNodes } from './puzzle-graph-nodes/puzzle-graph.nodes.model';
-import { CreatePuzzleDto, CreatePuzzleHeroDto, CreateTrackDto } from './puzzle-heroes.dto';
+import { CreatePuzzleDto, CreatePuzzleHeroDto, CreateTrackDto, UpdateTrackDto } from './puzzle-heroes.dto';
 import { PuzzleHeroes } from './puzzle-heroes.model';
 import { PuzzleHeroesService, PuzzleHeroInfo } from './puzzle-heroes.service';
 import { Score } from './scoreboard/score.model';
@@ -49,6 +49,13 @@ export class PuzzleHeroesController {
         return await this.puzzleHeroService.createTrack(eventId, dto);
     }
 
+    @Put('track/:id')
+    @Permissions('csgames-api:create:puzzle-hero')
+    public async updateTrack(@Param('id') id: string,
+                             @Body(ValidationPipe) dto: UpdateTrackDto, @EventId() eventId: string): Promise<void> {
+        return await this.puzzleHeroService.updateTrack(eventId, id, dto);
+    }
+
     @Post('track/:trackId/puzzle')
     @Permissions('csgames-api:create:puzzle-hero')
     public async createPuzzle(@Body(ValidationPipe) dto: CreatePuzzleDto,
@@ -60,7 +67,7 @@ export class PuzzleHeroesController {
     @Post('puzzle/:puzzleId/validate')
     @Permissions('csgames-api:get:event')
     @HttpCode(HttpStatus.OK)
-    public async validateAnswer(@EventId() id: string, @Param("puzzleId") puzzleId, @Body(ValidationPipe) dto: PuzzleAnswerDto,
+    public async validateAnswer(@EventId() id: string, @Param('puzzleId') puzzleId, @Body(ValidationPipe) dto: PuzzleAnswerDto,
                                 @User() user: UserModel): Promise<void> {
         return await this.puzzleHeroService.validateAnswer(dto.answer, puzzleId, id, user.username);
     }
