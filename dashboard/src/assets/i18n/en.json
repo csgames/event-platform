@@ -198,7 +198,9 @@
                 "add_puzzle": "Add puzzle",
                 "released_on": "Released on",
                 "releasing_on": "Releasing on",
-                "ended_on": "Ended on"
+                "ended_on": "Ended on",
+                "puzzle_available_for_attendees": "The puzzle hero is currently accessible by attendees.",
+                "puzzle_not_available_for_attendees": "The puzzle hero is not currently accessible by attendees."
             }
         },
         "register": {

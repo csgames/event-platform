@@ -20,7 +20,7 @@ export class ScoreboardGuard implements CanActivate {
             filter(x => x !== null),
             withLatestFrom(this.currentAttendee$),
             switchMap(([info, attendee]: [PuzzleHeroInfo, Attendee]) => {
-                if (info.scoreboardOpen || attendee.role === "admin") {
+                if (info.scoreboardOpen || attendee && attendee.role === "admin") {
                     return of(true);
                 } else {
                     return fromPromise(this.router.navigate(["/puzzle-hero/tracks"]));

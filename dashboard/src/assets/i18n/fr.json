@@ -198,7 +198,9 @@
                 "add_puzzle": "Ajouter un puzzle",
                 "released_on": "Disponible depuis le",
                 "releasing_on": "Disponible le",
-                "ended_on": "Terminé depuis le"
+                "ended_on": "Terminé depuis le",
+                "puzzle_available_for_attendees": "Le puzzle hero est présentement accessible par les participants.",
+                "puzzle_not_available_for_attendees": "Le puzzle hero n'est pas présentement accessible par les participants."
             }
         },
         "register": {

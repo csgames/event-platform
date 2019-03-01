@@ -14,10 +14,10 @@
     </app-loading-spinner>
 
     <alert type="success" class="text-center mt-3" *ngIf="(puzzleHeroInfo$ | async)?.open">
-        Le puzzle hero est présentement accessible par les participants.
+        {{ "pages.puzzle_hero.admin.puzzle_available_for_attendees" | translate }}
     </alert>
     <alert type="danger" class="text-center mt-3" *ngIf="!(puzzleHeroInfo$ | async)?.open">
-        Le puzzle hero n'est pas présentement accessible par les participants.
+        {{ "pages.puzzle_hero.admin.puzzle_not_available_for_attendees" | translate }}
     </alert>
     <ng-container *ngIf="error$ | async">
         <div style="text-align: center">
