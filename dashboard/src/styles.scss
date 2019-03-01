@@ -953,10 +953,17 @@ svg {
     }
 }
 
-bs-datepicker-container { z-index: 3000; }
+bs-datepicker-container {
+    z-index: 3000;
+}
 
-.bs-timepicker-field:focus {
-    border: 1px solid #0D5899;
+.bs-timepicker-field {
+    border-radius: 8px;
+    border: #9B9B9B solid 1px;
+
+    &:focus {
+        border: 1px solid #0D5899;
+    }
 }
 
 .btn-primary {
@@ -978,4 +985,13 @@ bs-datepicker-container { z-index: 3000; }
             border: none;
         }
     }
+}
+
+.alert {
+    margin: 1rem 0;
+    border-radius: 11px;
+}
+
+timepicker {
+    margin: 5px;
 }

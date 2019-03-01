@@ -7,10 +7,25 @@
     line-height: 1;
 }
 
-.release-date {
+
+.ended-on,
+.released-on,
+.releasing-on {
     font-size: 12px;
     font-weight: 600;
     color: #dc3545;
+}
+
+.ended-on {
+    color: #dc3545;
+}
+
+.released-on {
+    color: #4A4A4A;
+}
+
+.releasing-on {
+    color: #0D5899;
 }
 
 .track-container {

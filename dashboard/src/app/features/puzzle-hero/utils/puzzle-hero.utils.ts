@@ -16,7 +16,6 @@ export namespace PuzzleHeroUtils {
     }
 
     export function formatPuzzleNode(puzzle: PuzzleInfo): PuzzleInfo {
-        console.log(puzzle.question.label);
         return {
             ...puzzle,
             label: puzzle.question.label,

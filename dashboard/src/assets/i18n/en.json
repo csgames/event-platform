@@ -49,11 +49,21 @@
         "notification": {
             "no_notification": "You have no notifications"
         },
-        "add_track_form": {
+        "track_form": {
             "label": "Track name",
             "type": "Track type",
-            "releaseDate": "Release date",
-            "endDate": "End date"
+            "release_date": "Release date",
+            "end_date": "End date"
+        },
+        "create_track": {
+            "create_track": "Create track",
+            "error": "An error occured while creating the track.",
+            "success": "Track created!"
+        },
+        "update_track": {
+            "update_track": "Update track",
+            "error": "An error occured while updating the track.",
+            "success": "Track updated!"
         }
     },
     "errors": {
@@ -121,7 +131,7 @@
             "start_at": "Starts at",
             "end_at": "Ends at",
             "description": "Description"
-		},
+        },
         "track": {
             "types": {
                 "crypto": "Cryptography",
@@ -175,22 +185,26 @@
             "tracks": "Tracks",
             "wrong_answer": "Wrong answer!",
             "loading_error": "An error occured while loading the puzzle hero",
-			"scoreboard_loading_error": "An error occured while loading the scoreboard",
-			"answer":"Answer here",
+            "scoreboard_loading_error": "An error occured while loading the scoreboard",
+            "answer": "Answer here",
             "validate_success": "Good answer!",
             "validation_types": "Validation type",
             "puzzle_types": "Puzzle type",
             "answer_admin": "Answer",
             "answer_placeholder": "Answer / URL",
-            "description_placeholder": "Your puzzle description here"
-		},
-		"register": {
-			"already_have_account": "Already have an account?",
-			"confirm_password": "Confirm password",
-			"register": "Register",
-            "scoreboard_loading_error": "An error occured while loading the scoreboard",
-            "answer": "Answer here",
-            "validate_success": "Good answer!",
+            "description_placeholder": "Your puzzle description here",
+            "admin": {
+                "add_track": "Add track",
+                "add_puzzle": "Add puzzle",
+                "released_on": "Released on",
+                "releasing_on": "Releasing on",
+                "ended_on": "Ended on"
+            }
+        },
+        "register": {
+            "already_have_account": "Already have an account?",
+            "confirm_password": "Confirm password",
+            "register": "Register",
             "validation_error": "An error occured while validating your invitation."
         },
         "schedule": {

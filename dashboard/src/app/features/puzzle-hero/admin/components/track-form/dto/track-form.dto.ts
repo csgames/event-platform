@@ -17,5 +17,13 @@ export class TrackFormDto {
 
     @Control()
     @Required()
+    releaseTime: Date;
+
+    @Control()
+    @Required()
     endDate: Date;
+
+    @Control()
+    @Required()
+    endTime: Date;
 }

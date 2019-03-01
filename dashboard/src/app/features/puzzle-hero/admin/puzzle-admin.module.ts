@@ -3,7 +3,7 @@ import { CommonModule } from "@angular/common";
 import { FormBuilder, FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { PuzzleAdminRoutingModule } from "./puzzle-admin-routing.module";
 import { RouterModule } from "@angular/router";
-import { AccordionModule, DatepickerModule, BsDatepickerModule, PopoverModule, TimepickerModule } from "ngx-bootstrap";
+import { AccordionModule, DatepickerModule, AlertModule, BsDatepickerModule, PopoverModule, TimepickerModule } from "ngx-bootstrap";
 import { NgxGraphModule } from "@swimlane/ngx-graph";
 import { FlexLayoutModule } from "@angular/flex-layout";
 import { TranslateModule } from "@ngx-translate/core";
@@ -13,6 +13,8 @@ import { PuzzleAdminComponent } from "./puzzle-admin.component";
 import { EditPuzzleHeroComponent } from "./components/edit-puzzle-hero/edit-puzzle-hero.component";
 import { StoreModule } from "@ngrx/store";
 import * as fromPuzzleAdmin from "./store/puzzle-admin.reducer";
+import * as fromCreateTrack from "./components/create-track/store/create-track.reducer";
+import * as fromUpdateTrack from "./components/update-track/store/update-track.reducer";
 import { EffectsModule } from "@ngrx/effects";
 import { PuzzleAdminEffects } from "./store/puzzle-admin.effects";
 import { PuzzleComponentsModule } from "../components/puzzle-components.module";
@@ -22,6 +24,11 @@ import { TRACK_FORM_GENERATOR } from "./components/track-form/track-form.constan
 import { TrackFormDto } from "./components/track-form/dto/track-form.dto";
 import { NgSelectModule } from "@ng-select/ng-select";
 import { CreateTrackComponent } from "./components/create-track/create-track.component";
+import { PipesModule } from "../../../pipes/pipes.module";
+import { DirectivesModule } from "../../../directives/directives.module";
+import { CreateTrackEffects } from "./components/create-track/store/create-track.effects";
+import { UpdateTrackComponent } from "./components/update-track/update-track.component";
+import { UpdateTrackEffects } from "./components/update-track/store/update-track.effects";
 
 @NgModule({
     imports: [
@@ -29,10 +36,12 @@ import { CreateTrackComponent } from "./components/create-track/create-track.com
         FormsModule,
         ReactiveFormsModule,
         RouterModule,
+        DirectivesModule,
         PuzzleAdminRoutingModule,
         NgxGraphModule,
         AccordionModule,
         FlexLayoutModule,
+        AlertModule,
         LoadingSpinnerModule,
         PopoverModule,
         TranslateModule,
@@ -42,14 +51,16 @@ import { CreateTrackComponent } from "./components/create-track/create-track.com
         DatepickerModule,
         BsDatepickerModule,
         TimepickerModule,
-    
+        PipesModule,
 
         StoreModule.forFeature("puzzleHeroAdmin", fromPuzzleAdmin.reducer),
-        EffectsModule.forFeature([PuzzleAdminEffects])      
+        StoreModule.forFeature("puzzleHeroCreateTrack", fromCreateTrack.reducer),
+        StoreModule.forFeature("puzzleHeroUpdateTrack", fromUpdateTrack.reducer),
+        EffectsModule.forFeature([PuzzleAdminEffects, CreateTrackEffects, UpdateTrackEffects])
     ],
     exports: [],
-    entryComponents: [EditPuzzleHeroComponent, CreateTrackComponent],
-    declarations: [PuzzleAdminComponent, EditPuzzleHeroComponent, TrackFormComponent, CreateTrackComponent],
+    entryComponents: [EditPuzzleHeroComponent, CreateTrackComponent, UpdateTrackComponent],
+    declarations: [PuzzleAdminComponent, EditPuzzleHeroComponent, TrackFormComponent, CreateTrackComponent, UpdateTrackComponent],
     providers: [
         { provide: TRACK_FORM_GENERATOR, useFactory: FormGeneratorFactory.transform(TrackFormDto), deps: [FormBuilder] }
     ]

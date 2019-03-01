@@ -53,8 +53,10 @@ export interface AdminPuzzleInfo {
 export interface Track {
     _id: string;
     label: string;
-    type: PuzzleTypes;
+    type: TrackTypes;
     puzzles: PuzzleInfo[];
+    releaseDate: string;
+    endDate: string;
 }
 
 export interface PuzzleHero {

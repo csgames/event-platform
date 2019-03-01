@@ -1,10 +1,7 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { SimpleModalComponent } from "ngx-simple-modal";
 import { TranslateService } from "@ngx-translate/core";
-import { select, Store } from "@ngrx/store";
-import { Subscription } from "rxjs";
 import { AdminPuzzleInfo, Track, ValidationTypes, PuzzleTypes } from "src/app/api/models/puzzle-hero";
-import { NgSelectModule } from "@ng-select/ng-select";
 
 export interface EditPuzzleHeroModal {
     puzzle: AdminPuzzleInfo;

@@ -1,17 +1,17 @@
 <form [formGroup]="formGroup">
     <div class="row">
-        <div class="col-sm-6 pr-sm-1">
+        <div class="col-sm-12">
             <div class="input-group input-group-default">
                 <div class="input-group-prepend">
                     <i class="fal fa-file-signature"></i>
                 </div>
                 <input autofocus class="form-control" type="text" name="label" controlStatus
-                       formControlName="label" placeholder='{{ "components.add_track_form.label" | translate }}'>
+                       formControlName="label" placeholder='{{ "components.track_form.label" | translate }}'>
             </div>
         </div>
-        <div class="col-sm-6 pl-sm-1">
+        <div class="col-sm-12">
             <div class="input-group input-group-default">
-                <ng-select [items]="types" placeholder='{{ "components.add_track_form.type" | translate }}'
+                <ng-select [items]="types" placeholder='{{ "components.track_form.type" | translate }}'
                            formControlName="type" controlStatus>
                     <ng-template ng-option-tmp ng-label-tmp let-item="item">
                         <i class="fal" [ngClass]="getIcon(item)"></i>
@@ -23,24 +23,47 @@
             </div>
         </div>
     </div>
-    <div class="row">
-        <div class="col-sm-6 pr-sm-1">
-            <div class="input-group input-group-default">
+    <div class="row error-group">
+        <div class="col-sm-12">
+            <label class="mb-0 ml-1">{{ "components.track_form.release_date" | translate }}:</label>
+        </div>
+        <div class="col-sm-12">
+            <div fxFlex class="input-group input-group-default">
                 <div class="input-group-prepend">
                     <i class="fal fa-calendar"></i>
                 </div>
-                <input autofocus class="form-control" type="text" name="releaseDate" controlStatus
-                       formControlName="releaseDate"
-                       placeholder='{{ "components.add_track_form.release_date" | translate }}'>
+                <input autofocus class="form-control" name="releaseDate" controlStatus
+                       formControlName="releaseDate" autocomplete="off"
+                       #dp="bsDatepicker"
+                       [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY', containerClass: 'theme-dark-blue' }"
+                       bsDatepicker
+                       placeholder='{{ "components.track_form.release_date" | translate }}'>
+            </div>
+            <div fxFlex="nogrow" class="input-group no-grow">
+                <timepicker class="timepicker" formControlName="releaseTime" controlStatus [showMeridian]="false"
+                            [showSpinners]="false"></timepicker>
             </div>
         </div>
-        <div class="col-sm-6 pl-sm-1">
-            <div class="input-group input-group-default">
+    </div>
+    <div class="row error-group">
+        <div class="col-sm-12">
+            <label class="mb-0 ml-1">{{ "components.track_form.end_date" | translate }}:</label>
+        </div>
+        <div class="col-sm-12">
+            <div fxFlex class="input-group input-group-default">
                 <div class="input-group-prepend">
                     <i class="fal fa-calendar"></i>
                 </div>
-                <input autofocus class="form-control" type="text" name="endDate" controlStatus
-                       formControlName="endDate" placeholder='{{ "components.add_track_form.end_date" | translate }}'>
+                <input autofocus class="form-control" name="endDate" controlStatus
+                       formControlName="endDate" autocomplete="off"
+                       #dp="bsDatepicker"
+                       [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY', containerClass: 'theme-dark-blue' }"
+                       bsDatepicker
+                       placeholder='{{ "components.track_form.end_date" | translate }}'>
+            </div>
+            <div fxFlex="nogrow" class="input-group no-grow">
+                <timepicker class="timepicker" formControlName="endTime" controlStatus [showMeridian]="false"
+                            [showSpinners]="false"></timepicker>
             </div>
         </div>
     </div>
