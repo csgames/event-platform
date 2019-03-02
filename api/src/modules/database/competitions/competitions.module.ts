@@ -7,6 +7,7 @@ import { CompetitionsController } from './competitions.controller';
 import { CompetitionsSchema } from './competitions.model';
 import { CompetitionsService } from './competitions.service';
 import { ActivitiesModule } from '../activities/activities.module';
+import { TeamsSchema } from '../teams/teams.model';
 
 @Module({
     imports: [
@@ -17,6 +18,10 @@ import { ActivitiesModule } from '../activities/activities.module';
         MongooseModule.forFeature([{
             name: 'attendees',
             schema: AttendeesSchema
+        }]),
+        MongooseModule.forFeature([{
+            name: 'teams',
+            schema: TeamsSchema
         }]),
         EventsModule,
         RegistrationsModule,

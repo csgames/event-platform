@@ -1,5 +1,7 @@
 import * as mongoose from "mongoose";
 import { Attendees } from "../attendees/attendees.model";
+import { DateUtils } from '../../../utils/date.utils';
+import { PuzzleHeroes } from '../puzzle-heroes/puzzle-heroes.model';
 
 export const ActivityTypes = [
     'food',
@@ -53,3 +55,20 @@ export const ActivitiesSchema = new mongoose.Schema({
         ref: 'attendees'
     }
 });
+
+export class ActivitiesUtils {
+    public static isLive(activities: Activities | Activities[]): boolean {
+        let start: Date;
+        let end: Date;
+        if (activities instanceof Array) {
+            start = activities.sort((a, b) => a.beginDate > b.beginDate ? 1 : -1)[0].beginDate as Date;
+            end = activities.sort((a, b) => a.endDate > b.endDate ? -1 : 1)[0].endDate as Date;
+        } else {
+            start = activities.beginDate as Date;
+            end = activities.endDate as Date;
+        }
+
+        const now = DateUtils.nowUTC();
+        return now >= start && now <= end;
+    }
+}

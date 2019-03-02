@@ -1,11 +1,11 @@
-import { Body, Controller, Delete, Param, Post, Put, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, HttpCode, HttpStatus, Param, Post, Put, UseGuards } from '@nestjs/common';
 import { ApiUseTags } from '@nestjs/swagger';
 import { EventId } from '../../../decorators/event-id.decorator';
 import { Permissions } from '../../../decorators/permission.decorator';
 import { PermissionsGuard } from '../../../guards/permission.guard';
 import { ValidationPipe } from '../../../pipes/validation.pipe';
 import { Attendees } from '../attendees/attendees.model';
-import { CreateCompetitionDto, CreateDirectorDto } from './competitions.dto';
+import { AuthCompetitionDto, CreateCompetitionDto, CreateDirectorDto } from './competitions.dto';
 import { Competitions } from './competitions.model';
 import { CompetitionsService } from './competitions.service';
 import { User } from '../../../decorators/user.decorator';
@@ -25,6 +25,16 @@ export class CompetitionsController {
             ...dto,
             event: eventId
         });
+    }
+
+    @Post(':id/auth')
+    @HttpCode(HttpStatus.OK)
+    @Permissions('csgames-api:get:competition')
+    public async auth(@EventId() eventId: string,
+                      @Param('id') competitionId: string,
+                      @Body(ValidationPipe) dto: AuthCompetitionDto,
+                      @User() user: UserModel): Promise<void> {
+        await this.competitionService.auth(eventId, competitionId, dto, user);
     }
 
     @Post(':id/director')

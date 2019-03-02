@@ -12,6 +12,16 @@ export class CreateCompetitionDto {
     @IsNotEmpty()
     @IsNumber()
     maxMembers: number;
+
+    @IsString()
+    @IsNotEmpty()
+    password: string;
+}
+
+export class AuthCompetitionDto {
+    @IsString()
+    @IsNotEmpty()
+    password: string;
 }
 
 export class CreateDirectorDto {

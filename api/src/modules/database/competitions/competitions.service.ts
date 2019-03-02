@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import * as mongoose from 'mongoose';
 import { Model } from 'mongoose';
@@ -6,19 +6,80 @@ import { BaseService } from '../../../services/base.service';
 import { Attendees } from '../attendees/attendees.model';
 import { EventsService } from '../events/events.service';
 import { RegistrationsService } from '../registrations/registrations.service';
-import { CreateDirectorDto } from './competitions.dto';
+import { AuthCompetitionDto, CreateDirectorDto } from './competitions.dto';
 import { Competitions } from './competitions.model';
 import { UserModel } from '../../../models/user.model';
 import { ActivitiesService } from '../activities/activities.service';
+import { Teams } from '../teams/teams.model';
+import { Activities, ActivitiesUtils } from '../activities/activities.model';
 
 @Injectable()
 export class CompetitionsService extends BaseService<Competitions, Competitions> {
     constructor(@InjectModel('competitions') private readonly competitionsModel: Model<Competitions>,
                 @InjectModel('attendees') private readonly attendeesModel: Model<Attendees>,
+                @InjectModel('teams') private readonly teamsModel: Model<Teams>,
                 private readonly activityService: ActivitiesService,
                 private readonly registrationService: RegistrationsService,
                 private readonly eventsService: EventsService) {
         super(competitionsModel);
+    }
+
+    public async auth(eventId: string, competitionId: string, dto: AuthCompetitionDto, user: UserModel): Promise<void> {
+        const competition = await this.competitionsModel.findOne({
+            _id: competitionId,
+            event: eventId
+        }).populate({
+            path: 'activities',
+            model: 'activities'
+        }).exec();
+        if (!competition) {
+            throw new NotFoundException();
+        }
+
+        if (!ActivitiesUtils.isLive(competition.activities as Activities[])) {
+            throw new BadRequestException("Competition must me live");
+        }
+
+        if (competition.password !== dto.password) {
+            throw new UnauthorizedException();
+        }
+
+        const attendee = await this.attendeesModel.findOne({
+            email: user.username
+        }).select('_id').exec();
+        const teamId = await this.getTeamId(attendee, eventId);
+        if (!teamId) {
+            throw new BadRequestException('Attendee must be in a team');
+        }
+
+        const member = competition.members.find(x => (x.team as mongoose.Types.ObjectId).equals(teamId));
+        if (!member) {
+            return await this.competitionsModel.updateOne({
+                _id: competitionId
+            }, {
+                $push: {
+                    members: {
+                        team: teamId,
+                        attendees: [attendee._id]
+                    }
+                }
+            }).exec();
+        }
+        if (member.attendees.length >= competition.maxMembers) {
+            throw new BadRequestException('Cannot add more member for competition');
+        }
+
+        if (member.attendees.findIndex(x => (x as mongoose.Types.ObjectId).equals(attendee._id)) >= 0) {
+            return;
+        }
+        await this.competitionsModel.updateOne({
+            _id: competitionId,
+            'members.team': teamId
+        }, {
+            $push: {
+                'members.$.attendees': attendee._id
+            }
+        }).exec();
     }
 
     public async createDirector(eventId: string, competitionId: string, dto: CreateDirectorDto): Promise<Attendees> {
@@ -51,12 +112,12 @@ export class CompetitionsService extends BaseService<Competitions, Competitions>
             _id: attendeeId
         });
         if (!attendee) {
-            throw new NotFoundException("No attendee found");
+            throw new NotFoundException('No attendee found');
         }
 
         const role = await this.eventsService.getAttendeeRole(eventId, attendeeId);
-        if (role && role !== "director") {
-            throw new BadRequestException("Attendee must be a director");
+        if (role && role !== 'director') {
+            throw new BadRequestException('Attendee must be a director');
         }
 
         if (!role) {
@@ -64,7 +125,7 @@ export class CompetitionsService extends BaseService<Competitions, Competitions>
         }
 
         if (competition.directors.findIndex(x => (x as mongoose.Types.ObjectId).equals(attendeeId)) >= 0) {
-            throw new BadRequestException("Attendee is already a director for this competition");
+            throw new BadRequestException('Attendee is already a director for this competition');
         }
 
         await this.competitionsModel.updateOne({
@@ -89,11 +150,11 @@ export class CompetitionsService extends BaseService<Competitions, Competitions>
             _id: attendeeId
         });
         if (!attendee) {
-            throw new NotFoundException("No attendee found");
+            throw new NotFoundException('No attendee found');
         }
 
         if (competition.directors.findIndex(x => (x as mongoose.Types.ObjectId).equals(attendeeId)) < 0) {
-            throw new BadRequestException("Attendee isn't a director for this competition");
+            throw new BadRequestException('Attendee isn\'t a director for this competition');
         }
 
         await this.competitionsModel.updateOne({
@@ -118,7 +179,7 @@ export class CompetitionsService extends BaseService<Competitions, Competitions>
             email: user.username
         });
         if (!attendee) {
-            throw new NotFoundException("No attendee found");
+            throw new NotFoundException('No attendee found');
         }
 
         for (const activity of competition.activities) {
@@ -139,11 +200,19 @@ export class CompetitionsService extends BaseService<Competitions, Competitions>
             email: user.username
         });
         if (!attendee) {
-            throw new NotFoundException("No attendee found");
+            throw new NotFoundException('No attendee found');
         }
 
         for (const activity of competition.activities) {
             await this.activityService.unsubscribeAttendee(activity as string, attendee._id.toHexString());
         }
+    }
+
+    private async getTeamId(attendee: Attendees, eventId: string): Promise<string> {
+        const team = await this.teamsModel.findOne({
+            attendees: attendee ? attendee._id : null,
+            event: eventId
+        }).select('_id').exec();
+        return team ? team._id.toHexString() : null;
     }
 }
