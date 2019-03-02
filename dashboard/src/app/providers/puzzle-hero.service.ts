@@ -10,9 +10,7 @@ const STARRED_TRACKS = "STARRED_TRACKS";
 
 @Injectable()
 export class PuzzleHeroService {
-    private socket = io.connect(environment.GATEWAY_URL, {
-        path: environment.SOCKET_IO_PATH
-    });
+    private socket = io.Socket;
 
     public scoreboardUpdate$ = new Observable((observer) => {
         this.socket.on("scoreboard_update", () => {
@@ -21,6 +19,16 @@ export class PuzzleHeroService {
     });
 
     constructor(private apiService: ApiService) {
+    }
+
+    open() {
+        this.socket = io.connect(environment.GATEWAY_URL, {
+            path: environment.SOCKET_IO_PATH
+        });
+    }
+
+    close() {
+        this.socket.close();
     }
 
     getInfo(): Observable<PuzzleHeroInfo> {
