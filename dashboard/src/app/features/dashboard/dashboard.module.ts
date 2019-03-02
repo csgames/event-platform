@@ -22,6 +22,7 @@ import { NotRegisteredGuard } from "./utils/not-registered.guard";
 import { DirectivesModule } from "../../directives/directives.module";
 import { ChangePasswordModule } from "./modals/change-password/change-password.module";
 import { ContentLoaderModule } from "@netbasal/content-loader";
+import { FlashoutGuard } from "../flashout/guards/flashout.guard";
 
 @NgModule({
     imports: [
@@ -55,7 +56,8 @@ import { ContentLoaderModule } from "@netbasal/content-loader";
     ],
     providers: [
         RegisteredGuard,
-        NotRegisteredGuard
+        NotRegisteredGuard,
+        FlashoutGuard
     ]
 })
 export class DashboardModule {}

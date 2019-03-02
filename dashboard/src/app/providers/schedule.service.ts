@@ -8,7 +8,7 @@ import { TranslateService } from "@ngx-translate/core";
 @Injectable()
 export class ScheduleService {
     constructor(private apiService: ApiService,
-        private translateService: TranslateService) { }
+                private translateService: TranslateService) { }
 
     public getActivitiesForEvent(): Observable<Activity[]> {
         return this.apiService.event.getActivitiesForEvent();
