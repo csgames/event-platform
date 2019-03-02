@@ -3,7 +3,6 @@ import { select, Store } from "@ngrx/store";
 import { getCurrentAttendee } from "../../../../store/app.reducers";
 import { Competition } from "src/app/api/models/competition";
 import { State } from "src/app/features/competitions/store/competitions.reducer";
-import { TranslateService } from "@ngx-translate/core";
 // import { ShowCompetitionInfo } from "../store/competitions.actions";
 import { SimpleModalService } from "ngx-simple-modal";
 import { InfoCompetitionComponent } from "../info-competition/info-competition.component";
@@ -25,15 +24,10 @@ export class CompetitionCardComponent implements OnInit {
     public currentAttendee$ = this.store$.pipe(select(getCurrentAttendee));
 
     constructor(private store$: Store<State>,
-                private translateService: TranslateService,
                 private modalService: SimpleModalService) {
     }
 
     public ngOnInit() {
-    }
-
-    public get lang() {
-        return this.translateService.defaultLang;
     }
 
     public onShowInfo(competition: Competition, time: string) {

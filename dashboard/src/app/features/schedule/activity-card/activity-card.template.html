@@ -7,7 +7,7 @@
                 <i *ngSwitchCase="'food'" class="fal fa-utensils"></i>
             </div>
             <div fxFlex>
-                <p class="name">{{ activity.name }}</p>
+                <p class="name">{{ activity.name | t18n }}</p>
                 <p class="hours">{{ time }} - {{ activity.endDate | hours }}</p>
                 <p class="location">{{ activity.location }}</p>
             </div>

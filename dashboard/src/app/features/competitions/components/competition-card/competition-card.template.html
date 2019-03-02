@@ -5,7 +5,7 @@
                 <i class="fal fa-trophy"></i>
             </div>
             <div fxFlex>
-                <p class="name">{{ competition.activities[0].name }}</p>
+                <p class="name">{{ competition.activities[0].name | t18n }}</p>
                 <p class="hours">{{ competition.activities[0].beginDate | hours }} - {{ competition.activities[0].endDate | hours }}</p>
                 <p class="location">{{ competition.activities[0].location }}</p>
             </div>
@@ -16,8 +16,7 @@
             </div>
         </div>
         <div fxLayout="row" class="tile">
-            <div *ngIf="lang === 'fr'">{{ competition.activities[0].details.fr }}</div>
-            <div *ngIf="lang === 'en'">{{ competition.activities[0].details.en }}</div>
+            <div>{{ competition.activities[0].details | t18n }}</div>
         </div>
         <div fxLayout="row" fxLayoutAlign="center" class="tile" *ngIf="!subscribed">
             <a class="not-subscribed btn btn-primary btn-rounded mt-3 px-3" (click)="subscribe()">
