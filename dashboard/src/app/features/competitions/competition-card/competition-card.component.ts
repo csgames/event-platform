@@ -7,6 +7,9 @@ import { TranslateService } from "@ngx-translate/core";
 // import { ShowCompetitionInfo } from "../store/competitions.actions";
 import { SimpleModalService } from "ngx-simple-modal";
 import { InfoCompetitionComponent } from "../info-competition/info-competition.component";
+import { Observable } from "rxjs";
+import { map } from "rxjs/operators";
+
 
 @Component({
     selector: "app-competition-card",
@@ -35,6 +38,16 @@ export class CompetitionCardComponent implements OnInit {
 
     public onShowInfo(competition: Competition, time: string) {
         // this.store$.dispatch(new ShowCompetitionInfo({competition, time}));
-        this.modalService.addModal(InfoCompetitionComponent, {competition, time});
+        this.modalService.addModal(InfoCompetitionComponent, {competition});
+    }
+
+    public get subscribed(): Observable<boolean> {
+        return this.currentAttendee$.pipe(map(attendee => {
+            if (!attendee) {
+                return false;
+            }
+
+            return this.competition.activities[0].subscribers.some(x => x === attendee._id);
+        }));
     }
 }

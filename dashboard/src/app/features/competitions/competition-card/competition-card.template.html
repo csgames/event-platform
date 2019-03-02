@@ -11,7 +11,7 @@
             </div>
             <div fxFlex *ngIf="competition.isLive" fxLayout="column" fxLayoutAlign="end end">
                 {{ "pages.competition.live" | translate }}
-                <a class="btn btn-primary btn-rounded participate px-3" (click)="onShowInfo(competition, competition.activity.beginDate)">
+                <a class="btn btn-primary btn-rounded participate px-3" (click)="onShowInfo(competition, competition.activities[0].beginDate)">
                     {{ "pages.competition.participate" | translate }}</a>
             </div>
         </div>
@@ -19,9 +19,14 @@
             <div *ngIf="lang === 'fr'">{{ competition.activities[0].details.fr }}</div>
             <div *ngIf="lang === 'en'">{{ competition.activities[0].details.en }}</div>
         </div>
-        <div fxLayout="row" fxLayoutAlign="center" class="tile">
-            <a class="not-subscribed btn btn-primary btn-rounded mt-3 px-3" (click)="subscribe()">{{ "general.button.subscribe"
-                    | translate }}</a>
+        <div fxLayout="row" fxLayoutAlign="center" class="tile" *ngIf="!subscribed">
+            <a class="not-subscribed btn btn-primary btn-rounded mt-3 px-3" (click)="subscribe()">
+                {{ "general.button.subscribe" | translate }}</a>
+        </div>
+        <div fxLayout="row" fxLayoutAlign="center" class="tile" *ngIf="subscribed">
+            <a class="subscribed btn btn-primary btn-rounded mt-3 px-3">
+                {{ "general.button.subscribed" | translate }}
+            </a>
         </div>
     </div>
 </div>

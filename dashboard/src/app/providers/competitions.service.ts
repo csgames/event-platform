@@ -18,4 +18,8 @@ export class CompetitionsService {
     public toggleCompetitionSubscribed(): Observable<Competition> {
         return null;
     }
+
+    validatePassword(competitionId: string, password: string): Observable<void> {
+        return this.apiService.competition.validatePassword(competitionId, password);
+    }
 }

@@ -56,3 +56,7 @@ export const getCompetitions = createSelector(getCompetitionsState, (state: Comp
 
 export const getCompetitionsLoading = createSelector(getCompetitionsState, (state: CompetitionsState) => state.loading);
 export const getCompetitionsError = createSelector(getCompetitionsState, (state: CompetitionsState) => state.error);
+
+export const getGlobalState = createFeatureSelector<State, fromApp.GlobalState>("global");
+export const getCurrentAttendee = createSelector(getGlobalState, (state: fromApp.GlobalState) => state.currentAttendee);
+

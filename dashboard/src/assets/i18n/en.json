@@ -119,7 +119,8 @@
 			"subscribed": "Subscribed competitions",
 			"wrong_password": "Wrong password",
 			"loading_error": "An error occured while loading the competitions",
-			"live": "Happening now"
+			"live": "Happening now",
+			"validate_success": "You have the right password!"
 		},
 		"guide": {
 			"guide": "Guide",
