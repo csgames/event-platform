@@ -6,18 +6,19 @@ import { DirectivesModule } from "src/app/directives/directives.module";
 import { StoreModule } from "@ngrx/store";
 import { EffectsModule } from "@ngrx/effects";
 import * as fromCompetitions from "./store/competitions.reducer";
-import * as fromInfoCompetition from "./info-competition/store/info-competition.reducer";
+import * as fromInfoCompetition from "./components/info-competition/store/info-competition.reducer";
 import { CompetitionsComponent } from "./competitions.component";
 import { LoadingSpinnerModule } from "src/app/components/loading-spinner/loading-spinner.module";
 import { TabsModule } from "ngx-bootstrap";
 import { FlexLayoutModule } from "@angular/flex-layout";
 import { PipeModule } from "src/app/pipe/pipe.module";
 import { SimpleModalModule } from "ngx-simple-modal";
-import { CompetitionCardComponent } from "./competition-card/competition-card.component";
-import { InfoCompetitionComponent } from "./info-competition/info-competition.component";
+import { CompetitionCardComponent } from "./components/competition-card/competition-card.component";
+import { InfoCompetitionComponent } from "./components/info-competition/info-competition.component";
 import { CompetitionsEffects } from "./store/competitions.effects";
-import { InfoCompetitionEffects } from "./info-competition/store/info-competition.effects";
+import { InfoCompetitionEffects } from "./components/info-competition/store/info-competition.effects";
 import { FormsModule } from "@angular/forms";
+import { CompetitionComponent } from "./components/competition/competition.component";
 
 @NgModule({
     imports: [
@@ -35,7 +36,7 @@ import { FormsModule } from "@angular/forms";
         SimpleModalModule,
         FormsModule
     ],
-    declarations: [CompetitionsComponent, CompetitionCardComponent, InfoCompetitionComponent],
+    declarations: [CompetitionsComponent, CompetitionCardComponent, InfoCompetitionComponent, CompetitionComponent],
     entryComponents: [CompetitionsComponent, InfoCompetitionComponent]
 })
 export class CompetitionsModule { }

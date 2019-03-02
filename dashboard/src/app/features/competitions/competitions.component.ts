@@ -35,9 +35,7 @@ export class CompetitionsComponent implements OnInit {
         return this.currentAttendee$.pipe(map(attendee => {
             if (!attendee) {
                 return false;
-            } else {
-                return false;
-            }
+            } 
         }));
     }
 }

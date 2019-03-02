@@ -52,7 +52,7 @@ export function loadFactory(http: HttpClient): TranslateHttpLoader {
 
 @NgModule({
     declarations: [
-        AppComponent
+        AppComponent,
     ],
     imports: [
         BrowserModule,

@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 import { select, Store } from "@ngrx/store";
-import { getCurrentAttendee } from "../../../store/app.reducers";
+import { getCurrentAttendee } from "../../../../store/app.reducers";
 import { Competition } from "src/app/api/models/competition";
 import { State } from "src/app/features/competitions/store/competitions.reducer";
 import { TranslateService } from "@ngx-translate/core";

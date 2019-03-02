@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Actions, Effect, ofType } from "@ngrx/effects";
-import { CompetitionsService } from "../../../../providers/competitions.service";
+import { CompetitionsService } from "../../../../../providers/competitions.service";
 import { catchError, map, switchMap, tap } from "rxjs/operators";
 import { of } from "rxjs";
 import { ToastrService } from "ngx-toastr";
@@ -9,7 +9,7 @@ import { ValidatePassword,
          InfoCompetitionActionTypes,
          ValidatePasswordSuccess,
          ValidatePasswordFailure } from "./info-competition.actions";
-import { LoadCompetitions } from "../../store/competitions.actions";
+import { LoadCompetitions } from "../../../store/competitions.actions";
 
 @Injectable()
 export class InfoCompetitionEffects {
