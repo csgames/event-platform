@@ -11,7 +11,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr *ngFor="let score of sortedScores; let i = index">
+        <tr *ngFor="let score of sortedScores; let i = index" class="clickable">
             <td>
                 <input type="checkbox" class="form-checkbox mt-0" [ngModel]="isSelected(score.teamId)"
                        (ngModelChange)="checkTeam($event, score.teamId)">

@@ -6,10 +6,12 @@ import {
 import { LoadTeam, UpdateTeamName, AddTeamMember, AddTeamGodparent } from "./store/team-view.actions";
 import { Team } from "src/app/api/models/team";
 import { Attendee } from "src/app/api/models/attendee";
+import { Event } from "src/app/api/models/event";
 import { filter, map, withLatestFrom } from "rxjs/operators";
 import * as fromApp from "../../../store/app.reducers";
 import { AddAttendeeFormComponent } from "./components/add-attendee-form/add-attendee-form.component";
 import { Observable, Subscription } from "rxjs";
+import { DateUtils } from "../../../utils/date.utils";
 
 @Component({
     selector: "app-team-view",
@@ -108,6 +110,16 @@ export class TeamViewComponent implements OnInit, OnDestroy {
                 }
 
                 return godparent.length ? 1 : attendees.length === team.maxMembersNumber ? 0 : 1;
+            })
+        );
+    }
+
+    get canEdit$(): Observable<boolean> {
+        return this.currentEvent$.pipe(
+            withLatestFrom(this.currentAttendee$),
+            map(([event, attendee]: [Event, Attendee]) => {
+                const now = DateUtils.UTCNow();
+                return !(now > new Date(event.teamEditLockDate) && event.teamEditLocked) || attendee.role.endsWith("admin");
             })
         );
     }
