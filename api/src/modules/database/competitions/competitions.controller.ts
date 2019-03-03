@@ -5,11 +5,12 @@ import { Permissions } from '../../../decorators/permission.decorator';
 import { PermissionsGuard } from '../../../guards/permission.guard';
 import { ValidationPipe } from '../../../pipes/validation.pipe';
 import { Attendees } from '../attendees/attendees.model';
-import { AuthCompetitionDto, CreateCompetitionDto, CreateDirectorDto } from './competitions.dto';
+import { AuthCompetitionDto, CreateCompetitionDto, CreateCompetitionQuestionDto, CreateDirectorDto } from './competitions.dto';
 import { Competitions } from './competitions.model';
 import { CompetitionsService } from './competitions.service';
 import { User } from '../../../decorators/user.decorator';
 import { UserModel } from '../../../models/user.model';
+import { QuestionGraphNodes } from './questions/question-graph-nodes.model';
 
 @ApiUseTags('Competition')
 @Controller('competition')
@@ -37,6 +38,14 @@ export class CompetitionsController {
         await this.competitionService.auth(eventId, competitionId, dto, user);
     }
 
+    @Post(':id/question')
+    @Permissions('csgames-api:update:competition')
+    public async createQuestion(@EventId() eventId: string,
+                                @Param('id') competitionId: string,
+                                @Body(ValidationPipe) dto: CreateCompetitionQuestionDto): Promise<QuestionGraphNodes> {
+        return await this.competitionService.createQuestion(eventId, competitionId, dto);
+    }
+
     @Post(':id/director')
     @Permissions('csgames-api:update:competition', 'csgames-api:create:attendee')
     public async createDirector(@EventId() eventId: string,
@@ -59,6 +68,14 @@ export class CompetitionsController {
                              @Param('id') competitionId: string,
                              @Param('attendeeId') attendeeId: string): Promise<void> {
         return await this.competitionService.addDirector(eventId, competitionId, attendeeId);
+    }
+
+    @Delete(':id/question/:questionId')
+    @Permissions('csgames-api:update:competition')
+    public async removeQuestion(@EventId() eventId: string,
+                                @Param('id') competitionId: string,
+                                @Param('questionId') questionId: string): Promise<void> {
+        await this.competitionService.removeQuestion(eventId, competitionId, questionId);
     }
 
     @Delete(':id/subscription')

@@ -136,7 +136,7 @@ export class PuzzleHeroesService extends BaseService<PuzzleHeroes, PuzzleHeroes>
 
         const question = await this.questionsModel.create({
             label: dto.label,
-            description: dto.label,
+            description: dto.description,
             type: dto.type,
             validationType: dto.validationType,
             answer: dto.answer,

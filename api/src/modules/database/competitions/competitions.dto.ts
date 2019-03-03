@@ -1,5 +1,6 @@
-import { ArrayNotEmpty, IsEmail, IsNotEmpty, IsNumber, IsOptional, IsString, ValidateNested } from 'class-validator';
+import { ArrayNotEmpty, IsEmail, IsMongoId, IsNotEmpty, IsNumber, IsOptional, IsString, ValidateNested } from 'class-validator';
 import { CreateAttendeeDto } from '../attendees/attendees.dto';
+import { CreateQuestionDto } from '../questions/questions.dto';
 
 export class CreateCompetitionDto {
     @IsNotEmpty()
@@ -43,4 +44,10 @@ export class CreateDirectorDto {
     @IsNotEmpty()
     @ValidateNested()
     attendee: CreateAttendeeDto;
+}
+
+export class CreateCompetitionQuestionDto extends CreateQuestionDto {
+    @IsOptional()
+    @IsMongoId()
+    dependsOn: string;
 }

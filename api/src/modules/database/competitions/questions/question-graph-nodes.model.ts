@@ -15,7 +15,6 @@ export const QuestionGraphNodesSchema = new mongoose.Schema({
     },
     dependsOn: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "questions",
         required: false
     }
 });

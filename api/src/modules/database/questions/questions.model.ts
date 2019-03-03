@@ -3,7 +3,8 @@ import * as mongoose from "mongoose";
 export enum QuestionTypes {
     Crypto = "crypto",
     Gaming = "gaming",
-    Scavender = "scavenger"
+    Scavenger = "scavenger",
+    Upload = "upload"
 }
 
 export enum ValidationTypes {
@@ -32,7 +33,7 @@ export const QuestionsSchema = new mongoose.Schema({
     },
     type: {
         type: String,
-        enum: ["crypto", "gaming", "scavenger"],
+        enum: ["crypto", "gaming", "scavenger", "upload"],
         required: true
     },
     validationType: {

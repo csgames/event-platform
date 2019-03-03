@@ -2,22 +2,24 @@ import { BadRequestException, Injectable, NotFoundException, UnauthorizedExcepti
 import { InjectModel } from '@nestjs/mongoose';
 import * as mongoose from 'mongoose';
 import { Model } from 'mongoose';
+import { UserModel } from '../../../models/user.model';
 import { BaseService } from '../../../services/base.service';
+import { Activities, ActivitiesUtils } from '../activities/activities.model';
+import { ActivitiesService } from '../activities/activities.service';
 import { Attendees } from '../attendees/attendees.model';
 import { EventsService } from '../events/events.service';
 import { RegistrationsService } from '../registrations/registrations.service';
-import { AuthCompetitionDto, CreateDirectorDto } from './competitions.dto';
-import { Competitions } from './competitions.model';
-import { UserModel } from '../../../models/user.model';
-import { ActivitiesService } from '../activities/activities.service';
 import { Teams } from '../teams/teams.model';
-import { Activities, ActivitiesUtils } from '../activities/activities.model';
+import { AuthCompetitionDto, CreateCompetitionQuestionDto, CreateDirectorDto } from './competitions.dto';
+import { Competitions } from './competitions.model';
+import { QuestionGraphNodes } from './questions/question-graph-nodes.model';
 
 @Injectable()
 export class CompetitionsService extends BaseService<Competitions, Competitions> {
     constructor(@InjectModel('competitions') private readonly competitionsModel: Model<Competitions>,
                 @InjectModel('attendees') private readonly attendeesModel: Model<Attendees>,
                 @InjectModel('teams') private readonly teamsModel: Model<Teams>,
+                @InjectModel('questions') private readonly questionsModel: Model<Teams>,
                 private readonly activityService: ActivitiesService,
                 private readonly registrationService: RegistrationsService,
                 private readonly eventsService: EventsService) {
@@ -80,6 +82,67 @@ export class CompetitionsService extends BaseService<Competitions, Competitions>
                 'members.$.attendees': attendee._id
             }
         }).exec();
+    }
+
+    public async createQuestion(eventId: string, competitionId: string, dto: CreateCompetitionQuestionDto): Promise<QuestionGraphNodes> {
+        let competition = await this.competitionsModel.findOne({
+            _id: competitionId,
+            event: eventId
+        }).exec();
+        if (!competition) {
+            throw new NotFoundException();
+        }
+
+        if (dto.dependsOn) {
+            const node = competition.questions.find(x => x._id.equals(dto.dependsOn));
+            if (!node) {
+                throw new BadRequestException('Impossible deps');
+            }
+        }
+
+        const question = await this.questionsModel.create({
+            label: dto.label,
+            description: dto.description,
+            type: dto.type,
+            validationType: dto.validationType,
+            answer: dto.answer,
+            score: dto.score
+        });
+
+        competition.questions.push({
+            question: question._id,
+            dependsOn: dto.dependsOn
+        } as QuestionGraphNodes);
+
+        competition = await competition.save();
+
+        return competition.questions.find(x => (x.question as mongoose.Types.ObjectId).equals(question._id));
+    }
+
+    public async removeQuestion(eventId: string, competitionId: string, questionId: string): Promise<void> {
+        const competition = await this.competitionsModel.findOne({
+            _id: competitionId,
+            event: eventId
+        }).exec();
+        if (!competition) {
+            throw new NotFoundException();
+        }
+
+        const question = competition.questions.find(x => x._id.equals(questionId));
+        if (!question) {
+            throw new BadRequestException("No question found");
+        }
+
+        await this.questionsModel.deleteOne({
+            _id: question.question
+        }).exec();
+        competition.questions.splice(competition.questions.findIndex(x => x._id.equals(questionId)), 1);
+        competition.questions.forEach(x => {
+            if (x.dependsOn && (x.dependsOn as mongoose.Types.ObjectId).equals(questionId)) {
+                x.dependsOn = null;
+            }
+        });
+        await competition.save();
     }
 
     public async createDirector(eventId: string, competitionId: string, dto: CreateDirectorDto): Promise<Attendees> {

@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { AttendeesSchema } from '../attendees/attendees.model';
 import { EventsModule } from '../events/events.module';
+import { QuestionsSchema } from '../questions/questions.model';
 import { RegistrationsModule } from '../registrations/registrations.module';
 import { CompetitionsController } from './competitions.controller';
 import { CompetitionsSchema } from './competitions.model';
@@ -22,6 +23,10 @@ import { TeamsSchema } from '../teams/teams.model';
         MongooseModule.forFeature([{
             name: 'teams',
             schema: TeamsSchema
+        }]),
+        MongooseModule.forFeature([{
+            name: 'questions',
+            schema: QuestionsSchema
         }]),
         EventsModule,
         RegistrationsModule,
