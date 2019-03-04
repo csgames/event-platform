@@ -11,9 +11,10 @@
                     <div fxLayout="row" fxLayoutGap="10px" class="tile">
                         <i class="fal fa-trophy"></i>
                         <div fxFlex>
-                            <p class="name">{{ competition.activities[0].name }}</p>
+                            <p *ngIf="lang === 'en'" class="name">{{ competition.activities[0].name.en }}</p>
+                            <p *ngIf="lang === 'fr'" class="name">{{ competition.activities[0].name.fr }}</p>
                             <p class="hours">{{ competition.activities[0].beginDate | hours }} -
-                                {{ competition.activities[0].endDate | hours }}</p>
+                                {{ competition.activities[competition.activities.length-1].endDate | hours }}</p>
                         </div>
                     </div>
                 </div>

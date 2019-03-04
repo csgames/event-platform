@@ -14,7 +14,7 @@ export enum ValidationTypes {
 }
 
 export interface Competition {
-    id: string;
+    _id: string;
     activities: Activity[];
     directors: Attendee[];
     maxMembers: number;

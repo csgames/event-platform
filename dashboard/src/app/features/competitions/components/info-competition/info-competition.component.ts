@@ -59,7 +59,7 @@ export class InfoCompetitionComponent extends SimpleModalComponent<InfoCompetiti
     }
 
     validate() {
-        this.store$.dispatch(new ValidatePassword(this.competition.id, this.password));
+        this.store$.dispatch(new ValidatePassword(this.competition._id, this.password));
     }
 
 }

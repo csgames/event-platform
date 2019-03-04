@@ -15,7 +15,8 @@
                             <i *ngSwitchCase="'food'" class="fal fa-utensils"></i>
                         </ng-container>
                         <div fxFlex>
-                            <p class="name">{{ activity.name }}</p>
+                            <p *ngIf="lang === 'en'" class="name">{{ activity.name.en }}</p>
+                            <p *ngIf="lang === 'fr'" class="name">{{ activity.name.fr }}</p>
                             <p class="hours">{{ time }} - {{ activity.endDate | hours }}</p>
                         </div>
                     </div>
