@@ -36,7 +36,7 @@ export class TopNavComponent implements OnInit, OnDestroy {
     public language$ = this.store$.pipe(select(fromApp.getCurrentLanguage));
     public unseen$ = this.store$.pipe(select(fromApp.getUnseen));
     private language: string;
-    private unseen: boolean;
+    public unseen: boolean;
     private languageSub$: Subscription;
     private currentEventSub$: Subscription;
     private unseenSub$: Subscription;
