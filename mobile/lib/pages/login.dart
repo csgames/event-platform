@@ -96,7 +96,7 @@ class _LoginPageState extends State<LoginPage> {
                         )
                     ),
                     Padding(
-                        padding: EdgeInsets.only(bottom: 10.0),
+                        padding: EdgeInsets.only(bottom: 5.0),
                         child: Text(
                             model.hasError ? model.message : '',
                             style: TextStyle(color: Colors.red, fontSize: 16.0)
@@ -136,21 +136,12 @@ class _LoginPageState extends State<LoginPage> {
                 child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                        Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                                Padding(
-                                    padding: EdgeInsets.only(bottom: 25.0, left: 3.0),
-                                    child: Text(
-                                        _values['login'].toUpperCase(),
-                                        textAlign: TextAlign.left,
-                                        style: TextStyle(
-                                            fontFamily: 'flipbash',
-                                            fontSize: 30.0
-                                        )
-                                    )
-                                )
-                            ]
+                        Container(
+                            margin: EdgeInsets.fromLTRB(5.0, 10.0, 5.0, 20.0),
+                            child: Image.asset(
+                                'assets/logo.png',
+                                fit: BoxFit.cover
+                            )
                         ),
                         Container(
                             width: 340.0,
@@ -200,13 +191,6 @@ class _LoginPageState extends State<LoginPage> {
                             child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: <Widget>[
-                                    Container(
-                                        padding: EdgeInsets.fromLTRB(85.0, 0.0, 85.0, 30.0),
-                                        child: Image.asset(
-                                            'assets/logo.png',
-                                            fit: BoxFit.cover
-                                        )
-                                    ),
                                     Stack(
                                         children: <Widget>[
                                             Positioned(

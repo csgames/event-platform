@@ -19,6 +19,7 @@
     <application
         android:name="io.flutter.app.FlutterApplication"
         android:label="CSGames"
+        android:icon="@mipmap/ic_launcher_square"
         android:roundIcon="@mipmap/ic_launcher">
         <meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyA5dpEcyydnsy5EPDeme1emxJJklIFb3ac"/>
 
