@@ -979,3 +979,27 @@ bs-datepicker-container { z-index: 3000; }
         }
     }
 }
+
+ .language-select > .ng-select > .ng-select-container > .ng-clear-wrapper {
+    display: none !important;
+}
+
+.ql-toolbar {
+    border-radius: 8px 8px 0px 0px;
+}
+
+.ql-container {
+    border-radius: 0px 0px 8px 8px;
+}
+
+.quill:focus-within > .ql-toolbar {
+    border-left-color: #0D5899;
+    border-right-color: #0D5899;
+    border-top-color: #0D5899;
+}
+
+.quill:focus-within > .ql-container {
+    border-left-color: #0D5899;
+    border-right-color: #0D5899;
+    border-bottom-color: #0D5899;
+}

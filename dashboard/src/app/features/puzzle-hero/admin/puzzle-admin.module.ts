@@ -22,6 +22,7 @@ import { TRACK_FORM_GENERATOR } from "./components/track-form/track-form.constan
 import { TrackFormDto } from "./components/track-form/dto/track-form.dto";
 import { NgSelectModule } from "@ng-select/ng-select";
 import { CreateTrackComponent } from "./components/create-track/create-track.component";
+import { CustomTextBoxModule } from "src/app/components/custom-text-box/custom-text-box.module";
 
 @NgModule({
     imports: [
@@ -42,6 +43,7 @@ import { CreateTrackComponent } from "./components/create-track/create-track.com
         DatepickerModule,
         BsDatepickerModule,
         TimepickerModule,
+        CustomTextBoxModule,
     
 
         StoreModule.forFeature("puzzleHeroAdmin", fromPuzzleAdmin.reducer),

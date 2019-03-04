@@ -34,7 +34,7 @@ export class EditPuzzleHeroComponent extends SimpleModalComponent<void, void> im
             id:"", 
             label:"hellocoucou", 
             type: PuzzleTypes.Crypto, 
-            description:{"fr":"oktamer", "en":"mbasseng"},
+            description: {"fr":"oktamer", "en":"mbasseng"},
             answer: "123456Ab",
             validationType: ValidationTypes.String,
             startDate: Date.now(),
@@ -57,7 +57,6 @@ export class EditPuzzleHeroComponent extends SimpleModalComponent<void, void> im
         for(let i in PuzzleTypes) {
             this.puzzleTypes.push(PuzzleTypes[i]);
         }
-         
     }
 
     ngOnDestroy(): void {
@@ -81,5 +80,9 @@ export class EditPuzzleHeroComponent extends SimpleModalComponent<void, void> im
 
     get icon(): string {
         return "";
+    }
+
+    public clickSave() {
+        console.log(this.pInfo.description["en"]);
     }
 }

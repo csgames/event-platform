@@ -1,27 +1,43 @@
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { NgSelectModule } from "@ng-select/ng-select";
-import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { FormsModule, ReactiveFormsModule, FormBuilder } from "@angular/forms";
 import { NgxMaskModule } from "ngx-mask";
 import { TranslateModule } from "@ngx-translate/core";
 import { FileUploadModule } from "../file-upload/file-upload.module";
-import { DirectivesModule } from "../../directives/directives.module";
 import { CustomTextBoxComponent } from "./custom-text-box.component";
+import { PopoverModule, DatepickerModule, BsDatepickerModule, TimepickerModule } from "ngx-bootstrap";
+import { SimpleModalModule } from "ngx-simple-modal";
+import { PuzzleComponentsModule } from "src/app/features/puzzle-hero/components/puzzle-components.module";
+import { TRACK_FORM_GENERATOR } from "src/app/features/puzzle-hero/admin/components/track-form/track-form.constants";
+import { FormGeneratorFactory } from "src/app/form-generator/factory";
+import { TrackFormDto } from "src/app/features/puzzle-hero/admin/components/track-form/dto/track-form.dto";
+import { QuillModule } from 'ngx-quill'
 
 @NgModule({
     imports: [
         CommonModule,
-        FormsModule,
         ReactiveFormsModule,
         NgSelectModule,
         NgxMaskModule.forChild(),
         TranslateModule,
         FileUploadModule,
-        DirectivesModule
+        CommonModule,
+        FormsModule,
+        ReactiveFormsModule,
+        PopoverModule,
+        TranslateModule,
+        SimpleModalModule,
+        PuzzleComponentsModule,
+        NgSelectModule,
+        DatepickerModule,
+        BsDatepickerModule,
+        TimepickerModule,
+        QuillModule
     ],
     declarations: [CustomTextBoxComponent],
-    providers: [ ],
+    providers: [],
     exports: [CustomTextBoxComponent],
 })
-export class CustomTextBoxFormModule {
+export class CustomTextBoxModule {
 }

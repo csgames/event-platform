@@ -16,47 +16,19 @@
                             </button>
                         </h4>
                     </div>
-                    <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="start center" class="container">
-                        <div fxFlex="25%" class="text-only">
-                            <span class="infoText">{{ "general.label.start_at" | translate }} :</span>
-                        </div>
-                        <div fxFlex="40%">
-                            <input type="text"
-                                class="form-control datepicker"
-                                #dp="bsDatepicker"
-                                [(bsValue)]="myDateValue"
-                                [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY', containerClass: 'theme-dark-blue'}"
-                                bsDatepicker/>
-                        </div>
-                        <div fxFlex="35%">
-                            <timepicker class="timepicker" [(ngModel)]="myTime" [showMeridian]="isMeridian" [showSpinners]="showSpinners"></timepicker>
-                        </div>                        
+                    
+                    <div fxLayout="row" fxLayoutGap="0px" fxLayoutAlign="start start" class="container">
+                        <app-custom-text-box 
+                            fxFlex="100%" 
+                            label="{{ 'general.label.description' | translate }}"
+                            [contentText]="pInfo.description"
+                            placeholder="{{ 'pages.puzzle_hero.description_placeholder' | translate }}"
+                            formType="rich"
+                            [textareaRows]="10"
+                            class="custom-text">
+                        </app-custom-text-box>
                     </div>
-                    <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="start center" class="container">
-                        <div fxFlex="25%" class="text-only">
-                            <span class="infoText">{{ "general.label.end_at" | translate }} :</span>
-                        </div>
-                        <div fxFlex="40%">
-                            <input type="text"
-                                class="form-control datepicker"
-                                #dp="bsDatepicker"
-                                [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY', containerClass: 'theme-dark-blue'}"
-                                [(bsValue)]="myDateValue" bsDatepicker/>
-                        </div>
-                        <div fxFlex="35%">
-                            <timepicker class="timepicker" [(ngModel)]="myTime" [showMeridian]="isMeridian" [showSpinners]="showSpinners"></timepicker>
-                        </div>                        
-                    </div>
-                    <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="start center" class="container">
-                        <span class="infoText">
-                            {{ "general.label.description" | translate }} :
-                        </span>
-                    </div>
-                    <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="start center" class="container">
-                        <div fxFlex="100%" class="input-group input-group-default">
-                            <input type="text" class="form-control full-width" placeholder="{{ 'pages.puzzle_hero.description_placeholder' | translate }}"/>
-                        </div>
-                    </div>
+                        
                     <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="start center" class="container">
                         <div fxFlex="50%" class="input-group input-group-default">
                             <ng-select [items]="puzzleTypes" placeholder='{{ "pages.puzzle_hero.puzzle_types" | translate }}'
