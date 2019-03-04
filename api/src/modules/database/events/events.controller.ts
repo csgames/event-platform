@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpCode, Param, Post, Put, Query, UploadedFile, UseFilters, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, Param, Post, Put, Query, UploadedFile, UseFilters, UseGuards, NotFoundException, HttpStatus } from '@nestjs/common';
 import { ApiUseTags } from '@nestjs/swagger';
 import { Permissions } from '../../../decorators/permission.decorator';
 import { User } from '../../../decorators/user.decorator';
@@ -19,6 +19,9 @@ import { EventsService } from './events.service';
 import { UpdateAttendeeDto } from '../attendees/attendees.dto';
 import { EventId } from '../../../decorators/event-id.decorator';
 import { NullPipe } from '../../../pipes/null-pipe.service';
+import { FlashOut } from '../flash-out/flash-out.model';
+import { FlashOutsService } from '../flash-out/flash-out.service';
+import { VotesFlashOutDto } from '../flash-out/flash-out.dto';
 
 @ApiUseTags('Event')
 @Controller('event')
@@ -27,7 +30,8 @@ import { NullPipe } from '../../../pipes/null-pipe.service';
 export class EventsController {
     constructor(private attendeesService: AttendeesService,
                 private eventsService: EventsService,
-                private teamsService: TeamsService) {
+                private teamsService: TeamsService,
+                private flashOutService: FlashOutsService) {
     }
 
     @Post()
@@ -70,8 +74,29 @@ export class EventsController {
 
     @Get('activity')
     @Permissions('csgames-api:get-all:activity')
-    public async getActivity(@EventId() eventId: string, @User() user: UserModel): Promise<Activities[]> {
+    public async getActivity(@EventId() eventId: string): Promise<Activities[]> {
         return await this.eventsService.getActivities(eventId);
+    }
+
+    @Get('flash-out')
+    @Permissions('csgames-api:get-all:flash-out')
+    public async getFlashOut(@EventId() eventId: string, @User() user: UserModel): Promise<FlashOut[]> {
+        return await this.flashOutService.getByEvent(eventId, user.username);
+    }
+
+    @Put('flash-out/rating')
+    @HttpCode(HttpStatus.NO_CONTENT)
+    @Permissions('csgames-api:update:flash-out')
+    public async voteFlashOut(@EventId() eventId: string, @User() user: UserModel,
+                              @Body(NullPipe, ValidationPipe) dto: VotesFlashOutDto) {
+        const attendee = await this.attendeesService.findOne({ email: user.username });
+        if (!attendee) {
+            throw new NotFoundException();
+        }
+
+        for (const vote of dto.votes) {
+            await this.flashOutService.addRating(eventId, attendee._id, vote._id, vote.rating);
+        }
     }
 
     @Get('notification')

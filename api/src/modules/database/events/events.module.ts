@@ -11,6 +11,7 @@ import { EmailModule } from '../../email/email.module';
 import { TeamsSchema } from '../teams/teams.model';
 import { MessagingModule } from '../../messaging/messaging.module';
 import { NotificationsModule } from '../notifications/notifications.module';
+import { FlashOutsModule } from '../flash-out/flash-out.module';
 
 @Module({
     imports: [
@@ -28,7 +29,8 @@ import { NotificationsModule } from '../notifications/notifications.module';
         STSModule,
         forwardRef(() => TeamsModule),
         MessagingModule,
-        NotificationsModule
+        NotificationsModule,
+        FlashOutsModule
     ],
     controllers: [
         EventsController
