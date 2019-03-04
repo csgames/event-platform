@@ -15,6 +15,10 @@ export class PuzzleHeroApi extends CSGamesApi {
         return this.http.get<PuzzleHeroInfo>(this.url("info"), { withCredentials: true });
     }
 
+    public updatePuzzleHero(puzzleHero: PuzzleHero): Observable<void> {
+        return this.http.put<void>(this.url(), puzzleHero, { withCredentials: true });
+    }
+
     public getPuzzleHero(): Observable<PuzzleHero> {
         return this.http.get<PuzzleHero>(this.url(), { withCredentials: true });
     }

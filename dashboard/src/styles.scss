@@ -995,3 +995,13 @@ bs-datepicker-container {
 timepicker {
     margin: 5px;
 }
+
+.borders {
+    background: transparent;
+    border: 1px dashed #9B9B9B;
+    margin-bottom: 10px;
+
+    &:hover {
+        border: 1px dashed #08579d;
+    }
+}

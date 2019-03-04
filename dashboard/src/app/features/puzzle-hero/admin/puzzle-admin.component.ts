@@ -6,10 +6,11 @@ import { select, Store } from "@ngrx/store";
 import { LoadPuzzleHero } from "./store/puzzle-admin.actions";
 import { map } from "rxjs/operators";
 import { PuzzleHeroUtils } from "../utils/puzzle-hero.utils";
-import { PuzzleInfo, Track } from "../../../api/models/puzzle-hero";
+import { PuzzleHero, PuzzleInfo, Track } from "../../../api/models/puzzle-hero";
 import { CreateTrackComponent } from "./components/create-track/create-track.component";
 import { UpdateTrackComponent } from "./components/update-track/update-track.component";
 import { getPuzzleHeroInfo } from "../../../store/app.reducers";
+import { PuzzleHeroSettingsComponent } from "./components/puzzle-hero-settings/puzzle-hero-settings.component";
 
 @Component({
     selector: "app-puzzle-hero-admin",
@@ -51,5 +52,9 @@ export class PuzzleAdminComponent implements OnInit {
 
     clickUpdateTrack(track: Track) {
         this.modalService.addModal(UpdateTrackComponent, { track });
+    }
+
+    clickSettings(puzzleHero: PuzzleHero) {
+        this.modalService.addModal(PuzzleHeroSettingsComponent, { puzzleHero });
     }
 }

@@ -60,9 +60,11 @@ export interface Track {
 }
 
 export interface PuzzleHero {
-    tracks: Track[];
+    tracks?: Track[];
+    open: boolean;
     releaseDate: string | Date;
     endDate: string | Date;
+    scoreboardEndDate: string | Date;
 }
 
 export interface PuzzleHeroInfo {

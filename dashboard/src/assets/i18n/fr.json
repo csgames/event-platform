@@ -64,6 +64,15 @@
             "update_track": "Modifier une piste",
             "error": "Une erreur est survenue lors de la modification de la piste.",
             "success": "Piste modifiée!"
+        },
+        "puzzle_hero_settings": {
+            "puzzle_hero_settings": "Paramètres du Puzzle Hero",
+            "release_date": "Date de disponibilité",
+            "end_date": "Date de fin",
+            "scoreboard_end_date": "Date de fin du classement",
+            "open": "Disponible",
+            "success": "Paramètres modifiés!",
+            "error": "Une erreur est survenue lors de la sauvegarde des paramètres."
         }
     },
     "errors": {

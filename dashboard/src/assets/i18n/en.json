@@ -64,6 +64,15 @@
             "update_track": "Update track",
             "error": "An error occured while updating the track.",
             "success": "Track updated!"
+        },
+        "puzzle_hero_settings": {
+            "puzzle_hero_settings": "Puzzle Hero settings",
+            "release_date": "Release date",
+            "end_date": "End date",
+            "scoreboard_end_date": "Scoreboard end date",
+            "open": "Open",
+            "success": "Settings updated!",
+            "error": "An error occured while saving the settings."
         }
     },
     "errors": {
