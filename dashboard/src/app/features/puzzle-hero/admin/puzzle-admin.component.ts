@@ -4,10 +4,13 @@ import { EditPuzzleHeroComponent } from "./components/edit-puzzle-hero/edit-puzz
 import { getPuzzleHeroAdminError, getPuzzleHeroAdminLoading, getPuzzleHeroAdminPuzzleHero, State } from "./store/puzzle-admin.reducer";
 import { select, Store } from "@ngrx/store";
 import { LoadPuzzleHero } from "./store/puzzle-admin.actions";
-import { map, tap } from "rxjs/operators";
+import { map } from "rxjs/operators";
 import { PuzzleHeroUtils } from "../utils/puzzle-hero.utils";
-import { PuzzleInfo } from "../../../api/models/puzzle-hero";
+import { PuzzleHero, PuzzleInfo, Track } from "../../../api/models/puzzle-hero";
 import { CreateTrackComponent } from "./components/create-track/create-track.component";
+import { UpdateTrackComponent } from "./components/update-track/update-track.component";
+import { getPuzzleHeroInfo } from "../../../store/app.reducers";
+import { PuzzleHeroSettingsComponent } from "./components/puzzle-hero-settings/puzzle-hero-settings.component";
 
 @Component({
     selector: "app-puzzle-hero-admin",
@@ -19,6 +22,8 @@ export class PuzzleAdminComponent implements OnInit {
     error$ = this.store$.pipe(select(getPuzzleHeroAdminError));
     puzzleHero$ = this.store$.pipe(select(getPuzzleHeroAdminPuzzleHero));
 
+    puzzleHeroInfo$ = this.store$.pipe(select(getPuzzleHeroInfo));
+
     tracks$ = this.puzzleHero$.pipe(
         map((p) => p && PuzzleHeroUtils.formatPuzzleHeroTracksIds(p)),
         map((tracks) => {
@@ -28,8 +33,7 @@ export class PuzzleAdminComponent implements OnInit {
                     puzzles: t.puzzles.map(PuzzleHeroUtils.formatPuzzleNode)
                 };
             });
-        }),
-        tap((t)=>{console.log(t);})
+        })
     );
 
     constructor(private store$: Store<State>, private modalService: SimpleModalService) { }
@@ -44,5 +48,13 @@ export class PuzzleAdminComponent implements OnInit {
 
     clickAddTrack() {
         this.modalService.addModal(CreateTrackComponent);
+    }
+
+    clickUpdateTrack(track: Track) {
+        this.modalService.addModal(UpdateTrackComponent, { track });
+    }
+
+    clickSettings(puzzleHero: PuzzleHero) {
+        this.modalService.addModal(PuzzleHeroSettingsComponent, { puzzleHero });
     }
 }

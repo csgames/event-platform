@@ -4,11 +4,12 @@ import { TRACK_FORM_GENERATOR } from "./track-form.constants";
 import { TrackFormDto } from "./dto/track-form.dto";
 import { Subscription } from "rxjs";
 import { ControlValueAccessor, FormGroup, NG_VALUE_ACCESSOR } from "@angular/forms";
-import { PuzzleTypes, Track, TrackTypes } from "../../../../../api/models/puzzle-hero";
+import { TrackTypes } from "../../../../../api/models/puzzle-hero";
 
 @Component({
     selector: "app-track-form",
     templateUrl: "track-form.template.html",
+    styleUrls: ["./track-form.style.scss"],
     providers: [
         {
             provide: NG_VALUE_ACCESSOR,

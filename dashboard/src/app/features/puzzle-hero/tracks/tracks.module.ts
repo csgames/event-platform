@@ -18,6 +18,7 @@ import { InfoPuzzleHeroComponent } from "./components/info-puzzle-hero/info-puzz
 import { SimpleModalModule } from "ngx-simple-modal";
 import { InfoPuzzleHeroEffects } from "./components/info-puzzle-hero/store/info-puzzle-hero.effects";
 import { PuzzleComponentsModule } from "../components/puzzle-components.module";
+import { DirectivesModule } from "../../../directives/directives.module";
 
 @NgModule({
     imports: [

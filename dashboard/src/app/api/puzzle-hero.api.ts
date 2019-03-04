@@ -2,7 +2,8 @@ import { Injectable } from "@angular/core";
 import { CSGamesApi } from "./csgames.api";
 import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
-import { PuzzleHero, PuzzleHeroInfo, Score, TeamSeries } from "./models/puzzle-hero";
+import { PuzzleHero, PuzzleHeroInfo, Score, TeamSeries, Track } from "./models/puzzle-hero";
+import { CreateTrackDto, UpdateTrackDto } from "./dto/puzzle-hero";
 
 @Injectable()
 export class PuzzleHeroApi extends CSGamesApi {
@@ -12,6 +13,10 @@ export class PuzzleHeroApi extends CSGamesApi {
 
     public getInfo(): Observable<PuzzleHeroInfo> {
         return this.http.get<PuzzleHeroInfo>(this.url("info"), { withCredentials: true });
+    }
+
+    public updatePuzzleHero(puzzleHero: PuzzleHero): Observable<void> {
+        return this.http.put<void>(this.url(), puzzleHero, { withCredentials: true });
     }
 
     public getPuzzleHero(): Observable<PuzzleHero> {
@@ -28,5 +33,13 @@ export class PuzzleHeroApi extends CSGamesApi {
 
     public validatePuzzleHero(puzzleId: string, answer: string): Observable<void> {
         return this.http.post<void>(this.url(`puzzle/${puzzleId}/validate`), { answer }, { withCredentials: true });
+    }
+
+    public createTrack(createTrackDto: CreateTrackDto): Observable<Track> {
+        return this.http.post<Track>(this.url("track"), createTrackDto, { withCredentials: true });
+    }
+
+    public updateTrack(id: string, updateTrackDto: UpdateTrackDto): Observable<void> {
+        return this.http.put<void>(this.url(`track/${id}`), updateTrackDto, { withCredentials: true });
     }
 }

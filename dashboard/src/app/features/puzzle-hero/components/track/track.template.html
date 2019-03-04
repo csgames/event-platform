@@ -4,13 +4,31 @@
             <i class="fal firstIcon" [ngClass]="icon"></i>
             <div class="track-title">
                 <span class="title">{{ track?.label }}</span><br>
-                <span class="release-date">Released on {{ track?.releaseDate | date: "medium" }}</span>
+                <ng-container *ifRole="['admin']">
+                    <span class="released-on" *ngIf="isReleased() && !isEnded()">
+                        {{ "pages.puzzle_hero.admin.released_on" | translate }}
+                        {{ track?.releaseDate | localizedDate: "medium" }}
+                    </span>
+                    <span class="releasing-on" *ngIf="!isReleased()">
+                        {{ "pages.puzzle_hero.admin.releasing_on" | translate }}
+                        {{ track?.releaseDate | localizedDate: "medium" }}
+                    </span>
+                    <span class="ended-on" *ngIf="isEnded()">
+                        {{ "pages.puzzle_hero.admin.ended_on" | translate }}
+                        {{ track?.endDate | localizedDate: "medium" }}
+                    </span>
+                </ng-container>
             </div>
             <div fxFlex></div>
             <a class="fa-star star-button" [ngClass]="{fal: !isStarred, fas: isStarred}" [class.starred]="isStarred"
                (click)="onClickStar($event)" *ngIf="showStar"></a>
-            <a class="btn btn-primary" *ngIf="adminMode">Ajouter un puzzle <i class="fal fa-plus"></i> </a>
-            <a class="btn btn-default" *ngIf="adminMode"><i class="fal fa-edit"></i></a>
+            <a class="btn btn-primary" *ngIf="adminMode">
+                {{ "pages.puzzle_hero.admin.add_puzzle" | translate }}&nbsp;
+                <i class="fal fa-plus"></i>
+            </a>
+            <a class="btn btn-default" *ngIf="adminMode" (click)="onClickUpdateTrack($event, track)">
+                <i class="fal fa-edit"></i>
+            </a>
             <i class="fas fa-caret-down ml-2" [class.fa-rotate-90]="!isOpen"></i>
         </div>
         <div class="track-container">

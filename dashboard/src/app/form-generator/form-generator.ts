@@ -148,8 +148,6 @@ export class FormGenerator<T> {
         switch (model.type) {
             case "Number":
                 return +value;
-            case "Date":
-                return moment(value).format("MM/DD/YYYY");
             case "Array":
                 return (control as FormArray).controls.map(c => c.value);
             default:

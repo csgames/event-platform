@@ -8,6 +8,8 @@ import { AccordionModule, PopoverModule } from "ngx-bootstrap";
 import { FlexLayoutModule } from "@angular/flex-layout";
 import { LoadingSpinnerModule } from "../../../components/loading-spinner/loading-spinner.module";
 import { CommonModule } from "@angular/common";
+import { PipesModule } from "../../../pipes/pipes.module";
+import { DirectivesModule } from "../../../directives/directives.module";
 
 @NgModule({
     imports: [
@@ -19,6 +21,8 @@ import { CommonModule } from "@angular/common";
         LoadingSpinnerModule,
         PopoverModule,
         TranslateModule,
+        PipesModule,
+        DirectivesModule
     ],
     exports: [PuzzleTileComponent, TrackComponent, TrackDirective],
     declarations: [PuzzleTileComponent, TrackComponent, TrackDirective],

@@ -6,6 +6,10 @@ import { PuzzleHero, PuzzleHeroInfo, Score, TeamSeries, Track } from "../api/mod
 import * as io from "socket.io-client";
 import { environment } from "../../environments/environment";
 import { PuzzleHeroUtils } from "../features/puzzle-hero/utils/puzzle-hero.utils";
+import { TrackFormDto } from "../features/puzzle-hero/admin/components/track-form/dto/track-form.dto";
+import { CreateTrackDto, UpdateTrackDto } from "../api/dto/puzzle-hero";
+import { PuzzleAdminUtils } from "../features/puzzle-hero/admin/puzzle-admin.utils";
+import { PuzzleHeroSettingsDto } from "../features/puzzle-hero/admin/components/puzzle-hero-settings/dto/puzzle-hero-settings.dto";
 
 const STARRED_TRACKS = "STARRED_TRACKS";
 
@@ -89,5 +93,17 @@ export class PuzzleHeroService {
 
     validatePuzzleHero(puzzleId: string, answer: string): Observable<void> {
         return this.apiService.puzzleHero.validatePuzzleHero(puzzleId, answer);
+    }
+
+    createTrack(trackFormDto: TrackFormDto): Observable<Track> {
+        return this.apiService.puzzleHero.createTrack(PuzzleAdminUtils.trackFormDtoToTrackDto(trackFormDto) as CreateTrackDto);
+    }
+
+    updateTrack(id: string, trackFormDto: TrackFormDto): Observable<void> {
+        return this.apiService.puzzleHero.updateTrack(id, PuzzleAdminUtils.trackFormDtoToTrackDto(trackFormDto) as UpdateTrackDto);
+    }
+
+    updatePuzzleHero(puzzleHeroSettingsDto: PuzzleHeroSettingsDto): Observable<void> {
+        return this.apiService.puzzleHero.updatePuzzleHero(PuzzleAdminUtils.puzzleHeroSettingsDtoToPuzzleHero(puzzleHeroSettingsDto));
     }
 }

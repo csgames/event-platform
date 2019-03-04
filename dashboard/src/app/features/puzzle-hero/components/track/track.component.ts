@@ -1,9 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 import * as shape from "d3-shape";
-import { PuzzleInfo, PuzzleTypes, Track } from "../../../../api/models/puzzle-hero";
+import { PuzzleInfo, Track, TrackTypes } from "../../../../api/models/puzzle-hero";
 import { PuzzleHeroService } from "../../../../providers/puzzle-hero.service";
 import { SimpleModalService } from "ngx-simple-modal";
-import { InfoPuzzleHeroComponent } from "../../tracks/components/info-puzzle-hero/info-puzzle-hero.component";
 
 @Component({
     selector: "app-track",
@@ -31,6 +30,9 @@ export class TrackComponent implements OnInit {
 
     @Output()
     clickAddPuzzle = new EventEmitter<PuzzleInfo>();
+
+    @Output()
+    clickUpdateTrack = new EventEmitter<Track>();
 
     @Output()
     openChange = new EventEmitter();
@@ -70,12 +72,14 @@ export class TrackComponent implements OnInit {
 
     get icon(): string {
         switch (this.track.type) {
-            case PuzzleTypes.Crypto:
+            case TrackTypes.Crypto:
                 return "fa-key";
-            case PuzzleTypes.Gaming:
+            case TrackTypes.Gaming:
                 return "fa-gamepad";
-            case PuzzleTypes.Scavenger:
+            case TrackTypes.Scavenger:
                 return "fa-camera-alt";
+            case TrackTypes.Sponsor:
+                return "fa-gem";
         }
         return "";
     }
@@ -92,8 +96,23 @@ export class TrackComponent implements OnInit {
         this.clickAddPuzzle.emit(puzzle);
     }
 
+    onClickUpdateTrack(event: MouseEvent, track: Track) {
+        event.stopImmediatePropagation();
+        this.clickUpdateTrack.emit(track);
+    }
+
     onClickStar(event: MouseEvent) {
         event.stopPropagation();
         this.clickStar.emit();
+    }
+
+    isReleased() {
+        const now = new Date().toISOString();
+        return now > this.track.releaseDate;
+    }
+
+    isEnded() {
+        const now = new Date().toISOString();
+        return now > this.track.endDate;
     }
 }

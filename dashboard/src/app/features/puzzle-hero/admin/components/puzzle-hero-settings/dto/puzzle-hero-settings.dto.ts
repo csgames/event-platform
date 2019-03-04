@@ -1,16 +1,7 @@
 import { Control } from "../../../../../../form-generator/decorators/control.decorator";
 import { Required } from "../../../../../../form-generator/decorators/required.decorator";
 
-export class TrackFormDto {
-
-    @Control()
-    @Required()
-    label: string;
-
-    @Control()
-    @Required()
-    type: string;
-
+export class PuzzleHeroSettingsDto {
     @Control()
     @Required()
     releaseDate: Date;
@@ -26,4 +17,16 @@ export class TrackFormDto {
     @Control()
     @Required()
     endTime: Date;
+
+    @Control()
+    @Required()
+    scoreboardEndDate: Date;
+
+    @Control()
+    @Required()
+    scoreboardEndTime: Date;
+
+    @Control()
+    @Required()
+    open: boolean;
 }

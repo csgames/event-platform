@@ -1,14 +1,20 @@
 <div class="page-wrapper">
-    <div fxLayout="row" fxLayoutAlign="start center">
+    <div fxLayout="row" fxLayoutAlign="start center" *ngIf="puzzleHero$ | async as puzzleHero">
         <h1>{{ "pages.puzzle_hero.puzzle_hero" | translate }}</h1>
 
         <div fxFlex></div>
-        <a class="btn btn-primary" (click)="clickAddTrack()">Ajouter une piste <i class="fal fa-plus"></i></a>
-        <a class="btn btn-default"><i class="fal fa-edit"></i></a>
+        <a class="btn btn-default" (click)="clickSettings(puzzleHero)"><i class="fal fa-cogs"></i></a>
     </div>
 
     <app-loading-spinner [loading]="loading$">
     </app-loading-spinner>
+
+    <alert type="success" class="text-center mt-3" *ngIf="(puzzleHeroInfo$ | async)?.open">
+        {{ "pages.puzzle_hero.admin.puzzle_available_for_attendees" | translate }}
+    </alert>
+    <alert type="danger" class="text-center mt-3" *ngIf="!(puzzleHeroInfo$ | async)?.open">
+        {{ "pages.puzzle_hero.admin.puzzle_not_available_for_attendees" | translate }}
+    </alert>
     <ng-container *ngIf="error$ | async">
         <div style="text-align: center">
             <i class="far fa-times-circle error fa-8x"></i>
@@ -18,8 +24,13 @@
 
     <ng-container *ngIf="tracks$ | async as tracks">
         <div class="mt-4">
+            <button type="button" class="add-button btn btn-lg btn-block borders"
+                    (click)="clickAddTrack()">
+                + {{ "pages.puzzle_hero.admin.add_track" | translate }}
+            </button>
             <app-track *ngFor="let track of tracks" [showStar]="false" [adminMode]="true"
                        (clickPuzzle)="clickPuzzle($event, track)" (clickAddPuzzle)="clickPuzzle($event)"
+                       (clickUpdateTrack)="clickUpdateTrack($event)"
                        [track]="track"></app-track>
         </div>
     </ng-container>
