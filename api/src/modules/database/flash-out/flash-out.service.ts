@@ -5,10 +5,12 @@ import { Injectable } from "@nestjs/common";
 import { Model, Types } from "mongoose";
 import { UserNotAttendeeException } from "../events/events.exception";
 import { AttendeesService } from "../attendees/attendees.service";
+import { EventsUtils, Events } from "../events/events.model";
 
 @Injectable()
 export class FlashOutsService extends BaseService<FlashOut, FlashOut> {
     constructor(@InjectModel("flash-outs") private readonly flashOutsModel: Model<FlashOut>,
+                @InjectModel("events") private readonly eventModel: Model<Events>,
                 private readonly attendeeService: AttendeesService) {
         super(flashOutsModel);
     }
@@ -21,11 +23,18 @@ export class FlashOutsService extends BaseService<FlashOut, FlashOut> {
             throw new UserNotAttendeeException();
         }
 
+        const event = await this.eventModel.findById(eventId);
+        
+        if (!EventsUtils.isFlashoutAvailable(event)) {
+            return;
+        }
+
         const flashOuts = await this.flashOutsModel.find({
             event: eventId
         }).populate({
             path: "school"
         }).exec();
+
 
         flashOuts.forEach((f) => {
             f.votes = f.votes.filter((v) => (v.attendee as Types.ObjectId).equals(attendee.id));
