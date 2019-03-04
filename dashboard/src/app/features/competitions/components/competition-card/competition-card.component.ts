@@ -2,12 +2,8 @@ import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 import { select, Store } from "@ngrx/store";
 import { Competition } from "src/app/api/models/competition";
 import { getLoading, getSubscribed, State } from "./store/competition-card.reducer";
-import { TranslateService } from "@ngx-translate/core";
 import { SubscribeToCompetition, CheckIfSubscribedToCompetition, ResetStore, ShowCompetitionInfo } from "./store/competition-card.actions";
 import { SimpleModalService } from "ngx-simple-modal";
-import { InfoCompetitionComponent } from "../info-competition/info-competition.component";
-import { Observable } from "rxjs";
-import { map } from "rxjs/operators";
 
 @Component({
     selector: "app-competition-card",
@@ -25,9 +21,7 @@ export class CompetitionCardComponent implements OnInit {
     subscribed$ = this.store$.pipe(select(getSubscribed));
     public result: boolean;
 
-    constructor(private store$: Store<State>,
-                private modalService: SimpleModalService) {
-    }
+    constructor(private store$: Store<State>) { }
 
     public ngOnInit() {
         this.result = false;

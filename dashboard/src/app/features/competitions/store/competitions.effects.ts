@@ -8,8 +8,7 @@ import {
     LoadCompetitionsError,
     LoadSubscribedCompetitions,
     SubscribedCompetitionsLoaded,
-    SubscribeCompetition,
-    LoadSubscribedCompetitionsError
+    SubscribeCompetition
 } from "./competitions.actions";
 import { switchMap, map, catchError, filter, tap } from "rxjs/operators";
 import { of } from "rxjs";
@@ -20,8 +19,7 @@ import { SimpleModalService } from "ngx-simple-modal";
 @Injectable()
 export class CompetitionsEffects {
     constructor(private actions$: Actions,
-        private competitionService: CompetitionsService,
-        private modalService: SimpleModalService) { }
+                private competitionService: CompetitionsService) { }
 
     @Effect()
     loadCompetitions$ = this.actions$.pipe(
@@ -35,21 +33,16 @@ export class CompetitionsEffects {
     );
 
     @Effect()
-    LoadSubscribedCompetitions$ = this.actions$.pipe(
+    loadSubscribedCompetitions$ = this.actions$.pipe(
         ofType<LoadSubscribedCompetitions>(CompetitionsActionTypes.LoadSubscribedCompetitions),
-        switchMap(() => this.competitionService.getSubscribedCompetitions()
-            .pipe(
-                map((competitions) => new SubscribedCompetitionsLoaded(competitions)),
-                catchError(() => of(new LoadSubscribedCompetitionsError()))
-            )
-        )
+        map(() => new SubscribedCompetitionsLoaded(this.competitionService.getSubscribedCompetitions()))
     );
 
-    // @Effect()
-    // subscribedCompetitions$ = this.actions$.pipe(
-    //     ofType<SubscribeCompetition>(CompetitionsActionTypes.SubscribeCompetition),
-    //     tap((action: SubscribeCompetition) => this.competitionService.toggleCompetitionSubscribed(action.type)),
-    //     map(() => new LoadSubscribedCompetitions())
-    // );
+    @Effect()
+    subscribeCompetition$ = this.actions$.pipe(
+        ofType<SubscribeCompetition>(CompetitionsActionTypes.SubscribeCompetition),
+        tap((action: SubscribeCompetition) => this.competitionService.toggleCompetitionSubscribed(action.competition)),
+        map(() => new LoadSubscribedCompetitions())
+    );
 
 }

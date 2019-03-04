@@ -46,9 +46,9 @@ export function reducer(state = initialState, action: CompetitionsActions): Comp
                 ...state,
                 subscribedCompetitions: action.subscribedCompetitions
             };
-        default:
-            return state;
     }
+
+    return state;
 }
 
 export const getCompetitionsState = createFeatureSelector<State, CompetitionsState>("competitions");
@@ -57,6 +57,9 @@ export const getCompetitions = createSelector(getCompetitionsState, (state: Comp
 export const getCompetitionsLoading = createSelector(getCompetitionsState, (state: CompetitionsState) => state.loading);
 export const getCompetitionsError = createSelector(getCompetitionsState, (state: CompetitionsState) => state.error);
 
-export const getGlobalState = createFeatureSelector<State, fromApp.GlobalState>("global");
-export const getCurrentAttendee = createSelector(getGlobalState, (state: fromApp.GlobalState) => state.currentAttendee);
+export const getSubscribedCompetitions = createSelector(getCompetitionsState,
+    (state: CompetitionsState) => state.competitions.filter(c => state.subscribedCompetitions.includes(c._id)));
+
+export const getNotSubscribedCompetitions = createSelector(getCompetitionsState,
+    (state: CompetitionsState) => state.competitions.filter(c => !state.subscribedCompetitions.includes(c._id)));
 

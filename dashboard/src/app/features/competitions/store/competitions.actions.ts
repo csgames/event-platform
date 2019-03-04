@@ -9,8 +9,7 @@ export enum CompetitionsActionTypes {
 
     LoadSubscribedCompetitions = "[Subscribed Competitions] Load subscribed competitions",
     SubscribedCompetitionsLoaded = "[Subscribed Competitions] Subscribed competitions loaded",
-    SubscribeCompetition = "[Subscribed Competitions] Subscribe competition",
-    LoadSubscribedCompetitionsError = "[Subscribed Competitions] Subscribed competitions error"
+    SubscribeCompetition = "[Subscribed Competitions] Subscribe competition"
 
 }
 
@@ -40,10 +39,8 @@ export class SubscribedCompetitionsLoaded implements Action {
 
 export class SubscribeCompetition implements Action {
     readonly type = CompetitionsActionTypes.SubscribeCompetition;
-}
 
-export class LoadSubscribedCompetitionsError implements Action {
-    readonly type = CompetitionsActionTypes.LoadSubscribedCompetitionsError;
+    constructor(public competition: Competition) {}
 }
 
 export type CompetitionsActions =
@@ -52,5 +49,4 @@ export type CompetitionsActions =
     | LoadCompetitionsError
     | LoadSubscribedCompetitions
     | SubscribedCompetitionsLoaded
-    | SubscribeCompetition
-    | LoadSubscribedCompetitionsError;
+    | SubscribeCompetition;
