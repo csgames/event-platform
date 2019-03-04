@@ -10,7 +10,7 @@ import {
 } from "./notifications.actions";
 import { switchMap, map, catchError, filter } from "rxjs/operators";
 import { AttendeeNotification } from "../../../api/models/notification";
-import { GlobalError } from "src/app/store/app.actions";
+import { GlobalError, AllNotificationsSeen } from "src/app/store/app.actions";
 import { of } from "rxjs";
 import { Action } from "@ngrx/store";
 import { AttendeeService } from "src/app/features/dashboard/modals/profile-setting/providers/attendee.service";
@@ -54,5 +54,11 @@ export class NotificationsEffects {
                 catchError((err) => of(new GlobalError(err)))
             );
         })
+    );
+
+    @Effect()
+    marked$ = this.actions$.pipe(
+        ofType<NotificationsMarked>(NotificationActionTypes.NotificationsMarked),
+        map(() => new AllNotificationsSeen())
     );
 }
