@@ -9,12 +9,26 @@ export class CreatePuzzleHeroDto {
     endDate: Date | string;
 }
 
+export class UpdatePuzzleHeroDto {
+    @IsNotEmpty()
+    releaseDate: Date | string;
+
+    @IsNotEmpty()
+    endDate: Date | string;
+
+    @IsNotEmpty()
+    scoreboardEndDate: Date | string;
+
+    @IsNotEmpty()
+    open: boolean;
+}
+
 export class CreateTrackDto {
     @IsNotEmpty()
     label: string;
 
     @IsNotEmpty()
-    @IsIn(["crypto", "gaming", "scavenger", "sponsor"])
+    @IsIn(['crypto', 'gaming', 'scavenger', 'sponsor'])
     type: string;
 
     @IsNotEmpty()
@@ -29,7 +43,7 @@ export class UpdateTrackDto {
     label: string;
 
     @IsNotEmpty()
-    @IsIn(["crypto", "gaming", "scavenger", "sponsor"])
+    @IsIn(['crypto', 'gaming', 'scavenger', 'sponsor'])
     type: string;
 
     @IsNotEmpty()

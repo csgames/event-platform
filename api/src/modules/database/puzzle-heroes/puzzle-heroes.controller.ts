@@ -8,7 +8,7 @@ import { UserModel } from '../../../models/user.model';
 import { ValidationPipe } from '../../../pipes/validation.pipe';
 import { PuzzleAnswerDto } from '../questions/puzzle-answer.dto';
 import { PuzzleGraphNodes } from './puzzle-graph-nodes/puzzle-graph.nodes.model';
-import { CreatePuzzleDto, CreatePuzzleHeroDto, CreateTrackDto, UpdateTrackDto } from './puzzle-heroes.dto';
+import { CreatePuzzleDto, CreatePuzzleHeroDto, CreateTrackDto, UpdatePuzzleHeroDto, UpdateTrackDto } from './puzzle-heroes.dto';
 import { PuzzleHeroes } from './puzzle-heroes.model';
 import { PuzzleHeroesService, PuzzleHeroInfo } from './puzzle-heroes.service';
 import { Score } from './scoreboard/score.model';
@@ -35,6 +35,12 @@ export class PuzzleHeroesController {
             ...dto,
             event: eventId
         });
+    }
+
+    @Put()
+    @Permissions('csgames-api:create:puzzle-hero')
+    public async update(@Body(ValidationPipe) dto: UpdatePuzzleHeroDto, @EventId() eventId: string): Promise<void> {
+        await this.puzzleHeroService.updatePuzzleHero(eventId, dto);
     }
 
     @Post('start')

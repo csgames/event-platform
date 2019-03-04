@@ -7,7 +7,7 @@ import * as mongoose from 'mongoose';
 import { Model } from 'mongoose';
 import { Tracks, TracksUtils } from './tracks/tracks.model';
 import { PuzzleGraphNodes } from './puzzle-graph-nodes/puzzle-graph.nodes.model';
-import { CreatePuzzleDto, CreateTrackDto, UpdateTrackDto } from './puzzle-heroes.dto';
+import { CreatePuzzleDto, CreateTrackDto, UpdatePuzzleHeroDto, UpdateTrackDto } from './puzzle-heroes.dto';
 import { Questions } from '../questions/questions.model';
 import { Attendees } from '../attendees/attendees.model';
 import { Teams } from '../teams/teams.model';
@@ -44,6 +44,18 @@ export class PuzzleHeroesService extends BaseService<PuzzleHeroes, PuzzleHeroes>
                 private puzzleHeroesGateway: PuzzleHeroesGateway,
                 private redisService: RedisService) {
         super(puzzleHeroesModel);
+    }
+
+    public async updatePuzzleHero(eventId: string, dto: UpdatePuzzleHeroDto) {
+        const puzzleHero = await this.puzzleHeroesModel.findOne({
+            event: eventId
+        }).exec();
+
+        if (!puzzleHero) {
+            throw new NotFoundException('No puzzle hero found');
+        }
+
+        await this.puzzleHeroesModel.update({_id: puzzleHero._id}, dto).exec();
     }
 
     public async getByEvent(eventId: string, user: UserModel, type: string): Promise<PuzzleHeroes> {
