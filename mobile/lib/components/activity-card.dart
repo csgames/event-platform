@@ -76,7 +76,9 @@ class ActivityCard extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: <Widget>[
                                 Text(
-                                    _activity.name,
+                                    _activity.name[LocalizationService
+                                        .of(context)
+                                        .language],
                                     style: TextStyle(
                                         fontSize: 18.0,
                                         fontWeight: FontWeight.w600,

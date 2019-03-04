@@ -5,7 +5,7 @@ class ActivityTypes {
 
 class Activity {
     String id;
-    String name;
+    Map<String, dynamic> name;
     String type;
     DateTime beginDate;
     DateTime endDate;
@@ -26,7 +26,7 @@ class Activity {
 
     Activity.fromMap(Map<String, dynamic> map) {
         id = map['_id'];
-        name = map['name'];
+        name = Map.castFrom<String, dynamic, String, String>(map['name'] ?? {});
         type = map['type'];
         beginDate = DateTime.parse(map['beginDate']);
         endDate = DateTime.parse(map['endDate']);

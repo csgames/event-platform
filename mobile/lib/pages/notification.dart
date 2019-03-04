@@ -125,19 +125,25 @@ class _NotificationPageState extends State<NotificationPage> {
     Widget _buildDropDown(BuildContext context) {
         return Center(
             child: DropdownButton<String>(
-                hint: Text(_activity?.name ?? ''),
+                hint: Text(_activity != null && _activity.name != null ? _activity.name[LocalizationService
+                                    .of(context)
+                                    .language] : ''),
                 items: _activities.map((Activity value) {
                     return DropdownMenuItem<String>(
-                        value: value.name,
+                        value: value.name[LocalizationService
+                                    .of(context)
+                                    .language],
                         child: Text(
-                            value.name,
+                            value.name[LocalizationService
+                                    .of(context)
+                                    .language],
                             style: TextStyle(fontFamily: 'OpenSans')
                         )
                     );
                 }).toList(),
                 onChanged: (_val) {
                     for (Activity a in _activities) {
-                        if (a.name == _val) _activity = a;
+                        if (a.name[LocalizationService.of(context).language] == _val) _activity = a;
                     }
                     setState(() {});
                 }
@@ -155,7 +161,7 @@ class _NotificationPageState extends State<NotificationPage> {
                 store.dispatch(action);
                 action.completer.future.then((activities) {
                     _activities = activities;
-                    _activities.insert(0, Activity(name: 'Event'));
+                    _activities.insert(0, Activity(name: {"en": 'Event', "fr": "Event"}));
                 });
             },
             converter: (store) => _NotificationViewModel.fromStore(store),

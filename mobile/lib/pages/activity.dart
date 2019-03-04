@@ -163,7 +163,9 @@ class _ActivityPageState extends State<ActivityPage> {
                     child: Scaffold(
                         appBar: AppBar(
                             title: Text(
-                                _activity.name,
+                                _activity.name[LocalizationService
+                                        .of(context)
+                                        .language],
                                 style: TextStyle(fontFamily: 'Raleway')
                             ),
                             backgroundColor: Constants.csBlue

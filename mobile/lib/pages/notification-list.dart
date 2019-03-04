@@ -61,7 +61,9 @@ class NotificationListPage extends StatelessWidget {
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         children: <Widget>[
                                             notification.activity != null ? Text(
-                                                notification.activity.name,
+                                                notification.activity.name[LocalizationService
+                                                    .of(context)
+                                                    .language],
                                                 style: TextStyle(
                                                     fontSize: 11.0,
                                                     fontWeight: FontWeight.w400

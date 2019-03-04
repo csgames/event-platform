@@ -76,7 +76,7 @@ class NotificationMiddleware implements EpicClass<AppState> {
     Stream<dynamic> _sendPush(String title, String body, Activity activity) async* {
         try {
             bool result;
-            if (activity.name == 'Event')
+            if (activity.name["en"] == 'Event')
                 result = await _eventService.sendPushToEvent(title, body);
             else
                 result = await _activitiesService.sendPushToActivity(activity.id, title, body);
