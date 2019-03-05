@@ -206,7 +206,7 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
             attendees: ids,
             data: {
                 type: 'event',
-                event: event.toJSON().toString(),
+                event: JSON.stringify(event.toJSON()),
                 dynamicLink: `event/${id}`
             }
         });

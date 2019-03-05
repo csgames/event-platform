@@ -118,7 +118,7 @@ export class ActivitiesService extends BaseService<Activities, CreateActivityDto
             event: event._id,
             data: {
                 type: "activity",
-                activity: activity.toJSON().toString(),
+                activity: JSON.stringify(activity.toJSON()),
                 dynamicLink: `activity/${id}`
             }
         });
