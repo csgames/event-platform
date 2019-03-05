@@ -40,7 +40,6 @@ export class FlashoutComponent implements OnInit, OnDestroy {
                     });
                 }
             } else {
-                console.log(this.flashouts[0].votes[0].rating);
                 this.hasVoted = true;
             }
         });
