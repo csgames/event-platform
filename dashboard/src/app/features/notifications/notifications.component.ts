@@ -16,7 +16,7 @@ export class NotificationsComponent implements OnInit, OnDestroy {
     loading$ = this.store$.pipe(select(getLoading));
     success$ = this.store$.pipe(select(getSuccess));
     
-    private activities: Activity[];
+    public activities: Activity[];
     public activity: Activity;
     private activitiesSub$: Subscription;
 
