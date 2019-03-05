@@ -52,7 +52,7 @@ Map<String, dynamic> en = {
     'title': 'Guide',
     'bring': 'What to bring?',
     'parking': 'Parking',
-    'restaurant': 'Restaurant',
+    'restaurant': 'Restaurants',
     'hotel': 'Hotel',
     'transport': 'Transport',
     'school': 'School',
@@ -68,7 +68,7 @@ Map<String, dynamic> en = {
   },
   'restaurant': {
     'guide': 'Guide',
-    'title': 'Restaurant'
+    'title': 'Restaurants'
   },
   'hotel': {
     'guide': 'Guide',

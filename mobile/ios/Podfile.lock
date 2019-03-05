@@ -85,8 +85,8 @@ PODS:
 DEPENDENCIES:
   - "firebase_messaging (from `/Users/brandonroberge/.pub-cache/hosted/pub.dartlang.org/firebase_messaging-2.2.0+1/ios`)"
   - Flutter (from `/Users/brandonroberge/flutter/bin/cache/artifacts/engine/ios`)
-  - flutter_local_notifications (from `/Users/brandonroberge/.pub-cache/hosted/pub.dartlang.org/flutter_local_notifications-0.5.2/ios`)
-  - "google_maps_flutter (from `/Users/brandonroberge/.pub-cache/hosted/pub.dartlang.org/google_maps_flutter-0.2.0+6/ios`)"
+  - flutter_local_notifications (from `/Users/brandonroberge/.pub-cache/hosted/pub.dartlang.org/flutter_local_notifications-0.4.5/ios`)
+  - "google_maps_flutter (from `/Users/brandonroberge/.pub-cache/hosted/pub.dartlang.org/google_maps_flutter-0.3.0+2/ios`)"
   - qr_reader (from `/Users/brandonroberge/.pub-cache/hosted/pub.dartlang.org/qr_reader-0.1.3/ios`)
   - shared_preferences (from `/Users/brandonroberge/.pub-cache/hosted/pub.dartlang.org/shared_preferences-0.4.3/ios`)
   - "url_launcher (from `/Users/brandonroberge/.pub-cache/hosted/pub.dartlang.org/url_launcher-4.2.0+3/ios`)"
@@ -111,9 +111,9 @@ EXTERNAL SOURCES:
   Flutter:
     :path: "/Users/brandonroberge/flutter/bin/cache/artifacts/engine/ios"
   flutter_local_notifications:
-    :path: "/Users/brandonroberge/.pub-cache/hosted/pub.dartlang.org/flutter_local_notifications-0.5.2/ios"
+    :path: "/Users/brandonroberge/.pub-cache/hosted/pub.dartlang.org/flutter_local_notifications-0.4.5/ios"
   google_maps_flutter:
-    :path: "/Users/brandonroberge/.pub-cache/hosted/pub.dartlang.org/google_maps_flutter-0.2.0+6/ios"
+    :path: "/Users/brandonroberge/.pub-cache/hosted/pub.dartlang.org/google_maps_flutter-0.3.0+2/ios"
   qr_reader:
     :path: "/Users/brandonroberge/.pub-cache/hosted/pub.dartlang.org/qr_reader-0.1.3/ios"
   shared_preferences:

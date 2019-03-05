@@ -106,7 +106,6 @@ class CSGamesApp extends StatelessWidget {
                 title: 'CSGames',
                 debugShowCheckedModeBanner: false,
                 theme: ThemeData(
-                    platform: TargetPlatform.android,
                     accentColor: Colors.lightBlue,
                     buttonColor: Constants.csRed,
                     hintColor: Constants.polyhxGrey,

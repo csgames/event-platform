@@ -24,7 +24,7 @@ class _RestaurantPageState extends State<RestaurantState> {
 
     GoogleMapController mapController;
 
-  _RestaurantPageState(this._restaurant);
+    _RestaurantPageState(this._restaurant);
 
     Widget _buildBulletPoint(String value) {
         return Padding(
@@ -44,7 +44,7 @@ class _RestaurantPageState extends State<RestaurantState> {
                                     maxLines: 3,
                                     style: TextStyle(
                                         fontFamily: 'OpenSans',
-                                        fontSize: 18.0
+                                        fontSize: 15.0
                                     )
                                 )
                             )
@@ -122,20 +122,30 @@ class _RestaurantPageState extends State<RestaurantState> {
                                                         size: 38.0,
                                                         color: Constants.csBlue,
                                                     ),
-                                                    Padding(
-                                                        padding: EdgeInsets.only(left: 10.0),
-                                                        child: Text(
-                                                            LocalizationService
-                                                                .of(context)
-                                                                .eventInfo['restaurant'].toUpperCase(),
-                                                            style: TextStyle(
-                                                                fontFamily: 'flipbash',
-                                                                fontSize: 24.0
+                                                    Expanded(
+                                                        child: SingleChildScrollView(
+                                                            physics: ClampingScrollPhysics(),
+                                                            scrollDirection: Axis.horizontal,
+                                                            padding: EdgeInsets.only(left: 10.0),
+                                                            child: Container(
+                                                                height: 30.0,
+                                                                alignment: Alignment(0.0, 0.0),
+                                                                child: Text(
+                                                                    LocalizationService
+                                                                        .of(context)
+                                                                        .eventInfo['restaurant'].toUpperCase(),
+                                                                    style: TextStyle(
+                                                                        color: Constants.polyhxGrey,
+                                                                        fontFamily: 'flipbash',
+                                                                        fontSize: 20.0
+                                                                    ),
+                                                                    overflow: TextOverflow.fade,
+                                                                )
                                                             )
                                                         )
                                                     ),
-                                                    Spacer(),
                                                     IconButton(
+                                                        color: Constants.polyhxGrey,
                                                         icon: Icon(FontAwesomeIcons.times),
                                                         onPressed: () => _close(context),
                                                     )
@@ -143,8 +153,11 @@ class _RestaurantPageState extends State<RestaurantState> {
                                             )
                                         ),
                                         Expanded(
-                                            child: ListView(
-                                                children: _restaurant.coordinates.map((c) => _buildBulletPoint(c.info)).toList()
+                                            child: Padding(
+                                                padding: EdgeInsets.only(bottom: 5.0),
+                                                child: ListView(
+                                                    children: _restaurant.coordinates.map((c) => _buildBulletPoint(c.info)).toList()
+                                                )
                                             )
                                         ),
                                         Padding(
@@ -185,7 +198,7 @@ class _RestaurantPageState extends State<RestaurantState> {
                 .of(context)
                 .padding
                 .bottom),
-            child:  _buildMap(context)
+            child: _buildMap(context)
         );
     }
 }

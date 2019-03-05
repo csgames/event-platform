@@ -71,13 +71,15 @@ class SchoolPage extends StatelessWidget {
                                                                 .eventInfo['school'].toUpperCase(),
                                                             style: TextStyle(
                                                                 fontFamily: 'flipbash',
-                                                                fontSize: 24.0
+                                                                color: Constants.polyhxGrey,
+                                                                fontSize: 20.0
                                                             )
                                                         )
                                                     ),
                                                     Spacer(),
                                                     IconButton(
                                                         icon: Icon(FontAwesomeIcons.times),
+                                                        color: Constants.polyhxGrey,
                                                         onPressed: () => _close(context),
                                                     )
                                                 ]
@@ -86,7 +88,7 @@ class SchoolPage extends StatelessWidget {
                                         Flexible(
                                             child: ListView(
                                                 scrollDirection: Axis.vertical,
-                                                children: _school.maps.map((m) => 
+                                                children: _school.maps.map((m) =>
                                                     Container(
                                                         padding: EdgeInsets.only(bottom: 15.0),
                                                         child: Image.network(m)
@@ -101,7 +103,7 @@ class SchoolPage extends StatelessWidget {
                                                 child: Text(
                                                     LocalizationService.of(context).eventInfo['visit'],
                                                     style: TextStyle(
-                                                        fontFamily: 'Raleway',
+                                                        fontFamily: 'OpenSans',
                                                         fontSize: 18.0,
                                                         decoration: TextDecoration.underline,
                                                         color: Colors.blue

@@ -90,20 +90,30 @@ class BringPage extends StatelessWidget {
                                                         size: 38.0,
                                                         color: Constants.csBlue,
                                                     ),
-                                                    Padding(
-                                                        padding: EdgeInsets.only(left: 10.0),
-                                                        child: Text(
-                                                            LocalizationService
-                                                                .of(context)
-                                                                .eventInfo['bring'].toUpperCase(),
-                                                            style: TextStyle(
-                                                                fontFamily: 'flipbash',
-                                                                fontSize: 24.0
+                                                    Expanded(
+                                                        child: SingleChildScrollView(
+                                                            physics: ClampingScrollPhysics(),
+                                                            scrollDirection: Axis.horizontal,
+                                                            padding: EdgeInsets.only(left: 10.0),
+                                                            child: Container(
+                                                                height: 30.0,
+                                                                alignment: Alignment(0.0, 0.0),
+                                                                child: Text(
+                                                                    LocalizationService
+                                                                        .of(context)
+                                                                        .eventInfo['bring'].toUpperCase(),
+                                                                    style: TextStyle(
+                                                                        color: Constants.polyhxGrey,
+                                                                        fontFamily: 'flipbash',
+                                                                        fontSize: 20.0
+                                                                    ),
+                                                                    overflow: TextOverflow.fade,
+                                                                )
                                                             )
                                                         )
                                                     ),
-                                                    Spacer(),
                                                     IconButton(
+                                                        color: Constants.polyhxGrey,
                                                         icon: Icon(FontAwesomeIcons.times),
                                                         onPressed: () => _close(context),
                                                     )
@@ -111,10 +121,15 @@ class BringPage extends StatelessWidget {
                                             )
                                         ),
                                         Expanded(
-                                            child: ListView(
-                                                children: _values[LocalizationService.of(context).language].map((v) => 
-                                                    _buildBulletPoint(v)
-                                                ).toList()
+                                            child: Padding(
+                                                padding: EdgeInsets.only(bottom: 10.0),
+                                                child: ListView(
+                                                    children: _values[LocalizationService
+                                                        .of(context)
+                                                        .language].map((v) =>
+                                                        _buildBulletPoint(v)
+                                                    ).toList()
+                                                )
                                             )
                                         )
                                     ]
@@ -137,7 +152,7 @@ class BringPage extends StatelessWidget {
                 .of(context)
                 .padding
                 .bottom),
-            child:  _buildCard(context)
+            child: _buildCard(context)
         );
     }
 }

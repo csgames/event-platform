@@ -93,7 +93,7 @@ class _InfoTileState extends State<InfoTile> {
                                                 child: Text(
                                                     _tile.title,
                                                     style: TextStyle(
-                                                        fontSize: 18.0,
+                                                        fontSize: 15.0,
                                                         fontFamily: 'OpenSans'
                                                     )
                                                 )

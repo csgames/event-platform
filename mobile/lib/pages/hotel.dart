@@ -19,8 +19,6 @@ class HotelState extends StatefulWidget {
 }
 
 class _HotelPageState extends State<HotelState> {
-    final _iosOffsetX = -0.0015;
-    final _iosOffsetY = 0.001;
     final Hotel _hotel;
 
     var showMap = false;
@@ -31,12 +29,6 @@ class _HotelPageState extends State<HotelState> {
 
     Future _onMapCreated(GoogleMapController controller) async {
         setState(() => mapController = controller);
-
-        mapController.addMarker(
-            MarkerOptions(
-                position: LatLng(_hotel.latitude, _hotel.longitude)
-            )
-        );
     }
 
     void _close(BuildContext context) {
@@ -115,37 +107,38 @@ class _HotelPageState extends State<HotelState> {
                                                                 .eventInfo['hotel'].toUpperCase(),
                                                             style: TextStyle(
                                                                 fontFamily: 'flipbash',
-                                                                fontSize: 24.0
+                                                                color: Constants.polyhxGrey,
+                                                                fontSize: 20.0
                                                             )
                                                         )
                                                     ),
                                                     Spacer(),
                                                     IconButton(
                                                         icon: Icon(FontAwesomeIcons.times),
+                                                        color: Constants.polyhxGrey,
                                                         onPressed: () => _close(context),
                                                     )
                                                 ],
                                             )
                                         ),
-                                        Center(
-                                            child: SizedBox(
-                                                width: MediaQuery
-                                                    .of(context)
-                                                    .size
-                                                    .width * 0.75,
-                                                height: MediaQuery
-                                                    .of(context)
-                                                    .size
-                                                    .height * 0.45,
+                                        Expanded(
+                                            child: Container(
+                                                padding: EdgeInsets.all(5.0),
                                                 child: showMap ? GoogleMap(
                                                     onMapCreated: _onMapCreated,
                                                     initialCameraPosition: CameraPosition(
                                                         target: LatLng(
-                                                            _hotel.latitude + (Platform.isIOS ? _iosOffsetY : 0),
-                                                            _hotel.longitude + (Platform.isIOS ? _iosOffsetX : 0)
+                                                            _hotel.latitude,
+                                                            _hotel.longitude
                                                         ),
                                                         zoom: _hotel.zoom
-                                                    )
+                                                    ),
+                                                    markers: Set.of([
+                                                        Marker(
+                                                            markerId: MarkerId("hotel"),
+                                                            position: LatLng(_hotel.latitude, _hotel.longitude)
+                                                        )
+                                                    ]),
                                                 ) : Container()
                                             )
                                         ),
@@ -156,42 +149,35 @@ class _HotelPageState extends State<HotelState> {
                                                     padding: EdgeInsets.only(left: 20.0),
                                                     child: Icon(
                                                         Icons.hotel,
-                                                        size: 35.0
+                                                        size: 30.0,
+                                                        color: Constants.polyhxGrey
                                                     )
                                                 ),
                                                 Expanded(
                                                     child: Padding(
-                                                        padding: EdgeInsets.only(right: 20.0, left: 20.0),
-                                                        child: Text(
-                                                            _hotel.name,
-                                                            style: TextStyle(
-                                                                fontFamily: 'Raleway',
-                                                                fontSize: 23.0
-                                                            )
-                                                        )
-                                                    )
-                                                )
-                                            ]
-                                        ),
-                                        Row(
-                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                            children: <Widget>[
-                                                Padding(
-                                                    padding: EdgeInsets.only(left: 20.0),
-                                                    child: Icon(
-                                                        FontAwesomeIcons.mapMarkedAlt,
-                                                        size: 35.0
-                                                    )
-                                                ),
-                                                Expanded(
-                                                    child: Padding(
-                                                        padding: EdgeInsets.only(right: 20.0, left: 20.0),
-                                                        child: Text(
-                                                            _hotel.address,
-                                                            style: TextStyle(
-                                                                fontFamily: 'Raleway',
-                                                                fontSize: 17.0
-                                                            )
+                                                        padding: EdgeInsets.only(right: 10.0, left: 10.0, bottom: 10.0),
+                                                        child: Column(
+                                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                                            children: [
+                                                                Text(
+                                                                    _hotel.name,
+                                                                    style: TextStyle(
+                                                                        color: Constants.polyhxGrey,
+                                                                        fontWeight: FontWeight.w600,
+                                                                        fontFamily: 'OpenSans',
+                                                                        fontSize: 18.0
+                                                                    )
+                                                                ),
+                                                                Text(
+                                                                    _hotel.address,
+                                                                    style: TextStyle(
+                                                                        fontFamily: 'OpenSans',
+                                                                        fontSize: 13.0,
+                                                                        color: Constants.polyhxGrey,
+                                                                        fontWeight: FontWeight.w400
+                                                                    )
+                                                                )
+                                                            ]
                                                         )
                                                     )
                                                 )
@@ -200,7 +186,7 @@ class _HotelPageState extends State<HotelState> {
                                         Padding(
                                             padding: EdgeInsets.only(bottom: 10.0),
                                             child: PillButton(
-                                                color: Constants.csBlue,
+                                                color: Constants.csRed,
                                                 onPressed: _clickNavigate,
                                                 child: Padding(
                                                     padding: EdgeInsets.fromLTRB(16.0, 12.5, 16.0, 12.5),
@@ -238,7 +224,7 @@ class _HotelPageState extends State<HotelState> {
                 .of(context)
                 .padding
                 .bottom),
-            child:  _buildMap(context)
+            child: _buildMap(context)
         );
     }
 }

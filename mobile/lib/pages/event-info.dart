@@ -137,9 +137,9 @@ class EventInfoPage extends StatelessWidget {
         return Flexible(
             child: GridView.count(
                 crossAxisCount: 2,
-                padding: EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 10.0),
+                padding: EdgeInsets.fromLTRB(5.0, 0.0, 5.0, 10.0),
                 mainAxisSpacing: 4.0,
-                crossAxisSpacing: 4.0,
+                crossAxisSpacing: 0.0,
                 children: model.guide != null
                     ? availableTiles(context, model).map((Tile tile) => InfoTile(tile, onTap: () => _showTileInfo(context, tile.id, model.guide))).toList()
                     : []

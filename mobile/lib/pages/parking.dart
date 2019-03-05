@@ -18,8 +18,6 @@ class ParkingState extends StatefulWidget {
 }
 
 class _ParkingPageState extends State<ParkingState> {
-    final _iosOffsetX = -0.0015;
-    final _iosOffsetY = 0.001;
     final Parking _parking;
 
     var showMap = false;
@@ -30,20 +28,11 @@ class _ParkingPageState extends State<ParkingState> {
 
     Future _onMapCreated(GoogleMapController controller) async {
         setState(() => mapController = controller);
-
-        for (var c in _parking.coordinates) {
-            mapController.addMarker(
-                MarkerOptions(
-                    position: LatLng(c.latitude, c.longitude)
-                )
-            );
-
-        }
     }
 
     void _close(BuildContext context) {
         setState(() => showMap = false);
-        Future.delayed(Duration(milliseconds: 10), () => Navigator.of(context).pop());
+        Navigator.of(context).pop();
     }
 
     Future _clickNavigate() async {
@@ -116,8 +105,9 @@ class _ParkingPageState extends State<ParkingState> {
                                                                 .of(context)
                                                                 .eventInfo['parking'].toUpperCase(),
                                                             style: TextStyle(
+                                                                color: Constants.polyhxGrey,
                                                                 fontFamily: 'flipbash',
-                                                                fontSize: 24.0
+                                                                fontSize: 20.0
                                                             )
                                                         )
                                                     ),
@@ -129,32 +119,31 @@ class _ParkingPageState extends State<ParkingState> {
                                                 ],
                                             )
                                         ),
-                                        Center(
-                                            child: SizedBox(
-                                                width: MediaQuery
-                                                    .of(context)
-                                                    .size
-                                                    .width * 0.77,
-                                                height: MediaQuery
-                                                    .of(context)
-                                                    .size
-                                                    .height * 0.6,
+                                        Expanded(
+                                            child: Container(
+                                                padding: EdgeInsets.all(5.0),
                                                 child: showMap ? GoogleMap(
                                                     onMapCreated: _onMapCreated,
                                                     initialCameraPosition: CameraPosition(
                                                         target: LatLng(
-                                                            _parking.latitude + (Platform.isIOS ? _iosOffsetY : 0),
-                                                            _parking.longitude + (Platform.isIOS ? _iosOffsetX : 0)
+                                                            _parking.latitude,
+                                                            _parking.longitude
                                                         ),
                                                         zoom: _parking.zoom
-                                                    )
+                                                    ),
+                                                    markers: Set<Marker>.of(_parking.coordinates.map((c) {
+                                                        return Marker(
+                                                            markerId: MarkerId("${c.latitude}:${c.longitude}"),
+                                                            position: LatLng(c.latitude, c.longitude)
+                                                        );
+                                                    })),
                                                 ) : Container()
                                             )
                                         ),
                                         Padding(
                                             padding: EdgeInsets.only(bottom: 10.0),
                                             child: PillButton(
-                                                color: Constants.csBlue,
+                                                color: Constants.csRed,
                                                 onPressed: _clickNavigate,
                                                 child: Padding(
                                                     padding: EdgeInsets.fromLTRB(16.0, 12.5, 16.0, 12.5),
