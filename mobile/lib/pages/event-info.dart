@@ -11,12 +11,12 @@ import 'package:CSGamesApp/pages/school.dart';
 import 'package:CSGamesApp/pages/transport.dart';
 import 'package:CSGamesApp/redux/actions/guide-actions.dart';
 import 'package:CSGamesApp/redux/state.dart';
+import 'package:CSGamesApp/redux/states/guide-state.dart';
 import 'package:CSGamesApp/services/localization.service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:redux/redux.dart';
 
 class Tile {
     IconData icon;
@@ -58,9 +58,9 @@ class EventInfoPage extends StatelessWidget {
         );
     }
 
-    List<Tile> availableTiles(BuildContext context, _GuideViewModel model) {
+    List<Tile> availableTiles(BuildContext context, GuideState state) {
         List<Tile> list = [];
-        if (model.guide.school != null) {
+        if (state.guide.school != null) {
             list.add(
                 Tile(
                     FontAwesomeIcons.mapSigns,
@@ -72,7 +72,7 @@ class EventInfoPage extends StatelessWidget {
             );
         }
 
-        if (model.guide.hotel != null) {
+        if (state.guide.hotel != null) {
             list.add(
                 Tile(
                     Icons.hotel,
@@ -94,7 +94,7 @@ class EventInfoPage extends StatelessWidget {
             )
         );
 
-        if (model.guide.parking != null) {
+        if (state.guide.parking != null) {
             list.add(
                 Tile(
                     FontAwesomeIcons.parking,
@@ -106,7 +106,7 @@ class EventInfoPage extends StatelessWidget {
             );
         }
 
-        if (model.guide.bring.isNotEmpty) {
+        if (state.guide.bring.isNotEmpty) {
             list.add(
                 Tile(
                     FontAwesomeIcons.clipboardCheck,
@@ -118,7 +118,7 @@ class EventInfoPage extends StatelessWidget {
             );
         }
 
-        if (model.guide.restaurant != null) {
+        if (state.guide.restaurant != null) {
             list.add(
                 Tile(
                     FontAwesomeIcons.utensils,
@@ -133,7 +133,7 @@ class EventInfoPage extends StatelessWidget {
         return list;
     }
 
-    Widget _buildTiles(BuildContext context, _GuideViewModel model) {
+    Widget _buildTiles(BuildContext context, GuideState model) {
         return Flexible(
             child: GridView.count(
                 crossAxisCount: 2,
@@ -149,16 +149,11 @@ class EventInfoPage extends StatelessWidget {
 
     @override
     Widget build(BuildContext context) {
-        return StoreConnector<AppState, _GuideViewModel>(
-            onInit: (store) {
-                final guideState = store.state.guideState;
-                if (guideState.guide == null && !guideState.hasErrors) {
-                    store.dispatch(LoadGuideAction());
-                }
-            },
-            converter: (store) => _GuideViewModel.fromStore(store),
-            builder: (BuildContext context, _GuideViewModel model) {
-                return model.isLoading
+        return StoreConnector<AppState, GuideState>(
+            onInit: (store) => store.dispatch(LoadGuideAction()),
+            converter: (store) => store.state.guideState,
+            builder: (BuildContext context, GuideState state) {
+                return state.isLoading
                     ? LoadingSpinner()
                     : Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -169,28 +164,10 @@ class EventInfoPage extends StatelessWidget {
                                     .eventInfo['title'],
                                 MainAxisAlignment.spaceBetween
                             ),
-                            _buildTiles(context, model)
+                            _buildTiles(context, state)
                         ]
                     );
             }
         );
-    }
-}
-
-class _GuideViewModel {
-    Guide guide;
-    bool isLoading;
-    bool hasErrors;
-
-    _GuideViewModel(
-        this.guide,
-        this.isLoading,
-        this.hasErrors
-    );
-
-    _GuideViewModel.fromStore(Store<AppState> store) {
-        guide = store.state.guideState.guide;
-        isLoading = store.state.guideState.isLoading;
-        hasErrors = store.state.guideState.hasErrors;
     }
 }

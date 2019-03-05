@@ -23,7 +23,7 @@ dependencies:
   firebase_messaging: ^2.1.0
   google_maps_flutter: ^0.2.0+3
   timeago: ^2.0.10
-  flutter_local_notifications: ^0.5.2
+  flutter_local_notifications: ^0.4.3
 
 dev_dependencies:
   flutter_test:
@@ -36,6 +36,9 @@ flutter:
     - assets/logo.png
     - assets/tshirt.png
     - assets/mirego.png
+    - assets/bnc.png
+    - assets/cfp.png
+    - assets/cse.png
 
   fonts:
     - family: Raleway

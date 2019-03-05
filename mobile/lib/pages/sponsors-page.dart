@@ -114,12 +114,7 @@ class SponsorsPage extends StatelessWidget {
     @override
     Widget build(BuildContext context) {
         return StoreConnector<AppState, SponsorsState>(
-            onInit: (store) {
-                final sponsorsState = store.state.sponsorsState;
-                if (sponsorsState.sponsors.isEmpty && !sponsorsState.hasErrors) {
-                    store.dispatch(LoadSponsorsAction());
-                }
-            },
+            onInit: (store) => store.dispatch(LoadSponsorsAction()),
             converter: (store) => store.state.sponsorsState,
             builder: (BuildContext context, SponsorsState state) {
                 return state.isLoading ? LoadingSpinner() : _buildSponsors(context, state);

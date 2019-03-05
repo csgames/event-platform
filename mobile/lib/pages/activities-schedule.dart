@@ -134,14 +134,7 @@ class _ActivitiesScheduleState extends State<ActivitiesSchedulePage> with Ticker
     @override
     Widget build(BuildContext context) {
         return StoreConnector<AppState, ActivitiesScheduleState>(
-            onInit: (store) {
-                final state = store.state.activitiesScheduleState;
-                if (state.activities.isEmpty && !state.isLoading && !state.hasErrors) {
-                    store.dispatch(LoadActivitiesScheduleAction(LocalizationService
-                        .of(context)
-                        .code));
-                }
-            },
+            onInit: (store) => store.dispatch(LoadActivitiesScheduleAction(LocalizationService.of(context).code)),
             converter: (store) => store.state.activitiesScheduleState,
             builder: (BuildContext context, ActivitiesScheduleState state) {
                 return state.isLoading
