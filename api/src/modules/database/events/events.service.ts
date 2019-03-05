@@ -235,7 +235,7 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
 
         const notificationIds = notifications.map(x => (x._id as mongoose.Types.ObjectId).toHexString());
         return attendee.notifications.filter(x => {
-            if (!isNullOrUndefined(seen) && x.seen !== seen) {
+            if (!isNullOrUndefined(seen) && x.seen !== seen || !x.notification) {
                 return false;
             }
             return notificationIds.includes((x.notification as Notifications)._id.toHexString());
