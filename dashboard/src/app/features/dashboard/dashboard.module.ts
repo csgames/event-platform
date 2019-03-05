@@ -21,7 +21,6 @@ import { RegisteredGuard } from "./utils/registered.guard";
 import { NotRegisteredGuard } from "./utils/not-registered.guard";
 import { DirectivesModule } from "../../directives/directives.module";
 import { ChangePasswordModule } from "./modals/change-password/change-password.module";
-import { ContentLoaderModule } from "@netbasal/content-loader";
 import { FlashoutGuard } from "../flashout/guards/flashout.guard";
 
 @NgModule({
@@ -42,8 +41,7 @@ import { FlashoutGuard } from "../flashout/guards/flashout.guard";
         TranslateModule,
         MatSidenavModule,
         ProfileSettingModule,
-        ChangePasswordModule,
-        ContentLoaderModule
+        ChangePasswordModule
     ],
     declarations: [
         DashboardComponent,

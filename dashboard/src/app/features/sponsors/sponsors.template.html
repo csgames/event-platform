@@ -1,16 +1,18 @@
-<h1>{{ "pages.sponsors.sponsors" | translate }}</h1>
-<app-loading-spinner [loading]="loading$"></app-loading-spinner>
-<div class="animated fadeIn">
-    <ng-container *ngIf="platinum">
-        <app-sponsor-tier [tier]="platinumTier" (info)="onShowInfo($event)"></app-sponsor-tier>
-    </ng-container>
-    <ng-container *ngIf="gold">
-        <app-sponsor-tier [tier]="goldTier" (info)="onShowInfo($event)"></app-sponsor-tier>
-    </ng-container>
-    <ng-container *ngIf="silver">
-        <app-sponsor-tier [tier]="silverTier" (info)="onShowInfo($event)"></app-sponsor-tier>
-    </ng-container>
-    <ng-container *ngIf="bronze">
-        <app-sponsor-tier [tier]="bronzeTier" (info)="onShowInfo($event)"></app-sponsor-tier>
-    </ng-container>
+<div class="page-wrapper">
+    <h1>{{ "pages.sponsors.sponsors" | translate }}</h1>
+    <app-loading-spinner [loading]="loading$"></app-loading-spinner>
+    <div class="animated fadeIn">
+        <ng-container *ngIf="platinum">
+            <app-sponsor-tier [tier]="platinumTier" (info)="onShowInfo($event)"></app-sponsor-tier>
+        </ng-container>
+        <ng-container *ngIf="gold">
+            <app-sponsor-tier [tier]="goldTier" (info)="onShowInfo($event)"></app-sponsor-tier>
+        </ng-container>
+        <ng-container *ngIf="silver">
+            <app-sponsor-tier [tier]="silverTier" (info)="onShowInfo($event)"></app-sponsor-tier>
+        </ng-container>
+        <ng-container *ngIf="bronze">
+            <app-sponsor-tier [tier]="bronzeTier" (info)="onShowInfo($event)"></app-sponsor-tier>
+        </ng-container>
+    </div>
 </div>

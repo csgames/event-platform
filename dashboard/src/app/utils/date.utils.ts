@@ -23,4 +23,12 @@ export namespace DateUtils {
     export function currentYear() {
         return new Date().getUTCFullYear();
     }
+
+    export function UTCNow() {
+        const now = new Date();
+        return new Date(Date.UTC(
+            now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), now.getUTCHours(),
+            now.getUTCMinutes(), now.getUTCSeconds(), now.getUTCMilliseconds())
+        );
+    }
 }

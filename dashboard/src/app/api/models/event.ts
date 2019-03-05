@@ -16,4 +16,6 @@ export interface Event {
     locationAddress?: string;
     maxTeamMembers?: number;
     guide: EventGuide;
+    teamEditLocked: boolean;
+    teamEditLockDate: Date | string;
 }
