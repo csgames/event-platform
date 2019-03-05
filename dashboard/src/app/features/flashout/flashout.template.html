@@ -1,0 +1,35 @@
+<div class="page-wrapper">
+    <h1>Flash Outs</h1>
+    <app-loading-spinner [loading]="loading$"></app-loading-spinner>
+    <div *ngIf="flashouts$ | async" class="animated fadeIn">
+        <div class="row">
+            <div *ngFor="let f of flashouts" class="col-xs-12 col-md-6 col-xl-4">
+                <div class="card-wrapper">
+                    <div class="card bg-white">
+                        <div class="card-body" fxLayout="column" fxLayoutAlign="center center">
+                            <p class="school">{{ f.school.name }}</p>
+                            <iframe width="250" height="150" [src]="f.url | safe" frameborder="0" allowfullscreen></iframe>
+                            <div *ngIf="!hasVoted" class="rating" (click)="updateError()">
+                                <rating [(ngModel)]="f.votes[0].rating" [customTemplate]="tt" [titles]="[' ', ' ', ' ', ' ', ' ']"></rating>
+                                <ng-template #tt let-i="index" let-v="value">
+                                    <button class="btn btn-{{i < v ? 'warning' : 'default'}} stars">
+                                        {{i < v ? '&#9733;' : '&#9734;'}}
+                                    </button>
+                                </ng-template>
+                            </div>
+                            <div *ngIf="hasVoted">
+                                <p class="vote">{{ f.votes[0].rating }} / 5</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="!hasVoted" class="text-center">
+        <a class="btn btn-primary btn-rounded mt-3 px-3" (click)="vote()">{{ "general.button.vote" | translate }}</a>
+    </div>
+    <div *ngIf="hasErrors" class="alert">
+            {{ "pages.flashouts.vote_error" | translate }}
+    </div>
+</div>
