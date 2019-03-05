@@ -37,7 +37,7 @@ class Activity {
 
     Activity.fromNotificationData(Map<String, dynamic> map) {
         id = map['_id'];
-        name = map['name'];
+        name = Map.castFrom<String, dynamic, String, String>(map['name'] ?? {});
         type = map['type'];
     }
 }
