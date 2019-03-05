@@ -2,6 +2,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import * as mongoose from 'mongoose';
 import { Model } from 'mongoose';
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import { ArrayUtils } from '../../../utils/array.utils';
 import { Attendees } from './attendees.model';
 import { BaseService } from '../../../services/base.service';
 import { CreateAttendeeDto, UpdateAttendeeDto, UpdateNotificationDto } from './attendees.dto';
@@ -140,5 +141,26 @@ export class AttendeesService extends BaseService<Attendees, CreateAttendeeDto> 
         await this.update(conditionOrId, {
             ...dto
         });
+    }
+
+    public async getFromIds(ids: string[], type: string): Promise<any> {
+        const attendees = await this.attendeesModel.find({
+            _id: {
+                $in: ids
+            }
+        }).select({
+            _id: false,
+            firstName: true,
+            lastName: true,
+            email: true
+        }).lean().exec();
+
+        if (type === 'xlsx') {
+            return ArrayUtils.arrayToXlsxBuffer(attendees, 'attendees', ['Fist Name', 'Last Name', 'Email']);
+        } else if (type === 'csv') {
+            return await ArrayUtils.arrayToCsvBuffer(attendees, ['Fist Name', 'Last Name', 'Email']);
+        } else {
+            return attendees;
+        }
     }
 }

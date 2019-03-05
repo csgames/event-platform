@@ -1,9 +1,13 @@
-import { Body, Controller, Get, HttpCode, Param, Post, Put, Query, UploadedFile, UseFilters, UseGuards, NotFoundException, HttpStatus } from '@nestjs/common';
+import {
+    Body, Controller, Get, HttpCode, HttpStatus, NotFoundException, Param, Post, Put, Query, UploadedFile, UseFilters, UseGuards,
+    UseInterceptors
+} from '@nestjs/common';
 import { ApiUseTags } from '@nestjs/swagger';
 import { Permissions } from '../../../decorators/permission.decorator';
 import { User } from '../../../decorators/user.decorator';
 import { CodeExceptionFilter } from '../../../filters/code-error/code.filter';
 import { PermissionsGuard } from '../../../guards/permission.guard';
+import { DataGridDownloadInterceptor } from '../../../interceptors/data-grid-download.interceptor';
 import { UserModel } from '../../../models/user.model';
 import { ValidationPipe } from '../../../pipes/validation.pipe';
 import { CreateActivityDto } from '../activities/activities.dto';
@@ -48,7 +52,7 @@ export class EventsController {
 
     @Get()
     public async getAll(): Promise<Events[]> {
-        return await this.eventsService.getEventList();
+        return await this. eventsService.getEventList();
     }
 
     @Get("guide")
@@ -104,6 +108,13 @@ export class EventsController {
     public async getNotifications(@EventId() eventId: string, @User() user: UserModel,
                                   @Query('seen') seen: boolean): Promise<AttendeeNotifications[]> {
         return await this.eventsService.getNotifications(eventId, user.username, seen);
+    }
+
+    @Get('attendee')
+    @UseInterceptors(DataGridDownloadInterceptor)
+    @Permissions('csgames-api:get-all:attendee')
+    public async getAttendee(@EventId() eventId: string, @Query('type') type: string): Promise<any> {
+        return await this.eventsService.getAttendeesData(eventId, type);
     }
 
     @Post('sms')
