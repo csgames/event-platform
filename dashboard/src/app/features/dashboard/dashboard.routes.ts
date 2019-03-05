@@ -41,6 +41,11 @@ export const DASHBOARD_ROUTES: Routes = [
         canActivate: [RegisteredGuard]
     },
     {
+        path: "notifications",
+        loadChildren: "src/app/features/notifications/notifications.module#NotificationsModule",
+        canActivate: [RegisteredGuard]
+    },
+    {
         path: "**",
         redirectTo: "team",
         pathMatch: "full"

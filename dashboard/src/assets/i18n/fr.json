@@ -192,6 +192,9 @@
             "teams": "Équipes",
             "team_title": "Equipe",
             "team_members": "Membres de l'équipe"
+        },
+        "notifications": {
+            "notifications": "Notifications"
         }
     }
 }
