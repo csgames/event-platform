@@ -13,7 +13,7 @@ const initialState: AdminNotificationsState = {
     loading: false,
     success: false,
     activities: []
-}
+};
 
 export interface State extends fromApp.State {
     adminNotifications: AdminNotificationsState;
@@ -25,24 +25,24 @@ export function reducer(state = initialState, action: AdminNotificationsAction):
             return {
                 ...state,
                 loading: true
-            }
+            };
         case AdminNotificationsActionTypes.NotificationSent:
             return {
                 ...state,
                 loading: false,
                 success: true
-            }
+            };
         case AdminNotificationsActionTypes.SendPush:
             return {
                 ...state,
                 loading: true
-            }
+            };
         case AdminNotificationsActionTypes.NotificationError:
             return {
                 ...state,
                 loading: false,
                 success: false
-            }
+            };
         case AdminNotificationsActionTypes.LoadActivities:
             return {
                 ...state,

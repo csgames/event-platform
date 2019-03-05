@@ -1,7 +1,15 @@
 import { Injectable } from "@angular/core";
 import { Actions, Effect, ofType } from "@ngrx/effects";
 import { NotificationService } from "src/app/providers/notification.service";
-import { SendSms, AdminNotificationsActionTypes, NotificationSent, NotificationError, SendPush, LoadActivities, ActivitiesLoaded } from "./notifications-actions";
+import { 
+    SendSms,
+    AdminNotificationsActionTypes,
+    NotificationSent,
+    NotificationError,
+    SendPush,
+    LoadActivities,
+    ActivitiesLoaded
+} from "./notifications-actions";
 import { switchMap, map, catchError, tap } from "rxjs/operators";
 import { of } from "rxjs";
 import { ToastrService } from "ngx-toastr";
@@ -34,12 +42,12 @@ export class AdminNotificationsEffects {
                 return this.notificationsService.sendPushToEvent(action.title, action.body).pipe(
                     map(() => new NotificationSent()),
                     catchError((err) =>  of(new NotificationError(err.error)))
-                )
+                );
             } else {
                 return this.notificationsService.sendPushToActivity(action.title, action.body, action.activity._id).pipe(
                     map(() => new NotificationSent()),
                     catchError((err) =>  of(new NotificationError(err.error)))
-                )
+                );
             }
         })
     );

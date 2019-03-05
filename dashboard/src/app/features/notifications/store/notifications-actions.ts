@@ -11,7 +11,7 @@ export enum AdminNotificationsActionTypes {
 }
 
 export class SendSms implements Action {
-    readonly type = AdminNotificationsActionTypes.SendSms
+    readonly type = AdminNotificationsActionTypes.SendSms;
 
     constructor(public message: string) { }
 }

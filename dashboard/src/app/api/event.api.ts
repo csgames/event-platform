@@ -78,7 +78,7 @@ export class EventApi extends CSGamesApi {
     }
 
     public sendSms(text: string) {
-        return this.http.post<void>(this.url('sms'), {
+        return this.http.post<void>(this.url("sms"), {
             text
         }, {
             withCredentials: true
@@ -86,7 +86,7 @@ export class EventApi extends CSGamesApi {
     }
 
     public sendPush(title: string, body: string) {
-        return this.http.post<void>(this.url('notification'), {
+        return this.http.post<void>(this.url("notification"), {
             title,
             body
         }, {

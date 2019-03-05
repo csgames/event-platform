@@ -46,7 +46,7 @@ export class NotificationsComponent implements OnInit, OnDestroy {
                 this.title = "";
                 this.body = "";
                 this.activity = undefined;
-                this.toastr.success('Sucess');
+                this.toastr.success("Sucess");
             }
         });
     }
