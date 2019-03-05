@@ -5,7 +5,10 @@ import { Permissions } from '../../../decorators/permission.decorator';
 import { PermissionsGuard } from '../../../guards/permission.guard';
 import { ValidationPipe } from '../../../pipes/validation.pipe';
 import { Attendees } from '../attendees/attendees.model';
-import { AuthCompetitionDto, CreateCompetitionDto, CreateCompetitionQuestionDto, CreateDirectorDto } from './competitions.dto';
+import { UpdateQuestionDto } from '../questions/questions.dto';
+import {
+    AuthCompetitionDto, CreateCompetitionDto, CreateCompetitionQuestionDto, CreateDirectorDto, UpdateCompetitionDto
+} from './competitions.dto';
 import { Competitions } from './competitions.model';
 import { CompetitionsService } from './competitions.service';
 import { User } from '../../../decorators/user.decorator';
@@ -52,6 +55,26 @@ export class CompetitionsController {
                                 @Param('id') competitionId: string,
                                 @Body(ValidationPipe) dto: CreateDirectorDto): Promise<Attendees> {
         return await this.competitionService.createDirector(eventId, competitionId, dto);
+    }
+
+    @Put(':id')
+    @Permissions('csgames-api:update:competition')
+    public async update(@EventId() eventId: string,
+                        @Param('id') competitionId: string,
+                        @Body(ValidationPipe) dto: UpdateCompetitionDto): Promise<void> {
+        await this.competitionService.update({
+            _id: competitionId,
+            event: eventId
+        }, dto);
+    }
+
+    @Put(':id/question/:questionId')
+    @Permissions('csgames-api:update:competition')
+    public async updateQuestion(@EventId() eventId: string,
+                                @Param('id') competitionId: string,
+                                @Param('questionId') questionId: string,
+                                @Body(ValidationPipe) dto: UpdateQuestionDto): Promise<void> {
+        await this.competitionService.updateQuestion(eventId, competitionId, questionId, dto);
     }
 
     @Put(':id/subscription')

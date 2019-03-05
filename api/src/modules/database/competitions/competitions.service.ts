@@ -8,6 +8,7 @@ import { Activities, ActivitiesUtils } from '../activities/activities.model';
 import { ActivitiesService } from '../activities/activities.service';
 import { Attendees } from '../attendees/attendees.model';
 import { EventsService } from '../events/events.service';
+import { UpdateQuestionDto } from '../questions/questions.dto';
 import { RegistrationsService } from '../registrations/registrations.service';
 import { Teams } from '../teams/teams.model';
 import { AuthCompetitionDto, CreateCompetitionQuestionDto, CreateDirectorDto } from './competitions.dto';
@@ -117,6 +118,25 @@ export class CompetitionsService extends BaseService<Competitions, Competitions>
         competition = await competition.save();
 
         return competition.questions.find(x => (x.question as mongoose.Types.ObjectId).equals(question._id));
+    }
+
+    public async updateQuestion(eventId: string, competitionId: string, questionId: string, dto: UpdateQuestionDto): Promise<void> {
+        const competition = await this.competitionsModel.findOne({
+            _id: competitionId,
+            event: eventId
+        }).exec();
+        if (!competition) {
+            throw new NotFoundException();
+        }
+
+        const question = competition.questions.find(x => x._id.equals(questionId));
+        if (!question) {
+            throw new BadRequestException("No question found");
+        }
+
+        await this.competitionsModel.updateOne({
+            _id: question.question
+        }, dto).exec();
     }
 
     public async removeQuestion(eventId: string, competitionId: string, questionId: string): Promise<void> {
