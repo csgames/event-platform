@@ -101,6 +101,19 @@
                     </div>
                 </div>
             </a>
+            <ng-container *ifRole="['admin', 'super-admin']">
+                <a [routerLink]="['/attendee']"
+                   routerLinkActive="active">
+                    <div [fxLayout]="'row'" fxFlexFill>
+                        <div fxFlex="20">
+                            <i class="fal fa-user-friends"></i>
+                        </div>
+                        <div fxFlex="80">
+                            {{ "pages.attendees.attendees" | translate }}
+                        </div>
+                    </div>
+                </a>
+            </ng-container>
             <a *ngIf="(attendee$ | async)?.registered" [routerLink]="['/sponsors']" routerLinkActive="active">
                 <div [fxLayout]="'row'" fxFlexFill>
                     <div fxFlex="20">

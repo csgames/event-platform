@@ -201,6 +201,9 @@
         "organizers": {
             "organizers": "Organisateurs",
             "add_organizer": "Ajouter un organisateur"
+        },
+        "attendees": {
+            "attendees": "Participants"
         }
     }
 }

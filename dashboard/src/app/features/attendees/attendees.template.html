@@ -1,0 +1,58 @@
+<div class="page-wrapper">
+    <h1>{{ "pages.attendees.attendees" | translate }}</h1>
+    <app-loading-spinner [loading]="loading$"></app-loading-spinner>
+    <ng-container *ngIf="sortedFilteredAttendees$ | async as attendees">
+        <div class="row mt-4">
+            <div class="col-sm-7">
+                <h2>
+                    {{ attendees?.length }} {{ "pages.attendees.attendees" | translate }}
+                </h2>
+            </div>
+            <div class="col-sm-3">
+                <div class="input-group input-group-default mx-0">
+                    <div class="input-group-prepend">
+                        <a class="form-icon">
+                            <i class="fal fa-search"></i>
+                        </a>
+                    </div>
+                    <input autofocus class="form-control" type="text" [(ngModel)]="searchInput"
+                           placeholder='{{ "general.search.search" | translate }}'>
+                </div>
+            </div>
+            <div class="col-sm-2">
+                <div class="btn-group w-100">
+                    <a class="btn btn-outline-primary" (click)="downloadData('csv')">CSV</a>
+                    <a class="btn btn-outline-primary" (click)="downloadData('xlsx')">Xlsx</a>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th class="col-header" scope="col">Name</th>
+                        <th class="col-header" scope="col">Email</th>
+                        <th class="col-header" scope="col">Team</th>
+                        <th class="col-header" scope="col">School</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let attendee of attendees">
+                        <td class="col-data">{{ attendee.firstName }} {{ attendee.lastName }}</td>
+                        <td class="col-data">{{ attendee.email }}</td>
+                        <td class="col-data">{{ attendee.team }}</td>
+                        <td class="col-data">{{ attendee.school }}</td>
+                        <td>
+                            <div class="btn-group">
+                                <a class="btn btn-outline-primary" (click)="viewTeam(attendee.teamId)">View Team</a>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </ng-container>
+</div>

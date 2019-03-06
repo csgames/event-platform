@@ -51,6 +51,10 @@ export const DASHBOARD_ROUTES: Routes = [
         loadChildren: "src/app/features/organizers/organizers.module#OrganizersModule"
     },
     {
+        path: "attendee",
+        loadChildren: "src/app/features/attendees/attendees.module#AttendeesModule"
+    },
+    {
         path: "**",
         redirectTo: "team",
         pathMatch: "full"

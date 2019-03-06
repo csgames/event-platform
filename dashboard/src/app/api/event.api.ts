@@ -88,7 +88,7 @@ export class EventApi extends CSGamesApi {
         return this.http.get<Flashout[]>(this.url("flash-out"), { withCredentials: true });
     }
 
-    public getAttendees(query: { type?: string; roles?: string[]; } = {}): Observable<Attendee[]> {
+    public getAttendees(query: { type?: string; roles?: string[]; } = {}): Observable<any> {
         let queryParam = "?";
         if (query.type) {
             queryParam += `type=${query.type}&`;
@@ -97,6 +97,10 @@ export class EventApi extends CSGamesApi {
             queryParam += `roles=${query.roles.join(",")}`;
         }
 
-        return this.http.get<Attendee[]>(this.url(`attendee/${queryParam}`), { withCredentials: true });
+        if (query.type && query.type !== "json") {
+            return this.http.get(this.url(`attendee/${queryParam}`), { responseType: "blob", withCredentials: true });
+        } else {
+            return this.http.get(this.url(`attendee/${queryParam}`), { responseType: "json", withCredentials: true });
+        }
     }
 }
