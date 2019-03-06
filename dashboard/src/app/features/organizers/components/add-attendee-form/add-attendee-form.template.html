@@ -1,0 +1,48 @@
+<form [formGroup]="formGroup">
+    <div class="row error-group">
+        <div class="col-sm-6 pr-sm-1">
+            <div class="input-group input-group-default">
+                <div class="input-group-prepend">
+                    <i class="far fa-user"></i>
+                </div>
+                <input autofocus class="form-control" type="text" name="first-name" controlStatus
+                       formControlName="firstName" placeholder='{{ "general.profile.first_name" | translate }}'>
+            </div>
+        </div>
+        <div class="col-sm-6 pl-sm-1">
+            <div class="input-group input-group-default">
+                <div class="input-group-prepend">
+                    <i class="far fa-user"></i>
+                </div>
+                <input autofocus class="form-control" type="text" name="last-name" controlStatus
+                       formControlName="lastName" placeholder='{{ "general.profile.last_name" | translate }}'>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="input-group input-group-default">
+                <div class="input-group-prepend">
+                    <i class="far fa-at"></i>
+                </div>
+                <input autofocus class="form-control" type="email" controlStatus
+                       formControlName="email" placeholder='{{ "general.profile.email" | translate }}'>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="input-group input-group-default">
+                <div class="input-group-prepend">
+                    <i class="far fa-lock"></i>
+                </div>
+                <input autofocus class="form-control" [type]="viewPassword ? 'text' : 'password'" controlStatus
+                       formControlName="password" placeholder='{{ "general.profile.password" | translate }}'>
+                <div class="input-group-append">
+                    <a class="btn btn-default" (click)="generatePassword()"><i class="fal fa-sync-alt"></i></a>
+                    <a class="btn btn-default" (click)="toggleViewPassword()"><i class="fal fa-eye"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

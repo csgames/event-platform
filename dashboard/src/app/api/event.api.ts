@@ -4,7 +4,7 @@ import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { Event } from "./models/event";
 import { map } from "rxjs/operators";
-import { AttendeeModel } from "./models/attendee";
+import { Attendee, AttendeeModel } from "./models/attendee";
 import { EventGuide } from "./models/guide";
 import { Sponsors } from "./models/sponsors";
 import { Activity } from "./models/activity";
@@ -86,5 +86,17 @@ export class EventApi extends CSGamesApi {
 
     public getAllFlashouts(): Observable<Flashout[]> {
         return this.http.get<Flashout[]>(this.url("flash-out"), { withCredentials: true });
+    }
+
+    public getAttendees(query: { type?: string; roles?: string[]; } = {}): Observable<Attendee[]> {
+        let queryParam = "?";
+        if (query.type) {
+            queryParam += `type=${query.type}&`;
+        }
+        if (query.roles) {
+            queryParam += `roles=${query.roles.join(",")}`;
+        }
+
+        return this.http.get<Attendee[]>(this.url(`attendee/${queryParam}`), { withCredentials: true });
     }
 }

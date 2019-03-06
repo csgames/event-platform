@@ -43,4 +43,8 @@ export class EventService {
 
         return this.apiService.event.onboardAttendee(attendee, file);
     }
+
+    public getAdmins(): Observable<Attendee[]> {
+        return this.apiService.event.getAttendees({ roles: ["admin"] });
+    }
 }

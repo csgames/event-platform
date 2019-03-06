@@ -197,6 +197,10 @@
             "teams": "Équipes",
             "team_title": "Equipe",
             "team_members": "Membres de l'équipe"
+        },
+        "organizers": {
+            "organizers": "Organisateurs",
+            "add_organizer": "Ajouter un organisateur"
         }
     }
 }

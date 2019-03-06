@@ -47,6 +47,10 @@ export const DASHBOARD_ROUTES: Routes = [
         canActivate: [RegisteredGuard, FlashoutGuard]
     },
     {
+        path: "organizer",
+        loadChildren: "src/app/features/organizers/organizers.module#OrganizersModule"
+    },
+    {
         path: "**",
         redirectTo: "team",
         pathMatch: "full"
