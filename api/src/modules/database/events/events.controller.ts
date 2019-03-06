@@ -9,6 +9,7 @@ import { CodeExceptionFilter } from '../../../filters/code-error/code.filter';
 import { PermissionsGuard } from '../../../guards/permission.guard';
 import { DataGridDownloadInterceptor } from '../../../interceptors/data-grid-download.interceptor';
 import { UserModel } from '../../../models/user.model';
+import { ArrayPipe } from '../../../pipes/array.pipe';
 import { ValidationPipe } from '../../../pipes/validation.pipe';
 import { CreateActivityDto } from '../activities/activities.dto';
 import { Activities } from '../activities/activities.model';
@@ -113,8 +114,10 @@ export class EventsController {
     @Get('attendee')
     @UseInterceptors(DataGridDownloadInterceptor)
     @Permissions('csgames-api:get-all:attendee')
-    public async getAttendee(@EventId() eventId: string, @Query('type') type: string): Promise<any> {
-        return await this.eventsService.getAttendeesData(eventId, type);
+    public async getAttendee(@EventId() eventId: string,
+                             @Query('type') type: string,
+                             @Query('roles', ArrayPipe) roles: string[]): Promise<any> {
+        return await this.eventsService.getAttendeesData(eventId, type, roles);
     }
 
     @Post('sms')

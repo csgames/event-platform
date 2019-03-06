@@ -285,12 +285,16 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
         return attendee.role;
     }
 
-    public async getAttendeesData(eventId: string, type: string): Promise<any> {
+    public async getAttendeesData(eventId: string, type: string, roles: string[]): Promise<any> {
         const event = await this.findById(eventId);
         if (!event) {
             throw new EventNotFoundException();
         }
 
-        return await this.attendeeService.getFromIds(event.attendees.map(x => x.attendee as string), type);
+        const attendees = roles && roles.length ?
+            event.attendees.filter(x => roles.some(role => role === x.role)) :
+            event.attendees;
+
+        return await this.attendeeService.getFromEvent(attendees, type);
     }
 }

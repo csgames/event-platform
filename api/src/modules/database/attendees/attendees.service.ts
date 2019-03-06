@@ -7,7 +7,7 @@ import { Attendees } from './attendees.model';
 import { BaseService } from '../../../services/base.service';
 import { CreateAttendeeDto, UpdateAttendeeDto, UpdateNotificationDto } from './attendees.dto';
 import { StorageService } from '@polyhx/nest-services';
-import { Events } from '../events/events.model';
+import { EventAttendees, Events } from '../events/events.model';
 import { UserModel } from '../../../models/user.model';
 
 export type AttendeeInfo = Attendees & { role: string; permissions: string[], registered: boolean };
@@ -143,17 +143,21 @@ export class AttendeesService extends BaseService<Attendees, CreateAttendeeDto> 
         });
     }
 
-    public async getFromIds(ids: string[], type: string): Promise<any> {
-        const attendees = await this.attendeesModel.find({
+    public async getFromEvent(eventAttendees: EventAttendees[], type: string): Promise<any> {
+        let attendees = await this.attendeesModel.find({
             _id: {
-                $in: ids
+                $in: eventAttendees.map(x => x.attendee)
             }
-        }).select({
-            _id: false,
-            firstName: true,
-            lastName: true,
-            email: true
         }).lean().exec();
+
+        attendees = attendees.map(x => {
+            const eventAttendee = eventAttendees.find(a => (a.attendee as mongoose.Types.ObjectId).equals(x._id));
+            return {
+                ...x,
+                role: eventAttendee.role,
+                registered: eventAttendee.registered
+            };
+        });
 
         if (type === 'xlsx') {
             return ArrayUtils.arrayToXlsxBuffer(attendees, 'attendees', ['Fist Name', 'Last Name', 'Email']);
