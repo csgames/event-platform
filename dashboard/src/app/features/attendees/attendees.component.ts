@@ -31,7 +31,8 @@ export class AttendeesComponent implements OnInit, OnDestroy {
                     attendee.lastName,
                     attendee.email,
                     (attendee as any).team,
-                    (attendee as any).school
+                    (attendee as any).school,
+                    (attendee as any).registered ? "registered" : "not",
                 ].filter(x => x)
                     .map(x => x.toLowerCase());
                 let count = 0;

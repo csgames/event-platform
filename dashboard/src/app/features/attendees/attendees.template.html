@@ -36,6 +36,7 @@
                         <th class="col-header" scope="col">Team</th>
                         <th class="col-header" scope="col">School</th>
                         <th></th>
+                        <th></th>
                     </tr>
                     </thead>
                     <tbody>
@@ -44,6 +45,10 @@
                         <td class="col-data">{{ attendee.email }}</td>
                         <td class="col-data">{{ attendee.team }}</td>
                         <td class="col-data">{{ attendee.school }}</td>
+                        <td class="col-data">
+                            <span *ngIf="attendee.registered" class="badge badge-pill badge-primary">{{ "pages.team.registered" | translate }}</span>
+                            <span *ngIf="!attendee.registered" class="badge badge-pill badge-danger">{{ "pages.team.not_registered" | translate }}</span>
+                        </td>
                         <td>
                             <div class="btn-group">
                                 <a class="btn btn-outline-primary" (click)="viewTeam(attendee.teamId)">View Team</a>
