@@ -2,12 +2,12 @@ import { Action } from "@ngrx/store";
 import { Attendee } from "../../../api/models/attendee";
 
 export enum AttendeesActionTypes {
-    LoadAttendees = "[Organizers] Load Admins",
-    AttendeesLoaded = "[Organizers] Admins loaded",
-    DownloadCsv = "[Organizers] Download csv",
-    DownloadXlsx = "[Organizers] Download xlsx",
-    CsvDownloaded = "[Organizers] Csv downloaded",
-    XlsxDownloaded = "[Organizers] Xlsx downloaded"
+    LoadAttendees = "[Attendees] Load Attendees",
+    AttendeesLoaded = "[Attendees] Attendees loaded",
+    DownloadCsv = "[Attendees] Download csv",
+    DownloadXlsx = "[Attendees] Download xlsx",
+    CsvDownloaded = "[Attendees] Csv downloaded",
+    XlsxDownloaded = "[Attendees] Xlsx downloaded"
 }
 
 export class LoadAttendees implements Action {

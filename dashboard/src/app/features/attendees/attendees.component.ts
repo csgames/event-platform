@@ -3,7 +3,6 @@ import { Router } from "@angular/router";
 import { select, Store } from "@ngrx/store";
 import { map } from "rxjs/operators";
 import { Attendee } from "../../api/models/attendee";
-import { Team } from "../../api/models/team";
 import { DownloadCsv, DownloadXlsx, LoadAttendees } from "./store/attendees.actions";
 import { getAttendees, getLoading, State } from "./store/attendees.reducer";
 

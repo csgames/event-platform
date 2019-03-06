@@ -1,6 +1,5 @@
 import { Component, OnDestroy, OnInit, ViewChild } from "@angular/core";
-import { select, Store } from "@ngrx/store";
-import { Attendee } from "../../api/models/attendee";
+import { select, Store } from "@ngrx/store"
 import { AddAttendeeFormComponent } from "../team/team-view/components/add-attendee-form/add-attendee-form.component";
 import { AddAttendeeFormDto } from "./components/add-attendee-form/dto/add-attendee-form.dto";
 import { AddAdmin, LoadAdmins } from "./store/organizers.actions";
