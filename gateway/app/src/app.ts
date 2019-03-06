@@ -31,7 +31,7 @@ export class Application {
     private config() {
         this.app.use(logger('dev'));
         this.app.use(cors({
-            allowedHeaders: ['content-type', 'event-id'],
+            allowedHeaders: ['content-type', 'event-id', 'if-none-match'],
             credentials: true,
             origin: process.env.APP_URL.split(' ')
         }));
