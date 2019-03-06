@@ -58,7 +58,7 @@ export class EventsLoaded implements Action {
     constructor(public events: Event[]) {}
 }
 
-export class AppLoaded {
+export class AppLoaded implements Action {
     readonly type = AppActionTypes.AppLoaded;
 }
 
@@ -102,11 +102,11 @@ export class SetupMessagingToken implements Action {
     constructor(public payload: string) {}
 }
 
-export class GetPuzzleHeroInfo {
+export class GetPuzzleHeroInfo implements Action {
     readonly type = AppActionTypes.GetPuzzleHeroInfo;
 }
 
-export class UpdatePuzzleHeroStatus {
+export class UpdatePuzzleHeroStatus implements Action {
     readonly type = AppActionTypes.UpdatePuzzleHeroStatus;
 
     constructor(public payload: PuzzleHeroInfo) {}
