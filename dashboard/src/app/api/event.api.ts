@@ -95,7 +95,7 @@ export class EventApi extends CSGamesApi {
     }
 
     public createActivity(activity: CreateActivity) {
-        return this.http.put<void>(this.url('activity'), {
+        return this.http.put<void>(this.url("activity"), {
             name: activity.name,
             type: activity.type,
             beginDate: activity.beginDate,

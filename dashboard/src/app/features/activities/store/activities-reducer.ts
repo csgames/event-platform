@@ -22,13 +22,13 @@ export function reducer(state = initialState, action: ActivitiesAction): Activit
             return {
                 ...state,
                 loading: true
-            }
+            };
         case ActivitiesActionTypes.ActivityAdded:
             return {
                 ...state,
                 loading: false,
                 success: true
-            }
+            };
         default:
             return state;
     }
