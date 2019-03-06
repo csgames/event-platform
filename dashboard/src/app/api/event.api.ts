@@ -7,7 +7,7 @@ import { map } from "rxjs/operators";
 import { AttendeeModel } from "./models/attendee";
 import { EventGuide } from "./models/guide";
 import { Sponsors } from "./models/sponsors";
-import { Activity } from "./models/activity";
+import { Activity, CreateActivity } from "./models/activity";
 import { Team } from "./models/team";
 import { AttendeeNotification } from "./models/notification";
 
@@ -89,6 +89,19 @@ export class EventApi extends CSGamesApi {
         return this.http.post<void>(this.url("notification"), {
             title,
             body
+        }, {
+            withCredentials: true
+        });
+    }
+
+    public createActivity(activity: CreateActivity) {
+        return this.http.put<void>(this.url('activity'), {
+            name: activity.name,
+            type: activity.type,
+            beginDate: activity.beginDate,
+            endDate: activity.endDate,
+            details: activity.details,
+            location: activity.location
         }, {
             withCredentials: true
         });

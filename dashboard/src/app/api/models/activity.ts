@@ -9,3 +9,12 @@ export interface Activity {
     subscribers: string[];
     details: any;
 }
+
+export interface CreateActivity {
+    name: { [lang: string]: string };
+    type: string;
+    beginDate: string;
+    endDate: string;
+    details: { [lang: string]: string };
+    location: string;
+}

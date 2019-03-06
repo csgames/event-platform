@@ -195,6 +195,9 @@
         },
         "notifications": {
             "notifications": "Notifications"
+        },
+        "activities": {
+            "activities": "Activités"
         }
     }
 }

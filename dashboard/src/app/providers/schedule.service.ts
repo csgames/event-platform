@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { ApiService } from "../api/api.service";
-import { Activity } from "../api/models/activity";
+import { Activity, CreateActivity } from "../api/models/activity";
 import { Observable } from "rxjs";
 import { formatDate } from "@angular/common";
 import { TranslateService } from "@ngx-translate/core";
@@ -8,7 +8,7 @@ import { TranslateService } from "@ngx-translate/core";
 @Injectable()
 export class ScheduleService {
     constructor(private apiService: ApiService,
-        private translateService: TranslateService) { }
+                private translateService: TranslateService) { }
 
     public getActivitiesForEvent(): Observable<Activity[]> {
         return this.apiService.event.getActivitiesForEvent();
@@ -33,5 +33,9 @@ export class ScheduleService {
         }
 
         return "d MMMM";
+    }
+
+    public createActivity(activity: CreateActivity) {
+        return this.apiService.event.createActivity(activity);
     }
 }
