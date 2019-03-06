@@ -295,6 +295,6 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
             event.attendees.filter(x => roles.some(role => role === x.role)) :
             event.attendees;
 
-        return await this.attendeeService.getFromEvent(attendees, type);
+        return await this.attendeeService.getFromEvent(eventId, attendees, type);
     }
 }
