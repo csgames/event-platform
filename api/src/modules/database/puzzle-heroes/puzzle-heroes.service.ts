@@ -19,6 +19,7 @@ import { PuzzleHeroesGateway } from './puzzle-heroes.gateway';
 import { QuestionsService } from '../questions/questions.service';
 import { TracksAnswers, TracksAnswersUtils } from './tracks/tracks-answers.model';
 import { UserModel } from '../../../models/user.model';
+import { UpdateQuestionDto } from '../questions/questions.dto';
 
 export interface PuzzleDefinition extends PuzzleGraphNodes {
     completed: boolean;
@@ -184,7 +185,7 @@ export class PuzzleHeroesService extends BaseService<PuzzleHeroes, PuzzleHeroes>
 
         const question = await this.questionsModel.create({
             label: dto.label,
-            description: dto.label,
+            description: dto.description,
             type: dto.type,
             validationType: dto.validationType,
             answer: dto.answer,
@@ -201,6 +202,28 @@ export class PuzzleHeroesService extends BaseService<PuzzleHeroes, PuzzleHeroes>
         return puzzleHero.tracks
             .find(x => x._id.equals(trackId))
             .puzzles.find(x => (x.question as mongoose.Types.ObjectId).equals(question._id));
+    }
+
+
+    public async updatePuzzle(eventId: string, trackId: string,  puzzleId: string, dto: UpdateQuestionDto): Promise<void> {
+        const puzzleHero = await this.findOne({
+            event: eventId
+        });
+        if (!puzzleHero) {
+            throw new NotFoundException('No puzzle hero found');
+        }
+
+        const track = puzzleHero.tracks.find(track => track._id.toHexString() === trackId);
+        if (!track) {
+            throw new NotFoundException('No track found');
+        }
+
+        const puzzle = track.puzzles.find(puzzle => puzzle._id.toHexString() === puzzleId);
+        if (!puzzle) {
+            throw new NotFoundException('No puzzle found');
+        }
+        
+        return await this.questionsService.updateQuestion(puzzle.question.toString(), dto);
     }
 
     public async addTeamScore(eventId: string, teamId: string, score: number): Promise<void> {

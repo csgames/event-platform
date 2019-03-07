@@ -1,5 +1,5 @@
 import { IsIn, IsMongoId, IsNotEmpty, IsOptional } from 'class-validator';
-import { CreateQuestionDto } from '../questions/questions.dto';
+import { CreateQuestionDto, UpdateQuestionDto } from '../questions/questions.dto';
 
 export class CreatePuzzleHeroDto {
     @IsNotEmpty()
@@ -54,6 +54,12 @@ export class UpdateTrackDto {
 }
 
 export class CreatePuzzleDto extends CreateQuestionDto {
+    @IsOptional()
+    @IsMongoId()
+    dependsOn: string;
+}
+
+export class UpdatePuzzleDto extends UpdateQuestionDto {
     @IsOptional()
     @IsMongoId()
     dependsOn: string;

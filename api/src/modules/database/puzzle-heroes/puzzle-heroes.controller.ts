@@ -8,12 +8,14 @@ import { UserModel } from '../../../models/user.model';
 import { ValidationPipe } from '../../../pipes/validation.pipe';
 import { PuzzleAnswerDto } from '../questions/puzzle-answer.dto';
 import { PuzzleGraphNodes } from './puzzle-graph-nodes/puzzle-graph.nodes.model';
-import { CreatePuzzleDto, CreatePuzzleHeroDto, CreateTrackDto, UpdatePuzzleHeroDto, UpdateTrackDto } from './puzzle-heroes.dto';
+import { CreatePuzzleDto, CreatePuzzleHeroDto, CreateTrackDto, UpdatePuzzleHeroDto, UpdateTrackDto, UpdatePuzzleDto } from './puzzle-heroes.dto';
 import { PuzzleHeroes } from './puzzle-heroes.model';
 import { PuzzleHeroesService, PuzzleHeroInfo } from './puzzle-heroes.service';
 import { Score } from './scoreboard/score.model';
 import { TeamSeries } from './scoreboard/team-series.model';
 import { Tracks } from './tracks/tracks.model';
+import { Questions } from '../questions/questions.model';
+import { UpdateQuestionDto } from '../questions/questions.dto';
 
 @ApiUseTags('PuzzleHero')
 @Controller('puzzle-hero')
@@ -68,6 +70,15 @@ export class PuzzleHeroesController {
                               @Param('trackId') trackId: string,
                               @EventId() eventId: string): Promise<PuzzleGraphNodes> {
         return await this.puzzleHeroService.createPuzzle(eventId, trackId, dto);
+    }
+
+    @Put('track/:trackId/puzzle/:puzzleId')
+    @Permissions('csgames-api:create:puzzle-hero')
+    public async updatePuzzle(@Body(ValidationPipe) dto: UpdateQuestionDto,
+                              @Param('trackId') trackId: string,
+                              @Param('puzzleId') puzzleId: string,
+                              @EventId() eventId: string): Promise<void> {
+        return await this.puzzleHeroService.updatePuzzle(eventId, trackId, puzzleId, dto);
     }
 
     @Post('puzzle/:puzzleId/validate')
