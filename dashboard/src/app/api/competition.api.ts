@@ -3,6 +3,7 @@ import { CSGamesApi } from "./csgames.api";
 import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { SubscriptionDto } from "../features/competitions/components/competition-card/dto/subscription.dto";
+import { AuthCompetitionDto } from "../features/competitions/components/info-competition/dto/auth-competition.dto";
 
 @Injectable()
 export class CompetitionApi extends CSGamesApi {
@@ -10,8 +11,8 @@ export class CompetitionApi extends CSGamesApi {
         super("competition");
     }
 
-    public validatePassword(competitionId: string, password: string): Observable<void> {
-        return this.http.post<void>(this.url(`competition/${competitionId}/validate`), { password }, { withCredentials: true });
+    public validatePassword(competitionId: string, authCompetition: AuthCompetitionDto): Observable<void> {
+        return this.http.post<void>(this.url(`${competitionId}/auth`), authCompetition, { withCredentials: true });
     }
 
     public addSubscriptionToCompetition(subscription: SubscriptionDto) {

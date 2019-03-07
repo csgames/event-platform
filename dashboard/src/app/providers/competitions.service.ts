@@ -2,6 +2,7 @@ import { Injectable } from "@angular/core";
 import { ApiService } from "../api/api.service";
 import { Observable } from "rxjs";
 import { Competition } from "../api/models/competition";
+import { AuthCompetitionDto } from "../features/competitions/components/info-competition/dto/auth-competition.dto";
 
 const SUBSCRIBED_COMPETITIONS = "SUBSCRIBED_COMPETITIONS";
 
@@ -42,7 +43,7 @@ export class CompetitionsService {
         return subscribedCompetitions.includes(competition._id);
     }
 
-    validatePassword(competitionId: string, password: string): Observable<void> {
-        return this.apiService.competition.validatePassword(competitionId, password);
+    validatePassword(competitionId: string, authCompetition: AuthCompetitionDto): Observable<void> {
+        return this.apiService.competition.validatePassword(competitionId, authCompetition);
     }
 }

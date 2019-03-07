@@ -19,7 +19,10 @@ export class InfoCompetitionEffects {
     @Effect()
     validatePassword$ = this.actions$.pipe(
         ofType<ValidatePassword>(InfoCompetitionActionTypes.ValidatePassword),
-        switchMap((action: ValidatePassword) => this.competitionService.validatePassword(action.competitionId, action.password)
+        switchMap((action: ValidatePassword) => this.competitionService.validatePassword(action.competitionId,
+            {
+                password: action.password
+            })
             .pipe(
                 map(() => new ValidatePasswordSuccess()),
                 catchError(() => of(new ValidatePasswordFailure()))
