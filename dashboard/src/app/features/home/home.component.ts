@@ -36,7 +36,7 @@ export class HomeComponent implements OnInit, OnDestroy {
         this.store$.dispatch(new LoadActivities());
         this.activitiesSub$ = this.activities$.subscribe((activities) => {
             this.nextActivities = this.scheduleService.getNextActivities(activities);
-        })
+        });
     }
 
     public ngOnDestroy() {
