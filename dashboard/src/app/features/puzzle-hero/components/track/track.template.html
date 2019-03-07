@@ -22,7 +22,7 @@
             <div fxFlex></div>
             <a class="fa-star star-button" [ngClass]="{fal: !isStarred, fas: isStarred}" [class.starred]="isStarred"
                (click)="onClickStar($event)" *ngIf="showStar"></a>
-            <a class="btn btn-primary" *ngIf="adminMode">
+            <a class="btn btn-primary" *ngIf="adminMode" (click)="onClickAccordionHeadingAddPuzzle($event, track)">
                 {{ "pages.puzzle_hero.admin.add_puzzle" | translate }}&nbsp;
                 <i class="fal fa-plus"></i>
             </a>
@@ -53,8 +53,8 @@
                     </ng-template>
 
                     <ng-template #nodeTemplate let-node>
-                        <svg:g puzzle-tile [puzzle]="node" (clickPuzzle)="onClickPuzzle($event)"
-                               (clickAddPuzzle)="onClickAddPuzzle($event)"
+                        <svg:g puzzle-tile [puzzle]="node" (clickPuzzle)="onClickPuzzle($event, node)"
+                               (clickAddPuzzle)="onClickAddPuzzle($event, track, node)"
                                [adminMode]="adminMode"></svg:g>
                     </ng-template>
 

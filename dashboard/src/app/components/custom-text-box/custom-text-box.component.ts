@@ -8,12 +8,16 @@ import { NgSelectComponent } from "@ng-select/ng-select";
 @Component({
     selector: "app-custom-text-box",
     templateUrl: "./custom-text-box.template.html",
-    styleUrls: ["./custom-text-box.style.scss"]
+    styleUrls: ["./custom-text-box.style.scss"],
+    providers: [
+        { 
+          provide: NG_VALUE_ACCESSOR,
+          useExisting: forwardRef(() => CustomTextBoxComponent),
+          multi: true
+        }
+      ]
 })
-export class CustomTextBoxComponent implements OnInit {
-    private propagate: (obj: Attendee) => void;
-    private valueChangesSub$: Subscription;
-    
+export class CustomTextBoxComponent implements OnInit, ControlValueAccessor {
     @Input()
     public label: string;
 
@@ -22,9 +26,6 @@ export class CustomTextBoxComponent implements OnInit {
 
     @Input()
     public contentText: any;
-
-    @Output() 
-    public contentTextChange: EventEmitter<any>;
 
     @Input()
     public formType: string;
@@ -40,24 +41,44 @@ export class CustomTextBoxComponent implements OnInit {
 
     public currentTextValue: string;
 
-    constructor() {
-        
+    constructor() { }
+
+    private propagate: (text: any) => void;
+
+    registerOnChange(fn: (trackFormDto: any) => void): void {
+        this.propagate = fn;
+    }
+
+    registerOnTouched(fn: any): void {
+        // NO-OP
+    }
+
+    writeValue(text: any): void {
+        if(text) {
+            this.contentText = text;
+            this.currentTextValue = this.contentText[this.languageValue.toLowerCase()];
+        }
     }
 
     public ngOnInit() {
         this.languages = ["EN", "FR"];
         this.languageValue = "EN";
         this.formTypesArray = ["textbox", "textarea", "rich"];
-        this.currentTextValue = this.contentText[this.languageValue.toLowerCase()];
-        this.contentTextChange = new EventEmitter();
+        if(this.contentText) {
+            this.currentTextValue = this.contentText[this.languageValue.toLowerCase()];
+        }
         if(!this.textareaRows) {
             this.textareaRows = 10;
+        }
+        if(!this.contentText) {
+            this.contentText = {"en":"", "fr":""};
+            this.currentTextValue = this.contentText[this.languageValue.toLowerCase()];
         }
     }
 
     public onContentTextChange() {
         this.contentText[this.languageValue.toLowerCase()] = this.currentTextValue;
-        this.contentTextChange.emit(this.contentText);
+        this.propagate(this.contentText);
     }
 
     public onLanguageChange() {

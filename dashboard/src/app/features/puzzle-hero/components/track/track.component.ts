@@ -26,10 +26,10 @@ export class TrackComponent implements OnInit {
     clickStar = new EventEmitter();
 
     @Output()
-    clickPuzzle = new EventEmitter<PuzzleInfo>();
+    clickPuzzle = new EventEmitter<[Track, PuzzleInfo]>();
 
     @Output()
-    clickAddPuzzle = new EventEmitter<PuzzleInfo>();
+    clickAddPuzzle = new EventEmitter<[Track, PuzzleInfo]>();
 
     @Output()
     clickUpdateTrack = new EventEmitter<Track>();
@@ -88,12 +88,17 @@ export class TrackComponent implements OnInit {
         return this.puzzleHeroService.isTrackStarred(this.track);
     }
 
-    onClickPuzzle(puzzle: PuzzleInfo) {
-        this.clickPuzzle.emit(puzzle);
+    onClickPuzzle(event: MouseEvent, puzzle: PuzzleInfo) {
+        this.clickPuzzle.emit([this.track, puzzle]);
     }
 
-    onClickAddPuzzle(puzzle: PuzzleInfo) {
-        this.clickAddPuzzle.emit(puzzle);
+    onClickAccordionHeadingAddPuzzle(event: MouseEvent, track: Track) {
+        event.stopPropagation();
+        this.onClickAddPuzzle(event, track);
+    }
+
+    onClickAddPuzzle(event: MouseEvent, track: Track, parentPuzzle: PuzzleInfo = null) {
+        this.clickAddPuzzle.emit([track, parentPuzzle]);
     }
 
     onClickUpdateTrack(event: MouseEvent, track: Track) {

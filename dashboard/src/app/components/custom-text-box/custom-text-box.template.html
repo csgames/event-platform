@@ -1,6 +1,6 @@
 <div class="container row title-container">
     <div class="col-8 text-only title align-text-bottom align-bottom">
-        <span class="infoText">
+        <span class="infoText margin-left">
             {{ label }} :
         </span>
     </div>
@@ -32,6 +32,7 @@
     <div class="col-12 auto-height quill-container">
         <quill-editor class="quill" 
             [(ngModel)]="currentTextValue" 
-            (ngModelChange)="onContentTextChange()"></quill-editor>
+            (ngModelChange)="onContentTextChange()"
+            [placeholder]="placeholder"></quill-editor>
     </div>
 </div>

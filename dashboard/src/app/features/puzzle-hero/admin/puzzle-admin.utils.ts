@@ -1,7 +1,9 @@
 import { TrackFormDto } from "./components/track-form/dto/track-form.dto";
-import { CreateTrackDto, UpdateTrackDto } from "../../../api/dto/puzzle-hero";
-import { PuzzleHero, Track } from "../../../api/models/puzzle-hero";
+import { CreateTrackDto, UpdateTrackDto, CreatePuzzleDto } from "../../../api/dto/puzzle-hero";
+import { PuzzleHero, Track, ValidationTypes, PuzzleTypes } from "../../../api/models/puzzle-hero";
 import { PuzzleHeroSettingsDto } from "./components/puzzle-hero-settings/dto/puzzle-hero-settings.dto";
+import { PuzzleFormDto } from "./components/puzzle-form/dto/puzzle-form.dto";
+import { UpdateQuestionDto } from "src/app/api/dto/question";
 
 export namespace PuzzleAdminUtils {
     export function trackFormDtoToTrackDto(trackFormDto: TrackFormDto): CreateTrackDto | UpdateTrackDto {
@@ -26,6 +28,23 @@ export namespace PuzzleAdminUtils {
             endDate: new Date(track.endDate),
             endTime: new Date(track.endDate)
         };
+    }
+
+    export function puzzleFormDtoToPuzzleDto(parentId: string, puzzleFormDto: PuzzleFormDto): CreatePuzzleDto {
+        return {
+            ...puzzleFormDto,
+            type: puzzleFormDto.type as PuzzleTypes,
+            validationType: puzzleFormDto.validationType as ValidationTypes,
+            dependsOn: parentId
+        }
+    }
+
+    export function puzzleFormDtoToUpdateQuestionDto(puzzleFormDto: PuzzleFormDto): UpdateQuestionDto {
+        return {
+            ...puzzleFormDto,
+            type: puzzleFormDto.type as PuzzleTypes,
+            validationType: puzzleFormDto.validationType as ValidationTypes
+        }
     }
 
     export function puzzleHeroToPuzzleHeroSettingsDto(puzzleHero: PuzzleHero): PuzzleHeroSettingsDto {

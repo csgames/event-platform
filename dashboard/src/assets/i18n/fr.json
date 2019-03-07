@@ -73,6 +73,12 @@
             "open": "Disponible",
             "success": "Paramètres modifiés!",
             "error": "Une erreur est survenue lors de la sauvegarde des paramètres."
+        },
+        "update_puzzle": {
+            "success": "Puzzle modifié!"
+        },
+        "create_puzzle": {
+            "success": "Puzzle créé!"
         }
     },
     "errors": {
@@ -210,7 +216,10 @@
                 "ended_on": "Terminé depuis le",
                 "puzzle_available_for_attendees": "Le puzzle hero est présentement accessible par les participants.",
                 "puzzle_not_available_for_attendees": "Le puzzle hero n'est pas présentement accessible par les participants.",
-                "label_placeholder": "Votre titre de puzzle ici"
+                "label_placeholder": "Votre titre de puzzle ici",
+                "create_puzzle": "Ajouter un puzzle",
+                "update_puzzle": "Modifier un puzzle",
+                "score": "Pointage de la question"
             }
         },
         "register": {

@@ -29,7 +29,7 @@
                 + {{ "pages.puzzle_hero.admin.add_track" | translate }}
             </button>
             <app-track *ngFor="let track of tracks" [showStar]="false" [adminMode]="true"
-                       (clickPuzzle)="clickPuzzle($event, track)" (clickAddPuzzle)="clickPuzzle($event)"
+                       (clickPuzzle)="clickUpdatePuzzle($event)" (clickAddPuzzle)="clickAddPuzzle($event)"
                        (clickUpdateTrack)="clickUpdateTrack($event)"
                        [track]="track"></app-track>
         </div>

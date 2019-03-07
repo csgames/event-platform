@@ -73,6 +73,12 @@
             "open": "Open",
             "success": "Settings updated!",
             "error": "An error occured while saving the settings."
+        },
+        "update_puzzle": {
+            "success": "Puzzle updated!"
+        },
+        "create_puzzle": {
+            "success": "Puzzle created!"
         }
     },
     "errors": {
@@ -210,7 +216,10 @@
                 "ended_on": "Ended on",
                 "puzzle_available_for_attendees": "The puzzle hero is currently accessible by attendees.",
                 "puzzle_not_available_for_attendees": "The puzzle hero is not currently accessible by attendees.",
-                "label_placeholder": "Your puzzle title here"
+                "label_placeholder": "Your puzzle title here",
+                "create_puzzle": "Add a puzzle",
+                "update_puzzle": "Update a puzzle",
+                "score": "Puzzle value"
             }
         },
         "register": {

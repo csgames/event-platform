@@ -10,11 +10,14 @@ import { TranslateModule } from "@ngx-translate/core";
 import { LoadingSpinnerModule } from "../../../components/loading-spinner/loading-spinner.module";
 import { SimpleModalModule } from "ngx-simple-modal";
 import { PuzzleAdminComponent } from "./puzzle-admin.component";
-import { EditPuzzleHeroComponent } from "./components/edit-puzzle-hero/edit-puzzle-hero.component";
+import { UpdatePuzzleHeroComponent } from "./components/update-puzzle-hero/update-puzzle-hero.component";
+import { CreatePuzzleHeroComponent } from "./components/create-puzzle-hero/create-puzzle-hero.component";
 import { StoreModule } from "@ngrx/store";
 import * as fromPuzzleAdmin from "./store/puzzle-admin.reducer";
 import * as fromCreateTrack from "./components/create-track/store/create-track.reducer";
 import * as fromUpdateTrack from "./components/update-track/store/update-track.reducer";
+import * as fromUpdatePuzzle from "./components/update-puzzle-hero/store/update-puzzle-hero.reducer";
+import * as fromCreatePuzzle from "./components/create-puzzle-hero/store/create-puzzle-hero.reducer";
 import * as fromPuzzleHeroSettings from "./components/puzzle-hero-settings/store/puzzle-hero-settings.reducer";
 import { EffectsModule } from "@ngrx/effects";
 import { PuzzleAdminEffects } from "./store/puzzle-admin.effects";
@@ -29,12 +32,18 @@ import { CustomTextBoxModule } from "src/app/components/custom-text-box/custom-t
 import { PipesModule } from "../../../pipes/pipes.module";
 import { DirectivesModule } from "../../../directives/directives.module";
 import { CreateTrackEffects } from "./components/create-track/store/create-track.effects";
+import { CreatePuzzleEffects } from "./components/create-puzzle-hero/store/create-puzzle-hero.effects";
 import { UpdateTrackComponent } from "./components/update-track/update-track.component";
 import { UpdateTrackEffects } from "./components/update-track/store/update-track.effects";
+import { UpdatePuzzleEffects } from "./components/update-puzzle-hero/store/update-puzzle-hero.effects";
 import { PuzzleHeroSettingsComponent } from "./components/puzzle-hero-settings/puzzle-hero-settings.component";
 import { PUZZLE_HERO_SETTINGS_FORM_GENERATOR } from "./components/puzzle-hero-settings/puzzle-hero-settings.constants";
 import { PuzzleHeroSettingsDto } from "./components/puzzle-hero-settings/dto/puzzle-hero-settings.dto";
 import { PuzzleHeroSettingsEffects } from "./components/puzzle-hero-settings/store/puzzle-hero-settings.effects";
+import { PuzzleFormComponent } from "./components/puzzle-form/puzzle-form.component";
+import { PuzzleFormDto } from "./components/puzzle-form/dto/puzzle-form.dto";
+import { PUZZLE_FORM_GENERATOR } from "./components/puzzle-form/puzzle-form.constants";
+
 
 @NgModule({
     imports: [
@@ -42,7 +51,7 @@ import { PuzzleHeroSettingsEffects } from "./components/puzzle-hero-settings/sto
         FormsModule,
         ReactiveFormsModule,
         RouterModule,
-        DirectivesModule,
+        // DirectivesModule,
         PuzzleAdminRoutingModule,
         NgxGraphModule,
         AccordionModule,
@@ -63,21 +72,26 @@ import { PuzzleHeroSettingsEffects } from "./components/puzzle-hero-settings/sto
         StoreModule.forFeature("puzzleHeroAdmin", fromPuzzleAdmin.reducer),
         StoreModule.forFeature("puzzleHeroCreateTrack", fromCreateTrack.reducer),
         StoreModule.forFeature("puzzleHeroUpdateTrack", fromUpdateTrack.reducer),
+        StoreModule.forFeature("puzzleHeroCreatePuzzle", fromCreatePuzzle.reducer),
+        StoreModule.forFeature("puzzleHeroUpdatePuzzle", fromUpdatePuzzle.reducer),
         StoreModule.forFeature("puzzleHeroSettings", fromPuzzleHeroSettings.reducer),
-        EffectsModule.forFeature([PuzzleAdminEffects, CreateTrackEffects, UpdateTrackEffects, PuzzleHeroSettingsEffects])
+        EffectsModule.forFeature([PuzzleAdminEffects, CreateTrackEffects, UpdateTrackEffects, CreatePuzzleEffects, UpdatePuzzleEffects, PuzzleHeroSettingsEffects])
     ],
     exports: [],
-    entryComponents: [EditPuzzleHeroComponent, CreateTrackComponent, UpdateTrackComponent, PuzzleHeroSettingsComponent],
+    entryComponents: [UpdatePuzzleHeroComponent, CreatePuzzleHeroComponent, CreateTrackComponent, UpdateTrackComponent, PuzzleHeroSettingsComponent],
     declarations: [
         PuzzleAdminComponent,
-        EditPuzzleHeroComponent,
+        UpdatePuzzleHeroComponent,
+        CreatePuzzleHeroComponent,
         TrackFormComponent,
         CreateTrackComponent,
         UpdateTrackComponent,
-        PuzzleHeroSettingsComponent
+        PuzzleHeroSettingsComponent,
+        PuzzleFormComponent
     ],
     providers: [
         { provide: TRACK_FORM_GENERATOR, useFactory: FormGeneratorFactory.transform(TrackFormDto), deps: [FormBuilder] },
+        { provide: PUZZLE_FORM_GENERATOR, useFactory: FormGeneratorFactory.transform(PuzzleFormDto), deps: [FormBuilder] },
         {
             provide: PUZZLE_HERO_SETTINGS_FORM_GENERATOR,
             useFactory: FormGeneratorFactory.transform(PuzzleHeroSettingsDto),

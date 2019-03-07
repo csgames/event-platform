@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { SimpleModalService } from "ngx-simple-modal";
-import { EditPuzzleHeroComponent } from "./components/edit-puzzle-hero/edit-puzzle-hero.component";
+import { UpdatePuzzleHeroComponent } from "./components/update-puzzle-hero/update-puzzle-hero.component";
 import { getPuzzleHeroAdminError, getPuzzleHeroAdminLoading, getPuzzleHeroAdminPuzzleHero, State } from "./store/puzzle-admin.reducer";
 import { select, Store } from "@ngrx/store";
 import { LoadPuzzleHero } from "./store/puzzle-admin.actions";
@@ -11,6 +11,7 @@ import { CreateTrackComponent } from "./components/create-track/create-track.com
 import { UpdateTrackComponent } from "./components/update-track/update-track.component";
 import { getPuzzleHeroInfo } from "../../../store/app.reducers";
 import { PuzzleHeroSettingsComponent } from "./components/puzzle-hero-settings/puzzle-hero-settings.component";
+import { CreatePuzzleHeroComponent } from "./components/create-puzzle-hero/create-puzzle-hero.component";
 
 @Component({
     selector: "app-puzzle-hero-admin",
@@ -42,8 +43,12 @@ export class PuzzleAdminComponent implements OnInit {
         this.store$.dispatch(new LoadPuzzleHero());
     }
 
-    clickPuzzle(puzzle: PuzzleInfo) {
-        this.modalService.addModal(EditPuzzleHeroComponent);
+    clickUpdatePuzzle(info: [Track, PuzzleInfo]) {
+        this.modalService.addModal(UpdatePuzzleHeroComponent, { info });
+    }
+
+    clickAddPuzzle(info: [Track, PuzzleInfo]) {
+        this.modalService.addModal(CreatePuzzleHeroComponent, { info });
     }
 
     clickAddTrack() {

@@ -37,19 +37,6 @@ export interface PuzzleInfo {
     question?: Question;
 }
 
-export interface AdminPuzzleInfo {
-    id: string;
-    label: string;
-    type: PuzzleTypes;
-    description: { [lang: string]: string };
-    dependsOn?: string;
-    answer: string;
-    validationType: ValidationTypes;
-    startDate: number;
-    endDate: number;
-    puzzleValue: number;
-}
-
 export interface Track {
     _id: string;
     label: string;
