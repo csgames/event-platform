@@ -171,7 +171,8 @@
 		},
 		"schedule": {
 			"schedule": "Schedule",
-			"view_competition": "View competition"
+			"view_competition": "View competition",
+            "next": "Next activities"
 		},
 		"sponsors": {
 			"bronze": "Bronze",

@@ -23,14 +23,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
             map(result => result.matches)
         );
 
-    constructor(private breakpointObserver: BreakpointObserver, private store$: Store<State>) {
-    }
+    constructor(private breakpointObserver: BreakpointObserver, private store$: Store<State>) {}
 
-    ngOnInit() {
-    }
+    ngOnInit() {}
 
-    ngOnDestroy() {
-    }
+    ngOnDestroy() {}
 
     changeCurrentEvent(event: Event) {
         this.store$.dispatch(new SetCurrentEvent(event));

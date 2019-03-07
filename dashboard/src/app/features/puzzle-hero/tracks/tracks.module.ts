@@ -37,7 +37,7 @@ import { InfoPuzzleHeroModule } from "./components/info-puzzle-hero/info-puzzle-
         StoreModule.forFeature("puzzleHeroTracks", fromPuzzleHero.reducer),
         EffectsModule.forFeature([TracksEffects])
     ],
-    exports: [],
+    exports: [TracksComponent, TrackComponent, TrackDirective, PuzzleTileComponent],
     declarations: [TracksComponent, TrackComponent, TrackDirective, PuzzleTileComponent],
     providers: []
 })

@@ -5,6 +5,7 @@ import { State } from "../store/schedule.reducer";
 import { getCurrentAttendee } from "../../../store/app.reducers";
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
+import { TranslateService } from "@ngx-translate/core";
 
 @Component({
     selector: "app-activity-card",
@@ -32,9 +33,14 @@ export class ActivityCardComponent implements OnInit {
         }));
     }
 
-    constructor(private store$: Store<State>) {
+    constructor(private store$: Store<State>,
+                private translateService: TranslateService) {
     }
 
     public ngOnInit() {
+    }
+
+    public get lang(): string {
+        return this.translateService.getDefaultLang();
     }
 }

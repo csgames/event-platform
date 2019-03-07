@@ -171,7 +171,8 @@
         },
         "schedule": {
             "schedule": "Horaire",
-            "view_competition": "Voir la compétition"
+            "view_competition": "Voir la compétition",
+            "next": "Prochaines activitées"
         },
         "sponsors": {
             "bronze": "Bronze",

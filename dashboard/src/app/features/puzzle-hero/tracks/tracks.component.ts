@@ -29,8 +29,7 @@ export class TracksComponent implements OnInit {
         this.store$.dispatch(new LoadStarredTracks());
     }
 
-    ngOnInit() {
-    }
+    ngOnInit() {}
 
     clickStar(track: Track) {
         this.store$.dispatch(new StarTrack(track));
