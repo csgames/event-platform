@@ -36,7 +36,7 @@ export namespace PuzzleAdminUtils {
             type: puzzleFormDto.type as PuzzleTypes,
             validationType: puzzleFormDto.validationType as ValidationTypes,
             dependsOn: parentId
-        }
+        };
     }
 
     export function puzzleFormDtoToUpdateQuestionDto(puzzleFormDto: PuzzleFormDto): UpdateQuestionDto {
@@ -44,7 +44,7 @@ export namespace PuzzleAdminUtils {
             ...puzzleFormDto,
             type: puzzleFormDto.type as PuzzleTypes,
             validationType: puzzleFormDto.validationType as ValidationTypes
-        }
+        };
     }
 
     export function puzzleHeroToPuzzleHeroSettingsDto(puzzleHero: PuzzleHero): PuzzleHeroSettingsDto {

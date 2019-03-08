@@ -30,7 +30,6 @@ import { NgSelectModule } from "@ng-select/ng-select";
 import { CreateTrackComponent } from "./components/create-track/create-track.component";
 import { CustomTextBoxModule } from "src/app/components/custom-text-box/custom-text-box.module";
 import { PipesModule } from "../../../pipes/pipes.module";
-import { DirectivesModule } from "../../../directives/directives.module";
 import { CreateTrackEffects } from "./components/create-track/store/create-track.effects";
 import { CreatePuzzleEffects } from "./components/create-puzzle-hero/store/create-puzzle-hero.effects";
 import { UpdateTrackComponent } from "./components/update-track/update-track.component";
@@ -75,10 +74,23 @@ import { PUZZLE_FORM_GENERATOR } from "./components/puzzle-form/puzzle-form.cons
         StoreModule.forFeature("puzzleHeroCreatePuzzle", fromCreatePuzzle.reducer),
         StoreModule.forFeature("puzzleHeroUpdatePuzzle", fromUpdatePuzzle.reducer),
         StoreModule.forFeature("puzzleHeroSettings", fromPuzzleHeroSettings.reducer),
-        EffectsModule.forFeature([PuzzleAdminEffects, CreateTrackEffects, UpdateTrackEffects, CreatePuzzleEffects, UpdatePuzzleEffects, PuzzleHeroSettingsEffects])
+        EffectsModule.forFeature([
+            PuzzleAdminEffects,
+            CreateTrackEffects,
+            UpdateTrackEffects,
+            CreatePuzzleEffects,
+            UpdatePuzzleEffects,
+            PuzzleHeroSettingsEffects
+        ])
     ],
     exports: [],
-    entryComponents: [UpdatePuzzleHeroComponent, CreatePuzzleHeroComponent, CreateTrackComponent, UpdateTrackComponent, PuzzleHeroSettingsComponent],
+    entryComponents: [
+        UpdatePuzzleHeroComponent,
+        CreatePuzzleHeroComponent,
+        CreateTrackComponent,
+        UpdateTrackComponent,
+        PuzzleHeroSettingsComponent
+    ],
     declarations: [
         PuzzleAdminComponent,
         UpdatePuzzleHeroComponent,

@@ -9,7 +9,7 @@ import { CustomTextBoxComponent } from "./custom-text-box.component";
 import { PopoverModule, DatepickerModule, BsDatepickerModule, TimepickerModule } from "ngx-bootstrap";
 import { SimpleModalModule } from "ngx-simple-modal";
 import { PuzzleComponentsModule } from "src/app/features/puzzle-hero/components/puzzle-components.module";
-import { QuillModule } from 'ngx-quill'
+import { QuillModule } from "ngx-quill";
 
 @NgModule({
     imports: [

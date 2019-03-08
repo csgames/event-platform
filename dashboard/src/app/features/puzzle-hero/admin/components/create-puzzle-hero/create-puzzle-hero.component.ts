@@ -67,7 +67,7 @@ export class CreatePuzzleHeroComponent extends SimpleModalComponent<CreatePuzzle
 
     public clickSave() {
         if (this.puzzleForm.validate()) {
-            if(this.parentPuzzle && this.parentPuzzle.id) {
+            if (this.parentPuzzle && this.parentPuzzle.id) {
                 this.store$.dispatch(new CreatePuzzle(this.track._id, this.parentPuzzle.id, this.puzzleFormDto));
             } else {
                 this.store$.dispatch(new CreatePuzzle(this.track._id, null, this.puzzleFormDto));
