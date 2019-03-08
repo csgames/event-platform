@@ -11,7 +11,7 @@
         </div>
         <div class="col-sm-12">
             <div class="input-group input-group-default">
-                <ng-select [items]="types" placeholder='{{ "components.track_form.type" | translate }}'
+                <ng-select [items]="types" [clearable]="false" placeholder='{{ "components.track_form.type" | translate }}'
                            formControlName="type" controlStatus>
                     <ng-template ng-option-tmp ng-label-tmp let-item="item">
                         <i class="fal" [ngClass]="getIcon(item)"></i>

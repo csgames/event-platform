@@ -25,7 +25,7 @@
         
     <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="start center" class="container">
         <div fxFlex="50%" class="input-group input-group-default">
-            <ng-select [items]="puzzleTypes" placeholder='{{ "pages.puzzle_hero.puzzle_types" | translate }}'
+            <ng-select [items]="puzzleTypes" [clearable]="false" placeholder='{{ "pages.puzzle_hero.puzzle_types" | translate }}'
                             controlStatus formControlName="type">
                 <ng-template ng-option-tmp ng-label-tmp let-item="item">
                     <span class="ng-option-label">
