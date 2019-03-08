@@ -1,0 +1,49 @@
+<div class="page-wrapper">
+    <h1>{{ "pages.notifications.notifications" | translate }}</h1>
+    <app-loading-spinner [loading]="loading$"></app-loading-spinner>
+
+    <div class="card-wrapper">
+        <div class="card bg-white">
+            <div class="card-body">
+                <div class="form-group">
+                    <h3 for="sms">Sms :</h3>
+                    <textarea type="text" class="form-control" id="sms" [(ngModel)]="sms"></textarea>
+                    <div class="text-center">
+                        <a class="btn btn-primary btn-rounded mt-3 px-3" (click)="sendSms()">{{ "general.button.send" | translate }}</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card-wrapper">
+        <div class="card bg-white">
+            <div class="card-body">
+                <div class="form-group">
+                    <h3>Push :</h3>
+                    <label for="title">Title :</label>
+                    <input type="text" class="form-control" id="title" [(ngModel)]="title">
+                    <label for="body">Body :</label>
+                    <textarea type="text" class="form-control" id="body" [(ngModel)]="body"></textarea>
+                    <div class="text-only title align-text-bottom align-bottom">
+                        <span class="infoText">
+                            Activity :
+                        </span>
+                    </div>
+                    <div class="input-group input-group-default activity-select container">
+                        <ng-select [(ngModel)]="activity" [items]="activities" [clearable]="false" controlStatus>
+                            <ng-template ng-option-tmp ng-label-tmp let-item="item">
+                                <span class="ng-option-label">
+                                    {{ item.name.en }}
+                                </span>
+                            </ng-template>
+                        </ng-select>
+                    </div>
+                    <div class="text-center">
+                        <a class="btn btn-primary btn-rounded mt-3 px-3" (click)="sendPush()">{{ "general.button.send" | translate }}</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

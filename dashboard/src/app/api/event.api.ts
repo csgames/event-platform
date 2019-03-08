@@ -78,8 +78,25 @@ export class EventApi extends CSGamesApi {
         return this.http.get<AttendeeNotification[]>(this.url("notification"), { withCredentials: true });
     }
 
+    public sendSms(text: string) {
+        return this.http.post<void>(this.url("sms"), {
+            text
+        }, {
+            withCredentials: true
+        });
+    }
+    
     public voteFlashouts(votes: { votes: AttendeeVote[] }): Observable<void> {
         return this.http.put<void>(this.url("flash-out/rating"), votes, {
+            withCredentials: true
+        });
+    }
+
+    public sendPush(title: string, body: string) {
+        return this.http.post<void>(this.url("notification"), {
+            title,
+            body
+        }, {
             withCredentials: true
         });
     }
