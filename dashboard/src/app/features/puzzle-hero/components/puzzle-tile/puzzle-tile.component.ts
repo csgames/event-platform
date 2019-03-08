@@ -36,7 +36,9 @@ export class PuzzleTileComponent {
     }
 
     onClickPuzzle() {
-        this.popover.hide();
+        if (this.popover) {
+            this.popover.hide();
+        }
         this.clickPuzzle.emit(this.puzzle);
     }
 
