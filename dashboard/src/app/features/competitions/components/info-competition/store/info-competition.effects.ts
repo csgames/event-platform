@@ -10,11 +10,13 @@ import { ValidatePassword,
          ValidatePasswordSuccess,
          ValidatePasswordFailure } from "./info-competition.actions";
 import { LoadCompetitions } from "../../../store/competitions.actions";
+import { Router } from "@angular/router";
 
 @Injectable()
 export class InfoCompetitionEffects {
     constructor(private actions$: Actions, private competitionService: CompetitionsService,
-                private translateService: TranslateService, private toastrService: ToastrService) {}
+                private translateService: TranslateService, private toastrService: ToastrService,
+                private router: Router) {}
 
     @Effect()
     validatePassword$ = this.actions$.pipe(
@@ -24,7 +26,7 @@ export class InfoCompetitionEffects {
                 password: action.password
             })
             .pipe(
-                map(() => new ValidatePasswordSuccess()),
+                map(() => new ValidatePasswordSuccess(action.competitionId)),
                 catchError(() => of(new ValidatePasswordFailure()))
             )
         )
@@ -33,7 +35,10 @@ export class InfoCompetitionEffects {
     @Effect()
     validatePasswordSuccess$ = this.actions$.pipe(
         ofType<ValidatePasswordSuccess>(InfoCompetitionActionTypes.ValidatePasswordSuccess),
-        tap(() => this.toastrService.success(this.translateService.instant("pages.competition.validate_success"))),
+        tap((action: ValidatePasswordSuccess) => {
+            this.toastrService.success(this.translateService.instant("pages.competition.validate_success"));
+            this.router.navigate([`/competition/${action.competitionId}`]);
+        }),
         map(() => new LoadCompetitions())
     );
 }

@@ -4,12 +4,12 @@ import { createFeatureSelector, createSelector } from "@ngrx/store";
 
 export interface CompetitionCardState {
     loading: boolean;
-    subscribed: boolean;
+    subscriptions: { [id: string]: boolean };
 }
 
 const initialState: CompetitionCardState = {
     loading: false,
-    subscribed: false
+    subscriptions: {}
 };
 
 export interface State extends fromApp.State {
@@ -31,13 +31,19 @@ export function reducer(state = initialState, action: CompetitionCardActions): C
         case CompetitionCardActionTypes.SubscribedToCompetition:
             return {
                 ...state,
-                subscribed: true,
+                subscriptions: {
+                    ...state.subscriptions,
+                    [ action.activityId ]: true
+                },
                 loading: false
             };
         case CompetitionCardActionTypes.NotSubscribedToCompetition:
             return {
                 ...state,
-                subscribed: false,
+                subscriptions: {
+                    ...state.subscriptions,
+                    [ action.activityId ]: false
+                },
                 loading: false
             };
         case CompetitionCardActionTypes.SubscriptionError:
@@ -54,5 +60,8 @@ export function reducer(state = initialState, action: CompetitionCardActions): C
 
 export const getCompetitionCardState = createFeatureSelector<State, CompetitionCardState>("competitionCard");
 
-export const getSubscribed = createSelector(getCompetitionCardState, (state: CompetitionCardState) => state.subscribed);
+export const isSubscribed = (activityId: string) => createSelector(
+    getCompetitionCardState, 
+    (state: CompetitionCardState) => state.subscriptions[activityId]
+);
 export const getLoading = createSelector(getCompetitionCardState, (state: CompetitionCardState) => state.loading);

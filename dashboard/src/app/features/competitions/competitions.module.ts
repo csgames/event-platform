@@ -18,8 +18,8 @@ import { InfoCompetitionComponent } from "./components/info-competition/info-com
 import { CompetitionsEffects } from "./store/competitions.effects";
 import { InfoCompetitionEffects } from "./components/info-competition/store/info-competition.effects";
 import { FormsModule } from "@angular/forms";
-import { CompetitionComponent } from "./components/competition/competition.component";
 import { CompetitionCardModule } from "./components/competition-card/competition-card.module";
+import { CompetitionModule } from "./components/competition/competition.module";
 
 @NgModule({
     imports: [
@@ -36,9 +36,10 @@ import { CompetitionCardModule } from "./components/competition-card/competition
         PipeModule,
         SimpleModalModule,
         FormsModule,
-        CompetitionCardModule
+        CompetitionCardModule,
+        CompetitionModule
     ],
-    declarations: [CompetitionsComponent, InfoCompetitionComponent, CompetitionComponent, CompetitionCardComponent],
+    declarations: [CompetitionsComponent, InfoCompetitionComponent, CompetitionCardComponent],
     entryComponents: [CompetitionsComponent, InfoCompetitionComponent]
 })
 export class CompetitionsModule { }

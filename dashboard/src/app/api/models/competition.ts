@@ -39,11 +39,11 @@ export interface QuestionAnswers {
 
 export interface QuestionGraphNodes {
     _id: string;
-    question: Questions;
-    dependsOn: Questions;
+    question: Question;
+    dependsOn: Question;
 }
 
-export interface Questions {
+export interface Question {
     label: string;
     description: { [lang: string]: string };
     type: QuestionTypes;

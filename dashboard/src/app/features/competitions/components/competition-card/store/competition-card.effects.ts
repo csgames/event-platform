@@ -11,7 +11,7 @@ import {
     ShowCompetitionInfo
 } from "./competition-card.actions";
 import { State } from "./competition-card.reducer";
-import { switchMap, map, catchError, withLatestFrom, delay, filter } from "rxjs/operators";
+import { switchMap, map, catchError, withLatestFrom, delay, filter, concatMap } from "rxjs/operators";
 import { of } from "rxjs";
 import { Store, select } from "@ngrx/store";
 import { getCurrentAttendee } from "src/app/store/app.reducers";
@@ -32,13 +32,13 @@ export class CompetitionCardEffects {
     checkSubscription$ = this.action$.pipe(
         ofType<CheckIfSubscribedToCompetition>(CompetitionCardActionTypes.CheckIfSubscribedToCompetition),
         withLatestFrom(this.store$.pipe(select(getCurrentAttendee))),
-        switchMap(([action, attendee]: [CheckIfSubscribedToCompetition, Attendee]) => {
+        concatMap(([action, attendee]: [CheckIfSubscribedToCompetition, Attendee]) => {
             return this.subscriptionService.checkIfSubscribed({
                 attendeeId: attendee._id,
                 activityId: action.activityId
             }).pipe(
-                map(() => new SubscribedToCompetition()),
-                catchError(() => of(new NotSubscribedToCompetition()))
+                map(() => new SubscribedToCompetition(action.activityId)),
+                catchError(() => of(new NotSubscribedToCompetition(action.activityId)))
             );
         })
     );
@@ -52,7 +52,7 @@ export class CompetitionCardEffects {
                 attendeeId: attendee._id,
                 competitionId: action.competitionId
             }).pipe(
-                map(() => new SubscribedToCompetition()),
+                map(() => new SubscribedToCompetition(action.competitionId)),
                 catchError(() => of(new SubscriptionError()))
             );
         })

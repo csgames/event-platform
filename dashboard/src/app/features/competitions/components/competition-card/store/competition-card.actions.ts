@@ -19,6 +19,8 @@ export class SubscribeToCompetition implements Action {
 
 export class SubscribedToCompetition implements Action {
     readonly type = CompetitionCardActionTypes.SubscribedToCompetition;
+
+    constructor(public activityId: string) { }
 }
 
 export class CheckIfSubscribedToCompetition implements Action {
@@ -33,6 +35,8 @@ export class SubscriptionError implements Action {
 
 export class NotSubscribedToCompetition implements Action {
     readonly type = CompetitionCardActionTypes.NotSubscribedToCompetition;
+
+    constructor(public activityId: string) { }
 }
 
 export class ShowCompetitionInfo implements Action {

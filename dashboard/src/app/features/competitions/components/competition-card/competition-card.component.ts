@@ -1,9 +1,10 @@
 import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 import { select, Store } from "@ngrx/store";
 import { Competition } from "src/app/api/models/competition";
-import { getLoading, getSubscribed, State } from "./store/competition-card.reducer";
+import { getLoading, isSubscribed, State } from "./store/competition-card.reducer";
 import { SubscribeToCompetition, CheckIfSubscribedToCompetition, ResetStore, ShowCompetitionInfo } from "./store/competition-card.actions";
-import { SimpleModalService } from "ngx-simple-modal";
+import idx from "idx";
+import { Observable } from "rxjs";
 
 @Component({
     selector: "app-competition-card",
@@ -18,7 +19,7 @@ export class CompetitionCardComponent implements OnInit {
     public info = new EventEmitter();
 
     loading$ = this.store$.pipe(select(getLoading));
-    subscribed$ = this.store$.pipe(select(getSubscribed));
+    subscribed$: Observable<boolean>;
     public result: boolean;
 
     constructor(private store$: Store<State>) { }
@@ -26,6 +27,7 @@ export class CompetitionCardComponent implements OnInit {
     public ngOnInit() {
         this.result = false;
         this.store$.dispatch(new ResetStore());
+        this.subscribed$ = this.store$.pipe(select(isSubscribed(idx(this.competition, (_) => _.activities[0]._id))));
         this.store$.dispatch(new CheckIfSubscribedToCompetition(this.competition.activities[0]._id));
     }
 

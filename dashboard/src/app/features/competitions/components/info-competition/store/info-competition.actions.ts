@@ -19,6 +19,8 @@ export class ValidatePassword implements Action {
 
 export class ValidatePasswordSuccess implements Action {
     readonly type = InfoCompetitionActionTypes.ValidatePasswordSuccess;
+
+    constructor(public competitionId: string) {}
 }
 
 export class ValidatePasswordFailure implements Action {
