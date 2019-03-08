@@ -6,7 +6,7 @@ export class CreateActivityDto {
     @IsString()
     @IsNotEmpty()
     @ApiModelProperty({ required: true })
-    name: string;
+    name: { [lang: string]: string };
 
     @IsString()
     @IsNotEmpty()
@@ -24,7 +24,7 @@ export class CreateActivityDto {
 
     @IsNotEmpty()
     @ApiModelProperty({ required: true })
-    details: object;
+    details: { [lang: string]: string };
 
     @IsString()
     @IsNotEmpty()
