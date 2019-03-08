@@ -1,6 +1,7 @@
 import { Routes } from "@angular/router";
 import { NotRegisteredGuard } from "./utils/not-registered.guard";
 import { RegisteredGuard } from "./utils/registered.guard";
+import { FlashoutGuard } from "../flashout/guards/flashout.guard";
 
 export const DASHBOARD_ROUTES: Routes = [
     {
@@ -44,6 +45,11 @@ export const DASHBOARD_ROUTES: Routes = [
         path: "notifications",
         loadChildren: "src/app/features/notifications/notifications.module#NotificationsModule",
         canActivate: [RegisteredGuard]
+    },
+    {
+        path: "flash-out",
+        loadChildren: "src/app/features/flashout/flashout.module#FlashoutModule",
+        canActivate: [RegisteredGuard, FlashoutGuard]
     },
     {
         path: "**",

@@ -71,7 +71,8 @@
 			"send": "Send",
             "subscribe": "Subscribe",
             "subscribed": "Subscribed",
-			"validate": "Validate"
+            "validate": "Validate",
+            "vote": "Vote"
 		},
 		"error": {
 			"something": "Something happened...",
@@ -111,6 +112,10 @@
         }
 	},
 	"pages": {
+        "flashouts": {
+            "vote_success": "The vote has been successfully saved.",
+            "vote_error": "Please rate all the flash outs before voting."
+        },
 		"competition": {
 			"competition_password": "Competition password",
 			"competitions": "Competitions",

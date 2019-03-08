@@ -71,7 +71,8 @@
             "send": "Envoyer",
             "subscribe": "S' abonner",
             "subscribed": "Abonné",
-            "validate": "Valider"
+            "validate": "Valider",
+            "vote": "Voter"
         },
         "error": {
             "something": "Une erreur est survenue...",
@@ -111,6 +112,10 @@
         }
     },
     "pages": {
+        "flashouts": {
+            "vote_success": "Le vote a été enregistré avec succès.",
+            "vote_error": "Évaluer tous les flash outs avant de voter."
+        },
         "competition": {
             "competition_password": "Mot de passe de la compétition",
             "competitions": "Compétitions",

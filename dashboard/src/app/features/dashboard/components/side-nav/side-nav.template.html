@@ -131,6 +131,19 @@
                     </div>
                 </div>
             </a> -->
+            <ng-container *ifRole="['attendee', 'captain', 'godparent']">
+                <a *ngIf="(attendee$ | async)?.registered  && (flashoutOpen$ | async)" [routerLink]="['/flash-out']"
+                   routerLinkActive="active">
+                    <div [fxLayout]="'row'" fxFlexFill>
+                        <div fxFlex="20">
+                            <i class="fal fa-video"></i>
+                        </div>
+                        <div fxFlex="80">
+                            Flash Outs
+                        </div>
+                    </div>
+                </a>
+            </ng-container>
         </div>
     </ng-template>
 </div>

@@ -10,6 +10,7 @@ import { Sponsors } from "./models/sponsors";
 import { Activity } from "./models/activity";
 import { Team } from "./models/team";
 import { AttendeeNotification } from "./models/notification";
+import { AttendeeVote, Flashout } from "./models/flashout";
 
 
 @Injectable()
@@ -84,6 +85,12 @@ export class EventApi extends CSGamesApi {
             withCredentials: true
         });
     }
+    
+    public voteFlashouts(votes: { votes: AttendeeVote[] }): Observable<void> {
+        return this.http.put<void>(this.url("flash-out/rating"), votes, {
+            withCredentials: true
+        });
+    }
 
     public sendPush(title: string, body: string) {
         return this.http.post<void>(this.url("notification"), {
@@ -92,5 +99,9 @@ export class EventApi extends CSGamesApi {
         }, {
             withCredentials: true
         });
+    }
+
+    public getAllFlashouts(): Observable<Flashout[]> {
+        return this.http.get<Flashout[]>(this.url("flash-out"), { withCredentials: true });
     }
 }
