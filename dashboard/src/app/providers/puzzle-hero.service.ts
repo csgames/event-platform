@@ -109,7 +109,10 @@ export class PuzzleHeroService {
     }
 
     createPuzzle(trackId: string, parentId: string, puzzleFormDto: PuzzleFormDto): Observable<PuzzleInfo> {
-        return this.apiService.puzzleHero.createPuzzle(trackId, PuzzleAdminUtils.puzzleFormDtoToPuzzleDto(parentId, puzzleFormDto) as CreatePuzzleDto);
+        return this.apiService.puzzleHero.createPuzzle(
+            trackId,
+            PuzzleAdminUtils.puzzleFormDtoToPuzzleDto(parentId, puzzleFormDto) as CreatePuzzleDto
+        );
     }
 
     updatePuzzle(trackId: string, id: string, puzzleFormDto: PuzzleFormDto): Observable<void> {

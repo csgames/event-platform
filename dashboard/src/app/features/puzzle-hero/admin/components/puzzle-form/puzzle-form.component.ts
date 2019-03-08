@@ -1,7 +1,5 @@
 import { Component, OnDestroy, OnInit, Inject, forwardRef } from "@angular/core";
-import { SimpleModalComponent } from "ngx-simple-modal";
-import { TranslateService } from "@ngx-translate/core";
-import { PuzzleInfo, ValidationTypes, PuzzleTypes } from "src/app/api/models/puzzle-hero";
+import { ValidationTypes, PuzzleTypes } from "src/app/api/models/puzzle-hero";
 import { PuzzleFormDto } from "./dto/puzzle-form.dto";
 import { FormGenerator } from "src/app/form-generator/form-generator";
 import { PUZZLE_FORM_GENERATOR } from "./puzzle-form.constants";
@@ -20,14 +18,21 @@ import { Subscription } from "rxjs";
         }
     ]
 })
-export class PuzzleFormComponent implements OnInit, ControlValueAccessor {
+export class PuzzleFormComponent implements OnInit, ControlValueAccessor, OnDestroy {
+
+    constructor(@Inject(PUZZLE_FORM_GENERATOR) private formGenerator: FormGenerator<PuzzleFormDto>) { }
+
+    public get lang(): string {
+        // return this.translateService.getDefaultLang();
+        return null;
+    }
     public model: any;
     public validationTypes: string[];
     public puzzleTypes: string[];
     public formGroup: FormGroup;
     private valueChangeSub$: Subscription;
 
-    constructor(@Inject(PUZZLE_FORM_GENERATOR) private formGenerator: FormGenerator<PuzzleFormDto>) { }
+    private propagate: (puzzleFormDto: PuzzleFormDto) => void;
 
     ngOnInit() {
         this.formGroup = this.formGenerator.generateGroup();
@@ -36,26 +41,18 @@ export class PuzzleFormComponent implements OnInit, ControlValueAccessor {
         });
 
         this.validationTypes = [];
-        for(let i in ValidationTypes) {
+        for (const i in ValidationTypes) {
             this.validationTypes.push(ValidationTypes[i]);
         }
         
         this.puzzleTypes = [];
-        for(let i in PuzzleTypes) {
+        for (const i in PuzzleTypes) {
             this.puzzleTypes.push(PuzzleTypes[i]);
         }
     }
 
-    private propagate: (puzzleFormDto: PuzzleFormDto) => void;
-
-    ngOnDestroy(): void {
-        
-        // this.puzzleHeroSuccessSub$.unsubscribe();
-    }
-
-    public get lang(): string {
-        //return this.translateService.getDefaultLang();
-        return null;
+    ngOnDestroy() {
+        this.valueChangeSub$.unsubscribe();
     }
 
     registerOnChange(fn: (puzzleFormDto: PuzzleFormDto) => void): void {

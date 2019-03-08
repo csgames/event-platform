@@ -1,7 +1,6 @@
 import { Component, OnDestroy, OnInit, ViewChild } from "@angular/core";
 import { SimpleModalComponent } from "ngx-simple-modal";
-import { TranslateService } from "@ngx-translate/core";
-import { Track, ValidationTypes, PuzzleTypes, PuzzleInfo } from "src/app/api/models/puzzle-hero";
+import { Track, PuzzleInfo } from "src/app/api/models/puzzle-hero";
 import { PuzzleFormComponent } from "../puzzle-form/puzzle-form.component";
 import { PuzzleFormDto } from "../puzzle-form/dto/puzzle-form.dto";
 import { Store, select } from "@ngrx/store";

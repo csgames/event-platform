@@ -1,9 +1,5 @@
-import { Component, ElementRef, EventEmitter, forwardRef, Inject, OnDestroy, OnInit, Output, ViewChild, Input, AfterViewInit } from "@angular/core";
-import { ControlValueAccessor, FormGroup, NG_VALUE_ACCESSOR } from "@angular/forms";
-import { Attendee } from "../../api/models/attendee";
-import { FormGenerator } from "../../form-generator/form-generator";
-import { Subscription } from "rxjs";
-import { NgSelectComponent } from "@ng-select/ng-select";
+import { Component, forwardRef, OnInit, Input, } from "@angular/core";
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
 
 @Component({
     selector: "app-custom-text-box",
@@ -54,7 +50,7 @@ export class CustomTextBoxComponent implements OnInit, ControlValueAccessor {
     }
 
     writeValue(text: any): void {
-        if(text) {
+        if (text) {
             this.contentText = text;
             this.currentTextValue = this.contentText[this.languageValue.toLowerCase()];
         }
@@ -64,14 +60,14 @@ export class CustomTextBoxComponent implements OnInit, ControlValueAccessor {
         this.languages = ["EN", "FR"];
         this.languageValue = "EN";
         this.formTypesArray = ["textbox", "textarea", "rich"];
-        if(this.contentText) {
+        if (this.contentText) {
             this.currentTextValue = this.contentText[this.languageValue.toLowerCase()];
         }
-        if(!this.textareaRows) {
+        if (!this.textareaRows) {
             this.textareaRows = 10;
         }
-        if(!this.contentText) {
-            this.contentText = {"en":"", "fr":""};
+        if (!this.contentText) {
+            this.contentText = {"en": "", "fr": ""};
             this.currentTextValue = this.contentText[this.languageValue.toLowerCase()];
         }
     }
