@@ -11,6 +11,7 @@ import { Activity } from "./models/activity";
 import { Team } from "./models/team";
 import { AttendeeNotification } from "./models/notification";
 import { AttendeeVote, Flashout } from "./models/flashout";
+import { Competition } from "./models/competition";
 
 
 @Injectable()
@@ -86,5 +87,9 @@ export class EventApi extends CSGamesApi {
 
     public getAllFlashouts(): Observable<Flashout[]> {
         return this.http.get<Flashout[]>(this.url("flash-out"), { withCredentials: true });
+    }
+    
+    public getCompetitions(): Observable<Competition[]> {
+        return this.http.get<Competition[]>(this.url("competition"), { withCredentials: true });
     }
 }

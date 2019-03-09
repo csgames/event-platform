@@ -37,8 +37,7 @@ export class ActivityCardComponent implements OnInit {
                 private translateService: TranslateService) {
     }
 
-    public ngOnInit() {
-    }
+    public ngOnInit() { }
 
     public get lang(): string {
         return this.translateService.getDefaultLang();
