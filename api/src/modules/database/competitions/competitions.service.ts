@@ -291,6 +291,46 @@ export class CompetitionsService extends BaseService<Competitions, Competitions>
         }
     }
 
+    public async getById(eventId: string, competitionId: string, user: UserModel): Promise<Competitions> {
+        const competition = await this.competitionsModel.findOne({
+            _id: competitionId,
+            event: eventId
+        }).populate([
+            {
+                path: 'activities',
+                model: 'activities',
+                select: {
+                    attendees: false,
+                    subscribers: false
+                }
+            },
+            {
+                path: 'questions.question',
+                model: 'questions'
+            }
+        ]).exec();
+        if (!competition) {
+            throw new NotFoundException();
+        }
+
+        if (user.role.endsWith('admin')) {
+            return competition;
+        }
+
+        const attendee = await this.attendeesModel.findOne({
+            email: user.username
+        });
+        const c = competition.toJSON();
+        c.isMember = c.members.some(x => x.attendees.some(y => (y as mongoose.Types.ObjectId).equals(attendee._id)));
+
+        delete c.directors;
+        delete c.answers;
+        delete c.password;
+        delete c.members;
+
+        return c;
+    }
+
     private async getTeamId(attendee: Attendees, eventId: string): Promise<string> {
         const team = await this.teamsModel.findOne({
             attendees: attendee ? attendee._id : null,

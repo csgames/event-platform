@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, HttpCode, HttpStatus, Param, Post, Put, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Post, Put, UseGuards } from '@nestjs/common';
 import { ApiUseTags } from '@nestjs/swagger';
 import { EventId } from '../../../decorators/event-id.decorator';
 import { Permissions } from '../../../decorators/permission.decorator';
@@ -55,6 +55,14 @@ export class CompetitionsController {
                                 @Param('id') competitionId: string,
                                 @Body(ValidationPipe) dto: CreateDirectorDto): Promise<Attendees> {
         return await this.competitionService.createDirector(eventId, competitionId, dto);
+    }
+
+    @Get(':id')
+    @Permissions('csgames-api:get:competition')
+    public async getCompetition(@EventId() eventId: string,
+                                @Param('id') competitionId: string,
+                                @User() user: UserModel): Promise<Competitions> {
+        return await this.competitionService.getById(eventId, competitionId, user);
     }
 
     @Put(':id')
