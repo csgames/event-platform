@@ -21,18 +21,6 @@ export class ActivityCardComponent implements OnInit {
     @Output()
     public info = new EventEmitter();
 
-    public currentAttendee$ = this.store$.pipe(select(getCurrentAttendee));
-
-    public get subscribed(): Observable<boolean> {
-        return this.currentAttendee$.pipe(map(attendee => {
-            if (!attendee) {
-                return false;
-            }
-
-            return this.activity.subscribers.some(x => x === attendee._id);
-        }));
-    }
-
     constructor(private store$: Store<State>, private translateService: TranslateService) {
 
     }

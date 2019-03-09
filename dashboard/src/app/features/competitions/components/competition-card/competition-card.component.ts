@@ -19,16 +19,17 @@ export class CompetitionCardComponent implements OnInit {
     public info = new EventEmitter();
 
     loading$ = this.store$.pipe(select(getLoading));
-    subscribed$: Observable<boolean>;
     public result: boolean;
 
     constructor(private store$: Store<State>) { }
 
+    get isSubscribed() {
+        return this.competition.activities.some(x => x.subscribed);
+    }
+
     public ngOnInit() {
         this.result = false;
         this.store$.dispatch(new ResetStore());
-        this.subscribed$ = this.store$.pipe(select(isSubscribed(idx(this.competition, (_) => _.activities[0]._id))));
-        this.store$.dispatch(new CheckIfSubscribedToCompetition(this.competition.activities[0]._id));
     }
 
     public onShowInfo(competition: Competition) {
