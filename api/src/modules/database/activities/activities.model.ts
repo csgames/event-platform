@@ -10,14 +10,14 @@ export const ActivityTypes = [
 ];
 
 export interface Activities extends mongoose.Document {
-    readonly name: { [lang: string]: string };
-    readonly type: string;
-    readonly beginDate: Date | string;
-    readonly endDate: Date | string;
-    readonly details: { [lang: string]: string };
-    readonly location: string;
-    readonly attendees: (Attendees | mongoose.Types.ObjectId | string)[];
-    readonly subscribers: (Attendees | mongoose.Types.ObjectId | string)[];
+    name: { [lang: string]: string };
+    type: string;
+    beginDate: Date | string;
+    endDate: Date | string;
+    details: { [lang: string]: string };
+    location: string;
+    attendees: (Attendees | mongoose.Types.ObjectId | string)[];
+    subscribers: (Attendees | mongoose.Types.ObjectId | string)[];
 }
 
 export const ActivitiesSchema = new mongoose.Schema({

@@ -1,9 +1,11 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import * as Mongoose from 'mongoose';
-import { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
 import { DataTableModel, DataTableReturnModel } from '../../../models/data-table.model';
+import { UserModel } from '../../../models/user.model';
 import { BaseService } from '../../../services/base.service';
+import { Attendees } from '../attendees/attendees.model';
 import { CreateActivityDto, SendNotificationDto } from './activities.dto';
 import { Activities } from './activities.model';
 import { NotificationsService } from '../notifications/notifications.service';
@@ -13,35 +15,24 @@ import { Events } from '../events/events.model';
 export class ActivitiesService extends BaseService<Activities, CreateActivityDto> {
     constructor(@InjectModel("activities") private readonly activityModel: Model<Activities>,
                 @InjectModel("events") private readonly eventModel: Model<Events>,
+                @InjectModel("attendees") private readonly attendeeModel: Model<Attendees>,
                 private readonly notificationService: NotificationsService) {
         super(activityModel);
     }
 
-    public async filterFrom(activitiesId: string[], filter: DataTableModel): Promise<DataTableReturnModel> {
-        const condition = {
-            $and: [{
-                _id: { $in: activitiesId }
-            }]
-        };
+    public async findByIds(activitiesId: string[], user: UserModel): Promise<Activities[]> {
+        const activities = await this.activityModel.find({
+            _id: { $in: activitiesId }
+        }).lean().exec();
 
-        let query = this.activityModel.find(condition);
-        let data: DataTableReturnModel = <DataTableReturnModel> {
-            draw: filter.draw,
-            recordsTotal: await query.count().exec()
-        };
+        if (user.role.endsWith("admin")) {
+            return activities;
+        }
 
-        let sort = filter.columns[filter.order[0].column].name;
-        sort = (filter.order[0].dir === 'asc' ? '+' : '-') + sort;
-
-        const activities = await query.find().sort(sort)
-            .limit(filter.length)
-            .skip(filter.start)
-            .exec();
-
-        data.data = activities;
-        data.recordsFiltered = data.recordsTotal;
-
-        return data;
+        const attendee = await this.attendeeModel.findOne({
+            email: user.username
+        }).exec();
+        return ActivitiesService.formatActivities(activities, attendee);
     }
 
     public async getAttendeeSubscription(activityId: string, attendeeId: string) {
@@ -118,13 +109,22 @@ export class ActivitiesService extends BaseService<Activities, CreateActivityDto
             event: event._id,
             data: {
                 type: "activity",
-                activity:JSON.stringify({
+                activity: JSON.stringify({
                     _id: activity._id,
                     name: activity.name,
                     type: activity.type
                 }),
                 dynamicLink: `activity/${id}`
             }
+        });
+    }
+
+    public static formatActivities(activities: (Activities & { subscribed: boolean })[], attendee: Attendees) {
+        return activities.map(activity => {
+            activity.subscribed = activity.subscribers.some(x => (x as Types.ObjectId).equals(attendee._id));
+            delete activity.subscribers;
+            delete activity.attendees;
+            return activity;
         });
     }
 }

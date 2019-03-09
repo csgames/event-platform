@@ -72,7 +72,7 @@ export class EventsController {
     @Get('activity')
     @Permissions('csgames-api:get-all:activity')
     public async getActivity(@EventId() eventId: string, @User() user: UserModel): Promise<Activities[]> {
-        return await this.eventsService.getActivities(eventId);
+        return await this.eventsService.getActivities(eventId, user);
     }
 
     @Get('notification')
@@ -84,8 +84,8 @@ export class EventsController {
 
     @Get('competition')
     @Permissions('csgames-api:get:competition')
-    public async getCompetitions(@EventId() eventId: string): Promise<Competitions[]> {
-        return await this.eventsService.getCompetitions(eventId);
+    public async getCompetitions(@EventId() eventId: string, @User() user: UserModel): Promise<Competitions[]> {
+        return await this.eventsService.getCompetitions(eventId, user);
     }
 
     @Post('sms')

@@ -4,6 +4,7 @@ import { STSService } from '@polyhx/nest-services';
 import * as mongoose from 'mongoose';
 import { Model } from 'mongoose';
 import { isNullOrUndefined } from 'util';
+import { UserModel } from '../../../models/user.model';
 import { BaseService } from '../../../services/base.service';
 import { EmailService } from '../../email/email.service';
 import { MessagingService } from '../../messaging/messaging.service';
@@ -112,17 +113,13 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
         return await event.save();
     }
 
-    public async getActivities(eventId: string): Promise<Activities[]> {
+    public async getActivities(eventId: string, user: UserModel): Promise<Activities[]> {
         const event = await this.findById(eventId);
         if (!event) {
             throw new EventNotFoundException();
         }
 
-        return await this.activitiesService.find({
-            _id: {
-                $in: event.activities
-            }
-        });
+        return await this.activitiesService.findByIds(event.activities as string[], user);
     }
 
     public async getSponsors(eventId: string): Promise<{ [tier: string]: EventSponsorDetails[] }> {
@@ -294,8 +291,8 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
         return attendee.role;
     }
 
-    public async getCompetitions(eventId: string): Promise<Competitions[]> {
-        return await this.competitionsModel.find({
+    public async getCompetitions(eventId: string, user: UserModel): Promise<Competitions[]> {
+        let competitions = await this.competitionsModel.find({
             event: eventId
         }).select({
             activities: true,
@@ -304,5 +301,20 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
             path: 'activities',
             model: 'activities'
         }).exec();
+
+        if (user.role.endsWith('admin')) {
+            return competitions;
+        }
+
+        const attendee = await this.attendeeService.findOne({
+            email: user.username
+        });
+        competitions = competitions.map(competition => {
+            const c = competition.toJSON();
+            c.activities = ActivitiesService.formatActivities(c.activities, attendee);
+            return c;
+        });
+
+        return competitions;
     }
 }
