@@ -13,18 +13,14 @@
                             <i *ngSwitchCase="'food'" class="fal fa-utensils"></i>
                         </ng-container>
                         <div fxFlex>
-                            <p *ngIf="lang === 'en'" class="name">{{ activity.name.en }}</p>
-                            <p *ngIf="lang === 'fr'" class="name">{{ activity.name.fr }}</p>
+                            <p class="name">{{ activity.name | t18n }}</p>
                             <p class="hours">{{ time }} - {{ activity.endDate | hours }}</p>
                         </div>
                     </div>
                 </div>
                 <br>
                 <div class="modal-body description">
-                    <div>
-                        <div *ngIf="lang === 'en'">{{ activity?.details?.en }}</div>
-                        <div *ngIf="lang === 'fr'">{{ activity?.details?.fr }}</div>
-                    </div>
+                    <p>{{ activity.details | t18n }}</p>
                     <div class="text-center" *ngIf="!(subscribed$ | async)">
                         <a class="not-subscribed btn btn-primary btn-rounded mt-3 px-3" (click)="subscribe()">
                             {{ "general.button.subscribe" | translate }}

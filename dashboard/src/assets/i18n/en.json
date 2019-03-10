@@ -125,7 +125,8 @@
 			"wrong_password": "Wrong password",
 			"loading_error": "An error occured while loading the competitions",
 			"live": "Happening now",
-			"validate_success": "You have the right password!"
+            "validate_success": "You have the right password!",
+            "next": "Next competitions"
 		},
 		"guide": {
 			"guide": "Guide",
@@ -201,6 +202,9 @@
 			"teams": "Teams",
 			"team_title": "Team",
 			"team_members": "Team members"
-		}
+		},
+        "notifications": {
+            "notifications": "Notifications"
+        }
 	}
 }
