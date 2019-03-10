@@ -57,26 +57,28 @@
                     </div>
                 </div>
             </a>
-            <a *ngIf="(attendee$ | async)?.registered && (puzzleHeroOpen$ | async)" [routerLink]="['/puzzle-hero']"
-               routerLinkActive="active">
-                <div [fxLayout]="'row'" fxFlexFill>
-                    <div fxFlex="20">
-                        <i class="fal fa-puzzle-piece"></i>
+            <ng-container *ifNotRole="['volunteer', 'director']">
+                <a *ngIf="(attendee$ | async)?.registered && (puzzleHeroOpen$ | async)" [routerLink]="['/puzzle-hero']"
+                   routerLinkActive="active">
+                    <div [fxLayout]="'row'" fxFlexFill>
+                        <div fxFlex="20">
+                            <i class="fal fa-puzzle-piece"></i>
+                        </div>
+                        <div fxFlex="80">
+                            {{ "pages.puzzle_hero.puzzle_hero" | translate }}
+                        </div>
                     </div>
-                    <div fxFlex="80">
-                        {{ "pages.puzzle_hero.puzzle_hero" | translate }}
-                    </div>
-                </div>
-            </a>
-            <div class="sublinks" *ngIf="isActive('puzzle-hero')">
-                <a [routerLink]="['/puzzle-hero/tracks']" routerLinkActive="active">
-                    {{ "pages.puzzle_hero.tracks" | translate }}
                 </a>
+                <div class="sublinks" *ngIf="isActive('puzzle-hero')">
+                    <a [routerLink]="['/puzzle-hero/tracks']" routerLinkActive="active">
+                        {{ "pages.puzzle_hero.tracks" | translate }}
+                    </a>
 
-                <a *ngIf="scoreboardOpen$ | async" [routerLink]="['/puzzle-hero/scoreboard']" routerLinkActive="active">
-                    {{ "pages.puzzle_hero.scoreboard" | translate }}
-                </a>
-            </div>
+                    <a *ngIf="scoreboardOpen$ | async" [routerLink]="['/puzzle-hero/scoreboard']" routerLinkActive="active">
+                        {{ "pages.puzzle_hero.scoreboard" | translate }}
+                    </a>
+                </div>
+            </ng-container>
 
             <ng-container *ifRole="['attendee', 'captain', 'godparent']">
                 <a *ngIf="!(attendee$ | async) || (attendee$ | async)?.registered" [routerLink]="['/team']"

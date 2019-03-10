@@ -6,7 +6,7 @@ import { FlashoutGuard } from "../flashout/guards/flashout.guard";
 export const DASHBOARD_ROUTES: Routes = [
     {
         path: "",
-        redirectTo: "team",
+        redirectTo: "schedule",
         pathMatch: "full"
     },
     // {
