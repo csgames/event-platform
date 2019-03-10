@@ -17,7 +17,8 @@ export interface CreateInvitationDto {
     maxMembersNumber?: number;
 }
 
-export class RegisterAdminDto {
+export class RegisterRoleDto {
+    role: string;
     username: string;
     password: string;
     attendee: CreateAttendeeDto;

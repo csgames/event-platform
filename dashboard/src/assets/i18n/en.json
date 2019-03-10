@@ -204,6 +204,10 @@
         },
         "attendees": {
             "attendees": "Attendees"
+        },
+        "volunteers": {
+            "volunteers": "Volunteers",
+            "add_volunteer": "Add a volunteer"
         }
-	}
+    }
 }

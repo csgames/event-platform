@@ -160,6 +160,19 @@
                     </div>
                 </a>
             </ng-container>
+            <ng-container *ifRole="['admin', 'super-admin']">
+                <a [routerLink]="['/volunteer']"
+                   routerLinkActive="active">
+                    <div [fxLayout]="'row'" fxFlexFill>
+                        <div fxFlex="20">
+                            <i class="fal fa-people-carry"></i>
+                        </div>
+                        <div fxFlex="80">
+                            {{ "pages.volunteers.volunteers" | translate }}
+                        </div>
+                    </div>
+                </a>
+            </ng-container>
         </div>
     </ng-template>
 </div>

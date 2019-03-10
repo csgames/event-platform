@@ -6,20 +6,20 @@ import { map, catchError, switchMap } from "rxjs/operators";
 import { GlobalError } from "src/app/store/app.actions";
 import { of } from "rxjs";
 import { RegisterService } from "../../../providers/register.service";
-import { AddAdmin, AdminsLoaded, LoadAdmins, OrganizersActionTypes } from "./organizers.actions";
+import { AddVolunteer, LoadVolunteers, VolunteersActionTypes, VolunteersLoaded } from "./volunteers.actions";
 
 @Injectable()
-export class OrganizersEffects {
+export class VolunteersEffects {
     constructor(private actions$: Actions,
                 private eventService: EventService,
                 private registerService: RegisterService) { }
 
     @Effect()
     loadAdmins$ = this.actions$.pipe(
-        ofType<LoadAdmins>(OrganizersActionTypes.LoadAdmins),
+        ofType<LoadVolunteers>(VolunteersActionTypes.LoadVolunteers),
         switchMap(() => {
-            return this.eventService.getAdmins().pipe(
-                map((attendees: Attendee[]) => new AdminsLoaded(attendees)),
+            return this.eventService.getVolunteers().pipe(
+                map((attendees: Attendee[]) => new VolunteersLoaded(attendees)),
                 catchError((e) => of(new GlobalError(e)))
             );
         })
@@ -27,10 +27,10 @@ export class OrganizersEffects {
 
     @Effect()
     addAdmin$ = this.actions$.pipe(
-        ofType<AddAdmin>(OrganizersActionTypes.AddAdmin),
-        switchMap((action: AddAdmin) => {
+        ofType<AddVolunteer>(VolunteersActionTypes.AddVolunteer),
+        switchMap((action: AddVolunteer) => {
             return this.registerService.registerRole({
-                role: "admin",
+                role: "volunteer",
                 username: action.payload.email,
                 password: action.payload.password,
                 attendee: {
@@ -38,7 +38,7 @@ export class OrganizersEffects {
                     lastName: action.payload.lastName
                 }
             }).pipe(
-                map(() => new LoadAdmins()),
+                map(() => new LoadVolunteers()),
                 catchError((e) => of(new GlobalError(e)))
             );
         })

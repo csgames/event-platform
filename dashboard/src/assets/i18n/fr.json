@@ -204,6 +204,10 @@
         },
         "attendees": {
             "attendees": "Participants"
+        },
+        "volunteers": {
+            "volunteers": "Bénévoles",
+            "add_volunteer": "Ajouter un bénévole"
         }
     }
 }

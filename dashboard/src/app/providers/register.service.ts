@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
-import { RegisterAdminDto } from "../api/dto/registration";
+import { RegisterRoleDto } from "../api/dto/registration";
 import { Registration } from "../api/models/registration";
 import { RegistrationApi } from "../api/registration.api";
 import { UserFormDto } from "../components/user-form/dto/user-form.dto";
@@ -33,7 +33,7 @@ export class RegisterService {
         });
     }
 
-    public registerAdmin(dto: RegisterAdminDto): Observable<void> {
-        return this.registrationApi.registerAdmin(dto);
+    public registerRole(dto: RegisterRoleDto): Observable<void> {
+        return this.registrationApi.registerRole(dto);
     }
 }

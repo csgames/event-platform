@@ -48,6 +48,10 @@ export class EventService {
         return this.apiService.event.getAttendees({ roles: ["admin"] });
     }
 
+    public getVolunteers(): Observable<Attendee[]> {
+        return this.apiService.event.getAttendees({ roles: ["volunteer"] });
+    }
+
     public getAttendees(): Observable<Attendee[]> {
         return this.apiService.event.getAttendees({ roles: ["captain", "attendee", "godparent"] });
     }
