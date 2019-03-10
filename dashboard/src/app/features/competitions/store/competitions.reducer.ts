@@ -5,7 +5,7 @@ import { createFeatureSelector, createSelector } from "@ngrx/store";
 
 export interface CompetitionsState {
     competitions: Competition[];
-    subscribedCompetitions: string [];
+    subscribedCompetitions: string[];
     loading: boolean;
     error: boolean;
 }

@@ -28,9 +28,10 @@ export class ScheduleService {
     }
 
     public getNextActivities(activities: Activity[]): Activity[] {
+        const sorted = activities.sort((a, b) => a.beginDate < b.beginDate ? -1 : 1);
         const now = new Date();
         const nextActivities = [];
-        for (const a of activities) {
+        for (const a of sorted) {
             const date = new Date(a.beginDate);
             if (now <= date) {
                 if (nextActivities.length === 0) {

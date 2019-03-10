@@ -40,6 +40,7 @@ import { CompetitionModule } from "./components/competition/competition.module";
         CompetitionModule
     ],
     declarations: [CompetitionsComponent, InfoCompetitionComponent, CompetitionCardComponent],
-    entryComponents: [CompetitionsComponent, InfoCompetitionComponent]
+    entryComponents: [CompetitionsComponent, InfoCompetitionComponent],
+    exports: [CompetitionsComponent, InfoCompetitionComponent, CompetitionCardComponent]
 })
 export class CompetitionsModule { }
