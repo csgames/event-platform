@@ -1,4 +1,4 @@
-<div class="card competition-card clickable" (click)="info.emit()">
+<div class="card competition-card">
     <div class="card-body competition-card-body">
         <div fxLayout="row" class="tile">
             <div fxFlex="initial">
@@ -18,12 +18,12 @@
         <div fxLayout="row" class="tile">
             <div>{{ competition.activities[0].details | t18n }}</div>
         </div>
-        <div class="text-center" *ngIf="!(subscribed$ | async)">
+        <div class="text-center" *ngIf="!isSubscribed">
             <a class="not-subscribed btn btn-primary btn-rounded mt-3 px-3" (click)="subscribe()">
                 {{ "general.button.subscribe" | translate }}
             </a>
         </div>
-        <div class="text-center" *ngIf="(subscribed$ | async)">
+        <div class="text-center" *ngIf="isSubscribed">
             <a class="btn btn-primary btn-rounded mt-3 px-3 subscribed">
                 {{ "general.button.subscribed" | translate }}
             </a>

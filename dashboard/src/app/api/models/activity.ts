@@ -8,4 +8,5 @@ export interface Activity {
     attendees: string[];
     subscribers: string[];
     details: any;
+    subscribed?: boolean;
 }

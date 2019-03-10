@@ -11,6 +11,8 @@ import { ValidatePassword,
          ValidatePasswordFailure } from "./info-competition.actions";
 import { LoadCompetitions } from "../../../store/competitions.actions";
 import { Router } from "@angular/router";
+import { LoadCompetition } from "../../competition/store/competition.actions";
+import { CompetitionComponent } from "../../competition/competition.component";
 
 @Injectable()
 export class InfoCompetitionEffects {

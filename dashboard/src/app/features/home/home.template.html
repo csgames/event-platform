@@ -91,8 +91,23 @@
         </ng-container>
     </ng-container>
 
-    <ng-container *ngIf="nextCompetitions && nextCompetitions.length > 0">
+    <ng-container *ngIf="nextCompetitions.length > 0">
+        <div class="row mt-4">
+            <div class="col-sm-7">
+                <h3>
+                    {{ "pages.competition.competitions" | translate }}
+                </h3>
+            </div>
+        </div>
+        <hr>
 
+        <div class="animated fadeIn">
+            <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="30px" fxLayoutGap.xs="5px">
+                <div fxFlex.xs="100" *ngFor="let competition of nextCompetitions">
+                    <app-competition-card [competition]="competition">
+                    </app-competition-card>
+                </div>
+            </div>
+        </div>
     </ng-container>
-    
 </div>

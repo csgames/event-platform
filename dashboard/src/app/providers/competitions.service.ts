@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { ApiService } from "../api/api.service";
 import { Observable } from "rxjs";
-import { Competition } from "../api/models/competition";
+import { Competition, Question } from "../api/models/competition";
 import { AuthCompetitionDto } from "../features/competitions/components/info-competition/dto/auth-competition.dto";
 import { formatDate } from "@angular/common";
 import { TranslateService } from "@ngx-translate/core";
@@ -80,5 +80,9 @@ export class CompetitionsService {
         }
 
         return "d MMMM";
+    }
+    
+    getInfoForCompetition(competitionId: string): Observable<Competition> {
+        return this.apiService.competition.getInfoForCompetition(competitionId);
     }
 }

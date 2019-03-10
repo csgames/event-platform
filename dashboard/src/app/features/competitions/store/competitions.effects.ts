@@ -10,11 +10,8 @@ import {
     SubscribedCompetitionsLoaded,
     SubscribeCompetition
 } from "./competitions.actions";
-import { switchMap, map, catchError, filter, tap } from "rxjs/operators";
+import { switchMap, map, catchError, tap } from "rxjs/operators";
 import { of } from "rxjs";
-import { GlobalError } from "src/app/store/app.actions";
-import { Competition } from "src/app/api/models/competition";
-import { SimpleModalService } from "ngx-simple-modal";
 
 @Injectable()
 export class CompetitionsEffects {
