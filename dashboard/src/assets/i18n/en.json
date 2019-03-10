@@ -198,6 +198,9 @@
 			"team_title": "Team",
 			"team_members": "Team members"
 		},
+        "notifications": {
+            "notifications": "Notifications"
+		},
         "organizers": {
             "organizers": "Organizers",
             "add_organizer": "Add an organizer"
