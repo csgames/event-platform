@@ -4,6 +4,7 @@ import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { SubscriptionDto } from "../features/competitions/components/competition-card/dto/subscription.dto";
 import { AuthCompetitionDto } from "../features/competitions/components/info-competition/dto/auth-competition.dto";
+import { Competition } from "./models/competition";
 
 @Injectable()
 export class CompetitionApi extends CSGamesApi {
@@ -19,5 +20,9 @@ export class CompetitionApi extends CSGamesApi {
         return this.http.put(this.url(`${subscription.competitionId}/subscription`), {}, {
             withCredentials: true
         });
+    }
+
+    public getInfoForCompetition(competitionId: string): Observable<Competition> {
+        return this.http.get<Competition>(this.url(`${competitionId}`), {withCredentials: true});
     }
 }

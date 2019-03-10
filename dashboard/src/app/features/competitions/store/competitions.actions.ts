@@ -1,6 +1,5 @@
 import { Action } from "@ngrx/store";
 import { Competition } from "src/app/api/models/competition";
-import { InfoCompetitionModal } from "../components/info-competition/info-competition.component";
 
 export enum CompetitionsActionTypes {
     LoadCompetitions = "[Competitions] Load competitions",

@@ -21,9 +21,10 @@ import { PuzzleHeroService } from "../providers/puzzle-hero.service";
 import {
     AllNotificationsSeen, AppActionTypes, AppLoaded, ChangeLanguage, ChangePassword, CheckUnseenNotification, CurrentAttendeeLoaded,
     EditProfile, EventsLoaded, GetPuzzleHeroInfo, GlobalError, HasUnseenNotification, InitializeMessaging, LoadCurrentAttendee, LoadEvents,
-    Logout, SetCurrentEvent, SetupMessagingToken, UpdatePuzzleHeroStatus
+    Logout, SetCurrentEvent, SetupMessagingToken, UpdatePuzzleHeroStatus, LoadSubscribedCompetitions, SubscribedCompetitionsLoaded, 
 } from "./app.actions";
 import { getCurrentAttendee, getEvents, getPuzzleHeroInfo, State } from "./app.reducers";
+import { CompetitionsService } from "../providers/competitions.service";
 
 @Injectable()
 export class AppEffects {
@@ -39,7 +40,8 @@ export class AppEffects {
         private toastr: ToastrService,
         private notificationService: NotificationService,
         private afMessaging: AngularFireMessaging,
-        private puzzleHeroService: PuzzleHeroService
+        private puzzleHeroService: PuzzleHeroService,
+        private competitionService: CompetitionsService
     ) {}
 
     @Effect()
@@ -201,4 +203,11 @@ export class AppEffects {
             );
         }),
     );
+
+    @Effect()
+    loadSubscribedCompetitions$ = this.actions$.pipe(
+        ofType<LoadSubscribedCompetitions>(AppActionTypes.LoadSubscribedCompetitions),
+        map(() => new SubscribedCompetitionsLoaded(this.competitionService.getSubscribedCompetitions()))
+    );
 }
+

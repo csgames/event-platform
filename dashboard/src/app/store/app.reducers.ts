@@ -13,6 +13,7 @@ export interface GlobalState {
     language: string;
     unseen: boolean;
     puzzleHeroInfo: PuzzleHeroInfo;
+    subscribedCompetitions: string[];
 }
 
 export interface State {
@@ -30,7 +31,8 @@ export const initialState: GlobalState = {
     loading: true,
     language: null,
     unseen: false,
-    puzzleHeroInfo: null
+    puzzleHeroInfo: null,
+    subscribedCompetitions: []
 };
 
 export function globalReducer(state = initialState, action: AppActions): GlobalState {
@@ -116,3 +118,5 @@ export const getCurrentLanguage = createSelector(getGlobalState, (state: GlobalS
 export const getUnseen = createSelector(getGlobalState, (state: GlobalState) => state.unseen);
 
 export const getPuzzleHeroInfo = createSelector(getGlobalState, (state: GlobalState) => state.puzzleHeroInfo);
+
+export const getSubscribedCompetitions = createSelector(getGlobalState, (state: GlobalState) => state.subscribedCompetitions);

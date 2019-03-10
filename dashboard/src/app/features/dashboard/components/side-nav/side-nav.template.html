@@ -121,6 +121,15 @@
                     </div>
                 </div>
             </a>
+            <div class="sublinks" *ngIf="isActive('competition')">
+                <!-- <ng-container *ngIf="subscribedCompetitions$ | async as subscribedCompetitions"> -->
+                    <div *ngFor="let competition of subscribedCompetitions">
+                        <a [routerLink]="['/competition/', competition.id]" routerLinkActive="active">
+                            {{ competition.name }}
+                        </a>
+                    </div>
+                <!-- </ng-container> -->
+            </div>
         </div>
     </ng-template>
 </div>

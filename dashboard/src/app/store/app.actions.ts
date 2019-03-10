@@ -23,7 +23,9 @@ export enum AppActionTypes {
     SetMessagingToken = "[App] Set messaging",
     SetupMessagingToken = "[App] Setup messaging token",
     GetPuzzleHeroInfo = "[App] Get puzzle hero info",
-    UpdatePuzzleHeroStatus = "[App] Update puzzle hero status"
+    UpdatePuzzleHeroStatus = "[App] Update puzzle hero status",
+    LoadSubscribedCompetitions = "[App] Load subscribed competitions",
+    SubscribedCompetitionsLoaded = "[App] Subscribed competitions loaded"
 }
 
 export class ChangeLanguage implements Action {
@@ -112,6 +114,16 @@ export class UpdatePuzzleHeroStatus {
     constructor(public payload: PuzzleHeroInfo) {}
 }
 
+export class LoadSubscribedCompetitions {
+    readonly type = AppActionTypes.LoadSubscribedCompetitions;
+}
+
+export class SubscribedCompetitionsLoaded {
+    readonly type = AppActionTypes.SubscribedCompetitionsLoaded;
+
+    constructor(public payload: string []) {}
+}
+
 export type AppActions =
     | GlobalError
     | Logout
@@ -131,4 +143,6 @@ export type AppActions =
     | InitializeMessaging
     | SetupMessagingToken
     | GetPuzzleHeroInfo
-    | UpdatePuzzleHeroStatus;
+    | UpdatePuzzleHeroStatus
+    | LoadSubscribedCompetitions
+    | SubscribedCompetitionsLoaded;
