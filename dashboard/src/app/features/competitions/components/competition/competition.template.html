@@ -1,5 +1,4 @@
 <div class="page-wrapper">
-    <h1>{{ "competition.name" }}</h1>
     <app-loading-spinner [loading]="loading$">
     </app-loading-spinner>
 
@@ -9,5 +8,13 @@
             <h5>{{ "pages.competition.loading_error" | translate }}</h5>
         </div>
     </ng-container>
-    <app-question-card [question]="question"></app-question-card>
+
+    <ng-container *ngIf="competition$ | async as competition">
+        <h1>{{ competition.activities[0].name | t18n }}</h1>
+
+        <ng-container *ngFor="let question of competition?.questions">
+            <app-question-card [question]="question"></app-question-card>
+        </ng-container>
+    </ng-container>
+
 </div>

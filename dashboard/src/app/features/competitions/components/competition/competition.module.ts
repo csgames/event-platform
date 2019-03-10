@@ -7,6 +7,10 @@ import { TranslateModule } from "@ngx-translate/core";
 import { FlexLayoutModule } from "@angular/flex-layout";
 import { QuestionCardComponent } from "./question-card/question-card.component";
 import { CompetitionComponent } from "./competition.component";
+import { reducer } from "./store/competition.reducer";
+import { EffectsModule } from "@ngrx/effects";
+import { CompetitionEffects } from "./store/competition.effects";
+import { CompetitionsService } from "src/app/providers/competitions.service";
 
 @NgModule({
     imports: [
@@ -14,10 +18,13 @@ import { CompetitionComponent } from "./competition.component";
         LoadingSpinnerModule,
         FlexLayoutModule,
         PipeModule,
-        TranslateModule
+        TranslateModule,
+        StoreModule.forFeature("competition", reducer),
+        EffectsModule.forFeature([CompetitionEffects]),
+
     ],
     declarations: [QuestionCardComponent, CompetitionComponent],
     entryComponents: [CompetitionComponent],
-    providers: []
+    providers: [CompetitionsService]
 })
 export class CompetitionModule {}

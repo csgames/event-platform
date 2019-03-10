@@ -1,14 +1,16 @@
-<div class="card competition-card clickable" (click)="info.emit()">
-        <div class="card-body competition-card-body">
-            <div fxLayout="row" class="tile">
-                <div fxFlex="initial">
-                    <i class="fal fa-question"></i>
-                </div>
-                <div fxFlex>
-                    <p class="name">{{ question.label | t18n }}</p>
-                </div>
+<div class="card competition-card">
+    <div class="card-body competition-card-body">
+        <div fxLayout="row" class="tile">
+            <i class="fal firstIcon" [ngClass]="icon"></i>
+            <div fxFlex class="name-score">
+                <p class="name">{{ question?.question?.label }}</p>
+                <p class="score">{{ question?.question?.score }} points</p>
             </div>
         </div>
+        <div fxLayout="row" class="tile">
+            <div>{{ question?.question.description | t18n }}</div>
+        </div>
     </div>
+</div>
 
 <!-- label, description, type de validation, nombre de points pour la question (peut-être pourcentage) -->

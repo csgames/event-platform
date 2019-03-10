@@ -5,11 +5,12 @@ import { CompetitionActionTypes, LoadCompetition, CompetitionLoaded, LoadCompeti
 import { switchMap, map, catchError } from "rxjs/operators";
 import { of } from "rxjs";
 
+@Injectable()
 export class CompetitionEffects {
     constructor(private actions$: Actions,
                 private competitionService: CompetitionsService) {}
     
-    @Injectable()
+    @Effect()
     loadCompetition$ = this.actions$.pipe(
         ofType<LoadCompetition>(CompetitionActionTypes.LoadCompetition),
         switchMap((action: LoadCompetition) => this.competitionService.getInfoForCompetition(action.competitionId)

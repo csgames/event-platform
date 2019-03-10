@@ -19,15 +19,14 @@ export class CompetitionComponent implements OnInit {
   error$ = this.store$.pipe(select(getCompetitionError));
   
   constructor(private store$: Store<State>,
-              private activatedRoute: ActivatedRoute) {
-    this.store$.dispatch(new LoadCompetition(this.competitionId));    
-  }
+              private activatedRoute: ActivatedRoute) { }
 
   ngOnInit() {
     this.competitionId$ = this.activatedRoute.params.pipe(
       map(p => p["id"])
     );
     this.competitionId = this.activatedRoute.snapshot.params["id"];
+    this.store$.dispatch(new LoadCompetition(this.competitionId));
   }
 
 }

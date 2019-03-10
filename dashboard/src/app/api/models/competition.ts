@@ -4,7 +4,8 @@ import { Event } from "./event";
 export enum QuestionTypes {
     Crypto = "crypto",
     Gaming = "gaming",
-    Scavender = "scavenger"
+    Scavender = "scavenger",
+    Upload = "upload"
 }
 
 export enum ValidationTypes {

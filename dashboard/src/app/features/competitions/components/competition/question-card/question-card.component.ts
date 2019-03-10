@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 import { select, Store } from "@ngrx/store";
-import { Question } from "src/app/api/models/competition";
+import { QuestionGraphNodes, QuestionTypes } from "src/app/api/models/competition";
 import { getLoading, State } from "../../competition-card/store/competition-card.reducer";
 import { ResetStore } from "../../competition-card/store/competition-card.actions";
 
@@ -11,7 +11,7 @@ import { ResetStore } from "../../competition-card/store/competition-card.action
 })
 export class QuestionCardComponent implements OnInit {
     @Input()
-    public question: Question;
+    public question: QuestionGraphNodes;
 
     @Output()
     public info = new EventEmitter();
@@ -24,5 +24,19 @@ export class QuestionCardComponent implements OnInit {
     public ngOnInit() {
         this.result = false;
         this.store$.dispatch(new ResetStore());
+    }
+
+    get icon(): string {
+        switch (this.question.question.type) {
+            case QuestionTypes.Crypto:
+                return "fa-key";
+            case QuestionTypes.Gaming:
+                return "fa-gamepad";
+            case QuestionTypes.Scavender:
+                return "fa-camera-alt";
+            case QuestionTypes.Upload:
+                return "fa-upload";
+        }
+        return "";
     }
 }
