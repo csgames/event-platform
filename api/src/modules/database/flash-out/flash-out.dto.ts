@@ -6,8 +6,8 @@ export class CreateFlashOutDto {
     @IsString()
     @IsNotEmpty()
     @ApiModelProperty({ required: true })
-    url: string;
-    
+    videoId: string;
+
     @IsMongoId()
     @IsNotEmpty()
     @IsString()
