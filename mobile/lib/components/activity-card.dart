@@ -78,7 +78,7 @@ class ActivityCard extends StatelessWidget {
                                 Text(
                                     _activity.name[LocalizationService
                                         .of(context)
-                                        .language],
+                                        .language] ?? "",
                                     style: TextStyle(
                                         fontSize: 18.0,
                                         fontWeight: FontWeight.w600,
@@ -176,7 +176,11 @@ class ActivityCard extends StatelessWidget {
                     (store.state.currentAttendee.role == "attendee" ||
                     store.state.currentAttendee.role == "godparent" ||
                     store.state.currentAttendee.role == "captain")) {
-                    store.dispatch(VerifySubscriptionAction(_activity.id));
+                    if (_activity.subscribed) {
+                        store.dispatch(SubscribedAction(_activity.id, true));
+                    } else {
+                        store.dispatch(NotSubscribedAction(_activity.id));
+                    }
                 }
             },
             converter: (store) => _ActivitySubscriptionViewModel.fromStore(_activity.id, store),

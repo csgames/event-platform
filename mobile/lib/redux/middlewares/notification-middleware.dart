@@ -94,7 +94,7 @@ class NotificationMiddleware implements EpicClass<AppState> {
     Stream<dynamic> _setupNotifications() async* {
         try {
             var flutterLocalNotificationsPlugin = new FlutterLocalNotificationsPlugin();
-            var initializationSettingsAndroid = new AndroidInitializationSettings('app_icon');
+            var initializationSettingsAndroid = new AndroidInitializationSettings('notification_icon');
             var initializationSettingsIOS = new IOSInitializationSettings();
             var initializationSettings = new InitializationSettings(initializationSettingsAndroid, initializationSettingsIOS);
             flutterLocalNotificationsPlugin = new FlutterLocalNotificationsPlugin();

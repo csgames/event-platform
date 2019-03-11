@@ -10,7 +10,9 @@ class AppTitle extends StatelessWidget {
 
     @override
     Widget build(BuildContext context) {
-        return Padding(
+        return SingleChildScrollView(
+            physics: ClampingScrollPhysics(),
+            scrollDirection: Axis.horizontal,
             padding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
             child: Row(
                 mainAxisAlignment: this.alignment,
@@ -19,7 +21,7 @@ class AppTitle extends StatelessWidget {
                         title.toUpperCase(),
                         style: TextStyle(
                             fontFamily: 'flipbash',
-                            fontSize: 36.0
+                            fontSize: 30.0
                         )
                     ),
                     this.icon != null ?

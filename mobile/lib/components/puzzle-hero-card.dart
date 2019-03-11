@@ -9,8 +9,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:redux/redux.dart';
+import 'package:flutter_html/flutter_html.dart';
 
-class PuzzleHeroCard extends StatelessWidget  {
+class PuzzleHeroCard extends StatelessWidget {
     final PuzzleInfo _puzzle;
 
     PuzzleHeroCard(this._puzzle);
@@ -47,7 +48,7 @@ class PuzzleHeroCard extends StatelessWidget  {
                     child: Icon(
                         FontAwesomeIcons.camera,
                         size: 40.0,
-                        color: Colors.black
+                        color: Constants.polyhxGrey
                     )
                 ),
                 Expanded(
@@ -87,31 +88,30 @@ class PuzzleHeroCard extends StatelessWidget  {
         Function function;
         if (_puzzle.completed) {
             color = Colors.grey;
-            text = LocalizationService.of(context).puzzle['completed'];
+            text = LocalizationService
+                .of(context)
+                .puzzle['completed'];
             function = () {};
         } else if (model.answer != '' && !model.hasValidationErrors) {
             color = Constants.csBlue;
-            text = LocalizationService.of(context).puzzle['submit'];
+            text = LocalizationService
+                .of(context)
+                .puzzle['submit'];
             function = () => model.validate(model.answer, _puzzle.id, context);
         } else {
             color = Constants.csRed;
-            text = LocalizationService.of(context).puzzle['scan'];
+            text = LocalizationService
+                .of(context)
+                .puzzle['scan'];
             function = () => model.scan(_puzzle.id, context);
         }
         return <Widget>[
             Container(
                 padding: EdgeInsets.only(left: 20.0, right: 20.0, bottom: 15.0),
-                child: Text(
-                    _puzzle.description[LocalizationService
+                child: Html(
+                    data: _puzzle.description[LocalizationService
                         .of(context)
-                        .language] ?? "",
-                    textAlign: TextAlign.justify,
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontFamily: 'OpenSans',
-                        fontSize: 13.0,
-                        height: 1.1
-                    )
+                        .language] ?? ""
                 )
             ),
             model.answer != '' ? Container(
@@ -151,8 +151,7 @@ class PuzzleHeroCard extends StatelessWidget  {
     Widget build(BuildContext context) {
         return StoreConnector<AppState, _PuzzleHeroCardViewModel>(
             onInit: (store) {
-                
-                    store.dispatch(SetPuzzleAction(_puzzle));
+                store.dispatch(SetPuzzleAction(_puzzle));
             },
             converter: (store) => _PuzzleHeroCardViewModel.fromStore(_puzzle.id, store),
             builder: (BuildContext context, _PuzzleHeroCardViewModel model) {
@@ -194,9 +193,9 @@ class PuzzleHeroCard extends StatelessWidget  {
                                         data: Theme.of(context).copyWith(accentColor: Colors.black),
                                         child: !_puzzle.locked
                                             ? ExpansionCard(
-                                                title: _buildCardTitle(context, model),
-                                                children: _buildCardContent(context, model)
-                                            )
+                                            title: _buildCardTitle(context, model),
+                                            children: _buildCardContent(context, model)
+                                        )
                                             : _buildCardTitle(context, model)
                                     )
                                 )
@@ -216,13 +215,11 @@ class _PuzzleHeroCardViewModel {
     Function scan;
     Function validate;
 
-    _PuzzleHeroCardViewModel(
-        this.hasScanErrors,
+    _PuzzleHeroCardViewModel(this.hasScanErrors,
         this.hasValidationErrors,
         this.scan,
         this.answer,
-        this.validate
-    );
+        this.validate);
 
     _PuzzleHeroCardViewModel.fromStore(String puzzleId, Store<AppState> store) {
         if (store.state.puzzlesState.puzzles[puzzleId] != null) {

@@ -21,5 +21,5 @@ class ActivitySubscriptionState {
 
   factory ActivitySubscriptionState.loading() => ActivitySubscriptionState(hasErrors: false, isLoading: true, isSubscribed: false);
 
-  factory ActivitySubscriptionState.error() => ActivitySubscriptionState(hasErrors: true, isLoading: true, isSubscribed: false);
+  factory ActivitySubscriptionState.error() => ActivitySubscriptionState(hasErrors: true, isLoading: false, isSubscribed: false);
 }

@@ -89,7 +89,7 @@ DEPENDENCIES:
   - "google_maps_flutter (from `/Users/brandonroberge/.pub-cache/hosted/pub.dartlang.org/google_maps_flutter-0.3.0+2/ios`)"
   - qr_reader (from `/Users/brandonroberge/.pub-cache/hosted/pub.dartlang.org/qr_reader-0.1.3/ios`)
   - shared_preferences (from `/Users/brandonroberge/.pub-cache/hosted/pub.dartlang.org/shared_preferences-0.4.3/ios`)
-  - "url_launcher (from `/Users/brandonroberge/.pub-cache/hosted/pub.dartlang.org/url_launcher-4.2.0+3/ios`)"
+  - url_launcher (from `/Users/brandonroberge/.pub-cache/hosted/pub.dartlang.org/url_launcher-3.0.3/ios`)
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
@@ -119,7 +119,7 @@ EXTERNAL SOURCES:
   shared_preferences:
     :path: "/Users/brandonroberge/.pub-cache/hosted/pub.dartlang.org/shared_preferences-0.4.3/ios"
   url_launcher:
-    :path: "/Users/brandonroberge/.pub-cache/hosted/pub.dartlang.org/url_launcher-4.2.0+3/ios"
+    :path: "/Users/brandonroberge/.pub-cache/hosted/pub.dartlang.org/url_launcher-3.0.3/ios"
 
 SPEC CHECKSUMS:
   Firebase: 8bb9268bff82374f2cbaaabb143e725743c316ae

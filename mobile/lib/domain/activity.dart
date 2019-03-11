@@ -12,6 +12,7 @@ class Activity {
     String location;
     List<String> attendees;
     Map<String, dynamic> description;
+    bool subscribed;
 
     Activity({
         this.id,
@@ -33,6 +34,7 @@ class Activity {
         location = map['location'];
         attendees = List.castFrom<dynamic, String>(map['attendees']);
         description = Map.castFrom<String, dynamic, String, String>(map['details'] ?? {});
+        subscribed = map['subscribed'];
     }
 
     Activity.fromNotificationData(Map<String, dynamic> map) {
