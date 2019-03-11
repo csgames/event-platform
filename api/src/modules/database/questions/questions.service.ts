@@ -2,16 +2,19 @@ import { BadRequestException, Injectable, InternalServerErrorException, NotFound
 import { HttpService } from '@nestjs/common/http';
 import { InjectModel } from '@nestjs/mongoose';
 import { AxiosResponse } from 'axios';
-import { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
 import { Questions, ValidationTypes } from './questions.model';
+import { QuestionAnswerDto } from './question-answer.dto';
+import { StorageService } from '@polyhx/nest-services';
 
 @Injectable()
 export class QuestionsService {
     constructor(@InjectModel('questions') private readonly questionsModel: Model<Questions>,
-                private httpService: HttpService) {
+                private httpService: HttpService,
+                private storageService: StorageService) {
     }
 
-    public async validateAnswer(answer: string, questionId: string): Promise<number> {
+    public async validateAnswer(dto: QuestionAnswerDto, questionId: string): Promise<number> {
         const question = await this.questionsModel.findOne({
             _id: questionId
         }).exec();
@@ -22,19 +25,25 @@ export class QuestionsService {
         let validationResult: boolean;
         switch (question.validationType) {
             case ValidationTypes.String:
-                validationResult = this.validateString(answer, question.answer);
+                validationResult = this.validateString(dto.answer, question.answer);
                 if (!validationResult) {
                     throw new BadRequestException('Invalid answer');
                 }
                 break;
             case ValidationTypes.Regex:
-                validationResult = this.validateRegex(answer, question.answer);
+                validationResult = this.validateRegex(dto.answer, question.answer);
                 if (!validationResult) {
                     throw new BadRequestException('Invalid answer');
                 }
                 break;
             case ValidationTypes.Function:
-                validationResult = await this.validateCustomFunction(answer, question.answer);
+                validationResult = await this.validateCustomFunction(dto.answer, question.answer);
+                if (!validationResult) {
+                    throw new BadRequestException('Invalid answer');
+                }
+                break;
+            case ValidationTypes.Upload:
+                validationResult = await this.validateUpload(dto.file, question._id);
                 if (!validationResult) {
                     throw new BadRequestException('Invalid answer');
                 }
@@ -84,6 +93,15 @@ export class QuestionsService {
             return true;
         } else {
             throw new BadRequestException('Problem with JSON answer.');
+        }
+    }
+
+    public async validateUpload(file: Express.Multer.File, questionId: Types.ObjectId): Promise<boolean> {
+        try {
+            await this.storageService.upload(file, `questions/${questionId.toHexString()}`);
+            return true;
+        } catch (e) {
+            return false;
         }
     }
 }

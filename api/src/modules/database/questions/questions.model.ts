@@ -10,7 +10,8 @@ export enum QuestionTypes {
 export enum ValidationTypes {
     String = "string",
     Regex = "regex",
-    Function = "function"
+    Function = "function",
+    Upload = "upload"
 }
 
 export interface Questions extends mongoose.Document {

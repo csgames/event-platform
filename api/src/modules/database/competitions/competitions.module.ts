@@ -9,6 +9,7 @@ import { CompetitionsSchema } from './competitions.model';
 import { CompetitionsService } from './competitions.service';
 import { ActivitiesModule } from '../activities/activities.module';
 import { TeamsSchema } from '../teams/teams.model';
+import { QuestionsModule } from '../questions/questions.module';
 
 @Module({
     imports: [
@@ -30,7 +31,8 @@ import { TeamsSchema } from '../teams/teams.model';
         }]),
         EventsModule,
         RegistrationsModule,
-        ActivitiesModule
+        ActivitiesModule,
+        QuestionsModule
     ],
     controllers: [CompetitionsController],
     providers: [

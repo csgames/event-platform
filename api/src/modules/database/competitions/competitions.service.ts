@@ -14,6 +14,8 @@ import { Teams } from '../teams/teams.model';
 import { AuthCompetitionDto, CreateCompetitionQuestionDto, CreateDirectorDto } from './competitions.dto';
 import { Competitions } from './competitions.model';
 import { QuestionGraphNodes } from './questions/question-graph-nodes.model';
+import { QuestionAnswerDto } from '../questions/question-answer.dto';
+import { QuestionsService } from '../questions/questions.service';
 
 @Injectable()
 export class CompetitionsService extends BaseService<Competitions, Competitions> {
@@ -23,7 +25,8 @@ export class CompetitionsService extends BaseService<Competitions, Competitions>
                 @InjectModel('questions') private readonly questionsModel: Model<Teams>,
                 private readonly activityService: ActivitiesService,
                 private readonly registrationService: RegistrationsService,
-                private readonly eventsService: EventsService) {
+                private readonly eventsService: EventsService,
+                private readonly questionService: QuestionsService) {
         super(competitionsModel);
     }
 
@@ -118,6 +121,23 @@ export class CompetitionsService extends BaseService<Competitions, Competitions>
         competition = await competition.save();
 
         return competition.questions.find(x => (x.question as mongoose.Types.ObjectId).equals(question._id));
+    }
+
+    public async validateQuestion(eventId: string, competitionId: string, questionId: string, dto: QuestionAnswerDto): Promise<void> {
+        const competition = await this.competitionsModel.findOne({
+            _id: competitionId,
+            event: eventId
+        }).exec();
+        if (!competition) {
+            throw new NotFoundException();
+        }
+
+        const question = competition.questions.find(x => x._id.equals(questionId));
+        if (!question) {
+            throw new BadRequestException("No question found");
+        }
+
+        await this.questionService.validateAnswer(dto, question.question as string);
     }
 
     public async updateQuestion(eventId: string, competitionId: string, questionId: string, dto: UpdateQuestionDto): Promise<void> {

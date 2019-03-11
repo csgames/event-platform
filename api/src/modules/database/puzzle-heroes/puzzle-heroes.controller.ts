@@ -6,7 +6,7 @@ import { User } from '../../../decorators/user.decorator';
 import { PermissionsGuard } from '../../../guards/permission.guard';
 import { UserModel } from '../../../models/user.model';
 import { ValidationPipe } from '../../../pipes/validation.pipe';
-import { PuzzleAnswerDto } from '../questions/puzzle-answer.dto';
+import { QuestionAnswerDto } from '../questions/question-answer.dto';
 import { PuzzleGraphNodes } from './puzzle-graph-nodes/puzzle-graph.nodes.model';
 import { CreatePuzzleDto, CreatePuzzleHeroDto, CreateTrackDto } from './puzzle-heroes.dto';
 import { PuzzleHeroes } from './puzzle-heroes.model';
@@ -60,9 +60,9 @@ export class PuzzleHeroesController {
     @Post('puzzle/:puzzleId/validate')
     @Permissions('csgames-api:get:event')
     @HttpCode(HttpStatus.OK)
-    public async validateAnswer(@EventId() id: string, @Param("puzzleId") puzzleId, @Body(ValidationPipe) dto: PuzzleAnswerDto,
+    public async validateAnswer(@EventId() id: string, @Param("puzzleId") puzzleId, @Body(ValidationPipe) dto: QuestionAnswerDto,
                                 @User() user: UserModel): Promise<void> {
-        return await this.puzzleHeroService.validateAnswer(dto.answer, puzzleId, id, user.username);
+        return await this.puzzleHeroService.validateAnswer(dto, puzzleId, id, user.username);
     }
 
     @Get()

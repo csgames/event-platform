@@ -1,4 +1,17 @@
-import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Post, Put, UseGuards } from '@nestjs/common';
+import {
+    Body,
+    Controller,
+    Delete, FileInterceptor,
+    Get,
+    HttpCode,
+    HttpStatus,
+    Param,
+    Post,
+    Put, UploadedFile,
+    UploadedFiles,
+    UseGuards,
+    UseInterceptors
+} from '@nestjs/common';
 import { ApiUseTags } from '@nestjs/swagger';
 import { EventId } from '../../../decorators/event-id.decorator';
 import { Permissions } from '../../../decorators/permission.decorator';
@@ -14,6 +27,8 @@ import { CompetitionsService } from './competitions.service';
 import { User } from '../../../decorators/user.decorator';
 import { UserModel } from '../../../models/user.model';
 import { QuestionGraphNodes } from './questions/question-graph-nodes.model';
+import { QuestionAnswerDto } from '../questions/question-answer.dto';
+import { BooleanPipe } from '../../../pipes/boolean.pipe';
 
 @ApiUseTags('Competition')
 @Controller('competition')
@@ -47,6 +62,19 @@ export class CompetitionsController {
                                 @Param('id') competitionId: string,
                                 @Body(ValidationPipe) dto: CreateCompetitionQuestionDto): Promise<QuestionGraphNodes> {
         return await this.competitionService.createQuestion(eventId, competitionId, dto);
+    }
+
+    @Post(':id/question/:questionId/validate')
+    @Permissions('csgames-api:validate-question:competition')
+    public async validateQuestion(@EventId() eventId: string,
+                                  @Param('id') competitionId: string,
+                                  @Param('questionId') questionId: string,
+                                  @Body(BooleanPipe, ValidationPipe) dto: QuestionAnswerDto,
+                                  @UploadedFile('file') file: Express.Multer.File): Promise<void> {
+        return await this.competitionService.validateQuestion(eventId, competitionId, questionId, {
+            ...dto,
+            file
+        });
     }
 
     @Post(':id/director')
@@ -112,8 +140,8 @@ export class CompetitionsController {
     @Delete(':id/subscription')
     @Permissions('csgames-api:subscribtion:competition')
     public async unsubscribe(@EventId() eventId: string,
-                           @Param('id') competitionId: string,
-                           @User() user: UserModel) {
+                             @Param('id') competitionId: string,
+                             @User() user: UserModel) {
         await this.competitionService.unsubscribe(eventId, competitionId, user);
     }
 

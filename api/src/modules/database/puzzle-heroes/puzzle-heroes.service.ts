@@ -18,6 +18,7 @@ import { Serie, TeamSeries } from './scoreboard/team-series.model';
 import { PuzzleHeroesGateway } from './puzzle-heroes.gateway';
 import { QuestionsService } from '../questions/questions.service';
 import { TracksAnswers, TracksAnswersUtils } from './tracks/tracks-answers.model';
+import { QuestionAnswerDto } from '../questions/question-answer.dto';
 
 export interface PuzzleDefinition extends PuzzleGraphNodes {
     completed: boolean;
@@ -225,7 +226,7 @@ export class PuzzleHeroesService extends BaseService<PuzzleHeroes, PuzzleHeroes>
         );
     }
 
-    public async validateAnswer(answer: string, puzzleId: string, eventId: string, email: string): Promise<void> {
+    public async validateAnswer(answer: QuestionAnswerDto, puzzleId: string, eventId: string, email: string): Promise<void> {
         const puzzleHero = await this.findOne({
             event: eventId
         });
