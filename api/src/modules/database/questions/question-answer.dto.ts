@@ -11,4 +11,5 @@ export class QuestionAnswerDto {
     upload: boolean;
 
     file: Express.Multer.File;
+    teamId: string;
 }

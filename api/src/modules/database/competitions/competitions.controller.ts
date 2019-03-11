@@ -65,16 +65,18 @@ export class CompetitionsController {
     }
 
     @Post(':id/question/:questionId/validate')
+    @HttpCode(HttpStatus.OK)
     @Permissions('csgames-api:validate-question:competition')
     public async validateQuestion(@EventId() eventId: string,
                                   @Param('id') competitionId: string,
                                   @Param('questionId') questionId: string,
                                   @Body(BooleanPipe, new ValidationPipe()) dto: QuestionAnswerDto,
-                                  @UploadedFile('file') file: Express.Multer.File): Promise<void> {
+                                  @UploadedFile('file') file: Express.Multer.File,
+                                  @User() user: UserModel): Promise<void> {
         return await this.competitionService.validateQuestion(eventId, competitionId, questionId, {
             ...dto,
             file
-        });
+        }, user);
     }
 
     @Post(':id/director')

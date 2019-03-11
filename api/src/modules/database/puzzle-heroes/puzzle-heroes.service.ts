@@ -249,6 +249,9 @@ export class PuzzleHeroesService extends BaseService<PuzzleHeroes, PuzzleHeroes>
         if (!puzzle) {
             throw new NotFoundException('No puzzle found');
         }
+        if (puzzleHero.answers.some(x => (x.teamId as mongoose.Types.ObjectId).equals(teamId) && puzzle._id.equals(x.puzzle))) {
+            throw new BadRequestException("Cannot answer puzzle twice");
+        }
 
         const score = await this.questionsService.validateAnswer(answer, puzzle.question as string);
 

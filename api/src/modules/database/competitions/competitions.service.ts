@@ -4,6 +4,7 @@ import * as mongoose from 'mongoose';
 import { Model } from 'mongoose';
 import { UserModel } from '../../../models/user.model';
 import { BaseService } from '../../../services/base.service';
+import { DateUtils } from '../../../utils/date.utils';
 import { Activities, ActivitiesUtils } from '../activities/activities.model';
 import { ActivitiesService } from '../activities/activities.service';
 import { Attendees } from '../attendees/attendees.model';
@@ -13,6 +14,7 @@ import { RegistrationsService } from '../registrations/registrations.service';
 import { Teams } from '../teams/teams.model';
 import { AuthCompetitionDto, CreateCompetitionQuestionDto, CreateDirectorDto } from './competitions.dto';
 import { Competitions } from './competitions.model';
+import { QuestionAnswers } from './questions/question-answers.model';
 import { QuestionGraphNodes } from './questions/question-graph-nodes.model';
 import { QuestionAnswerDto } from '../questions/question-answer.dto';
 import { QuestionsService } from '../questions/questions.service';
@@ -124,7 +126,11 @@ export class CompetitionsService extends BaseService<Competitions, Competitions>
         return competition.questions.find(x => (x.question as mongoose.Types.ObjectId).equals(question._id));
     }
 
-    public async validateQuestion(eventId: string, competitionId: string, questionId: string, dto: QuestionAnswerDto): Promise<void> {
+    public async validateQuestion(eventId: string,
+                                  competitionId: string,
+                                  questionId: string,
+                                  dto: QuestionAnswerDto,
+                                  user: UserModel): Promise<void> {
         const competition = await this.competitionsModel.findOne({
             _id: competitionId,
             event: eventId
@@ -138,7 +144,22 @@ export class CompetitionsService extends BaseService<Competitions, Competitions>
             throw new BadRequestException("No question found");
         }
 
-        await this.questionService.validateAnswer(dto, question.question as string);
+        const teamId = await this.getTeamId(user.username, eventId);
+        if (competition.answers.some(x => (x.teamId as mongoose.Types.ObjectId).equals(teamId) && question._id.equals(x.question))) {
+            throw new BadRequestException("Cannot answer question twice");
+        }
+
+        await this.questionService.validateAnswer({
+            ...dto,
+            teamId
+        }, question.question as string);
+
+        competition.answers.push({
+            question: question._id,
+            teamId,
+            timestamp: DateUtils.nowUTC()
+        } as QuestionAnswers);
+        await competition.save();
     }
 
     public async updateQuestion(eventId: string, competitionId: string, questionId: string, dto: UpdateQuestionDto): Promise<void> {
@@ -352,7 +373,12 @@ export class CompetitionsService extends BaseService<Competitions, Competitions>
         return c;
     }
 
-    private async getTeamId(attendee: Attendees, eventId: string): Promise<string> {
+    private async getTeamId(attendee: Attendees | string, eventId: string): Promise<string> {
+        if (typeof attendee === "string") {
+            attendee = await this.attendeesModel.findOne({
+                email: attendee
+            }).select('_id').exec();
+        }
         const team = await this.teamsModel.findOne({
             attendees: attendee ? attendee._id : null,
             event: eventId

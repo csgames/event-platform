@@ -13,13 +13,19 @@ export class QuestionOptionDto {
 }
 
 export class CreateQuestionDto {
-    @IsNotEmpty()
+    @IsNotEmpty({
+        always: true
+    })
     label: string;
 
-    @IsNotEmpty()
+    @IsNotEmpty({
+        always: true
+    })
     description: object;
 
-    @IsNotEmpty()
+    @IsNotEmpty({
+        always: true
+    })
     @IsIn(["crypto", "gaming", "scavenger", "upload"])
     type: QuestionTypes;
 
@@ -30,13 +36,23 @@ export class CreateQuestionDto {
     @IsIn(["string", "regex", "function"])
     validationType: ValidationTypes;
 
-    @IsNotEmpty()
-    @ValidateIf(x => x.type !== "upload")
+    @IsNotEmpty({
+        always: true
+    })
+    @ValidateIf(x => x.type !== QuestionTypes.Upload, {
+        always: true
+    })
     answer: any;
 
-    @IsNotEmpty()
-    @IsNumber()
-    @ValidateIf(x => x.type !== "upload")
+    @IsNotEmpty({
+        always: true
+    })
+    @IsNumber({}, {
+        always: true
+    })
+    @ValidateIf(x => x.type !== QuestionTypes.Upload, {
+        always: true
+    })
     score: number;
 
     @IsNotEmpty({
