@@ -23,8 +23,8 @@
                     </div>
 
                     <hr>
-                    <div fxLayout="column" fxLayout.xs="column" fxLayoutGap="5px" fxLayoutGap.xs="5px">
-                        <div fxFlex="50" fxFlex.xs="100" *ngFor="let competition of subscribedCompetitions">
+                    <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="30px" fxLayoutGap.xs="5px">
+                        <div fxFlex="100" fxFlex.xs="70" fxLex.md="70" *ngFor="let competition of subscribedCompetitions">
                             <app-competition-card
                                 [competition]="competition">
                             </app-competition-card>
@@ -40,8 +40,8 @@
                         </div>
                     </div>
                     <hr>
-                    <div fxLayout="column" fxLayout.xs="column" fxLayoutGap="5px" fxLayoutGap.xs="5px">
-                        <div fxFlex="50" fxFlex.xs="100" *ngFor="let competition of otherCompetitions">
+                    <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="30px" fxLayoutGap.xs="5px">
+                        <div fxFlex="50" fxFlex.xs="100" fxFlex.md="70" *ngFor="let competition of otherCompetitions">
                             <app-competition-card 
                                 [competition]="competition">
                             </app-competition-card>
