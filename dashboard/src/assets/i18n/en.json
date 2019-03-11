@@ -48,6 +48,12 @@
         },
         "notification": {
             "no_notification": "You have no notifications"
+        },
+        "flashout_form": {
+            "flashout_informations": "Flash Out information",
+            "school": "School",
+            "url": "Video url",
+            "video_id": "Video Id (youtube)"
         }
 	},
 	"errors": {
@@ -114,7 +120,8 @@
 	"pages": {
         "flashouts": {
             "vote_success": "The vote has been successfully saved.",
-            "vote_error": "Please rate all the flash outs before voting."
+            "vote_error": "Please rate all the flash outs before voting.",
+            "add_flashout": "Add a Flash Out"
         },
 		"competition": {
 			"competition_password": "Competition password",

@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { ApiService } from "../api/api.service";
 import { Observable } from "rxjs";
 import { Flashout, AttendeeVote } from "../api/models/flashout";
-import { AddFlashoutDto } from "../features/flashout/flashout-add/dto/add-flashout.dto";
+import { FlashoutEditDto } from "../features/flashout/flashout-edit/components/flashout-form/dto/flashout-edit.dto";
 
 @Injectable()
 export class FlashoutService {
@@ -16,7 +16,7 @@ export class FlashoutService {
         return this.apiService.event.voteFlashouts(votes);
     }
 
-    public addFlashout(dto: AddFlashoutDto): Observable<void> {
-        return undefined;
+    public addFlashout(dto: FlashoutEditDto): Observable<Flashout> {
+        return this.apiService.flashout.create(dto as Flashout);
     }
 }

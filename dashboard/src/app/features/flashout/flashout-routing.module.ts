@@ -7,11 +7,11 @@ const routes: Routes = [
         path: "",
         loadChildren: "src/app/features/flashout/flashout-view/flashout-view.module#FlashoutViewModule",
         canActivate: [RoleGuard],
-        data: { roles: ["attendee", "captain", "godparent"], redirect: "flash-out/add" }
+        data: { roles: ["attendee", "captain", "godparent"], redirect: "flash-out/edit" }
     },
     {
-        path: "add",
-        loadChildren: "src/app/features/flashout/flashout-add/flashout-add.module#FlashoutAddModule",
+        path: "edit",
+        loadChildren: "src/app/features/flashout/flashout-edit/flashout-edit.module#FlashoutEditModule",
         canActivate: [RoleGuard],
         data: { roles: ["admin"], redirect: "flash-out" }
     }

@@ -1,0 +1,21 @@
+<div class="card-wrapper">
+    <div class="card bg-white">
+        <app-loading-spinner [loading]="loading$"></app-loading-spinner>
+        <div class="card-body" fxLayout="column" fxLayoutAlign="center center">
+            <div class="w-100">
+                <p class="school">{{ flashout.school.name }}</p>
+                <youtube-player [videoId]="flashout.videoId" (ready)="onReady()" (change)="onLoading()"></youtube-player>
+            </div>
+            <ng-container *ngIf="rate !== undefined">
+            <div class="rating">
+                    <rating [(ngModel)]="rating" [customTemplate]="tt" [titles]="[' ', ' ', ' ', ' ', ' ']"></rating>
+                    <ng-template #tt let-i="index" let-v="value">
+                        <button class="btn btn-{{i < v ? 'warning' : 'default'}} stars">
+                            {{i < v ? '&#9733;' : '&#9734;'}}
+                        </button>
+                    </ng-template>
+                </div>
+            </ng-container>
+        </div>
+    </div>
+</div>
