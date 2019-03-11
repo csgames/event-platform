@@ -67,7 +67,7 @@ export class ActivitiesService extends BaseService<Activities, CreateActivityDto
         }
 
         if (activity.subscribers.find(x => (x as Mongoose.Types.ObjectId).toHexString() === attendeeId)) {
-            throw new BadRequestException("Attendee already subscribed");
+            return;
         }
 
         await this.activityModel.update({
@@ -89,7 +89,7 @@ export class ActivitiesService extends BaseService<Activities, CreateActivityDto
         }
 
         if (!activity.subscribers.find(x => (x as Mongoose.Types.ObjectId).toHexString() === attendeeId)) {
-            throw new BadRequestException("Attendee isn't subscribe");
+            return;
         }
 
         await this.activityModel.update({
@@ -118,7 +118,11 @@ export class ActivitiesService extends BaseService<Activities, CreateActivityDto
             event: event._id,
             data: {
                 type: "activity",
-                activity: activity.toJSON().toString(),
+                activity: JSON.stringify({
+                    _id: activity._id,
+                    name: activity.name,
+                    type: activity.type
+                }),
                 dynamicLink: `activity/${id}`
             }
         });

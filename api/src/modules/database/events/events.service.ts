@@ -1,12 +1,9 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { STSService } from '@polyhx/nest-services';
 import * as mongoose from 'mongoose';
 import { Model } from 'mongoose';
 import { isNullOrUndefined } from 'util';
 import { BaseService } from '../../../services/base.service';
-import { EmailService } from '../../email/email.service';
-import { MessagingService } from '../../messaging/messaging.service';
 import { CreateActivityDto } from '../activities/activities.dto';
 import { Activities } from '../activities/activities.model';
 import { ActivitiesService } from '../activities/activities.service';
@@ -14,7 +11,6 @@ import { AttendeeNotifications, Attendees } from '../attendees/attendees.model';
 import { AttendeesService } from '../attendees/attendees.service';
 import { Notifications } from '../notifications/notifications.model';
 import { NotificationsService } from '../notifications/notifications.service';
-import { Teams } from '../teams/teams.model';
 import { AddScannedAttendee, AddSponsorDto, CreateEventDto, SendNotificationDto } from './events.dto';
 import { AttendeeAlreadyRegisteredException, EventNotFoundException, UserNotAttendeeException } from './events.exception';
 import { Events, EventSponsorDetails } from './events.model';
@@ -23,12 +19,8 @@ import { UpdateAttendeeDto } from '../attendees/attendees.dto';
 @Injectable()
 export class EventsService extends BaseService<Events, CreateEventDto> {
     constructor(@InjectModel('events') private readonly eventsModel: Model<Events>,
-                @InjectModel('teams') private readonly teamsModel: Model<Teams>,
                 private readonly attendeeService: AttendeesService,
-                private readonly emailService: EmailService,
-                private readonly stsService: STSService,
                 private readonly activitiesService: ActivitiesService,
-                private readonly messagingService: MessagingService,
                 private readonly notificationService: NotificationsService) {
         super(eventsModel);
     }
@@ -41,7 +33,11 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
             endDate: true,
             details: true,
             coverUrl: true,
-            attendees: true
+            attendees: true,
+            teamEditLocked: true,
+            teamEditLockDate: true,
+            flashoutBeginDate: true,
+            flashoutEndDate: true
         }).exec();
     }
 
@@ -204,7 +200,10 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
             attendees: ids,
             data: {
                 type: 'event',
-                event: event.toJSON().toString(),
+                event: JSON.stringify({
+                    _id: event._id,
+                    name: event.name
+                }),
                 dynamicLink: `event/${id}`
             }
         });
@@ -233,7 +232,7 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
 
         const notificationIds = notifications.map(x => (x._id as mongoose.Types.ObjectId).toHexString());
         return attendee.notifications.filter(x => {
-            if (!isNullOrUndefined(seen) && x.seen !== seen) {
+            if (!isNullOrUndefined(seen) && x.seen !== seen || !x.notification) {
                 return false;
             }
             return notificationIds.includes((x.notification as Notifications)._id.toHexString());
