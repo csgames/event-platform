@@ -50,7 +50,6 @@ import { PUZZLE_FORM_GENERATOR } from "./components/puzzle-form/puzzle-form.cons
         FormsModule,
         ReactiveFormsModule,
         RouterModule,
-        // DirectivesModule,
         PuzzleAdminRoutingModule,
         NgxGraphModule,
         AccordionModule,
@@ -67,7 +66,6 @@ import { PUZZLE_FORM_GENERATOR } from "./components/puzzle-form/puzzle-form.cons
         TimepickerModule,
         CustomTextBoxModule,
         PipesModule,
-
         StoreModule.forFeature("puzzleHeroAdmin", fromPuzzleAdmin.reducer),
         StoreModule.forFeature("puzzleHeroCreateTrack", fromCreateTrack.reducer),
         StoreModule.forFeature("puzzleHeroUpdateTrack", fromUpdateTrack.reducer),
