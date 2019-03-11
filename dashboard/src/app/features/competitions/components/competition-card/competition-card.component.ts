@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
+import { Component, EventEmitter, Input, OnInit, Output, OnChanges } from "@angular/core";
 import { select, Store } from "@ngrx/store";
 import { Competition } from "src/app/api/models/competition";
 import { getLoading, isSubscribed, State } from "./store/competition-card.reducer";
@@ -11,7 +11,7 @@ import { Observable } from "rxjs";
     templateUrl: "./competition-card.template.html",
     styleUrls: ["./competition-card.style.scss"]
 })
-export class CompetitionCardComponent implements OnInit {
+export class CompetitionCardComponent implements OnInit, OnChanges {
     @Input()
     public competition: Competition;
 
@@ -20,16 +20,22 @@ export class CompetitionCardComponent implements OnInit {
 
     loading$ = this.store$.pipe(select(getLoading));
     public result: boolean;
+    private subscribed: boolean;
 
     constructor(private store$: Store<State>) { }
 
-    get isSubscribed() {
-        return this.competition.activities.some(x => x.subscribed);
+    public isSubscribed() {
+        this.subscribed = this.competition.activities.some(x => x.subscribed);
     }
 
     public ngOnInit() {
         this.result = false;
         this.store$.dispatch(new ResetStore());
+        this.isSubscribed();
+    }
+
+    public ngOnChanges() {
+        this.ngOnInit();
     }
 
     public onShowInfo(competition: Competition) {
@@ -39,5 +45,6 @@ export class CompetitionCardComponent implements OnInit {
     public subscribe() {
         this.store$.dispatch(new SubscribeToCompetition(this.competition._id));
         this.result = true;
+        this.subscribed = true;
     }
 }
