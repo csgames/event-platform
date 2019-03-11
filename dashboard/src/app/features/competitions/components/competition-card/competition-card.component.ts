@@ -20,7 +20,7 @@ export class CompetitionCardComponent implements OnInit, OnChanges {
 
     loading$ = this.store$.pipe(select(getLoading));
     public result: boolean;
-    private subscribed: boolean;
+    public subscribed: boolean;
 
     constructor(private store$: Store<State>) { }
 
