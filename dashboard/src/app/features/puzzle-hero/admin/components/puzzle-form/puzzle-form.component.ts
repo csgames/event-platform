@@ -22,10 +22,6 @@ export class PuzzleFormComponent implements OnInit, ControlValueAccessor, OnDest
 
     constructor(@Inject(PUZZLE_FORM_GENERATOR) private formGenerator: FormGenerator<PuzzleFormDto>) { }
 
-    public get lang(): string {
-        // return this.translateService.getDefaultLang();
-        return null;
-    }
     public model: any;
     public validationTypes: string[];
     public puzzleTypes: string[];
@@ -75,5 +71,29 @@ export class PuzzleFormComponent implements OnInit, ControlValueAccessor, OnDest
         }
         this.formGenerator.markAsDirty();
         return false;
+    }
+
+    getPuzzleTypeIcon(type: string): string {
+        switch (type) {
+            case PuzzleTypes.Crypto:
+                return "fa-key";
+            case PuzzleTypes.Gaming:
+                return "fa-gamepad";
+            case PuzzleTypes.Scavenger:
+                return "fa-camera-alt";
+        }
+        return "";
+    }
+
+    getValidationIcon(type: string): string {
+        switch (type) {
+            case ValidationTypes.String:
+                return "fa-align-justify";
+            case ValidationTypes.Function:
+                return "fa-function";
+            case ValidationTypes.Regex:
+                return "fa-space-shuttle";
+        }
+        return "";
     }
 }

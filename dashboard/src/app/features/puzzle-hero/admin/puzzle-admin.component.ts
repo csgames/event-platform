@@ -43,12 +43,12 @@ export class PuzzleAdminComponent implements OnInit {
         this.store$.dispatch(new LoadPuzzleHero());
     }
 
-    clickUpdatePuzzle(info: [Track, PuzzleInfo]) {
-        this.modalService.addModal(UpdatePuzzleHeroComponent, { info });
+    clickUpdatePuzzle(puzzle: PuzzleInfo, track: Track) {
+        this.modalService.addModal(UpdatePuzzleHeroComponent, { info: [ track, puzzle ] });
     }
 
-    clickAddPuzzle(info: [Track, PuzzleInfo]) {
-        this.modalService.addModal(CreatePuzzleHeroComponent, { info });
+    clickAddPuzzle(puzzle: PuzzleInfo, track: Track) {
+        this.modalService.addModal(CreatePuzzleHeroComponent, { info: [ track, puzzle ] });
     }
 
     clickAddTrack() {
