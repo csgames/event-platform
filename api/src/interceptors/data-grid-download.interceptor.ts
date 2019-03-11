@@ -5,7 +5,7 @@ import { map } from "rxjs/operators";
 
 @Injectable()
 export class DataGridDownloadInterceptor implements NestInterceptor {
-    intercept(context: ExecutionContext, call$: Observable<Buffer | string>): Observable<void> {
+    intercept(context: ExecutionContext, call$: Observable<Buffer | string>): Observable<any> {
         const type = context.switchToHttp().getRequest<express.Request>().query.type;
         const res = context.switchToHttp().getResponse<express.Response>();
         return call$.pipe(
@@ -16,6 +16,8 @@ export class DataGridDownloadInterceptor implements NestInterceptor {
                 } else if (type === "csv") {
                     res.setHeader("Content-Type", "text/csv");
                     res.setHeader("Content-Length", value.length);
+                } else if (!type) {
+                    return value;
                 }
 
                 res.send(value);
