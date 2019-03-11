@@ -29,13 +29,13 @@ export class QuestionCardComponent implements OnInit {
     get icon(): string {
         switch (this.question.question.type) {
             case QuestionTypes.Crypto:
-                return "fa-key";
+                return "fal fa-key";
             case QuestionTypes.Gaming:
-                return "fa-gamepad";
+                return "fal fa-gamepad";
             case QuestionTypes.Scavender:
-                return "fa-camera-alt";
+                return "fal fa-camera-alt";
             case QuestionTypes.Upload:
-                return "fa-upload";
+                return "fal fa-upload";
         }
         return "";
     }

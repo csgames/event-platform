@@ -11,6 +11,7 @@ import { reducer } from "./store/competition.reducer";
 import { EffectsModule } from "@ngrx/effects";
 import { CompetitionEffects } from "./store/competition.effects";
 import { CompetitionsService } from "src/app/providers/competitions.service";
+import { GuideAccordionModule } from "src/app/components/guide-accordion/accordion.module";
 
 @NgModule({
     imports: [
@@ -19,6 +20,7 @@ import { CompetitionsService } from "src/app/providers/competitions.service";
         FlexLayoutModule,
         PipeModule,
         TranslateModule,
+        GuideAccordionModule,
         StoreModule.forFeature("competition", reducer),
         EffectsModule.forFeature([CompetitionEffects]),
 
