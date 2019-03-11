@@ -31,7 +31,8 @@
     "@nestjs/swagger": "2.5.1",
     "@nestjs/testing": "5.4.0",
     "@nestjs/websockets": "5.4.0",
-    "@polyhx/nest-services": "2.0.5",
+    "@polyhx/nest-services": "2.0.7",
+    "adm-zip": "^0.4.13",
     "class-transformer": "^0.1.9",
     "class-validator": "^0.9.1",
     "dotenv": "^6.0.0",
@@ -48,6 +49,7 @@
     "ws": "^4.0.0"
   },
   "devDependencies": {
+    "@types/adm-zip": "^0.4.32",
     "@types/body-parser": "^1.16.7",
     "@types/chai": "^4.1.7",
     "@types/cors": "^2.8.1",

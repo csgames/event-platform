@@ -1,11 +1,11 @@
 import { BadRequestException, Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { HttpService } from '@nestjs/common/http';
 import { InjectModel } from '@nestjs/mongoose';
-import { AxiosResponse } from 'axios';
-import { Model, Types } from 'mongoose';
-import { Questions, ValidationTypes } from './questions.model';
-import { QuestionAnswerDto } from './question-answer.dto';
 import { StorageService } from '@polyhx/nest-services';
+import { AxiosResponse } from 'axios';
+import { Model } from 'mongoose';
+import { QuestionAnswerDto } from './question-answer.dto';
+import { Questions, QuestionTypes, ValidationTypes } from './questions.model';
 
 @Injectable()
 export class QuestionsService {
@@ -53,6 +53,20 @@ export class QuestionsService {
         }
 
         return question.score;
+    }
+
+    public async getUplodedFile(questionId: string): Promise<{ [name: string]: Buffer }> {
+        const question = await this.questionsModel.findOne({
+            _id: questionId
+        }).exec();
+        if (!question) {
+            throw new NotFoundException('No question found');
+        }
+        if (question.type !== QuestionTypes.Upload) {
+            throw new NotFoundException('Invalid question type');
+        }
+
+        return await this.storageService.getFilesFromDirectory(`questions/${question._id.toHexString()}`);
     }
 
     public validateString(userAnswer: string, answer: string): boolean {

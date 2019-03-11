@@ -16,6 +16,7 @@ import { ApiUseTags } from '@nestjs/swagger';
 import { EventId } from '../../../decorators/event-id.decorator';
 import { Permissions } from '../../../decorators/permission.decorator';
 import { PermissionsGuard } from '../../../guards/permission.guard';
+import { BufferInterceptor } from '../../../interceptors/buffer.interceptor';
 import { ValidationPipe } from '../../../pipes/validation.pipe';
 import { Attendees } from '../attendees/attendees.model';
 import { UpdateQuestionDto } from '../questions/questions.dto';
@@ -93,6 +94,15 @@ export class CompetitionsController {
                                 @Param('id') competitionId: string,
                                 @User() user: UserModel): Promise<Competitions> {
         return await this.competitionService.getById(eventId, competitionId, user);
+    }
+
+    @Get(':id/question/:questionId/result')
+    @UseInterceptors(new BufferInterceptor("application/zip"))
+    @Permissions('csgames-api:get:competition')
+    public async getQuestionResult(@EventId() eventId: string,
+                                   @Param('id') competitionId: string,
+                                   @Param('questionId') questionId: string): Promise<Buffer> {
+        return await this.competitionService.getResult(eventId, competitionId, questionId);
     }
 
     @Put(':id')

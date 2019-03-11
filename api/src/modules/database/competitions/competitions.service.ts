@@ -2,6 +2,7 @@ import { BadRequestException, Injectable, NotFoundException, UnauthorizedExcepti
 import { InjectModel } from '@nestjs/mongoose';
 import * as mongoose from 'mongoose';
 import { Model } from 'mongoose';
+import * as AdmZip from 'adm-zip';
 import { UserModel } from '../../../models/user.model';
 import { BaseService } from '../../../services/base.service';
 import { DateUtils } from '../../../utils/date.utils';
@@ -205,6 +206,46 @@ export class CompetitionsService extends BaseService<Competitions, Competitions>
             }
         });
         await competition.save();
+    }
+
+    public async getResult(eventId: string, competitionId: string, questionId: string): Promise<Buffer> {
+        const competition = await this.competitionsModel.findOne({
+            _id: competitionId,
+            event: eventId
+        }).exec();
+        if (!competition) {
+            throw new NotFoundException();
+        }
+
+        const question = competition.questions.find(x => x._id.equals(questionId));
+        if (!question) {
+            throw new BadRequestException("No question found");
+        }
+
+        const files = await this.questionService.getUplodedFile(question.question as string);
+        const teams = await this.teamsModel.find({
+            event: eventId
+        }).select('name').exec();
+
+        const zip = new AdmZip();
+        for (const key in files) {
+            if (!files.hasOwnProperty(key)) {
+                continue;
+            }
+
+            const teamId = key.split("-");
+            if (teamId.length < 2) {
+                continue;
+            }
+            const team = teams.find(x => x._id.equals(key.split("-")[1].replace(".zip", "")));
+            if (!team) {
+                continue;
+            }
+
+            zip.addFile(`${team.name}.zip`, files[key]);
+        }
+
+        return zip.toBuffer();
     }
 
     public async createDirector(eventId: string, competitionId: string, dto: CreateDirectorDto): Promise<Attendees> {
