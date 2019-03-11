@@ -317,4 +317,38 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
 
         return competitions;
     }
+
+    public async getCompetitionsAsMember(eventId: string, user: UserModel): Promise<Competitions[]> {
+        let competitions = await this.competitionsModel.find({
+            event: eventId
+        }).select({
+            activities: true,
+            members: true
+        }).populate({
+            path: 'activities',
+            model: 'activities',
+            select: ['name', 'subscribers'],
+            options: {
+                lean: true
+            }
+        }).lean().exec();
+
+        if (user.role.endsWith('admin')) {
+            return competitions;
+        }
+
+        const attendee = await this.attendeeService.findOne({
+            email: user.username
+        });
+        competitions = competitions.filter(competition => {
+            return competition.members &&
+                competition.members.some(m => m.attendees && m.attendees.some(a => attendee._id.equals(a)));
+        }).map(competition => {
+            competition.activities = ActivitiesService.formatActivities(competition.activities as any, attendee);
+            delete competition.members;
+            return competition;
+        });
+
+        return competitions;
+    }
 }

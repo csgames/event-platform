@@ -84,8 +84,16 @@ export class EventsController {
 
     @Get('competition')
     @Permissions('csgames-api:get:competition')
-    public async getCompetitions(@EventId() eventId: string, @User() user: UserModel): Promise<Competitions[]> {
+    public async getCompetitions(@EventId() eventId: string,
+                                 @User() user: UserModel): Promise<Competitions[]> {
         return await this.eventsService.getCompetitions(eventId, user);
+    }
+
+    @Get('competition/member')
+    @Permissions('csgames-api:get:competition')
+    public async getCompetitionsAsMember(@EventId() eventId: string,
+                                 @User() user: UserModel): Promise<Competitions[]> {
+        return await this.eventsService.getCompetitionsAsMember(eventId, user);
     }
 
     @Post('sms')
