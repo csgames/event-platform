@@ -24,7 +24,7 @@ export class PuzzleHeroesController {
 
     @Post()
     @Permissions('csgames-api:create:puzzle-hero')
-    public async create(@Body(ValidationPipe) dto: CreatePuzzleHeroDto, @EventId() eventId: string): Promise<PuzzleHeroes> {
+    public async create(@Body(new ValidationPipe()) dto: CreatePuzzleHeroDto, @EventId() eventId: string): Promise<PuzzleHeroes> {
         const puzzleHero = await this.puzzleHeroService.findOne({
             event: eventId
         });
@@ -45,13 +45,13 @@ export class PuzzleHeroesController {
 
     @Post('track')
     @Permissions('csgames-api:create:puzzle-hero')
-    public async createTrack(@Body(ValidationPipe) dto: CreateTrackDto, @EventId() eventId: string): Promise<Tracks> {
+    public async createTrack(@Body(new ValidationPipe()) dto: CreateTrackDto, @EventId() eventId: string): Promise<Tracks> {
         return await this.puzzleHeroService.createTrack(eventId, dto);
     }
 
     @Post('track/:trackId/puzzle')
     @Permissions('csgames-api:create:puzzle-hero')
-    public async createPuzzle(@Body(ValidationPipe) dto: CreatePuzzleDto,
+    public async createPuzzle(@Body(new ValidationPipe()) dto: CreatePuzzleDto,
                               @Param('trackId') trackId: string,
                               @EventId() eventId: string): Promise<PuzzleGraphNodes> {
         return await this.puzzleHeroService.createPuzzle(eventId, trackId, dto);
@@ -60,7 +60,7 @@ export class PuzzleHeroesController {
     @Post('puzzle/:puzzleId/validate')
     @Permissions('csgames-api:get:event')
     @HttpCode(HttpStatus.OK)
-    public async validateAnswer(@EventId() id: string, @Param("puzzleId") puzzleId, @Body(ValidationPipe) dto: QuestionAnswerDto,
+    public async validateAnswer(@EventId() id: string, @Param("puzzleId") puzzleId, @Body(new ValidationPipe()) dto: QuestionAnswerDto,
                                 @User() user: UserModel): Promise<void> {
         return await this.puzzleHeroService.validateAnswer(dto, puzzleId, id, user.username);
     }

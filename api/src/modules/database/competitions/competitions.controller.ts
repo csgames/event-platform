@@ -39,7 +39,7 @@ export class CompetitionsController {
 
     @Post()
     @Permissions('csgames-api:create:competition')
-    public async create(@EventId() eventId: string, @Body(ValidationPipe) dto: CreateCompetitionDto): Promise<Competitions> {
+    public async create(@EventId() eventId: string, @Body(new ValidationPipe()) dto: CreateCompetitionDto): Promise<Competitions> {
         return await this.competitionService.create({
             ...dto,
             event: eventId
@@ -51,7 +51,7 @@ export class CompetitionsController {
     @Permissions('csgames-api:get:competition')
     public async auth(@EventId() eventId: string,
                       @Param('id') competitionId: string,
-                      @Body(ValidationPipe) dto: AuthCompetitionDto,
+                      @Body(new ValidationPipe()) dto: AuthCompetitionDto,
                       @User() user: UserModel): Promise<void> {
         await this.competitionService.auth(eventId, competitionId, dto, user);
     }
@@ -60,7 +60,7 @@ export class CompetitionsController {
     @Permissions('csgames-api:update:competition')
     public async createQuestion(@EventId() eventId: string,
                                 @Param('id') competitionId: string,
-                                @Body(ValidationPipe) dto: CreateCompetitionQuestionDto): Promise<QuestionGraphNodes> {
+                                @Body(new ValidationPipe(["type"])) dto: CreateCompetitionQuestionDto): Promise<QuestionGraphNodes> {
         return await this.competitionService.createQuestion(eventId, competitionId, dto);
     }
 
@@ -69,7 +69,7 @@ export class CompetitionsController {
     public async validateQuestion(@EventId() eventId: string,
                                   @Param('id') competitionId: string,
                                   @Param('questionId') questionId: string,
-                                  @Body(BooleanPipe, ValidationPipe) dto: QuestionAnswerDto,
+                                  @Body(BooleanPipe, new ValidationPipe()) dto: QuestionAnswerDto,
                                   @UploadedFile('file') file: Express.Multer.File): Promise<void> {
         return await this.competitionService.validateQuestion(eventId, competitionId, questionId, {
             ...dto,
@@ -81,7 +81,7 @@ export class CompetitionsController {
     @Permissions('csgames-api:update:competition', 'csgames-api:create:attendee')
     public async createDirector(@EventId() eventId: string,
                                 @Param('id') competitionId: string,
-                                @Body(ValidationPipe) dto: CreateDirectorDto): Promise<Attendees> {
+                                @Body(new ValidationPipe()) dto: CreateDirectorDto): Promise<Attendees> {
         return await this.competitionService.createDirector(eventId, competitionId, dto);
     }
 
@@ -97,7 +97,7 @@ export class CompetitionsController {
     @Permissions('csgames-api:update:competition')
     public async update(@EventId() eventId: string,
                         @Param('id') competitionId: string,
-                        @Body(ValidationPipe) dto: UpdateCompetitionDto): Promise<void> {
+                        @Body(new ValidationPipe()) dto: UpdateCompetitionDto): Promise<void> {
         await this.competitionService.update({
             _id: competitionId,
             event: eventId
@@ -109,7 +109,7 @@ export class CompetitionsController {
     public async updateQuestion(@EventId() eventId: string,
                                 @Param('id') competitionId: string,
                                 @Param('questionId') questionId: string,
-                                @Body(ValidationPipe) dto: UpdateQuestionDto): Promise<void> {
+                                @Body(new ValidationPipe()) dto: UpdateQuestionDto): Promise<void> {
         await this.competitionService.updateQuestion(eventId, competitionId, questionId, dto);
     }
 

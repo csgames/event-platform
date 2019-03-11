@@ -110,7 +110,8 @@ export class CompetitionsService extends BaseService<Competitions, Competitions>
             type: dto.type,
             validationType: dto.validationType,
             answer: dto.answer,
-            score: dto.score
+            score: dto.score,
+            option: dto.option
         });
 
         competition.questions.push({

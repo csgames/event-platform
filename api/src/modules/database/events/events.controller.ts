@@ -90,13 +90,13 @@ export class EventsController {
 
     @Post('sms')
     @Permissions('csgames-api:update:event')
-    public async sendSms(@EventId() eventId: string, @Body(ValidationPipe) dto: SendSmsDto) {
+    public async sendSms(@EventId() eventId: string, @Body(new ValidationPipe()) dto: SendSmsDto) {
         await this.eventsService.sendSms(eventId, dto.text);
     }
 
     @Post('notification')
     @Permissions('csgames-api:update:event')
-    public async createNotification(@EventId() eventId: string, @Body(ValidationPipe) dto: SendNotificationDto) {
+    public async createNotification(@EventId() eventId: string, @Body(new ValidationPipe()) dto: SendNotificationDto) {
         await this.eventsService.createNotification(eventId, dto);
     }
 
@@ -140,8 +140,10 @@ export class EventsController {
     }
 
     @Put('registration')
-    public async confirmRegistration(@Body(NullPipe, ValidationPipe) dto: UpdateAttendeeDto, @UploadedFile() file: Express.Multer.File,
-                                     @User() user: UserModel, @EventId() eventId: string) {
+    public async confirmRegistration(@Body(NullPipe, new ValidationPipe()) dto: UpdateAttendeeDto,
+                                     @UploadedFile() file: Express.Multer.File,
+                                     @User() user: UserModel,
+                                     @EventId() eventId: string) {
         await this.eventsService.confirmAttendee(eventId, user.username, dto, file);
     }
 

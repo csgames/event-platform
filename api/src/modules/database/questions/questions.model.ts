@@ -14,13 +14,19 @@ export enum ValidationTypes {
     Upload = "upload"
 }
 
+export interface QuestionOption {
+    contentTypes: string[];
+}
+
 export interface Questions extends mongoose.Document {
+    _id: mongoose.Types.ObjectId;
     label: string;
     description: { [lang: string]: string };
     type: QuestionTypes;
     validationType: ValidationTypes;
     answer: any;
     score: number;
+    option: QuestionOption;
 }
 
 export const QuestionsSchema = new mongoose.Schema({
@@ -39,15 +45,19 @@ export const QuestionsSchema = new mongoose.Schema({
     },
     validationType: {
         type: String,
-        enum: ["string", "regex", "function"],
+        enum: ["string", "regex", "function", "upload"],
         required: true
     },
     answer: {
         type: Object,
-        required: true
+        required: false
     },
     score: {
         type: Number,
         required: true
+    },
+    option: {
+        type: Object,
+        required: false
     }
 });

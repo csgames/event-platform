@@ -1,5 +1,16 @@
+import { Type } from 'class-transformer';
+import { ArrayNotEmpty, IsIn, IsNotEmpty, IsNumber, IsOptional, ValidateIf, ValidateNested } from 'class-validator';
 import { QuestionTypes, ValidationTypes } from './questions.model';
-import { IsIn, IsNotEmpty, IsNumber, IsOptional } from 'class-validator';
+
+export class QuestionOptionDto {
+    @IsNotEmpty({
+        groups: ["upload"]
+    })
+    @ArrayNotEmpty({
+        groups: ["upload"]
+    })
+    contentTypes: string[];
+}
 
 export class CreateQuestionDto {
     @IsNotEmpty()
@@ -13,15 +24,29 @@ export class CreateQuestionDto {
     type: QuestionTypes;
 
     @IsNotEmpty()
+    @IsIn(["upload"], {
+        groups: ["upload"]
+    })
     @IsIn(["string", "regex", "function"])
     validationType: ValidationTypes;
 
     @IsNotEmpty()
+    @ValidateIf(x => x.type !== "upload")
     answer: any;
 
     @IsNotEmpty()
     @IsNumber()
+    @ValidateIf(x => x.type !== "upload")
     score: number;
+
+    @IsNotEmpty({
+        groups: ["upload"]
+    })
+    @ValidateNested({
+        groups: ["upload"]
+    })
+    @Type(() => QuestionOptionDto)
+    option: QuestionOptionDto;
 }
 
 export class UpdateQuestionDto {
@@ -40,6 +65,9 @@ export class UpdateQuestionDto {
 
     @IsOptional()
     @IsNotEmpty()
+    @IsIn(["upload"], {
+        groups: ["upload"]
+    })
     @IsIn(["string", "regex", "function"])
     validationType: ValidationTypes;
 
@@ -51,4 +79,10 @@ export class UpdateQuestionDto {
     @IsNotEmpty()
     @IsNumber()
     score: number;
+
+    @IsOptional()
+    @ValidateNested({
+        groups: ["upload"]
+    })
+    option: QuestionOptionDto;
 }

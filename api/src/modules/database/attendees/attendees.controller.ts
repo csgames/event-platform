@@ -79,20 +79,20 @@ export class AttendeesController {
     @Put()
     @Permissions('csgames-api:update:attendee')
     public async update(@UploadedFile() file, @User() user: UserModel,
-                        @Body(NullPipe, ValidationPipe) value: UpdateAttendeeDto) {
+                        @Body(NullPipe, new ValidationPipe()) value: UpdateAttendeeDto) {
         await this.attendeesService.updateAttendeeInfo({
             email: user.username
         }, value, file);
     }
 
     @Put('token')
-    public async addToken(@User() user: UserModel, @Body(ValidationPipe) dto: AddTokenDto) {
+    public async addToken(@User() user: UserModel, @Body(new ValidationPipe()) dto: AddTokenDto) {
         await this.attendeesService.addToken(user.username, dto.token);
     }
 
     @Put('notification')
     @Permissions('csgames-api:update:attendee')
-    public async updateNotification(@User() user: UserModel, @Body(ValidationPipe) dto: UpdateNotificationDto) {
+    public async updateNotification(@User() user: UserModel, @Body(new ValidationPipe()) dto: UpdateNotificationDto) {
         await this.attendeesService.updateNotification(user.username, dto);
     }
 

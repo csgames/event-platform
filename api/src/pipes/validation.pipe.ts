@@ -5,6 +5,8 @@ import { ObjectUtils } from '../utils/object.utils';
 
 @Injectable()
 export class ValidationPipe implements PipeTransform<any> {
+    constructor(private groups: string[] = []) {}
+
     async transform(value, metadata: ArgumentMetadata) {
         const { metatype } = metadata;
         if (!metatype || !this.toValidate(metatype)) {
@@ -19,7 +21,10 @@ export class ValidationPipe implements PipeTransform<any> {
         // https://github.com/expressjs/multer/blob/master/lib/make-middleware.js#L28
         // Works when line 28 is: req.body = {}
         const object = plainToClass(metatype, ObjectUtils.rebuildObjectIfBroken(value));
-        const errors = await validate(object);
+        const groups = this.getGroups(value);
+        const errors = await validate(object, {
+            groups
+        });
         if (errors.length > 0) {
             throw new HttpException({ message: 'Validation failed', fields: errors.map(e => e.property) },
                 HttpStatus.PRECONDITION_FAILED);
@@ -30,5 +35,9 @@ export class ValidationPipe implements PipeTransform<any> {
     private toValidate(metatype): boolean {
         const types = [String, Boolean, Number, Array, Object];
         return !types.find((type) => metatype === type);
+    }
+
+    private getGroups(value) {
+        return this.groups.filter(x => x in value).map(x => value[x]);
     }
 }

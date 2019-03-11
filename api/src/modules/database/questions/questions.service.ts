@@ -43,7 +43,7 @@ export class QuestionsService {
                 }
                 break;
             case ValidationTypes.Upload:
-                validationResult = await this.validateUpload(dto.file, question._id);
+                validationResult = await this.validateUpload(dto.file, question);
                 if (!validationResult) {
                     throw new BadRequestException('Invalid answer');
                 }
@@ -96,9 +96,13 @@ export class QuestionsService {
         }
     }
 
-    public async validateUpload(file: Express.Multer.File, questionId: Types.ObjectId): Promise<boolean> {
+    public async validateUpload(file: Express.Multer.File, question: Questions): Promise<boolean> {
+        if (!question.option.contentTypes.some(x => x.toLowerCase() === file.mimetype.toLowerCase())) {
+            return false;
+        }
+
         try {
-            await this.storageService.upload(file, `questions/${questionId.toHexString()}`);
+            await this.storageService.upload(file, `questions/${question._id.toHexString()}`);
             return true;
         } catch (e) {
             return false;
