@@ -53,8 +53,8 @@
                     </ng-template>
 
                     <ng-template #nodeTemplate let-node>
-                        <svg:g puzzle-tile [puzzle]="node" (clickPuzzle)="onClickPuzzle($event, node)"
-                               (clickAddPuzzle)="onClickAddPuzzle($event, track, node)"
+                        <svg:g puzzle-tile [puzzle]="node" (clickPuzzle)="onClickPuzzle(node)"
+                               (clickAddPuzzle)="onClickAddPuzzle($event, node)"
                                [adminMode]="adminMode"></svg:g>
                     </ng-template>
 

@@ -9,7 +9,6 @@ import { RoleGuard } from "../../guards/role.guard";
     imports: [
         CommonModule,
         PuzzleHeroRoutingModule
-
     ],
     exports: [],
     providers: [

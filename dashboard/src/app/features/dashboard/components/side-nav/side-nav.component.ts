@@ -31,6 +31,15 @@ export class SideNavComponent implements OnInit {
         );
     }
 
+    get flashoutOpen$(): Observable<boolean> {
+        return this.currentEvent$.pipe(
+            map(e => {
+                const now = new Date().toISOString();
+                return now > e.flashoutBeginDate && now < e.flashoutEndDate;
+            })
+        );
+    }
+
     @Input()
     loading = false;
 

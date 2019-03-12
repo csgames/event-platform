@@ -34,7 +34,6 @@ import { DirectivesModule } from "../../../directives/directives.module";
         DirectivesModule,
         StoreModule.forFeature("teamEdit", fromTeamEdit.reducer),
         EffectsModule.forFeature([TeamEditEffects]),
-
         TeamEditRoutingModule
     ],
     exports: [],

@@ -65,6 +65,7 @@ export class AppEffects {
                 await this.attendeeService.removeMessagingToken(token).toPromise();
             }
         }),
+        delay(500),
         switchMap(() => {
             return this.authenticationService.logout().pipe(
                 tap(() => {

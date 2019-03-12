@@ -8,17 +8,14 @@ import { AccordionModule } from "ngx-bootstrap";
 import { NgxGraphModule } from "@swimlane/ngx-graph";
 import { FlexLayoutModule } from "@angular/flex-layout";
 import { StoreModule } from "@ngrx/store";
-import * as fromInfoPuzzleHero from "./components/info-puzzle-hero/store/info-puzzle-hero.reducer";
 import * as fromPuzzleHero from "./store/tracks.reducer";
 import { EffectsModule } from "@ngrx/effects";
 import { TracksEffects } from "./store/tracks.effects";
 import { TranslateModule } from "@ngx-translate/core";
 import { LoadingSpinnerModule } from "../../../components/loading-spinner/loading-spinner.module";
-import { InfoPuzzleHeroComponent } from "./components/info-puzzle-hero/info-puzzle-hero.component";
 import { SimpleModalModule } from "ngx-simple-modal";
-import { InfoPuzzleHeroEffects } from "./components/info-puzzle-hero/store/info-puzzle-hero.effects";
 import { PuzzleComponentsModule } from "../components/puzzle-components.module";
-import { DirectivesModule } from "../../../directives/directives.module";
+import { InfoPuzzleHeroModule } from "./components/info-puzzle-hero/info-puzzle-hero.module";
 
 @NgModule({
     imports: [
@@ -33,15 +30,16 @@ import { DirectivesModule } from "../../../directives/directives.module";
         LoadingSpinnerModule,
         TranslateModule,
         PuzzleComponentsModule,
+        InfoPuzzleHeroModule,
+        SimpleModalModule,
 
         StoreModule.forFeature("puzzleHeroTracks", fromPuzzleHero.reducer),
-        StoreModule.forFeature("infoPuzzleHero", fromInfoPuzzleHero.reducer),
-        SimpleModalModule,
-        EffectsModule.forFeature([TracksEffects, InfoPuzzleHeroEffects])
+        EffectsModule.forFeature([TracksEffects])
     ],
     exports: [],
-    entryComponents: [InfoPuzzleHeroComponent],
-    declarations: [TracksComponent, InfoPuzzleHeroComponent],
+    entryComponents: [],
+    declarations: [TracksComponent],
     providers: []
 })
-export class TracksModule {}
+export class TracksModule {
+}

@@ -6,13 +6,16 @@ export interface Event {
     details?: any;
     beginDate: Date | string;
     endDate: Date | string;
+    flashoutBeginDate?: string;
+    flashoutEndDate?: string;
     activities?: any[];
     imageUrl: string;
     coverUrl?: string;
     website?: string;
-    facebookEvent?: string;
     locationName?: string;
     locationAddress?: string;
     maxTeamMembers?: number;
     guide: EventGuide;
+    teamEditLocked: boolean;
+    teamEditLockDate: Date | string;
 }

@@ -79,6 +79,12 @@
         },
         "create_puzzle": {
             "success": "Puzzle created!"
+        },
+        "flashout_form": {
+            "flashout_informations": "Flash Out information",
+            "school": "School",
+            "url": "Video url",
+            "video_id": "Video Id (youtube)"
         }
     },
     "errors": {
@@ -103,7 +109,8 @@
             "subscribe": "Subscribe",
             "subscribed": "Subscribed",
             "validate": "Validate",
-            "edit": "Edit"
+            "edit": "Edit",
+            "vote": "Vote"
         },
         "error": {
             "something": "Something happened...",
@@ -155,35 +162,40 @@
                 "sponsor": "Sponsor"
             }
         }
-    },
-    "pages": {
-        "competition": {
-            "competition_password": "Competition password",
-            "competitions": "Competitions",
-            "other": "Other competitions",
-            "participate": "Participate",
-            "subscribed": "Subscribed competitions",
-            "wrong_password": "Wrong password"
+	},
+	"pages": {
+        "flashouts": {
+            "vote_success": "The vote has been successfully saved.",
+            "vote_error": "Please rate all the flash outs before voting.",
+            "add_flashout": "Add a Flash Out"
         },
-        "guide": {
-            "guide": "Guide",
-            "hotel": "Get to the hotel",
-            "school": "Get to the school",
-            "parking": "Parkings",
-            "restaurants": "Restaurants and bars",
-            "what_to_bring": "What to bring?",
-            "map": "School map"
-        },
-        "home": {
-            "home": "Home"
-        },
-        "login": {
-            "forgot_pass": "Forgot password?",
-            "login": "Login",
-            "login_error": "Invalid e-mail or password.",
-            "sign_in": "Sign in"
-        },
-        "onboarding": {
+		"competition": {
+			"competition_password": "Competition password",
+			"competitions": "Competitions",
+			"other": "Other competitions",
+			"participate": "Participate",
+			"subscribed": "Subscribed competitions",
+			"wrong_password": "Wrong password"
+		},
+		"guide": {
+			"guide": "Guide",
+			"hotel": "Get to the hotel",
+			"school": "Get to the school",
+			"parking": "Parkings",
+			"restaurants": "Restaurants and bars",
+			"what_to_bring": "What to bring?",
+			"map": "School map"
+		},
+		"home": {
+			"home": "Home"
+		},
+		"login": {
+			"forgot_pass": "Forgot password?",
+			"login": "Login",
+			"login_error": "Invalid e-mail or password.",
+			"sign_in": "Sign in"
+		},
+		"onboarding": {
             "onboarding": "Onboarding",
             "agree": "I have read and agree the conditions and rules cited in ",
             "code": "this disclaimer"
@@ -249,13 +261,16 @@
             "godparent": "Godparent",
             "loading_error": "An error occured while loading the team.",
             "teams_loading_error": "An error occured while loading the teams.",
-            "no_godparent": "No godparent yet",
-            "not_registered": "Not registered",
-            "registered": "Registered",
-            "team": "Team",
-            "teams": "Teams",
-            "team_title": "Team",
-            "team_members": "Team members"
+			"no_godparent": "No godparent yet",
+			"not_registered": "Not registered",
+			"registered": "Registered",
+			"team": "Team",
+			"teams": "Teams",
+			"team_title": "Team",
+			"team_members": "Team members"
+		},
+        "notifications": {
+            "notifications": "Notifications"
         }
-    }
+	}
 }

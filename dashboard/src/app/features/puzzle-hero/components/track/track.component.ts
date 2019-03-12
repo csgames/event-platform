@@ -88,7 +88,7 @@ export class TrackComponent implements OnInit {
         return this.puzzleHeroService.isTrackStarred(this.track);
     }
 
-    onClickPuzzle(event: MouseEvent, puzzle: PuzzleInfo) {
+    onClickPuzzle(puzzle: PuzzleInfo) {
         this.clickPuzzle.emit(puzzle);
     }
 

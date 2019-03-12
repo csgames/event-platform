@@ -20,4 +20,13 @@ export class ActivityApi extends CSGamesApi {
             withCredentials: true
         });
     }
+
+    public sendPushToActivity(title: string, body: string, activityId: string) {
+        return this.http.post<void>(this.url(`${activityId}/notification`), {
+            title,
+            body
+        }, {
+            withCredentials: true
+        });
+    }
 }

@@ -18,10 +18,10 @@ export class PuzzleTileComponent {
     adminMode = false;
 
     @Output()
-    clickPuzzle = new EventEmitter<PuzzleInfo>();
+    clickPuzzle = new EventEmitter<void>();
 
     @Output()
-    clickAddPuzzle = new EventEmitter<PuzzleInfo>();
+    clickAddPuzzle = new EventEmitter<void>();
 
     get icon(): string {
         switch (this.puzzle.type) {
@@ -32,7 +32,7 @@ export class PuzzleTileComponent {
             case PuzzleTypes.Scavenger:
                 return "&#xf332;";
             case PuzzleTypes.Sponsor:
-                return "&#xf3a5";
+                return "&#xf3a5;";
         }
         return "";
     }
@@ -41,11 +41,11 @@ export class PuzzleTileComponent {
         if (this.popover) {
             this.popover.hide();
         }
-        this.clickPuzzle.emit(this.puzzle);
+        this.clickPuzzle.emit();
     }
 
     onClickAddLink() {
         this.popover.hide();
-        this.clickAddPuzzle.emit(this.puzzle);
+        this.clickAddPuzzle.emit();
     }
 }

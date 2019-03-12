@@ -30,8 +30,6 @@ export class CreatePuzzleHeroComponent extends SimpleModalComponent<CreatePuzzle
     public info: [Track, PuzzleInfo];
     public parentPuzzle: PuzzleInfo;
     public track: Track;
-
-    public model: any;
     public puzzleFormDto: PuzzleFormDto;
 
     loading$ = this.store$.pipe(select(getPuzzleHeroCreatePuzzleLoading));

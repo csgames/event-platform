@@ -5,7 +5,7 @@
     <span fxFlex></span>
     <div class="nav-link" (click)="clickNotificationsButton()">
         <i class="far fa-bell notification-icon"></i>
-        <span *ngIf="unseen$ | async" class="badge badge-danger count-info">&nbsp;</span>
+        <span *ngIf="unseen" class="badge badge-danger count-info">&nbsp;</span>
     </div>
 
     <ng-container *ngIf="!loading">

@@ -96,13 +96,23 @@
                     </div>
                 </a>
             </ng-container>
-            <a *ifRole="['admin']" [routerLink]="['/team/edit']" routerLinkActive="active">
+            <a *ifRole="['admin', 'super-admin']" [routerLink]="['/team/edit']" routerLinkActive="active">
                 <div [fxLayout]="'row'" fxFlexFill>
                     <div fxFlex="20">
                         <i class="fal fa-users"></i>
                     </div>
                     <div fxFlex="80">
                         {{ "pages.team.teams" | translate }}
+                    </div>
+                </div>
+            </a>
+            <a *ifRole="['admin', 'super-admin']" [routerLink]="['/notifications']" routerLinkActive="active">
+                <div [fxLayout]="'row'" fxFlexFill>
+                    <div fxFlex="20">
+                        <i class="fal fa-bell"></i>
+                    </div>
+                    <div fxFlex="80">
+                        {{ "pages.notifications.notifications" | translate }}
                     </div>
                 </div>
             </a>
@@ -126,6 +136,29 @@
                     </div>
                 </div>
             </a> -->
+            <ng-container *ifRole="['attendee', 'captain', 'godparent']">
+                <a *ngIf="(attendee$ | async)?.registered  && (flashoutOpen$ | async)" [routerLink]="['/flash-out']"
+                   routerLinkActive="active">
+                    <div [fxLayout]="'row'" fxFlexFill>
+                        <div fxFlex="20">
+                            <i class="fal fa-video"></i>
+                        </div>
+                        <div fxFlex="80">
+                            Flash Outs
+                        </div>
+                    </div>
+                </a>
+            </ng-container>
+            <a *ifRole="['admin', 'super-admin']" [routerLink]="['/flash-out/edit']" routerLinkActive="active">
+                <div [fxLayout]="'row'" fxFlexFill>
+                    <div fxFlex="20">
+                        <i class="fal fa-video"></i>
+                    </div>
+                    <div fxFlex="80">
+                        Flash Outs
+                    </div>
+                </div>
+            </a>
         </div>
     </ng-template>
 </div>
