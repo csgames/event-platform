@@ -144,6 +144,16 @@
                     </div>
                 </a>
             </ng-container>
+            <a *ifRole="['admin', 'super-admin']" [routerLink]="['/flash-out/edit']" routerLinkActive="active">
+                <div [fxLayout]="'row'" fxFlexFill>
+                    <div fxFlex="20">
+                        <i class="fal fa-video"></i>
+                    </div>
+                    <div fxFlex="80">
+                        Flash Outs
+                    </div>
+                </div>
+            </a>
         </div>
     </ng-template>
 </div>

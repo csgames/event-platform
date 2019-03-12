@@ -1,0 +1,38 @@
+<div class="page-wrapper">
+    <h1>Flash Outs</h1>
+    <app-loading-spinner [loading]="loading$"></app-loading-spinner>
+    <div *ngIf="flashouts$ | async" class="animated fadeIn">
+        <div class="row">
+            <div class="col-xs-12 col-md-6 col-xl-4">
+                <button type="button" class="add-button btn btn-lg btn-block borders" *ngIf="!showCreateFlashoutCard" (click)="clickAddFlashout()">
+                    + {{ "pages.flashouts.add_flashout" | translate }}
+                </button>
+                <div *ngIf="showCreateFlashoutCard" class="add-flashout-card">
+                    <app-loading-spinner [loading]="addLoading$"></app-loading-spinner>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <app-flashout-form [schools]="schools$ | async" [(ngModel)]="dto"></app-flashout-form>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="offset-sm-5 col-sm-7">
+                                <div class="button-group">
+                                    <a class="btn btn-danger cancel float-right" (click)="onCancelFlashout()">
+                                        {{ "general.button.cancel" | translate }} <i class="fal fa-times"></i>
+                                    </a>
+                                    <a class="btn btn-primary mr-2 float-right" (click)="onAdd()">
+                                        {{ "general.button.add" | translate }} <i class="fal fa-plus"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div *ngFor="let f of flashouts$ | async" class="col-xs-12 col-md-6 col-xl-4">
+                <app-flashout-card [flashout]="f"></app-flashout-card>
+            </div>
+        </div>
+    </div>
+</div>

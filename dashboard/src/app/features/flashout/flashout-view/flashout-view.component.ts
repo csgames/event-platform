@@ -4,15 +4,13 @@ import { State, getFlashouts, getFlashoutLoading } from "./store/flashout.reduce
 import { Flashout, AttendeeVote } from "src/app/api/models/flashout";
 import { Subscription } from "rxjs";
 import { LoadFlashouts, VoteFlashouts } from "./store/flashout.actions";
-import { ToastrService } from "ngx-toastr";
-import { TranslateService } from "@ngx-translate/core";
 
 @Component({
     selector: "app-flashout",
-    templateUrl: "flashout.template.html",
-    styleUrls: ["flashout.style.scss"]
+    templateUrl: "flashout-view.template.html",
+    styleUrls: ["flashout-view.style.scss"]
 })
-export class FlashoutComponent implements OnInit, OnDestroy {
+export class FlashoutViewComponent implements OnInit, OnDestroy {
     flashouts$ = this.store$.pipe(select(getFlashouts));
     loading$ = this.store$.pipe(select(getFlashoutLoading));
 

@@ -114,7 +114,8 @@
     "pages": {
         "flashouts": {
             "vote_success": "Le vote a été enregistré avec succès.",
-            "vote_error": "Évaluer tous les flash outs avant de voter."
+            "vote_error": "Évaluer tous les flash outs avant de voter.",
+            "add_flashout": "Ajouter un Flash Out"
         },
         "competition": {
             "competition_password": "Mot de passe de la compétition",
