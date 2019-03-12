@@ -4,11 +4,23 @@ import { InjectModel } from '@nestjs/mongoose';
 import { AxiosResponse } from 'axios';
 import { Model } from 'mongoose';
 import { Questions, ValidationTypes } from './questions.model';
+import { UpdateQuestionDto } from './questions.dto';
 
 @Injectable()
 export class QuestionsService {
     constructor(@InjectModel('questions') private readonly questionsModel: Model<Questions>,
                 private httpService: HttpService) {
+    }
+
+    public async updateQuestion(questionId: string, dto: UpdateQuestionDto): Promise<void> {
+        const question = await this.questionsModel.findOne({_id: questionId }).exec();
+        if(!question) {
+            throw new NotFoundException('No question found');
+        }
+
+        await this.questionsModel.update({
+            _id: questionId
+        }, dto).exec();
     }
 
     public async validateAnswer(answer: string, questionId: string): Promise<number> {

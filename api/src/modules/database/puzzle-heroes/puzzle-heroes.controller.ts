@@ -1,4 +1,4 @@
-import { BadRequestException, Body, Controller, Get, HttpCode, HttpStatus, Param, Post, Query, UseGuards } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Get, HttpCode, HttpStatus, Param, Post, Put, Query, UseGuards } from '@nestjs/common';
 import { ApiUseTags } from '@nestjs/swagger';
 import { EventId } from '../../../decorators/event-id.decorator';
 import { Permissions } from '../../../decorators/permission.decorator';
@@ -8,12 +8,14 @@ import { UserModel } from '../../../models/user.model';
 import { ValidationPipe } from '../../../pipes/validation.pipe';
 import { PuzzleAnswerDto } from '../questions/puzzle-answer.dto';
 import { PuzzleGraphNodes } from './puzzle-graph-nodes/puzzle-graph.nodes.model';
-import { CreatePuzzleDto, CreatePuzzleHeroDto, CreateTrackDto } from './puzzle-heroes.dto';
+import { CreatePuzzleDto, CreatePuzzleHeroDto, CreateTrackDto, UpdatePuzzleHeroDto, UpdateTrackDto, UpdatePuzzleDto } from './puzzle-heroes.dto';
 import { PuzzleHeroes } from './puzzle-heroes.model';
 import { PuzzleHeroesService, PuzzleHeroInfo } from './puzzle-heroes.service';
 import { Score } from './scoreboard/score.model';
 import { TeamSeries } from './scoreboard/team-series.model';
 import { Tracks } from './tracks/tracks.model';
+import { Questions } from '../questions/questions.model';
+import { UpdateQuestionDto } from '../questions/questions.dto';
 
 @ApiUseTags('PuzzleHero')
 @Controller('puzzle-hero')
@@ -37,6 +39,12 @@ export class PuzzleHeroesController {
         });
     }
 
+    @Put()
+    @Permissions('csgames-api:create:puzzle-hero')
+    public async update(@Body(ValidationPipe) dto: UpdatePuzzleHeroDto, @EventId() eventId: string): Promise<void> {
+        await this.puzzleHeroService.updatePuzzleHero(eventId, dto);
+    }
+
     @Post('start')
     @Permissions('csgames-api:create:puzzle-hero')
     public async start(@EventId() eventId: string): Promise<void> {
@@ -49,6 +57,13 @@ export class PuzzleHeroesController {
         return await this.puzzleHeroService.createTrack(eventId, dto);
     }
 
+    @Put('track/:id')
+    @Permissions('csgames-api:create:puzzle-hero')
+    public async updateTrack(@Param('id') id: string,
+                             @Body(ValidationPipe) dto: UpdateTrackDto, @EventId() eventId: string): Promise<void> {
+        return await this.puzzleHeroService.updateTrack(eventId, id, dto);
+    }
+
     @Post('track/:trackId/puzzle')
     @Permissions('csgames-api:create:puzzle-hero')
     public async createPuzzle(@Body(ValidationPipe) dto: CreatePuzzleDto,
@@ -57,10 +72,19 @@ export class PuzzleHeroesController {
         return await this.puzzleHeroService.createPuzzle(eventId, trackId, dto);
     }
 
+    @Put('track/:trackId/puzzle/:puzzleId')
+    @Permissions('csgames-api:create:puzzle-hero')
+    public async updatePuzzle(@Body(ValidationPipe) dto: UpdateQuestionDto,
+                              @Param('trackId') trackId: string,
+                              @Param('puzzleId') puzzleId: string,
+                              @EventId() eventId: string): Promise<void> {
+        return await this.puzzleHeroService.updatePuzzle(eventId, trackId, puzzleId, dto);
+    }
+
     @Post('puzzle/:puzzleId/validate')
     @Permissions('csgames-api:get:event')
     @HttpCode(HttpStatus.OK)
-    public async validateAnswer(@EventId() id: string, @Param("puzzleId") puzzleId, @Body(ValidationPipe) dto: PuzzleAnswerDto,
+    public async validateAnswer(@EventId() id: string, @Param('puzzleId') puzzleId, @Body(ValidationPipe) dto: PuzzleAnswerDto,
                                 @User() user: UserModel): Promise<void> {
         return await this.puzzleHeroService.validateAnswer(dto.answer, puzzleId, id, user.username);
     }
@@ -69,7 +93,7 @@ export class PuzzleHeroesController {
     @Permissions('csgames-api:get:puzzle-hero')
     public async get(@EventId() eventId: string, @User() user: UserModel,
                      @Query('type') type: string): Promise<PuzzleHeroes> {
-        return await this.puzzleHeroService.getByEvent(eventId, user.username, type);
+        return await this.puzzleHeroService.getByEvent(eventId, user, type);
     }
 
     @Get('info')
@@ -80,13 +104,14 @@ export class PuzzleHeroesController {
 
     @Get('scoreboard')
     @Permissions('csgames-api:get:puzzle-hero')
-    public async getScoreboard(@EventId() eventId: string): Promise<Score[]> {
-        return await this.puzzleHeroService.getScoreboard(eventId);
+    public async getScoreboard(@EventId() eventId: string, @User() user: UserModel): Promise<Score[]> {
+        return await this.puzzleHeroService.getScoreboard(eventId, user);
     }
 
     @Get('team-series')
     @Permissions('csgames-api:get:puzzle-hero')
-    public async getTeamsSeries(@EventId() eventId: string, @Query('teams-ids') teamsIds: string): Promise<TeamSeries[]> {
-        return await this.puzzleHeroService.getTeamsSeries(eventId, teamsIds.split(','));
+    public async getTeamsSeries(@EventId() eventId: string,
+                                @User() user: UserModel, @Query('teams-ids') teamsIds: string): Promise<TeamSeries[]> {
+        return await this.puzzleHeroService.getTeamsSeries(eventId, user, teamsIds.split(','));
     }
 }
