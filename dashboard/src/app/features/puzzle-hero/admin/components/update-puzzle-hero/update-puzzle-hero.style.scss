@@ -1,0 +1,75 @@
+.description {
+    text-align:justify;
+}
+
+.name {
+    font-size: 20px;
+    margin-bottom: 0px;
+    text-align: left;
+}
+
+i {
+    padding-top: 3px;
+}
+
+.hours {
+    font-size: 13px;
+    margin-bottom: 0px;
+    text-align: left;
+    padding-left: 2px;
+}
+
+.tile {
+    margin: 10px 10px 10px 0px;
+    display: flex;
+    justify-content: flex-start;
+}
+
+.btn-primary {
+    height: 100% !important;
+}
+
+.answer {
+    margin: 20px 5px 5px 0px;
+}
+
+.edit-button {
+    background: transparent !important;
+    padding: 5px;
+    border: none;
+
+    &:hover {
+        color: #0D5899;
+    }
+}
+
+.title {
+    font-size: 30px;
+}
+
+.infoText {
+    font-size: 18px;
+    text-align: left;
+}
+
+.container {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.text-only {
+    text-align: left;
+}
+
+.full-width {
+    width: 100%;
+}
+
+.datepicker:focus {
+    border: 1px solid #0D5899;
+}
+
+.custom-text {
+    padding: 0px;
+    margin: 0px;
+}

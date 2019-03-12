@@ -30,7 +30,7 @@ export class TeamViewEffects {
         withLatestFrom(this.store$.pipe(select(getCurrentAttendee)), this.store$.pipe(select(getCurrentTeam))),
         filter(([action, attendee, currentTeam]: [LoadTeam, Attendee, Team]) => !!attendee),
         switchMap(([action, attendee, currentTeam]: [LoadTeam, Attendee, Team]) =>
-            attendee.role === "admin" ?
+            (attendee.role === "admin" || attendee.role === "super-admin") ?
                 this.teamService.getTeamById(action.teamId || currentTeam._id).pipe(
                     map((team: Team) => new LoadTeamSuccess(team)),
                     catchError(() => of(new LoadTeamFailure()))

@@ -13,7 +13,7 @@ const routes: Routes = [
         path: "edit",
         loadChildren: "src/app/features/flashout/flashout-edit/flashout-edit.module#FlashoutEditModule",
         canActivate: [RoleGuard],
-        data: { roles: ["admin"], redirect: "flash-out" }
+        data: { roles: ["admin", "super-admin"], redirect: "flash-out" }
     }
 ];
 

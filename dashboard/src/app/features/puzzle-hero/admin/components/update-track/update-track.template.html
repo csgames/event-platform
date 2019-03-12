@@ -1,0 +1,26 @@
+<div class="modal-centered fade slide-up show animated slideInDown scroll" tabindex="-1" role="dialog"
+     style="display: block;">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content-wrapper">
+            <div class="modal-content card">
+                <app-loading-spinner [loading]="loading$"></app-loading-spinner>
+                <div class="modal-header">
+                    <h1>{{ "components.update_track.update_track" | translate }}</h1>
+                    <button type="button" class="close" (click)="close()"><span aria-hidden="true">×</span><span
+                        class="sr-only">{{ "general.button.close" | translate }}</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <app-track-form [(ngModel)]="trackFormDto"></app-track-form>
+                    <div class="text-center">
+                        <a class="btn btn-primary btn-rounded mt-3 px-3"
+                           (click)="updateTrack()">{{ "general.button.save" | translate }}</a>
+                    </div>
+                    <div class="text-center text-danger" *ngIf="error$ | async">
+                        {{ "components.update_track.error" | translate }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
