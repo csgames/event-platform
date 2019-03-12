@@ -21,7 +21,7 @@ export class FlashOutController {
         return await this.flashOutsService.create({
             event: eventId,
             school: flashOut.school,
-            url: flashOut.url
+            videoId: flashOut.videoId
         });
     }
 

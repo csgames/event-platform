@@ -6,7 +6,7 @@ import { Votes, VotesSchema } from "./votes/votes.model";
 export interface FlashOut extends mongoose.Document {
     event: Events | mongoose.Types.ObjectId | string;
     school: Schools | mongoose.Types.ObjectId | string;
-    url: string;
+    videoId: string;
     votes: Votes[];
 }
 
@@ -21,7 +21,7 @@ export const FlashOutSchema = new mongoose.Schema({
         required: true,
         ref: "schools"
     },
-    url: {
+    videoId: {
         type: String,
         required: true
     },
