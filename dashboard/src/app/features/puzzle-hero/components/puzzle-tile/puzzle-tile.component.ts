@@ -31,6 +31,8 @@ export class PuzzleTileComponent {
                 return "&#xf11b;";
             case PuzzleTypes.Scavenger:
                 return "&#xf332;";
+            case PuzzleTypes.Sponsor:
+                return "&#xf3a5";
         }
         return "";
     }

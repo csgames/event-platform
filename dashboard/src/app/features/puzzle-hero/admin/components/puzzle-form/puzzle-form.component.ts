@@ -37,12 +37,12 @@ export class PuzzleFormComponent implements OnInit, ControlValueAccessor, OnDest
         });
 
         this.validationTypes = [];
-        for (const i in ValidationTypes) {
+        for (const i of Object.keys(ValidationTypes)) {
             this.validationTypes.push(ValidationTypes[i]);
         }
         
         this.puzzleTypes = [];
-        for (const i in PuzzleTypes) {
+        for (const i of Object.keys(PuzzleTypes)) {
             this.puzzleTypes.push(PuzzleTypes[i]);
         }
     }

@@ -44,7 +44,6 @@ export class UpdatePuzzleHeroComponent extends SimpleModalComponent<UpdatePuzzle
     }
 
     ngOnInit() {
-        console.log(this.info)
         this.track = this.info[0];
         this.puzzle = this.info[1];
 
