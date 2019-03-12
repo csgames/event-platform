@@ -24,7 +24,8 @@ export function reducer(state = initialState, action: CompetitionActions): Compe
         case CompetitionActionTypes.LoadCompetition:
             return {
                 ...state,
-                loading: true
+                loading: true,
+                error: false
             };
         case CompetitionActionTypes.CompetitionLoaded:
             return {

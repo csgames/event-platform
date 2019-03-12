@@ -13,6 +13,7 @@ import { LoadCompetitions } from "../../../store/competitions.actions";
 import { Router } from "@angular/router";
 import { LoadCompetition } from "../../competition/store/competition.actions";
 import { CompetitionComponent } from "../../competition/competition.component";
+import { LoadRegisteredCompetitions } from "src/app/store/app.actions";
 
 @Injectable()
 export class InfoCompetitionEffects {
@@ -41,6 +42,6 @@ export class InfoCompetitionEffects {
             this.toastrService.success(this.translateService.instant("pages.competition.validate_success"));
             this.router.navigate([`/competition/${action.competitionId}`]);
         }),
-        map(() => new LoadCompetitions())
+        switchMap(() => [new LoadCompetitions(), new LoadRegisteredCompetitions()])
     );
 }

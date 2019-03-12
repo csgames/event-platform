@@ -21,6 +21,7 @@ import { RegisteredGuard } from "./utils/registered.guard";
 import { NotRegisteredGuard } from "./utils/not-registered.guard";
 import { DirectivesModule } from "../../directives/directives.module";
 import { ChangePasswordModule } from "./modals/change-password/change-password.module";
+import { PipeModule } from "src/app/pipe/pipe.module";
 
 @NgModule({
     imports: [
@@ -40,7 +41,8 @@ import { ChangePasswordModule } from "./modals/change-password/change-password.m
         TranslateModule,
         MatSidenavModule,
         ProfileSettingModule,
-        ChangePasswordModule
+        ChangePasswordModule,
+        PipeModule
     ],
     declarations: [
         DashboardComponent,

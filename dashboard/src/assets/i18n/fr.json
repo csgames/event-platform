@@ -195,6 +195,9 @@
             "teams": "Équipes",
             "team_title": "Equipe",
             "team_members": "Membres de l'équipe"
-        }
+        },
+        "question": {
+			"upload": "Téléverser votre fichier"
+		}
     }
 }

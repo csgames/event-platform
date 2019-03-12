@@ -81,4 +81,8 @@ export class EventApi extends CSGamesApi {
     public getCompetitions(): Observable<Competition[]> {
         return this.http.get<Competition[]>(this.url("competition"), { withCredentials: true });
     }
+
+    public getRegisteredCompetitions(): Observable<Competition[]> {
+        return this.http.get<Competition[]>(this.url("competition/member"), { withCredentials: true });
+    }
 }

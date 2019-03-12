@@ -1,28 +1,32 @@
-import { Component, EventEmitter, Input, OnInit, Output, OnChanges } from "@angular/core";
+import { Component, EventEmitter, Input, OnInit, Output, OnChanges, OnDestroy } from "@angular/core";
 import { select, Store } from "@ngrx/store";
 import { Competition } from "src/app/api/models/competition";
-import { getLoading, isSubscribed, State } from "./store/competition-card.reducer";
-import { SubscribeToCompetition, CheckIfSubscribedToCompetition, ResetStore, ShowCompetitionInfo } from "./store/competition-card.actions";
-import idx from "idx";
-import { Observable } from "rxjs";
+import { getCompetitionsLoading, State } from "../../store/competitions.reducer";
+import { SubscribeToCompetition, ResetStore, ShowCompetitionInfo } from "../../store/competitions.actions";
+import { Observable, Subscription } from "rxjs";
+import { getRegisteredCompetitions } from "src/app/store/app.reducers";
+import { Router } from "@angular/router";
 
 @Component({
     selector: "app-competition-card",
     templateUrl: "./competition-card.template.html",
     styleUrls: ["./competition-card.style.scss"]
 })
-export class CompetitionCardComponent implements OnInit, OnChanges {
+export class CompetitionCardComponent implements OnInit, OnDestroy {
     @Input()
     public competition: Competition;
 
     @Output()
     public info = new EventEmitter();
 
-    loading$ = this.store$.pipe(select(getLoading));
+    loading$ = this.store$.pipe(select(getCompetitionsLoading));
+    registeredCompetitions$ = this.store$.pipe(select(getRegisteredCompetitions));
     public result: boolean;
     public subscribed: boolean;
+    public registered: boolean;
+    private registredSub$: Subscription;
 
-    constructor(private store$: Store<State>) { }
+    constructor(private store$: Store<State>, private router: Router) { }
 
     public isSubscribed() {
         this.subscribed = this.competition.activities.some(x => x.subscribed);
@@ -30,16 +34,22 @@ export class CompetitionCardComponent implements OnInit, OnChanges {
 
     public ngOnInit() {
         this.result = false;
-        this.store$.dispatch(new ResetStore());
         this.isSubscribed();
+        this.registredSub$ = this.registeredCompetitions$.subscribe((competitions) => {
+             this.registered = competitions && !!competitions.find(c => c._id === this.competition._id);
+        });
     }
 
-    public ngOnChanges() {
-        this.ngOnInit();
+    public ngOnDestroy() {
+        this.registredSub$.unsubscribe();
     }
 
     public onShowInfo(competition: Competition) {
-        this.store$.dispatch(new ShowCompetitionInfo({competition}));
+        if (this.registered) {
+            this.router.navigate([`competition/${competition._id}`]);
+        } else {
+            this.store$.dispatch(new ShowCompetitionInfo({competition}));
+        }
     }
 
     public subscribe() {

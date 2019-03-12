@@ -21,10 +21,11 @@ import { PuzzleHeroService } from "../providers/puzzle-hero.service";
 import {
     AllNotificationsSeen, AppActionTypes, AppLoaded, ChangeLanguage, ChangePassword, CheckUnseenNotification, CurrentAttendeeLoaded,
     EditProfile, EventsLoaded, GetPuzzleHeroInfo, GlobalError, HasUnseenNotification, InitializeMessaging, LoadCurrentAttendee, LoadEvents,
-    Logout, SetCurrentEvent, SetupMessagingToken, UpdatePuzzleHeroStatus, LoadSubscribedCompetitions, SubscribedCompetitionsLoaded, 
+    Logout, SetCurrentEvent, SetupMessagingToken, UpdatePuzzleHeroStatus, LoadRegisteredCompetitions, RegisteredCompetitionsLoaded, 
 } from "./app.actions";
 import { getCurrentAttendee, getEvents, getPuzzleHeroInfo, State } from "./app.reducers";
 import { CompetitionsService } from "../providers/competitions.service";
+import { Competition } from "../api/models/competition";
 
 @Injectable()
 export class AppEffects {
@@ -40,8 +41,7 @@ export class AppEffects {
         private toastr: ToastrService,
         private notificationService: NotificationService,
         private afMessaging: AngularFireMessaging,
-        private puzzleHeroService: PuzzleHeroService,
-        private competitionService: CompetitionsService
+        private puzzleHeroService: PuzzleHeroService
     ) {}
 
     @Effect()
@@ -152,7 +152,7 @@ export class AppEffects {
     setCurrentEvent$ = this.actions$.pipe(
         ofType<SetCurrentEvent>(AppActionTypes.SetCurrentEvent),
         tap((action) => this.eventService.saveCurrentEvent(action.event._id)),
-        switchMap(() => [new LoadCurrentAttendee(), new GetPuzzleHeroInfo()])
+        switchMap(() => [new LoadCurrentAttendee(), new GetPuzzleHeroInfo(), new LoadRegisteredCompetitions()])
     );
 
     @Effect({ dispatch: false })
@@ -205,9 +205,12 @@ export class AppEffects {
     );
 
     @Effect()
-    loadSubscribedCompetitions$ = this.actions$.pipe(
-        ofType<LoadSubscribedCompetitions>(AppActionTypes.LoadSubscribedCompetitions),
-        map(() => new SubscribedCompetitionsLoaded(this.competitionService.getSubscribedCompetitions()))
+    loadRegisteredCompetitions$ = this.actions$.pipe(
+        ofType<LoadRegisteredCompetitions>(AppActionTypes.LoadRegisteredCompetitions),
+        switchMap(() => {
+            return this.eventService.getRegisteredCompetitions().pipe(
+                map((competitions: Competition[]) => new RegisteredCompetitionsLoaded(competitions))
+            );
+        }),
     );
 }
-

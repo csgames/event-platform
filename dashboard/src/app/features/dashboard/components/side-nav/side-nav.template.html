@@ -122,13 +122,13 @@
                 </div>
             </a>
             <div class="sublinks" *ngIf="isActive('competition')">
-                <!-- <ng-container *ngIf="subscribedCompetitions$ | async as subscribedCompetitions"> -->
-                    <div *ngFor="let competition of subscribedCompetitions">
-                        <a [routerLink]="['/competition/', competition.id]" routerLinkActive="active">
-                            {{ competition.name }}
+                <ng-container *ngIf="registeredCompetitions$ | async as registeredCompetitions">
+                    <div *ngFor="let competition of registeredCompetitions">
+                        <a [routerLink]="['/competition/', competition._id]" routerLinkActive="active">
+                            {{ competition.activities[0].name | t18n }}
                         </a>
                     </div>
-                <!-- </ng-container> -->
+                </ng-container>
             </div>
         </div>
     </ng-template>

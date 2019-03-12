@@ -3,6 +3,7 @@ import { Attendee } from "../api/models/attendee";
 import { HttpErrorResponse } from "@angular/common/http";
 import { Event } from "../api/models/event";
 import { PuzzleHeroInfo } from "../api/models/puzzle-hero";
+import { Competition } from "../api/models/competition";
 
 export enum AppActionTypes {
     GlobalError = "[App] Global error",
@@ -24,8 +25,8 @@ export enum AppActionTypes {
     SetupMessagingToken = "[App] Setup messaging token",
     GetPuzzleHeroInfo = "[App] Get puzzle hero info",
     UpdatePuzzleHeroStatus = "[App] Update puzzle hero status",
-    LoadSubscribedCompetitions = "[App] Load subscribed competitions",
-    SubscribedCompetitionsLoaded = "[App] Subscribed competitions loaded"
+    LoadRegisteredCompetitions = "[App] Load Registered competitions",
+    RegisteredCompetitionsLoaded = "[App] Registered competitions loaded"
 }
 
 export class ChangeLanguage implements Action {
@@ -114,14 +115,14 @@ export class UpdatePuzzleHeroStatus {
     constructor(public payload: PuzzleHeroInfo) {}
 }
 
-export class LoadSubscribedCompetitions {
-    readonly type = AppActionTypes.LoadSubscribedCompetitions;
+export class LoadRegisteredCompetitions {
+    readonly type = AppActionTypes.LoadRegisteredCompetitions;
 }
 
-export class SubscribedCompetitionsLoaded {
-    readonly type = AppActionTypes.SubscribedCompetitionsLoaded;
+export class RegisteredCompetitionsLoaded {
+    readonly type = AppActionTypes.RegisteredCompetitionsLoaded;
 
-    constructor(public payload: string []) {}
+    constructor(public payload: Competition []) {}
 }
 
 export type AppActions =
@@ -144,5 +145,5 @@ export type AppActions =
     | SetupMessagingToken
     | GetPuzzleHeroInfo
     | UpdatePuzzleHeroStatus
-    | LoadSubscribedCompetitions
-    | SubscribedCompetitionsLoaded;
+    | LoadRegisteredCompetitions
+    | RegisteredCompetitionsLoaded;

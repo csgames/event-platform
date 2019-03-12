@@ -195,6 +195,9 @@
 			"teams": "Teams",
 			"team_title": "Team",
 			"team_members": "Team members"
+		},
+		"question": {
+			"upload": "Upload your file"
 		}
 	}
 }

@@ -10,45 +10,42 @@
         </div>
     </ng-container>
 
-    <ng-container *ngIf="subscribedCompetitions$ | async as subscribedCompetitions">
-        <ng-container *ngIf="notSubscribedCompetitions$ | async as otherCompetitions">
-            <div class="animated fadeIn">
-                <ng-container *ngIf="subscribedCompetitions?.length > 0">
-                    <div class="row mt-4">
-                        <div class="col-sm-7">
-                            <h3>
-                                {{ "pages.competition.subscribed" | translate }}
-                            </h3>
-                        </div>
+    <div class="animated fadeIn">
+        <ng-container *ngIf="subscribedCompetitions$ | async as subscribedCompetitions">
+            <ng-container *ngIf="subscribedCompetitions?.length > 0">
+                <div class="row mt-4">
+                    <div class="col-sm-7">
+                        <h3>
+                            {{ "pages.competition.subscribed" | translate }}
+                        </h3>
                     </div>
-
-                    <hr>
-                    <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="30px" fxLayoutGap.xs="5px">
-                        <div fxFlex="100" fxFlex.xs="70" fxLex.md="70" *ngFor="let competition of subscribedCompetitions">
-                            <app-competition-card
-                                [competition]="competition">
-                            </app-competition-card>
-                        </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-lg-12 col-xl-6" *ngFor="let competition of subscribedCompetitions">
+                        <app-competition-card [competition]="competition">
+                        </app-competition-card>
                     </div>
-                </ng-container>
-                <ng-container *ngIf="otherCompetitions?.length > 0">
-                    <div class="row mt-4">
-                        <div class="col-sm-7">
-                            <h3>
-                                {{ "pages.competition.other" | translate }}
-                            </h3>
-                        </div>
-                    </div>
-                    <hr>
-                    <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="30px" fxLayoutGap.xs="5px">
-                        <div fxFlex="50" fxFlex.xs="100" fxFlex.md="70" *ngFor="let competition of otherCompetitions">
-                            <app-competition-card 
-                                [competition]="competition">
-                            </app-competition-card>
-                        </div>
-                    </div>
-                </ng-container>
-            </div>
+                </div>
+            </ng-container>
         </ng-container>
-    </ng-container>
-</div>  
+        <ng-container *ngIf="otherCompetitions$ | async as otherCompetitions">
+            <ng-container *ngIf="otherCompetitions?.length > 0">
+                <div class="row mt-4">
+                    <div class="col-sm-7">
+                        <h3>
+                            {{ "pages.competition.other" | translate }}
+                        </h3>
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-lg-12 col-xl-6" *ngFor="let competition of otherCompetitions">
+                        <app-competition-card [competition]="competition">
+                        </app-competition-card>
+                    </div>
+                </div>
+            </ng-container>
+        </ng-container>
+    </div>
+</div>

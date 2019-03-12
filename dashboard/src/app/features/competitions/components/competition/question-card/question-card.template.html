@@ -1,7 +1,10 @@
 <app-accordion-component [iconClass]="icon" title="{{ question?.question?.label }}" [startsOpened]="false">
-    <div fxLayout="row" class="tile">
+    <div fxLayout="column" class="tile">
         <div>{{ question?.question.description | t18n }}</div>
+        <app-file-upload *ngIf="question.question.type === 'upload'" class="upload" placeholder='{{ "pages.question.upload" | translate }}'
+                            [formControl]="file" ngDefaultControl>
+        </app-file-upload>
     </div>
 </app-accordion-component>
 
-<!-- label, description, type de validation, nombre de points pour la question (peut-être pourcentage) -->
+<!-- nombre de points pour la question (peut-être pourcentage) -->

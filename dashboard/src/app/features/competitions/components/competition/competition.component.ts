@@ -17,6 +17,7 @@ export class CompetitionComponent implements OnInit {
   competition$ = this.store$.pipe(select(getCompetition));
   loading$ = this.store$.pipe(select(getCompetitionLoading));
   error$ = this.store$.pipe(select(getCompetitionError));
+  competitionSub$: Subscription;
   
   constructor(private store$: Store<State>,
               private activatedRoute: ActivatedRoute) { }
@@ -25,8 +26,12 @@ export class CompetitionComponent implements OnInit {
     this.competitionId$ = this.activatedRoute.params.pipe(
       map(p => p["id"])
     );
-    this.competitionId = this.activatedRoute.snapshot.params["id"];
-    this.store$.dispatch(new LoadCompetition(this.competitionId));
+    this.competitionSub$ = this.activatedRoute.params.subscribe(
+      params => {
+        this.competitionId = params["id"];
+        this.store$.dispatch(new LoadCompetition(this.competitionId));
+      }
+    );
   }
 
 }

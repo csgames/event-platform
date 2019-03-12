@@ -6,6 +6,7 @@ import { ApiService } from "../api/api.service";
 import { UppyFile } from "@uppy/core";
 import { EventGuide } from "../api/models/guide";
 import { Team } from "../api/models/team";
+import { Competition } from "../api/models/competition";
 
 
 const CURRENT_EVENT = "CURRENT_EVENT";
@@ -42,5 +43,9 @@ export class EventService {
         }
 
         return this.apiService.event.onboardAttendee(attendee, file);
+    }
+
+    public getRegisteredCompetitions(): Observable<Competition[]> {
+        return this.apiService.event.getRegisteredCompetitions();
     }
 }

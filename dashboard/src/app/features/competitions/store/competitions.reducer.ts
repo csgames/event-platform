@@ -5,7 +5,6 @@ import { createFeatureSelector, createSelector } from "@ngrx/store";
 
 export interface CompetitionsState {
     competitions: Competition[];
-    subscribedCompetitions: string [];
     loading: boolean;
     error: boolean;
 }
@@ -16,7 +15,6 @@ export interface State extends fromApp.State {
 
 const initialState: CompetitionsState = {
     competitions: [],
-    subscribedCompetitions: [],
     loading: false,
     error: false
 };
@@ -41,11 +39,18 @@ export function reducer(state = initialState, action: CompetitionsActions): Comp
                 competitions: [],
                 error: true
             };
-        case CompetitionsActionTypes.SubscribedCompetitionsLoaded:
+        case CompetitionsActionTypes.SubscribeToCompetition:
             return {
                 ...state,
-                subscribedCompetitions: action.subscribedCompetitions
+                loading: true
             };
+        case CompetitionsActionTypes.SubscriptionError:
+            return {
+                ...state,
+                loading: false
+            };
+        case CompetitionsActionTypes.ResetStore:
+            return initialState;
     }
 
     return state;
@@ -58,8 +63,14 @@ export const getCompetitionsLoading = createSelector(getCompetitionsState, (stat
 export const getCompetitionsError = createSelector(getCompetitionsState, (state: CompetitionsState) => state.error);
 
 export const getSubscribedCompetitions = createSelector(getCompetitionsState,
-    (state: CompetitionsState) => state.competitions.filter(c => state.subscribedCompetitions.includes(c._id)));
+    (state: CompetitionsState) => state.competitions.filter((competition) => competition.activities
+        .some((activity) => activity.subscribed)
+    )
+);
 
 export const getNotSubscribedCompetitions = createSelector(getCompetitionsState,
-    (state: CompetitionsState) => state.competitions.filter(c => !state.subscribedCompetitions.includes(c._id)));
+    (state: CompetitionsState) => state.competitions.filter((competition) => competition.activities
+        .some((activity) => !activity.subscribed)
+    )
+);
 
