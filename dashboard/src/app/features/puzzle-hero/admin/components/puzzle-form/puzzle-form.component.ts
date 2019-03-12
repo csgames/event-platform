@@ -21,8 +21,6 @@ import { Subscription } from "rxjs";
 export class PuzzleFormComponent implements OnInit, ControlValueAccessor, OnDestroy {
 
     constructor(@Inject(PUZZLE_FORM_GENERATOR) private formGenerator: FormGenerator<PuzzleFormDto>) { }
-
-    public model: any;
     public validationTypes: string[];
     public puzzleTypes: string[];
     public formGroup: FormGroup;
@@ -81,6 +79,8 @@ export class PuzzleFormComponent implements OnInit, ControlValueAccessor, OnDest
                 return "fa-gamepad";
             case PuzzleTypes.Scavenger:
                 return "fa-camera-alt";
+            case PuzzleTypes.Sponsor:
+                return "fa-gem";
         }
         return "";
     }

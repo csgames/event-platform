@@ -1,6 +1,6 @@
 <div class="modal-centered fade slide-up show animated slideInDown scroll" tabindex="-1" role="dialog"
      style="display: block;">
-    <div class="modal-dialog modal-md">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content-wrapper">
             <div class="modal-content card">
                 <app-loading-spinner [loading]="loading$"></app-loading-spinner>
@@ -8,7 +8,7 @@
                     <button type="button" class="close" (click)="onClose()"><span aria-hidden="true">×</span><span
                         class="sr-only">{{ "general.button.close" | translate }}</span>
                     </button>
-                    <div fxLayout="row" fxLayoutGap="10px"  class="tile">
+                    <div fxLayout="row" fxLayoutGap="10px" class="tile">
                         <i class="fal" [ngClass]="icon"></i>
                         <div fxFlex>
                             <p class="name">{{ puzzle.label }}</p>
@@ -22,17 +22,20 @@
                         <div *ngIf="lang === 'en'" [innerHTML]="puzzle.description?.en"></div>
                         <div *ngIf="lang === 'fr'" [innerHTML]="puzzle.description?.fr"></div>
                     </div>
-                    <div class="input-group input-group-default input answer" [class.has-error]="error$ | async">
-                        <input class="form-control" [(ngModel)]="answer" type="text"
-                               placeholder='{{ "pages.puzzle_hero.answer" | translate }}'>
-                    </div>
-                    <span class="control-error"
-                          *ngIf="error$ | async">{{ "pages.puzzle_hero.wrong_answer" | translate }}</span>
-                    <br>
-                    <div class="text-center">
-                        <a class="btn btn-primary btn-rounded mt-3 px-3"
-                           (click)="validate()">{{ "general.button.validate" | translate }}</a>
-                    </div>
+                    <ng-container *ngIf="!puzzle.completed">
+                        <div class="input-group input-group-default input answer" [class.has-error]="error$ | async">
+                            <input class="form-control" [(ngModel)]="answer" type="text"
+                                   placeholder='{{ "pages.puzzle_hero.answer" | translate }}'>
+                        </div>
+                        <span class="control-error"
+                              *ngIf="error$ | async">{{ "pages.puzzle_hero.wrong_answer" | translate }}</span>
+                        <br>
+                        <div class="text-center">
+                            <a class="btn btn-primary btn-rounded mt-3 px-3"
+                               (click)="validate()">{{ "general.button.validate" | translate }}</a>
+                        </div>
+
+                    </ng-container>
                 </div>
             </div>
         </div>

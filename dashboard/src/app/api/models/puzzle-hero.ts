@@ -8,7 +8,8 @@ export enum TrackTypes {
 export enum PuzzleTypes {
     Crypto = "crypto",
     Gaming = "gaming",
-    Scavenger = "scavenger"
+    Scavenger = "scavenger",
+    Sponsor = "sponsor"
 }
 
 export enum ValidationTypes {
