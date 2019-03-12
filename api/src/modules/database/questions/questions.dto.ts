@@ -10,7 +10,7 @@ export class CreateQuestionDto {
     description: object;
 
     @IsNotEmpty()
-    @IsIn(["crypto", "gaming", "scavenger"])
+    @IsIn(["crypto", "gaming", "scavenger", "sponsor"])
     type: QuestionTypes;
 
     @IsNotEmpty()
@@ -33,7 +33,7 @@ export class UpdateQuestionDto {
     description: object;
 
     @IsNotEmpty()
-    @IsIn(["crypto", "gaming", "scavenger"])
+    @IsIn(["crypto", "gaming", "scavenger", "sponsor"])
     type: QuestionTypes;
 
     @IsNotEmpty()
