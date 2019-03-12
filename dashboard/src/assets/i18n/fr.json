@@ -103,7 +103,8 @@
             "subscribe": "S'abonner",
             "subscribed": "Abonné",
             "validate": "Valider",
-            "edit": "Modifier"
+            "edit": "Modifier",
+            "vote": "Voter"
         },
         "error": {
             "something": "Une erreur est survenue...",
@@ -157,6 +158,11 @@
         }
     },
     "pages": {
+        "flashouts": {
+            "vote_success": "Le vote a été enregistré avec succès.",
+            "vote_error": "Évaluer tous les flash outs avant de voter.",
+            "add_flashout": "Ajouter un Flash Out"
+        },
         "competition": {
             "competition_password": "Mot de passe de la compétition",
             "competitions": "Compétitions",
@@ -256,6 +262,9 @@
             "teams": "Équipes",
             "team_title": "Equipe",
             "team_members": "Membres de l'équipe"
+        },
+        "notifications": {
+            "notifications": "Notifications"
         }
     }
 }

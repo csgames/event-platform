@@ -43,6 +43,7 @@ import {
     TooltipModule,
     TimepickerModule,
     DatepickerModule,
+    RatingModule,
     BsDatepickerModule
 } from "ngx-bootstrap";
 import { SponsorsService } from "./providers/sponsors.service";
@@ -52,6 +53,8 @@ import { SchoolService } from "./providers/school.service";
 import { PuzzleHeroService } from "./providers/puzzle-hero.service";
 import { NotificationService } from "./providers/notification.service";
 import { UpdateModule } from "./update/update.module";
+import { FlashoutService } from "./providers/flashout.service";
+import { FormsModule } from "@angular/forms";
 
 export function loadFactory(http: HttpClient): TranslateHttpLoader {
     return new TranslateHttpLoader(http, "../assets/i18n/", ".json");
@@ -114,9 +117,9 @@ export function loadFactory(http: HttpClient): TranslateHttpLoader {
         SponsorsService,
         PuzzleHeroService,
         ScheduleService,
-        NotificationService
+        NotificationService,
+        FlashoutService
     ],
     bootstrap: [AppComponent]
 })
-export class AppModule {
-}
+export class AppModule { }

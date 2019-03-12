@@ -9,6 +9,7 @@ import { UserApi } from "./user.api";
 import { SchoolApi } from "./school.api";
 import { PuzzleHeroApi } from "./puzzle-hero.api";
 import { ActivityApi } from "./activity.api";
+import { FlashoutApi } from "./flashout.api";
 
 @Injectable({
     providedIn: "root"
@@ -25,7 +26,8 @@ export class ApiService {
         private teamApi: TeamApi,
         private userApi: UserApi,
         private puzzleHeroApi: PuzzleHeroApi,
-        private activityApi: ActivityApi
+        private activityApi: ActivityApi,
+        private flashoutApi: FlashoutApi
     ) { }
 
     public get auth(): AuthApi {
@@ -66,5 +68,9 @@ export class ApiService {
     
     public get activity(): ActivityApi {
         return this.activityApi;
+    }
+
+    public get flashout(): FlashoutApi {
+        return this.flashoutApi;
     }
 }

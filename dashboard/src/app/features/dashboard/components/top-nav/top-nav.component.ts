@@ -36,8 +36,10 @@ export class TopNavComponent implements OnInit, OnDestroy {
     public language$ = this.store$.pipe(select(fromApp.getCurrentLanguage));
     public unseen$ = this.store$.pipe(select(fromApp.getUnseen));
     private language: string;
+    public unseen: boolean;
     private languageSub$: Subscription;
     private currentEventSub$: Subscription;
+    private unseenSub$: Subscription;
 
     constructor(
         private modalService: SimpleModalService,
@@ -52,11 +54,16 @@ export class TopNavComponent implements OnInit, OnDestroy {
         this.languageSub$ = this.language$.subscribe((language) => {
             this.language = language;
         });
+
+        this.unseenSub$ = this.unseen$.subscribe((unseen) => {
+            this.unseen = unseen;
+        });
     }
 
     ngOnDestroy() {
         this.languageSub$.unsubscribe();
         this.currentEventSub$.unsubscribe();
+        this.unseenSub$.unsubscribe();
     }
 
     clickNotificationsButton() {
