@@ -15,7 +15,7 @@ export class FlashOutsService extends BaseService<FlashOut, FlashOut> {
         super(flashOutsModel);
     }
 
-    public async getByEvent(eventId: string, email: string): Promise<FlashOut[]> {
+    public async getByEvent(eventId: string, email: string, role: string): Promise<FlashOut[]> {
         const attendee = await this.attendeeService.findOne({
             email
         });
@@ -35,10 +35,16 @@ export class FlashOutsService extends BaseService<FlashOut, FlashOut> {
             path: "school"
         }).exec();
 
-
-        flashOuts.forEach((f) => {
-            f.votes = f.votes.filter((v) => (v.attendee as Types.ObjectId).equals(attendee.id));
-        });
+        if (role.endsWith("admin")) {
+            flashOuts.forEach((f) => {
+                const total = f.votes.reduce((a, v) => a + v.rating, 0);
+                f.averageRating = total / f.votes.length;
+            });
+        } else {
+            flashOuts.forEach((f) => {
+                f.votes = f.votes.filter((v) => (v.attendee as Types.ObjectId).equals(attendee.id));
+            });
+        }
         return flashOuts;
     }
 

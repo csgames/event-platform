@@ -81,7 +81,7 @@ export class EventsController {
     @Get('flash-out')
     @Permissions('csgames-api:get-all:flash-out')
     public async getFlashOut(@EventId() eventId: string, @User() user: UserModel): Promise<FlashOut[]> {
-        return await this.flashOutService.getByEvent(eventId, user.username);
+        return await this.flashOutService.getByEvent(eventId, user.username, user.role);
     }
 
     @Put('flash-out/rating')
