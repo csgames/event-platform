@@ -2,7 +2,7 @@ import { School } from "./school";
 
 export interface Flashout {
     _id?: string;
-    school: School | string;
+    school: School;
     videoId: string;
     votes?: Vote[];
 }

@@ -17,6 +17,6 @@ export class FlashoutService {
     }
 
     public addFlashout(dto: FlashoutEditDto): Observable<Flashout> {
-        return this.apiService.flashout.create(dto as Flashout);
+        return this.apiService.flashout.create(dto as any);
     }
 }
