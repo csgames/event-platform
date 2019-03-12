@@ -153,7 +153,7 @@ export class PuzzleHeroesService extends BaseService<PuzzleHeroes, PuzzleHeroes>
                 'tracks._id': id
             },
             {
-                '$set': {
+                $set: {
                     'tracks.$.label': dto.label,
                     'tracks.$.type': dto.type,
                     'tracks.$.endDate': dto.endDate,
@@ -223,7 +223,7 @@ export class PuzzleHeroesService extends BaseService<PuzzleHeroes, PuzzleHeroes>
             throw new NotFoundException('No puzzle found');
         }
         
-        return await this.questionsService.updateQuestion(puzzle.question.toString(), dto);
+        return await this.questionsService.updateQuestion((puzzle.question as mongoose.Types.ObjectId).toHexString(), dto);
     }
 
     public async addTeamScore(eventId: string, teamId: string, score: number): Promise<void> {

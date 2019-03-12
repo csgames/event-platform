@@ -20,17 +20,7 @@ export class QuestionsService {
 
         await this.questionsModel.update({
             _id: questionId
-        },
-        {
-            '$set': {
-                'label': dto.label,
-                'type': dto.type,
-                'validationType': dto.validationType,
-                'answer': dto.answer,
-                'score': dto.score,
-                'description': dto.description
-            }
-        }).exec();
+        }, dto).exec();
     }
 
     public async validateAnswer(answer: string, questionId: string): Promise<number> {
