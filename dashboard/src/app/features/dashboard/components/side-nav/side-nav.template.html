@@ -68,6 +68,16 @@
                             {{ "pages.puzzle_hero.puzzle_hero" | translate }}
                         </div>
                     </div>
+                </div>
+            </a>
+
+            <div class="sublinks" *ngIf="isActive('puzzle-hero')">
+                <a [routerLink]="['/puzzle-hero/edit']" routerLinkActive="active" *ifRole="['admin', 'super-admin']">
+                    {{ "pages.puzzle_hero.tracks" | translate }}
+                </a>
+
+                <a [routerLink]="['/puzzle-hero/tracks']" routerLinkActive="active" *ifNotRole="['admin', 'super-admin']">
+                    {{ "pages.puzzle_hero.tracks" | translate }}
                 </a>
                 <div class="sublinks" *ngIf="isActive('puzzle-hero')">
                     <a [routerLink]="['/puzzle-hero/tracks']" routerLinkActive="active">
@@ -185,6 +195,16 @@
                     </div>
                 </a>
             </ng-container>
+            <a *ifRole="['admin', 'super-admin']" [routerLink]="['/flash-out/edit']" routerLinkActive="active">
+                <div [fxLayout]="'row'" fxFlexFill>
+                    <div fxFlex="20">
+                        <i class="fal fa-video"></i>
+                    </div>
+                    <div fxFlex="80">
+                        Flash Outs
+                    </div>
+                </div>
+            </a>
         </div>
     </ng-template>
 </div>

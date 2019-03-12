@@ -8,30 +8,51 @@ export enum TrackTypes {
 export enum PuzzleTypes {
     Crypto = "crypto",
     Gaming = "gaming",
-    Scavenger = "scavenger"
+    Scavenger = "scavenger",
+    Sponsor = "sponsor"
+}
+
+export enum ValidationTypes {
+    String = "string",
+    Regex = "regex",
+    Function = "function"
+}
+
+export interface Question {
+    label: string;
+    description: { [lang: string]: string };
+    type: PuzzleTypes;
+    validationType: string;
+    answer: any;
+    score: number;
 }
 
 export interface PuzzleInfo {
     id: string;
-    label: string;
-    type: PuzzleTypes;
-    completed: boolean;
-    locked: boolean;
-    description: { [lang: string]: string };
+    label?: string;
+    type?: PuzzleTypes;
+    completed?: boolean;
+    locked?: boolean;
+    description?: { [lang: string]: string };
     dependsOn?: string;
+    question?: Question;
 }
 
 export interface Track {
     _id: string;
     label: string;
-    type: PuzzleTypes;
+    type: TrackTypes;
     puzzles: PuzzleInfo[];
+    releaseDate: string;
+    endDate: string;
 }
 
 export interface PuzzleHero {
-    tracks: Track[];
+    tracks?: Track[];
+    open: boolean;
     releaseDate: string | Date;
     endDate: string | Date;
+    scoreboardEndDate: string | Date;
 }
 
 export interface PuzzleHeroInfo {

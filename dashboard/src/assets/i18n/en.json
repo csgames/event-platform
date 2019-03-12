@@ -1,21 +1,21 @@
 {
-	"components": {
-		"profile": {
-			"2x-large": "XX-Large",
-			"cv": "CV",
-			"female": "Female",
-			"gender": "Gender",
-			"large": "Large",
-			"male": "Male",
-			"medium": "Medium",
-			"no_answer": "I prefer not to answer.",
-			"other": "Other",
-			"phone": "Phone number",
-			"profile": "Profile",
-			"small": "Small",
-			"update_success": "Profile successfully updated!",
-			"website": "Website",
-			"x-large": "X-Large",
+    "components": {
+        "profile": {
+            "2x-large": "XX-Large",
+            "cv": "CV",
+            "female": "Female",
+            "gender": "Gender",
+            "large": "Large",
+            "male": "Male",
+            "medium": "Medium",
+            "no_answer": "I prefer not to answer.",
+            "other": "Other",
+            "phone": "Phone number",
+            "profile": "Profile",
+            "small": "Small",
+            "update_success": "Profile successfully updated!",
+            "website": "Website",
+            "x-large": "X-Large",
             "has_dietary_restrictions": "I have dietary restrictions",
             "dietary_restrictions": "What are they?",
             "accept_sms": "I would like to receive SMS notifications during the event",
@@ -23,24 +23,24 @@
             "transport": "I will need a 3 days transport pass for the event as I do not own one STM pass myself",
             "size": "T-Shirt Size",
             "school": "School"
-		},
-		"toast": {
-			"attendee_failed": "An error occured while saving the attendee info.",
-			"attendee_success": "Attendee info successfully saved.",
-			"email_failed": "An error occured while sending the email.",
+        },
+        "toast": {
+            "attendee_failed": "An error occured while saving the attendee info.",
+            "attendee_success": "Attendee info successfully saved.",
+            "email_failed": "An error occured while sending the email.",
             "email_success": "Email successfully sent.",
             "password_success": "Password successfully changed!",
             "password_failure": "An error occured while changing the password.",
             "add_member_failure": "An error occured while adding a member to the team",
             "update_team_name_failure": "An error occured while updating the team name"
-		},
-		"top_bar": {
-			"change_language": "Français",
-			"profile_settings": "Profile settings",
+        },
+        "top_bar": {
+            "change_language": "Français",
+            "profile_settings": "Profile settings",
             "sign_out": "Sign Out",
             "change_password": "Change password",
             "edit_account": "Edit Account"
-		},
+        },
         "add_team_form": {
             "captain_informations": "Captain informations",
             "team_informations": "Team informations",
@@ -48,60 +48,99 @@
         },
         "notification": {
             "no_notification": "You have no notifications"
+        },
+        "track_form": {
+            "label": "Track name",
+            "type": "Track type",
+            "release_date": "Release date",
+            "end_date": "End date"
+        },
+        "create_track": {
+            "create_track": "Create track",
+            "error": "An error occured while creating the track.",
+            "success": "Track created!"
+        },
+        "update_track": {
+            "update_track": "Update track",
+            "error": "An error occured while updating the track.",
+            "success": "Track updated!"
+        },
+        "puzzle_hero_settings": {
+            "puzzle_hero_settings": "Puzzle Hero settings",
+            "release_date": "Release date",
+            "end_date": "End date",
+            "scoreboard_end_date": "Scoreboard end date",
+            "open": "Open",
+            "success": "Settings updated!",
+            "error": "An error occured while saving the settings."
+        },
+        "update_puzzle": {
+            "success": "Puzzle updated!"
+        },
+        "create_puzzle": {
+            "success": "Puzzle created!"
+        },
+        "flashout_form": {
+            "flashout_informations": "Flash Out information",
+            "school": "School",
+            "url": "Video url",
+            "video_id": "Video Id (youtube)"
         }
-	},
-	"errors": {
-		"/^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).{8,}$/": "The password must contain at least 8 characters including a number, a lower case letter and a upper case letter",
-		"email": "The email is invalid.",
-		"group": {
-			"required": "One or more fields are required."
-		},
-		"maxlength": "This field must have maximum {{value}} characters",
-		"minlength": "This field must have at least {{value}} characters",
-		"passwords_mismatch": "The passwords do not match.",
-		"required": "This field is required."
-	},
-	"general": {
-		"button": {
-			"add": "Add",
-			"cancel": "Cancel",
-			"close": "Close",
-			"reset": "Reset",
-			"save": "Save",
-			"send": "Send",
+    },
+    "errors": {
+        "/^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).{8,}$/": "The password must contain at least 8 characters including a number, a lower case letter and a upper case letter",
+        "email": "The email is invalid.",
+        "group": {
+            "required": "One or more fields are required."
+        },
+        "maxlength": "This field must have maximum {{value}} characters",
+        "minlength": "This field must have at least {{value}} characters",
+        "passwords_mismatch": "The passwords do not match.",
+        "required": "This field is required."
+    },
+    "general": {
+        "button": {
+            "add": "Add",
+            "cancel": "Cancel",
+            "close": "Close",
+            "reset": "Reset",
+            "save": "Save",
+            "send": "Send",
             "subscribe": "Subscribe",
             "subscribed": "Subscribed",
             "validate": "Validate",
+            "edit": "Edit",
             "vote": "Vote"
-		},
-		"error": {
-			"something": "Something happened...",
+        },
+        "error": {
+            "something": "Something happened...",
             "reset_code_error": "Reset code is expired"
-		},
-		"loading": {
-			"loading": "Loading..."
-		},
-		"profile": {
-			"email": "E-mail address",
-			"first_name": "First name",
-			"last_name": "Last name",
+        },
+        "loading": {
+            "loading": "Loading..."
+        },
+        "profile": {
+            "email": "E-mail address",
+            "first_name": "First name",
+            "last_name": "Last name",
             "password": "Password",
             "new": "New password",
             "old": "Old password",
             "confirm": "Confirm new password",
             "team_name": "Team name"
-		},
-		"team": {
-			"name": "Team name",
-			"school": "School"
-		},
-		"toast": {
-			"Error": "Error",
-			"failure": "Failure",
-			"success": "Success!"
-		},
+        },
+        "team": {
+            "name": "Team name",
+            "school": "School"
+        },
+        "toast": {
+            "Error": "Error",
+            "failure": "Failure",
+            "success": "Success!"
+        },
         "roles": {
-            "captain": "Captain"
+            "captain": "Captain",
+            "admin": "Admin"
         },
         "search": {
             "search": "Search"
@@ -109,12 +148,26 @@
         "update": {
             "update_available": "New version available!",
             "update": "Update"
+        },
+        "label": {
+            "start_at": "Starts at",
+            "end_at": "Ends at",
+            "description": "Description"
+        },
+        "track": {
+            "types": {
+                "crypto": "Cryptography",
+                "gaming": "Gaming",
+                "scavenger": "Scavenger Hunt",
+                "sponsor": "Sponsor"
+            }
         }
 	},
 	"pages": {
         "flashouts": {
             "vote_success": "The vote has been successfully saved.",
-            "vote_error": "Please rate all the flash outs before voting."
+            "vote_error": "Please rate all the flash outs before voting.",
+            "add_flashout": "Add a Flash Out"
         },
 		"competition": {
 			"competition_password": "Competition password",
@@ -146,49 +199,67 @@
             "onboarding": "Onboarding",
             "agree": "I have read and agree the conditions and rules cited in ",
             "code": "this disclaimer"
-		},
-		"puzzle_hero": {
-			"all": "All tracks",
-			"position": "Position",
-			"puzzle": "Puzzle",
-			"puzzle_hero": "Puzzle Hero",
-			"score": "Score",
-			"scoreboard": "Scoreboard",
-			"starred": "Starred tracks",
-			"track": "Track",
-			"tracks": "Tracks",
-			"wrong_answer": "Wrong answer!",
+        },
+        "puzzle_hero": {
+            "all": "All tracks",
+            "position": "Position",
+            "puzzle": "Puzzle",
+            "puzzle_hero": "Puzzle Hero",
+            "score": "Score",
+            "scoreboard": "Scoreboard",
+            "starred": "Starred tracks",
+            "track": "Track",
+            "tracks": "Tracks",
+            "wrong_answer": "Wrong answer!",
             "loading_error": "An error occured while loading the puzzle hero",
-			"scoreboard_loading_error": "An error occured while loading the scoreboard",
-			"answer":"Answer here",
-            "validate_success": "Good answer!"
-		},
-		"register": {
-			"already_have_account": "Already have an account?",
-			"confirm_password": "Confirm password",
-			"register": "Register",
+            "scoreboard_loading_error": "An error occured while loading the scoreboard",
+            "answer": "Answer here",
+            "validate_success": "Good answer!",
+            "validation_types": "Validation type",
+            "puzzle_types": "Puzzle type",
+            "answer_admin": "Answer",
+            "answer_placeholder": "Answer / URL",
+            "description_placeholder": "Your puzzle description here",
+            "admin": {
+                "add_track": "Add track",
+                "add_puzzle": "Add puzzle",
+                "released_on": "Released on",
+                "releasing_on": "Releasing on",
+                "ended_on": "Ended on",
+                "puzzle_available_for_attendees": "The puzzle hero is currently accessible by attendees.",
+                "puzzle_not_available_for_attendees": "The puzzle hero is not currently accessible by attendees.",
+                "label_placeholder": "Your puzzle title here",
+                "create_puzzle": "Add a puzzle",
+                "update_puzzle": "Update a puzzle",
+                "score": "Puzzle value"
+            }
+        },
+        "register": {
+            "already_have_account": "Already have an account?",
+            "confirm_password": "Confirm password",
+            "register": "Register",
             "validation_error": "An error occured while validating your invitation."
-		},
-		"schedule": {
-			"schedule": "Schedule",
-			"view_competition": "View competition"
-		},
-		"sponsors": {
-			"bronze": "Bronze",
-			"gold": "Gold",
-			"partner": "Partner",
-			"platinum": "Platinum",
-			"silver": "Silver",
-			"sponsors": "Sponsors"
-		},
-		"team": {
-			"add_a_godparent": "Add a godparent",
-			"add_a_member": "Add a team member",
-			"add_godparent": "Add godparent",
-			"add_member": "Add member",
-			"add_team": "Add team",
-			"godparent": "Godparent",
-			"loading_error": "An error occured while loading the team.",
+        },
+        "schedule": {
+            "schedule": "Schedule",
+            "view_competition": "View competition"
+        },
+        "sponsors": {
+            "bronze": "Bronze",
+            "gold": "Gold",
+            "partner": "Partner",
+            "platinum": "Platinum",
+            "silver": "Silver",
+            "sponsors": "Sponsors"
+        },
+        "team": {
+            "add_a_godparent": "Add a godparent",
+            "add_a_member": "Add a team member",
+            "add_godparent": "Add godparent",
+            "add_member": "Add member",
+            "add_team": "Add team",
+            "godparent": "Godparent",
+            "loading_error": "An error occured while loading the team.",
             "teams_loading_error": "An error occured while loading the teams.",
 			"no_godparent": "No godparent yet",
 			"not_registered": "Not registered",

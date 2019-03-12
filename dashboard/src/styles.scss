@@ -720,6 +720,12 @@ h4 {
     margin-bottom: 1px;
 }
 
+.btn-default {
+    &:hover {
+        color: #0D5899 !important;
+    }
+}
+
 .badge-primary {
     background-color: #08579d;
 }
@@ -956,10 +962,84 @@ svg {
     }
 }
 
+bs-datepicker-container {
+    z-index: 3000;
+}
+
+.bs-timepicker-field {
+    border-radius: 8px;
+    border: #9B9B9B solid 1px;
+
+    &:focus {
+        border: 1px solid #0D5899;
+    }
+}
+
 .btn-primary {
     height: 100% !important;
 }
 
 .btn:hover {
     cursor: pointer !important;
+}
+
+iframe {
+    width: 100% !important;
+    height: 300px !important;
+}
+
+.popover {
+    border: none;
+
+    box-shadow: 0 1px 4px 0 rgba(0, 0, 0, .14);
+
+    .arrow {
+        &:before,
+        &:after {
+            border: none;
+        }
+    }
+}
+
+ .language-select > .ng-select > .ng-select-container > .ng-clear-wrapper {
+    display: none !important;
+}
+
+.ql-toolbar {
+    border-radius: 8px 8px 0px 0px;
+}
+
+.ql-container {
+    border-radius: 0px 0px 8px 8px;
+}
+
+.quill:focus-within > .ql-toolbar {
+    border-left-color: #0D5899;
+    border-right-color: #0D5899;
+    border-top-color: #0D5899;
+}
+
+.quill:focus-within > .ql-container {
+    border-left-color: #0D5899;
+    border-right-color: #0D5899;
+    border-bottom-color: #0D5899;
+}
+
+.alert {
+    margin: 1rem 0;
+    border-radius: 11px;
+}
+
+timepicker {
+    margin: 5px;
+}
+
+.borders {
+    background: transparent;
+    border: 1px dashed #9B9B9B;
+    margin-bottom: 10px;
+
+    &:hover {
+        border: 1px dashed #08579d;
+    }
 }

@@ -39,7 +39,7 @@
                 <app-attendee-view class="mb-4" [attendee]="member">
                 </app-attendee-view>
             </div>
-            <div *ifRole="['admin', 'captain']">
+            <div *ifRole="['admin', 'captain', 'super-admin']">
                 <button *ngIf="!isAddingTeamMember && canAddTeamMember$ | async" type="button"
                         class="btn btn-lg btn-block borders"
                         (click)="onEditTeamMember()">
@@ -83,7 +83,7 @@
                 <app-attendee-view style="margin-bottom:20px;" [attendee]="member">
                 </app-attendee-view>
             </div>
-            <div *ifRole="['admin', 'captain']">
+            <div *ifRole="['admin', 'captain', 'super-admin']">
                 <button *ngIf="!isAddingTeamGodparent && canAddTeamGodparent$ | async" type="button"
                         class="btn btn-lg btn-block borders"
                         (click)="onEditTeamGodparent()">+ {{ "pages.team.add_godparent" | translate }}</button>
