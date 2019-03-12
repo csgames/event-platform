@@ -1,7 +1,7 @@
 .btn-warning {
     color: #FED265 !important;
-    background-color: #fafafa !important;
-    border-color: #fafafa !important;
+    background-color: #ffffff !important;
+    border-color: #ffffff !important;
     box-shadow: none !important;
 }
 
@@ -16,4 +16,8 @@
 .rating {
     margin-bottom: 5px;
     margin-left: 6px;
+}
+
+.card-body {
+    padding-bottom: 0;
 }

@@ -1,7 +1,7 @@
 import { Component, forwardRef, Input, OnInit } from "@angular/core";
 import { Flashout } from "../../../../api/models/flashout";
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
-import { Observable, of, Subject } from "rxjs";
+import { Observable, of } from "rxjs";
 
 @Component({
     selector: "app-flashout-card",
@@ -18,13 +18,14 @@ import { Observable, of, Subject } from "rxjs";
 export class FlashoutCardComponent implements OnInit, ControlValueAccessor {
     @Input()
     public flashout: Flashout;
-
     @Input()
     public rate: boolean;
+    @Input()
+    public showRate = false;
 
     public rating: number;
     public loading$: Observable<boolean>;
-    private propagate: (rating: number) => void;
+    public propagate: (rating: number) => void;
 
     constructor() {
     }
