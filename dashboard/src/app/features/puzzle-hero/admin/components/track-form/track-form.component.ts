@@ -1,4 +1,4 @@
-import { Component, forwardRef, Inject, OnInit } from "@angular/core";
+import { Component, forwardRef, Inject, OnInit, OnDestroy } from "@angular/core";
 import { FormGenerator } from "../../../../../form-generator/form-generator";
 import { TRACK_FORM_GENERATOR } from "./track-form.constants";
 import { TrackFormDto } from "./dto/track-form.dto";
@@ -18,7 +18,7 @@ import { TrackTypes } from "../../../../../api/models/puzzle-hero";
         }
     ]
 })
-export class TrackFormComponent implements OnInit, ControlValueAccessor {
+export class TrackFormComponent implements OnInit, ControlValueAccessor, OnDestroy {
 
     public types = [
         TrackTypes.Crypto,
@@ -40,6 +40,10 @@ export class TrackFormComponent implements OnInit, ControlValueAccessor {
         this.valueChangeSub$ = this.formGroup.valueChanges.subscribe(() => {
             this.propagate(this.formGenerator.getValues());
         });
+    }
+
+    ngOnDestroy() {
+        this.valueChangeSub$.unsubscribe();
     }
 
     registerOnChange(fn: (trackFormDto: TrackFormDto) => void): void {

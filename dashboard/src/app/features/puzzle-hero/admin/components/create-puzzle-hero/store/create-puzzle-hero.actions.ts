@@ -5,7 +5,6 @@ export enum CreatePuzzleActionTypes {
     CreatePuzzle = "[Create Puzzle Hero Puzzle] Create puzzle",
     CreatePuzzleSuccess = "[Create Puzzle Hero Puzzle] Create puzzle success",
     CreatePuzzleError = "[Create Puzzle Hero Puzzle] Create puzzle error",
-
     ResetState = "[Create Puzzle Hero Puzzle] Reset state"
 }
 

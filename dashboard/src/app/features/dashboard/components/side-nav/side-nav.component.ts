@@ -20,14 +20,14 @@ export class SideNavComponent implements OnInit {
     get puzzleHeroOpen$(): Observable<boolean> {
         return this.puzzleHeroInfo$.pipe(
             withLatestFrom(this.attendee$),
-            map(([info, attendee]) => info.open || attendee && attendee.role === "admin")
+            map(([info, attendee]) => info.open || attendee && (attendee.role === "admin" || attendee.role === "super-admin"))
         );
     }
 
     get scoreboardOpen$(): Observable<boolean> {
         return this.puzzleHeroInfo$.pipe(
             withLatestFrom(this.attendee$),
-            map(([info, attendee]) => info.scoreboardOpen || attendee && attendee.role === "admin")
+            map(([info, attendee]) => info.scoreboardOpen || attendee && (attendee.role === "admin" || attendee.role === "super-admin"))
         );
     }
 

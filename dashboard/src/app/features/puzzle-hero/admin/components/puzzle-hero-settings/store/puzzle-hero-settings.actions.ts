@@ -5,7 +5,6 @@ export enum PuzzleHeroSettingsActionTypes {
     SaveSettings = "[Puzzle Hero Settings] Save settings",
     SaveSettingsSuccess = "[Puzzle Hero Settings] Save settings success",
     SaveSettingsError = "[Puzzle Hero Settings] Save settings error",
-
     ResetState = "[Puzzle Hero Settings] Reset state"
 }
 

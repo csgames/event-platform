@@ -13,13 +13,13 @@ const routes: Routes = [
         path: "edit",
         loadChildren: "src/app/features/team/team-edit/team-edit.module#TeamEditModule",
         canActivate: [RoleGuard],
-        data: { roles: ["admin"], redirect: "team" }
+        data: { roles: ["admin", "super-admin"], redirect: "team" }
     },
     {
         path: ":id",
         loadChildren: "src/app/features/team/admin-team-view/admin-team-view.module#AdminTeamViewModule",
         canActivate: [RoleGuard],
-        data: { roles: ["admin"], redirect: "team" }
+        data: { roles: ["admin", "super-admin"], redirect: "team" }
     }
 ];
 

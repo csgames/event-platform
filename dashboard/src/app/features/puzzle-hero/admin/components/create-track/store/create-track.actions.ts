@@ -5,7 +5,6 @@ export enum CreateTrackActionTypes {
     CreateTrack = "[Create Puzzle Hero Track] Create track",
     CreateTrackSuccess = "[Create Puzzle Hero Track] Create track success",
     CreateTrackError = "[Create Puzzle Hero Track] Create track error",
-
     ResetState = "[Create Puzzle Hero Track] Reset state"
 }
 

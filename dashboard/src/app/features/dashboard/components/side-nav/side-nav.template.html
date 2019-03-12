@@ -70,11 +70,11 @@
             </a>
 
             <div class="sublinks" *ngIf="isActive('puzzle-hero')">
-                <a [routerLink]="['/puzzle-hero/edit']" routerLinkActive="active" *ifRole="['admin']">
+                <a [routerLink]="['/puzzle-hero/edit']" routerLinkActive="active" *ifRole="['admin', 'super-admin']">
                     {{ "pages.puzzle_hero.tracks" | translate }}
                 </a>
 
-                <a [routerLink]="['/puzzle-hero/tracks']" routerLinkActive="active" *ifNotRole="['admin']">
+                <a [routerLink]="['/puzzle-hero/tracks']" routerLinkActive="active" *ifNotRole="['admin', 'super-admin']">
                     {{ "pages.puzzle_hero.tracks" | translate }}
                 </a>
 

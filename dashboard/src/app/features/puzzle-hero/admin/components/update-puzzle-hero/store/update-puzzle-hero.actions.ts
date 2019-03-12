@@ -5,7 +5,6 @@ export enum UpdatePuzzleActionTypes {
     UpdatePuzzle = "[Update Puzzle Hero Puzzle] Update puzzle",
     UpdatePuzzleSuccess = "[Update Puzzle Hero Puzzle] Update puzzle success",
     UpdatePuzzleError = "[Update Puzzle Hero Puzzle] Update puzzle error",
-
     ResetState = "[Update Puzzle Hero Puzzle] Reset state"
 }
 

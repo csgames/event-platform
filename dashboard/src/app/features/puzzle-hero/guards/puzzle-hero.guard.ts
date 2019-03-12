@@ -20,7 +20,7 @@ export class PuzzleHeroGuard implements CanActivate {
             filter(x => x !== null),
             withLatestFrom(this.currentAttendee$),
             switchMap(([info, attendee]: [PuzzleHeroInfo, Attendee]) => {
-                if (info.open || attendee && attendee.role === "admin") {
+                if (info.open || attendee && (attendee.role === "admin" || attendee.role === "super-admin")) {
                     return of(true);
                 } else {
                     return fromPromise(this.router.navigate(["/home"]));
