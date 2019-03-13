@@ -1,7 +1,7 @@
 import { InjectModel } from '@nestjs/mongoose';
 import * as mongoose from 'mongoose';
 import { Model } from 'mongoose';
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { ArrayUtils } from '../../../utils/array.utils';
 import { Schools } from '../schools/schools.model';
 import { Teams } from '../teams/teams.model';
@@ -16,6 +16,8 @@ export type AttendeeInfo = Attendees & { role: string; permissions: string[], re
 
 @Injectable()
 export class AttendeesService extends BaseService<Attendees, CreateAttendeeDto> {
+    private sheetHeaders = ['First Name', 'Last Name', 'Email', 'Team', 'School'];
+
     constructor(@InjectModel("attendees") private readonly attendeesModel: Model<Attendees>,
                 @InjectModel("events") private readonly eventsModel: Model<Events>,
                 @InjectModel('teams') private readonly teamsModel: Model<Teams>,
@@ -189,9 +191,9 @@ export class AttendeesService extends BaseService<Attendees, CreateAttendeeDto> 
         });
 
         if (type === 'xlsx') {
-            return ArrayUtils.arrayToXlsxBuffer(attendees, 'attendees', ['Fist Name', 'Last Name', 'Email', 'Team', 'School']);
+            return ArrayUtils.arrayToXlsxBuffer(attendees, 'attendees', this.sheetHeaders);
         } else if (type === 'csv') {
-            return await ArrayUtils.arrayToCsvBuffer(attendees, ['Fist Name', 'Last Name', 'Email', 'Team', 'School']);
+            return await ArrayUtils.arrayToCsvBuffer(attendees, this.sheetHeaders);
         } else {
             return attendees;
         }
