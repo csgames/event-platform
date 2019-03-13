@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { select, Store } from "@ngrx/store";
-import { map } from "rxjs/operators";
+import { filter, map } from "rxjs/operators";
 import { Attendee } from "../../api/models/attendee";
 import { DownloadCsv, DownloadXlsx, LoadAttendees } from "./store/attendees.actions";
 import { getAttendees, getLoading, State } from "./store/attendees.reducer";
@@ -18,6 +18,7 @@ export class AttendeesComponent implements OnInit, OnDestroy {
 
     get sortedFilteredAttendees$() {
         return this.attendees$.pipe(
+            filter(x => x !== null),
             map(t => t.filter((attendee: Attendee) => {
                 const words = this.searchInput
                     .toLowerCase()

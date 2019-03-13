@@ -1,6 +1,6 @@
 import { Action } from "@ngrx/store";
 import { Attendee } from "../../../api/models/attendee";
-import { AddAttendeeFormDto } from "../components/add-attendee-form/dto/add-attendee-form.dto";
+import { RegisterAttendeeFormDto } from "../../../components/register-attendee-form/dto/register-attendee-form.dto";
 
 export enum OrganizersActionTypes {
     LoadAdmins = "[Organizers] Load Admins",
@@ -21,7 +21,7 @@ export class AdminsLoaded implements Action {
 export class AddAdmin implements Action {
     readonly type = OrganizersActionTypes.AddAdmin;
 
-    constructor(public payload: AddAttendeeFormDto) {}
+    constructor(public payload: RegisterAttendeeFormDto) {}
 }
 
 export type OrganizersActions =

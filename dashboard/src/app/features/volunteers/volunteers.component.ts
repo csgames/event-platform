@@ -1,9 +1,9 @@
 import { Component, OnDestroy, OnInit, ViewChild } from "@angular/core";
 import { select, Store } from "@ngrx/store";
-import { AddAttendeeFormDto } from "./components/add-attendee-form/dto/add-attendee-form.dto";
 import { getAttendees, getLoading, State } from "./store/volunteers.reducer";
-import { AddAttendeeFormComponent } from "./components/add-attendee-form/add-attendee-form.component";
 import { AddVolunteer, LoadVolunteers } from "./store/volunteers.actions";
+import { RegisterAttendeeFormDto } from "../../components/register-attendee-form/dto/register-attendee-form.dto";
+import { RegisterAttendeeFormComponent } from "../../components/register-attendee-form/register-attendee-form.component";
 
 @Component({
     selector: "app-organizers",
@@ -15,10 +15,10 @@ export class VolunteersComponent implements OnInit, OnDestroy {
     loading$ = this.store$.pipe(select(getLoading));
 
     isAddingTeamMember = false;
-    newAttendee: AddAttendeeFormDto;
+    newAttendee: RegisterAttendeeFormDto;
 
-    @ViewChild("attendee")
-    attendeeForm: AddAttendeeFormComponent;
+    @ViewChild(RegisterAttendeeFormComponent)
+    attendeeForm: RegisterAttendeeFormComponent;
 
     constructor(private store$: Store<State>) {}
 
@@ -34,7 +34,7 @@ export class VolunteersComponent implements OnInit, OnDestroy {
         this.newAttendee = this.setDefaultAttendee();
     }
 
-    public setDefaultAttendee(): AddAttendeeFormDto {
+    public setDefaultAttendee(): RegisterAttendeeFormDto {
         return {
             firstName: "",
             lastName: "",
