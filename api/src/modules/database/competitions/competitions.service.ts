@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException, UnauthorizedException, ForbiddenException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import * as mongoose from 'mongoose';
 import { Model } from 'mongoose';
@@ -404,7 +404,11 @@ export class CompetitionsService extends BaseService<Competitions, Competitions>
             email: user.username
         });
         const c = competition.toJSON();
-        c.isMember = c.members.some(x => x.attendees.some(y => (y as mongoose.Types.ObjectId).equals(attendee._id)));
+        const isMember = c.members.some(x => x.attendees.some(y => (y as mongoose.Types.ObjectId).equals(attendee._id)));
+
+        if (!isMember) {
+            throw new ForbiddenException();
+        }
 
         delete c.directors;
         delete c.answers;
