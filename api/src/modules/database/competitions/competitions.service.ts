@@ -156,7 +156,11 @@ export class CompetitionsService extends BaseService<Competitions, Competitions>
         }
 
         const teamId = await this.getTeamId(user.username, eventId);
-        if (competition.answers.some(x => (x.teamId as mongoose.Types.ObjectId).equals(teamId) && question._id.equals(x.question))) {
+        if (this.isQuestionLocked(competition, question, teamId)) {
+            throw new BadRequestException("Question locked");
+        }
+
+        if (this.isQuestionLocked(competition, question, teamId)) {
             throw new BadRequestException("Cannot answer question twice");
         }
 
