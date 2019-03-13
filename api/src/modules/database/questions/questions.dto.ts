@@ -1,7 +1,6 @@
 import { Type } from 'class-transformer';
 import { ArrayNotEmpty, IsIn, IsNotEmpty, IsNumber, IsOptional, ValidateIf, ValidateNested } from 'class-validator';
 import { QuestionTypes, ValidationTypes } from './questions.model';
-<<<<<<< HEAD
 
 export class QuestionOptionDto {
     @IsNotEmpty({
@@ -12,10 +11,6 @@ export class QuestionOptionDto {
     })
     contentTypes: string[];
 }
-=======
-import { IsIn, IsNotEmpty, IsNumber, IsOptional } from 'class-validator';
-import { Optional } from '@nestjs/common';
->>>>>>> master
 
 export class CreateQuestionDto {
     @IsNotEmpty({
@@ -72,47 +67,28 @@ export class CreateQuestionDto {
 
 export class UpdateQuestionDto {
     @IsOptional()
-    @IsNotEmpty()
+    @IsNotEmpty({
+        always: true
+    })
     label: string;
 
     @IsOptional()
-    @IsNotEmpty()
+    @IsNotEmpty({
+        always: true
+    })
     description: object;
 
     @IsOptional()
-    @IsNotEmpty()
-<<<<<<< HEAD
-    @IsIn(["crypto", "gaming", "scavenger", "upload"])
-=======
-    @IsIn(["crypto", "gaming", "scavenger", "sponsor"])
-    type: QuestionTypes;
-
-    @IsNotEmpty()
-    @IsIn(["string", "regex", "function"])
-    validationType: ValidationTypes;
-
-    @IsNotEmpty()
-    answer: any;
-
-    @IsNotEmpty()
-    @IsNumber()
-    score: number;
-}
-
-export class UpdateQuestionDto {
-    @IsNotEmpty()
-    label: string;
-
-    @IsNotEmpty()
-    description: object;
-
-    @IsNotEmpty()
-    @IsIn(["crypto", "gaming", "scavenger", "sponsor"])
->>>>>>> master
+    @IsNotEmpty({
+        always: true
+    })
+    @IsIn(["crypto", "gaming", "scavenger", "sponsor", "upload"])
     type: QuestionTypes;
 
     @IsOptional()
-    @IsNotEmpty()
+    @IsNotEmpty({
+        always: true
+    })
     @IsIn(["upload"], {
         groups: ["upload"]
     })

@@ -257,9 +257,10 @@ export class CompetitionsService extends BaseService<Competitions, Competitions>
             throw new NotFoundException();
         }
 
-        // TO REMOVE
-        const attendee: any = {};
-        // const attendee = await this.registrationService.registerUser(dto, eventId, 'director');
+        const attendee = await this.registrationService.registerRole({
+            ...dto,
+            role: 'director'
+        }, eventId);
 
         competition.directors.push(attendee._id);
         await competition.save();

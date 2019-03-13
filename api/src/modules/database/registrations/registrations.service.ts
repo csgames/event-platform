@@ -144,7 +144,7 @@ export class RegistrationsService {
         }
     }
 
-    public async registerRole(userDto: RegisterRoleDto, eventId: string) {
+    public async registerRole(userDto: RegisterRoleDto, eventId: string): Promise<Attendees> {
         if (!this.roles) {
             await this.fetchRoles();
         }
@@ -161,6 +161,7 @@ export class RegistrationsService {
                 email: userDto.username
             });
             await this.eventService.addAttendee(eventId, attendee, userDto.role);
+            return attendee;
         } catch (err) {
             if (err instanceof HttpException) {
                 throw err;

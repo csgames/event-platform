@@ -94,7 +94,7 @@ export class EventsController {
     @HttpCode(HttpStatus.NO_CONTENT)
     @Permissions('csgames-api:update:flash-out')
     public async voteFlashOut(@EventId() eventId: string, @User() user: UserModel,
-                              @Body(NullPipe, ValidationPipe) dto: VotesFlashOutDto) {
+                              @Body(NullPipe, new ValidationPipe()) dto: VotesFlashOutDto) {
         const attendee = await this.attendeesService.findOne({ email: user.username });
         if (!attendee) {
             throw new NotFoundException();
@@ -125,7 +125,7 @@ export class EventsController {
                                  @User() user: UserModel): Promise<Competitions[]> {
         return await this.eventsService.getCompetitionsAsMember(eventId, user);
     }
-    
+
     @Get('attendee')
     @UseInterceptors(DataGridDownloadInterceptor)
     @Permissions('csgames-api:get-all:attendee')
