@@ -133,7 +133,7 @@ class _ActivityPageState extends State<ActivityPage> {
         );
     }
 
-    Widget _buildBody(_ActivityPageViewModel model) {
+    Widget _buildBody() {
         return Center(
             child: Column(
                 children: <Widget>[
@@ -170,7 +170,7 @@ class _ActivityPageState extends State<ActivityPage> {
                             ),
                             backgroundColor: Constants.csBlue
                         ),
-                        body: model.isLoading ? LoadingSpinner() : _buildBody(model),
+                        body: model.isLoading ? LoadingSpinner() : _buildBody(),
                         resizeToAvoidBottomPadding: false
                     )
                 );

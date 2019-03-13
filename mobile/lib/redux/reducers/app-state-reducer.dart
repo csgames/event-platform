@@ -12,7 +12,6 @@ import 'package:CSGamesApp/redux/reducers/event-reducer.dart';
 import 'package:CSGamesApp/redux/reducers/current-event-reducer.dart';
 import 'package:CSGamesApp/redux/reducers/login-reducer.dart';
 import 'package:CSGamesApp/redux/reducers/current-team-reducer.dart';
-import 'package:CSGamesApp/redux/reducers/current-activity-reducer.dart';
 import 'package:CSGamesApp/redux/reducers/puzzles-reducer.dart';
 import 'package:CSGamesApp/redux/reducers/puzzle-hero-reducer.dart';
 
@@ -28,7 +27,6 @@ AppState appReducer(AppState state, action) {
         activityState: activityReducer(state.activityState, action),
         currentEvent: currentEventReducer(state.currentEvent, action),
         puzzleHeroState: puzzleHeroReducer(state.puzzleHeroState, action),
-        currentActivity: currentActivityReducer(state.currentActivity, action),
         currentAttendee: currentAttendeeReducer(state.currentAttendee, action),
         notificationState: notificationReducer(state.notificationState, action),
         attendeeRetrievalState: attendeeRetrievalReducer(state.attendeeRetrievalState, action),

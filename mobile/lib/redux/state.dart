@@ -24,7 +24,6 @@ class AppState {
   final EventState eventState;
   final LoginState loginState;
   final Attendee currentAttendee;
-  final Activity currentActivity;
   final PuzzlesState puzzlesState;
   final ProfileState profileState;
   final SponsorsState sponsorsState;
@@ -45,7 +44,6 @@ class AppState {
     this.puzzlesState,
     this.sponsorsState,
     this.activityState,
-    this.currentActivity,
     this.currentAttendee,
     this.puzzleHeroState,
     this.notificationState,
