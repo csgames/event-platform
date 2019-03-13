@@ -49,7 +49,7 @@ export const CompetitionsSchema = new mongoose.Schema({
         default: []
     },
     description: {
-        type: [Object],
+        type: Object,
         required: true
     },
     maxMembers: {
