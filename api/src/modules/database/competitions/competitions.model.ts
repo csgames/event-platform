@@ -13,6 +13,7 @@ export interface Competitions extends mongoose.Document {
     questions: QuestionGraphNodes[];
     answers: QuestionAnswers[];
     members: Members[];
+    description: { [lang: string]: string };
     maxMembers: number;
     password: string;
     isLive: boolean;
@@ -46,6 +47,10 @@ export const CompetitionsSchema = new mongoose.Schema({
     members: {
         type: [MembersSchema],
         default: []
+    },
+    description: {
+        type: [Object],
+        required: true
     },
     maxMembers: {
         type: Number,

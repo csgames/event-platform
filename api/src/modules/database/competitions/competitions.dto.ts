@@ -11,6 +11,9 @@ export class CreateCompetitionDto {
     directors: string[];
 
     @IsNotEmpty()
+    description: { [lang: string]: string };
+
+    @IsNotEmpty()
     @IsNumber()
     maxMembers: number;
 
@@ -28,6 +31,9 @@ export class UpdateCompetitionDto {
     @IsOptional()
     @ArrayNotEmpty()
     activities: string[];
+
+    @IsNotEmpty()
+    description: { [lang: string]: string };
 
     @IsOptional()
     @IsNotEmpty()
