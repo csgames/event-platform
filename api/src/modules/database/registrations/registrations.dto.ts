@@ -71,7 +71,13 @@ export class RegisterAttendeeDto {
     attendee: CreateAttendeeDto;
 }
 
-export class RegisterAdminDto {
+export class RegisterRoleDto {
+    @IsString()
+    @IsNotEmpty()
+    @IsIn(['admin', 'volunteer', 'director'])
+    @ApiModelProperty({ required: true })
+    role: string;
+
     @IsEmail()
     @IsString()
     @IsNotEmpty()

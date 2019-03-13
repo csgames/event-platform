@@ -1,4 +1,4 @@
-import { BadRequestException, Body, Controller, Get, Param, Put, UseFilters, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Param, Put, UseFilters, UseGuards } from '@nestjs/common';
 import { ApiUseTags } from '@nestjs/swagger';
 import { EventId } from '../../../decorators/event-id.decorator';
 import { Permissions } from '../../../decorators/permission.decorator';
@@ -25,8 +25,8 @@ export class TeamsController {
     @Put(':id')
     @Permissions('csgames-api:update:team')
     public async updateTeam(@Param('id') id: string, @Body(new ValidationPipe()) updateTeamDto: UpdateTeamDto,
-                            @EventId() eventId: string) {
-        return this.teamsService.updateTeam(id, updateTeamDto, eventId);
+                            @EventId() eventId: string, @User() user: UserModel) {
+        return this.teamsService.updateTeam(id, updateTeamDto, eventId, user);
     }
 
     @Get()

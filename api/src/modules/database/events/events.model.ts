@@ -2,6 +2,7 @@ import * as mongoose from 'mongoose';
 import { Activities } from '../activities/activities.model';
 import { Attendees } from '../attendees/attendees.model';
 import { Sponsors } from '../sponsors/sponsors.model';
+import { DateUtils } from '../../../utils/date.utils';
 
 export enum EventAttendeeTypes {
     Admin = 'admin',
@@ -75,7 +76,7 @@ export const EventSponsorsSchema = new mongoose.Schema({
 });
 
 export interface EventGuide {
-    bring: { [key:string]: string[] },
+    bring: { [key: string]: string[] };
     school: {
         latitude: number,
         longitude: number,
@@ -96,7 +97,7 @@ export interface EventGuide {
         latitude: number,
         longitude: number,
         zoom: number,
-        coordinates:[{ 
+        coordinates: [{
             latitude: number,
             longitude: number
         }]
@@ -105,7 +106,7 @@ export interface EventGuide {
         latitude: number,
         longitude: number,
         zoom: number,
-        coordinates:[{ 
+        coordinates: [{
             info: string
             latitude: number,
             longitude: number
@@ -120,7 +121,7 @@ export interface EventGuide {
         schoolLongitude: number,
         hotelLatitude: number,
         hotelLongitude: number
-    }
+    };
 }
 
 export interface Events extends mongoose.Document {
@@ -128,6 +129,8 @@ export interface Events extends mongoose.Document {
     readonly details: object;
     readonly beginDate: Date | string;
     readonly endDate: Date | string;
+    readonly flashoutBeginDate: Date | string;
+    readonly flashoutEndDate: Date | string;
     readonly activities: (Activities | mongoose.Types.ObjectId | string)[];
     readonly attendees: EventAttendees[];
     readonly sponsors: EventSponsors[];
@@ -139,6 +142,8 @@ export interface Events extends mongoose.Document {
     readonly locationAddress: string;
     readonly maxTeamMembers: number;
     readonly guide: EventGuide;
+    readonly teamEditLocked: boolean;
+    readonly teamEditLockDate: Date | string;
 }
 
 export const EventsSchema = new mongoose.Schema({
@@ -156,6 +161,14 @@ export const EventsSchema = new mongoose.Schema({
         required: true
     },
     endDate: {
+        type: Date,
+        required: true
+    },
+    flashoutBeginDate: {
+        type: Date,
+        required: true
+    },
+    flashoutEndDate: {
         type: Date,
         required: true
     },
@@ -190,5 +203,20 @@ export const EventsSchema = new mongoose.Schema({
         type: Object,
         required: false
     },
-    sponsors: [EventSponsorsSchema]
+    sponsors: [EventSponsorsSchema],
+    teamEditLocked: {
+        type: Boolean,
+        default: true
+    },
+    teamEditLockDate: {
+        type: Date,
+        required: true
+    }
 });
+
+export class EventsUtils {
+    public static isFlashoutAvailable(event: Events) {
+        const now = DateUtils.nowUTC();
+        return now > event.flashoutBeginDate && now < event.flashoutEndDate;
+    }
+}

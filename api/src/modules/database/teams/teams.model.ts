@@ -31,7 +31,7 @@ export const TeamsSchema = new mongoose.Schema({
     school: {
         type: mongoose.Schema.Types.ObjectId,
         required: true,
-        ref: 'school'
+        ref: 'schools'
     },
     maxMembersNumber: {
         type: Number,

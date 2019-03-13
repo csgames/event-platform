@@ -1,10 +1,15 @@
-import { Body, Controller, Get, HttpCode, Param, Post, Put, Query, UploadedFile, UseFilters, UseGuards } from '@nestjs/common';
+import {
+    Body, Controller, Get, HttpCode, HttpStatus, NotFoundException, Param, Post, Put, Query, UploadedFile, UseFilters, UseGuards,
+    UseInterceptors
+} from '@nestjs/common';
 import { ApiUseTags } from '@nestjs/swagger';
 import { Permissions } from '../../../decorators/permission.decorator';
 import { User } from '../../../decorators/user.decorator';
 import { CodeExceptionFilter } from '../../../filters/code-error/code.filter';
 import { PermissionsGuard } from '../../../guards/permission.guard';
+import { DataGridDownloadInterceptor } from '../../../interceptors/data-grid-download.interceptor';
 import { UserModel } from '../../../models/user.model';
+import { ArrayPipe } from '../../../pipes/array.pipe';
 import { ValidationPipe } from '../../../pipes/validation.pipe';
 import { CreateActivityDto } from '../activities/activities.dto';
 import { Activities } from '../activities/activities.model';
@@ -20,6 +25,9 @@ import { EventsService } from './events.service';
 import { UpdateAttendeeDto } from '../attendees/attendees.dto';
 import { EventId } from '../../../decorators/event-id.decorator';
 import { NullPipe } from '../../../pipes/null-pipe.service';
+import { FlashOut } from '../flash-out/flash-out.model';
+import { FlashOutsService } from '../flash-out/flash-out.service';
+import { VotesFlashOutDto } from '../flash-out/flash-out.dto';
 
 @ApiUseTags('Event')
 @Controller('event')
@@ -28,7 +36,8 @@ import { NullPipe } from '../../../pipes/null-pipe.service';
 export class EventsController {
     constructor(private attendeesService: AttendeesService,
                 private eventsService: EventsService,
-                private teamsService: TeamsService) {
+                private teamsService: TeamsService,
+                private flashOutService: FlashOutsService) {
     }
 
     @Post()
@@ -45,7 +54,7 @@ export class EventsController {
 
     @Get()
     public async getAll(): Promise<Events[]> {
-        return await this.eventsService.getEventList();
+        return await this. eventsService.getEventList();
     }
 
     @Get("guide")
@@ -75,6 +84,27 @@ export class EventsController {
         return await this.eventsService.getActivities(eventId, user);
     }
 
+    @Get('flash-out')
+    @Permissions('csgames-api:get-all:flash-out')
+    public async getFlashOut(@EventId() eventId: string, @User() user: UserModel): Promise<FlashOut[]> {
+        return await this.flashOutService.getByEvent(eventId, user.username);
+    }
+
+    @Put('flash-out/rating')
+    @HttpCode(HttpStatus.NO_CONTENT)
+    @Permissions('csgames-api:update:flash-out')
+    public async voteFlashOut(@EventId() eventId: string, @User() user: UserModel,
+                              @Body(NullPipe, ValidationPipe) dto: VotesFlashOutDto) {
+        const attendee = await this.attendeesService.findOne({ email: user.username });
+        if (!attendee) {
+            throw new NotFoundException();
+        }
+
+        for (const vote of dto.votes) {
+            await this.flashOutService.addRating(eventId, attendee._id, vote._id, vote.rating);
+        }
+    }
+
     @Get('notification')
     @Permissions('csgames-api:get:notification')
     public async getNotifications(@EventId() eventId: string, @User() user: UserModel,
@@ -94,6 +124,15 @@ export class EventsController {
     public async getCompetitionsAsMember(@EventId() eventId: string,
                                  @User() user: UserModel): Promise<Competitions[]> {
         return await this.eventsService.getCompetitionsAsMember(eventId, user);
+    }
+    
+    @Get('attendee')
+    @UseInterceptors(DataGridDownloadInterceptor)
+    @Permissions('csgames-api:get-all:attendee')
+    public async getAttendee(@EventId() eventId: string,
+                             @Query('type') type: string,
+                             @Query('roles', ArrayPipe) roles: string[]): Promise<any> {
+        return await this.eventsService.getAttendeesData(eventId, type, roles);
     }
 
     @Post('sms')

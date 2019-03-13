@@ -6,12 +6,24 @@ import { AxiosResponse } from 'axios';
 import { Model } from 'mongoose';
 import { QuestionAnswerDto } from './question-answer.dto';
 import { Questions, QuestionTypes, ValidationTypes } from './questions.model';
+import { UpdateQuestionDto } from './questions.dto';
 
 @Injectable()
 export class QuestionsService {
     constructor(@InjectModel('questions') private readonly questionsModel: Model<Questions>,
                 private httpService: HttpService,
                 private storageService: StorageService) {
+    }
+
+    public async updateQuestion(questionId: string, dto: UpdateQuestionDto): Promise<void> {
+        const question = await this.questionsModel.findOne({_id: questionId }).exec();
+        if(!question) {
+            throw new NotFoundException('No question found');
+        }
+
+        await this.questionsModel.update({
+            _id: questionId
+        }, dto).exec();
     }
 
     public async validateAnswer(dto: QuestionAnswerDto, questionId: string): Promise<number> {

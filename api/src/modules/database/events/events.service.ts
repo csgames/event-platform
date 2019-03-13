@@ -1,13 +1,10 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { STSService } from '@polyhx/nest-services';
 import * as mongoose from 'mongoose';
 import { Model } from 'mongoose';
 import { isNullOrUndefined } from 'util';
 import { UserModel } from '../../../models/user.model';
 import { BaseService } from '../../../services/base.service';
-import { EmailService } from '../../email/email.service';
-import { MessagingService } from '../../messaging/messaging.service';
 import { CreateActivityDto } from '../activities/activities.dto';
 import { Activities } from '../activities/activities.model';
 import { ActivitiesService } from '../activities/activities.service';
@@ -16,11 +13,11 @@ import { AttendeesService } from '../attendees/attendees.service';
 import { Competitions } from '../competitions/competitions.model';
 import { Notifications } from '../notifications/notifications.model';
 import { NotificationsService } from '../notifications/notifications.service';
-import { Teams } from '../teams/teams.model';
 import { AddScannedAttendee, AddSponsorDto, CreateEventDto, SendNotificationDto } from './events.dto';
 import { AttendeeAlreadyRegisteredException, EventNotFoundException, UserNotAttendeeException } from './events.exception';
 import { Events, EventSponsorDetails } from './events.model';
 import { UpdateAttendeeDto } from '../attendees/attendees.dto';
+import { Teams } from '../teams/teams.model';
 
 @Injectable()
 export class EventsService extends BaseService<Events, CreateEventDto> {
@@ -28,10 +25,7 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
                 @InjectModel('teams') private readonly teamsModel: Model<Teams>,
                 @InjectModel('competitions') private readonly competitionsModel: Model<Competitions>,
                 private readonly attendeeService: AttendeesService,
-                private readonly emailService: EmailService,
-                private readonly stsService: STSService,
                 private readonly activitiesService: ActivitiesService,
-                private readonly messagingService: MessagingService,
                 private readonly notificationService: NotificationsService) {
         super(eventsModel);
     }
@@ -44,7 +38,11 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
             endDate: true,
             details: true,
             coverUrl: true,
-            attendees: true
+            attendees: true,
+            teamEditLocked: true,
+            teamEditLockDate: true,
+            flashoutBeginDate: true,
+            flashoutEndDate: true
         }).exec();
     }
 
@@ -350,5 +348,18 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
         });
 
         return competitions;
+    }
+    
+    public async getAttendeesData(eventId: string, type: string, roles: string[]): Promise<any> {
+        const event = await this.findById(eventId);
+        if (!event) {
+            throw new EventNotFoundException();
+        }
+
+        const attendees = roles && roles.length ?
+            event.attendees.filter(x => roles.some(role => role === x.role)) :
+            event.attendees;
+
+        return await this.attendeeService.getFromEvent(eventId, attendees, type);
     }
 }

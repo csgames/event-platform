@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
 import { BaseService } from '../../../services/base.service';
@@ -8,6 +8,8 @@ import { CreateTeamDto, UpdateTeamDto } from './teams.dto';
 import { InvalidNameException, TeamAlreadyCreatedException } from './teams.exception';
 import { Teams } from './teams.model';
 import { EventNotFoundException } from '../events/events.exception';
+import { UserModel } from '../../../models/user.model';
+import { DateUtils } from '../../../utils/date.utils';
 type ObjectId = Types.ObjectId;
 
 @Injectable()
@@ -27,7 +29,8 @@ export class TeamsService extends BaseService<Teams, CreateTeamDto> {
         });
     }
 
-    public async updateTeam(id: string, updateTeamDto: UpdateTeamDto, eventId: string): Promise<Teams> {
+    public async updateTeam(id: string, updateTeamDto: UpdateTeamDto, eventId: string, user: UserModel): Promise<Teams> {
+        await this.checkForLocked(eventId, user);
         const name = updateTeamDto.name.trim();
         for (let i = 0; i < name.length; ++i) {
             if (name.charCodeAt(i) > 255) {
@@ -136,5 +139,22 @@ export class TeamsService extends BaseService<Teams, CreateTeamDto> {
         }
 
         return team;
+    }
+
+    private async checkForLocked(eventId: string, user: UserModel): Promise<void> {
+        if (user.role.endsWith('admin')) {
+            return;
+        }
+        const event = await this.eventsModel.findOne({
+            _id: eventId
+        });
+        if (!event) {
+            throw new NotFoundException("No event found");
+        }
+
+        const now = DateUtils.nowUTC();
+        if (now > event.teamEditLockDate && event.teamEditLocked) {
+            throw new BadRequestException("Edit locked");
+        }
     }
 }
