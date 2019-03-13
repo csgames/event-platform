@@ -272,6 +272,21 @@
 		},
         "notifications": {
             "notifications": "Notifications"
+		},
+        "organizers": {
+            "organizers": "Organizers",
+            "add_organizer": "Add an organizer"
+        },
+        "attendees": {
+            "attendees": "Attendees"
+        },
+        "volunteers": {
+            "volunteers": "Volunteers",
+            "add_volunteer": "Add a volunteer"
+        },
+        "directors": {
+            "directors": "Directors",
+            "add_director": "Add a director"
         }
-	}
+    }
 }

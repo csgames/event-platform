@@ -266,6 +266,21 @@
         },
         "notifications": {
             "notifications": "Notifications"
+        },
+        "organizers": {
+            "organizers": "Organisateurs",
+            "add_organizer": "Ajouter un organisateur"
+        },
+        "attendees": {
+            "attendees": "Participants"
+        },
+        "volunteers": {
+            "volunteers": "Bénévoles",
+            "add_volunteer": "Ajouter un bénévole"
+        },
+        "directors": {
+            "directors": "Directeurs",
+            "add_director": "Ajouter un directeurs"
         }
     }
 }

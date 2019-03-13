@@ -10,7 +10,7 @@ export namespace FileUtils {
         window.URL.revokeObjectURL(url);
     }
 
-    export function downloaFromLink(link: string) {
+    export function downloadFromLink(link: string) {
         const downloadLink = document.createElement("a");
         document.body.appendChild(downloadLink);
         downloadLink.style.display = "none";
