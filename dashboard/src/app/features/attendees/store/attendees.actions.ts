@@ -31,13 +31,13 @@ export class DownloadXlsx implements Action {
 export class CsvDownloaded implements Action {
     readonly type = AttendeesActionTypes.CsvDownloaded;
 
-    constructor(public paylaod: Blob) {}
+    constructor(public payload: Blob) {}
 }
 
 export class XlsxDownloaded implements Action {
     readonly type = AttendeesActionTypes.XlsxDownloaded;
 
-    constructor(public paylaod: Blob) {}
+    constructor(public payload: Blob) {}
 }
 
 export type AttendeesActions =

@@ -52,7 +52,7 @@ export class AttendeesEffects {
     csvDownloaded$ = this.actions$.pipe(
         ofType<CsvDownloaded>(AttendeesActionTypes.CsvDownloaded),
         tap((action: CsvDownloaded) => {
-            FileUtils.downloadFile("attendees.csv", action.paylaod);
+            FileUtils.downloadFile("attendees.csv", action.payload);
         })
     );
 
@@ -60,7 +60,7 @@ export class AttendeesEffects {
     xlsxDownloaded$ = this.actions$.pipe(
         ofType<XlsxDownloaded>(AttendeesActionTypes.XlsxDownloaded),
         tap((action: XlsxDownloaded) => {
-            FileUtils.downloadFile("attendees.xlsx", action.paylaod);
+            FileUtils.downloadFile("attendees.xlsx", action.payload);
         })
     );
 }
