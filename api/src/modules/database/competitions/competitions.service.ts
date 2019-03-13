@@ -45,6 +45,10 @@ export class CompetitionsService extends BaseService<Competitions, Competitions>
             throw new NotFoundException();
         }
 
+        if (!competition.onDashboard) {
+            throw new BadRequestException("Competition not available");
+        }
+
         if (!ActivitiesUtils.isLive(competition.activities as Activities[])) {
             throw new BadRequestException("Competition must me live");
         }

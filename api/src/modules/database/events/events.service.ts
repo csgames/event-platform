@@ -18,6 +18,7 @@ import { AttendeeAlreadyRegisteredException, EventNotFoundException, UserNotAtte
 import { Events, EventSponsorDetails } from './events.model';
 import { UpdateAttendeeDto } from '../attendees/attendees.dto';
 import { Teams } from '../teams/teams.model';
+import { IsBoolean, IsNotEmpty, IsOptional } from 'class-validator';
 
 @Injectable()
 export class EventsService extends BaseService<Events, CreateEventDto> {
@@ -294,7 +295,8 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
             event: eventId
         }).select({
             activities: true,
-            isLive: true
+            isLive: true,
+            onDashboard: true
         }).populate({
             path: 'activities',
             model: 'activities'
@@ -349,7 +351,7 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
 
         return competitions;
     }
-    
+
     public async getAttendeesData(eventId: string, type: string, roles: string[]): Promise<any> {
         const event = await this.findById(eventId);
         if (!event) {

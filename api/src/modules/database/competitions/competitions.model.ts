@@ -16,6 +16,7 @@ export interface Competitions extends mongoose.Document {
     maxMembers: number;
     password: string;
     isLive: boolean;
+    onDashboard: boolean;
 }
 
 export const CompetitionsSchema = new mongoose.Schema({
@@ -57,5 +58,9 @@ export const CompetitionsSchema = new mongoose.Schema({
     isLive: {
         type: Boolean,
         default: false
+    },
+    onDashboard: {
+        type: Boolean,
+        default: true
     }
 });

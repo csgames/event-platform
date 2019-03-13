@@ -17,6 +17,11 @@ export class CreateCompetitionDto {
     @IsString()
     @IsNotEmpty()
     password: string;
+
+    @IsOptional()
+    @IsBoolean()
+    @IsNotEmpty()
+    onDashboard: boolean;
 }
 
 export class UpdateCompetitionDto {
@@ -38,6 +43,11 @@ export class UpdateCompetitionDto {
     @IsNotEmpty()
     @IsBoolean()
     isLive: boolean;
+
+    @IsOptional()
+    @IsBoolean()
+    @IsNotEmpty()
+    onDashboard: boolean;
 }
 
 export class AuthCompetitionDto {
