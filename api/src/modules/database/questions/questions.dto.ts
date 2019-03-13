@@ -30,16 +30,13 @@ export class CreateQuestionDto {
     type: QuestionTypes;
 
     @IsNotEmpty()
-    @IsIn(["upload"], {
-        groups: ["upload"]
-    })
-    @IsIn(["string", "regex", "function"])
+    @IsIn(["string", "regex", "function", "none"])
     validationType: ValidationTypes;
 
     @IsNotEmpty({
         always: true
     })
-    @ValidateIf(x => x.type !== QuestionTypes.Upload, {
+    @ValidateIf(x => x.validationType !== ValidationTypes.None, {
         always: true
     })
     answer: any;
@@ -50,7 +47,7 @@ export class CreateQuestionDto {
     @IsNumber({}, {
         always: true
     })
-    @ValidateIf(x => x.type !== QuestionTypes.Upload, {
+    @ValidateIf(x => x.validationType !== ValidationTypes.None, {
         always: true
     })
     score: number;
@@ -89,10 +86,7 @@ export class UpdateQuestionDto {
     @IsNotEmpty({
         always: true
     })
-    @IsIn(["upload"], {
-        groups: ["upload"]
-    })
-    @IsIn(["string", "regex", "function"])
+    @IsIn(["string", "regex", "function", "none"])
     validationType: ValidationTypes;
 
     @IsOptional()

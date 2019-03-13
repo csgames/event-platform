@@ -11,7 +11,7 @@ export enum ValidationTypes {
     String = "string",
     Regex = "regex",
     Function = "function",
-    Upload = "upload"
+    None = "upload"
 }
 
 export interface QuestionOption {
@@ -45,7 +45,7 @@ export const QuestionsSchema = new mongoose.Schema({
     },
     validationType: {
         type: String,
-        enum: ["string", "regex", "function", "upload"],
+        enum: ["string", "regex", "function", "none"],
         required: true
     },
     answer: {

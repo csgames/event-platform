@@ -34,34 +34,37 @@ export class QuestionsService {
             throw new NotFoundException('No question found');
         }
 
-        let validationResult: boolean;
+        let success: boolean;
         switch (question.validationType) {
             case ValidationTypes.String:
-                validationResult = this.validateString(dto.answer, question.answer);
-                if (!validationResult) {
+                success = this.validateString(dto.answer, question.answer);
+                if (!success) {
                     throw new BadRequestException('Invalid answer');
                 }
                 break;
             case ValidationTypes.Regex:
-                validationResult = this.validateRegex(dto.answer, question.answer);
-                if (!validationResult) {
+                success = this.validateRegex(dto.answer, question.answer);
+                if (!success) {
                     throw new BadRequestException('Invalid answer');
                 }
                 break;
             case ValidationTypes.Function:
-                validationResult = await this.validateCustomFunction(dto.answer, question.answer);
-                if (!validationResult) {
+                success = await this.validateCustomFunction(dto.answer, question.answer);
+                if (!success) {
                     throw new BadRequestException('Invalid answer');
                 }
                 break;
-            case ValidationTypes.Upload:
-                validationResult = await this.validateUpload(dto.file, question, dto.teamId);
-                if (!validationResult) {
-                    throw new BadRequestException('Invalid answer');
-                }
+            case ValidationTypes.None:
                 break;
             default:
                 throw new BadRequestException('Invalid validation type');
+        }
+
+        if (question.type === QuestionTypes.Upload) {
+            success = await this.uploadFile(dto.file, question, dto.teamId);
+            if (!success) {
+                throw new BadRequestException('Upload failed');
+            }
         }
 
         return question.score;
@@ -122,7 +125,7 @@ export class QuestionsService {
         }
     }
 
-    public async validateUpload(file: Express.Multer.File, question: Questions, teamId: string): Promise<boolean> {
+    public async uploadFile(file: Express.Multer.File, question: Questions, teamId: string): Promise<boolean> {
         if (!question.option.contentTypes.some(x => x.toLowerCase() === file.mimetype.toLowerCase())) {
             return false;
         }
