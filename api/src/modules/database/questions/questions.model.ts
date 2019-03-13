@@ -12,7 +12,12 @@ export enum ValidationTypes {
     String = "string",
     Regex = "regex",
     Function = "function",
-    None = "upload"
+    None = "none"
+}
+export enum InputTypes {
+    String = "string",
+    Uplaod = "upload",
+    Code = "code"
 }
 
 export interface QuestionOption {
@@ -25,6 +30,7 @@ export interface Questions extends mongoose.Document {
     description: { [lang: string]: string };
     type: QuestionTypes;
     validationType: ValidationTypes;
+    inputType: InputTypes;
     answer: any;
     score: number;
     option: QuestionOption;
@@ -47,6 +53,11 @@ export const QuestionsSchema = new mongoose.Schema({
     validationType: {
         type: String,
         enum: ["string", "regex", "function", "none"],
+        required: true
+    },
+    inputType: {
+        type: String,
+        enum: ["string", "upload", "code"],
         required: true
     },
     answer: {

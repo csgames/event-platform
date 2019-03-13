@@ -1,6 +1,6 @@
 import { Type } from 'class-transformer';
 import { ArrayNotEmpty, IsIn, IsNotEmpty, IsNumber, IsOptional, ValidateIf, ValidateNested } from 'class-validator';
-import { QuestionTypes, ValidationTypes } from './questions.model';
+import { InputTypes, QuestionTypes, ValidationTypes } from './questions.model';
 
 export class QuestionOptionDto {
     @IsNotEmpty({
@@ -32,6 +32,14 @@ export class CreateQuestionDto {
     @IsNotEmpty()
     @IsIn(["string", "regex", "function", "none"])
     validationType: ValidationTypes;
+
+    @IsNotEmpty({
+        always: true
+    })
+    @IsIn(["string", "upload", "code"], {
+        always: true
+    })
+    inputType: InputTypes;
 
     @IsNotEmpty({
         always: true
@@ -88,6 +96,15 @@ export class UpdateQuestionDto {
     })
     @IsIn(["string", "regex", "function", "none"])
     validationType: ValidationTypes;
+
+    @IsOptional()
+    @IsNotEmpty({
+        always: true
+    })
+    @IsIn(["string", "upload", "code"], {
+        always: true
+    })
+    inputType: InputTypes;
 
     @IsOptional()
     @IsNotEmpty()
