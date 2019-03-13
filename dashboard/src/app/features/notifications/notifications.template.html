@@ -31,12 +31,7 @@
                         </span>
                     </div>
                     <div class="input-group input-group-default activity-select container">
-                        <ng-select [(ngModel)]="activity" [items]="activities" [clearable]="false" controlStatus>
-                            <ng-template ng-option-tmp ng-label-tmp let-item="item">
-                                <span class="ng-option-label">
-                                    {{ item.name.en }}
-                                </span>
-                            </ng-template>
+                        <ng-select [(ngModel)]="activity" [items]="activities" [clearable]="false" bindLabel="name.en" controlStatus>
                         </ng-select>
                     </div>
                     <div class="text-center">
