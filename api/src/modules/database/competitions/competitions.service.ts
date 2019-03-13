@@ -19,6 +19,12 @@ import { QuestionAnswers } from './questions/question-answers.model';
 import { QuestionGraphNodes } from './questions/question-graph-nodes.model';
 import { QuestionAnswerDto } from '../questions/question-answer.dto';
 import { QuestionsService } from '../questions/questions.service';
+import { Questions } from '../questions/questions.model';
+
+export interface QuestionInfo extends Questions {
+    isLocked: boolean;
+    isAnswered: boolean;
+}
 
 @Injectable()
 export class CompetitionsService extends BaseService<Competitions, Competitions> {
@@ -417,12 +423,45 @@ export class CompetitionsService extends BaseService<Competitions, Competitions>
             throw new ForbiddenException();
         }
 
+        c.questions = await this.formatQuestions(c, attendee, eventId);
+
         delete c.directors;
         delete c.answers;
         delete c.password;
         delete c.members;
 
         return c;
+    }
+
+    private async formatQuestions(competition: Competitions, attendee: Attendees, eventId: string): Promise<QuestionInfo[]> {
+        const questions: QuestionInfo[] = [];
+        const teamId = await this.getTeamId(attendee, eventId);
+        for (const question of competition.questions) {
+            questions.push({
+                ...question.question as Questions,
+                isLocked: this.isQuestionLocked(competition, question, teamId),
+                isAnswered: this.isQuestionAnswered(competition, question, teamId)
+            } as QuestionInfo);
+        }
+        return questions;
+    }
+
+    private isQuestionAnswered(competition: Competitions, question: QuestionGraphNodes, teamId: string) {
+        return competition.answers.some(x => (x.teamId as mongoose.Types.ObjectId).equals(teamId)
+            && (x.question as mongoose.Types.ObjectId).equals(question.question as string));
+    }
+
+    private isQuestionLocked(competition: Competitions, question: QuestionGraphNodes, teamId: string) {
+        if (!question.dependsOn) {
+            return false;
+        }
+
+        const depends = competition.questions.find(x => x._id.equals(question.dependsOn as string));
+        if (!depends) {
+            return false;
+        }
+
+        return this.isQuestionAnswered(competition, depends, teamId);
     }
 
     private async getTeamId(attendee: Attendees | string, eventId: string): Promise<string> {
