@@ -276,6 +276,10 @@
         "volunteers": {
             "volunteers": "Bénévoles",
             "add_volunteer": "Ajouter un bénévole"
+        },
+        "directors": {
+            "directors": "Directeurs",
+            "add_director": "Ajouter un directeurs"
         }
     }
 }

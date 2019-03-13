@@ -60,6 +60,10 @@ export const DASHBOARD_ROUTES: Routes = [
         loadChildren: "src/app/features/volunteers/volunteers.module#VolunteersModule"
     },
     {
+        path: "director",
+        loadChildren: "src/app/features/directors/directors.module#DirectorsModule"
+    },
+    {
         path: "attendee",
         loadChildren: "src/app/features/attendees/attendees.module#AttendeesModule"
     },

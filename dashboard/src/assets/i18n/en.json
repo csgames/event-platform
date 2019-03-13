@@ -282,6 +282,10 @@
         "volunteers": {
             "volunteers": "Volunteers",
             "add_volunteer": "Add a volunteer"
+        },
+        "directors": {
+            "directors": "Directors",
+            "add_director": "Add a director"
         }
     }
 }

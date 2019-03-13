@@ -188,6 +188,18 @@
                     </div>
                 </a>
             </ng-container>
+            <ng-container *ifRole="['admin', 'super-admin']">
+                <a [routerLink]="['/director']" routerLinkActive="active">
+                    <div [fxLayout]="'row'" fxFlexFill>
+                        <div fxFlex="20">
+                            <i class="fal fa-user-astronaut"></i>
+                        </div>
+                        <div fxFlex="80">
+                            {{ "pages.directors.directors" | translate }}
+                        </div>
+                    </div>
+                </a>
+            </ng-container>
             <a *ifRole="['admin', 'super-admin']" [routerLink]="['/flash-out/edit']" routerLinkActive="active">
                 <div [fxLayout]="'row'" fxFlexFill>
                     <div fxFlex="20">
