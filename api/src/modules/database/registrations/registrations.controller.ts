@@ -5,7 +5,7 @@ import { ValidationPipe } from "../../../pipes/validation.pipe";
 import { CreateRegistrationGuard } from './registrations.guard';
 import { Registrations } from './registrations.model';
 import { RegistrationsService } from "./registrations.service";
-import { CreateRegistrationDto, RegisterAdminDto, RegisterAttendeeDto } from './registrations.dto';
+import { CreateRegistrationDto, RegisterRoleDto, RegisterAttendeeDto } from './registrations.dto';
 import { PublicRoute } from 'nestjs-jwt2';
 import { Role } from '../../../decorators/role.decorator';
 import { CodeExceptionFilter } from '../../../filters/code-error/code.filter';
@@ -34,10 +34,10 @@ export class RegistrationsController {
         await this.registrationService.registerAttendee(user);
     }
 
-    @Post('admin')
+    @Post('role')
     @Permissions('csgames-api:create-admin:invitation')
-    public async registerAdmin(@Body(new ValidationPipe()) user: RegisterAdminDto, @EventId() eventId: string) {
-        await this.registrationService.registerAdmin(user, eventId);
+    public async registerAdmin(@Body(new ValidationPipe()) user: RegisterRoleDto, @EventId() eventId: string) {
+        await this.registrationService.registerRole(user, eventId);
     }
 
     @Get(':uuid')

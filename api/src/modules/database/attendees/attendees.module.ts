@@ -1,6 +1,7 @@
 import { Module } from "@nestjs/common";
 import { MongooseModule } from "@nestjs/mongoose";
 import { StorageModule, STSModule } from "@polyhx/nest-services";
+import { TeamsSchema } from '../teams/teams.model';
 import { AttendeesController } from "./attendees.controller";
 import { AttendeesSchema } from "./attendees.model";
 import { AttendeesService } from "./attendees.service";
@@ -15,6 +16,10 @@ import { EventsSchema } from '../events/events.model';
         MongooseModule.forFeature([{
             name: 'events',
             schema: EventsSchema
+        }]),
+        MongooseModule.forFeature([{
+            name: 'teams',
+            schema: TeamsSchema
         }]),
         StorageModule,
         STSModule

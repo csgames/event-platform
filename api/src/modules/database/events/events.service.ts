@@ -274,4 +274,30 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
             email
         }, dto, file);
     }
+
+    public async getAttendeeRole(eventId: string, attendeeId: string): Promise<string> {
+        const event = await this.findById(eventId);
+        if (!event) {
+            throw new EventNotFoundException();
+        }
+
+        const attendee = event.attendees.find(x => (x.attendee as mongoose.Types.ObjectId).equals(attendeeId));
+        if (!attendee) {
+            return null;
+        }
+        return attendee.role;
+    }
+
+    public async getAttendeesData(eventId: string, type: string, roles: string[]): Promise<any> {
+        const event = await this.findById(eventId);
+        if (!event) {
+            throw new EventNotFoundException();
+        }
+
+        const attendees = roles && roles.length ?
+            event.attendees.filter(x => roles.some(role => role === x.role)) :
+            event.attendees;
+
+        return await this.attendeeService.getFromEvent(eventId, attendees, type);
+    }
 }
