@@ -203,7 +203,8 @@
 			"team": "Team",
 			"teams": "Teams",
 			"team_title": "Team",
-			"team_members": "Team members"
+            "team_members": "Team members",
+            "max": "Maximum team members"
 		},
         "notifications": {
             "notifications": "Notifications"

@@ -197,7 +197,8 @@
             "team": "Équipe",
             "teams": "Équipes",
             "team_title": "Equipe",
-            "team_members": "Membres de l'équipe"
+            "team_members": "Membres de l'équipe",
+            "max": "Nombre maximal de participants"
         },
         "notifications": {
             "notifications": "Notifications"

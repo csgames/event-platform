@@ -71,15 +71,12 @@
                                 </a>
                             </h3>
                             <small>{{ team?.school?.name }}</small>
+                            <br>
+                            <small>{{ "pages.team.max" | translate }} : {{ team?.maxMembersNumber }}</small>
                             <app-attendee-view [attendee]="getTeamCaptain(team)"></app-attendee-view>
                             <h5 class="mt-1">{{ "pages.team.team_members" | translate }}
                                 <b>
-                                    <a *ngIf="team?.maxMembersNumber === 11"> ({{ getTeamAttendees(team)?.length }}
-                                        /10)</a>
-                                    <a *ngIf="team?.maxMembersNumber !== 11">
-                                        ({{ getTeamAttendees(team)?.length }}
-                                        /{{ team?.maxMembersNumber - 1 }})
-                                    </a>
+                                    <a *ngIf="team?.maxMembersNumber === 11"> ({{ getTeamAttendees(team)?.length }})</a>
                                 </b>
                                 <i class="fal fa-check-circle text-white text-primary float-right"
                                    tooltip="{{ 'pages.team.registered' | translate }}"
@@ -90,7 +87,7 @@
                             </h5>
                             <h5 class="mt-1">
                                 {{ "pages.team.godparent" | translate }}
-                                <b>({{ getTeamGodparent(team)?.length }}/1)</b>
+                                <b>({{ getTeamGodparent(team)?.length }})</b>
                                 <i class="fal fa-check-circle text-white text-primary float-right"
                                    tooltip="{{ 'pages.team.registered' | translate }}"
                                    placement="left" *ngIf="areTeamMembersAllRegistered(team)"></i>
