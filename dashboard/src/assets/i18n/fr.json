@@ -176,7 +176,8 @@
             "answered": "Questions répondues",
             "not_answered": "Questions non-répondues",
             "answered_all_questions": "Vous avez répondu à toutes les questions.",
-            "ended": "La compétition est terminée"
+            "ended": "La compétition est terminée",
+            "add_competition": "Ajouter une compétition"
         },
         "guide": {
             "guide": "Guide",
