@@ -1,16 +1,24 @@
 import { Activity } from "./activity";
 import { Attendee } from "./attendee";
 import { Event } from "./event";
+
 export enum QuestionTypes {
     Crypto = "crypto",
     Gaming = "gaming",
-    Scavender = "scavenger"
+    Scavender = "scavenger",
+    Upload = "upload"
 }
 
 export enum ValidationTypes {
     String = "string",
     Regex = "regex",
     Function = "function"
+}
+
+export enum InputTypes {
+    String = "string",
+    Upload = "upload",
+    Code = "code"
 }
 
 export interface Competition {
@@ -20,9 +28,10 @@ export interface Competition {
     maxMembers: number;
     members: Members[];
     answers: QuestionAnswers;
-    questions: QuestionGraphNodes[];
+    questions: Question[];
     password: string;
     isLive: boolean;
+    onDashboard: boolean;
 }
 
 export interface Members {
@@ -37,17 +46,15 @@ export interface QuestionAnswers {
     timestamp: Date | string;
 }
 
-export interface QuestionGraphNodes {
-    _id: string;
-    question: Question;
-    dependsOn: Question;
-}
-
 export interface Question {
+    _id: string;
     label: string;
     description: { [lang: string]: string };
     type: QuestionTypes;
+    inputType: InputTypes;
     validationType: ValidationTypes;
     answer: any;
     score: number;
+    isAnswered?: boolean;
+    isLocked?: boolean;
 }

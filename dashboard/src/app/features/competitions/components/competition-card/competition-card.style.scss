@@ -21,7 +21,7 @@
 }
 
 .tile {
-    margin: 10px 10px 10px 20px;
+    margin: 20px;
     text-align: justify;
 }
 
@@ -45,6 +45,7 @@ i {
     margin-top: 0;
     margin-bottom: 0;
     font-size: 20px;
+    text-align: left;
 }
 
 .fal {
@@ -71,4 +72,9 @@ i {
 .participate {
     margin-top: 2px !important;
     height: 100% !important;
+}
+
+.happening-now {
+    height: 100% !important;
+    text-align: left;
 }

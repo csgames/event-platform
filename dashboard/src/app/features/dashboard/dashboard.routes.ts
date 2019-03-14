@@ -43,6 +43,11 @@ export const DASHBOARD_ROUTES: Routes = [
         canActivate: [RegisteredGuard]
     },
     {
+        path: "competition",
+        loadChildren: "src/app/features/competitions/competitions.module#CompetitionsModule",
+        canActivate: [RegisteredGuard]
+    },
+    {
         path: "notifications",
         loadChildren: "src/app/features/notifications/notifications.module#NotificationsModule",
         canActivate: [RegisteredGuard]
@@ -53,9 +58,20 @@ export const DASHBOARD_ROUTES: Routes = [
         canActivate: [RegisteredGuard, FlashoutGuard]
     },
     {
-        path: "competition",
-        loadChildren: "src/app/features/competitions/competitions.module#CompetitionsModule",
-        canActivate: [RegisteredGuard]
+        path: "organizer",
+        loadChildren: "src/app/features/organizers/organizers.module#OrganizersModule"
+    },
+    {
+        path: "volunteer",
+        loadChildren: "src/app/features/volunteers/volunteers.module#VolunteersModule"
+    },
+    {
+        path: "director",
+        loadChildren: "src/app/features/directors/directors.module#DirectorsModule"
+    },
+    {
+        path: "attendee",
+        loadChildren: "src/app/features/attendees/attendees.module#AttendeesModule"
     },
     {
         path: "**",

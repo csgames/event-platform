@@ -65,6 +65,8 @@ export class InfoPuzzleHeroComponent extends SimpleModalComponent<InfoPuzzleHero
                 return "fa-gamepad";
             case PuzzleTypes.Scavenger:
                 return "fa-camera-alt";
+            case PuzzleTypes.Sponsor:
+                return "fa-gem";
         }
         return "";
     }

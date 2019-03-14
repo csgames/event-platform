@@ -9,6 +9,8 @@ import { TracksModule } from "../puzzle-hero/tracks/tracks.module";
 import { ScheduleModule } from "../schedule/schedule.module";
 import { FlexLayoutModule } from "@angular/flex-layout";
 import { CompetitionsModule } from "../competitions/competitions.module";
+import { PuzzleHeroModule } from "../puzzle-hero/puzzle-hero.module";
+import { PuzzleComponentsModule } from "../puzzle-hero/components/puzzle-components.module";
 
 @NgModule({
     imports: [
@@ -19,7 +21,9 @@ import { CompetitionsModule } from "../competitions/competitions.module";
         TracksModule,
         ScheduleModule,
         FlexLayoutModule,
-        CompetitionsModule
+        CompetitionsModule,
+        PuzzleHeroModule,
+        PuzzleComponentsModule
     ],
     declarations: [HomeComponent]
 })

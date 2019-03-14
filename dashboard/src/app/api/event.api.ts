@@ -4,7 +4,7 @@ import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { Event } from "./models/event";
 import { map } from "rxjs/operators";
-import { AttendeeModel } from "./models/attendee";
+import { Attendee, AttendeeModel } from "./models/attendee";
 import { EventGuide } from "./models/guide";
 import { Sponsors } from "./models/sponsors";
 import { Activity } from "./models/activity";
@@ -79,6 +79,14 @@ export class EventApi extends CSGamesApi {
         return this.http.get<AttendeeNotification[]>(this.url("notification"), { withCredentials: true });
     }
 
+    public getCompetitions(): Observable<Competition[]> {
+        return this.http.get<Competition[]>(this.url("competition"), { withCredentials: true });
+    }
+
+    public getRegisteredCompetitions(): Observable<Competition[]> {
+        return this.http.get<Competition[]>(this.url("competition/member"), { withCredentials: true });
+    }
+
     public sendSms(text: string) {
         return this.http.post<void>(this.url("sms"), {
             text
@@ -105,8 +113,20 @@ export class EventApi extends CSGamesApi {
     public getAllFlashouts(): Observable<Flashout[]> {
         return this.http.get<Flashout[]>(this.url("flash-out"), { withCredentials: true });
     }
-    
-    public getCompetitions(): Observable<Competition[]> {
-        return this.http.get<Competition[]>(this.url("competition"), { withCredentials: true });
+
+    public getAttendees(query: { type?: string; roles?: string[]; } = {}): Observable<any> {
+        let queryParam = "?";
+        if (query.type) {
+            queryParam += `type=${query.type}&`;
+        }
+        if (query.roles) {
+            queryParam += `roles=${query.roles.join(",")}`;
+        }
+
+        if (query.type && query.type !== "json") {
+            return this.http.get(this.url(`attendee/${queryParam}`), { responseType: "blob", withCredentials: true });
+        } else {
+            return this.http.get(this.url(`attendee/${queryParam}`), { responseType: "json", withCredentials: true });
+        }
     }
 }

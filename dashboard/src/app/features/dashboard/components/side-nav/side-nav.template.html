@@ -57,26 +57,34 @@
                     </div>
                 </div>
             </a>
-            <a *ngIf="(attendee$ | async)?.registered && (puzzleHeroOpen$ | async)" [routerLink]="['/puzzle-hero']"
-                routerLinkActive="active">
-                <div [fxLayout]="'row'" fxFlexFill>
-                    <div fxFlex="20">
-                        <i class="fal fa-puzzle-piece"></i>
+            <ng-container *ifNotRole="['volunteer', 'director']">
+                <a *ngIf="(attendee$ | async)?.registered && (puzzleHeroOpen$ | async)" [routerLink]="['/puzzle-hero']"
+                    routerLinkActive="active">
+                    <div [fxLayout]="'row'" fxFlexFill>
+                        <div fxFlex="20">
+                            <i class="fal fa-puzzle-piece"></i>
+                        </div>
+                        <div fxFlex="80">
+                            {{ "pages.puzzle_hero.puzzle_hero" | translate }}
+                        </div>
                     </div>
-                    <div fxFlex="80">
-                        {{ "pages.puzzle_hero.puzzle_hero" | translate }}
-                    </div>
-                </div>
-            </a>
-            <div class="sublinks" *ngIf="isActive('puzzle-hero')">
-                <a [routerLink]="['/puzzle-hero/tracks']" routerLinkActive="active">
-                    {{ "pages.puzzle_hero.tracks" | translate }}
                 </a>
 
-                <a *ngIf="scoreboardOpen$ | async" [routerLink]="['/puzzle-hero/scoreboard']" routerLinkActive="active">
-                    {{ "pages.puzzle_hero.scoreboard" | translate }}
-                </a>
-            </div>
+                <div class="sublinks" *ngIf="isActive('puzzle-hero')">
+                    <a [routerLink]="['/puzzle-hero/edit']" routerLinkActive="active"
+                        *ifRole="['admin', 'super-admin']">
+                        {{ "pages.puzzle_hero.tracks" | translate }}
+                    </a>
+                    <a [routerLink]="['/puzzle-hero/tracks']" routerLinkActive="active"
+                        *ifNotRole="['admin', 'super-admin']">
+                        {{ "pages.puzzle_hero.tracks" | translate }}
+                    </a>
+                    <a *ngIf="scoreboardOpen$ | async" [routerLink]="['/puzzle-hero/scoreboard']"
+                       routerLinkActive="active">
+                        {{ "pages.puzzle_hero.scoreboard" | translate }}
+                    </a>
+                </div>
+            </ng-container>
 
             <ng-container *ifRole="['attendee', 'captain', 'godparent']">
                 <a *ngIf="!(attendee$ | async) || (attendee$ | async)?.registered" [routerLink]="['/team']"
@@ -111,6 +119,18 @@
                     </div>
                 </div>
             </a>
+            <ng-container *ifRole="['admin', 'super-admin']">
+                <a [routerLink]="['/attendee']" routerLinkActive="active">
+                    <div [fxLayout]="'row'" fxFlexFill>
+                        <div fxFlex="20">
+                            <i class="fal fa-user-friends"></i>
+                        </div>
+                        <div fxFlex="80">
+                            {{ "pages.attendees.attendees" | translate }}
+                        </div>
+                    </div>
+                </a>
+            </ng-container>
             <a *ngIf="(attendee$ | async)?.registered" [routerLink]="['/sponsors']" routerLinkActive="active">
                 <div [fxLayout]="'row'" fxFlexFill>
                     <div fxFlex="20">
@@ -131,17 +151,56 @@
                     </div>
                 </div>
             </a>
-            <div class="sublinks" *ngIf="isActive('competition')">
-                <!-- <ng-container *ngIf="subscribedCompetitions$ | async as subscribedCompetitions"> -->
-                    <div *ngFor="let competition of subscribedCompetitions">
-                        <a [routerLink]="['/competition/', competition.id]" routerLinkActive="active">
-                            {{ competition.name }}
-                        </a>
+            <ng-container *ifRole="['attendee', 'captain', 'godparent']">
+                <a *ngIf="(attendee$ | async)?.registered  && (flashoutOpen$ | async)" [routerLink]="['/flash-out']"
+                    routerLinkActive="active">
+                    <div [fxLayout]="'row'" fxFlexFill>
+                        <div fxFlex="20">
+                            <i class="fal fa-video"></i>
+                        </div>
+                        <div fxFlex="80">
+                            Flash Outs
+                        </div>
                     </div>
-                <!-- </ng-container> -->
-            </div>
-            <a *ngIf="(attendee$ | async)?.registered  && (flashoutOpen$ | async)" [routerLink]="['/flash-out']"
-                routerLinkActive="active">
+                </a>
+            </ng-container>
+            <ng-container *ifRole="['admin', 'super-admin']">
+                <a [routerLink]="['/organizer']" routerLinkActive="active">
+                    <div [fxLayout]="'row'" fxFlexFill>
+                        <div fxFlex="20">
+                            <i class="fal fa-users-cog"></i>
+                        </div>
+                        <div fxFlex="80">
+                            {{ "pages.organizers.organizers" | translate }}
+                        </div>
+                    </div>
+                </a>
+            </ng-container>
+            <ng-container *ifRole="['admin', 'super-admin']">
+                <a [routerLink]="['/volunteer']" routerLinkActive="active">
+                    <div [fxLayout]="'row'" fxFlexFill>
+                        <div fxFlex="20">
+                            <i class="fal fa-people-carry"></i>
+                        </div>
+                        <div fxFlex="80">
+                            {{ "pages.volunteers.volunteers" | translate }}
+                        </div>
+                    </div>
+                </a>
+            </ng-container>
+            <ng-container *ifRole="['admin', 'super-admin']">
+                <a [routerLink]="['/director']" routerLinkActive="active">
+                    <div [fxLayout]="'row'" fxFlexFill>
+                        <div fxFlex="20">
+                            <i class="fal fa-user-astronaut"></i>
+                        </div>
+                        <div fxFlex="80">
+                            {{ "pages.directors.directors" | translate }}
+                        </div>
+                    </div>
+                </a>
+            </ng-container>
+            <a *ifRole="['admin', 'super-admin']" [routerLink]="['/flash-out/edit']" routerLinkActive="active">
                 <div [fxLayout]="'row'" fxFlexFill>
                     <div fxFlex="20">
                         <i class="fal fa-video"></i>
@@ -151,6 +210,15 @@
                     </div>
                 </div>
             </a>
+            <div class="sublinks" *ngIf="isActive('competition')">
+                <ng-container *ngIf="registeredCompetitions$ | async as registeredCompetitions">
+                    <div *ngFor="let competition of registeredCompetitions">
+                        <a [routerLink]="['/competition/', competition._id]" routerLinkActive="active">
+                            {{ competition.activities[0].name | t18n }}
+                        </a>
+                    </div>
+                </ng-container>
+            </div>
         </div>
     </ng-template>
 </div>

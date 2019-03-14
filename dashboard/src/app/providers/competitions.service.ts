@@ -7,6 +7,7 @@ import { formatDate } from "@angular/common";
 import { TranslateService } from "@ngx-translate/core";
 
 const SUBSCRIBED_COMPETITIONS = "SUBSCRIBED_COMPETITIONS";
+import { QuestionAnswerDto } from "../api/dto/competition";
 
 @Injectable()
 export class CompetitionsService {
@@ -17,36 +18,7 @@ export class CompetitionsService {
         return this.apiService.event.getCompetitions();
     }
 
-    public getSubscribedCompetitions(): string[] {
-        let subscribedCompetitions = [];
-        const subscribedCompetitionsContent = localStorage.getItem(SUBSCRIBED_COMPETITIONS);
-        if (subscribedCompetitionsContent) {
-            subscribedCompetitions = JSON.parse(subscribedCompetitionsContent);
-        }
-        return subscribedCompetitions;
-    }
-
-    public toggleCompetitionSubscribed(competition: Competition)  {
-        const subscribedCompetitions = this.getSubscribedCompetitions();
-
-        let newSubscribedCompetitions = [];
-        if (subscribedCompetitions.includes(competition._id)) {
-            newSubscribedCompetitions = subscribedCompetitions.filter(t => t !== competition._id);
-        } else {
-            newSubscribedCompetitions = [
-                ...subscribedCompetitions,
-                competition._id
-            ];
-        }
-        localStorage.setItem(SUBSCRIBED_COMPETITIONS, JSON.stringify(newSubscribedCompetitions));
-    }
-
-    isCompetitionSubsribed(competition: Competition): boolean {
-        const subscribedCompetitions = this.getSubscribedCompetitions();
-        return subscribedCompetitions.includes(competition._id);
-    }
-
-    validatePassword(competitionId: string, authCompetition: AuthCompetitionDto): Observable<void> {
+    public validatePassword(competitionId: string, authCompetition: AuthCompetitionDto): Observable<void> {
         return this.apiService.competition.validatePassword(competitionId, authCompetition);
     }
 
@@ -60,7 +32,7 @@ export class CompetitionsService {
                 if (nextCompetitons.length === 0) {
                     nextCompetitons.push(c);
                 } else {
-                    const first = new Date(nextCompetitons[0].beginDate);
+                    const first = new Date(nextCompetitons[0].activities[0].beginDate);
                     const day1 = formatDate(first, this.getDateFormat(), this.translateService.getDefaultLang(), "utc");
                     const time1 = formatDate(first, "h:mm a", this.translateService.getDefaultLang(), "utc");
                     const day2 = formatDate(date, this.getDateFormat(), this.translateService.getDefaultLang(), "utc");
@@ -82,7 +54,11 @@ export class CompetitionsService {
         return "d MMMM";
     }
     
-    getInfoForCompetition(competitionId: string): Observable<Competition> {
+    public getInfoForCompetition(competitionId: string): Observable<Competition> {
         return this.apiService.competition.getInfoForCompetition(competitionId);
+    }
+
+    public validateQuestion(competitionId: string, questionId: string, questionAnswerDto: QuestionAnswerDto): Observable<void> {
+        return this.apiService.competition.validateQuestion(competitionId, questionId, questionAnswerDto);
     }
 }

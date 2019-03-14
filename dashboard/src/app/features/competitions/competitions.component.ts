@@ -6,7 +6,8 @@ import { State,
          getCompetitionsLoading,  
          getCompetitionsError,
          getSubscribedCompetitions,
-         getNotSubscribedCompetitions
+         getNotSubscribedCompetitions,
+         getCompetitions
 } from "./store/competitions.reducer";
 import { Competition } from "src/app/api/models/competition";
 import { LoadCompetitions, LoadSubscribedCompetitions } from "./store/competitions.actions";
@@ -21,12 +22,12 @@ export class CompetitionsComponent implements OnInit {
     loading$ = this.store$.pipe(select(getCompetitionsLoading));
     error$ = this.store$.pipe(select(getCompetitionsError));
     subscribedCompetitions$ = this.store$.pipe(select(getSubscribedCompetitions));
-    notSubscribedCompetitions$ = this.store$.pipe(select(getNotSubscribedCompetitions));
+    otherCompetitions$ = this.store$.pipe(select(getNotSubscribedCompetitions));
 
-    constructor(private store$: Store<State>) {
+    constructor(private store$: Store<State>) { }
+
+    public ngOnInit() {
         this.store$.dispatch(new LoadCompetitions());
-        this.store$.dispatch(new LoadSubscribedCompetitions());
     }
 
-    public ngOnInit() { }
 }

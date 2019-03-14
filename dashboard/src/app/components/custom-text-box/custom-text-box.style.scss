@@ -1,0 +1,56 @@
+.infoText {
+    font-size: 18px;
+    text-align: left;
+}
+
+.container {
+    text-align: left;
+    margin-left: 0px;
+    padding-left: 0px;
+    margin-right: 0px;
+    padding-right: 10px;
+}
+
+.margin-left {
+    margin-left: 5px;
+}
+
+.text-only {
+    text-align: left;
+}
+
+.full-width {
+    width: 100%;
+}
+
+.language-select {
+    margin-right: 0px;
+    margin-left: 0px;
+}
+
+.title {
+    padding-left: 0px;
+    margin: auto 0px;
+}
+
+.title-container {
+    padding-right: 5px;
+}
+
+.auto-height {
+    height: auto !important;
+}
+
+textarea {
+    resize: none;
+}
+
+.quill {
+    display: inline-block;
+    margin: 5px;
+}
+
+.quill-container {
+    padding-right: 0px;
+    padding-left: 0px;
+}

@@ -20,15 +20,8 @@
     font-size: 40px;
 }
 
-.tile {
-    margin: 10px 10px 10px 20px;
-    text-align: justify;
-}
-
-i {
-    margin-top: 13px;
-    margin-right: 16px;
-    margin-left: 5px;
+.btn {
+    z-index: 1000;
 }
 
 .hours {
@@ -53,7 +46,7 @@ i {
 
 .btn-primary {
     height: 100% !important;
-    
+
 }
 
 .not-subscribed {
@@ -70,4 +63,26 @@ i {
 
 .participate {
     margin-top: 2px !important;
+}
+
+.score {
+    font-size: 13px;
+    margin-bottom: 0;
+}
+
+.name-score {
+    margin-top: 7px;
+}
+
+.question-title {
+    line-height: 1;
+}
+
+.title {
+    font-size: 18px;
+    font-weight: 200;
+}
+
+.answered {
+    color: #FD605B;
 }

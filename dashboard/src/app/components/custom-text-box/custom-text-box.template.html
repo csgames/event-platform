@@ -1,0 +1,39 @@
+<div class="container row title-container">
+    <div class="col-8 text-only title align-text-bottom align-bottom">
+        <span class="infoText margin-left">
+            {{ label }} :
+        </span>
+    </div>
+    <div class="col-4 input-group input-group-default language-select container">
+        <ng-select [(ngModel)]="languageValue" [items]="languages" (ngModelChange)="onLanguageChange()"
+                   controlStatus>
+            <ng-template ng-option-tmp ng-label-tmp let-item="item">
+                <span class="ng-option-label">
+                    {{ item }}
+                </span>
+            </ng-template>
+        </ng-select>
+    </div>
+</div>
+<div class="container row" *ngIf="formType === formTypesArray[0] || formType === formTypesArray[1]">
+    <div class="input-group input-group-default col-12 auto-height">
+        <input *ngIf="formType === formTypesArray[0]"
+               [(ngModel)]="currentTextValue"
+               (ngModelChange)="onContentTextChange()"
+               type="text" class="form-control full-width" placeholder="{{ placeholder }}"/>
+        <textarea *ngIf="formType === formTypesArray[1]"
+                  [(ngModel)]="currentTextValue"
+                  (ngModelChange)="onContentTextChange()"
+                  [rows]="textareaRows"
+                  type="text" class="form-control full-width auto-height" placeholder="{{ placeholder }}"></textarea>
+    </div>
+</div>
+<div class="container row quill-container" *ngIf="formType === formTypesArray[2]">
+    <div class="col-12 auto-height quill-container">
+        <quill-editor class="quill"
+                      [(ngModel)]="currentTextValue"
+                      (ngModelChange)="onContentTextChange()"
+                      [placeholder]="placeholder">
+        </quill-editor>
+    </div>
+</div>
