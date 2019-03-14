@@ -1,5 +1,5 @@
-import * as mongoose from "mongoose";
-import { Attendees } from "../attendees/attendees.model";
+import * as mongoose from 'mongoose';
+import { Attendees } from '../attendees/attendees.model';
 import { DateUtils } from '../../../utils/date.utils';
 import { PuzzleHeroes } from '../puzzle-heroes/puzzle-heroes.model';
 
@@ -58,17 +58,30 @@ export const ActivitiesSchema = new mongoose.Schema({
 
 export class ActivitiesUtils {
     public static isLive(activities: Activities | Activities[]): boolean {
-        let start: Date;
+        return ActivitiesUtils.isStarted(activities) && !ActivitiesUtils.isEnded(activities);
+    }
+
+    public static isEnded(activities: Activities | Activities[]): boolean {
         let end: Date;
         if (activities instanceof Array) {
-            start = activities.sort((a, b) => a.beginDate > b.beginDate ? 1 : -1)[0].beginDate as Date;
             end = activities.sort((a, b) => a.endDate > b.endDate ? -1 : 1)[0].endDate as Date;
         } else {
-            start = activities.beginDate as Date;
             end = activities.endDate as Date;
         }
 
         const now = DateUtils.nowUTC();
-        return now >= start && now <= end;
+        return now > end;
+    }
+
+    public static isStarted(activities: Activities | Activities[]): boolean {
+        let start: Date;
+        if (activities instanceof Array) {
+            start = activities.sort((a, b) => a.beginDate > b.beginDate ? 1 : -1)[0].beginDate as Date;
+        } else {
+            start = activities.beginDate as Date;
+        }
+
+        const now = DateUtils.nowUTC();
+        return now >= start;
     }
 }

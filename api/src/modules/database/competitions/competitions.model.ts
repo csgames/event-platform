@@ -1,10 +1,12 @@
-import * as mongoose from "mongoose";
-import { Activities } from '../activities/activities.model';
+import * as mongoose from 'mongoose';
+import { Activities, ActivitiesUtils } from '../activities/activities.model';
 import { Attendees } from '../attendees/attendees.model';
 import { Events } from '../events/events.model';
 import { Members, MembersSchema } from './members/members.model';
 import { QuestionAnswers, QuestionAnswersSchema } from './questions/question-answers.model';
 import { QuestionGraphNodes, QuestionGraphNodesSchema } from './questions/question-graph-nodes.model';
+import { DateUtils } from '../../../utils/date.utils';
+import { PuzzleHeroes } from '../puzzle-heroes/puzzle-heroes.model';
 
 export interface Competitions extends mongoose.Document {
     event: Events | mongoose.Types.ObjectId | string;
@@ -23,17 +25,17 @@ export interface Competitions extends mongoose.Document {
 export const CompetitionsSchema = new mongoose.Schema({
     event: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "events",
+        ref: 'events',
         required: true
     },
     activities: {
         type: [mongoose.Schema.Types.ObjectId],
-        ref: "activities",
+        ref: 'activities',
         required: true
     },
     directors: {
         type: [mongoose.Schema.Types.ObjectId],
-        ref: "attendees",
+        ref: 'attendees',
         default: []
     },
     questions: {
@@ -69,3 +71,18 @@ export const CompetitionsSchema = new mongoose.Schema({
         default: true
     }
 });
+
+export class CompetitionsUtils {
+
+    public static isLive(competition: Competitions): boolean {
+        return CompetitionsUtils.isStarted(competition) && !CompetitionsUtils.isEnded(competition);
+    }
+
+    public static isStarted(competition: Competitions): boolean {
+        return ActivitiesUtils.isStarted(competition.activities as Activities[]) && competition.isLive;
+    }
+
+    public static isEnded(competition: Competitions): boolean {
+        return ActivitiesUtils.isEnded(competition.activities as Activities[]) && !competition.isLive;
+    }
+}

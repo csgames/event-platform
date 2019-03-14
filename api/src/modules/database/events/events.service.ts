@@ -10,7 +10,7 @@ import { Activities } from '../activities/activities.model';
 import { ActivitiesService } from '../activities/activities.service';
 import { AttendeeNotifications, Attendees } from '../attendees/attendees.model';
 import { AttendeesService } from '../attendees/attendees.service';
-import { Competitions } from '../competitions/competitions.model';
+import { Competitions, CompetitionsUtils } from '../competitions/competitions.model';
 import { Notifications } from '../notifications/notifications.model';
 import { NotificationsService } from '../notifications/notifications.service';
 import { AddScannedAttendee, AddSponsorDto, CreateEventDto, SendNotificationDto } from './events.dto';
@@ -49,7 +49,7 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
 
     public async addAttendee(eventId: string, userIdOrAttendee: string | Attendees, role: string): Promise<Events> {
         let attendee: Attendees;
-        if (typeof userIdOrAttendee === "string") {
+        if (typeof userIdOrAttendee === 'string') {
             attendee = await this.attendeeService.findOne({
                 userId: userIdOrAttendee
             });
@@ -154,7 +154,7 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
 
     public async addScannedAttendee(eventId: string, attendeeId: string, scanInfo: AddScannedAttendee) {
         if (attendeeId === scanInfo.scannedAttendee) {
-            throw new BadRequestException("An attendee cannot scan itself");
+            throw new BadRequestException('An attendee cannot scan itself');
         }
 
         const event = await this.eventsModel.findById(eventId).exec();
@@ -166,18 +166,18 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
             return (x.attendee as mongoose.Types.ObjectId).toHexString() === attendeeId;
         });
         if (!attendee) {
-            throw new NotFoundException("Attendee not found in event");
+            throw new NotFoundException('Attendee not found in event');
         }
 
         const scanned = event.attendees.find(x => {
             return (x.attendee as mongoose.Types.ObjectId).toHexString() === scanInfo.scannedAttendee;
         });
         if (!scanned) {
-            throw new NotFoundException("Scanned attendee not found in event");
+            throw new NotFoundException('Scanned attendee not found in event');
         }
 
         if (attendee.scannedAttendees.indexOf(scanInfo.scannedAttendee) >= 0) {
-            throw new BadRequestException("Scanned attendee already scanned by attendee");
+            throw new BadRequestException('Scanned attendee already scanned by attendee');
         }
 
         await this.eventsModel.update({
@@ -267,9 +267,9 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
 
         await this.eventsModel.updateOne({
             _id: id,
-            "attendees.attendee": attendee._id
+            'attendees.attendee': attendee._id
         }, {
-            "attendees.$.registered": true
+            'attendees.$.registered': true
         }).exec();
 
         await this.attendeeService.updateAttendeeInfo({
@@ -312,6 +312,7 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
         competitions = competitions.map(competition => {
             const c = competition.toJSON();
             c.activities = ActivitiesService.formatActivities(c.activities, attendee);
+            c.isLive = CompetitionsUtils.isLive(competition);
             return c;
         });
 
