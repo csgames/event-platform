@@ -42,6 +42,7 @@ import { PuzzleHeroSettingsEffects } from "./components/puzzle-hero-settings/sto
 import { PuzzleFormComponent } from "./components/puzzle-form/puzzle-form.component";
 import { PuzzleFormDto } from "./components/puzzle-form/dto/puzzle-form.dto";
 import { PUZZLE_FORM_GENERATOR } from "./components/puzzle-form/puzzle-form.constants";
+import { DirectivesModule } from "../../../directives/directives.module";
 
 
 @NgModule({
@@ -66,6 +67,7 @@ import { PUZZLE_FORM_GENERATOR } from "./components/puzzle-form/puzzle-form.cons
         TimepickerModule,
         CustomTextBoxModule,
         PipesModule,
+        DirectivesModule,
         StoreModule.forFeature("puzzleHeroAdmin", fromPuzzleAdmin.reducer),
         StoreModule.forFeature("puzzleHeroCreateTrack", fromCreateTrack.reducer),
         StoreModule.forFeature("puzzleHeroUpdateTrack", fromUpdateTrack.reducer),
