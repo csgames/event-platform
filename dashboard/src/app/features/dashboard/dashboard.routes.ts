@@ -54,7 +54,7 @@ export const DASHBOARD_ROUTES: Routes = [
     {
         path: "flash-out",
         loadChildren: "src/app/features/flashout/flashout.module#FlashoutModule",
-        canActivate: [RegisteredGuard, FlashoutGuard]
+        canActivate: [RegisteredGuard]
     },
     {
         path: "organizer",
