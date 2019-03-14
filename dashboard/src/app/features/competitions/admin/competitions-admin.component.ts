@@ -1,13 +1,13 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { select, Store } from "@ngrx/store";
 import {
-    getActivities,
+    getActivities, getAddCompetitionsLoading,
     getCompetitionsAdmin,
     getCompetitionsAdminError,
-    getCompetitionsAdminLoading,
+    getCompetitionsAdminLoading, getDirectors,
     State
 } from "./store/competition-admin.reducer";
-import { LoadActivities, LoadCompetitionsAdmin } from "./store/competition-admin.actions";
+import { CreateCompetition, LoadActivities, LoadCompetitionsAdmin, LoadDirectors } from "./store/competition-admin.actions";
 import { CompetitionFormComponent } from "./components/competition-form/competition-form.component";
 import { CompetitionFormDto } from "./components/competition-form/dto/competition-form.dto";
 
@@ -22,9 +22,11 @@ export class CompetitionsAdminComponent implements OnInit {
     private form: CompetitionFormComponent;
 
     activities$ = this.store$.pipe(select(getActivities));
+    directors$ = this.store$.pipe(select(getDirectors));
     competitions$ = this.store$.pipe(select(getCompetitionsAdmin));
     loading$ = this.store$.pipe(select(getCompetitionsAdminLoading));
     error$ = this.store$.pipe(select(getCompetitionsAdminError));
+    addLoading$ = this.store$.pipe(select(getAddCompetitionsLoading));
 
     public dto = new CompetitionFormDto();
     public showCreateCompetitionCard = false;
@@ -34,6 +36,7 @@ export class CompetitionsAdminComponent implements OnInit {
     ngOnInit() {
         this.store$.dispatch(new LoadCompetitionsAdmin());
         this.store$.dispatch(new LoadActivities());
+        this.store$.dispatch(new LoadDirectors());
     }
 
     public clickAddCompetition() {
@@ -46,10 +49,10 @@ export class CompetitionsAdminComponent implements OnInit {
     }
 
     public onAdd() {
-        /*if (!this.form.validate()) {
+        if (!this.form.validate()) {
             return;
         }
-        this.store$.dispatch(new AddFlashout(this.dto));*/
+        this.store$.dispatch(new CreateCompetition(this.dto));
         this.onCancelCompetition();
     }
 }

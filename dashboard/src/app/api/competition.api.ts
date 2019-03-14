@@ -4,11 +4,16 @@ import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { Competition } from "./models/competition";
 import { AuthCompetitionDto, QuestionAnswerDto, SubscriptionDto } from "./dto/competition";
+import { CompetitionFormDto } from "../features/competitions/admin/components/competition-form/dto/competition-form.dto";
 
 @Injectable()
 export class CompetitionApi extends CSGamesApi {
     constructor(private http: HttpClient) {
         super("competition");
+    }
+
+    public create(competition: CompetitionFormDto): Observable<Competition> {
+        return this.http.post<Competition>(this.url(), competition, { withCredentials: true });
     }
 
     public validatePassword(competitionId: string, authCompetition: AuthCompetitionDto): Observable<void> {

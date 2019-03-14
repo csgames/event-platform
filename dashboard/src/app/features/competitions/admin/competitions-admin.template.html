@@ -25,11 +25,13 @@
                 + {{ "pages.flashouts.add_flashout" | translate }}
             </button>
             <div *ngIf="showCreateCompetitionCard" class="add-competition-card">
-                <!--<app-loading-spinner [loading]="addLoading$"></app-loading-spinner>-->
+                <app-loading-spinner [loading]="addLoading$"></app-loading-spinner>
                 <div class="card-body">
                     <div class="row">
                         <div class="col-sm-12">
-                            <app-competition-form [activities]="activities$ | async" [(ngModel)]="dto"></app-competition-form>
+                            <app-competition-form [activities]="activities$ | async" [directors]="directors$ | async"
+                                                  [(ngModel)]="dto">
+                            </app-competition-form>
                         </div>
                     </div>
                     <div class="row">

@@ -4,7 +4,10 @@ import { Required } from "src/app/form-generator/decorators/required.decorator";
 export class CompetitionFormDto {
     @Control()
     @Required()
-    activities: string[];
+    activities: string;
+
+    @Control()
+    directors: string;
 
     @Control()
     @Required()

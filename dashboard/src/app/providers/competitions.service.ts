@@ -3,10 +3,15 @@ import { ApiService } from "../api/api.service";
 import { Observable } from "rxjs";
 import { Competition } from "../api/models/competition";
 import { AuthCompetitionDto, QuestionAnswerDto } from "../api/dto/competition";
+import { CompetitionFormDto } from "../features/competitions/admin/components/competition-form/dto/competition-form.dto";
 
 @Injectable()
 export class CompetitionsService {
     constructor(private apiService: ApiService) { }
+
+    public create(dto: CompetitionFormDto): Observable<Competition> {
+        return this.apiService.competition.create(dto);
+    }
 
     public getCompetitionsForEvent(): Observable<Competition[]> {
         return this.apiService.event.getCompetitions();

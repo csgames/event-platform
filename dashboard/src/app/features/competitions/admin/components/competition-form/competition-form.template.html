@@ -6,14 +6,35 @@
     </div>
     <div class="row">
         <div class="col-sm-12">
-            <div class="input-group input-group-default mx-0">
+            <div class="input-group input-group-default mx-0 h-auto">
                 <div class="input-group-prepend">
                     <a class="form-icon">
-                        <i class="fal fa-school"></i>
+                        <i class="fal fa-calendar"></i>
                     </a>
                 </div>
-                <ng-select [items]="activities" placeholder='{{ "components.competition_form.activities" | translate }}'
-                           bindValue="_id" bindLabel="name.en" [multiple]="true">
+                <ng-select formControlName="activities" [items]="activities" placeholder='{{ "components.competition_form.activities" | translate }}'
+                           bindValue="_id" bindLabel="name.en" [multiple]="true" controlStatus>
+                </ng-select>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="input-group input-group-default mx-0 h-auto">
+                <div class="input-group-prepend">
+                    <a class="form-icon">
+                        <i class="fal fa-user-astronaut"></i>
+                    </a>
+                </div>
+                <ng-select formControlName="directors" [items]="directors" placeholder='{{ "components.competition_form.directors" | translate }}'
+                           bindValue="_id" [multiple]="true" controlStatus>
+                    <ng-template ng-label-tmp let-item="item" let-clear="clear">
+                        <span aria-hidden="true" class="ng-value-icon left" (click)="clear(item)">×</span>
+                        <span class="ng-value-label">{{ item.firstName }} {{ item.lastName }}</span>
+                    </ng-template>
+                    <ng-template ng-option-tmp let-item="item">
+                        <span class="ng-value-label">{{ item.firstName }} {{ item.lastName }}</span>
+                    </ng-template>
                 </ng-select>
             </div>
         </div>
@@ -23,21 +44,21 @@
             <div class="input-group input-group-default mx-0">
                 <div class="input-group-prepend">
                     <a class="form-icon">
-                        <i class="fal fa-browser"></i>
+                        <i class="fal fa-users"></i>
                     </a>
                 </div>
                 <input autofocus class="form-control" formControlName="maxMembers" type="number"
-                       placeholder='{{ "components.competition_form.maxMembers" | translate }}'>
+                       placeholder='{{ "components.competition_form.maxMembers" | translate }}' controlStatus>
             </div>
         </div>
     </div>
     <div class="row">
         <div class="col-sm-12">
-            <div class="input-group input-group-default">
+            <div class="input-group input-group-default mx-0">
                 <div class="input-group-prepend">
                     <i class="far fa-lock"></i>
                 </div>
-                <input autofocus class="form-control" [type]="viewPassword ? 'text' : 'text'" controlStatus
+                <input autofocus class="form-control" [type]="viewPassword ? 'text' : 'password'" controlStatus
                        formControlName="password" placeholder='{{ "general.profile.password" | translate }}' autocomplete="false">
                 <div class="input-group-append">
                     <a class="btn btn-default" (click)="generatePassword()"><i class="fal fa-sync-alt"></i></a>
