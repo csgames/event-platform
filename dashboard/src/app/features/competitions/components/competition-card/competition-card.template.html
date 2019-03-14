@@ -6,10 +6,12 @@
             </div>
             <div fxFlex>
                 <p class="name">{{ competition.activities[0].name | t18n }}</p>
-                <p class="hours">{{ competition.activities[0].beginDate | hours }} - {{ competition.activities[competition.activities.length-1].endDate | hours }}</p>
+                <p class="hours">{{ competition.activities[0].beginDate | hours }}
+                    - {{ competition.activities[competition.activities.length - 1].endDate | hours }}</p>
                 <p class="location">{{ competition.activities[0].location }}</p>
             </div>
-            <div fxFlex *ngIf="competition.isLive" fxLayout="column" fxLayoutAlign="end end" class="happening-now">
+            <div fxFlex *ngIf="competition.isLive && competition.onDashboard" fxLayout="column" fxLayoutAlign="end end"
+                 class="happening-now">
                 {{ "pages.competition.live" | translate }}
                 <a class="btn btn-primary btn-rounded participate px-3" (click)="onShowInfo(competition)">
                     {{ "pages.competition.participate" | translate }}</a>

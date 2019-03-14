@@ -7,6 +7,7 @@ export interface CompetitionState {
     currentCompetition: Competition;
     loading: boolean;
     error: boolean;
+    questionsValidationError: { [id: string]: boolean };
 }
 
 export interface State extends fromApp.State {
@@ -16,7 +17,8 @@ export interface State extends fromApp.State {
 const initialState: CompetitionState = {
     currentCompetition: null,
     loading: false,
-    error: false
+    error: false,
+    questionsValidationError: {}
 };
 
 export function reducer(state = initialState, action: CompetitionActions): CompetitionState {
@@ -25,19 +27,48 @@ export function reducer(state = initialState, action: CompetitionActions): Compe
             return {
                 ...state,
                 loading: true,
+                currentCompetition: null,
                 error: false
             };
+
         case CompetitionActionTypes.CompetitionLoaded:
             return {
                 ...state,
                 loading: false,
                 currentCompetition: action.competition
             };
+
         case CompetitionActionTypes.LoadCompetitionError:
             return {
                 ...state,
                 loading: false,
                 error: true
+            };
+
+        case CompetitionActionTypes.UpdateQuestionAnswer:
+            return {
+                ...state,
+                loading: true,
+                questionsValidationError: {
+                    ...state.questionsValidationError,
+                    [action.questionId]: false
+                }
+            };
+
+        case CompetitionActionTypes.QuestionAnswerUpdated:
+            return {
+                ...state,
+                loading: false
+            };
+
+        case CompetitionActionTypes.UpdateQuestionAnswerError:
+            return {
+                ...state,
+                loading: false,
+                questionsValidationError: {
+                    ...state.questionsValidationError,
+                    [action.questionId]: true
+                }
             };
     }
 
@@ -49,3 +80,7 @@ export const getCompetition = createSelector(getCompetitionState, (state: Compet
 
 export const getCompetitionLoading = createSelector(getCompetitionState, (state: CompetitionState) => state.loading);
 export const getCompetitionError = createSelector(getCompetitionState, (state: CompetitionState) => state.error);
+export const getCompetitionQuestionsValidationError = createSelector(
+    getCompetitionState,
+    (state: CompetitionState) => state.questionsValidationError
+);

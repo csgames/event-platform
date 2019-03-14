@@ -11,9 +11,9 @@ import { reducer } from "./store/competition.reducer";
 import { EffectsModule } from "@ngrx/effects";
 import { CompetitionEffects } from "./store/competition.effects";
 import { CompetitionsService } from "src/app/providers/competitions.service";
-import { GuideAccordionModule } from "src/app/components/guide-accordion/accordion.module";
 import { FileUploadModule } from "src/app/components/file-upload/file-upload.module";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { AccordionModule } from "ngx-bootstrap";
 
 @NgModule({
     imports: [
@@ -22,7 +22,7 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
         FlexLayoutModule,
         PipeModule,
         TranslateModule,
-        GuideAccordionModule,
+        AccordionModule,
         StoreModule.forFeature("competition", reducer),
         EffectsModule.forFeature([CompetitionEffects]),
         FileUploadModule,

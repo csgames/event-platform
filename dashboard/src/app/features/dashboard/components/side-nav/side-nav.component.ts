@@ -20,13 +20,13 @@ export class SideNavComponent implements OnInit {
 
     get puzzleHeroOpen$(): Observable<boolean> {
         return this.puzzleHeroInfo$.pipe(
-            map(info => info.open)
+            map(info => info && info.open)
         );
     }
 
     get scoreboardOpen$(): Observable<boolean> {
         return this.puzzleHeroInfo$.pipe(
-            map(info => info.scoreboardOpen)
+            map(info => info && info.scoreboardOpen)
         );
     }
 

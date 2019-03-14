@@ -3,6 +3,7 @@ import { ApiService } from "../api/api.service";
 import { Observable } from "rxjs";
 import { Competition, Question } from "../api/models/competition";
 import { AuthCompetitionDto } from "../features/competitions/components/info-competition/dto/auth-competition.dto";
+import { QuestionAnswerDto } from "../api/dto/competition";
 
 @Injectable()
 export class CompetitionsService {
@@ -12,11 +13,15 @@ export class CompetitionsService {
         return this.apiService.event.getCompetitions();
     }
 
-    validatePassword(competitionId: string, authCompetition: AuthCompetitionDto): Observable<void> {
+    public validatePassword(competitionId: string, authCompetition: AuthCompetitionDto): Observable<void> {
         return this.apiService.competition.validatePassword(competitionId, authCompetition);
     }
 
-    getInfoForCompetition(competitionId: string): Observable<Competition> {
+    public getInfoForCompetition(competitionId: string): Observable<Competition> {
         return this.apiService.competition.getInfoForCompetition(competitionId);
+    }
+
+    public validateQuestion(competitionId: string, questionId: string, questionAnswerDto: QuestionAnswerDto): Observable<void> {
+        return this.apiService.competition.validateQuestion(competitionId, questionId, questionAnswerDto);
     }
 }

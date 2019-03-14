@@ -118,9 +118,13 @@
             "participate": "Participer",
             "subscribed": "Compétitions abonnées",
             "wrong_password": "Mauvais mot de passe",
-            "loading_error": "Une erreur est survenue lors du chargement des compétitions",
+            "loading_error": "Une erreur est survenue lors du chargement de la compétition.",
             "live": "En ce moment",
-            "validate_success": "Vous avez le bon mot de passe"
+            "validate_success": "Vous avez le bon mot de passe",
+            "answered": "Questions répondues",
+            "not_answered": "Questions non-répondues",
+            "answered_all_questions": "Vous avez répondu à toutes les questions.",
+            "ended": "La compétition est terminée"
         },
         "guide": {
             "guide": "Guide",
@@ -158,7 +162,7 @@
             "wrong_answer": "Mauvaise réponse!",
             "loading_error": "Une erreur est survenue lors du chargement des puzzle hero",
             "scoreboard_loading_error": "Une erreur est survenue lors du chargement du classement",
-            "answer":"Réponse ici",
+            "answer": "Réponse ici",
             "validate_success": "Bonne réponse!"
         },
         "register": {
@@ -197,7 +201,13 @@
             "team_members": "Membres de l'équipe"
         },
         "question": {
-			"upload": "Téléverser votre fichier"
-		}
+            "upload": "Téléverser votre fichier",
+            "submit": "Soumettre",
+            "answer": "Réponse",
+            "submit_error": "Veuillez fournir une réponse à la question.",
+            "validation_error": "Réponse invalide.",
+            "answered": "La question a été répondue.",
+            "good_answer": "Réponse enregistrée!"
+        }
     }
 }

@@ -5,6 +5,7 @@ import { Observable } from "rxjs";
 import { SubscriptionDto } from "../features/competitions/components/competition-card/dto/subscription.dto";
 import { AuthCompetitionDto } from "../features/competitions/components/info-competition/dto/auth-competition.dto";
 import { Competition } from "./models/competition";
+import { QuestionAnswerDto } from "./dto/competition";
 
 @Injectable()
 export class CompetitionApi extends CSGamesApi {
@@ -23,6 +24,19 @@ export class CompetitionApi extends CSGamesApi {
     }
 
     public getInfoForCompetition(competitionId: string): Observable<Competition> {
-        return this.http.get<Competition>(this.url(`${competitionId}`), {withCredentials: true});
+        return this.http.get<Competition>(this.url(`${competitionId}`), { withCredentials: true });
+    }
+
+    public validateQuestion(competitionId: string, questionId: string, questionAnswerDto: QuestionAnswerDto): Observable<void> {
+        const form = new FormData();
+        for (const key in questionAnswerDto) {
+            if (key in questionAnswerDto) {
+                form.append(key, questionAnswerDto[key]);
+            }
+        }
+
+        return this.http.post<void>(this.url(`${competitionId}/question/${questionId}/validate`), form, {
+            withCredentials: true
+        });
     }
 }
