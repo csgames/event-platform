@@ -393,7 +393,7 @@ class _EventPageState extends State<EventPage> {
                         || role == "godparent"
                         || role == "captain") {
                         store.dispatch(GetCurrentTeamAction());
-                        store.dispatch(LoadPuzzleHeroAction());
+                        store.dispatch(LoadPuzzleHeroInfoAction());
                     }
                 });
             },

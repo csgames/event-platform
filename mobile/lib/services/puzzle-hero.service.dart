@@ -11,7 +11,7 @@ class PuzzleHeroService extends CSGamesApi {
 
     Future<PuzzleHero> getPuzzleHero() async {
         String url = this.url().substring(0, this.url().length - 1);
-        final response = await this._httpClient.get('$url?type=scavenger');
+        final response = await _httpClient.get('$url?type=scavenger');
         final responseMap = json.decode(response.body);
         return PuzzleHero.fromMap(responseMap);
     }
@@ -20,5 +20,11 @@ class PuzzleHeroService extends CSGamesApi {
         final body = {"answer": answer};
         final response = await _httpClient.post(url('puzzle/$puzzleId/validate'), body: body);
         return response.statusCode == 200;
+    }
+
+    Future<bool> getPuzzleHeroInfo() async {
+        final response = await _httpClient.get(this.url('info'));
+        final responseMap = json.decode(response.body);
+        return responseMap['open'];
     }
 }

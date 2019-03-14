@@ -58,7 +58,9 @@ class PuzzleHeroPage extends StatelessWidget {
     Widget build(BuildContext context) {
         return StoreConnector<AppState, PuzzleHeroState>(
             onInit: (store) {
-                store.dispatch(LoadPuzzleHeroAction());
+                if (store.state.puzzleHeroState != null && store.state.puzzleHeroState.isOpen) {
+                    store.dispatch(LoadPuzzleHeroAction());
+                }
             },
             converter: (store) => store.state.puzzleHeroState,
             builder: (BuildContext context, PuzzleHeroState state) {
