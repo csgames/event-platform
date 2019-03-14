@@ -1,49 +1,123 @@
-import { QuestionTypes, ValidationTypes } from './questions.model';
-import { IsIn, IsNotEmpty, IsNumber, IsOptional } from 'class-validator';
-import { Optional } from '@nestjs/common';
+import { Type } from 'class-transformer';
+import { ArrayNotEmpty, IsIn, IsNotEmpty, IsNumber, IsOptional, ValidateIf, ValidateNested } from 'class-validator';
+import { InputTypes, QuestionTypes, ValidationTypes } from './questions.model';
+
+export class QuestionOptionDto {
+    @IsNotEmpty({
+        groups: ["upload"]
+    })
+    @ArrayNotEmpty({
+        groups: ["upload"]
+    })
+    contentTypes: string[];
+}
 
 export class CreateQuestionDto {
-    @IsNotEmpty()
+    @IsNotEmpty({
+        always: true
+    })
     label: string;
 
-    @IsNotEmpty()
+    @IsNotEmpty({
+        always: true
+    })
     description: object;
 
-    @IsNotEmpty()
-    @IsIn(["crypto", "gaming", "scavenger", "sponsor"])
+    @IsNotEmpty({
+        always: true
+    })
+    @IsIn(["crypto", "gaming", "scavenger", "upload", "none"])
     type: QuestionTypes;
 
     @IsNotEmpty()
-    @IsIn(["string", "regex", "function"])
+    @IsIn(["string", "regex", "function", "none"])
     validationType: ValidationTypes;
 
-    @IsNotEmpty()
+    @IsNotEmpty({
+        always: true
+    })
+    @IsIn(["string", "upload", "code"], {
+        always: true
+    })
+    inputType: InputTypes;
+
+    @IsNotEmpty({
+        always: true
+    })
+    @ValidateIf(x => x.validationType !== ValidationTypes.None, {
+        always: true
+    })
     answer: any;
 
-    @IsNotEmpty()
-    @IsNumber()
+    @IsNotEmpty({
+        always: true
+    })
+    @IsNumber({}, {
+        always: true
+    })
+    @ValidateIf(x => x.validationType !== ValidationTypes.None, {
+        always: true
+    })
     score: number;
+
+    @IsNotEmpty({
+        groups: ["upload"]
+    })
+    @ValidateNested({
+        groups: ["upload"]
+    })
+    @Type(() => QuestionOptionDto)
+    option: QuestionOptionDto;
 }
 
 export class UpdateQuestionDto {
-    @IsNotEmpty()
+    @IsOptional()
+    @IsNotEmpty({
+        always: true
+    })
     label: string;
 
-    @IsNotEmpty()
+    @IsOptional()
+    @IsNotEmpty({
+        always: true
+    })
     description: object;
 
-    @IsNotEmpty()
-    @IsIn(["crypto", "gaming", "scavenger", "sponsor"])
+    @IsOptional()
+    @IsNotEmpty({
+        always: true
+    })
+    @IsIn(["crypto", "gaming", "scavenger", "sponsor", "upload", "none"])
     type: QuestionTypes;
 
-    @IsNotEmpty()
-    @IsIn(["string", "regex", "function"])
+    @IsOptional()
+    @IsNotEmpty({
+        always: true
+    })
+    @IsIn(["string", "regex", "function", "none"])
     validationType: ValidationTypes;
 
+    @IsOptional()
+    @IsNotEmpty({
+        always: true
+    })
+    @IsIn(["string", "upload", "code"], {
+        always: true
+    })
+    inputType: InputTypes;
+
+    @IsOptional()
     @IsNotEmpty()
     answer: any;
 
+    @IsOptional()
     @IsNotEmpty()
     @IsNumber()
     score: number;
+
+    @IsOptional()
+    @ValidateNested({
+        groups: ["upload"]
+    })
+    option: QuestionOptionDto;
 }

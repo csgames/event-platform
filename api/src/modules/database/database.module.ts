@@ -4,6 +4,7 @@ import { ConfigModule } from '../configs/config.module';
 import { MongooseConfigService } from '../configs/mongo-config.service';
 import { ActivitiesModule } from './activities/activities.module';
 import { AttendeesModule } from './attendees/attendees.module';
+import { CompetitionsModule } from './competitions/competitions.module';
 import { EventsModule } from './events/events.module';
 import { NotificationsModule } from './notifications/notifications.module';
 import { SchoolsModule } from './schools/schools.module';
@@ -26,7 +27,8 @@ import { PuzzleHeroesModule } from './puzzle-heroes/puzzle-heroes.module';
         SchoolsModule,
         SponsorsModule,
         TeamsModule,
-        PuzzleHeroesModule
+        PuzzleHeroesModule,
+        CompetitionsModule
     ]
 })
 export class DatabaseModule {

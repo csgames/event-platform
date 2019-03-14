@@ -1,15 +1,18 @@
 import { BadRequestException, Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { HttpService } from '@nestjs/common/http';
 import { InjectModel } from '@nestjs/mongoose';
+import { StorageService } from '@polyhx/nest-services';
 import { AxiosResponse } from 'axios';
 import { Model } from 'mongoose';
-import { Questions, ValidationTypes } from './questions.model';
+import { QuestionAnswerDto } from './question-answer.dto';
+import { Questions, QuestionTypes, ValidationTypes } from './questions.model';
 import { UpdateQuestionDto } from './questions.dto';
 
 @Injectable()
 export class QuestionsService {
     constructor(@InjectModel('questions') private readonly questionsModel: Model<Questions>,
-                private httpService: HttpService) {
+                private httpService: HttpService,
+                private storageService: StorageService) {
     }
 
     public async updateQuestion(questionId: string, dto: UpdateQuestionDto): Promise<void> {
@@ -23,7 +26,7 @@ export class QuestionsService {
         }, dto).exec();
     }
 
-    public async validateAnswer(answer: string, questionId: string): Promise<number> {
+    public async validateAnswer(dto: QuestionAnswerDto, questionId: string): Promise<number> {
         const question = await this.questionsModel.findOne({
             _id: questionId
         }).exec();
@@ -31,31 +34,54 @@ export class QuestionsService {
             throw new NotFoundException('No question found');
         }
 
-        let validationResult: boolean;
+        let success: boolean;
         switch (question.validationType) {
             case ValidationTypes.String:
-                validationResult = this.validateString(answer, question.answer);
-                if (!validationResult) {
+                success = this.validateString(dto.answer, question.answer);
+                if (!success) {
                     throw new BadRequestException('Invalid answer');
                 }
                 break;
             case ValidationTypes.Regex:
-                validationResult = this.validateRegex(answer, question.answer);
-                if (!validationResult) {
+                success = this.validateRegex(dto.answer, question.answer);
+                if (!success) {
                     throw new BadRequestException('Invalid answer');
                 }
                 break;
             case ValidationTypes.Function:
-                validationResult = await this.validateCustomFunction(answer, question.answer);
-                if (!validationResult) {
+                success = await this.validateCustomFunction(dto.answer, question.answer);
+                if (!success) {
                     throw new BadRequestException('Invalid answer');
                 }
+                break;
+            case ValidationTypes.None:
                 break;
             default:
                 throw new BadRequestException('Invalid validation type');
         }
 
+        if (question.type === QuestionTypes.Upload) {
+            success = await this.uploadFile(dto.file, question, dto.teamId);
+            if (!success) {
+                throw new BadRequestException('Upload failed');
+            }
+        }
+
         return question.score;
+    }
+
+    public async getUplodedFile(questionId: string): Promise<{ [name: string]: Buffer }> {
+        const question = await this.questionsModel.findOne({
+            _id: questionId
+        }).exec();
+        if (!question) {
+            throw new NotFoundException('No question found');
+        }
+        if (question.type !== QuestionTypes.Upload) {
+            throw new NotFoundException('Invalid question type');
+        }
+
+        return await this.storageService.getFilesFromDirectory(`questions/${question._id.toHexString()}`);
     }
 
     public validateString(userAnswer: string, answer: string): boolean {
@@ -96,6 +122,20 @@ export class QuestionsService {
             return true;
         } else {
             throw new BadRequestException('Problem with JSON answer.');
+        }
+    }
+
+    public async uploadFile(file: Express.Multer.File, question: Questions, teamId: string): Promise<boolean> {
+        if (!question.option.contentTypes.some(x => x.toLowerCase() === file.mimetype.toLowerCase())) {
+            return false;
+        }
+
+        try {
+            file.originalname = `${teamId}.zip`;
+            await this.storageService.upload(file, `questions/${question._id.toHexString()}`);
+            return true;
+        } catch (e) {
+            return false;
         }
     }
 }

@@ -6,6 +6,7 @@ import { Model } from 'mongoose';
 import { CodeException } from '../../../filters/code-error/code.exception';
 import { ConfigService } from '../../configs/config.service';
 import { EmailService } from '../../email/email.service';
+import { Attendees } from '../attendees/attendees.model';
 import { AttendeesService } from '../attendees/attendees.service';
 import { EventsService } from '../events/events.service';
 import { TeamsService } from '../teams/teams.service';
@@ -143,7 +144,7 @@ export class RegistrationsService {
         }
     }
 
-    public async registerRole(userDto: RegisterRoleDto, eventId: string) {
+    public async registerRole(userDto: RegisterRoleDto, eventId: string): Promise<Attendees> {
         if (!this.roles) {
             await this.fetchRoles();
         }
@@ -160,6 +161,7 @@ export class RegistrationsService {
                 email: userDto.username
             });
             await this.eventService.addAttendee(eventId, attendee, userDto.role);
+            return attendee;
         } catch (err) {
             if (err instanceof HttpException) {
                 throw err;

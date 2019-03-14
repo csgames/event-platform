@@ -7,6 +7,13 @@ export class BooleanPipe implements PipeTransform<boolean> {
             return true;
         } else if (value === "false") {
             return false;
+        } else if (typeof value === "object") {
+            for (const key in value) {
+                if (!(key in value)) {
+                    continue;
+                }
+                value[key] = await this.transform(value[key], metadata);
+            }
         }
 
         return value;

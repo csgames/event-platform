@@ -1,5 +1,7 @@
-import * as mongoose from "mongoose";
-import { Attendees } from "../attendees/attendees.model";
+import * as mongoose from 'mongoose';
+import { Attendees } from '../attendees/attendees.model';
+import { DateUtils } from '../../../utils/date.utils';
+import { PuzzleHeroes } from '../puzzle-heroes/puzzle-heroes.model';
 
 export const ActivityTypes = [
     'food',
@@ -8,14 +10,14 @@ export const ActivityTypes = [
 ];
 
 export interface Activities extends mongoose.Document {
-    readonly name: { [lang: string]: string };
-    readonly type: string;
-    readonly beginDate: Date | string;
-    readonly endDate: Date | string;
-    readonly details: { [lang: string]: string };
-    readonly location: string;
-    readonly attendees: (Attendees | mongoose.Types.ObjectId | string)[];
-    readonly subscribers: (Attendees | mongoose.Types.ObjectId | string)[];
+    name: { [lang: string]: string };
+    type: string;
+    beginDate: Date | string;
+    endDate: Date | string;
+    details: { [lang: string]: string };
+    location: string;
+    attendees: (Attendees | mongoose.Types.ObjectId | string)[];
+    subscribers: (Attendees | mongoose.Types.ObjectId | string)[];
 }
 
 export const ActivitiesSchema = new mongoose.Schema({
@@ -53,3 +55,33 @@ export const ActivitiesSchema = new mongoose.Schema({
         ref: 'attendees'
     }
 });
+
+export class ActivitiesUtils {
+    public static isLive(activities: Activities | Activities[]): boolean {
+        return ActivitiesUtils.isStarted(activities) && !ActivitiesUtils.isEnded(activities);
+    }
+
+    public static isEnded(activities: Activities | Activities[]): boolean {
+        let end: Date;
+        if (activities instanceof Array) {
+            end = activities.sort((a, b) => a.endDate > b.endDate ? -1 : 1)[0].endDate as Date;
+        } else {
+            end = activities.endDate as Date;
+        }
+
+        const now = DateUtils.nowUTC();
+        return now > end;
+    }
+
+    public static isStarted(activities: Activities | Activities[]): boolean {
+        let start: Date;
+        if (activities instanceof Array) {
+            start = activities.sort((a, b) => a.beginDate > b.beginDate ? 1 : -1)[0].beginDate as Date;
+        } else {
+            start = activities.beginDate as Date;
+        }
+
+        const now = DateUtils.nowUTC();
+        return now >= start;
+    }
+}

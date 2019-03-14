@@ -15,6 +15,7 @@ import { CreateActivityDto } from '../activities/activities.dto';
 import { Activities } from '../activities/activities.model';
 import { AttendeeNotifications } from '../attendees/attendees.model';
 import { AttendeesService } from '../attendees/attendees.service';
+import { Competitions } from '../competitions/competitions.model';
 import { Teams } from '../teams/teams.model';
 import { TeamsService } from '../teams/teams.service';
 import { AddScannedAttendee, AddSponsorDto, CreateEventDto, SendNotificationDto, SendSmsDto, UpdateEventDto } from './events.dto';
@@ -79,8 +80,8 @@ export class EventsController {
 
     @Get('activity')
     @Permissions('csgames-api:get-all:activity')
-    public async getActivity(@EventId() eventId: string): Promise<Activities[]> {
-        return await this.eventsService.getActivities(eventId);
+    public async getActivity(@EventId() eventId: string, @User() user: UserModel): Promise<Activities[]> {
+        return await this.eventsService.getActivities(eventId, user);
     }
 
     @Get('flash-out')
@@ -93,7 +94,7 @@ export class EventsController {
     @HttpCode(HttpStatus.NO_CONTENT)
     @Permissions('csgames-api:update:flash-out')
     public async voteFlashOut(@EventId() eventId: string, @User() user: UserModel,
-                              @Body(NullPipe, ValidationPipe) dto: VotesFlashOutDto) {
+                              @Body(NullPipe, new ValidationPipe()) dto: VotesFlashOutDto) {
         const attendee = await this.attendeesService.findOne({ email: user.username });
         if (!attendee) {
             throw new NotFoundException();
@@ -111,6 +112,20 @@ export class EventsController {
         return await this.eventsService.getNotifications(eventId, user.username, seen);
     }
 
+    @Get('competition')
+    @Permissions('csgames-api:get:competition')
+    public async getCompetitions(@EventId() eventId: string,
+                                 @User() user: UserModel): Promise<Competitions[]> {
+        return await this.eventsService.getCompetitions(eventId, user);
+    }
+
+    @Get('competition/member')
+    @Permissions('csgames-api:get:competition')
+    public async getCompetitionsAsMember(@EventId() eventId: string,
+                                 @User() user: UserModel): Promise<Competitions[]> {
+        return await this.eventsService.getCompetitionsAsMember(eventId, user);
+    }
+
     @Get('attendee')
     @UseInterceptors(DataGridDownloadInterceptor)
     @Permissions('csgames-api:get-all:attendee')
@@ -122,13 +137,13 @@ export class EventsController {
 
     @Post('sms')
     @Permissions('csgames-api:update:event')
-    public async sendSms(@EventId() eventId: string, @Body(ValidationPipe) dto: SendSmsDto) {
+    public async sendSms(@EventId() eventId: string, @Body(new ValidationPipe()) dto: SendSmsDto) {
         await this.eventsService.sendSms(eventId, dto.text);
     }
 
     @Post('notification')
     @Permissions('csgames-api:update:event')
-    public async createNotification(@EventId() eventId: string, @Body(ValidationPipe) dto: SendNotificationDto) {
+    public async createNotification(@EventId() eventId: string, @Body(new ValidationPipe()) dto: SendNotificationDto) {
         await this.eventsService.createNotification(eventId, dto);
     }
 
@@ -172,8 +187,10 @@ export class EventsController {
     }
 
     @Put('registration')
-    public async confirmRegistration(@Body(NullPipe, ValidationPipe) dto: UpdateAttendeeDto, @UploadedFile() file: Express.Multer.File,
-                                     @User() user: UserModel, @EventId() eventId: string) {
+    public async confirmRegistration(@Body(NullPipe, new ValidationPipe()) dto: UpdateAttendeeDto,
+                                     @UploadedFile() file: Express.Multer.File,
+                                     @User() user: UserModel,
+                                     @EventId() eventId: string) {
         await this.eventsService.confirmAttendee(eventId, user.username, dto, file);
     }
 
