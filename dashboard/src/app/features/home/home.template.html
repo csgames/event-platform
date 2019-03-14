@@ -11,7 +11,7 @@
                         </h3>
                     </div>
                 </div>
-                <hr>
+                <hr class="title">
                 <app-track *ngFor="let track of starredTracks" (clickStar)="clickStar(track)" (openChange)="trackOpenChange(track, $event)" [track]="track"
                     [startsOpen]="isTrackOpen(track)"></app-track>
 
@@ -27,7 +27,7 @@
                 </h3>
             </div>
         </div>
-        <hr>
+        <hr class="title">
 
         <ng-container [ngSwitch]="nextActivities.length">
             <ng-container *ngSwitchCase="1">
@@ -91,23 +91,26 @@
         </ng-container>
     </ng-container>
 
-    <ng-container *ngIf="nextCompetitions.length > 0">
-        <div class="row mt-4">
-            <div class="col-sm-7">
-                <h3>
-                    {{ "pages.competition.next" | translate }}
-                </h3>
-            </div>
-        </div>
-        <hr>
-
-        <div class="animated fadeIn">
-            <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="30px" fxLayoutGap.xs="5px">
-                <div fxFlex.xs="100" *ngFor="let competition of nextCompetitions">
-                    <app-competition-card [competition]="competition">
-                    </app-competition-card>
+    <ng-container *ifRole="['attendee', 'captain', 'admin', 'super-admin']">
+        <ng-container *ngIf="nextCompetitions.length > 0">
+            <div class="row mt-4">
+                <div class="col-sm-7">
+                    <h3>
+                        {{ "pages.competition.next" | translate }}
+                    </h3>
                 </div>
             </div>
-        </div>
+            <hr class="title">
+    
+            <div class="animated fadeIn">
+                <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="30px" fxLayoutGap.xs="5px">
+                    <div fxFlex.xs="100" *ngFor="let competition of nextCompetitions">
+                        <app-competition-card [competition]="competition">
+                        </app-competition-card>
+                    </div>
+                </div>
+            </div>
+        </ng-container>
     </ng-container>
+    
 </div>

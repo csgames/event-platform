@@ -2,6 +2,7 @@
     <div class="modal-dialog modal-md">
         <div class="modal-content-wrapper">
             <div class="modal-content">
+                <app-loading-spinner [loading]="loading$"></app-loading-spinner>
                 <a class="close mt-2" (click)="close()"><i class="fa fa-times"></i>
                 </a>
                 <div class="container-xs-height full-height">
