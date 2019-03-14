@@ -1,0 +1,70 @@
+<form [formGroup]="formGroup">
+    <div class="row">
+        <div class="col-sm-12">
+            {{ "components.competition_form.competition_informations" | translate }}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="input-group input-group-default mx-0">
+                <div class="input-group-prepend">
+                    <a class="form-icon">
+                        <i class="fal fa-school"></i>
+                    </a>
+                </div>
+                <ng-select [items]="activities" placeholder='{{ "components.competition_form.activities" | translate }}'
+                           bindValue="_id" bindLabel="name.en" [multiple]="true">
+                </ng-select>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="input-group input-group-default mx-0">
+                <div class="input-group-prepend">
+                    <a class="form-icon">
+                        <i class="fal fa-browser"></i>
+                    </a>
+                </div>
+                <input autofocus class="form-control" formControlName="maxMembers" type="number"
+                       placeholder='{{ "components.competition_form.maxMembers" | translate }}'>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="input-group input-group-default">
+                <div class="input-group-prepend">
+                    <i class="far fa-lock"></i>
+                </div>
+                <input autofocus class="form-control" [type]="viewPassword ? 'text' : 'password'" controlStatus
+                       formControlName="password" placeholder='{{ "general.profile.password" | translate }}'>
+                <div class="input-group-append">
+                    <a class="btn btn-default" (click)="generatePassword()"><i class="fal fa-sync-alt"></i></a>
+                    <a class="btn btn-default" (click)="toggleViewPassword()"><i class="fal fa-eye"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="checkbox-group flex-container">
+                <input type="checkbox" class="form-checkbox" id="onDashboard"
+                       formControlName="onDashboard">
+                <label class="checkboxText flex-content"
+                       for="onDashboard">{{ "components.competition_form.onDashboard" | translate }}</label>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="checkbox-group flex-container">
+                <input type="checkbox" class="form-checkbox" id="isLive"
+                       formControlName="isLive">
+                <label class="checkboxText flex-content"
+                       for="isLive">{{ "components.competition_form.isLive" | translate }}</label>
+            </div>
+        </div>
+    </div>
+</form>
