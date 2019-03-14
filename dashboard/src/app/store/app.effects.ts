@@ -21,9 +21,11 @@ import { PuzzleHeroService } from "../providers/puzzle-hero.service";
 import {
     AllNotificationsSeen, AppActionTypes, AppLoaded, ChangeLanguage, ChangePassword, CheckUnseenNotification, CurrentAttendeeLoaded,
     EditProfile, EventsLoaded, GetPuzzleHeroInfo, GlobalError, HasUnseenNotification, InitializeMessaging, LoadCurrentAttendee, LoadEvents,
-    Logout, SetCurrentEvent, SetupMessagingToken, UpdatePuzzleHeroStatus
+    Logout, SetCurrentEvent, SetupMessagingToken, UpdatePuzzleHeroStatus, LoadRegisteredCompetitions, RegisteredCompetitionsLoaded, 
 } from "./app.actions";
 import { getCurrentAttendee, getEvents, getPuzzleHeroInfo, State } from "./app.reducers";
+import { CompetitionsService } from "../providers/competitions.service";
+import { Competition } from "../api/models/competition";
 
 @Injectable()
 export class AppEffects {
@@ -151,7 +153,7 @@ export class AppEffects {
     setCurrentEvent$ = this.actions$.pipe(
         ofType<SetCurrentEvent>(AppActionTypes.SetCurrentEvent),
         tap((action) => this.eventService.saveCurrentEvent(action.event._id)),
-        switchMap(() => [new LoadCurrentAttendee(), new GetPuzzleHeroInfo()])
+        switchMap(() => [new LoadCurrentAttendee(), new GetPuzzleHeroInfo(), new LoadRegisteredCompetitions()])
     );
 
     @Effect({ dispatch: false })
@@ -199,6 +201,16 @@ export class AppEffects {
         switchMap(() => {
             return this.puzzleHeroService.getInfo().pipe(
                 map((info: PuzzleHeroInfo) => new UpdatePuzzleHeroStatus(info))
+            );
+        }),
+    );
+
+    @Effect()
+    loadRegisteredCompetitions$ = this.actions$.pipe(
+        ofType<LoadRegisteredCompetitions>(AppActionTypes.LoadRegisteredCompetitions),
+        switchMap(() => {
+            return this.eventService.getRegisteredCompetitions().pipe(
+                map((competitions: Competition[]) => new RegisteredCompetitionsLoaded(competitions))
             );
         }),
     );

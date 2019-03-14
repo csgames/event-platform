@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from "@angular/core";
 import { Store, select } from "@ngrx/store";
 import { Observable } from "rxjs";
 import { map, withLatestFrom } from "rxjs/operators";
-import { getPuzzleHeroInfo, State } from "src/app/store/app.reducers";
+import { getPuzzleHeroInfo, State, getRegisteredCompetitions } from "src/app/store/app.reducers";
 import * as fromApp from "src/app/store/app.reducers";
 import { Router } from "@angular/router";
 
@@ -16,6 +16,7 @@ export class SideNavComponent implements OnInit {
     attendee$ = this.store$.pipe(select(fromApp.getCurrentAttendee));
     currentEvent$ = this.store$.pipe(select(fromApp.getCurrentEvent));
     puzzleHeroInfo$ = this.store$.pipe(select(getPuzzleHeroInfo));
+    registeredCompetitions$ = this.store$.pipe(select(getRegisteredCompetitions));
 
     get puzzleHeroOpen$(): Observable<boolean> {
         return this.puzzleHeroInfo$.pipe(
@@ -45,7 +46,7 @@ export class SideNavComponent implements OnInit {
 
     constructor(private store$: Store<State>, private router: Router) { }
 
-    ngOnInit() {}
+    ngOnInit() { }
 
     isActive(route: string) {
         return this.router.isActive(route, false);

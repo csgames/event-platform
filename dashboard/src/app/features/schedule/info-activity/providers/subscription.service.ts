@@ -13,4 +13,5 @@ export class SubscriptionService {
     public addSubscription(dto: SubscriptionDto) {
         return this.api.activity.addSubscriptionToActivity(dto);
     }
+
 }

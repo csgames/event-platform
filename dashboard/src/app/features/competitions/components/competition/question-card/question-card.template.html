@@ -1,0 +1,42 @@
+<accordion class="card-wrapper">
+    <accordion-group (isOpenChange)="onOpen()">
+        <div accordion-heading fxLayout="row" fxLayoutAlign="start center">
+            <i class="fal firstIcon" [ngClass]="icon"></i>
+            <div class="question-title">
+                <span class="title">{{ question?.label }}</span><br>
+                <span class="score">{{ question?.score }} points</span>
+            </div>
+            <div fxFlex></div>
+
+            <div fxFlex="nogrow" class="mr-2" *ngIf="question?.isAnswered">
+                <i class="fal fa-check text-success"></i>
+            </div>
+            <i class="fas fa-caret-down" [class.fa-rotate-90]="!isOpen"></i>
+        </div>
+
+        <div fxLayout="column" class="tile" *ngIf="isOpen">
+            <div innerHTML="{{ question?.description | t18n }}"></div>
+            <ng-container [ngSwitch]="question?.inputType" *ngIf="!question?.isAnswered">
+                <app-file-upload *ngSwitchCase="'upload'" class="upload"
+                                 placeholder='{{ "pages.question.upload" | translate }}'
+                                 [formControl]="file" ngDefaultControl>
+                </app-file-upload>
+                <div *ngSwitchCase="'string'" class="input-group input-group-default input answer">
+                    <input class="form-control" [(ngModel)]="answer" type="text"
+                           placeholder='{{ "pages.question.answer" | translate }}'>
+                </div>
+                <br>
+                <span class="control-error text-center"
+                      *ngIf="error">{{ "pages.question.submit_error" | translate }}</span>
+                <span class="control-error text-center"
+                      *ngIf="validationError">{{ "pages.question.validation_error" | translate }}</span>
+
+                <div class="mt-2" fxLayout="row" fxLayoutAlign="center">
+                    <a class="btn btn-primary btn-rounded px-3"
+                       (click)="validate()">
+                        {{ "pages.question.submit" | translate }}</a>
+                </div>
+            </ng-container>
+        </div>
+    </accordion-group>
+</accordion>

@@ -3,6 +3,7 @@ import { Uppy, UppyFile } from "@uppy/core";
 import * as DragDrop from "@uppy/drag-drop";
 import { FormControl, FormControlDirective } from "@angular/forms";
 import { Subscription } from "rxjs";
+import * as uuid from "uuid";
 
 @Component({
     selector: "app-file-upload",
@@ -24,7 +25,7 @@ export class FileUploadComponent implements OnInit, OnDestroy, AfterViewInit {
             return;
         }
 
-        if (typeof value === "string" ) {
+        if (typeof value === "string") {
             this._filename = value;
         } else {
             this._filename = value.name;
@@ -35,6 +36,7 @@ export class FileUploadComponent implements OnInit, OnDestroy, AfterViewInit {
         return this._filename;
     }
 
+    public id = "a" + uuid.v4();
     public control: FormControl;
     private uppy: Uppy;
     private valueChange$: Subscription;
@@ -66,7 +68,7 @@ export class FileUploadComponent implements OnInit, OnDestroy, AfterViewInit {
             }
         });
         this.uppy.use(DragDrop, {
-            target: ".drag-n-drop"
+            target: `#${this.id}`
         });
     }
 
