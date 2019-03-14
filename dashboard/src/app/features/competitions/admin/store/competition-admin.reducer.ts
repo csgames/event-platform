@@ -10,7 +10,6 @@ export interface CompetitionsAdminState {
     activities: Activity[];
     directors: Attendee[];
     loading: boolean;
-    addCompetitionLoading: boolean;
     error: boolean;
 }
 
@@ -23,7 +22,6 @@ export const initialState: CompetitionsAdminState = {
     activities: [],
     directors: [],
     loading: false,
-    addCompetitionLoading: false,
     error: false
 };
 
@@ -60,12 +58,12 @@ export function reducer(state = initialState, action: CompetitionAdminActions): 
         case CompetitionsAdminActionTypes.CreateCompetition:
             return {
                 ...state,
-                addCompetitionLoading: true
+                loading: true
             };
         case CompetitionsAdminActionTypes.CreateCompetitionSuccess:
             return {
                 ...state,
-                addCompetitionLoading: false
+                loading: false
             };
 
         default:
@@ -81,5 +79,3 @@ export const getCompetitionsAdminError = createSelector(getCompetitionsAdminStat
 export const getActivities = createSelector(getCompetitionsAdminState, (state: CompetitionsAdminState) => state.activities
     .filter(x => x.type === "competition"));
 export const getDirectors = createSelector(getCompetitionsAdminState, (state: CompetitionsAdminState) => state.directors);
-export const getAddCompetitionsLoading =
-    createSelector(getCompetitionsAdminState, (state: CompetitionsAdminState) => state.addCompetitionLoading);
