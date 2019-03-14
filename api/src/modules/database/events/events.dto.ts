@@ -134,6 +134,14 @@ export class UpdateEventDto {
     @IsNumber()
     @ApiModelProperty()
     maxTeamMembers: number;
+
+    @IsOptional()
+    @ApiModelProperty()
+    flashoutBeginDate: string;
+
+    @IsOptional()
+    @ApiModelProperty()
+    flashoutEndDate: string;
 }
 
 export class SendConfirmEmailDto {

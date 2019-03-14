@@ -87,7 +87,7 @@ export class EventsController {
     @Get('flash-out')
     @Permissions('csgames-api:get-all:flash-out')
     public async getFlashOut(@EventId() eventId: string, @User() user: UserModel): Promise<FlashOut[]> {
-        return await this.flashOutService.getByEvent(eventId, user.username);
+        return await this.flashOutService.getByEvent(eventId, user.username, user.role);
     }
 
     @Put('flash-out/rating')
@@ -147,14 +147,6 @@ export class EventsController {
         await this.eventsService.createNotification(eventId, dto);
     }
 
-    @Get(':id')
-    @Permissions('csgames-api:get:event')
-    public async getById(@Param('id') id: string): Promise<Events> {
-        return await this.eventsService.findOne({
-            _id: id
-        });
-    }
-
     @Get(':id/attendee')
     @Permissions('csgames-api:get:attendee')
     public async hasAttendee(@User() user: UserModel, @Param('id') eventId: string): Promise<{ registered: boolean }> {
@@ -186,6 +178,14 @@ export class EventsController {
         return attendees.length;
     }
 
+    @Get(':id')
+    @Permissions('csgames-api:get:event')
+    public async getById(@Param('id') id: string): Promise<Events> {
+        return await this.eventsService.findOne({
+            _id: id
+        });
+    }
+
     @Put('registration')
     public async confirmRegistration(@Body(NullPipe, new ValidationPipe()) dto: UpdateAttendeeDto,
                                      @UploadedFile() file: Express.Multer.File,
@@ -200,24 +200,24 @@ export class EventsController {
         await this.eventsService.createActivity(eventId, activity);
     }
 
-    @Put(':id')
-    @Permissions('csgames-api:update:event')
-    public async update(@Param('id') id: string, @Body(new ValidationPipe()) event: UpdateEventDto) {
-        await this.eventsService.update({
-            _id: id
-        }, event);
-    }
-
     @Put(':id/sponsor')
     @Permissions('csgames-api:update:event')
     public async addSponsor(@Param('id') eventId: string, @Body(new ValidationPipe()) dto: AddSponsorDto): Promise<Events> {
         return await this.eventsService.addSponsor(eventId, dto);
     }
-
+    
     @Put(':attendee_id/scan')
     @Permissions('csgames-api:set-scan:event')
     public async addScannedAttendee(@EventId() eventId: string, @Param('attendee_id') attendeeId: string,
                                     @Body(new ValidationPipe()) body: AddScannedAttendee) {
         await this.eventsService.addScannedAttendee(eventId, attendeeId, body);
+    }
+
+    @Put()
+    @Permissions('csgames-api:update:event')
+    public async update(@EventId() eventId: string, @Body(new ValidationPipe()) event: UpdateEventDto) {
+        await this.eventsService.update({
+            _id: eventId
+        }, event);
     }
 }
