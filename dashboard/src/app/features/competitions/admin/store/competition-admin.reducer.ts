@@ -1,43 +1,57 @@
 import { CompetitionAdminActions, CompetitionsAdminActionTypes } from "./competition-admin.actions";
-import * as fromApp from "../../../../store/app.reducers";
-import { Activity } from "../../../../api/models/activity";
+import * as fromApp from "src/app/store/app.reducers";
+import { Competition } from "../../../../api/models/competition";
 import { createFeatureSelector, createSelector } from "@ngrx/store";
+import { Activity } from "../../../../api/models/activity";
 
-export interface CompetitionAdminState {
-    loading: boolean;
+export interface CompetitionsAdminState {
+    competitions: Competition[];
     activities: Activity[];
+    loading: boolean;
+    error: boolean;
 }
 
 export interface State extends fromApp.State {
-    competitionAdmin: CompetitionAdminState;
+    competitionsAdmin: CompetitionsAdminState;
 }
 
-export const initialState: CompetitionAdminState = {
+export const initialState: CompetitionsAdminState = {
+    competitions: [],
+    activities: [],
     loading: false,
-    activities: []
+    error: false
 };
 
-export function reducer(state = initialState, action: CompetitionAdminActions): CompetitionAdminState {
+export function reducer(state = initialState, action: CompetitionAdminActions): CompetitionsAdminState {
     switch (action.type) {
         case CompetitionsAdminActionTypes.LoadCompetitionsAdmin:
-            return state;
-        case CompetitionsAdminActionTypes.LoadActivities:
             return {
                 ...state,
                 loading: true
             };
-        case CompetitionsAdminActionTypes.ActivitiesLoaded:
+        case CompetitionsAdminActionTypes.CompetitionsAdminLoaded:
             return {
                 ...state,
-                activities: action.payload
+                loading: false,
+                competitions: action.competitions
             };
+        case CompetitionsAdminActionTypes.CompetitionsAdminError:
+            return {
+                ...state,
+                loading: false,
+                competitions: [],
+                error: true
+            };
+
         default:
             return state;
     }
 }
 
-export const getCompetitionAdminState = createFeatureSelector<State, CompetitionAdminState>("competitionAdmin");
+export const getCompetitionsAdminState = createFeatureSelector<State, CompetitionsAdminState>("competitionsAdmin");
 
-export const getLoading = createSelector(getCompetitionAdminState, (state: CompetitionAdminState) => state.loading);
-export const getActivities = createSelector(getCompetitionAdminState, (state: CompetitionAdminState) => state.activities
+export const getCompetitionsAdmin = createSelector(getCompetitionsAdminState, (state: CompetitionsAdminState) => state.competitions);
+export const getCompetitionsAdminLoading = createSelector(getCompetitionsAdminState, (state: CompetitionsAdminState) => state.loading);
+export const getCompetitionsAdminError = createSelector(getCompetitionsAdminState, (state: CompetitionsAdminState) => state.error);
+export const getActivities = createSelector(getCompetitionsAdminState, (state: CompetitionsAdminState) => state.activities
     .filter(x => x.type === "competition"));

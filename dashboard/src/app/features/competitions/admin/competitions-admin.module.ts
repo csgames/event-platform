@@ -18,7 +18,7 @@ import { EffectsModule } from "@ngrx/effects";
         ReactiveFormsModule,
         TranslateModule,
         CompetitionFormModule,
-        StoreModule.forFeature("competitionAdmin", fromCompetitionAdmin.reducer),
+        StoreModule.forFeature("competitionsAdmin", fromCompetitionAdmin.reducer),
         EffectsModule.forFeature([CompetitionAdminEffects]),
 
         CompetitionsAdminRoutingModule
