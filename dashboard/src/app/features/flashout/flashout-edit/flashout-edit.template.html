@@ -1,6 +1,6 @@
 <div class="page-wrapper">
     <div fxLayout="row" fxLayoutAlign="start center" *ngIf="event$ | async as event">
-        <h1>Flash Outs</h1>
+        {{ "pages.flashouts.flashouts" | translate }}
 
         <div fxFlex></div>
         <a class="btn btn-default" (click)="clickSettings(event)"><i class="fal fa-cogs"></i></a>
@@ -37,7 +37,7 @@
                 </div>
             </div>
             <div *ngFor="let f of flashouts$ | async" class="col-xs-12 col-md-6 col-xl-4">
-                <app-flashout-card [flashout]="f" [showAverageRate]="true"></app-flashout-card>
+                <app-flashout-card [flashout]="f" [showAverageRate]="true" [showVotesCount]="true"></app-flashout-card>
             </div>
         </div>
     </div>

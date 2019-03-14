@@ -87,7 +87,7 @@
             "video_id": "Video Id (youtube)"
         },
         "flashout_settings": {
-            "flashout_settings": "Flashout settings"
+            "flashout_settings": "Flash Out settings"
         }
     },
     "errors": {
@@ -170,7 +170,9 @@
         "flashouts": {
             "vote_success": "The vote has been successfully saved.",
             "vote_error": "Please rate all the flash outs before voting.",
-            "add_flashout": "Add a Flash Out"
+            "add_flashout": "Add a Flash Out",
+            "flashouts": "Flash Outs",
+            "votes": "Number of votes :"
         },
 		"competition": {
 			"competition_password": "Competition password",

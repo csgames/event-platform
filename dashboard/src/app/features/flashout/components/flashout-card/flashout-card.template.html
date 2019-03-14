@@ -4,6 +4,7 @@
         <div class="card-body" fxLayout="column" fxLayoutAlign="center center">
             <div class="w-100">
                 <p class="school">{{ flashout.school.name }}</p>
+                <small>{{ "pages.flashouts.votes" | translate }} {{ flashout.votes.length }}</small>
                 <youtube-player [videoId]="flashout.videoId" (ready)="onReady()"></youtube-player>
             </div>
             <ng-container *ngIf="rate !== undefined">

@@ -34,6 +34,6 @@ export class FlashoutSettingsEffects {
     @Effect({ dispatch: false })
     flashoutSettingsError$ = this.actions$.pipe(
         ofType<SaveSettingsError>(FlashoutSettingsActionTypes.SaveSettingsError),
-        tap(() => this.toastrService.success("", this.translateService.instant("components.puzzle_hero_settings.error")))
+        tap(() => this.toastrService.error("", this.translateService.instant("components.puzzle_hero_settings.error")))
     );
 }
