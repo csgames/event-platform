@@ -11,8 +11,10 @@
                 <p class="location">{{ competition.activities[0].location }}</p>
             </div>
         </div>
-        <div fxLayout="row" class="tile">
-            <div *ngFor="let director of competition.directors">
+        <div class="tile">
+            <div *ngFor="let director of competition?.directors">
+                <app-attendee-view class="mb-4" [attendee]="director">
+                </app-attendee-view>
             </div>
         </div>
     </div>

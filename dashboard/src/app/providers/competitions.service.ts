@@ -28,4 +28,8 @@ export class CompetitionsService {
     public validateQuestion(competitionId: string, questionId: string, questionAnswerDto: QuestionAnswerDto): Observable<void> {
         return this.apiService.competition.validateQuestion(competitionId, questionId, questionAnswerDto);
     }
+
+    public updateCompetition(competitionId: string): Observable<void> {
+        return this.apiService.competition.updateCompetition(competitionId);
+    }
 }
