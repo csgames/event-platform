@@ -1,0 +1,19 @@
+<div class="card competition-card">
+    <div class="card-body competition-card-body">
+        <div fxLayout="row" class="tile">
+            <div fxFlex="initial">
+                <i class="fal fa-trophy"></i>
+            </div>
+            <div fxFlex>
+                <p class="name">{{ competition.activities[0].name | t18n }}</p>
+                <p class="hours">{{ competition.activities[0].beginDate | hours }}
+                    - {{ competition.activities[competition.activities.length - 1].endDate | hours }}</p>
+                <p class="location">{{ competition.activities[0].location }}</p>
+            </div>
+        </div>
+        <div fxLayout="row" class="tile">
+            <div *ngFor="let director of competition.directors">
+            </div>
+        </div>
+    </div>
+</div>

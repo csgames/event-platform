@@ -177,7 +177,8 @@
             "answered": "Answered questions",
             "not_answered": "Not answered questions",
             "answered_all_questions": "You have answered all questions.",
-            "ended": "Competition has ended"
+            "ended": "Competition has ended",
+            "add_competition": "Add competition"
         },
         "flashouts": {
             "vote_success": "The vote has been successfully saved.",

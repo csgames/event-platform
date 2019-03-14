@@ -11,6 +11,7 @@ import * as fromCompetitionAdmin from "./store/competition-admin.reducer";
 import { CompetitionAdminEffects } from "./store/competition-admin.effects";
 import { EffectsModule } from "@ngrx/effects";
 import { LoadingSpinnerModule } from "src/app/components/loading-spinner/loading-spinner.module";
+import { CompetitionAdminCardModule } from "./components/competition-card/competition-card.module";
 
 @NgModule({
     imports: [
@@ -22,7 +23,8 @@ import { LoadingSpinnerModule } from "src/app/components/loading-spinner/loading
         StoreModule.forFeature("competitionsAdmin", fromCompetitionAdmin.reducer),
         EffectsModule.forFeature([CompetitionAdminEffects]),
         LoadingSpinnerModule,
-        CompetitionsAdminRoutingModule
+        CompetitionsAdminRoutingModule,
+        CompetitionAdminCardModule
     ],
     exports: [],
     declarations: [CompetitionsAdminComponent],
