@@ -1,6 +1,6 @@
 import { Action } from "@ngrx/store";
 import { Competition } from "src/app/api/models/competition";
-import { QuestionAnswerDto } from "../../../../../api/dto/competition";
+import { QuestionAnswerDto } from "../../../../../../api/dto/competition";
 
 export enum CompetitionActionTypes {
     LoadCompetition = "[Competition] Load competition info",

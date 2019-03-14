@@ -3,11 +3,9 @@ import { AngularFireMessagingModule } from "@angular/fire/messaging";
 import { BrowserModule } from "@angular/platform-browser";
 import { NgModule } from "@angular/core";
 import { ServiceWorkerModule } from "@angular/service-worker";
-
 import { AppComponent } from "./app.component";
 import { StoreModule } from "@ngrx/store";
 import { EffectsModule } from "@ngrx/effects";
-
 import * as fromApp from "./store/app.reducers";
 import { AppEffects } from "./store/app.effects";
 import { RouterModule } from "@angular/router";
@@ -43,7 +41,6 @@ import {
     TooltipModule,
     TimepickerModule,
     DatepickerModule,
-    RatingModule,
     BsDatepickerModule
 } from "ngx-bootstrap";
 import { SponsorsService } from "./providers/sponsors.service";
@@ -55,7 +52,6 @@ import { NotificationService } from "./providers/notification.service";
 import { UpdateModule } from "./update/update.module";
 import { CompetitionsService } from "./providers/competitions.service";
 import { FlashoutService } from "./providers/flashout.service";
-import { FormsModule } from "@angular/forms";
 
 export function loadFactory(http: HttpClient): TranslateHttpLoader {
     return new TranslateHttpLoader(http, "../assets/i18n/", ".json");

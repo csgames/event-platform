@@ -28,7 +28,6 @@ import { AccordionModule } from "ngx-bootstrap";
         FileUploadModule,
         FormsModule,
         ReactiveFormsModule
-
     ],
     declarations: [QuestionCardComponent, CompetitionComponent],
     entryComponents: [CompetitionComponent],

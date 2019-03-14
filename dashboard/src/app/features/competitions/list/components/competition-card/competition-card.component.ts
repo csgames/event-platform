@@ -1,9 +1,9 @@
-import { Component, EventEmitter, Input, OnInit, Output, OnChanges, OnDestroy } from "@angular/core";
+import { Component, EventEmitter, Input, OnInit, Output, OnDestroy } from "@angular/core";
 import { select, Store } from "@ngrx/store";
 import { Competition } from "src/app/api/models/competition";
-import { getCompetitionsLoading, State } from "../../store/competitions.reducer";
-import { SubscribeToCompetition, ResetStore, ShowCompetitionInfo } from "../../store/competitions.actions";
-import { Observable, Subscription } from "rxjs";
+import { getCompetitionsLoading, State } from "../../store/competitions-list.reducer";
+import { SubscribeToCompetition, ShowCompetitionInfo } from "../../store/competitions-list.actions";
+import { Subscription } from "rxjs";
 import { getRegisteredCompetitions } from "src/app/store/app.reducers";
 import { Router } from "@angular/router";
 
@@ -21,10 +21,12 @@ export class CompetitionCardComponent implements OnInit, OnDestroy {
 
     loading$ = this.store$.pipe(select(getCompetitionsLoading));
     registeredCompetitions$ = this.store$.pipe(select(getRegisteredCompetitions));
+
     public result: boolean;
     public subscribed: boolean;
     public registered: boolean;
-    private registredSub$: Subscription;
+
+    private registeredSub$: Subscription;
 
     constructor(private store$: Store<State>, private router: Router) { }
 
@@ -35,20 +37,20 @@ export class CompetitionCardComponent implements OnInit, OnDestroy {
     public ngOnInit() {
         this.result = false;
         this.isSubscribed();
-        this.registredSub$ = this.registeredCompetitions$.subscribe((competitions) => {
-             this.registered = competitions && !!competitions.find(c => c._id === this.competition._id);
+        this.registeredSub$ = this.registeredCompetitions$.subscribe((competitions) => {
+            this.registered = competitions && !!competitions.find(c => c._id === this.competition._id);
         });
     }
 
     public ngOnDestroy() {
-        this.registredSub$.unsubscribe();
+        this.registeredSub$.unsubscribe();
     }
 
     public onShowInfo(competition: Competition) {
         if (this.registered) {
             this.router.navigate([`competition/${competition._id}`]);
         } else {
-            this.store$.dispatch(new ShowCompetitionInfo({competition}));
+            this.store$.dispatch(new ShowCompetitionInfo({ competition }));
         }
     }
 

@@ -14,7 +14,7 @@ import { ToastrService } from "ngx-toastr";
 import { TranslateService } from "@ngx-translate/core";
 import { getCompetition, State } from "./competition.reducer";
 import { select, Store } from "@ngrx/store";
-import { Competition } from "../../../../../api/models/competition";
+import { Competition } from "../../../../../../api/models/competition";
 
 @Injectable()
 export class CompetitionEffects {

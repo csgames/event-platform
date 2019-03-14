@@ -2,10 +2,8 @@ import { Injectable } from "@angular/core";
 import { CSGamesApi } from "./csgames.api";
 import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
-import { SubscriptionDto } from "../features/competitions/components/competition-card/dto/subscription.dto";
-import { AuthCompetitionDto } from "../features/competitions/components/info-competition/dto/auth-competition.dto";
 import { Competition } from "./models/competition";
-import { QuestionAnswerDto } from "./dto/competition";
+import { AuthCompetitionDto, QuestionAnswerDto, SubscriptionDto } from "./dto/competition";
 
 @Injectable()
 export class CompetitionApi extends CSGamesApi {

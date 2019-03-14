@@ -1,9 +1,8 @@
 import { Injectable } from "@angular/core";
 import { ApiService } from "../api/api.service";
 import { Observable } from "rxjs";
-import { Competition, Question } from "../api/models/competition";
-import { AuthCompetitionDto } from "../features/competitions/components/info-competition/dto/auth-competition.dto";
-import { QuestionAnswerDto } from "../api/dto/competition";
+import { Competition } from "../api/models/competition";
+import { AuthCompetitionDto, QuestionAnswerDto } from "../api/dto/competition";
 
 @Injectable()
 export class CompetitionsService {

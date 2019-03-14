@@ -4,19 +4,16 @@ import { SubscriptionService } from "../components/competition-card/providers/su
 import { Actions, Effect, ofType } from "@ngrx/effects";
 import {
     LoadCompetitions,
-    CompetitionsActionTypes,
+    CompetitionsListActionTypes,
     CompetitionsLoaded,
-    LoadCompetitionsError,
-    LoadSubscribedCompetitions,
-    SubscribedCompetitionsLoaded,
     CheckIfSubscribedToCompetition,
     SubscribedToCompetition,
     NotSubscribedToCompetition,
     SubscribeToCompetition,
     SubscriptionError,
     ShowCompetitionInfo
-} from "./competitions.actions";
-import { switchMap, map, catchError, tap, withLatestFrom, delay, filter, concatMap } from "rxjs/operators";
+} from "./competitions-list.actions";
+import { switchMap, map, catchError, withLatestFrom, filter, concatMap } from "rxjs/operators";
 import { of } from "rxjs";
 import { Store, select } from "@ngrx/store";
 import { getCurrentAttendee } from "src/app/store/app.reducers";
@@ -24,11 +21,11 @@ import { Attendee } from "src/app/api/models/attendee";
 import { SimpleModalService } from "ngx-simple-modal";
 import { InfoCompetitionComponent } from "../components/info-competition/info-competition.component";
 import { GlobalError } from "src/app/store/app.actions";
-import { State } from "./competitions.reducer";
+import { State } from "./competitions-list.reducer";
 import { Competition } from "src/app/api/models/competition";
 
 @Injectable()
-export class CompetitionsEffects {
+export class CompetitionsListEffects {
     constructor(private actions$: Actions,
                 private competitionService: CompetitionsService,
                 private subscriptionService: SubscriptionService,
@@ -37,7 +34,7 @@ export class CompetitionsEffects {
 
     @Effect()
     loadCompetitions$ = this.actions$.pipe(
-        ofType<LoadCompetitions>(CompetitionsActionTypes.LoadCompetitions),
+        ofType<LoadCompetitions>(CompetitionsListActionTypes.LoadCompetitions),
         switchMap(() => this.competitionService.getCompetitionsForEvent()
             .pipe(
                 map((competitions: Competition[]) => new CompetitionsLoaded(competitions))
@@ -47,7 +44,7 @@ export class CompetitionsEffects {
 
     @Effect()
     checkSubscription$ = this.actions$.pipe(
-        ofType<CheckIfSubscribedToCompetition>(CompetitionsActionTypes.CheckIfSubscribedToCompetition),
+        ofType<CheckIfSubscribedToCompetition>(CompetitionsListActionTypes.CheckIfSubscribedToCompetition),
         withLatestFrom(this.store$.pipe(select(getCurrentAttendee))),
         concatMap(([action, attendee]: [CheckIfSubscribedToCompetition, Attendee]) => {
             return this.subscriptionService.checkIfSubscribed({
@@ -62,7 +59,7 @@ export class CompetitionsEffects {
 
     @Effect()
     subscribe$ = this.actions$.pipe(
-        ofType<SubscribeToCompetition>(CompetitionsActionTypes.SubscribeToCompetition),
+        ofType<SubscribeToCompetition>(CompetitionsListActionTypes.SubscribeToCompetition),
         withLatestFrom(this.store$.pipe(select(getCurrentAttendee))),
         switchMap(([action, attendee]: [SubscribeToCompetition, Attendee]) => {
             return this.subscriptionService.addSubscription({
@@ -77,7 +74,7 @@ export class CompetitionsEffects {
 
     @Effect()
     showCompetitionInfo$ = this.actions$.pipe(
-        ofType<ShowCompetitionInfo>(CompetitionsActionTypes.ShowCompetitionInfo),
+        ofType<ShowCompetitionInfo>(CompetitionsListActionTypes.ShowCompetitionInfo),
         switchMap((action: ShowCompetitionInfo) => {
             return this.modalService.addModal(InfoCompetitionComponent, action.payload).pipe(
                 filter((x) => x),
@@ -86,5 +83,4 @@ export class CompetitionsEffects {
             );
         })
     );
-
 }

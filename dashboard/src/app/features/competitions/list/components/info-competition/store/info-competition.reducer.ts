@@ -1,4 +1,4 @@
-import * as fromApp from "../../../../../store/app.reducers";
+import * as fromApp from "../../../../../../store/app.reducers";
 import { InfoCompetitionActions, InfoCompetitionActionTypes } from "./info-competition.actions";
 import { createFeatureSelector, createSelector } from "@ngrx/store";
 

@@ -4,10 +4,11 @@ import { TranslateService } from "@ngx-translate/core";
 import { Competition } from "src/app/api/models/competition";
 import { Store, select } from "@ngrx/store";
 import { Subscription } from "rxjs";
-import { State, 
-        getInfoCompetitionError, 
-        getInfoCompetitionLoading, 
-        getInfoCompetitionSuccess 
+import {
+    State,
+    getInfoCompetitionError,
+    getInfoCompetitionLoading,
+    getInfoCompetitionSuccess
 } from "./store/info-competition.reducer";
 import { ValidatePassword } from "./store/info-competition.actions";
 
@@ -21,12 +22,12 @@ export interface InfoCompetitionModal {
     styleUrls: ["info-competition.style.scss"]
 })
 export class InfoCompetitionComponent extends SimpleModalComponent<InfoCompetitionModal, boolean>
-        implements InfoCompetitionModal, OnInit, OnDestroy {
+    implements InfoCompetitionModal, OnInit, OnDestroy {
 
     error$ = this.store$.pipe(select(getInfoCompetitionError));
     loading$ = this.store$.pipe(select(getInfoCompetitionLoading));
     success$ = this.store$.pipe(select(getInfoCompetitionSuccess));
-    
+
     public competition: Competition;
     public password: string;
 

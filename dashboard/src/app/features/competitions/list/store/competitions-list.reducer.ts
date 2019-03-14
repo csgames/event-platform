@@ -1,6 +1,6 @@
 import { Competition } from "src/app/api/models/competition";
 import * as fromApp from "src/app/store/app.reducers";
-import { CompetitionsActions, CompetitionsActionTypes } from "./competitions.actions";
+import { CompetitionsListActions, CompetitionsListActionTypes } from "./competitions-list.actions";
 import { createFeatureSelector, createSelector } from "@ngrx/store";
 
 export interface CompetitionsState {
@@ -10,7 +10,7 @@ export interface CompetitionsState {
 }
 
 export interface State extends fromApp.State {
-    competitions: CompetitionsState;
+    competitionsList: CompetitionsState;
 }
 
 const initialState: CompetitionsState = {
@@ -19,44 +19,44 @@ const initialState: CompetitionsState = {
     error: false
 };
 
-export function reducer(state = initialState, action: CompetitionsActions): CompetitionsState {
+export function reducer(state = initialState, action: CompetitionsListActions): CompetitionsState {
     switch (action.type) {
-        case CompetitionsActionTypes.LoadCompetitions:
+        case CompetitionsListActionTypes.LoadCompetitions:
             return {
                 ...state,
                 loading: true
             };
-        case CompetitionsActionTypes.CompetitionsLoaded:
+        case CompetitionsListActionTypes.CompetitionsLoaded:
             return {
                 ...state,
                 loading: false,
                 competitions: action.competitions
             };
-        case CompetitionsActionTypes.LoadCompetitionsError:
+        case CompetitionsListActionTypes.LoadCompetitionsError:
             return {
                 ...state,
                 loading: false,
                 competitions: [],
                 error: true
             };
-        case CompetitionsActionTypes.SubscribeToCompetition:
+        case CompetitionsListActionTypes.SubscribeToCompetition:
             return {
                 ...state,
                 loading: true
             };
-        case CompetitionsActionTypes.SubscriptionError:
+        case CompetitionsListActionTypes.SubscriptionError:
             return {
                 ...state,
                 loading: false
             };
-        case CompetitionsActionTypes.ResetStore:
+        case CompetitionsListActionTypes.ResetStore:
             return initialState;
     }
 
     return state;
 }
 
-export const getCompetitionsState = createFeatureSelector<State, CompetitionsState>("competitions");
+export const getCompetitionsState = createFeatureSelector<State, CompetitionsState>("competitionsList");
 export const getCompetitions = createSelector(getCompetitionsState, (state: CompetitionsState) => state.competitions);
 
 export const getCompetitionsLoading = createSelector(getCompetitionsState, (state: CompetitionsState) => state.loading);

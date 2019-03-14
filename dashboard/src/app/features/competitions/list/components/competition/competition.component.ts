@@ -1,11 +1,11 @@
-import { Component, OnInit, Input } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { Observable, Subscription } from "rxjs";
 import { ActivatedRoute } from "@angular/router";
 import { map } from "rxjs/operators";
 import { Store, select } from "@ngrx/store";
 import { State, getCompetitionLoading, getCompetitionError, getCompetition } from "./store/competition.reducer";
 import { LoadCompetition } from "./store/competition.actions";
-import { Question } from "../../../../api/models/competition";
+import { Question } from "../../../../../api/models/competition";
 
 @Component({
     selector: "app-competition",

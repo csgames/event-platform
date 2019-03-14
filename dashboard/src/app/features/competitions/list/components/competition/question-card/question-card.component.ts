@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from "@angular/core";
 import { select, Store } from "@ngrx/store";
 import { Competition, InputTypes, Question, QuestionTypes } from "src/app/api/models/competition";
-import { ResetStore } from "../../../store/competitions.actions";
+import { ResetStore } from "../../../store/competitions-list.actions";
 import { FormBuilder, FormControl } from "@angular/forms";
 import { UpdateQuestionAnswer } from "../store/competition.actions";
 import { getCompetition, getCompetitionQuestionsValidationError, State } from "../store/competition.reducer";
