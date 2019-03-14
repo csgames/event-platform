@@ -42,6 +42,11 @@ export function reducer(state = initialState, action: CompetitionAdminActions): 
                 competitions: [],
                 error: true
             };
+        case CompetitionsAdminActionTypes.ActivitiesLoaded:
+            return {
+                ...state,
+                activities: action.payload
+            };
 
         default:
             return state;
