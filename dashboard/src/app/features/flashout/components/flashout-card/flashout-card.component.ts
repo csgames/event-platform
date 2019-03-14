@@ -25,7 +25,7 @@ export class FlashoutCardComponent implements OnInit, ControlValueAccessor {
     @Input()
     public showAverageRate = false;
     @Input()
-    public showVotesCount = false
+    public showVotesCount = false;
     @Input()
     public votesCount: number;
 
