@@ -13,7 +13,7 @@ import { EventsService } from '../events/events.service';
 import { UpdateQuestionDto } from '../questions/questions.dto';
 import { RegistrationsService } from '../registrations/registrations.service';
 import { Teams } from '../teams/teams.model';
-import { AuthCompetitionDto, CreateCompetitionQuestionDto, CreateDirectorDto } from './competitions.dto';
+import { AuthCompetitionDto, CreateCompetitionDto, CreateCompetitionQuestionDto, CreateDirectorDto } from './competitions.dto';
 import { Competitions, CompetitionsUtils } from './competitions.model';
 import { QuestionAnswers } from './questions/question-answers.model';
 import { QuestionGraphNodes } from './questions/question-graph-nodes.model';
@@ -37,6 +37,15 @@ export class CompetitionsService extends BaseService<Competitions, Competitions>
                 private readonly eventsService: EventsService,
                 private readonly questionService: QuestionsService) {
         super(competitionsModel);
+    }
+
+    public async create(obj: Partial<CreateCompetitionDto & { event: string }>): Promise<Competitions> {
+        if (obj.directors && obj.directors.length) {
+            for (const director of obj.directors) {
+                await this.validateDirector(director, obj.event);
+            }
+        }
+        return await super.create(obj);
     }
 
     public async auth(eventId: string, competitionId: string, dto: AuthCompetitionDto, user: UserModel): Promise<void> {
@@ -508,5 +517,23 @@ export class CompetitionsService extends BaseService<Competitions, Competitions>
             event: eventId
         }).select('_id').exec();
         return team ? team._id.toHexString() : null;
+    }
+
+    private async validateDirector(attendeeId: string, eventId: string): Promise<void> {
+        const attendee = await this.attendeesModel.findOne({
+            _id: attendeeId
+        });
+        if (!attendee) {
+            throw new NotFoundException('No attendee found');
+        }
+
+        const role = await this.eventsService.getAttendeeRole(eventId, attendeeId);
+        if (role && role !== 'director') {
+            throw new BadRequestException('Attendee must be a director');
+        }
+
+        if (!role) {
+            await this.eventsService.addAttendee(eventId, attendee, 'director');
+        }
     }
 }

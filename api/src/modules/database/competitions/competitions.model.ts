@@ -52,7 +52,7 @@ export const CompetitionsSchema = new mongoose.Schema({
     },
     description: {
         type: Object,
-        required: true
+        required: false
     },
     maxMembers: {
         type: Number,

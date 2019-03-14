@@ -10,6 +10,7 @@ export class CreateCompetitionDto {
     @IsOptional()
     directors: string[];
 
+    @IsOptional()
     @IsNotEmpty()
     description: { [lang: string]: string };
 
