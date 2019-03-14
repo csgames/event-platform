@@ -1,3 +1,27 @@
 h1 {
     text-transform: uppercase;
 }
+
+.add-button {
+    height: 380px;
+    margin-top: 7px;
+}
+
+.borders {
+    background: transparent;
+    border: 1px dashed #9B9B9B;
+    width: 99%;
+    margin-bottom: 10px;
+
+    &:hover {
+        border: 1px dashed #08579d;
+    }
+}
+
+.add-competition-card {
+    background-color: #ffffff;
+    margin-bottom: 20px;
+    width: 100%;
+    border-radius: 6px;
+    box-shadow: 0 1px 4px 0 rgba(0, 0, 0, .14);
+}

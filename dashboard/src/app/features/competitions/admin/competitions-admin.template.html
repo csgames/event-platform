@@ -1,4 +1,32 @@
 <div class="page-wrapper">
     <h1>Competitions admin</h1>
-    <app-competition-form [activities]="activities$ | async"></app-competition-form>
+    <div class="row">
+        <div class="col-xs-12 col-md-6 col-xl-4">
+            <button type="button" class="add-button btn btn-lg btn-block borders" *ngIf="!showCreateCompetitionCard" (click)="clickAddCompetition()">
+                + {{ "pages.flashouts.add_flashout" | translate }}
+            </button>
+            <div *ngIf="showCreateCompetitionCard" class="add-competition-card">
+                <!--<app-loading-spinner [loading]="addLoading$"></app-loading-spinner>-->
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <app-competition-form [activities]="activities$ | async" [(ngModel)]="dto"></app-competition-form>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="offset-sm-5 col-sm-7">
+                            <div class="button-group">
+                                <a class="btn btn-danger cancel float-right" (click)="onCancelCompetition()">
+                                    {{ "general.button.cancel" | translate }} <i class="fal fa-times"></i>
+                                </a>
+                                <a class="btn btn-primary mr-2 float-right" (click)="onAdd()">
+                                    {{ "general.button.add" | translate }} <i class="fal fa-plus"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
