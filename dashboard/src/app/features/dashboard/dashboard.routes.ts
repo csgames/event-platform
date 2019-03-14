@@ -42,6 +42,11 @@ export const DASHBOARD_ROUTES: Routes = [
         canActivate: [RegisteredGuard]
     },
     {
+        path: "competition",
+        loadChildren: "src/app/features/competitions/competitions.module#CompetitionsModule",
+        canActivate: [RegisteredGuard]
+    },
+    {
         path: "notifications",
         loadChildren: "src/app/features/notifications/notifications.module#NotificationsModule",
         canActivate: [RegisteredGuard]

@@ -1,0 +1,46 @@
+<div class="page-wrapper">
+    <h1>{{ "pages.competition.competitions" | translate }}</h1>
+    <app-loading-spinner [loading]="loading$">
+    </app-loading-spinner>
+
+    <ng-container *ngIf="error$ | async">
+        <div style="text-align: center">
+            <i class="far fa-times-circle error fa-8x"></i>
+            <h5 class="mt-3">{{ "pages.competition.loading_error" | translate }}</h5>
+        </div>
+    </ng-container>
+
+    <ng-container *ngIf="competition$ | async as competition">
+        <div class="row mt-4">
+            <div class="col-sm-7">
+                <h3>
+                    {{ competition.activities[0].name | t18n }}
+                </h3>
+            </div>
+        </div>
+        <hr>
+        <p innerHTML="{{ competition?.description | t18n }}"></p>
+        <ng-container *ngIf="competition?.isLive">
+            <ng-container *ngIf="notAnsweredQuestions$ | async as notAnsweredQuestions">
+                <ng-container *ngIf="notAnsweredQuestions?.length > 0">
+                    <h4>{{ "pages.competition.not_answered" | translate }}</h4>
+                    <hr>
+                    <app-question-card *ngFor="let question of notAnsweredQuestions"
+                                       [question]="question"></app-question-card>
+                </ng-container>
+            </ng-container>
+            <ng-container *ngIf="answeredQuestions$ | async as answeredQuestions">
+                <ng-container *ngIf="answeredQuestions?.length > 0">
+                    <h4>{{ "pages.competition.answered" | translate }}</h4>
+                    <hr>
+                    <app-question-card *ngFor="let question of answeredQuestions"
+                                       [question]="question"></app-question-card>
+                </ng-container>
+            </ng-container>
+        </ng-container>
+        <ng-container *ngIf="!competition?.isLive">
+            <h4 class="text-center">{{ "pages.competition.ended" | translate }}</h4>
+        </ng-container>
+    </ng-container>
+
+</div>

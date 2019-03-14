@@ -1,7 +1,6 @@
 import { Component, OnDestroy, OnInit, ViewChild } from "@angular/core";
 import { SimpleModalComponent } from "ngx-simple-modal";
-import { TranslateService } from "@ngx-translate/core";
-import { PuzzleInfo, Track, ValidationTypes, PuzzleTypes } from "src/app/api/models/puzzle-hero";
+import { PuzzleInfo, Track } from "src/app/api/models/puzzle-hero";
 import { PuzzleFormComponent } from "../puzzle-form/puzzle-form.component";
 import { PuzzleFormDto } from "../puzzle-form/dto/puzzle-form.dto";
 import { select, Store } from "@ngrx/store";
@@ -49,7 +48,7 @@ export class CreatePuzzleHeroComponent extends SimpleModalComponent<CreatePuzzle
                 this.close();
             }
         });
-        
+
         this.track = this.info[0];
         this.parentPuzzle = this.info[1];
     }

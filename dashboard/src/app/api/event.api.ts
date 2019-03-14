@@ -12,6 +12,7 @@ import { Team } from "./models/team";
 import { AttendeeNotification } from "./models/notification";
 import { AttendeeVote, Flashout } from "./models/flashout";
 import { FlashoutSettingsDto } from "../features/flashout/components/flashout-settings/dto/flashout-settings.dto";
+import { Competition } from "./models/competition";
 
 
 @Injectable()
@@ -83,6 +84,14 @@ export class EventApi extends CSGamesApi {
 
     public getNotifications(): Observable<AttendeeNotification[]> {
         return this.http.get<AttendeeNotification[]>(this.url("notification"), { withCredentials: true });
+    }
+
+    public getCompetitions(): Observable<Competition[]> {
+        return this.http.get<Competition[]>(this.url("competition"), { withCredentials: true });
+    }
+
+    public getRegisteredCompetitions(): Observable<Competition[]> {
+        return this.http.get<Competition[]>(this.url("competition/member"), { withCredentials: true });
     }
 
     public sendSms(text: string) {

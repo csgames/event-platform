@@ -6,12 +6,14 @@
                     <i class="fal fa-upload"></i>
                 </a>
             </div>
-            <a class="form-control file-upload-value file-upload-clickable" (click)="download.emit()" *ngIf="fileName">{{ fileName }}</a>
-            <a class="form-control file-upload-value file-upload-placeholder" *ngIf="placeholder && !fileName">{{ placeholder }}</a>
+            <a class="form-control file-upload-value file-upload-clickable" (click)="download.emit()"
+               *ngIf="fileName">{{ fileName }}</a>
+            <a class="form-control file-upload-value file-upload-placeholder"
+               *ngIf="placeholder && !fileName">{{ placeholder }}</a>
             <a class="file-upload-close" (click)="removeFile()" *ngIf="fileName"><i class="fa fa-times-circle"></i></a>
         </div>
     </div>
     <div class="col-sm-12 upload">
-        <div class="drag-n-drop"></div>
+        <div [id]="id" class="drag-n-drop"></div>
     </div>
 </div>

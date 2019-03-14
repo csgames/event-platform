@@ -165,8 +165,23 @@
                 "sponsor": "Sponsor"
             }
         }
-	},
-	"pages": {
+    },
+    "pages": {
+        "competition": {
+            "competition_password": "Competition password",
+            "competitions": "Competitions",
+            "other": "Other competitions",
+            "participate": "Participate",
+            "subscribed": "Subscribed competitions",
+            "wrong_password": "Wrong password",
+            "loading_error": "An error occured while loading the competition",
+            "live": "Happening now",
+            "validate_success": "You have the right password!",
+            "answered": "Answered questions",
+            "not_answered": "Not answered questions",
+            "answered_all_questions": "You have answered all questions.",
+            "ended": "Competition has ended"
+        },
         "flashouts": {
             "vote_success": "The vote has been successfully saved.",
             "vote_error": "Please rate all the flash outs before voting.",
@@ -174,14 +189,6 @@
             "flashouts": "Flash Outs",
             "votes": "Number of votes :"
         },
-		"competition": {
-			"competition_password": "Competition password",
-			"competitions": "Competitions",
-			"other": "Other competitions",
-			"participate": "Participate",
-			"subscribed": "Subscribed competitions",
-			"wrong_password": "Wrong password"
-		},
 		"guide": {
 			"guide": "Guide",
 			"hotel": "Get to the hotel",
@@ -292,6 +299,15 @@
         "directors": {
             "directors": "Directors",
             "add_director": "Add a director"
+        },
+        "question": {
+            "upload": "Upload your file",
+            "submit": "Submit",
+            "answer": "Answer",
+            "submit_error": "Please provide an answer to the question.",
+            "validation_error": "Invalid answer.",
+            "answered": "The question has been answered.",
+            "good_answer": "Answer saved!"
         }
     }
 }

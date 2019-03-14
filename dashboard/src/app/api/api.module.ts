@@ -13,6 +13,7 @@ import { SchoolApi } from "./school.api";
 import { PuzzleHeroApi } from "./puzzle-hero.api";
 import { ActivityApi } from "./activity.api";
 import { FlashoutApi } from "./flashout.api";
+import { CompetitionApi } from "./competition.api";
 
 @NgModule({
     imports: [
@@ -31,6 +32,7 @@ import { FlashoutApi } from "./flashout.api";
         ApiService,
         UserApi,
         ActivityApi,
+        CompetitionApi,
         FlashoutApi
     ]
 })

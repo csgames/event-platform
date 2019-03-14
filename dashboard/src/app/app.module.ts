@@ -53,6 +53,7 @@ import { SchoolService } from "./providers/school.service";
 import { PuzzleHeroService } from "./providers/puzzle-hero.service";
 import { NotificationService } from "./providers/notification.service";
 import { UpdateModule } from "./update/update.module";
+import { CompetitionsService } from "./providers/competitions.service";
 import { FlashoutService } from "./providers/flashout.service";
 import { FormsModule } from "@angular/forms";
 
@@ -62,7 +63,7 @@ export function loadFactory(http: HttpClient): TranslateHttpLoader {
 
 @NgModule({
     declarations: [
-        AppComponent
+        AppComponent,
     ],
     imports: [
         BrowserModule,
@@ -118,7 +119,8 @@ export function loadFactory(http: HttpClient): TranslateHttpLoader {
         PuzzleHeroService,
         ScheduleService,
         NotificationService,
-        FlashoutService
+        FlashoutService,
+        CompetitionsService
     ],
     bootstrap: [AppComponent]
 })

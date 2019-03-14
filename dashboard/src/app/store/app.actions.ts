@@ -3,6 +3,7 @@ import { Attendee } from "../api/models/attendee";
 import { HttpErrorResponse } from "@angular/common/http";
 import { Event } from "../api/models/event";
 import { PuzzleHeroInfo } from "../api/models/puzzle-hero";
+import { Competition } from "../api/models/competition";
 
 export enum AppActionTypes {
     GlobalError = "[App] Global error",
@@ -23,7 +24,9 @@ export enum AppActionTypes {
     SetMessagingToken = "[App] Set messaging",
     SetupMessagingToken = "[App] Setup messaging token",
     GetPuzzleHeroInfo = "[App] Get puzzle hero info",
-    UpdatePuzzleHeroStatus = "[App] Update puzzle hero status"
+    UpdatePuzzleHeroStatus = "[App] Update puzzle hero status",
+    LoadRegisteredCompetitions = "[App] Load Registered competitions",
+    RegisteredCompetitionsLoaded = "[App] Registered competitions loaded"
 }
 
 export class ChangeLanguage implements Action {
@@ -112,6 +115,16 @@ export class UpdatePuzzleHeroStatus implements Action {
     constructor(public payload: PuzzleHeroInfo) {}
 }
 
+export class LoadRegisteredCompetitions {
+    readonly type = AppActionTypes.LoadRegisteredCompetitions;
+}
+
+export class RegisteredCompetitionsLoaded {
+    readonly type = AppActionTypes.RegisteredCompetitionsLoaded;
+
+    constructor(public payload: Competition []) {}
+}
+
 export type AppActions =
     | GlobalError
     | Logout
@@ -131,4 +144,6 @@ export type AppActions =
     | InitializeMessaging
     | SetupMessagingToken
     | GetPuzzleHeroInfo
-    | UpdatePuzzleHeroStatus;
+    | UpdatePuzzleHeroStatus
+    | LoadRegisteredCompetitions
+    | RegisteredCompetitionsLoaded;
