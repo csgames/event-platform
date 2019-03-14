@@ -1,20 +1,26 @@
 import { InjectModel } from '@nestjs/mongoose';
 import * as mongoose from 'mongoose';
 import { Model } from 'mongoose';
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { ArrayUtils } from '../../../utils/array.utils';
+import { Schools } from '../schools/schools.model';
+import { Teams } from '../teams/teams.model';
 import { Attendees } from './attendees.model';
 import { BaseService } from '../../../services/base.service';
 import { CreateAttendeeDto, UpdateAttendeeDto, UpdateNotificationDto } from './attendees.dto';
 import { StorageService } from '@polyhx/nest-services';
-import { Events } from '../events/events.model';
+import { EventAttendees, Events } from '../events/events.model';
 import { UserModel } from '../../../models/user.model';
 
 export type AttendeeInfo = Attendees & { role: string; permissions: string[], registered: boolean };
 
 @Injectable()
 export class AttendeesService extends BaseService<Attendees, CreateAttendeeDto> {
+    private sheetHeaders = ['First Name', 'Last Name', 'Email', 'Team', 'School'];
+
     constructor(@InjectModel("attendees") private readonly attendeesModel: Model<Attendees>,
                 @InjectModel("events") private readonly eventsModel: Model<Events>,
+                @InjectModel('teams') private readonly teamsModel: Model<Teams>,
                 private storageService: StorageService) {
         super(attendeesModel);
     }
@@ -140,5 +146,56 @@ export class AttendeesService extends BaseService<Attendees, CreateAttendeeDto> 
         await this.update(conditionOrId, {
             ...dto
         });
+    }
+
+    public async getFromEvent(eventId: string, eventAttendees: EventAttendees[], type: string): Promise<any> {
+        const ids = eventAttendees.map(x => x.attendee);
+        let attendees = await this.attendeesModel.find({
+            _id: {
+                $in: ids
+            }
+        }).lean().exec();
+        const teams = await this.teamsModel.find({
+            attendees: {
+                $in: ids
+            },
+            event: eventId
+        }).populate({
+            path: 'school'
+        }).lean().exec() as Teams[];
+
+        attendees = attendees.map(x => {
+            const eventAttendee = eventAttendees.find(a => (a.attendee as mongoose.Types.ObjectId).equals(x._id));
+            const team = teams.find(t => t.attendees.some(a => (a as mongoose.Types.ObjectId).equals(x._id)));
+            return {
+                ...x,
+                role: eventAttendee.role,
+                registered: eventAttendee.registered,
+                teamId: team ? team._id : null,
+                team: team ? team.name : null,
+                school: team ? (team.school as Schools).name : null
+            };
+        });
+        if (!type || type === 'json') {
+            return attendees;
+        }
+
+        attendees = attendees.map(x => {
+            return {
+                firstName: x.firstName,
+                lastName: x.lastName,
+                email: x.email,
+                team: x.team,
+                school: x.school
+            };
+        });
+
+        if (type === 'xlsx') {
+            return ArrayUtils.arrayToXlsxBuffer(attendees, 'attendees', this.sheetHeaders);
+        } else if (type === 'csv') {
+            return await ArrayUtils.arrayToCsvBuffer(attendees, this.sheetHeaders);
+        } else {
+            return attendees;
+        }
     }
 }

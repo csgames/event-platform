@@ -1,6 +1,7 @@
 import { forwardRef, Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ActivitiesModule } from '../activities/activities.module';
+import { CompetitionsSchema } from '../competitions/competitions.model';
 import { TeamsModule } from '../teams/teams.module';
 import { EventsController } from './events.controller';
 import { EventsSchema } from './events.model';
@@ -22,6 +23,10 @@ import { FlashOutsModule } from '../flash-out/flash-out.module';
         MongooseModule.forFeature([{
             name: 'teams',
             schema: TeamsSchema
+        }]),
+        MongooseModule.forFeature([{
+            name: 'competitions',
+            schema: CompetitionsSchema
         }]),
         ActivitiesModule,
         AttendeesModule,

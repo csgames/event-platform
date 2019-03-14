@@ -18,6 +18,7 @@ import { Serie, TeamSeries } from './scoreboard/team-series.model';
 import { PuzzleHeroesGateway } from './puzzle-heroes.gateway';
 import { QuestionsService } from '../questions/questions.service';
 import { TracksAnswers, TracksAnswersUtils } from './tracks/tracks-answers.model';
+import { QuestionAnswerDto } from '../questions/question-answer.dto';
 import { UserModel } from '../../../models/user.model';
 import { UpdateQuestionDto } from '../questions/questions.dto';
 
@@ -300,7 +301,7 @@ export class PuzzleHeroesService extends BaseService<PuzzleHeroes, PuzzleHeroes>
         );
     }
 
-    public async validateAnswer(answer: string, puzzleId: string, eventId: string, email: string): Promise<void> {
+    public async validateAnswer(answer: QuestionAnswerDto, puzzleId: string, eventId: string, email: string): Promise<void> {
         const puzzleHero = await this.findOne({
             event: eventId
         });
@@ -322,6 +323,9 @@ export class PuzzleHeroesService extends BaseService<PuzzleHeroes, PuzzleHeroes>
         const puzzle = track.puzzles.find(puzzle => puzzle._id.toHexString() === puzzleId);
         if (!puzzle) {
             throw new NotFoundException('No puzzle found');
+        }
+        if (puzzleHero.answers.some(x => (x.teamId as mongoose.Types.ObjectId).equals(teamId) && puzzle._id.equals(x.puzzle))) {
+            throw new BadRequestException("Cannot answer puzzle twice");
         }
 
         const score = await this.questionsService.validateAnswer(answer, puzzle.question as string);

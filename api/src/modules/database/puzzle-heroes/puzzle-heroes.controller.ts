@@ -6,7 +6,7 @@ import { User } from '../../../decorators/user.decorator';
 import { PermissionsGuard } from '../../../guards/permission.guard';
 import { UserModel } from '../../../models/user.model';
 import { ValidationPipe } from '../../../pipes/validation.pipe';
-import { PuzzleAnswerDto } from '../questions/puzzle-answer.dto';
+import { QuestionAnswerDto } from '../questions/question-answer.dto';
 import { PuzzleGraphNodes } from './puzzle-graph-nodes/puzzle-graph.nodes.model';
 import { CreatePuzzleDto, CreatePuzzleHeroDto, CreateTrackDto, UpdatePuzzleHeroDto, UpdateTrackDto, UpdatePuzzleDto } from './puzzle-heroes.dto';
 import { PuzzleHeroes } from './puzzle-heroes.model';
@@ -26,7 +26,7 @@ export class PuzzleHeroesController {
 
     @Post()
     @Permissions('csgames-api:create:puzzle-hero')
-    public async create(@Body(ValidationPipe) dto: CreatePuzzleHeroDto, @EventId() eventId: string): Promise<PuzzleHeroes> {
+    public async create(@Body(new ValidationPipe()) dto: CreatePuzzleHeroDto, @EventId() eventId: string): Promise<PuzzleHeroes> {
         const puzzleHero = await this.puzzleHeroService.findOne({
             event: eventId
         });
@@ -41,7 +41,7 @@ export class PuzzleHeroesController {
 
     @Put()
     @Permissions('csgames-api:create:puzzle-hero')
-    public async update(@Body(ValidationPipe) dto: UpdatePuzzleHeroDto, @EventId() eventId: string): Promise<void> {
+    public async update(@Body(new ValidationPipe()) dto: UpdatePuzzleHeroDto, @EventId() eventId: string): Promise<void> {
         await this.puzzleHeroService.updatePuzzleHero(eventId, dto);
     }
 
@@ -53,20 +53,20 @@ export class PuzzleHeroesController {
 
     @Post('track')
     @Permissions('csgames-api:create:puzzle-hero')
-    public async createTrack(@Body(ValidationPipe) dto: CreateTrackDto, @EventId() eventId: string): Promise<Tracks> {
+    public async createTrack(@Body(new ValidationPipe()) dto: CreateTrackDto, @EventId() eventId: string): Promise<Tracks> {
         return await this.puzzleHeroService.createTrack(eventId, dto);
     }
 
     @Put('track/:id')
     @Permissions('csgames-api:create:puzzle-hero')
     public async updateTrack(@Param('id') id: string,
-                             @Body(ValidationPipe) dto: UpdateTrackDto, @EventId() eventId: string): Promise<void> {
+                             @Body(new ValidationPipe()) dto: UpdateTrackDto, @EventId() eventId: string): Promise<void> {
         return await this.puzzleHeroService.updateTrack(eventId, id, dto);
     }
 
     @Post('track/:trackId/puzzle')
     @Permissions('csgames-api:create:puzzle-hero')
-    public async createPuzzle(@Body(ValidationPipe) dto: CreatePuzzleDto,
+    public async createPuzzle(@Body(new ValidationPipe()) dto: CreatePuzzleDto,
                               @Param('trackId') trackId: string,
                               @EventId() eventId: string): Promise<PuzzleGraphNodes> {
         return await this.puzzleHeroService.createPuzzle(eventId, trackId, dto);
@@ -74,7 +74,7 @@ export class PuzzleHeroesController {
 
     @Put('track/:trackId/puzzle/:puzzleId')
     @Permissions('csgames-api:create:puzzle-hero')
-    public async updatePuzzle(@Body(ValidationPipe) dto: UpdateQuestionDto,
+    public async updatePuzzle(@Body(new ValidationPipe()) dto: UpdateQuestionDto,
                               @Param('trackId') trackId: string,
                               @Param('puzzleId') puzzleId: string,
                               @EventId() eventId: string): Promise<void> {
@@ -84,9 +84,9 @@ export class PuzzleHeroesController {
     @Post('puzzle/:puzzleId/validate')
     @Permissions('csgames-api:get:event')
     @HttpCode(HttpStatus.OK)
-    public async validateAnswer(@EventId() id: string, @Param('puzzleId') puzzleId, @Body(ValidationPipe) dto: PuzzleAnswerDto,
+    public async validateAnswer(@EventId() id: string, @Param('puzzleId') puzzleId, @Body(new ValidationPipe()) dto: QuestionAnswerDto,
                                 @User() user: UserModel): Promise<void> {
-        return await this.puzzleHeroService.validateAnswer(dto.answer, puzzleId, id, user.username);
+        return await this.puzzleHeroService.validateAnswer(dto, puzzleId, id, user.username);
     }
 
     @Get()

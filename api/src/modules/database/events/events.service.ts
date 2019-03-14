@@ -3,22 +3,28 @@ import { InjectModel } from '@nestjs/mongoose';
 import * as mongoose from 'mongoose';
 import { Model } from 'mongoose';
 import { isNullOrUndefined } from 'util';
+import { UserModel } from '../../../models/user.model';
 import { BaseService } from '../../../services/base.service';
 import { CreateActivityDto } from '../activities/activities.dto';
 import { Activities } from '../activities/activities.model';
 import { ActivitiesService } from '../activities/activities.service';
 import { AttendeeNotifications, Attendees } from '../attendees/attendees.model';
 import { AttendeesService } from '../attendees/attendees.service';
+import { Competitions, CompetitionsUtils } from '../competitions/competitions.model';
 import { Notifications } from '../notifications/notifications.model';
 import { NotificationsService } from '../notifications/notifications.service';
 import { AddScannedAttendee, AddSponsorDto, CreateEventDto, SendNotificationDto } from './events.dto';
 import { AttendeeAlreadyRegisteredException, EventNotFoundException, UserNotAttendeeException } from './events.exception';
 import { Events, EventSponsorDetails } from './events.model';
 import { UpdateAttendeeDto } from '../attendees/attendees.dto';
+import { Teams } from '../teams/teams.model';
+import { IsBoolean, IsNotEmpty, IsOptional } from 'class-validator';
 
 @Injectable()
 export class EventsService extends BaseService<Events, CreateEventDto> {
     constructor(@InjectModel('events') private readonly eventsModel: Model<Events>,
+                @InjectModel('teams') private readonly teamsModel: Model<Teams>,
+                @InjectModel('competitions') private readonly competitionsModel: Model<Competitions>,
                 private readonly attendeeService: AttendeesService,
                 private readonly activitiesService: ActivitiesService,
                 private readonly notificationService: NotificationsService) {
@@ -43,7 +49,7 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
 
     public async addAttendee(eventId: string, userIdOrAttendee: string | Attendees, role: string): Promise<Events> {
         let attendee: Attendees;
-        if (typeof userIdOrAttendee === "string") {
+        if (typeof userIdOrAttendee === 'string') {
             attendee = await this.attendeeService.findOne({
                 userId: userIdOrAttendee
             });
@@ -106,17 +112,13 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
         return await event.save();
     }
 
-    public async getActivities(eventId: string): Promise<Activities[]> {
+    public async getActivities(eventId: string, user: UserModel): Promise<Activities[]> {
         const event = await this.findById(eventId);
         if (!event) {
             throw new EventNotFoundException();
         }
 
-        return await this.activitiesService.find({
-            _id: {
-                $in: event.activities
-            }
-        });
+        return await this.activitiesService.findByIds(event.activities as string[], user);
     }
 
     public async getSponsors(eventId: string): Promise<{ [tier: string]: EventSponsorDetails[] }> {
@@ -152,7 +154,7 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
 
     public async addScannedAttendee(eventId: string, attendeeId: string, scanInfo: AddScannedAttendee) {
         if (attendeeId === scanInfo.scannedAttendee) {
-            throw new BadRequestException("An attendee cannot scan itself");
+            throw new BadRequestException('An attendee cannot scan itself');
         }
 
         const event = await this.eventsModel.findById(eventId).exec();
@@ -164,18 +166,18 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
             return (x.attendee as mongoose.Types.ObjectId).toHexString() === attendeeId;
         });
         if (!attendee) {
-            throw new NotFoundException("Attendee not found in event");
+            throw new NotFoundException('Attendee not found in event');
         }
 
         const scanned = event.attendees.find(x => {
             return (x.attendee as mongoose.Types.ObjectId).toHexString() === scanInfo.scannedAttendee;
         });
         if (!scanned) {
-            throw new NotFoundException("Scanned attendee not found in event");
+            throw new NotFoundException('Scanned attendee not found in event');
         }
 
         if (attendee.scannedAttendees.indexOf(scanInfo.scannedAttendee) >= 0) {
-            throw new BadRequestException("Scanned attendee already scanned by attendee");
+            throw new BadRequestException('Scanned attendee already scanned by attendee');
         }
 
         await this.eventsModel.update({
@@ -265,13 +267,102 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
 
         await this.eventsModel.updateOne({
             _id: id,
-            "attendees.attendee": attendee._id
+            'attendees.attendee': attendee._id
         }, {
-            "attendees.$.registered": true
+            'attendees.$.registered': true
         }).exec();
 
         await this.attendeeService.updateAttendeeInfo({
             email
         }, dto, file);
+    }
+
+    public async getAttendeeRole(eventId: string, attendeeId: string): Promise<string> {
+        const event = await this.findById(eventId);
+        if (!event) {
+            throw new EventNotFoundException();
+        }
+
+        const attendee = event.attendees.find(x => (x.attendee as mongoose.Types.ObjectId).equals(attendeeId));
+        if (!attendee) {
+            return null;
+        }
+        return attendee.role;
+    }
+
+    public async getCompetitions(eventId: string, user: UserModel): Promise<Competitions[]> {
+        let competitions = await this.competitionsModel.find({
+            event: eventId
+        }).select({
+            activities: true,
+            isLive: true,
+            onDashboard: true
+        }).populate({
+            path: 'activities',
+            model: 'activities'
+        }).exec();
+
+        if (user.role.endsWith('admin')) {
+            return competitions;
+        }
+
+        const attendee = await this.attendeeService.findOne({
+            email: user.username
+        });
+        competitions = competitions.map(competition => {
+            const c = competition.toJSON();
+            c.activities = ActivitiesService.formatActivities(c.activities, attendee);
+            c.isLive = CompetitionsUtils.isLive(competition);
+            return c;
+        });
+
+        return competitions;
+    }
+
+    public async getCompetitionsAsMember(eventId: string, user: UserModel): Promise<Competitions[]> {
+        let competitions = await this.competitionsModel.find({
+            event: eventId
+        }).select({
+            activities: true,
+            members: true
+        }).populate({
+            path: 'activities',
+            model: 'activities',
+            select: ['name', 'subscribers'],
+            options: {
+                lean: true
+            }
+        }).lean().exec();
+
+        if (user.role.endsWith('admin')) {
+            return competitions;
+        }
+
+        const attendee = await this.attendeeService.findOne({
+            email: user.username
+        });
+        competitions = competitions.filter(competition => {
+            return competition.members &&
+                competition.members.some(m => m.attendees && m.attendees.some(a => attendee._id.equals(a)));
+        }).map(competition => {
+            competition.activities = ActivitiesService.formatActivities(competition.activities as any, attendee);
+            delete competition.members;
+            return competition;
+        });
+
+        return competitions;
+    }
+
+    public async getAttendeesData(eventId: string, type: string, roles: string[]): Promise<any> {
+        const event = await this.findById(eventId);
+        if (!event) {
+            throw new EventNotFoundException();
+        }
+
+        const attendees = roles && roles.length ?
+            event.attendees.filter(x => roles.some(role => role === x.role)) :
+            event.attendees;
+
+        return await this.attendeeService.getFromEvent(eventId, attendees, type);
     }
 }

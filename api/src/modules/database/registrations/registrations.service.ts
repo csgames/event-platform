@@ -6,6 +6,7 @@ import { Model } from 'mongoose';
 import { CodeException } from '../../../filters/code-error/code.exception';
 import { ConfigService } from '../../configs/config.service';
 import { EmailService } from '../../email/email.service';
+import { Attendees } from '../attendees/attendees.model';
 import { AttendeesService } from '../attendees/attendees.service';
 import { EventsService } from '../events/events.service';
 import { TeamsService } from '../teams/teams.service';
@@ -13,7 +14,7 @@ import {
     AttendeeAlreadyExistException, GodParentAlreadyExist, InvalidCodeException, MaxTeamMemberException, TeamAlreadyExistException,
     TeamDoesntExistException
 } from './registration.exception';
-import { CreateRegistrationDto, RegisterAdminDto, RegisterAttendeeDto } from './registrations.dto';
+import { CreateRegistrationDto, RegisterRoleDto, RegisterAttendeeDto } from './registrations.dto';
 import { Registrations } from './registrations.model';
 
 @Injectable()
@@ -143,7 +144,7 @@ export class RegistrationsService {
         }
     }
 
-    public async registerAdmin(userDto: RegisterAdminDto, eventId: string) {
+    public async registerRole(userDto: RegisterRoleDto, eventId: string): Promise<Attendees> {
         if (!this.roles) {
             await this.fetchRoles();
         }
@@ -159,7 +160,8 @@ export class RegistrationsService {
                 ...userDto.attendee,
                 email: userDto.username
             });
-            await this.eventService.addAttendee(eventId, attendee, 'admin');
+            await this.eventService.addAttendee(eventId, attendee, userDto.role);
+            return attendee;
         } catch (err) {
             if (err instanceof HttpException) {
                 throw err;

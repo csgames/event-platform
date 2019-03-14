@@ -90,7 +90,7 @@ export class ActivitiesController {
 
     @Post(":id/notification")
     @Permissions("csgames-api:update:activity")
-    public async createNotification(@Param("id") id: string, @Body(ValidationPipe) dto: SendNotificationDto) {
+    public async createNotification(@Param("id") id: string, @Body(new ValidationPipe()) dto: SendNotificationDto) {
         await this.activitiesService.createNotification(id, dto);
     }
 }
