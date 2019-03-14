@@ -1,5 +1,5 @@
 import { FlashoutSettingsDto } from "./dto/flashout-settings.dto";
-import { Event } from "../../../../api/models/event"
+import { Event } from "../../../../api/models/event";
 
 export namespace FlashoutSettingsUtils {
     export function puzzleHeroSettingsDtoToPuzzleHero(dto: FlashoutSettingsDto): Event {

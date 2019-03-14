@@ -5,7 +5,7 @@ import { Flashout, AttendeeVote } from "../api/models/flashout";
 import { FlashoutEditDto } from "../features/flashout/flashout-edit/components/flashout-form/dto/flashout-edit.dto";
 import { FlashoutSettingsDto } from "../features/flashout/components/flashout-settings/dto/flashout-settings.dto";
 import { FlashoutSettingsUtils } from "../features/flashout/components/flashout-settings/flashout-settings.utils";
-import { Event } from "../api/models/event"
+import { Event } from "../api/models/event";
 
 @Injectable()
 export class FlashoutService {

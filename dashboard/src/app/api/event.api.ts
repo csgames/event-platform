@@ -38,10 +38,10 @@ export class EventApi extends CSGamesApi {
     }
 
     public getEvent(id: string): Observable<Event> {
-        console.log(id)
+        console.log(id);
         return this.http.get<Event>(this.url(id), {
             withCredentials: true
-        })
+        });
     }
 
     public getGuide(): Observable<EventGuide> {
