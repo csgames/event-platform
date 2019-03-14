@@ -34,7 +34,7 @@ import { QuillModule } from "ngx-quill";
     ],
     declarations: [CustomTextBoxComponent],
     providers: [],
-    exports: [CustomTextBoxComponent],
+    exports: [CustomTextBoxComponent]
 })
 export class CustomTextBoxModule {
 }
