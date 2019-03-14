@@ -5,6 +5,7 @@ export interface Flashout {
     school: School;
     videoId: string;
     votes?: Vote[];
+    averageRating?: number;
 }
 
 export interface Vote {

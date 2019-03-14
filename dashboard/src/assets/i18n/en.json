@@ -85,6 +85,9 @@
             "school": "School",
             "url": "Video url",
             "video_id": "Video Id (youtube)"
+        },
+        "flashout_settings": {
+            "flashout_settings": "Flash Out settings"
         }
     },
     "errors": {
@@ -182,8 +185,10 @@
         },
         "flashouts": {
             "vote_success": "The vote has been successfully saved.",
+            "vote_error": "Please rate all the flash outs before voting.",
             "add_flashout": "Add a Flash Out",
-            "vote_error": "Please rate all the flash outs before voting."
+            "flashouts": "Flash Outs",
+            "votes": "Number of votes :"
         },
 		"guide": {
 			"guide": "Guide",
