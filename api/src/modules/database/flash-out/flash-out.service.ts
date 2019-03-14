@@ -19,32 +19,36 @@ export class FlashOutsService extends BaseService<FlashOut, FlashOut> {
         const attendee = await this.attendeeService.findOne({
             email
         });
+
         if (!attendee) {
             throw new UserNotAttendeeException();
         }
 
-        const event = await this.eventModel.findById(eventId);
         
-        if (!EventsUtils.isFlashoutAvailable(event)) {
-            return;
-        }
-
         const flashOuts = await this.flashOutsModel.find({
             event: eventId
         }).populate({
             path: "school"
         }).exec();
-
+        
         if (role.endsWith("admin")) {
             flashOuts.forEach((f) => {
                 const total = f.votes.reduce((a, v) => a + v.rating, 0);
                 f.averageRating = total / f.votes.length;
             });
-        } else {
-            flashOuts.forEach((f) => {
-                f.votes = f.votes.filter((v) => (v.attendee as Types.ObjectId).equals(attendee.id));
-            });
+
+            return flashOuts
         }
+
+        const event = await this.eventModel.findById(eventId);
+        if (!EventsUtils.isFlashoutAvailable(event)) {
+            return;
+        }
+
+        flashOuts.forEach((f) => {
+            f.votes = f.votes.filter((v) => (v.attendee as Types.ObjectId).equals(attendee.id));
+        });
+
         return flashOuts;
     }
 
