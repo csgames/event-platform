@@ -12,7 +12,8 @@
             </div>
         </div>
         <div fxLayout="row" class="tile">
-            <div>{{ competition.activities[0].details | t18n }}</div>
+            <div *ngFor="let director of competition.directors">
+            </div>
         </div>
     </div>
 </div>

@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output, OnDestroy } from "@angular/core";
 import { select, Store } from "@ngrx/store";
 import { Competition } from "src/app/api/models/competition";
-import { getCompetitionsAdminLoading, State } from "../store/competition-admin.reducer";
+import { getCompetitionsAdminLoading, State } from "../../store/competition-admin.reducer";
 import { Router } from "@angular/router";
 
 @Component({
