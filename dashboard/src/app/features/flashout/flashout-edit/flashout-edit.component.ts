@@ -4,6 +4,10 @@ import { getAddLoading, getFlashouts, getLoading, getSchools, State } from "./st
 import { FlashoutEditDto } from "./components/flashout-form/dto/flashout-edit.dto";
 import { AddFlashout, LoadFlashouts, LoadSchools } from "./store/flashout-edit.actions";
 import { FlashoutFormComponent } from "./components/flashout-form/flashout-form.component";
+import { SimpleModalService } from "ngx-simple-modal";
+import { FlashoutSettingsComponent } from "../components/flashout-settings/flashout-settings.component";
+import { Event } from "../../../api/models/event";
+import { getCurrentEvent } from "src/app/store/app.reducers";
 
 @Component({
     selector: "app-flashout-add",
@@ -18,11 +22,13 @@ export class FlashoutEditComponent implements OnInit {
     loading$ = this.store$.pipe(select(getLoading));
     addLoading$ = this.store$.pipe(select(getAddLoading));
     schools$ = this.store$.pipe(select(getSchools));
+    event$ = this.store$.pipe(select(getCurrentEvent));
 
     public showCreateFlashoutCard = false;
     public dto = new FlashoutEditDto();
 
-    constructor(private store$: Store<State>) {}
+    constructor(private store$: Store<State>,
+                private modalService: SimpleModalService) {}
 
     public ngOnInit() {
         this.store$.dispatch(new LoadFlashouts());
@@ -44,5 +50,9 @@ export class FlashoutEditComponent implements OnInit {
         }
         this.store$.dispatch(new AddFlashout(this.dto));
         this.onCancelFlashout();
+    }
+    
+    clickSettings(event: Event) {
+        this.modalService.addModal(FlashoutSettingsComponent, { event });
     }
 }

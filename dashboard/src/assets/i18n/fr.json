@@ -79,6 +79,9 @@
         },
         "create_puzzle": {
             "success": "Puzzle créé!"
+        },
+        "flashout_settings": {
+            "flashout_settings": "Paramètres du Flashout"
         }
     },
     "errors": {

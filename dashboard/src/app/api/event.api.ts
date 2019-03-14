@@ -11,6 +11,7 @@ import { Activity } from "./models/activity";
 import { Team } from "./models/team";
 import { AttendeeNotification } from "./models/notification";
 import { AttendeeVote, Flashout } from "./models/flashout";
+import { FlashoutSettingsDto } from "../features/flashout/components/flashout-settings/dto/flashout-settings.dto";
 
 
 @Injectable()
@@ -34,6 +35,13 @@ export class EventApi extends CSGamesApi {
                 });
             })
         );
+    }
+
+    public getEvent(id: string): Observable<Event> {
+        console.log(id)
+        return this.http.get<Event>(this.url(id), {
+            withCredentials: true
+        })
     }
 
     public getGuide(): Observable<EventGuide> {
@@ -119,5 +127,9 @@ export class EventApi extends CSGamesApi {
         } else {
             return this.http.get(this.url(`attendee/${queryParam}`), { responseType: "json", withCredentials: true });
         }
+    }
+
+    public updateFlashout(event: Event): Observable<void> {
+        return this.http.put<void>(this.url(), event, { withCredentials: true });
     }
 }

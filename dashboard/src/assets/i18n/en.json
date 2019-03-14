@@ -85,6 +85,9 @@
             "school": "School",
             "url": "Video url",
             "video_id": "Video Id (youtube)"
+        },
+        "flashout_settings": {
+            "flashout_settings": "Flashout settings"
         }
     },
     "errors": {
