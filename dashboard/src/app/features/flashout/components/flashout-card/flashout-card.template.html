@@ -4,6 +4,7 @@
         <div class="card-body" fxLayout="column" fxLayoutAlign="center center">
             <div class="w-100">
                 <p class="school">{{ flashout.school.name }}</p>
+                <small>{{ "pages.flashouts.votes" | translate }} {{ flashout.votes.length }}</small>
                 <youtube-player [videoId]="flashout.videoId" (ready)="onReady()"></youtube-player>
             </div>
             <ng-container *ngIf="rate !== undefined">
@@ -20,6 +21,9 @@
                     <p class="vote">{{ flashout.votes[0].rating }} / 5</p>
                 </div>
             </ng-container>
+            <div *ngIf="showAverageRate">
+                <p class="vote">{{ flashout.averageRating }} / 5</p>
+            </div>            
         </div>
     </div>
 </div>

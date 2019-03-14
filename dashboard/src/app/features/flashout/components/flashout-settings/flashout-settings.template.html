@@ -1,0 +1,77 @@
+<div class="modal-centered fade slide-up show animated slideInDown scroll" tabindex="-1" role="dialog"
+     style="display: block;">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content-wrapper">
+            <div class="modal-content card">
+                <app-loading-spinner [loading]="loading$"></app-loading-spinner>
+                <div class="modal-header">
+                    <h1>{{ "components.flashout_settings.flashout_settings" | translate }}</h1>
+                    <button type="button" class="close" (click)="close()"><span aria-hidden="true">×</span><span
+                        class="sr-only">{{ "general.button.close" | translate }}</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form [formGroup]="formGroup">
+                        <div class="row error-group">
+                            <div class="col-sm-12">
+                                <label
+                                    class="mb-0 ml-1">{{ "components.puzzle_hero_settings.release_date" | translate }}
+                                    :</label>
+                            </div>
+                            <div class="col-sm-12">
+                                <div fxFlex class="input-group input-group-default">
+                                    <div class="input-group-prepend">
+                                        <i class="fal fa-calendar"></i>
+                                    </div>
+                                    <input autofocus class="form-control" name="flashoutBeginDate" controlStatus
+                                           formControlName="flashoutBeginDate" autocomplete="off"
+                                           #dp="bsDatepicker"
+                                           [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY', containerClass: 'theme-dark-blue' }"
+                                           bsDatepicker
+                                           placeholder='{{ "components.puzzle_hero_settings.release_date" | translate }}'>
+                                </div>
+                                <div fxFlex="nogrow" class="input-group no-grow">
+                                    <timepicker class="timepicker" formControlName="beginTime" controlStatus
+                                                [showMeridian]="false"
+                                                [showSpinners]="false"></timepicker>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row error-group">
+                            <div class="col-sm-12">
+                                <label class="mb-0 ml-1">{{ "components.puzzle_hero_settings.end_date" | translate }}
+                                    :</label>
+                            </div>
+                            <div class="col-sm-12">
+                                <div fxFlex class="input-group input-group-default">
+                                    <div class="input-group-prepend">
+                                        <i class="fal fa-calendar"></i>
+                                    </div>
+                                    <input autofocus class="form-control" name="flashoutEndDate" controlStatus
+                                           formControlName="flashoutEndDate" autocomplete="off"
+                                           #dp="bsDatepicker"
+                                           [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY', containerClass: 'theme-dark-blue' }"
+                                           bsDatepicker
+                                           placeholder='{{ "components.puzzle_hero_settings.end_date" | translate }}'>
+                                </div>
+                                <div fxFlex="nogrow" class="input-group no-grow">
+                                    <timepicker class="timepicker" formControlName="endTime" controlStatus
+                                                [showMeridian]="false"
+                                                [showSpinners]="false"></timepicker>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+
+                    <div class="text-center">
+                        <a class="btn btn-primary btn-rounded mt-3 px-3"
+                           (click)="clickSave()">{{ "general.button.save" | translate }}</a>
+                    </div>
+                    <div class="text-center text-danger" *ngIf="error$ | async">
+                        {{ "components.puzzle_hero_settings.error" | translate }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -79,6 +79,15 @@
         },
         "create_puzzle": {
             "success": "Puzzle créé!"
+        },
+        "flashout_form": {
+            "flashout_informations": "Information du Flash Out",
+            "school": "École",
+            "url": "Url de la vidép",
+            "video_id": "Vidéo Id (youtube)"
+        },
+        "flashout_settings": {
+            "flashout_settings": "Paramètres du Flash Out"
         }
     },
     "errors": {
@@ -161,7 +170,9 @@
         "flashouts": {
             "vote_success": "Le vote a été enregistré avec succès.",
             "vote_error": "Évaluer tous les flash outs avant de voter.",
-            "add_flashout": "Ajouter un Flash Out"
+            "add_flashout": "Ajouter un Flash Out",
+            "flashouts": "Flash Outs",
+            "votes": "Nombre de votes :"
         },
         "competition": {
             "competition_password": "Mot de passe de la compétition",
