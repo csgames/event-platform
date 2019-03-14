@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { select, Store } from "@ngrx/store";
 import {
-    getActivities, getAddCompetitionsLoading,
+    getActivities,
     getCompetitionsAdmin,
     getCompetitionsAdminError,
     getCompetitionsAdminLoading, getDirectors,
@@ -26,7 +26,6 @@ export class CompetitionsAdminComponent implements OnInit {
     competitions$ = this.store$.pipe(select(getCompetitionsAdmin));
     loading$ = this.store$.pipe(select(getCompetitionsAdminLoading));
     error$ = this.store$.pipe(select(getCompetitionsAdminError));
-    addLoading$ = this.store$.pipe(select(getAddCompetitionsLoading));
 
     public dto = new CompetitionFormDto();
     public showCreateCompetitionCard = false;
