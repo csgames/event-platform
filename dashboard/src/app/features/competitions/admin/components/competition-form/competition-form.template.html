@@ -37,8 +37,8 @@
                 <div class="input-group-prepend">
                     <i class="far fa-lock"></i>
                 </div>
-                <input autofocus class="form-control" [type]="viewPassword ? 'text' : 'password'" controlStatus
-                       formControlName="password" placeholder='{{ "general.profile.password" | translate }}'>
+                <input autofocus class="form-control" [type]="viewPassword ? 'text' : 'text'" controlStatus
+                       formControlName="password" placeholder='{{ "general.profile.password" | translate }}' autocomplete="false">
                 <div class="input-group-append">
                     <a class="btn btn-default" (click)="generatePassword()"><i class="fal fa-sync-alt"></i></a>
                     <a class="btn btn-default" (click)="toggleViewPassword()"><i class="fal fa-eye"></i></a>
