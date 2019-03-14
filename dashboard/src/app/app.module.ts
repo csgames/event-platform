@@ -43,7 +43,6 @@ import {
     TooltipModule,
     TimepickerModule,
     DatepickerModule,
-    RatingModule,
     BsDatepickerModule
 } from "ngx-bootstrap";
 import { SponsorsService } from "./providers/sponsors.service";
