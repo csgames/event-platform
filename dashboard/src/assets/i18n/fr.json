@@ -48,13 +48,44 @@
         },
         "notification": {
             "no_notification": "Vous n'avez pas de notifications"
+        },
+        "track_form": {
+            "label": "Nom de la piste",
+            "type": "Type de la piste",
+            "release_date": "Date de disponibilité",
+            "end_date": "Date de fin"
+        },
+        "create_track": {
+            "create_track": "Créer une piste",
+            "error": "Une erreur est survenue lors de la création de la piste.",
+            "success": "Piste créée!"
+        },
+        "update_track": {
+            "update_track": "Modifier une piste",
+            "error": "Une erreur est survenue lors de la modification de la piste.",
+            "success": "Piste modifiée!"
+        },
+        "puzzle_hero_settings": {
+            "puzzle_hero_settings": "Paramètres du Puzzle Hero",
+            "release_date": "Date de disponibilité",
+            "end_date": "Date de fin",
+            "scoreboard_end_date": "Date de fin du classement",
+            "open": "Disponible",
+            "success": "Paramètres modifiés!",
+            "error": "Une erreur est survenue lors de la sauvegarde des paramètres."
+        },
+        "update_puzzle": {
+            "success": "Puzzle modifié!"
+        },
+        "create_puzzle": {
+            "success": "Puzzle créé!"
         }
     },
     "errors": {
         "/^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).{8,}$/": "Le mot de passe doit contenir au moins 8 caractères dont un chiffre, une lettre minuscule et une lettre majuscule",
         "email": "Le courriel est invalide.",
         "group": {
-            "required": "Un ou plusieurs champs sont manquant"
+            "required": "Un ou plusieurs champs sont manquants"
         },
         "maxlength": "Ce champ doit avoir au plus {{value}} caractères",
         "minlength": "Ce champ doit avoir un minimum de {{value}} caractères",
@@ -71,7 +102,9 @@
             "send": "Envoyer",
             "subscribe": "S'abonner",
             "subscribed": "Abonné",
-            "validate": "Valider"
+            "validate": "Valider",
+            "edit": "Modifier",
+            "vote": "Voter"
         },
         "error": {
             "something": "Une erreur est survenue...",
@@ -100,7 +133,8 @@
             "success": "Succès!"
         },
         "roles": {
-            "captain": "Capitaine"
+            "captain": "Capitaine",
+            "admin": "Admin"
         },
         "search": {
             "search": "Rechercher"
@@ -108,9 +142,27 @@
         "update": {
             "update_available": "Nouvelle version disponible!",
             "update": "Mettre à jour"
+        },
+        "label": {
+            "start_at": "Débute à",
+            "end_at": "Fini à",
+            "description": "Description"
+        },
+        "track": {
+            "types": {
+                "crypto": "Cryptographie",
+                "gaming": "Jouage de jeux",
+                "scavenger": "Cherchage d'affaires",
+                "sponsor": "Commanditaire"
+            }
         }
     },
     "pages": {
+        "flashouts": {
+            "vote_success": "Le vote a été enregistré avec succès.",
+            "vote_error": "Évaluer tous les flash outs avant de voter.",
+            "add_flashout": "Ajouter un Flash Out"
+        },
         "competition": {
             "competition_password": "Mot de passe de la compétition",
             "competitions": "Competitions",
@@ -163,7 +215,25 @@
             "loading_error": "Une erreur est survenue lors du chargement des puzzle hero",
             "scoreboard_loading_error": "Une erreur est survenue lors du chargement du classement",
             "answer": "Réponse ici",
-            "validate_success": "Bonne réponse!"
+            "validate_success": "Bonne réponse!",
+            "validation_types": "Type de réponse",
+            "puzzle_types": "Type de défi",
+            "answer_admin": "Réponse",
+            "answer_placeholder": "Réponse / URL",
+            "description_placeholder": "Votre description de puzzle ici",
+            "admin": {
+                "add_track": "Ajouter une piste",
+                "add_puzzle": "Ajouter un puzzle",
+                "released_on": "Disponible depuis le",
+                "releasing_on": "Disponible le",
+                "ended_on": "Terminé depuis le",
+                "puzzle_available_for_attendees": "Le puzzle hero est présentement accessible par les participants.",
+                "puzzle_not_available_for_attendees": "Le puzzle hero n'est pas présentement accessible par les participants.",
+                "label_placeholder": "Votre titre de puzzle ici",
+                "create_puzzle": "Ajouter un puzzle",
+                "update_puzzle": "Modifier un puzzle",
+                "score": "Pointage de la question"
+            }
         },
         "register": {
             "already_have_account": "Vous avez déjà un compte?",
@@ -198,7 +268,26 @@
             "team": "Équipe",
             "teams": "Équipes",
             "team_title": "Equipe",
-            "team_members": "Membres de l'équipe"
+            "team_members": "Membres de l'équipe",
+            "max": "Nombre maximal de participants"
+        },
+        "notifications": {
+            "notifications": "Notifications"
+        },
+        "organizers": {
+            "organizers": "Organisateurs",
+            "add_organizer": "Ajouter un organisateur"
+        },
+        "attendees": {
+            "attendees": "Participants"
+        },
+        "volunteers": {
+            "volunteers": "Bénévoles",
+            "add_volunteer": "Ajouter un bénévole"
+        },
+        "directors": {
+            "directors": "Directeurs",
+            "add_director": "Ajouter un directeurs"
         },
         "question": {
             "upload": "Téléverser votre fichier",

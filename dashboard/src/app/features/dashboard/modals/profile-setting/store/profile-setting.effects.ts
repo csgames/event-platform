@@ -32,7 +32,7 @@ export class ProfileSettingEffects {
     cvDownloaded$ = this.actions$.pipe(
         ofType<CvDownloaded>(ProfileSettingActionTypes.CvDownloaded),
         tap((action: CvDownloaded) => {
-            FileUtils.downloaFromLink(action.payload);
+            FileUtils.downloadFromLink(action.payload);
         })
     );
 

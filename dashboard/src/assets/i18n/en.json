@@ -48,6 +48,43 @@
         },
         "notification": {
             "no_notification": "You have no notifications"
+        },
+        "track_form": {
+            "label": "Track name",
+            "type": "Track type",
+            "release_date": "Release date",
+            "end_date": "End date"
+        },
+        "create_track": {
+            "create_track": "Create track",
+            "error": "An error occured while creating the track.",
+            "success": "Track created!"
+        },
+        "update_track": {
+            "update_track": "Update track",
+            "error": "An error occured while updating the track.",
+            "success": "Track updated!"
+        },
+        "puzzle_hero_settings": {
+            "puzzle_hero_settings": "Puzzle Hero settings",
+            "release_date": "Release date",
+            "end_date": "End date",
+            "scoreboard_end_date": "Scoreboard end date",
+            "open": "Open",
+            "success": "Settings updated!",
+            "error": "An error occured while saving the settings."
+        },
+        "update_puzzle": {
+            "success": "Puzzle updated!"
+        },
+        "create_puzzle": {
+            "success": "Puzzle created!"
+        },
+        "flashout_form": {
+            "flashout_informations": "Flash Out information",
+            "school": "School",
+            "url": "Video url",
+            "video_id": "Video Id (youtube)"
         }
     },
     "errors": {
@@ -71,7 +108,9 @@
             "send": "Send",
             "subscribe": "Subscribe",
             "subscribed": "Subscribed",
-            "validate": "Validate"
+            "validate": "Validate",
+            "edit": "Edit",
+            "vote": "Vote"
         },
         "error": {
             "something": "Something happened...",
@@ -100,7 +139,8 @@
             "success": "Success!"
         },
         "roles": {
-            "captain": "Captain"
+            "captain": "Captain",
+            "admin": "Admin"
         },
         "search": {
             "search": "Search"
@@ -108,6 +148,19 @@
         "update": {
             "update_available": "New version available!",
             "update": "Update"
+        },
+        "label": {
+            "start_at": "Starts at",
+            "end_at": "Ends at",
+            "description": "Description"
+        },
+        "track": {
+            "types": {
+                "crypto": "Cryptography",
+                "gaming": "Gaming",
+                "scavenger": "Scavenger Hunt",
+                "sponsor": "Sponsor"
+            }
         }
     },
     "pages": {
@@ -126,25 +179,30 @@
             "answered_all_questions": "You have answered all questions.",
             "ended": "Competition has ended"
         },
-        "guide": {
-            "guide": "Guide",
-            "hotel": "Get to the hotel",
-            "school": "Get to the school",
-            "parking": "Parkings",
-            "restaurants": "Restaurants and bars",
-            "what_to_bring": "What to bring?",
-            "map": "School map"
+        "flashouts": {
+            "vote_success": "The vote has been successfully saved.",
+            "vote_error": "Please rate all the flash outs before voting.",
+            "add_flashout": "Add a Flash Out"
         },
-        "home": {
-            "home": "Home"
-        },
-        "login": {
-            "forgot_pass": "Forgot password?",
-            "login": "Login",
-            "login_error": "Invalid e-mail or password.",
-            "sign_in": "Sign in"
-        },
-        "onboarding": {
+		"guide": {
+			"guide": "Guide",
+			"hotel": "Get to the hotel",
+			"school": "Get to the school",
+			"parking": "Parkings",
+			"restaurants": "Restaurants and bars",
+			"what_to_bring": "What to bring?",
+			"map": "School map"
+		},
+		"home": {
+			"home": "Home"
+		},
+		"login": {
+			"forgot_pass": "Forgot password?",
+			"login": "Login",
+			"login_error": "Invalid e-mail or password.",
+			"sign_in": "Sign in"
+		},
+		"onboarding": {
             "onboarding": "Onboarding",
             "agree": "I have read and agree the conditions and rules cited in ",
             "code": "this disclaimer"
@@ -163,7 +221,25 @@
             "loading_error": "An error occured while loading the puzzle hero",
             "scoreboard_loading_error": "An error occured while loading the scoreboard",
             "answer": "Answer here",
-            "validate_success": "Good answer!"
+            "validate_success": "Good answer!",
+            "validation_types": "Validation type",
+            "puzzle_types": "Puzzle type",
+            "answer_admin": "Answer",
+            "answer_placeholder": "Answer / URL",
+            "description_placeholder": "Your puzzle description here",
+            "admin": {
+                "add_track": "Add track",
+                "add_puzzle": "Add puzzle",
+                "released_on": "Released on",
+                "releasing_on": "Releasing on",
+                "ended_on": "Ended on",
+                "puzzle_available_for_attendees": "The puzzle hero is currently accessible by attendees.",
+                "puzzle_not_available_for_attendees": "The puzzle hero is not currently accessible by attendees.",
+                "label_placeholder": "Your puzzle title here",
+                "create_puzzle": "Add a puzzle",
+                "update_puzzle": "Update a puzzle",
+                "score": "Puzzle value"
+            }
         },
         "register": {
             "already_have_account": "Already have an account?",
@@ -192,13 +268,32 @@
             "godparent": "Godparent",
             "loading_error": "An error occured while loading the team.",
             "teams_loading_error": "An error occured while loading the teams.",
-            "no_godparent": "No godparent yet",
-            "not_registered": "Not registered",
-            "registered": "Registered",
-            "team": "Team",
-            "teams": "Teams",
-            "team_title": "Team",
-            "team_members": "Team members"
+			"no_godparent": "No godparent yet",
+			"not_registered": "Not registered",
+			"registered": "Registered",
+			"team": "Team",
+			"teams": "Teams",
+			"team_title": "Team",
+            "team_members": "Team members",
+            "max": "Maximum team members"
+		},
+        "notifications": {
+            "notifications": "Notifications"
+		},
+        "organizers": {
+            "organizers": "Organizers",
+            "add_organizer": "Add an organizer"
+        },
+        "attendees": {
+            "attendees": "Attendees"
+        },
+        "volunteers": {
+            "volunteers": "Volunteers",
+            "add_volunteer": "Add a volunteer"
+        },
+        "directors": {
+            "directors": "Directors",
+            "add_director": "Add a director"
         },
         "question": {
             "upload": "Upload your file",

@@ -25,9 +25,12 @@ export class ActivityCardComponent implements OnInit {
 
     }
 
-    public ngOnInit() { }
-
     public get lang(): string {
         return this.translateService.getDefaultLang();
     }
+
+    constructor(private store$: Store<State>,
+                private translateService: TranslateService) {}
+
+    public ngOnInit() {}
 }

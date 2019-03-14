@@ -1,12 +1,10 @@
-<div class="modal-centered fade slide-up show animated slideInDown scroll" tabindex="-1" role="dialog"
-     style="display: block;">
+<div class="modal-centered fade slide-up show animated slideInDown scroll" tabindex="-1" role="dialog" style="display: block;">
     <div class="modal-dialog">
         <div class="modal-content-wrapper">
             <div class="modal-content card">
                 <app-loading-spinner [loading]="loading$"></app-loading-spinner>
                 <div class="modal-header">
-                    <button type="button" class="close" (click)="onClose()"><span aria-hidden="true">×</span><span
-                        class="sr-only">{{ "general.button.close" | translate }}</span>
+                    <button type="button" class="close" (click)="onClose()"><span aria-hidden="true">×</span><span class="sr-only">{{ "general.button.close" | translate }}</span>
                     </button>
                     <div fxLayout="row" fxLayoutGap="10px" class="tile">
                         <ng-container [ngSwitch]="activity.type">
@@ -15,8 +13,10 @@
                             <i *ngSwitchCase="'food'" class="fal fa-utensils"></i>
                         </ng-container>
                         <div fxFlex>
-                            <p *ngIf="lang === 'en'" class="name">{{ activity.name.en }}</p>
-                            <p *ngIf="lang === 'fr'" class="name">{{ activity.name.fr }}</p>
+                            <div>
+                                <div *ngIf="lang === 'en'" class="name">{{ activity.name.en }}</div>
+                                <div *ngIf="lang === 'fr'" class="name">{{ activity.name.fr }}</div>
+                            </div>
                             <p class="hours">{{ time }} - {{ activity.endDate | hours }}</p>
                         </div>
                     </div>

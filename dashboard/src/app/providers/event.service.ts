@@ -48,4 +48,24 @@ export class EventService {
     public getRegisteredCompetitions(): Observable<Competition[]> {
         return this.apiService.event.getRegisteredCompetitions();
     }
+
+    public getAdmins(): Observable<Attendee[]> {
+        return this.apiService.event.getAttendees({ roles: ["admin"] });
+    }
+
+    public getVolunteers(): Observable<Attendee[]> {
+        return this.apiService.event.getAttendees({ roles: ["volunteer"] });
+    }
+
+    public getDirectors(): Observable<Attendee[]> {
+        return this.apiService.event.getAttendees({ roles: ["director"] });
+    }
+
+    public getAttendees(): Observable<Attendee[]> {
+        return this.apiService.event.getAttendees({ roles: ["captain", "attendee", "godparent"] });
+    }
+
+    public getAttendeesData(type: string): Observable<Blob> {
+        return this.apiService.event.getAttendees({ roles: ["captain", "attendee", "godparent"], type });
+    }
 }

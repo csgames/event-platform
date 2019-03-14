@@ -1,11 +1,12 @@
 import { Routes } from "@angular/router";
 import { NotRegisteredGuard } from "./utils/not-registered.guard";
 import { RegisteredGuard } from "./utils/registered.guard";
+import { FlashoutGuard } from "../flashout/guards/flashout.guard";
 
 export const DASHBOARD_ROUTES: Routes = [
     {
         path: "",
-        redirectTo: "team",
+        redirectTo: "schedule",
         pathMatch: "full"
     },
     // {
@@ -44,6 +45,32 @@ export const DASHBOARD_ROUTES: Routes = [
         path: "competition",
         loadChildren: "src/app/features/competitions/competitions.module#CompetitionsModule",
         canActivate: [RegisteredGuard]
+    },
+    {
+        path: "notifications",
+        loadChildren: "src/app/features/notifications/notifications.module#NotificationsModule",
+        canActivate: [RegisteredGuard]
+    },
+    {
+        path: "flash-out",
+        loadChildren: "src/app/features/flashout/flashout.module#FlashoutModule",
+        canActivate: [RegisteredGuard, FlashoutGuard]
+    },
+    {
+        path: "organizer",
+        loadChildren: "src/app/features/organizers/organizers.module#OrganizersModule"
+    },
+    {
+        path: "volunteer",
+        loadChildren: "src/app/features/volunteers/volunteers.module#VolunteersModule"
+    },
+    {
+        path: "director",
+        loadChildren: "src/app/features/directors/directors.module#DirectorsModule"
+    },
+    {
+        path: "attendee",
+        loadChildren: "src/app/features/attendees/attendees.module#AttendeesModule"
     },
     {
         path: "**",

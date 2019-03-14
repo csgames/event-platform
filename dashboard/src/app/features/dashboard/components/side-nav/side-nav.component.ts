@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from "@angular/core";
 import { Store, select } from "@ngrx/store";
 import { Observable } from "rxjs";
-import { map } from "rxjs/operators";
+import { map, withLatestFrom } from "rxjs/operators";
 import { getPuzzleHeroInfo, State, getRegisteredCompetitions } from "src/app/store/app.reducers";
 import * as fromApp from "src/app/store/app.reducers";
 import { Router } from "@angular/router";
@@ -20,13 +20,24 @@ export class SideNavComponent implements OnInit {
 
     get puzzleHeroOpen$(): Observable<boolean> {
         return this.puzzleHeroInfo$.pipe(
-            map(info => info && info.open)
+            withLatestFrom(this.attendee$),
+            map(([info, attendee]) => info.open || attendee && (attendee.role === "admin" || attendee.role === "super-admin"))
         );
     }
 
     get scoreboardOpen$(): Observable<boolean> {
         return this.puzzleHeroInfo$.pipe(
-            map(info => info && info.scoreboardOpen)
+            withLatestFrom(this.attendee$),
+            map(([info, attendee]) => info.scoreboardOpen || attendee && (attendee.role === "admin" || attendee.role === "super-admin"))
+        );
+    }
+
+    get flashoutOpen$(): Observable<boolean> {
+        return this.currentEvent$.pipe(
+            map(e => {
+                const now = new Date().toISOString();
+                return now > e.flashoutBeginDate && now < e.flashoutEndDate;
+            })
         );
     }
 

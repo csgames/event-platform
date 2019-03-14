@@ -4,12 +4,13 @@ import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { Event } from "./models/event";
 import { map } from "rxjs/operators";
-import { AttendeeModel } from "./models/attendee";
+import { Attendee, AttendeeModel } from "./models/attendee";
 import { EventGuide } from "./models/guide";
 import { Sponsors } from "./models/sponsors";
 import { Activity } from "./models/activity";
 import { Team } from "./models/team";
 import { AttendeeNotification } from "./models/notification";
+import { AttendeeVote, Flashout } from "./models/flashout";
 import { Competition } from "./models/competition";
 
 
@@ -84,5 +85,48 @@ export class EventApi extends CSGamesApi {
 
     public getRegisteredCompetitions(): Observable<Competition[]> {
         return this.http.get<Competition[]>(this.url("competition/member"), { withCredentials: true });
+    }
+
+    public sendSms(text: string) {
+        return this.http.post<void>(this.url("sms"), {
+            text
+        }, {
+            withCredentials: true
+        });
+    }
+    
+    public voteFlashouts(votes: { votes: AttendeeVote[] }): Observable<void> {
+        return this.http.put<void>(this.url("flash-out/rating"), votes, {
+            withCredentials: true
+        });
+    }
+
+    public sendPush(title: string, body: string) {
+        return this.http.post<void>(this.url("notification"), {
+            title,
+            body
+        }, {
+            withCredentials: true
+        });
+    }
+
+    public getAllFlashouts(): Observable<Flashout[]> {
+        return this.http.get<Flashout[]>(this.url("flash-out"), { withCredentials: true });
+    }
+
+    public getAttendees(query: { type?: string; roles?: string[]; } = {}): Observable<any> {
+        let queryParam = "?";
+        if (query.type) {
+            queryParam += `type=${query.type}&`;
+        }
+        if (query.roles) {
+            queryParam += `roles=${query.roles.join(",")}`;
+        }
+
+        if (query.type && query.type !== "json") {
+            return this.http.get(this.url(`attendee/${queryParam}`), { responseType: "blob", withCredentials: true });
+        } else {
+            return this.http.get(this.url(`attendee/${queryParam}`), { responseType: "json", withCredentials: true });
+        }
     }
 }

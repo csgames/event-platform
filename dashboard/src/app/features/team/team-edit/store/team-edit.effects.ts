@@ -25,7 +25,6 @@ import { Registration } from "../../../../api/models/registration";
 export class TeamEditEffects {
 
     constructor(private actions$: Actions,
-                private store$: Store<State>,
                 private registerService: RegisterService,
                 private schoolService: SchoolService,
                 private eventService: EventService) {}

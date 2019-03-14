@@ -1,0 +1,54 @@
+textarea {
+    resize: none;
+}
+
+textarea:focus {
+    outline: none !important;
+    border:1px solid #0D5899;
+}
+
+h1 {
+    text-transform: uppercase;
+}
+
+.form-group {
+    margin-bottom: 0px;
+}
+
+.form-control {
+    margin-bottom: 5px;
+}
+
+input:focus {
+    outline: none !important;
+    border:1px solid #0D5899;
+}
+
+.infoText {
+    font-size: 18px;
+    text-align: left;
+}
+
+.text-only {
+    text-align: left;
+}
+
+.full-width {
+    width: 100%;
+}
+
+.activity-select {
+    margin-right: 0px;
+    margin-left: 0px;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+}
+
+.title {
+    padding-left: 0px;
+    margin: auto 0px;
+}
+
+.auto-height {
+    height: auto !important;
+}

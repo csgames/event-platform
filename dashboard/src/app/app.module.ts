@@ -36,7 +36,16 @@ import { PasswordService } from "./providers/password.service";
 import { ToastrModule } from "ngx-toastr";
 import { NgxMaskModule } from "ngx-mask";
 import { ResetModule } from "./features/reset/reset.module";
-import { AccordionModule, TooltipModule } from "ngx-bootstrap";
+import {
+    AccordionModule,
+    PopoverModule,
+    AlertModule,
+    TooltipModule,
+    TimepickerModule,
+    DatepickerModule,
+    RatingModule,
+    BsDatepickerModule
+} from "ngx-bootstrap";
 import { SponsorsService } from "./providers/sponsors.service";
 import { ScheduleService } from "./providers/schedule.service";
 import { RoleGuard } from "./guards/role.guard";
@@ -45,6 +54,8 @@ import { PuzzleHeroService } from "./providers/puzzle-hero.service";
 import { NotificationService } from "./providers/notification.service";
 import { UpdateModule } from "./update/update.module";
 import { CompetitionsService } from "./providers/competitions.service";
+import { FlashoutService } from "./providers/flashout.service";
+import { FormsModule } from "@angular/forms";
 
 export function loadFactory(http: HttpClient): TranslateHttpLoader {
     return new TranslateHttpLoader(http, "../assets/i18n/", ".json");
@@ -59,6 +70,8 @@ export function loadFactory(http: HttpClient): TranslateHttpLoader {
         BsDropdownModule.forRoot(),
         TooltipModule.forRoot(),
         AccordionModule.forRoot(),
+        PopoverModule.forRoot(),
+        AlertModule.forRoot(),
         DashboardModule,
         LoginModule,
         RegisterModule,
@@ -72,6 +85,9 @@ export function loadFactory(http: HttpClient): TranslateHttpLoader {
                 deps: [HttpClient]
             }
         }),
+        BsDatepickerModule.forRoot(),
+        DatepickerModule.forRoot(),
+        TimepickerModule.forRoot(),
         NgxMaskModule.forRoot(),
         ApiModule,
         ForgetModule,
@@ -103,9 +119,9 @@ export function loadFactory(http: HttpClient): TranslateHttpLoader {
         PuzzleHeroService,
         ScheduleService,
         NotificationService,
+        FlashoutService,
         CompetitionsService
     ],
     bootstrap: [AppComponent]
 })
-export class AppModule {
-}
+export class AppModule { }

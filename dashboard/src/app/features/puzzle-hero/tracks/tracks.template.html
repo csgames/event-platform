@@ -25,6 +25,7 @@
                     <hr>
 
                     <app-track *ngFor="let track of starredTracks" (clickStar)="clickStar(track)"
+                               (clickPuzzle)="clickPuzzle($event, track)"
                                (openChange)="trackOpenChange(track, $event)" [track]="track"
                                [startsOpen]="isTrackOpen(track)"></app-track>
 
@@ -40,6 +41,7 @@
 
                     <hr>
                     <app-track *ngFor="let track of otherTracks" (openChange)="trackOpenChange(track, $event)"
+                               (clickPuzzle)="clickPuzzle($event, track)"
                                (clickStar)="clickStar(track)" [track]="track"
                                [startsOpen]="isTrackOpen(track)"></app-track>
                 </ng-container>
