@@ -27,6 +27,30 @@ export class ScheduleService {
         return dates;
     }
 
+    public getNextActivities(activities: Activity[]): Activity[] {
+        const sorted = activities.sort((a, b) => a.beginDate < b.beginDate ? -1 : 1);
+        const now = new Date();
+        const nextActivities = [];
+        for (const a of sorted) {
+            const date = new Date(a.beginDate);
+            if (now <= date) {
+                if (nextActivities.length === 0) {
+                    nextActivities.push(a);
+                } else {
+                    const first = new Date(nextActivities[0].beginDate);
+                    const day1 = formatDate(first, this.getDateFormat(), this.translateService.getDefaultLang(), "utc");
+                    const time1 = formatDate(first, "h:mm a", this.translateService.getDefaultLang(), "utc");
+                    const day2 = formatDate(date, this.getDateFormat(), this.translateService.getDefaultLang(), "utc");
+                    const time2 = formatDate(date, "h:mm a", this.translateService.getDefaultLang(), "utc");
+                    if (day1 === day2 && time1 === time2) {
+                        nextActivities.push(a);
+                    }
+                }
+            }
+        }
+        return nextActivities;
+    }
+
     private getDateFormat(): string {
         if (this.translateService.getDefaultLang() === "en") {
             return "MMMM d";

@@ -6,13 +6,14 @@ import { FlashoutGuard } from "../flashout/guards/flashout.guard";
 export const DASHBOARD_ROUTES: Routes = [
     {
         path: "",
-        redirectTo: "schedule",
+        redirectTo: "home",
         pathMatch: "full"
     },
-    // {
-    //     path: "home",
-    //     loadChildren: "src/app/features/home/home.module#HomeModule",
-    // },
+    {
+        path: "home",
+        loadChildren: "src/app/features/home/home.module#HomeModule",
+        canActivate: [RegisteredGuard]
+    },
     {
         path: "team",
         loadChildren: "src/app/features/team/team.module#TeamModule",
@@ -74,7 +75,7 @@ export const DASHBOARD_ROUTES: Routes = [
     },
     {
         path: "**",
-        redirectTo: "team",
+        redirectTo: "home",
         pathMatch: "full"
     }
 ];

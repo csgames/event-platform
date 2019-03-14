@@ -174,9 +174,10 @@
             "participate": "Participate",
             "subscribed": "Subscribed competitions",
             "wrong_password": "Wrong password",
-            "loading_error": "An error occured while loading the competition",
+            "loading_error": "An error occured while loading the competitions",
             "live": "Happening now",
             "validate_success": "You have the right password!",
+            "next": "Next competitions",
             "answered": "Answered questions",
             "not_answered": "Not answered questions",
             "answered_all_questions": "You have answered all questions.",
@@ -251,27 +252,28 @@
             "confirm_password": "Confirm password",
             "register": "Register",
             "validation_error": "An error occured while validating your invitation."
-        },
-        "schedule": {
-            "schedule": "Schedule",
-            "view_competition": "View competition"
-        },
-        "sponsors": {
-            "bronze": "Bronze",
-            "gold": "Gold",
-            "partner": "Partner",
-            "platinum": "Platinum",
-            "silver": "Silver",
-            "sponsors": "Sponsors"
-        },
-        "team": {
-            "add_a_godparent": "Add a godparent",
-            "add_a_member": "Add a team member",
-            "add_godparent": "Add godparent",
-            "add_member": "Add member",
-            "add_team": "Add team",
-            "godparent": "Godparent",
-            "loading_error": "An error occured while loading the team.",
+		},
+		"schedule": {
+			"schedule": "Schedule",
+			"view_competition": "View competition",
+            "next": "Next activities"
+		},
+		"sponsors": {
+			"bronze": "Bronze",
+			"gold": "Gold",
+			"partner": "Partner",
+			"platinum": "Platinum",
+			"silver": "Silver",
+			"sponsors": "Sponsors"
+		},
+		"team": {
+			"add_a_godparent": "Add a godparent",
+			"add_a_member": "Add a team member",
+			"add_godparent": "Add godparent",
+			"add_member": "Add member",
+			"add_team": "Add team",
+			"godparent": "Godparent",
+			"loading_error": "An error occured while loading the team.",
             "teams_loading_error": "An error occured while loading the teams.",
 			"no_godparent": "No godparent yet",
 			"not_registered": "Not registered",

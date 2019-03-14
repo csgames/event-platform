@@ -184,6 +184,7 @@
             "loading_error": "Une erreur est survenue lors du chargement de la compétition.",
             "live": "En ce moment",
             "validate_success": "Vous avez le bon mot de passe",
+            "next": "Prochaines compétitions",
             "answered": "Questions répondues",
             "not_answered": "Questions non-répondues",
             "answered_all_questions": "Vous avez répondu à toutes les questions.",
@@ -254,7 +255,8 @@
         },
         "schedule": {
             "schedule": "Horaire",
-            "view_competition": "Voir la compétition"
+            "view_competition": "Voir la compétition",
+            "next": "Prochaines activitées"
         },
         "sponsors": {
             "bronze": "Bronze",

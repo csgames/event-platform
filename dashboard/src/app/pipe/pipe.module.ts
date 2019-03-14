@@ -8,14 +8,14 @@ import { T18NPipe } from "./t18n.pipe";
     declarations: [
         TimeAgoPipe,
         HoursPipe,
-        T18NPipe,
-        SafePipe
+        SafePipe,
+        T18NPipe
     ],
     exports: [
         TimeAgoPipe,
         HoursPipe,
-        T18NPipe,
-        SafePipe
+        SafePipe,
+        T18NPipe
     ]
 })
 export class PipeModule {}
