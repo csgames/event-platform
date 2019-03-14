@@ -1,10 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 import { Activity } from "../../../api/models/activity";
-import { select, Store } from "@ngrx/store";
+import { Store } from "@ngrx/store";
 import { State } from "../store/schedule.reducer";
-import { getCurrentAttendee } from "../../../store/app.reducers";
-import { Observable } from "rxjs";
-import { map } from "rxjs/operators";
 import { TranslateService } from "@ngx-translate/core";
 
 @Component({
@@ -21,16 +18,11 @@ export class ActivityCardComponent implements OnInit {
     @Output()
     public info = new EventEmitter();
 
-    constructor(private store$: Store<State>, private translateService: TranslateService) {
-
-    }
+    constructor(private store$: Store<State>, private translateService: TranslateService) {}
 
     public get lang(): string {
         return this.translateService.getDefaultLang();
     }
-
-    constructor(private store$: Store<State>,
-                private translateService: TranslateService) {}
 
     public ngOnInit() {}
 }

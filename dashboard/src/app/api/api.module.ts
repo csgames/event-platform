@@ -31,6 +31,7 @@ import { CompetitionApi } from "./competition.api";
         PuzzleHeroApi,
         ApiService,
         UserApi,
+        ActivityApi,
         CompetitionApi,
         FlashoutApi
     ]
