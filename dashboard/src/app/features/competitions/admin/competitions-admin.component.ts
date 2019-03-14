@@ -1,7 +1,11 @@
 import { Component, OnInit } from "@angular/core";
 import { select, Store } from "@ngrx/store";
-import { getActivities, State } from "./store/competition-admin.reducer";
-import { LoadActivities } from "./store/competition-admin.actions";
+import { getActivities, 
+         State, 
+         getCompetitionsAdminLoading, 
+         getCompetitionsAdminError, 
+         getCompetitionsAdmin } from "./store/competition-admin.reducer";
+import { LoadActivities, LoadCompetitionsAdmin } from "./store/competition-admin.actions";
 
 @Component({
     selector: "app-competitions-admin",
@@ -11,10 +15,15 @@ import { LoadActivities } from "./store/competition-admin.actions";
 })
 export class CompetitionsAdminComponent implements OnInit {
     activities$ = this.store$.pipe(select(getActivities));
-
+    competitions$ = this.store$.pipe(select(getCompetitionsAdmin));
+    loading$ = this.store$.pipe(select(getCompetitionsAdminLoading));
+    error$ = this.store$.pipe(select(getCompetitionsAdminError));
+    
     constructor(private store$: Store<State>) { }
 
-    public ngOnInit() {
+    ngOnInit() {
+        this.store$.dispatch(new LoadCompetitionsAdmin());
         this.store$.dispatch(new LoadActivities());
     }
+        
 }
