@@ -22,28 +22,28 @@ export class CompetitionsService {
         return this.apiService.competition.validatePassword(competitionId, authCompetition);
     }
 
-    public getNextCompetitons(competitions: Competition[]): Competition[] {
+    public getNextCompetitions(competitions: Competition[]): Competition[] {
         const sorted = competitions.sort((a, b) => a.activities[0].beginDate < b.activities[0].beginDate ? -1 : 1);
         const now = new Date();
-        const nextCompetitons = [];
+        const nextCompetitions = [];
         for (const c of sorted) {
             const date = new Date(c.activities[0].beginDate);
             if (now <= date) {
-                if (nextCompetitons.length === 0) {
-                    nextCompetitons.push(c);
+                if (nextCompetitions.length === 0) {
+                    nextCompetitions.push(c);
                 } else {
-                    const first = new Date(nextCompetitons[0].activities[0].beginDate);
+                    const first = new Date(nextCompetitions[0].activities[0].beginDate);
                     const day1 = formatDate(first, this.getDateFormat(), this.translateService.getDefaultLang(), "utc");
                     const time1 = formatDate(first, "h:mm a", this.translateService.getDefaultLang(), "utc");
                     const day2 = formatDate(date, this.getDateFormat(), this.translateService.getDefaultLang(), "utc");
                     const time2 = formatDate(date, "h:mm a", this.translateService.getDefaultLang(), "utc");
                     if (day1 === day2 && time1 === time2) {
-                        nextCompetitons.push(c);
+                        nextCompetitions.push(c);
                     }
                 }
             }
         }
-        return nextCompetitons;
+        return nextCompetitions;
     }
 
     private getDateFormat(): string {

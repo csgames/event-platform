@@ -51,7 +51,7 @@ export class HomeComponent implements OnInit, OnDestroy {
             this.nextActivities = this.scheduleService.getNextActivities(activities);
         });
         this.competitionsSub$ = this.competitions$.subscribe((competitions) => {
-            this.nextCompetitions = this.competitionsService.getNextCompetitons(competitions);
+            this.nextCompetitions = this.competitionsService.getNextCompetitions(competitions);
             console.log(this.nextCompetitions)
         });
     }
