@@ -8,7 +8,7 @@ export interface FlashOut extends mongoose.Document {
     school: Schools | mongoose.Types.ObjectId | string;
     videoId: string;
     votes: Votes[];
-    averageRating: Number;
+    averageRating: number;
 }
 
 export const FlashOutSchema = new mongoose.Schema({
