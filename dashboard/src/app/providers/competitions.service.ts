@@ -29,7 +29,7 @@ export class CompetitionsService {
         return this.apiService.competition.validateQuestion(competitionId, questionId, questionAnswerDto);
     }
 
-    public updateCompetition(competitionId: string): Observable<void> {
-        return this.apiService.competition.updateCompetition(competitionId);
+    public updateCompetition(competitionId: string, dto: CompetitionFormDto): Observable<void> {
+        return this.apiService.competition.updateCompetition(competitionId, dto);
     }
 }

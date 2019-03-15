@@ -50,7 +50,7 @@
                 </div>
             </div>
             <div class="col-sm-6 col-lg-6" *ngFor="let competition of competitions">
-                <app-competition-card [competition]="competition">
+                <app-competition-card [competition]="competition" (edit)="onEdit(competition)">
                 </app-competition-card>
             </div>
         </div>

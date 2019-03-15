@@ -13,7 +13,8 @@ export enum CompetitionsAdminActionTypes {
     LoadDirectors = "[Competition admin] Load directors",
     DirectorsLoaded = "[Competition admin] Directors loaded",
     CreateCompetition = "[Competition admin] Create competition",
-    CreateCompetitionSuccess = "[Competition admin] Create competition success"
+    CreateCompetitionSuccess = "[Competition admin] Create competition success",
+    EditCompetition = "[Competition admin] Edit competition"
 }
 
 export class LoadCompetitionsAdmin implements Action {
@@ -64,6 +65,12 @@ export class CreateCompetitionSuccess implements Action {
     readonly type = CompetitionsAdminActionTypes.CreateCompetitionSuccess;
 }
 
+export class EditCompetition implements Action {
+    readonly type = CompetitionsAdminActionTypes.EditCompetition;
+
+    constructor(public payload: Competition) {}
+}
+
 export type CompetitionAdminActions =
     | LoadCompetitionsAdmin
     | CompetitionsAdminLoaded
@@ -73,4 +80,5 @@ export type CompetitionAdminActions =
     | LoadDirectors
     | DirectorsLoaded
     | CreateCompetition
-    | CreateCompetitionSuccess;
+    | CreateCompetitionSuccess
+    | EditCompetition;

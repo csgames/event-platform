@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { select, Store } from "@ngrx/store";
+import { Competition } from "../../../api/models/competition";
 import {
     getActivities,
     getCompetitionsAdmin,
@@ -7,7 +8,9 @@ import {
     getCompetitionsAdminLoading, getDirectors,
     State
 } from "./store/competition-admin.reducer";
-import { CreateCompetition, LoadActivities, LoadCompetitionsAdmin, LoadDirectors } from "./store/competition-admin.actions";
+import {
+    CreateCompetition, EditCompetition, LoadActivities, LoadCompetitionsAdmin, LoadDirectors
+} from "./store/competition-admin.actions";
 import { CompetitionFormComponent } from "./components/competition-form/competition-form.component";
 import { CompetitionFormDto } from "./components/competition-form/dto/competition-form.dto";
 
@@ -53,5 +56,9 @@ export class CompetitionsAdminComponent implements OnInit {
         }
         this.store$.dispatch(new CreateCompetition(this.dto));
         this.onCancelCompetition();
+    }
+
+    public onEdit(competition: Competition) {
+        this.store$.dispatch(new EditCompetition(competition));
     }
 }

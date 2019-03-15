@@ -1,5 +1,6 @@
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
+import { RouterModule } from "@angular/router";
 import { TranslateModule } from "@ngx-translate/core";
 import { DirectivesModule } from "src/app/directives/directives.module";
 import { LoadingSpinnerModule } from "src/app/components/loading-spinner/loading-spinner.module";
@@ -18,7 +19,8 @@ import { AttendeeViewModule } from "src/app/components/attendee-view/attendee-vi
         TabsModule.forRoot(),
         FlexLayoutModule,
         PipeModule,
-        AttendeeViewModule
+        AttendeeViewModule,
+        RouterModule
     ],
     declarations: [CompetitionCardComponent],    
     exports: [CompetitionCardComponent]
