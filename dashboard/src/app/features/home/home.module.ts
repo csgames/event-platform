@@ -11,6 +11,7 @@ import { FlexLayoutModule } from "@angular/flex-layout";
 import { CompetitionsModule } from "../competitions/competitions.module";
 import { PuzzleHeroModule } from "../puzzle-hero/puzzle-hero.module";
 import { PuzzleComponentsModule } from "../puzzle-hero/components/puzzle-components.module";
+import { DirectivesModule } from "src/app/directives/directives.module";
 
 @NgModule({
     imports: [
@@ -23,7 +24,8 @@ import { PuzzleComponentsModule } from "../puzzle-hero/components/puzzle-compone
         FlexLayoutModule,
         CompetitionsModule,
         PuzzleHeroModule,
-        PuzzleComponentsModule
+        PuzzleComponentsModule,
+        DirectivesModule
     ],
     declarations: [HomeComponent]
 })

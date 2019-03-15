@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
 import { SimpleModalComponent } from "ngx-simple-modal";
 import { Store, select } from "@ngrx/store";
-import { State, getNotifications } from "./store/notifications.reducer";
+import { State, getNotifications, getNotificationsLoading } from "./store/notifications.reducer";
 import { Subscription } from "rxjs";
 import { AttendeeNotification } from "../../api/models/notification";
 import { LoadNotifications } from "./store/notifications.actions";
@@ -14,6 +14,7 @@ import { LoadNotifications } from "./store/notifications.actions";
 
 export class NotificationsListModalComponent extends SimpleModalComponent<void, void> implements OnInit, OnDestroy {
     notifications$ = this.store$.pipe(select(getNotifications));
+    loading$ = this.store$.pipe(select(getNotificationsLoading));
 
     private notificationSub$: Subscription;
     public notifications: AttendeeNotification[];

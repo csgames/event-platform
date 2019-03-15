@@ -9,6 +9,8 @@
                 <svg:rect x="10" y="358" rx="8" ry="8" width="220" height="34" />
                 <svg:rect x="10" y="397" rx="8" ry="8" width="220" height="34" />
                 <svg:rect x="10" y="436" rx="8" ry="8" width="220" height="34" />
+                <svg:rect x="10" y="475" rx="8" ry="8" width="220" height="34" />
+                <svg:rect x="10" y="514" rx="8" ry="8" width="220" height="34" />
             </svg>
         </div>
     </ng-container>
@@ -141,16 +143,27 @@
                     </div>
                 </div>
             </a>
-            <a *ngIf="(attendee$ | async)?.registered" [routerLink]="['/competition']" routerLinkActive="active">
-                <div [fxLayout]="'row'" fxFlexFill>
-                    <div fxFlex="20">
-                        <i class="fal fa-trophy"></i>
+            <ng-container  *ifRole="['attendee', 'captain']">
+                <a *ngIf="(attendee$ | async)?.registered" [routerLink]="['/competition']" routerLinkActive="active">
+                    <div [fxLayout]="'row'" fxFlexFill>
+                        <div fxFlex="20">
+                            <i class="fal fa-trophy"></i>
+                        </div>
+                        <div fxFlex="80">
+                            {{ "pages.competition.competitions" | translate }}
+                        </div>
                     </div>
-                    <div fxFlex="80">
-                        {{ "pages.competition.competitions" | translate }}
-                    </div>
+                </a>
+                <div class="sublinks" *ngIf="isActive('competition')">
+                    <ng-container *ngIf="registeredCompetitions$ | async as registeredCompetitions">
+                        <div *ngFor="let competition of registeredCompetitions">
+                            <a [routerLink]="['/competition/', competition._id]" routerLinkActive="active">
+                                {{ competition.activities[0].name | t18n }}
+                            </a>
+                        </div>
+                    </ng-container>
                 </div>
-            </a>
+            </ng-container>
             <ng-container *ifRole="['attendee', 'captain', 'godparent']">
                 <a *ngIf="(attendee$ | async)?.registered  && (flashoutOpen$ | async)" [routerLink]="['/flash-out']"
                     routerLinkActive="active">
@@ -210,15 +223,7 @@
                     </div>
                 </div>
             </a>
-            <div class="sublinks" *ngIf="isActive('competition')">
-                <ng-container *ngIf="registeredCompetitions$ | async as registeredCompetitions">
-                    <div *ngFor="let competition of registeredCompetitions">
-                        <a [routerLink]="['/competition/', competition._id]" routerLinkActive="active">
-                            {{ competition.activities[0].name | t18n }}
-                        </a>
-                    </div>
-                </ng-container>
-            </div>
+            
         </div>
     </ng-template>
 </div>
