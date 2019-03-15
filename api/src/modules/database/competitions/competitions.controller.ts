@@ -24,7 +24,7 @@ import {
     AuthCompetitionDto, CreateCompetitionDto, CreateCompetitionQuestionDto, CreateDirectorDto, UpdateCompetitionDto
 } from './competitions.dto';
 import { Competitions } from './competitions.model';
-import { CompetitionsService } from './competitions.service';
+import { CompetitionResult, CompetitionsService } from './competitions.service';
 import { User } from '../../../decorators/user.decorator';
 import { UserModel } from '../../../models/user.model';
 import { QuestionGraphNodes } from './questions/question-graph-nodes.model';
@@ -96,13 +96,20 @@ export class CompetitionsController {
         return await this.competitionService.getById(eventId, competitionId, user);
     }
 
+    @Get(':id/result')
+    @Permissions('csgames-api:get:competition')
+    public async getCompetitionResult(@EventId() eventId: string,
+                                      @Param('id') competitionId: string): Promise<CompetitionResult> {
+        return await this.competitionService.getResult(eventId, competitionId);
+    }
+
     @Get(':id/question/:questionId/result')
     @UseInterceptors(new BufferInterceptor("application/zip"))
     @Permissions('csgames-api:get:competition')
     public async getQuestionResult(@EventId() eventId: string,
                                    @Param('id') competitionId: string,
                                    @Param('questionId') questionId: string): Promise<Buffer> {
-        return await this.competitionService.getResult(eventId, competitionId, questionId);
+        return await this.competitionService.getQuestionResult(eventId, competitionId, questionId);
     }
 
     @Put(':id')
