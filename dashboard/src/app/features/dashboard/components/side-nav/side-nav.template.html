@@ -154,16 +154,16 @@
                         </div>
                     </div>
                 </a>
+                <div class="sublinks" *ngIf="isActive('competition')">
+                    <ng-container *ngIf="registeredCompetitions$ | async as registeredCompetitions">
+                        <div *ngFor="let competition of registeredCompetitions">
+                            <a [routerLink]="['/competition/', competition._id]" routerLinkActive="active">
+                                {{ competition.activities[0].name | t18n }}
+                            </a>
+                        </div>
+                    </ng-container>
+                </div>
             </ng-container>
-            <div class="sublinks" *ngIf="isActive('competition')">
-                <ng-container *ngIf="registeredCompetitions$ | async as registeredCompetitions">
-                    <div *ngFor="let competition of registeredCompetitions">
-                        <a [routerLink]="['/competition/', competition._id]" routerLinkActive="active">
-                            {{ competition.activities[0].name | t18n }}
-                        </a>
-                    </div>
-                </ng-container>
-            </div>
             <ng-container *ifRole="['attendee', 'captain', 'godparent']">
                 <a *ngIf="(attendee$ | async)?.registered  && (flashoutOpen$ | async)" [routerLink]="['/flash-out']"
                     routerLinkActive="active">
