@@ -49,7 +49,7 @@ export class CompetitionsController {
 
     @Post(':id/auth')
     @HttpCode(HttpStatus.OK)
-    @Permissions('csgames-api:get:competition')
+    @Permissions('csgames-api:auth:competition')
     public async auth(@EventId() eventId: string,
                       @Param('id') competitionId: string,
                       @Body(new ValidationPipe()) dto: AuthCompetitionDto,
@@ -97,7 +97,7 @@ export class CompetitionsController {
     }
 
     @Get(':id/result')
-    @Permissions('csgames-api:get:competition')
+    @Permissions('csgames-api:get-result:competition')
     public async getCompetitionResult(@EventId() eventId: string,
                                       @Param('id') competitionId: string): Promise<CompetitionResult> {
         return await this.competitionService.getResult(eventId, competitionId);
@@ -105,7 +105,7 @@ export class CompetitionsController {
 
     @Get(':id/question/:questionId/result')
     @UseInterceptors(new BufferInterceptor("application/zip"))
-    @Permissions('csgames-api:get:competition')
+    @Permissions('csgames-api:get-result:competition')
     public async getQuestionResult(@EventId() eventId: string,
                                    @Param('id') competitionId: string,
                                    @Param('questionId') questionId: string): Promise<Buffer> {
