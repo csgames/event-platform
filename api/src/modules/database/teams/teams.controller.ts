@@ -44,6 +44,17 @@ export class TeamsController {
         return this.getTeamByUserAndEvent(eventId, user.username);
     }
 
+    @Get('info/:email')
+    @Permissions('csgames-api:get:team')
+    public async getAttendeeTeamInfo(@Param('email') email: string, @EventId() eventId: string): Promise<Teams> {
+        const attendee = await this.attendeesService.findOne({ email });
+        if (!attendee) {
+            return null;
+        }
+
+        return await this.teamsService.getTeamInfo(attendee._id, eventId);
+    }
+
     @Get('event/:eventId/user/:email')
     @Permissions('csgames-api:get:team')
     public async getTeamByUserAndEvent(@Param('eventId') event: string, @Param('email') email: string): Promise<Teams> {

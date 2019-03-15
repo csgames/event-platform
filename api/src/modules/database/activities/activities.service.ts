@@ -25,7 +25,7 @@ export class ActivitiesService extends BaseService<Activities, CreateActivityDto
             _id: { $in: activitiesId }
         }).lean().exec();
 
-        if (user.role.endsWith("admin")) {
+        if (user.role.endsWith("admin") || user.role === "volunteer") {
             return activities;
         }
 
