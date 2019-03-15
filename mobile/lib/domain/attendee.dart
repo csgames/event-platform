@@ -34,6 +34,7 @@ class Attendee {
   bool hasDietaryRestrictions;
   String dietaryRestrictions;
   String publicId;
+  bool needsTransportPass;
 
   Attendee({
     this.id,
@@ -51,7 +52,8 @@ class Attendee {
     this.acceptSmsNotification,
     this.hasDietaryRestrictions,
     this.dietaryRestrictions,
-    this.publicId
+    this.publicId,
+    this.needsTransportPass
   });
 
   Attendee.fromMap(Map<String, dynamic> map) {
@@ -71,6 +73,7 @@ class Attendee {
     hasDietaryRestrictions = map['hasDietaryRestrictions'];
     dietaryRestrictions = map['dietaryRestrictions'];
     publicId = map['publicId'];
+    needsTransportPass = map['needsTransportPass'];
   }
 
   Attendee.fromInfoMap(Map<String, dynamic> map) {
@@ -89,6 +92,7 @@ class Attendee {
         hasDietaryRestrictions = map['hasDietaryRestrictions'];
         dietaryRestrictions = map['dietaryRestrictions'];
         publicId = map['publicId'];
+        needsTransportPass = map['needsTransportPass'];
     }
 }
 

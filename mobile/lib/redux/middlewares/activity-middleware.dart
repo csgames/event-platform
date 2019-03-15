@@ -2,11 +2,13 @@ import 'dart:async';
 
 import 'package:CSGamesApp/domain/activity.dart';
 import 'package:CSGamesApp/domain/attendee.dart';
+import 'package:CSGamesApp/domain/team.dart';
 import 'package:CSGamesApp/redux/actions/activity-actions.dart';
 import 'package:CSGamesApp/redux/state.dart';
 import 'package:CSGamesApp/services/activities.service.dart';
 import 'package:CSGamesApp/services/attendees.service.dart';
 import 'package:CSGamesApp/services/nfc.service.dart';
+import 'package:CSGamesApp/services/team.service.dart';
 import 'package:redux_epics/redux_epics.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -14,11 +16,13 @@ class ActivityMiddleware implements EpicClass<AppState> {
     final NfcService _nfcService;
     final AttendeesService _attendeesService;
     final ActivitiesService _activitiesService;
+    final TeamService _teamService;
 
     ActivityMiddleware(
         this._nfcService,
         this._attendeesService,
-        this._activitiesService
+        this._activitiesService,
+        this._teamService
     );
 
     @override
@@ -48,7 +52,9 @@ class ActivityMiddleware implements EpicClass<AppState> {
                 }
 
                 Activity activity = await _activitiesService.addAttendeeToActivity(attendee.id, activityId);
-                return AttendeeScanned(activity, attendee);
+
+                Team team = await this._teamService.getAttendeeTeam(attendee);
+                return AttendeeScanned(activity, attendee, team);
             });
     }
 }

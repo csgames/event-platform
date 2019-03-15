@@ -10,7 +10,15 @@ final activityReducer = combineReducers<ActivityState>([
 ]);
 
 ActivityState _setError(_, dynamic action) {
-  return ActivityState(isLoading: false, hasErrors: true, isScanned: false, activity: null, errorTitle: action.title, errorContent: action.content);
+    return ActivityState(
+        isLoading: false,
+        hasErrors: true,
+        isScanned: false,
+        activity: null,
+        errorTitle: action.title,
+        errorContent: action.content,
+        team: null
+    );
 }
 
 ActivityState _setInitial(_, ResetActivity action) {
@@ -18,7 +26,16 @@ ActivityState _setInitial(_, ResetActivity action) {
 }
 
 ActivityState _setScanned(_, AttendeeScanned action) {
-  return ActivityState(isLoading: false, hasErrors: false, isScanned: true, attendee: action.attendee, activity: action.activity, errorTitle: '', errorContent: '');
+    return ActivityState(
+        isLoading: false,
+        hasErrors: false,
+        isScanned: true,
+        attendee: action.attendee,
+        activity: action.activity,
+        errorTitle: '',
+        errorContent: '',
+        team: action.team
+    );
 }
 
 ActivityState _setActivity(ActivityState state, SetCurrentActivity action) {
@@ -29,6 +46,7 @@ ActivityState _setActivity(ActivityState state, SetCurrentActivity action) {
         attendee: state.attendee,
         activity: action.activity,
         errorTitle: state.errorTitle,
-        errorContent: state.errorContent
+        errorContent: state.errorContent,
+        team: state.team
     );
 }

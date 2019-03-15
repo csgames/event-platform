@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:CSGamesApp/domain/attendee.dart';
+import 'package:CSGamesApp/domain/team.dart';
 
 class InitAction {}
 
@@ -46,8 +47,9 @@ class ErrorAction {
 
 class SearchCompletedAction {
   final Attendee attendee;
+  final Team team;
 
-  SearchCompletedAction(this.attendee);
+  SearchCompletedAction(this.attendee, this.team);
 }
 
 class ClearAttendeeAction {}

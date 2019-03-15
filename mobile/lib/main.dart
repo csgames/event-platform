@@ -84,9 +84,9 @@ void main() {
             EpicMiddleware<AppState>(EventMiddleware(eventsService, authService, httpClient)),
             EpicMiddleware<AppState>(ActivitiesScheduleMiddleware(eventsService, scheduleService)),
             EpicMiddleware<AppState>(LoginMiddleware(authService, firebaseMessaging, attendeesService)),
-            EpicMiddleware<AppState>(ActivityMiddleware(nfcService, attendeesService, activitiesService)),
-            EpicMiddleware<AppState>(AttendeeRetrievalMiddleware(nfcService, attendeesService, qrCodeReader)),
             EpicMiddleware<AppState>(ProfileMiddleware(qrCodeReader, attendeesService, eventsService, teamService)),
+            EpicMiddleware<AppState>(ActivityMiddleware(nfcService, attendeesService, activitiesService, teamService)),
+            EpicMiddleware<AppState>(AttendeeRetrievalMiddleware(nfcService, attendeesService, qrCodeReader, teamService)),
             EpicMiddleware<AppState>(NotificationMiddleware(firebaseMessaging, attendeesService, eventsService, activitiesService))
         ]
     );

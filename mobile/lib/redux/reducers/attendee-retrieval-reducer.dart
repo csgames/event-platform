@@ -27,7 +27,8 @@ AttendeeRetrievalState _setInit(AttendeeRetrievalState state, InitAction action)
         idSaved: false,
         errorTitle: null,
         errorDescription: null,
-        attendee: state.attendee
+        attendee: state.attendee,
+        team: state.team
     );
 }
 
@@ -40,7 +41,8 @@ AttendeeRetrievalState _setClean(AttendeeRetrievalState state, CleanAction actio
     errorTitle: '',
     errorDescription: '',
     attendee: action.attendee,
-    isInit: true
+    isInit: true,
+    team: state.team
   );
 }
 
@@ -53,7 +55,8 @@ AttendeeRetrievalState _setNfcScannedError(AttendeeRetrievalState state, NfcAlre
     errorTitle: '',
     errorDescription: '',
     attendee: action.attendee,
-    isInit: true
+    isInit: true,
+    team: state.team
   );
 }
 
@@ -66,7 +69,8 @@ AttendeeRetrievalState _setNfcAssigned(AttendeeRetrievalState state, NfcAssigned
     errorTitle: '',
     errorDescription: '',
     attendee: action.attendee,
-    isInit: true
+    isInit: true,
+    team: state.team
   );
 }
 
@@ -83,7 +87,8 @@ AttendeeRetrievalState _setNoAttendee(AttendeeRetrievalState state, ResetAttende
         isInit: true,
         errorTitle: '',
         errorDescription: '',
-        attendee: null
+        attendee: null,
+        team: null
     );
 }
 
@@ -96,7 +101,8 @@ AttendeeRetrievalState _setError(AttendeeRetrievalState state, ErrorAction actio
     errorTitle: action.title,
     errorDescription: action.description,
     attendee: null,
-    isInit: false
+    isInit: false,
+    team: null
   );
 }
 
@@ -109,6 +115,7 @@ AttendeeRetrievalState _setSearchCompleted(AttendeeRetrievalState state, SearchC
     errorTitle: '',
     errorDescription: '',
     attendee: action.attendee,
-    isInit: false
+    isInit: false,
+    team: action.team
   );
 }

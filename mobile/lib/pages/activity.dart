@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:CSGamesApp/components/loading-spinner.dart';
 import 'package:CSGamesApp/domain/attendee.dart';
+import 'package:CSGamesApp/domain/team.dart';
 import 'package:CSGamesApp/redux/actions/activity-actions.dart';
 import 'package:CSGamesApp/redux/state.dart';
 import 'package:CSGamesApp/services/localization.service.dart';
@@ -28,13 +29,14 @@ class _ActivityPageState extends State<ActivityPage> {
 
     _ActivityPageState(this._activity);
 
-    Widget _buildUserDialog(Attendee attendee, bool isAlreadyAttending) {
+    Widget _buildUserDialog(Attendee attendee, bool isAlreadyAttending, Team team) {
         return Center(
             child: Container(
                 width: 300.0,
-                height: 250.0,
+                height: 300.0,
                 child: UserProfile(
                     attendee,
+                    team,
                     opacity: 0.9,
                     content: Padding(
                         padding: EdgeInsets.only(top: 20.0),
@@ -194,12 +196,12 @@ class _ActivityPageState extends State<ActivityPage> {
                             this._activity = model.activity;
                         });
                     }
-                    Future.delayed(Duration(seconds: 1), () {
+                    Future.delayed(Duration(seconds: 2), () {
                         model.reset();
                         Navigator.pop(context);
                         _isScannedDialogOpen = false;
                     });
-                    showDialog(context: context, builder: (_) => _buildUserDialog(model.attendee, model.activity == null));
+                    showDialog(context: context, builder: (_) => _buildUserDialog(model.attendee, model.activity == null, model.team));
                 }
             }
         );
@@ -214,6 +216,7 @@ class _ActivityPageViewModel {
     String errorContent;
     Attendee attendee;
     Activity activity;
+    Team team;
     Function reset;
     Function init;
     Function pop;
@@ -227,7 +230,8 @@ class _ActivityPageViewModel {
         this.activity,
         this.reset,
         this.init,
-        this.pop
+        this.pop,
+        this.team
     );
 
     _ActivityPageViewModel.fromStore(Store<AppState> store) {
@@ -241,5 +245,6 @@ class _ActivityPageViewModel {
         reset = () => store.dispatch(ResetActivity());
         init = (id, errorMessages) => store.dispatch(InitAction(id, errorMessages));
         pop = () => store.dispatch(PopAction());
+        team = store.state.activityState.team;
     }
 }

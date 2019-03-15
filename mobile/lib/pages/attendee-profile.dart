@@ -1,3 +1,4 @@
+import 'package:CSGamesApp/domain/team.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:CSGamesApp/components/circle-gravatar.dart';
@@ -8,12 +9,13 @@ import 'package:CSGamesApp/utils/constants.dart';
 
 class AttendeeProfilePage extends StatelessWidget {
   final Attendee _attendee;
+  final Team _team;
   final VoidCallback onDone;
   final VoidCallback onCancel;
   final bool _doneEnabled;
   final Map<String, dynamic> _values;
 
-  AttendeeProfilePage(this._attendee, this._doneEnabled, this._values, {this.onDone, this.onCancel});
+  AttendeeProfilePage(this._attendee, this._team, this._doneEnabled, this._values, {this.onDone, this.onCancel});
 
   Widget _buildAvatar() {
     return Align(
@@ -33,8 +35,37 @@ class AttendeeProfilePage extends StatelessWidget {
             fontSize: 24.0,
             fontWeight: FontWeight.w900
           )
-      ),
+      )
     );
+  }
+
+  Widget _buildTeamWidget() {
+    return Padding(
+      padding: EdgeInsets.only(top: 10.0),
+      child: 
+        Text(
+          '${_team.school.name} : ${_team.name}',
+          style: TextStyle(
+            color: Colors.blue,
+            fontSize: 15.0,
+            fontWeight: FontWeight.w400
+          )
+      )
+    );
+  }
+
+  Widget _buildTransportPassWidget() {
+      return Padding(
+          padding: EdgeInsets.only(top: 10),
+          child: Text(
+              "Needs Pass : ${_attendee.needsTransportPass}",
+              style: TextStyle(
+                  color: _attendee.needsTransportPass ? Colors.green : Colors.red,
+                  fontSize: 19.0,
+                  fontWeight: FontWeight.w700
+              )
+          )
+      );
   }
 
   Widget _buildShirtSizeWidget() {
@@ -107,6 +138,8 @@ class AttendeeProfilePage extends StatelessWidget {
         child: Column(
           children: <Widget>[
             _buildAttendeeNameWidget(),
+            _buildTransportPassWidget(),
+            _buildTeamWidget(),
             _buildShirtSizeWidget(),
             _buildPublicIdWidget(),
             _buildDoneButton()

@@ -1,5 +1,6 @@
 import 'package:CSGamesApp/domain/activity.dart';
 import 'package:CSGamesApp/domain/attendee.dart';
+import 'package:CSGamesApp/domain/team.dart';
 
 class ResetActivity {}
 
@@ -22,8 +23,9 @@ class ScanError {
 class AttendeeScanned {
   final Activity activity;
   final Attendee attendee;
+  final Team team;
 
-  AttendeeScanned(this.activity, this.attendee);
+  AttendeeScanned(this.activity, this.attendee, this.team);
 }
 
 class GetCurrentActivity {

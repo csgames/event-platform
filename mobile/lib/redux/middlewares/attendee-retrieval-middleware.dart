@@ -2,10 +2,12 @@ import 'dart:async';
 
 import 'package:CSGamesApp/domain/attendee.dart';
 import 'package:CSGamesApp/domain/event.dart';
+import 'package:CSGamesApp/domain/team.dart';
 import 'package:CSGamesApp/redux/actions/attendee-retrieval-actions.dart';
 import 'package:CSGamesApp/redux/state.dart';
 import 'package:CSGamesApp/services/attendees.service.dart';
 import 'package:CSGamesApp/services/nfc.service.dart';
+import 'package:CSGamesApp/services/team.service.dart';
 import 'package:qr_reader/qr_reader.dart';
 import 'package:redux_epics/redux_epics.dart';
 import 'package:rxdart/rxdart.dart';
@@ -14,13 +16,15 @@ class AttendeeRetrievalMiddleware implements EpicClass<AppState> {
     final NfcService _nfcService;
     final AttendeesService _attendeesService;
     final QRCodeReader _qrCodeReader;
+    final TeamService _teamService;
     
     Attendee _attendee;
 
     AttendeeRetrievalMiddleware(
         this._nfcService,
         this._attendeesService,
-        this._qrCodeReader
+        this._qrCodeReader,
+        this._teamService
     );
 
     @override
@@ -71,7 +75,9 @@ class AttendeeRetrievalMiddleware implements EpicClass<AppState> {
             yield ErrorAction(errorMessages['register-title'], username + errorMessages['register-desc']);
             return;
         }
-        yield SearchCompletedAction(_attendee);
+
+        Team team = await this._teamService.getAttendeeTeam(_attendee);
+        yield SearchCompletedAction(_attendee, team);
         return;
     }
 

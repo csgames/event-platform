@@ -1,3 +1,4 @@
+import 'package:CSGamesApp/domain/team.dart';
 import 'package:CSGamesApp/redux/actions/attendee-retrieval-actions.dart';
 import 'package:CSGamesApp/redux/state.dart';
 import 'package:CSGamesApp/services/localization.service.dart';
@@ -127,6 +128,7 @@ class _AttendeeRetrievalPageState extends State<AttendeeRetrievalPage> {
       padding: EdgeInsets.fromLTRB(30.0, 20.0, 30.0, 20.0),
       child: AttendeeProfilePage(
         model.attendee,
+        model.team,
         model.isScanned && !model.hasErrors && model.idSaved,
         LocalizationService.of(context).attendeeProfile,
         onDone: () {
@@ -226,6 +228,7 @@ class _AttendeeRetrievalViewModel {
   String errorTitle;
   String errorDescription;
   Attendee attendee;
+  Team team;
   Function init;
   Function search;
   Function scan;
@@ -245,7 +248,8 @@ class _AttendeeRetrievalViewModel {
     this.scan,
     this.reset,
     this.clean,
-    this.isInit
+    this.isInit,
+    this.team
   );
 
   _AttendeeRetrievalViewModel.fromStore(Store<AppState> store) {
@@ -262,5 +266,6 @@ class _AttendeeRetrievalViewModel {
     reset = () => store.dispatch(ResetAttendeeAction());
     clean = (attendee) => store.dispatch(CleanAction(attendee));
     isInit = store.state.attendeeRetrievalState.isInit;
+    team = store.state.attendeeRetrievalState.team;
   }
 }
