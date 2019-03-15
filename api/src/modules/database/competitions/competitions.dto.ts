@@ -33,6 +33,10 @@ export class UpdateCompetitionDto {
     @ArrayNotEmpty()
     activities: string[];
 
+    @IsOptional()
+    directors: string[];
+
+    @IsOptional()
     @IsNotEmpty()
     description: { [lang: string]: string };
 

@@ -293,11 +293,6 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
     public async getCompetitions(eventId: string, user: UserModel): Promise<Competitions[]> {
         let competitions = user.role.endsWith('admin') ? await this.competitionsModel.find({
             event: eventId
-        }).select({
-            activities: true,
-            isLive: true,
-            onDashboard: true,
-            directors: true
         }).populate([{
             path: 'activities',
             model: 'activities'
