@@ -1,35 +1,24 @@
 import {
-    Body,
-    Controller,
-    Delete, FileInterceptor,
-    Get,
-    HttpCode,
-    HttpStatus,
-    Param,
-    Post,
-    Put, UploadedFile,
-    UploadedFiles,
-    UseGuards,
-    UseInterceptors
+    Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Post, Put, UploadedFile, UseGuards, UseInterceptors
 } from '@nestjs/common';
 import { ApiUseTags } from '@nestjs/swagger';
 import { EventId } from '../../../decorators/event-id.decorator';
 import { Permissions } from '../../../decorators/permission.decorator';
+import { User } from '../../../decorators/user.decorator';
 import { PermissionsGuard } from '../../../guards/permission.guard';
 import { BufferInterceptor } from '../../../interceptors/buffer.interceptor';
+import { UserModel } from '../../../models/user.model';
+import { BooleanPipe } from '../../../pipes/boolean.pipe';
 import { ValidationPipe } from '../../../pipes/validation.pipe';
 import { Attendees } from '../attendees/attendees.model';
+import { QuestionAnswerDto } from '../questions/question-answer.dto';
 import { UpdateQuestionDto } from '../questions/questions.dto';
 import {
     AuthCompetitionDto, CreateCompetitionDto, CreateCompetitionQuestionDto, CreateDirectorDto, UpdateCompetitionDto
 } from './competitions.dto';
 import { Competitions } from './competitions.model';
-import { CompetitionResult, CompetitionsService } from './competitions.service';
-import { User } from '../../../decorators/user.decorator';
-import { UserModel } from '../../../models/user.model';
+import { CompetitionsService, TeamCompetitionResult } from './competitions.service';
 import { QuestionGraphNodes } from './questions/question-graph-nodes.model';
-import { QuestionAnswerDto } from '../questions/question-answer.dto';
-import { BooleanPipe } from '../../../pipes/boolean.pipe';
 
 @ApiUseTags('Competition')
 @Controller('competition')
@@ -99,7 +88,7 @@ export class CompetitionsController {
     @Get(':id/result')
     @Permissions('csgames-api:get-result:competition')
     public async getCompetitionResult(@EventId() eventId: string,
-                                      @Param('id') competitionId: string): Promise<CompetitionResult> {
+                                      @Param('id') competitionId: string): Promise<TeamCompetitionResult[]> {
         return await this.competitionService.getResult(eventId, competitionId);
     }
 

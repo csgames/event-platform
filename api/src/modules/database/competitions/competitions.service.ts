@@ -26,8 +26,10 @@ export interface QuestionInfo extends Questions {
     isAnswered: boolean;
 }
 
-export interface CompetitionResult {
-    [question: string]: Teams[];
+export interface TeamCompetitionResult {
+    _id: mongoose.Types.ObjectId;
+    name: string;
+    answers: string[];
 }
 
 @Injectable()
@@ -479,23 +481,25 @@ export class CompetitionsService extends BaseService<Competitions, Competitions>
         return c;
     }
 
-    public async getResult(eventId: string, competitionId: string): Promise<CompetitionResult> {
+    public async getResult(eventId: string, competitionId: string): Promise<TeamCompetitionResult[]> {
         const competition = await this.competitionsModel.findOne({
             _id: competitionId,
             event: eventId
-        }).select(['questions', 'answers']).populate({
-            path: 'answers.teamId',
-            model: 'teams',
-            select: ['name']
-        }).exec();
+        }).select(['questions', 'answers']).exec();
         if (!competition) {
             throw new NotFoundException();
         }
 
-        const result: CompetitionResult = {};
-        for (const question of competition.questions) {
-            const answers = competition.answers.filter(x => (x.question as mongoose.Types.ObjectId).equals(question._id));
-            result[question._id.toHexString()] = answers.map(x => x.teamId as Teams);
+        const result: TeamCompetitionResult[] = [];
+        const teams = await this.teamsModel.find({
+            event: eventId
+        }).select(['_id', 'name']).exec();
+        for (const team of teams) {
+            result.push({
+                _id: team._id,
+                name: team.name,
+                answers: competition.answers.filter(x => team._id.equals(x.teamId as string)).map(x => x.question as string)
+            });
         }
 
         return result;
