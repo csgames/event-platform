@@ -25,7 +25,7 @@ export class CompetitionEditEffects {
                 private eventService: EventService,
                 private toastrService: ToastrService,
                 private translateService: TranslateService) {}
-    
+
     @Effect()
     saveCompetition$ = this.actions$.pipe(
         ofType(CompetitionEditActionTypes.SaveCompetitionEdit),
@@ -69,8 +69,8 @@ export class CompetitionEditEffects {
     );
 
     @Effect({ dispatch: false })
-    modalLoaded = this.actions$.pipe(
-        ofType(CompetitionEditActionTypes.CompetitionEditSaved),
+    competitionEditSaved$ = this.actions$.pipe(
+        ofType<CompetitionEditSaved>(CompetitionEditActionTypes.CompetitionEditSaved),
         tap(() => {
             this.toastrService.success(this.translateService.instant("components.competition_edit.edit_competition_success"));
         })

@@ -734,10 +734,8 @@ pre code {
 }
 
 table {
-    display: block;
-    overflow: auto;
-    width: 100%;
     margin-bottom: 16px;
+    border: 1px solid #dfe2e5;
 }
 
 table th {

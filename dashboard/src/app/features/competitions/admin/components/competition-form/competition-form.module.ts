@@ -1,5 +1,4 @@
 import { NgModule } from "@angular/core";
-
 import { CompetitionFormComponent } from "./competition-form.component";
 import { CommonModule } from "@angular/common";
 import { FormBuilder, FormsModule, ReactiveFormsModule } from "@angular/forms";

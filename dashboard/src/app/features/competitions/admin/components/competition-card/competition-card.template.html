@@ -11,7 +11,7 @@
                 <p class="location">{{ competition.activities[0].location }}</p>
             </div>
             <div fxFlex="nogrow">
-                <a class="btn btn-default p-0" [routerLink]="['/competition/' + competition?._id]">
+                <a class="btn btn-default p-0" [routerLink]="['/competition/edit/' + competition?._id]">
                     <i class="fas fa-eye"></i>
                 </a>
                 <a class="btn btn-default p-0" (click)="edit.emit()">
