@@ -20,6 +20,7 @@ import { QuestionGraphNodes } from './questions/question-graph-nodes.model';
 import { QuestionAnswerDto } from '../questions/question-answer.dto';
 import { QuestionsService } from '../questions/questions.service';
 import { Questions } from '../questions/questions.model';
+import { QuestionsModule } from '../questions/questions.module';
 
 export interface QuestionInfo extends Questions {
     isLocked: boolean;
@@ -37,7 +38,7 @@ export class CompetitionsService extends BaseService<Competitions, Competitions>
     constructor(@InjectModel('competitions') private readonly competitionsModel: Model<Competitions>,
                 @InjectModel('attendees') private readonly attendeesModel: Model<Attendees>,
                 @InjectModel('teams') private readonly teamsModel: Model<Teams>,
-                @InjectModel('questions') private readonly questionsModel: Model<Teams>,
+                @InjectModel('questions') private readonly questionsModel: Model<Questions>,
                 private readonly activityService: ActivitiesService,
                 private readonly registrationService: RegistrationsService,
                 private readonly eventsService: EventsService,
@@ -137,6 +138,7 @@ export class CompetitionsService extends BaseService<Competitions, Competitions>
             description: dto.description,
             type: dto.type,
             validationType: dto.validationType,
+            inputType: dto.inputType,
             answer: dto.answer,
             score: dto.score,
             option: dto.option
@@ -213,18 +215,23 @@ export class CompetitionsService extends BaseService<Competitions, Competitions>
         const competition = await this.competitionsModel.findOne({
             _id: competitionId,
             event: eventId
-        }).exec();
+        }).populate([
+            {
+                path: 'questions.question',
+                model: 'questions'
+            }
+        ]).exec();
         if (!competition) {
             throw new NotFoundException();
         }
 
-        const question = competition.questions.find(x => x._id.equals(questionId));
+        const question = competition.questions.find(x => (x.question as Questions)._id.equals(questionId));
         if (!question) {
             throw new BadRequestException('No question found');
         }
 
-        await this.competitionsModel.updateOne({
-            _id: question.question
+        await this.questionsModel.updateOne({
+            _id: (question.question as Questions)._id
         }, dto).exec();
     }
 
@@ -441,6 +448,7 @@ export class CompetitionsService extends BaseService<Competitions, Competitions>
                 model: 'questions'
             }
         ]).exec();
+
         if (!competition) {
             throw new NotFoundException();
         }

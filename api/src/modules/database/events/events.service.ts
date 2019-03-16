@@ -18,7 +18,6 @@ import { AttendeeAlreadyRegisteredException, EventNotFoundException, UserNotAtte
 import { Events, EventSponsorDetails } from './events.model';
 import { UpdateAttendeeDto } from '../attendees/attendees.dto';
 import { Teams } from '../teams/teams.model';
-import { IsBoolean, IsNotEmpty, IsOptional } from 'class-validator';
 
 @Injectable()
 export class EventsService extends BaseService<Events, CreateEventDto> {

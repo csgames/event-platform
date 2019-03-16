@@ -189,6 +189,7 @@ export class PuzzleHeroesService extends BaseService<PuzzleHeroes, PuzzleHeroes>
             description: dto.description,
             type: dto.type,
             validationType: dto.validationType,
+            inputType: dto.inputType,
             answer: dto.answer,
             score: dto.score
         });
@@ -206,7 +207,7 @@ export class PuzzleHeroesService extends BaseService<PuzzleHeroes, PuzzleHeroes>
     }
 
 
-    public async updatePuzzle(eventId: string, trackId: string,  puzzleId: string, dto: UpdateQuestionDto): Promise<void> {
+    public async updatePuzzle(eventId: string, trackId: string, puzzleId: string, dto: UpdateQuestionDto): Promise<void> {
         const puzzleHero = await this.findOne({
             event: eventId
         });
@@ -223,7 +224,7 @@ export class PuzzleHeroesService extends BaseService<PuzzleHeroes, PuzzleHeroes>
         if (!puzzle) {
             throw new NotFoundException('No puzzle found');
         }
-        
+
         return await this.questionsService.updateQuestion((puzzle.question as mongoose.Types.ObjectId).toHexString(), dto);
     }
 
@@ -325,7 +326,7 @@ export class PuzzleHeroesService extends BaseService<PuzzleHeroes, PuzzleHeroes>
             throw new NotFoundException('No puzzle found');
         }
         if (puzzleHero.answers.some(x => (x.teamId as mongoose.Types.ObjectId).equals(teamId) && puzzle._id.equals(x.puzzle))) {
-            throw new BadRequestException("Cannot answer puzzle twice");
+            throw new BadRequestException('Cannot answer puzzle twice');
         }
 
         const score = await this.questionsService.validateAnswer(answer, puzzle.question as string);
