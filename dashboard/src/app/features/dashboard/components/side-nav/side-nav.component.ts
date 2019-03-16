@@ -28,7 +28,8 @@ export class SideNavComponent implements OnInit {
     get scoreboardOpen$(): Observable<boolean> {
         return this.puzzleHeroInfo$.pipe(
             withLatestFrom(this.attendee$),
-            map(([info, attendee]) => info && info.scoreboardOpen || attendee && (attendee.role === "admin" || attendee.role === "super-admin"))
+            map(([info, attendee]) => info && info.scoreboardOpen || attendee &&
+                (attendee.role === "admin" || attendee.role === "super-admin"))
         );
     }
 
