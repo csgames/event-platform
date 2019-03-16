@@ -1102,3 +1102,8 @@ timepicker {
 .ql-tooltip {
     z-index: 1000;
 }
+
+
+.btn:focus {
+    box-shadow: none !important;
+}
