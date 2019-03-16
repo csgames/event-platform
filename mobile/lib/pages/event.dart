@@ -307,6 +307,9 @@ class _EventPageState extends State<EventPage> {
             case 'volunteer':
                 items = _buildVolunteerItems(vm);
                 break;
+            case 'director':
+                items = _buildVolunteerItems(vm);
+                break;
             default:
                 items = _buildItems();
                 break;
@@ -372,6 +375,9 @@ class _EventPageState extends State<EventPage> {
                 body = _buildBodyAdmin(model);
                 break;
             case 'volunteer':
+                body = _buildBodyVolunteer(model);
+                break;
+            case 'director':
                 body = _buildBodyVolunteer(model);
                 break;
             default:
