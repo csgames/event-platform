@@ -290,7 +290,7 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
     }
 
     public async getCompetitions(eventId: string, user: UserModel): Promise<Competitions[]> {
-        let competitions = user.role.endsWith('admin') ? await this.competitionsModel.find({
+        let competitions = user.role.endsWith('admin') || user.role === 'director' ? await this.competitionsModel.find({
             event: eventId
         }).populate([{
             path: 'activities',
@@ -314,6 +314,13 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
 
         if (user.role.endsWith('admin')) {
             return competitions;
+        }
+
+        if (user.role === 'director') {
+            const director = await this.attendeeService.findOne({
+                email: user.username
+            });
+            return competitions.filter(c => c.directors.find(d => d.toString() === director._id));
         }
 
         const attendee = await this.attendeeService.findOne({
