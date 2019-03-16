@@ -9,6 +9,8 @@ import { EffectsModule } from "@ngrx/effects";
 import { InfoPuzzleHeroEffects } from "./store/info-puzzle-hero.effects";
 import { LoadingSpinnerModule } from "../../../../../components/loading-spinner/loading-spinner.module";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { MarkdownModule } from "ngx-markdown";
+import { PipeModule } from "../../../../../pipe/pipe.module";
 
 @NgModule({
     imports: [
@@ -17,6 +19,8 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
         ReactiveFormsModule,
         TranslateModule,
         LoadingSpinnerModule,
+        MarkdownModule,
+        PipeModule,
 
         StoreModule.forFeature("infoPuzzleHero", fromInfoPuzzleHero.reducer),
         EffectsModule.forFeature([InfoPuzzleHeroEffects])

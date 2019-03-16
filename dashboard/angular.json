@@ -39,9 +39,18 @@
                             "node_modules/quill/dist/quill.core.css",
                             "node_modules/quill/dist/quill.bubble.css",
                             "node_modules/quill/dist/quill.snow.css",
+                            "node_modules/highlightjs/styles/atom-one-dark.css",
+                            "node_modules/prism-theme-one-dark/prism-onedark.css",
                             "src/styles.scss"
                         ],
-                        "scripts": []
+                        "scripts": [
+                            "node_modules/marked/lib/marked.js",
+                            "node_modules/highlightjs/highlight.pack.js",
+                            "node_modules/prismjs/prism.js",
+                            "node_modules/prismjs/components/prism-javascript.min.js",
+                            "node_modules/prismjs/components/prism-json.min.js",
+                            "node_modules/prismjs/components/prism-css.min.js"
+                        ]
                     },
                     "configurations": {
                         "production": {

@@ -3,7 +3,9 @@ import { CSGamesApi } from "./csgames.api";
 import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { Competition } from "./models/competition";
-import { AuthCompetitionDto, QuestionAnswerDto, SubscriptionDto } from "./dto/competition";
+import { AuthCompetitionDto, QuestionAnswerDto, SubscriptionDto, UpdateCompetitionDto } from "./dto/competition";
+import { CreateQuestionDto, UpdateQuestionDto } from "./dto/question";
+import { QuestionGraphNode } from "./models/question";
 
 @Injectable()
 export class CompetitionApi extends CSGamesApi {
@@ -34,6 +36,24 @@ export class CompetitionApi extends CSGamesApi {
         }
 
         return this.http.post<void>(this.url(`${competitionId}/question/${questionId}/validate`), form, {
+            withCredentials: true
+        });
+    }
+
+    public createQuestion(competitionId: string, createQuestionDto: CreateQuestionDto): Observable<QuestionGraphNode> {
+        return this.http.post<QuestionGraphNode>(this.url(`${competitionId}/question`), createQuestionDto, {
+            withCredentials: true
+        });
+    }
+
+    public updateQuestion(competitionId: string, questionId: string, updateQuestionDto: UpdateQuestionDto): Observable<void> {
+        return this.http.put<void>(this.url(`${competitionId}/question/${questionId}`), updateQuestionDto, {
+            withCredentials: true
+        });
+    }
+
+    public update(competitionId: string, updateCompetitionDto: UpdateCompetitionDto): Observable<void> {
+        return this.http.put<void>(this.url(`${competitionId}`), updateCompetitionDto, {
             withCredentials: true
         });
     }

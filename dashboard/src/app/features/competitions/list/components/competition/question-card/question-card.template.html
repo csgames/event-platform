@@ -15,7 +15,9 @@
         </div>
 
         <div fxLayout="column" class="tile" *ngIf="isOpen">
-            <div innerHTML="{{ question?.description | t18n }}"></div>
+            <div>
+                <markdown data="{{ question?.description | t18n }}"></markdown>
+            </div>
             <ng-container [ngSwitch]="question?.inputType" *ngIf="!question?.isAnswered">
                 <app-file-upload *ngSwitchCase="'upload'" class="upload"
                                  placeholder='{{ "pages.question.upload" | translate }}'

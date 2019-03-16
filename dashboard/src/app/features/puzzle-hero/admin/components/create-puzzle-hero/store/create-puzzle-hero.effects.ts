@@ -16,7 +16,7 @@ export class CreatePuzzleEffects {
     @Effect()
     createPuzzle$ = this.actions$.pipe(
         ofType<CreatePuzzle>(CreatePuzzleActionTypes.CreatePuzzle),
-        switchMap((action: CreatePuzzle) => this.puzzleHeroService.createPuzzle(action.trackId, action.parentId, action.puzzleFormDto).pipe(
+        switchMap((action: CreatePuzzle) => this.puzzleHeroService.createPuzzle(action.trackId, action.parentId, action.questionFormDto).pipe(
             map(() => new CreatePuzzleSuccess()),
             catchError(() => of(new CreatePuzzleError()))
         ))

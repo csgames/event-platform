@@ -39,10 +39,8 @@ import { PuzzleHeroSettingsComponent } from "./components/puzzle-hero-settings/p
 import { PUZZLE_HERO_SETTINGS_FORM_GENERATOR } from "./components/puzzle-hero-settings/puzzle-hero-settings.constants";
 import { PuzzleHeroSettingsDto } from "./components/puzzle-hero-settings/dto/puzzle-hero-settings.dto";
 import { PuzzleHeroSettingsEffects } from "./components/puzzle-hero-settings/store/puzzle-hero-settings.effects";
-import { PuzzleFormComponent } from "./components/puzzle-form/puzzle-form.component";
-import { PuzzleFormDto } from "./components/puzzle-form/dto/puzzle-form.dto";
-import { PUZZLE_FORM_GENERATOR } from "./components/puzzle-form/puzzle-form.constants";
 import { DirectivesModule } from "../../../directives/directives.module";
+import { QuestionFormModule } from "../../../components/question-form/question-form.module";
 
 
 @NgModule({
@@ -68,6 +66,7 @@ import { DirectivesModule } from "../../../directives/directives.module";
         CustomTextBoxModule,
         PipesModule,
         DirectivesModule,
+        QuestionFormModule,
         StoreModule.forFeature("puzzleHeroAdmin", fromPuzzleAdmin.reducer),
         StoreModule.forFeature("puzzleHeroCreateTrack", fromCreateTrack.reducer),
         StoreModule.forFeature("puzzleHeroUpdateTrack", fromUpdateTrack.reducer),
@@ -98,12 +97,10 @@ import { DirectivesModule } from "../../../directives/directives.module";
         TrackFormComponent,
         CreateTrackComponent,
         UpdateTrackComponent,
-        PuzzleHeroSettingsComponent,
-        PuzzleFormComponent
+        PuzzleHeroSettingsComponent
     ],
     providers: [
         { provide: TRACK_FORM_GENERATOR, useFactory: FormGeneratorFactory.transform(TrackFormDto), deps: [FormBuilder] },
-        { provide: PUZZLE_FORM_GENERATOR, useFactory: FormGeneratorFactory.transform(PuzzleFormDto), deps: [FormBuilder] },
         {
             provide: PUZZLE_HERO_SETTINGS_FORM_GENERATOR,
             useFactory: FormGeneratorFactory.transform(PuzzleHeroSettingsDto),

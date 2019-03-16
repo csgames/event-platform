@@ -79,6 +79,17 @@
         },
         "create_puzzle": {
             "success": "Puzzle créé!"
+        },
+        "question_form": {
+            "label_placeholder": "Votre titre de puzzle ici",
+            "score": "Pointage de la question",
+            "validation_types": "Type de réponse",
+            "input_types": "Type de réponse",
+            "puzzle_types": "Type de défi",
+            "answer_admin": "Réponse",
+            "answer_placeholder": "Réponse / URL",
+            "description_placeholder": "Votre description de puzzle ici",
+            "answer": "Réponse ici"
         }
     },
     "errors": {
@@ -98,7 +109,7 @@
             "cancel": "Annuler",
             "close": "Fermer",
             "reset": "Réinitialiser",
-            "save": "Enregistrer",
+            "save": "Sauvegarder",
             "send": "Envoyer",
             "subscribe": "S'abonner",
             "subscribed": "Abonné",
@@ -166,6 +177,7 @@
         "competition": {
             "competition_password": "Mot de passe de la compétition",
             "competitions": "Competitions",
+            "competition": "Competition",
             "other": "Autres compétitions",
             "participate": "Participer",
             "subscribed": "Compétitions abonnées",
@@ -176,7 +188,16 @@
             "answered": "Questions répondues",
             "not_answered": "Questions non-répondues",
             "answered_all_questions": "Vous avez répondu à toutes les questions.",
-            "ended": "La compétition est terminée"
+            "ended": "La compétition est terminée",
+            "edit": {
+                "description": "Description",
+                "add_question": "Ajouter une question",
+                "update_question": "Modifier une question",
+                "update_question_error": "Une erreur est survenue lors de la mise à jour de la question.",
+                "create_question_error": "Une erreur est survenue lors de la création de la question.",
+                "save_error": "Une erreur est survenue lors de la sauvegarde de la compétition.",
+                "save_success": "Compétition sauvegardée avec succès."
+            }
         },
         "guide": {
             "guide": "Guide",
@@ -214,13 +235,8 @@
             "wrong_answer": "Mauvaise réponse!",
             "loading_error": "Une erreur est survenue lors du chargement des puzzle hero",
             "scoreboard_loading_error": "Une erreur est survenue lors du chargement du classement",
-            "answer": "Réponse ici",
             "validate_success": "Bonne réponse!",
-            "validation_types": "Type de réponse",
-            "puzzle_types": "Type de défi",
-            "answer_admin": "Réponse",
-            "answer_placeholder": "Réponse / URL",
-            "description_placeholder": "Votre description de puzzle ici",
+            "answer": "Réponse",
             "admin": {
                 "add_track": "Ajouter une piste",
                 "add_puzzle": "Ajouter un puzzle",
@@ -229,10 +245,8 @@
                 "ended_on": "Terminé depuis le",
                 "puzzle_available_for_attendees": "Le puzzle hero est présentement accessible par les participants.",
                 "puzzle_not_available_for_attendees": "Le puzzle hero n'est pas présentement accessible par les participants.",
-                "label_placeholder": "Votre titre de puzzle ici",
                 "create_puzzle": "Ajouter un puzzle",
-                "update_puzzle": "Modifier un puzzle",
-                "score": "Pointage de la question"
+                "update_puzzle": "Modifier un puzzle"
             }
         },
         "register": {

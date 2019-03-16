@@ -16,13 +16,12 @@ export class UpdatePuzzleEffects {
     @Effect()
     updatePuzzle$ = this.actions$.pipe(
         ofType<UpdatePuzzle>(UpdatePuzzleActionTypes.UpdatePuzzle),
-        switchMap((action: UpdatePuzzle) => this.puzzleHeroService.updatePuzzle(action.trackId, action.id, action.puzzleFormDto)
+        switchMap((action: UpdatePuzzle) => this.puzzleHeroService.updatePuzzle(action.trackId, action.id, action.questionFormDto)
             .pipe(
                 map(() => new UpdatePuzzleSuccess()),
                 catchError(() => of(new UpdatePuzzleError()))
             ))
     );
-
 
     @Effect()
     updatePuzzleSuccess$ = this.actions$.pipe(

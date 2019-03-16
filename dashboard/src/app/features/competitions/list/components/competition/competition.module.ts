@@ -14,6 +14,7 @@ import { CompetitionsService } from "src/app/providers/competitions.service";
 import { FileUploadModule } from "src/app/components/file-upload/file-upload.module";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { AccordionModule } from "ngx-bootstrap";
+import { MarkdownModule } from "ngx-markdown";
 
 @NgModule({
     imports: [
@@ -27,7 +28,8 @@ import { AccordionModule } from "ngx-bootstrap";
         EffectsModule.forFeature([CompetitionEffects]),
         FileUploadModule,
         FormsModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        MarkdownModule
     ],
     declarations: [QuestionCardComponent, CompetitionComponent],
     entryComponents: [CompetitionComponent],

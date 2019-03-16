@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, Output, ViewChild } from "@angular/core";
-import { PuzzleInfo, PuzzleTypes } from "../../../../api/models/puzzle-hero";
+import { PuzzleInfo } from "../../../../api/models/puzzle-hero";
 import { PopoverDirective } from "ngx-bootstrap";
+import { QuestionTypes } from "../../../../api/models/question";
 
 @Component({
     selector: "[puzzle-tile]",
@@ -25,13 +26,13 @@ export class PuzzleTileComponent {
 
     get icon(): string {
         switch (this.puzzle.type) {
-            case PuzzleTypes.Crypto:
+            case QuestionTypes.Crypto:
                 return "&#xf084;";
-            case PuzzleTypes.Gaming:
+            case QuestionTypes.Gaming:
                 return "&#xf11b;";
-            case PuzzleTypes.Scavenger:
+            case QuestionTypes.Scavenger:
                 return "&#xf332;";
-            case PuzzleTypes.Sponsor:
+            case QuestionTypes.Sponsor:
                 return "&#xf3a5;";
         }
         return "";

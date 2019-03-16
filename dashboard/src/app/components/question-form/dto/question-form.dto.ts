@@ -1,9 +1,7 @@
-import { Control } from "../../../../../../form-generator/decorators/control.decorator";
-import { Question } from "../../../../../../api/models/puzzle-hero";
+import { Control } from "../../../form-generator/decorators/control.decorator";
 import { Required } from "src/app/form-generator/decorators/required.decorator";
 
-export class PuzzleFormDto {
-
+export class QuestionFormDto {
     @Control()
     @Required()
     label: string;
@@ -18,10 +16,13 @@ export class PuzzleFormDto {
 
     @Control()
     @Required()
-    score: number;
+    inputType: string;
 
     @Control()
     @Required()
+    score: number;
+
+    @Control()
     answer: string;
 
     @Control()

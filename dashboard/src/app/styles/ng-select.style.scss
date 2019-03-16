@@ -6,7 +6,9 @@ ng-select.ng-select-opened > .ng-select-container {
 
 .ng-select .ng-select-container {
     border: none;
+    background: transparent;
     margin: 0 1px;
+    border-radius: 9px !important;
 }
 
 .ng-select .ng-select-container {
@@ -33,10 +35,12 @@ ng-select.ng-select-opened > .ng-select-container {
 
 .ng-dropdown-panel {
     border-top-right-radius: 8px;
+    border-top-left-radius: 8px;
 }
 
 .ng-dropdown-panel-items {
     border-top-right-radius: 8px;
+    border-top-left-radius: 8px;
 }
 
 .ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-selected {

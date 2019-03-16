@@ -19,8 +19,7 @@
                 <br>
                 <div class="modal-body description">
                     <div>
-                        <div *ngIf="lang === 'en'" [innerHTML]="puzzle.description?.en"></div>
-                        <div *ngIf="lang === 'fr'" [innerHTML]="puzzle.description?.fr"></div>
+                        <markdown data="{{ puzzle.description | t18n }}"></markdown>
                     </div>
                     <ng-container *ngIf="!puzzle.completed">
                         <div class="input-group input-group-default input answer" [class.has-error]="error$ | async">

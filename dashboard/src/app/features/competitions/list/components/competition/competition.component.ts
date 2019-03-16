@@ -5,7 +5,7 @@ import { map } from "rxjs/operators";
 import { Store, select } from "@ngrx/store";
 import { State, getCompetitionLoading, getCompetitionError, getCompetition } from "./store/competition.reducer";
 import { LoadCompetition } from "./store/competition.actions";
-import { Question } from "../../../../../api/models/competition";
+import { Question } from "../../../../../api/models/question";
 
 @Component({
     selector: "app-competition",
@@ -40,13 +40,13 @@ export class CompetitionComponent implements OnInit {
 
     get answeredQuestions$(): Observable<Question[]> {
         return this.competition$.pipe(
-            map(c => c && c.questions && c.questions.filter(q => q.isAnswered))
+            map(c => c && c.questions && (c.questions as Question[]).filter(q => q.isAnswered))
         );
     }
 
     get notAnsweredQuestions$(): Observable<Question[]> {
         return this.competition$.pipe(
-            map(c => c && c.questions && c.questions.filter(q => !q.isAnswered))
+            map(c => c && c.questions && (c.questions as Question[]).filter(q => !q.isAnswered))
         );
     }
 }

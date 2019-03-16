@@ -10,6 +10,12 @@ const routes: Routes = [
         data: { roles: ["admin", "super-admin"], redirect: "competition" }
     },
     {
+        path: "edit",
+        loadChildren: "src/app/features/competitions/edit/competition-edit.module#CompetitionEditModule",
+        canActivate: [RoleGuard],
+        data: { roles: ["admin", "super-admin", "director"], redirect: "competition" }
+    },
+    {
         path: "",
         loadChildren: "src/app/features/competitions/list/competitions-list.module#CompetitionsListModule",
         canActivate: [RoleGuard],

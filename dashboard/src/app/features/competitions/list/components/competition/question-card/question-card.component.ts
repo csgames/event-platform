@@ -1,11 +1,12 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from "@angular/core";
 import { select, Store } from "@ngrx/store";
-import { Competition, InputTypes, Question, QuestionTypes } from "src/app/api/models/competition";
+import { Competition } from "src/app/api/models/competition";
 import { ResetStore } from "../../../store/competitions-list.actions";
 import { FormBuilder, FormControl } from "@angular/forms";
 import { UpdateQuestionAnswer } from "../store/competition.actions";
 import { getCompetition, getCompetitionQuestionsValidationError, State } from "../store/competition.reducer";
 import { Subscription } from "rxjs";
+import { InputTypes, Question, QuestionTypes } from "../../../../../../api/models/question";
 
 @Component({
     selector: "app-question-card",
@@ -66,7 +67,7 @@ export class QuestionCardComponent implements OnInit, OnDestroy {
                 return "fal fa-key";
             case QuestionTypes.Gaming:
                 return "fal fa-gamepad";
-            case QuestionTypes.Scavender:
+            case QuestionTypes.Scavenger:
                 return "fal fa-camera-alt";
             case QuestionTypes.Upload:
                 return "fal fa-upload";

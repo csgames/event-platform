@@ -85,6 +85,16 @@
             "school": "School",
             "url": "Video url",
             "video_id": "Video Id (youtube)"
+        },
+        "question_form": {
+            "label_placeholder": "Your puzzle title here",
+            "score": "Puzzle value",
+            "validation_types": "Validation type",
+            "puzzle_types": "Puzzle type",
+            "answer_admin": "Answer",
+            "answer_placeholder": "Answer / URL",
+            "description_placeholder": "Your puzzle description here",
+            "answer": "Answer here"
         }
     },
     "errors": {
@@ -167,6 +177,7 @@
         "competition": {
             "competition_password": "Competition password",
             "competitions": "Competitions",
+            "competition": "Competition",
             "other": "Other competitions",
             "participate": "Participate",
             "subscribed": "Subscribed competitions",
@@ -177,32 +188,41 @@
             "answered": "Answered questions",
             "not_answered": "Not answered questions",
             "answered_all_questions": "You have answered all questions.",
-            "ended": "Competition has ended"
+            "ended": "Competition has ended",
+            "edit": {
+                "description": "Description",
+                "add_question": "Add question",
+                "update_question": "Update question",
+                "update_question_error": "An error occured while updating the question.",
+                "create_question_error": "An error occured while creating the question.",
+                "save_error": "An error occured while saving the competition.",
+                "save_success": "Successfully saved competition."
+            }
         },
         "flashouts": {
             "vote_success": "The vote has been successfully saved.",
             "vote_error": "Please rate all the flash outs before voting.",
             "add_flashout": "Add a Flash Out"
         },
-		"guide": {
-			"guide": "Guide",
-			"hotel": "Get to the hotel",
-			"school": "Get to the school",
-			"parking": "Parkings",
-			"restaurants": "Restaurants and bars",
-			"what_to_bring": "What to bring?",
-			"map": "School map"
-		},
-		"home": {
-			"home": "Home"
-		},
-		"login": {
-			"forgot_pass": "Forgot password?",
-			"login": "Login",
-			"login_error": "Invalid e-mail or password.",
-			"sign_in": "Sign in"
-		},
-		"onboarding": {
+        "guide": {
+            "guide": "Guide",
+            "hotel": "Get to the hotel",
+            "school": "Get to the school",
+            "parking": "Parkings",
+            "restaurants": "Restaurants and bars",
+            "what_to_bring": "What to bring?",
+            "map": "School map"
+        },
+        "home": {
+            "home": "Home"
+        },
+        "login": {
+            "forgot_pass": "Forgot password?",
+            "login": "Login",
+            "login_error": "Invalid e-mail or password.",
+            "sign_in": "Sign in"
+        },
+        "onboarding": {
             "onboarding": "Onboarding",
             "agree": "I have read and agree the conditions and rules cited in ",
             "code": "this disclaimer"
@@ -220,13 +240,8 @@
             "wrong_answer": "Wrong answer!",
             "loading_error": "An error occured while loading the puzzle hero",
             "scoreboard_loading_error": "An error occured while loading the scoreboard",
-            "answer": "Answer here",
             "validate_success": "Good answer!",
-            "validation_types": "Validation type",
-            "puzzle_types": "Puzzle type",
-            "answer_admin": "Answer",
-            "answer_placeholder": "Answer / URL",
-            "description_placeholder": "Your puzzle description here",
+            "answer": "Answer",
             "admin": {
                 "add_track": "Add track",
                 "add_puzzle": "Add puzzle",
@@ -235,10 +250,8 @@
                 "ended_on": "Ended on",
                 "puzzle_available_for_attendees": "The puzzle hero is currently accessible by attendees.",
                 "puzzle_not_available_for_attendees": "The puzzle hero is not currently accessible by attendees.",
-                "label_placeholder": "Your puzzle title here",
                 "create_puzzle": "Add a puzzle",
-                "update_puzzle": "Update a puzzle",
-                "score": "Puzzle value"
+                "update_puzzle": "Update a puzzle"
             }
         },
         "register": {
@@ -268,18 +281,18 @@
             "godparent": "Godparent",
             "loading_error": "An error occured while loading the team.",
             "teams_loading_error": "An error occured while loading the teams.",
-			"no_godparent": "No godparent yet",
-			"not_registered": "Not registered",
-			"registered": "Registered",
-			"team": "Team",
-			"teams": "Teams",
-			"team_title": "Team",
+            "no_godparent": "No godparent yet",
+            "not_registered": "Not registered",
+            "registered": "Registered",
+            "team": "Team",
+            "teams": "Teams",
+            "team_title": "Team",
             "team_members": "Team members",
             "max": "Maximum team members"
-		},
+        },
         "notifications": {
             "notifications": "Notifications"
-		},
+        },
         "organizers": {
             "organizers": "Organizers",
             "add_organizer": "Add an organizer"
