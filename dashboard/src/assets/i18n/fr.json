@@ -210,10 +210,10 @@
             "answered_all_questions": "Vous avez répondu à toutes les questions.",
             "ended": "La compétition est terminée",
             "add_competition": "Ajouter une compétition",
-            "create_competition_success": "Compétition ajoutée avec succès.",
             "admin": {
                 "edit_competition": "Modifier une compétition",
-                "edit_competition_success": "Compétition sauvegardée avec succès."
+                "edit_competition_success": "Compétition sauvegardée avec succès.",
+                "create_competition_success": "Compétition ajoutée avec succès."
             },
             "edit": {
                 "description": "Description",
@@ -284,7 +284,7 @@
         "schedule": {
             "schedule": "Horaire",
             "view_competition": "Voir la compétition",
-            "next": "Prochaines activitées"
+            "next": "Prochaines activités"
         },
         "sponsors": {
             "bronze": "Bronze",

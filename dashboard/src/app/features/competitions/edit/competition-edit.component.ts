@@ -4,8 +4,8 @@ import { select, Store } from "@ngrx/store";
 import { getCompetitionEditCompetition, getCompetitionEditError, getCompetitionEditLoading, State } from "./store/competition-edit.reducer";
 import {
     LoadCompetition,
-    OpenCreateQuestionModal,
-    OpenUpdateQuestionModal,
+    OpenCreateQuestionModal, OpenSettingsModal,
+    OpenUpdateQuestionModal, ResetStore,
     SaveQuestionsAndDescription
 } from "./store/competition-edit.actions";
 import { Question, QuestionGraphNode } from "../../../api/models/question";
@@ -13,7 +13,7 @@ import { Competition } from "../../../api/models/competition";
 import { Subscription } from "rxjs";
 
 @Component({
-    selector: "app-competition-edit",
+    selector: "app-edit-competition",
     templateUrl: "competition-edit.template.html",
     styleUrls: ["./competition-edit.style.scss"]
 })
@@ -27,20 +27,27 @@ export class CompetitionEditComponent implements OnInit, OnDestroy {
 
     public competition: Competition;
 
+    private competitionIdSub$: Subscription;
     private competitionSub$: Subscription;
 
     constructor(private store$: Store<State>, private activatedRoute: ActivatedRoute) {}
 
     ngOnInit() {
-        this.id = this.activatedRoute.snapshot.params["id"];
-        this.store$.dispatch(new LoadCompetition(this.id));
-
+        this.store$.dispatch(new ResetStore());
+        this.competitionIdSub$ = this.activatedRoute.params.subscribe(
+            params => {
+                this.id = params["id"];
+                this.store$.dispatch(new LoadCompetition(this.id));
+            }
+        );
         this.competitionSub$ = this.competition$.subscribe(c => {
+            console.log(c);
             this.competition = c;
         });
     }
 
     ngOnDestroy(): void {
+        this.competitionIdSub$.unsubscribe();
         this.competitionSub$.unsubscribe();
     }
 
@@ -64,5 +71,9 @@ export class CompetitionEditComponent implements OnInit, OnDestroy {
             description: this.competition.description,
             questions: questionGraphNodes
         }));
+    }
+
+    clickSettings() {
+        this.store$.dispatch(new OpenSettingsModal(this.competition));
     }
 }

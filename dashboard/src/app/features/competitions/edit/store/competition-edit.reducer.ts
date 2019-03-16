@@ -113,6 +113,9 @@ export function reducer(state = initialState, action: CompetitionEditActions): C
                 ...state,
                 loading: false
             };
+
+        case CompetitionEditActionTypes.ResetStore:
+            return initialState;
     }
 
     return state;

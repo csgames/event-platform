@@ -8,7 +8,7 @@ import {
     CreateQuestionError,
     LoadCompetition,
     LoadCompetitionError,
-    OpenCreateQuestionModal,
+    OpenCreateQuestionModal, OpenSettingsModal,
     OpenUpdateQuestionModal,
     QuestionCreated,
     QuestionsAndDescriptionSaved,
@@ -28,6 +28,8 @@ import { UpdateQuestionComponent } from "../components/update-question/update-qu
 import { CreateQuestionComponent } from "../components/create-question/create-question.component";
 import { ToastrService } from "ngx-toastr";
 import { TranslateService } from "@ngx-translate/core";
+import { EditCompetitionComponent } from "../../admin/components/edit-competition/edit-competition.component";
+import { GlobalError } from "../../../../store/app.actions";
 
 @Injectable()
 export class CompetitionEditEffects {
@@ -40,7 +42,7 @@ export class CompetitionEditEffects {
         ofType<LoadCompetition>(CompetitionEditActionTypes.LoadCompetition),
         switchMap((action: LoadCompetition) => this.competitionsService.getInfoForCompetition(action.id)
             .pipe(
-                map((competition: Competition) => new CompetitionLoaded(competition)),
+                map((competition: Competition) => (console.log(competition), new CompetitionLoaded(competition))),
                 catchError(() => of(new LoadCompetitionError()))
             )
         )
@@ -136,5 +138,18 @@ export class CompetitionEditEffects {
     saveQuestionsAndDescriptionError$ = this.actions$.pipe(
         ofType<SaveQuestionsAndDescriptionError>(CompetitionEditActionTypes.SaveQuestionsAndDescriptionError),
         tap(() => this.toastrService.error("", this.translateService.instant("pages.competition.edit.save_error")))
+    );
+
+    @Effect()
+    openSettingsModal$ = this.actions$.pipe(
+        ofType<OpenSettingsModal>(CompetitionEditActionTypes.OpenSettingsModal),
+        withLatestFrom(this.store$.pipe(select(getCompetitionEditCompetition))),
+        switchMap(([action, competition]: [OpenSettingsModal, Competition]) => {
+            return this.modalService.addModal(EditCompetitionComponent, { competition: action.competition })
+                .pipe(
+                    filter(x => !!x),
+                    map(() => new LoadCompetition(competition._id))
+                );
+        })
     );
 }

@@ -7,9 +7,9 @@ import { StoreModule } from "@ngrx/store";
 import { TranslateModule } from "@ngx-translate/core";
 import { LoadingSpinnerModule } from "../../../../../components/loading-spinner/loading-spinner.module";
 import { CompetitionFormModule } from "../competition-form/competition-form.module";
-import { CompetitionEditEffects } from "./store/competition-edit.effects";
-import * as fromCompetitionEdit from "./store/competition-edit.reducer";
-import { CompetitionEditComponent } from "./competition-edit.component";
+import { EditCompetitionEffects } from "./store/edit-competition.effects";
+import * as fromEditCompetition from "./store/edit-competition.reducer";
+import { EditCompetitionComponent } from "./edit-competition.component";
 
 @NgModule({
     imports: [
@@ -19,11 +19,10 @@ import { CompetitionEditComponent } from "./competition-edit.component";
         CompetitionFormModule,
         LoadingSpinnerModule,
         FlexLayoutModule,
-        StoreModule.forFeature("competitionEdit", fromCompetitionEdit.reducer),
-        EffectsModule.forFeature([CompetitionEditEffects])
+        StoreModule.forFeature("editCompetition", fromEditCompetition.reducer),
+        EffectsModule.forFeature([EditCompetitionEffects])
     ],
-    declarations: [CompetitionEditComponent],
-    entryComponents: [CompetitionEditComponent]
+    declarations: [EditCompetitionComponent],
+    entryComponents: [EditCompetitionComponent]
 })
-export class CompetitionEditModule {
-}
+export class EditCompetitionModule {}

@@ -40,6 +40,7 @@ import { SubscriptionService } from "./components/competition-card/providers/sub
     ],
     declarations: [CompetitionsListComponent, InfoCompetitionComponent, CompetitionCardComponent],
     entryComponents: [CompetitionsListComponent, InfoCompetitionComponent],
-    providers: [SubscriptionService]
+    providers: [SubscriptionService],
+    exports: [CompetitionCardComponent]
 })
-export class CompetitionsListModule { }
+export class CompetitionsListModule {}

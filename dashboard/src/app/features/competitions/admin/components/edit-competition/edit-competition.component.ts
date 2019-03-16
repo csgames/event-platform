@@ -5,19 +5,19 @@ import { Subscription } from "rxjs";
 import { Competition } from "src/app/api/models/competition";
 import { CompetitionFormComponent } from "../competition-form/competition-form.component";
 import { CompetitionFormDto } from "../competition-form/dto/competition-form.dto";
-import { LoadActivities, LoadDirectors, ResetStore, SaveCompetitionEdit } from "./store/competition-edit.actions";
-import { getActivities, getCompetitionEditLoading, getCompetitionEditSuccess, getDirectors, State } from "./store/competition-edit.reducer";
+import { LoadActivities, LoadDirectors, ResetStore, SaveCompetitionEdit } from "./store/edit-competition.actions";
+import { getActivities, getCompetitionEditLoading, getCompetitionEditSuccess, getDirectors, State } from "./store/edit-competition.reducer";
 
-export interface CompetitionEditModal {
+export interface EditCompetitionModal {
     competition: Competition;
 }
 
 @Component({
-    selector: "app-competition-edit",
-    templateUrl: "competition-edit.template.html",
-    styleUrls: ["./competition-edit.style.scss"]
+    selector: "app-edit-competition",
+    templateUrl: "edit-competition.template.html",
+    styleUrls: ["./edit-competition.style.scss"]
 })
-export class CompetitionEditComponent extends SimpleModalComponent<CompetitionEditModal, boolean> implements OnInit, OnDestroy {
+export class EditCompetitionComponent extends SimpleModalComponent<EditCompetitionModal, boolean> implements OnInit, OnDestroy {
     @ViewChild(CompetitionFormComponent)
     private form: CompetitionFormComponent;
 

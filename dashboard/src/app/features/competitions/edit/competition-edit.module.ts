@@ -18,6 +18,7 @@ import { QuestionFormModule } from "../../../components/question-form/question-f
 import { UpdateQuestionComponent } from "./components/update-question/update-question.component";
 import { CreateQuestionComponent } from "./components/create-question/create-question.component";
 import { MarkdownModule } from "ngx-markdown";
+import { EditCompetitionModule } from "../admin/components/edit-competition/edit-competition.module";
 
 @NgModule({
     imports: [
@@ -33,6 +34,7 @@ import { MarkdownModule } from "ngx-markdown";
         SortableModule,
         QuestionFormModule,
         MarkdownModule,
+        EditCompetitionModule,
 
         StoreModule.forFeature("competitionEdit", fromCompetitionEdit.reducer),
         EffectsModule.forFeature([CompetitionEditEffects])

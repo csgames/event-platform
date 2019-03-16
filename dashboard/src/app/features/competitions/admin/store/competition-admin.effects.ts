@@ -10,11 +10,11 @@ import { CompetitionsService } from "../../../../providers/competitions.service"
 import { EventService } from "../../../../providers/event.service";
 import { ScheduleService } from "../../../../providers/schedule.service";
 import { GlobalError } from "../../../../store/app.actions";
-import { CompetitionEditComponent } from "../components/competition-edit/competition-edit.component";
 import {
     ActivitiesLoaded, CompetitionsAdminActionTypes, CompetitionsAdminLoaded, CreateCompetition, CreateCompetitionSuccess, DirectorsLoaded,
     EditCompetition, LoadCompetitionsAdmin
 } from "./competition-admin.actions";
+import { EditCompetitionComponent } from "../components/edit-competition/edit-competition.component";
 
 @Injectable()
 export class CompetitionAdminEffects {
@@ -72,7 +72,7 @@ export class CompetitionAdminEffects {
     competitionsAdded$ = this.actions$.pipe(
         ofType(CompetitionsAdminActionTypes.CreateCompetitionSuccess),
         tap(() => {
-            this.toastrService.success(this.translateService.instant("pages.competition.create_competition_success"));
+            this.toastrService.success(this.translateService.instant("pages.competition.admin.create_competition_success"));
         })
     );
 
@@ -80,8 +80,8 @@ export class CompetitionAdminEffects {
     editCompetition$ = this.actions$.pipe(
         ofType(CompetitionsAdminActionTypes.EditCompetition),
         switchMap((action: EditCompetition) => {
-            return this.modalService.addModal(CompetitionEditComponent, { competition: action.payload }).pipe(
-                filter((x) => x),
+            return this.modalService.addModal(EditCompetitionComponent, { competition: action.payload }).pipe(
+                filter((x) => !!x),
                 map(() => new LoadCompetitionsAdmin()),
                 catchError(err => of(new GlobalError(err)))
             );

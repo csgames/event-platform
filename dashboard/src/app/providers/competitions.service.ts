@@ -1,14 +1,13 @@
 import { Injectable } from "@angular/core";
 import { ApiService } from "../api/api.service";
 import { Observable } from "rxjs";
-import { Competition, Question } from "../api/models/competition";
-import { AuthCompetitionDto, QuestionAnswerDto, UpdateCompetitionDto } from "../api/dto/competition";
+import { Competition } from "../api/models/competition";
+import { AuthCompetitionDto, UpdateCompetitionDto } from "../api/dto/competition";
 import { CreateQuestionDto, UpdateQuestionDto } from "../api/dto/question";
 import { formatDate } from "@angular/common";
 import { TranslateService } from "@ngx-translate/core";
 import { QuestionGraphNode } from "../api/models/question";
 import { CompetitionFormDto } from "../features/competitions/admin/components/competition-form/dto/competition-form.dto";
-const SUBSCRIBED_COMPETITIONS = "SUBSCRIBED_COMPETITIONS";
 import { QuestionAnswerDto } from "../api/dto/competition";
 
 @Injectable()
@@ -59,7 +58,7 @@ export class CompetitionsService {
 
         return "d MMMM";
     }
-    
+
     public getInfoForCompetition(competitionId: string): Observable<Competition> {
         return this.apiService.competition.getInfoForCompetition(competitionId);
     }

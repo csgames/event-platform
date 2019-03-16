@@ -17,9 +17,13 @@ export enum CompetitionEditActionTypes {
     QuestionCreated = "[Competition Edit] Question created",
     CreateQuestionError = "[Competition Edit] Create question error",
 
+    OpenSettingsModal = "[Competition Edit] Open settings modal",
+
     SaveQuestionsAndDescription = "[Competition Edit] Save questions and description",
     SaveQuestionsAndDescriptionError = "[Competition Edit] Save questions and description error",
-    QuestionsAndDescriptionSaved = "[Competition Edit] Questions and description saved"
+    QuestionsAndDescriptionSaved = "[Competition Edit] Questions and description saved",
+
+    ResetStore = "[Competition Edit] Reset Store"
 }
 
 export class LoadCompetition implements Action {
@@ -94,7 +98,19 @@ export class SaveQuestionsAndDescriptionError implements Action {
     readonly type = CompetitionEditActionTypes.SaveQuestionsAndDescriptionError;
 }
 
+export class ResetStore implements Action {
+    readonly type = CompetitionEditActionTypes.ResetStore;
+}
+
+export class OpenSettingsModal implements Action {
+    readonly type = CompetitionEditActionTypes.OpenSettingsModal;
+
+    constructor(public competition: Competition) {}
+}
+
 export type CompetitionEditActions =
+    | ResetStore
+    | OpenSettingsModal
     | SaveQuestionsAndDescription
     | SaveQuestionsAndDescriptionError
     | QuestionsAndDescriptionSaved

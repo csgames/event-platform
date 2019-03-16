@@ -2,7 +2,7 @@ import { createFeatureSelector, createSelector } from "@ngrx/store";
 import { Activity } from "../../../../../../api/models/activity";
 import { Attendee } from "../../../../../../api/models/attendee";
 import * as fromApp from "../../../../../../store/app.reducers";
-import { CompetitionEditActions, CompetitionEditActionTypes } from "./competition-edit.actions";
+import { EditCompetitionActions, CompetitionEditActionTypes } from "./edit-competition.actions";
 
 export interface CompetitionEditState {
     activities: Activity[];
@@ -13,7 +13,7 @@ export interface CompetitionEditState {
 }
 
 export interface State extends fromApp.State {
-    competitionEdit: CompetitionEditState;
+    editCompetition: CompetitionEditState;
 }
 
 export const initialState: CompetitionEditState = {
@@ -24,7 +24,7 @@ export const initialState: CompetitionEditState = {
     error: false
 };
 
-export function reducer(state = initialState, action: CompetitionEditActions): CompetitionEditState {
+export function reducer(state = initialState, action: EditCompetitionActions): CompetitionEditState {
     switch (action.type) {
         case CompetitionEditActionTypes.LoadActivities:
         case CompetitionEditActionTypes.LoadDirectors:
@@ -65,7 +65,7 @@ export function reducer(state = initialState, action: CompetitionEditActions): C
     }
 }
 
-export const getCompetitionEditState = createFeatureSelector<State, CompetitionEditState>("competitionEdit");
+export const getCompetitionEditState = createFeatureSelector<State, CompetitionEditState>("editCompetition");
 
 export const getCompetitionEditLoading = createSelector(getCompetitionEditState, (state: CompetitionEditState) => state.loading);
 export const getCompetitionEditError = createSelector(getCompetitionEditState, (state: CompetitionEditState) => state.error);

@@ -11,13 +11,13 @@ import { ScheduleService } from "../../../../../../providers/schedule.service";
 import {
     SaveCompetitionEdit, CompetitionEditActionTypes, CompetitionEditSaved, CompetitionEditError, ModalLoaded, ActivitiesLoaded,
     DirectorsLoaded
-} from "./competition-edit.actions";
+} from "./edit-competition.actions";
 import { switchMap, map, catchError, withLatestFrom, filter, tap } from "rxjs/operators";
 import { of } from "rxjs";
-import { getActivities, getDirectors, State } from "./competition-edit.reducer";
+import { getActivities, getDirectors, State } from "./edit-competition.reducer";
 
 @Injectable()
-export class CompetitionEditEffects {
+export class EditCompetitionEffects {
     constructor(private actions$: Actions,
                 private store$: Store<State>,
                 private scheduleService: ScheduleService,
@@ -72,7 +72,7 @@ export class CompetitionEditEffects {
     competitionEditSaved$ = this.actions$.pipe(
         ofType<CompetitionEditSaved>(CompetitionEditActionTypes.CompetitionEditSaved),
         tap(() => {
-            this.toastrService.success(this.translateService.instant("components.competition.admin.edit_competition_success"));
+            this.toastrService.success(this.translateService.instant("pages.competition.admin.edit_competition_success"));
         })
     );
 }

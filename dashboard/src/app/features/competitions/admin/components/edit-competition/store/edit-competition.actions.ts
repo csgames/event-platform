@@ -4,15 +4,15 @@ import { Attendee } from "../../../../../../api/models/attendee";
 import { CompetitionFormDto } from "../../competition-form/dto/competition-form.dto";
 
 export enum CompetitionEditActionTypes {
-    SaveCompetitionEdit = "[Competition edit] Save competition edit",
-    CompetitionEditSaved = "[Competition edit] Competition edit saved",
-    CompetitionEditError = "[Competition edit] Competition edit save error",
-    LoadActivities = "[Competition edit] Load activities",
-    ActivitiesLoaded = "[Competition edit] Activities loaded",
-    LoadDirectors = "[Competition edit] Load directors",
-    DirectorsLoaded = "[Competition edit] Directors loaded",
-    ModalLoaded = "[Competition edit] Modal loaded",
-    ResetStore = "[Competition edit] Reset"
+    SaveCompetitionEdit = "[Edit Competition] Save competition edit",
+    CompetitionEditSaved = "[Edit Competition] Competition edit saved",
+    CompetitionEditError = "[Edit Competition] Competition edit save error",
+    LoadActivities = "[Edit Competition] Load activities",
+    ActivitiesLoaded = "[Edit Competition] Activities loaded",
+    LoadDirectors = "[Edit Competition] Load directors",
+    DirectorsLoaded = "[Edit Competition] Directors loaded",
+    ModalLoaded = "[Edit Competition] Modal loaded",
+    ResetStore = "[Edit Competition] Reset"
 }
 
 export class SaveCompetitionEdit implements Action {
@@ -58,7 +58,7 @@ export class ResetStore implements Action {
     readonly type = CompetitionEditActionTypes.ResetStore;
 }
 
-export type CompetitionEditActions = 
+export type EditCompetitionActions =
     | SaveCompetitionEdit
     | CompetitionEditSaved
     | CompetitionEditError

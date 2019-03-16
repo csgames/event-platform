@@ -1,14 +1,14 @@
 <div class="page-wrapper">
-    <h1>{{ "pages.home.home" | translate }}</h1>
+    <h1 class="title">{{ "pages.home.home" | translate }}</h1>
 
     <ng-container *ngIf="starredTracks$ | async as starredTracks">
         <div class="animated fadeIn">
             <ng-container *ngIf="starredTracks?.length > 0">
                 <div class="row mt-4">
                     <div class="col-sm-7">
-                        <h3>
+                        <h2>
                             {{ "pages.puzzle_hero.starred" | translate }}
-                        </h3>
+                        </h2>
                     </div>
                 </div>
                 <hr class="title">
@@ -22,9 +22,9 @@
     <ng-container *ngIf="nextActivities.length > 0">
         <div class="row mt-4">
             <div class="col-sm-7">
-                <h3>
+                <h2>
                     {{ "pages.schedule.next" | translate }}
-                </h3>
+                </h2>
             </div>
         </div>
         <hr class="title">
@@ -95,9 +95,9 @@
         <ng-container *ngIf="nextCompetitions.length > 0">
             <div class="row mt-4">
                 <div class="col-sm-7">
-                    <h3>
+                    <h2>
                         {{ "pages.competition.next" | translate }}
-                    </h3>
+                    </h2>
                 </div>
             </div>
             <hr class="title">
