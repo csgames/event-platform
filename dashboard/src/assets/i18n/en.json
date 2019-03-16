@@ -102,7 +102,7 @@
             "answer_admin": "Answer",
             "answer_placeholder": "Answer / URL",
             "description_placeholder": "Your puzzle description here",
-            "answer": "Answer here"
+            "answer": "Answer"
         }
     },
     "errors": {
