@@ -39,7 +39,7 @@ export class CompetitionsService {
         return this.apiService.competition.updateQuestion(competitionId, questionId, updateQuestionDto);
     }
 
-    public updateCompetition(competitionId: string, dto: CompetitionFormDto): Observable<void> {
+    public updateCompetition(competitionId: string, dto: UpdateCompetitionDto): Observable<void> {
         return this.apiService.competition.updateCompetition(competitionId, dto);
     }
 }

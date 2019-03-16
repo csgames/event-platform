@@ -57,8 +57,7 @@ export class CompetitionApi extends CSGamesApi {
         });
     }
 
-
-    public updateCompetition(competitionId: string, dto: CompetitionFormDto): Observable<void> {
+    public updateCompetition(competitionId: string, dto: UpdateCompetitionDto): Observable<void> {
         return this.http.put<void>(this.url(`${competitionId}`), dto, { withCredentials: true });
     }
 }

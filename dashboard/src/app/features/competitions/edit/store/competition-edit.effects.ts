@@ -116,7 +116,7 @@ export class CompetitionEditEffects {
         ofType<SaveQuestionsAndDescription>(CompetitionEditActionTypes.SaveQuestionsAndDescription),
         withLatestFrom(this.store$.pipe(select(getCompetitionEditCompetition))),
         switchMap(([action, competition]: [SaveQuestionsAndDescription, Competition]) =>
-            this.competitionsService.update(competition._id, { ...action.payload })
+            this.competitionsService.updateCompetition(competition._id, { ...action.payload })
                 .pipe(
                     map(() => new QuestionsAndDescriptionSaved()),
                     catchError(() => of(new SaveQuestionsAndDescriptionError()))

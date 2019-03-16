@@ -86,7 +86,7 @@
             "directors": "Directeurs",
             "max_members": "Maximum de partipants",
             "on_dashboard": "Compétition présente dans le dashboard",
-            "is_live": "Compétition activée"
+            "is_live": "Compétition démarrée"
         },
         "question_form": {
             "label_placeholder": "Votre titre de puzzle ici",

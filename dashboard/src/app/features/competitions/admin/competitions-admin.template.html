@@ -1,5 +1,5 @@
 <div class="page-wrapper">
-    <h1>{{ "pages.competition.competitions" | translate }}</h1>
+    <h1 class="title">{{ "pages.competition.competitions" | translate }}</h1>
     <app-loading-spinner [loading]="loading$">
     </app-loading-spinner>
 
@@ -12,10 +12,11 @@
 
     <ng-container *ngIf="competitions$ | async as competitions">
         <div class="row mt-4">
-            <div class="col-sm-7">
+            <div class="col-sm-12">
                 <h2>
                     {{ competitions?.length }} {{ "pages.competition.competitions" | translate }}
                 </h2>
+                <hr>
             </div>
         </div>
         <div class="row">
