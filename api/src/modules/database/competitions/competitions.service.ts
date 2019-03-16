@@ -446,6 +446,13 @@ export class CompetitionsService extends BaseService<Competitions, Competitions>
             {
                 path: 'questions.question',
                 model: 'questions'
+            },
+            {
+                path: 'directors',
+                model: 'attendees',
+                select: {
+                    notifications: false
+                }
             }
         ]).exec();
 
@@ -453,7 +460,7 @@ export class CompetitionsService extends BaseService<Competitions, Competitions>
             throw new NotFoundException();
         }
 
-        if (user.role.endsWith('admin')) {
+        if (user.role.endsWith('admin') || user.role === 'director') {
             return competition;
         }
 

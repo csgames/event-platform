@@ -320,7 +320,9 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
             const director = await this.attendeeService.findOne({
                 email: user.username
             });
-            return competitions.filter(c => c.directors.find(d => d.toString() === director._id));
+            return competitions.filter(c => c.directors.find(d => {
+                return (d as Attendees)._id.toString() === director._id.toString();
+            }));
         }
 
         const attendee = await this.attendeeService.findOne({
