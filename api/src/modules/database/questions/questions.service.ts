@@ -16,8 +16,8 @@ export class QuestionsService {
     }
 
     public async updateQuestion(questionId: string, dto: UpdateQuestionDto): Promise<void> {
-        const question = await this.questionsModel.findOne({_id: questionId }).exec();
-        if(!question) {
+        const question = await this.questionsModel.findOne({_id: questionId}).exec();
+        if (!question) {
             throw new NotFoundException('No question found');
         }
 

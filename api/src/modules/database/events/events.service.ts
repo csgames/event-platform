@@ -18,7 +18,6 @@ import { AttendeeAlreadyRegisteredException, EventNotFoundException, UserNotAtte
 import { Events, EventSponsorDetails } from './events.model';
 import { UpdateAttendeeDto } from '../attendees/attendees.dto';
 import { Teams } from '../teams/teams.model';
-import { IsBoolean, IsNotEmpty, IsOptional } from 'class-validator';
 
 @Injectable()
 export class EventsService extends BaseService<Events, CreateEventDto> {
@@ -291,7 +290,18 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
     }
 
     public async getCompetitions(eventId: string, user: UserModel): Promise<Competitions[]> {
-        let competitions = await this.competitionsModel.find({
+        let competitions = user.role.endsWith('admin') || user.role === 'director' ? await this.competitionsModel.find({
+            event: eventId
+        }).populate([{
+            path: 'activities',
+            model: 'activities'
+        }, {
+            path: 'directors',
+            model: 'attendees',
+            select: {
+                notifications: false
+            }
+        }]).exec() : await this.competitionsModel.find({
             event: eventId
         }).select({
             activities: true,
@@ -304,6 +314,15 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
 
         if (user.role.endsWith('admin')) {
             return competitions;
+        }
+
+        if (user.role === 'director') {
+            const director = await this.attendeeService.findOne({
+                email: user.username
+            });
+            return competitions.filter(c => c.directors.find(d => {
+                return (d as Attendees)._id.toString() === director._id.toString();
+            }));
         }
 
         const attendee = await this.attendeeService.findOne({

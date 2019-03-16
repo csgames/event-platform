@@ -1,6 +1,7 @@
 import { ArrayNotEmpty, IsBoolean, IsEmail, IsMongoId, IsNotEmpty, IsNumber, IsOptional, IsString, ValidateNested } from 'class-validator';
 import { CreateAttendeeDto } from '../attendees/attendees.dto';
 import { CreateQuestionDto } from '../questions/questions.dto';
+import { QuestionGraphNodes } from './questions/question-graph-nodes.model';
 
 export class CreateCompetitionDto {
     @IsNotEmpty()
@@ -10,6 +11,7 @@ export class CreateCompetitionDto {
     @IsOptional()
     directors: string[];
 
+    @IsOptional()
     @IsNotEmpty()
     description: { [lang: string]: string };
 
@@ -32,6 +34,14 @@ export class UpdateCompetitionDto {
     @ArrayNotEmpty()
     activities: string[];
 
+    @IsOptional()
+    directors: string[];
+
+    @IsOptional()
+    @ArrayNotEmpty()
+    questions: QuestionGraphNodes[];
+
+    @IsOptional()
     @IsNotEmpty()
     description: { [lang: string]: string };
 

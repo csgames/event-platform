@@ -4,10 +4,10 @@ import { InputTypes, QuestionTypes, ValidationTypes } from './questions.model';
 
 export class QuestionOptionDto {
     @IsNotEmpty({
-        groups: ["upload"]
+        groups: ['upload']
     })
     @ArrayNotEmpty({
-        groups: ["upload"]
+        groups: ['upload']
     })
     contentTypes: string[];
 }
@@ -26,27 +26,23 @@ export class CreateQuestionDto {
     @IsNotEmpty({
         always: true
     })
-    @IsIn(["crypto", "gaming", "scavenger", "upload", "none"])
+    @IsIn(['crypto', 'gaming', 'scavenger', 'upload', 'none'])
     type: QuestionTypes;
 
     @IsNotEmpty()
-    @IsIn(["string", "regex", "function", "none"])
+    @IsIn(['string', 'regex', 'function', 'none'])
     validationType: ValidationTypes;
 
     @IsNotEmpty({
         always: true
     })
-    @IsIn(["string", "upload", "code"], {
+    @IsIn(['string', 'upload', 'code'], {
         always: true
     })
     inputType: InputTypes;
 
-    @IsNotEmpty({
-        always: true
-    })
-    @ValidateIf(x => x.validationType !== ValidationTypes.None, {
-        always: true
-    })
+    @IsOptional()
+    @IsNotEmpty()
     answer: any;
 
     @IsNotEmpty({
@@ -60,11 +56,9 @@ export class CreateQuestionDto {
     })
     score: number;
 
-    @IsNotEmpty({
-        groups: ["upload"]
-    })
+    @IsOptional()
     @ValidateNested({
-        groups: ["upload"]
+        groups: ['upload']
     })
     @Type(() => QuestionOptionDto)
     option: QuestionOptionDto;
@@ -87,21 +81,21 @@ export class UpdateQuestionDto {
     @IsNotEmpty({
         always: true
     })
-    @IsIn(["crypto", "gaming", "scavenger", "sponsor", "upload", "none"])
+    @IsIn(['crypto', 'gaming', 'scavenger', 'sponsor', 'upload', 'none'])
     type: QuestionTypes;
 
     @IsOptional()
     @IsNotEmpty({
         always: true
     })
-    @IsIn(["string", "regex", "function", "none"])
+    @IsIn(['string', 'regex', 'function', 'none'])
     validationType: ValidationTypes;
 
     @IsOptional()
     @IsNotEmpty({
         always: true
     })
-    @IsIn(["string", "upload", "code"], {
+    @IsIn(['string', 'upload', 'code'], {
         always: true
     })
     inputType: InputTypes;
@@ -117,7 +111,7 @@ export class UpdateQuestionDto {
 
     @IsOptional()
     @ValidateNested({
-        groups: ["upload"]
+        groups: ['upload']
     })
     option: QuestionOptionDto;
 }

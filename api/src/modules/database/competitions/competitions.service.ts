@@ -13,17 +13,24 @@ import { EventsService } from '../events/events.service';
 import { UpdateQuestionDto } from '../questions/questions.dto';
 import { RegistrationsService } from '../registrations/registrations.service';
 import { Teams } from '../teams/teams.model';
-import { AuthCompetitionDto, CreateCompetitionQuestionDto, CreateDirectorDto } from './competitions.dto';
+import { AuthCompetitionDto, CreateCompetitionDto, CreateCompetitionQuestionDto, CreateDirectorDto } from './competitions.dto';
 import { Competitions, CompetitionsUtils } from './competitions.model';
 import { QuestionAnswers } from './questions/question-answers.model';
 import { QuestionGraphNodes } from './questions/question-graph-nodes.model';
 import { QuestionAnswerDto } from '../questions/question-answer.dto';
 import { QuestionsService } from '../questions/questions.service';
 import { Questions } from '../questions/questions.model';
+import { QuestionsModule } from '../questions/questions.module';
 
 export interface QuestionInfo extends Questions {
     isLocked: boolean;
     isAnswered: boolean;
+}
+
+export interface TeamCompetitionResult {
+    _id: mongoose.Types.ObjectId;
+    name: string;
+    answers: string[];
 }
 
 @Injectable()
@@ -31,12 +38,21 @@ export class CompetitionsService extends BaseService<Competitions, Competitions>
     constructor(@InjectModel('competitions') private readonly competitionsModel: Model<Competitions>,
                 @InjectModel('attendees') private readonly attendeesModel: Model<Attendees>,
                 @InjectModel('teams') private readonly teamsModel: Model<Teams>,
-                @InjectModel('questions') private readonly questionsModel: Model<Teams>,
+                @InjectModel('questions') private readonly questionsModel: Model<Questions>,
                 private readonly activityService: ActivitiesService,
                 private readonly registrationService: RegistrationsService,
                 private readonly eventsService: EventsService,
                 private readonly questionService: QuestionsService) {
         super(competitionsModel);
+    }
+
+    public async create(obj: Partial<CreateCompetitionDto & { event: string }>): Promise<Competitions> {
+        if (obj.directors && obj.directors.length) {
+            for (const director of obj.directors) {
+                await this.validateDirector(director, obj.event);
+            }
+        }
+        return await super.create(obj);
     }
 
     public async auth(eventId: string, competitionId: string, dto: AuthCompetitionDto, user: UserModel): Promise<void> {
@@ -122,6 +138,7 @@ export class CompetitionsService extends BaseService<Competitions, Competitions>
             description: dto.description,
             type: dto.type,
             validationType: dto.validationType,
+            inputType: dto.inputType,
             answer: dto.answer,
             score: dto.score,
             option: dto.option
@@ -198,18 +215,23 @@ export class CompetitionsService extends BaseService<Competitions, Competitions>
         const competition = await this.competitionsModel.findOne({
             _id: competitionId,
             event: eventId
-        }).exec();
+        }).populate([
+            {
+                path: 'questions.question',
+                model: 'questions'
+            }
+        ]).exec();
         if (!competition) {
             throw new NotFoundException();
         }
 
-        const question = competition.questions.find(x => x._id.equals(questionId));
+        const question = competition.questions.find(x => (x.question as Questions)._id.equals(questionId));
         if (!question) {
             throw new BadRequestException('No question found');
         }
 
-        await this.competitionsModel.updateOne({
-            _id: question.question
+        await this.questionsModel.updateOne({
+            _id: (question.question as Questions)._id
         }, dto).exec();
     }
 
@@ -239,7 +261,7 @@ export class CompetitionsService extends BaseService<Competitions, Competitions>
         await competition.save();
     }
 
-    public async getResult(eventId: string, competitionId: string, questionId: string): Promise<Buffer> {
+    public async getQuestionResult(eventId: string, competitionId: string, questionId: string): Promise<Buffer> {
         const competition = await this.competitionsModel.findOne({
             _id: competitionId,
             event: eventId
@@ -424,13 +446,21 @@ export class CompetitionsService extends BaseService<Competitions, Competitions>
             {
                 path: 'questions.question',
                 model: 'questions'
+            },
+            {
+                path: 'directors',
+                model: 'attendees',
+                select: {
+                    notifications: false
+                }
             }
         ]).exec();
+
         if (!competition) {
             throw new NotFoundException();
         }
 
-        if (user.role.endsWith('admin')) {
+        if (user.role.endsWith('admin') || user.role === 'director') {
             return competition;
         }
 
@@ -464,6 +494,30 @@ export class CompetitionsService extends BaseService<Competitions, Competitions>
         delete c.members;
 
         return c;
+    }
+
+    public async getResult(eventId: string, competitionId: string): Promise<TeamCompetitionResult[]> {
+        const competition = await this.competitionsModel.findOne({
+            _id: competitionId,
+            event: eventId
+        }).select(['questions', 'answers']).exec();
+        if (!competition) {
+            throw new NotFoundException();
+        }
+
+        const result: TeamCompetitionResult[] = [];
+        const teams = await this.teamsModel.find({
+            event: eventId
+        }).select(['_id', 'name']).exec();
+        for (const team of teams) {
+            result.push({
+                _id: team._id,
+                name: team.name,
+                answers: competition.answers.filter(x => team._id.equals(x.teamId as string)).map(x => x.question as string)
+            });
+        }
+
+        return result;
     }
 
     private async formatQuestions(competition: Competitions, attendee: Attendees, eventId: string): Promise<QuestionInfo[]> {
@@ -508,5 +562,23 @@ export class CompetitionsService extends BaseService<Competitions, Competitions>
             event: eventId
         }).select('_id').exec();
         return team ? team._id.toHexString() : null;
+    }
+
+    private async validateDirector(attendeeId: string, eventId: string): Promise<void> {
+        const attendee = await this.attendeesModel.findOne({
+            _id: attendeeId
+        });
+        if (!attendee) {
+            throw new NotFoundException('No attendee found');
+        }
+
+        const role = await this.eventsService.getAttendeeRole(eventId, attendeeId);
+        if (role && role !== 'director') {
+            throw new BadRequestException('Attendee must be a director');
+        }
+
+        if (!role) {
+            await this.eventsService.addAttendee(eventId, attendee, 'director');
+        }
     }
 }
