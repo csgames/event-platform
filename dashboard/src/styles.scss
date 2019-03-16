@@ -966,6 +966,27 @@ svg {
     }
 }
 
+table.table {
+    margin-bottom: 16px;
+    border: none;
+}
+
+table.table td,
+table.table th {
+    border: none;
+    padding: 6px 13px;
+    text-align: left;
+}
+
+table.table tr {
+    background-color: transparent;
+    border-top: none;
+}
+
+table.table tr:nth-child(2n) {
+    background-color: transparent;
+}
+
 .table {
     border-spacing: 5px;
 }
