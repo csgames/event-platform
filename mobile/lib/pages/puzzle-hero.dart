@@ -14,12 +14,12 @@ class PuzzleHeroPage extends StatelessWidget {
     Widget _buildBody(BuildContext context, PuzzleHeroState state) {
         Widget body;
         DateTime now = DateTime.now();
-        if (state.hasErrors) {
-            body = Text(LocalizationService.of(context).puzzle['error']);
+        if (!state.isOpen) {
+            body = Text(LocalizationService.of(context).puzzle['date']);
         } else if (state.puzzleHero != null && state.puzzleHero.releaseDate.isBefore(now) && state.puzzleHero.endDate.isAfter(now)) {
             body = _buildCards(context, state.puzzleHero);
         } else {
-            body = Text(LocalizationService.of(context).puzzle['date']);
+            body = Text(LocalizationService.of(context).puzzle['error']);
         }
         return body;
     }

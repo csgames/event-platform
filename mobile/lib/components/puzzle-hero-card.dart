@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:redux/redux.dart';
-import 'package:flutter_html/flutter_html.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
 
 class PuzzleHeroCard extends StatelessWidget {
     final PuzzleInfo _puzzle;
@@ -108,7 +108,7 @@ class PuzzleHeroCard extends StatelessWidget {
         return <Widget>[
             Container(
                 padding: EdgeInsets.only(left: 20.0, right: 20.0, bottom: 15.0),
-                child: Html(
+                child: MarkdownBody(
                     data: _puzzle.description[LocalizationService
                         .of(context)
                         .language] ?? ""

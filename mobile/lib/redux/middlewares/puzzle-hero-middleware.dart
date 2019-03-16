@@ -23,7 +23,6 @@ class PuzzleHeroMiddleware extends EpicClass<AppState> {
 
     Stream<dynamic> _fetchPuzzleHero() async* {
         try {
-
             yield PuzzleHeroLoadedAction(await _puzzleHeroService.getPuzzleHero());
         } catch (err) {
             print('An error occured while getting the puzzle hero : $err');
