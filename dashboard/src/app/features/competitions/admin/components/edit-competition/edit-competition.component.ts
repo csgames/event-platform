@@ -38,7 +38,6 @@ export class EditCompetitionComponent extends SimpleModalComponent<EditCompetiti
         this.store$.dispatch(new ResetStore());
         this.store$.dispatch(new LoadActivities());
         this.store$.dispatch(new LoadDirectors());
-        console.log(this.competition);
         this.dto = {
             ...this.competition,
             activities: this.competition.activities.map(x => x._id) as any,
