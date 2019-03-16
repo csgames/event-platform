@@ -1,0 +1,29 @@
+<div class="card competition-card">
+    <div class="card-body competition-card-body">
+        <div fxLayout="row" fxLayoutAlign="start center" class="tile">
+            <div fxFlex="initial">
+                <i class="fal fal-4x fa-trophy"></i>
+            </div>
+            <div fxFlex>
+                <p class="name">{{ competition.activities[0].name | t18n }}</p>
+                <p class="hours">{{ competition.activities[0].beginDate | hours }}
+                    - {{ competition.activities[competition.activities.length - 1].endDate | hours }}</p>
+                <p class="location">{{ competition.activities[0].location }}</p>
+            </div>
+            <div fxFlex="nogrow">
+                <a class="btn btn-default p-0" [routerLink]="['/competition/' + competition?._id]">
+                    <i class="fas fa-eye"></i>
+                </a>
+                <a class="btn btn-default p-0" (click)="edit.emit()">
+                    <i class="fal fa-edit"></i>
+                </a>
+            </div>
+        </div>
+        <div class="tile">
+            <div *ngFor="let director of competition?.directors">
+                <app-attendee-view class="mb-4" [attendee]="director">
+                </app-attendee-view>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,91 @@
+<form [formGroup]="formGroup">
+    <div class="row">
+        <div class="col-sm-12">
+            {{ "components.competition_form.competition_informations" | translate }}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="input-group input-group-default mx-0 h-auto">
+                <div class="input-group-prepend">
+                    <a class="form-icon">
+                        <i class="fal fa-calendar"></i>
+                    </a>
+                </div>
+                <ng-select formControlName="activities" [items]="activities" placeholder='{{ "components.competition_form.activities" | translate }}'
+                           bindValue="_id" bindLabel="name.en" [multiple]="true" controlStatus>
+                </ng-select>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="input-group input-group-default mx-0 h-auto">
+                <div class="input-group-prepend">
+                    <a class="form-icon">
+                        <i class="fal fa-user-astronaut"></i>
+                    </a>
+                </div>
+                <ng-select formControlName="directors" [items]="directors" placeholder='{{ "components.competition_form.directors" | translate }}'
+                           bindValue="_id" [multiple]="true" controlStatus>
+                    <ng-template ng-label-tmp let-item="item" let-clear="clear">
+                        <span aria-hidden="true" class="ng-value-icon left" (click)="clear(item)">×</span>
+                        <span class="ng-value-label">{{ item.firstName }} {{ item.lastName }}</span>
+                    </ng-template>
+                    <ng-template ng-option-tmp let-item="item">
+                        <span class="ng-value-label">{{ item.firstName }} {{ item.lastName }}</span>
+                    </ng-template>
+                </ng-select>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="input-group input-group-default mx-0">
+                <div class="input-group-prepend">
+                    <a class="form-icon">
+                        <i class="fal fa-users"></i>
+                    </a>
+                </div>
+                <input autofocus class="form-control" formControlName="maxMembers" type="number"
+                       placeholder='{{ "components.competition_form.max_members" | translate }}' controlStatus>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="input-group input-group-default mx-0">
+                <div class="input-group-prepend">
+                    <i class="far fa-lock"></i>
+                </div>
+                <input autofocus class="form-control" [type]="viewPassword ? 'text' : 'password'" controlStatus
+                       formControlName="password" placeholder='{{ "general.profile.password" | translate }}' autocomplete="false">
+                <div class="input-group-append">
+                    <a class="btn btn-default" (click)="generatePassword()"><i class="fal fa-sync-alt"></i></a>
+                    <a class="btn btn-default" (click)="toggleViewPassword()"><i class="fal fa-eye"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="checkbox-group flex-container">
+                <input type="checkbox" class="form-checkbox" id="onDashboard"
+                       formControlName="onDashboard">
+                <label class="checkboxText flex-content"
+                       for="onDashboard">{{ "components.competition_form.on_dashboard" | translate }}</label>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="checkbox-group flex-container">
+                <input type="checkbox" class="form-checkbox" id="isLive"
+                       formControlName="isLive">
+                <label class="checkboxText flex-content"
+                       for="isLive">{{ "components.competition_form.is_live" | translate }}</label>
+            </div>
+        </div>
+    </div>
+</form>

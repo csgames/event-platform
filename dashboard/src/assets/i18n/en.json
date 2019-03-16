@@ -86,6 +86,14 @@
             "url": "Video url",
             "video_id": "Video Id (youtube)"
         },
+        "competition_form": {
+            "competition_informations": "Competition information",
+            "activities": "Linked activities",
+            "directors": "Directors",
+            "max_members": "Max members",
+            "on_dashboard": "Competition in dashboard",
+            "is_live": "Competition is live"
+        },
         "question_form": {
             "label_placeholder": "Your puzzle title here",
             "score": "Puzzle value",
@@ -189,6 +197,8 @@
             "not_answered": "Not answered questions",
             "answered_all_questions": "You have answered all questions.",
             "ended": "Competition has ended",
+            "add_competition": "Add competition",
+            "create_competition_success": "Competition created with success.",
             "edit": {
                 "description": "Description",
                 "add_question": "Add question",

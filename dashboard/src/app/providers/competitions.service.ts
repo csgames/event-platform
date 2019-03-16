@@ -5,10 +5,15 @@ import { Competition } from "../api/models/competition";
 import { AuthCompetitionDto, QuestionAnswerDto, UpdateCompetitionDto } from "../api/dto/competition";
 import { CreateQuestionDto, UpdateQuestionDto } from "../api/dto/question";
 import { QuestionGraphNode } from "../api/models/question";
+import { CompetitionFormDto } from "../features/competitions/admin/components/competition-form/dto/competition-form.dto";
 
 @Injectable()
 export class CompetitionsService {
     constructor(private apiService: ApiService) { }
+
+    public create(dto: CompetitionFormDto): Observable<Competition> {
+        return this.apiService.competition.create(dto);
+    }
 
     public getCompetitionsForEvent(): Observable<Competition[]> {
         return this.apiService.event.getCompetitions();
@@ -34,7 +39,7 @@ export class CompetitionsService {
         return this.apiService.competition.updateQuestion(competitionId, questionId, updateQuestionDto);
     }
 
-    public update(competitionId: string, updateCompetitionDto: UpdateCompetitionDto): Observable<void> {
-        return this.apiService.competition.update(competitionId, updateCompetitionDto);
+    public updateCompetition(competitionId: string, dto: CompetitionFormDto): Observable<void> {
+        return this.apiService.competition.updateCompetition(competitionId, dto);
     }
 }

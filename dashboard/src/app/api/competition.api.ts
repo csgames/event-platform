@@ -4,6 +4,7 @@ import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { Competition } from "./models/competition";
 import { AuthCompetitionDto, QuestionAnswerDto, SubscriptionDto, UpdateCompetitionDto } from "./dto/competition";
+import { CompetitionFormDto } from "../features/competitions/admin/components/competition-form/dto/competition-form.dto";
 import { CreateQuestionDto, UpdateQuestionDto } from "./dto/question";
 import { QuestionGraphNode } from "./models/question";
 
@@ -11,6 +12,10 @@ import { QuestionGraphNode } from "./models/question";
 export class CompetitionApi extends CSGamesApi {
     constructor(private http: HttpClient) {
         super("competition");
+    }
+
+    public create(competition: CompetitionFormDto): Observable<Competition> {
+        return this.http.post<Competition>(this.url(), competition, { withCredentials: true });
     }
 
     public validatePassword(competitionId: string, authCompetition: AuthCompetitionDto): Observable<void> {
@@ -52,9 +57,8 @@ export class CompetitionApi extends CSGamesApi {
         });
     }
 
-    public update(competitionId: string, updateCompetitionDto: UpdateCompetitionDto): Observable<void> {
-        return this.http.put<void>(this.url(`${competitionId}`), updateCompetitionDto, {
-            withCredentials: true
-        });
+
+    public updateCompetition(competitionId: string, dto: CompetitionFormDto): Observable<void> {
+        return this.http.put<void>(this.url(`${competitionId}`), dto, { withCredentials: true });
     }
 }

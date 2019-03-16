@@ -80,6 +80,14 @@
         "create_puzzle": {
             "success": "Puzzle créé!"
         },
+        "competition_form": {
+            "competition_informations": "Information de la compétition",
+            "activities": "Activités liées",
+            "directors": "Directeurs",
+            "max_members": "Maximum de partipants",
+            "on_dashboard": "Compétition présente dans le dashboard",
+            "is_live": "Compétition activée"
+        },
         "question_form": {
             "label_placeholder": "Votre titre de puzzle ici",
             "score": "Pointage de la question",
@@ -189,6 +197,8 @@
             "not_answered": "Questions non-répondues",
             "answered_all_questions": "Vous avez répondu à toutes les questions.",
             "ended": "La compétition est terminée",
+            "add_competition": "Ajouter une compétition",
+            "create_competition_success": "Compétition ajoutée avec succès.",
             "edit": {
                 "description": "Description",
                 "add_question": "Ajouter une question",
