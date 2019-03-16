@@ -1,0 +1,93 @@
+<div class="text-left">
+    <form [formGroup]="formGroup">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="input-group input-group-default">
+                    <div class="input-group-prepend">
+                        <i class="fal fa-file-signature"></i>
+                    </div>
+                    <input autofocus class="form-control" type="text" name="label" formControlName="label"
+                           placeholder='{{ "components.question_form.label_placeholder" | translate }}'
+                           controlStatus>
+                </div>
+            </div>
+
+            <div class="col-sm-12">
+                <div class="input-group">
+                    <app-custom-text-box fxFlex="100%" label="{{ 'general.label.description' | translate }}"
+                                         formControlName="description"
+                                         placeholder="{{ 'components.question_form.description_placeholder' | translate }}"
+                                         formType="markdown" [textareaRows]="10" class="custom-text" controlStatus>
+                    </app-custom-text-box>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="input-group input-group-default">
+                    <ng-select [items]="questionTypes" [clearable]="false"
+                               placeholder='{{ "components.question_form.puzzle_types" | translate }}' controlStatus
+                               formControlName="type">
+                        <ng-template ng-option-tmp ng-label-tmp let-item="item">
+                            <i class="fal" [ngClass]="getQuestionTypeIcon(item)"></i>
+                            <span class="ng-option-label">
+                        {{ item }}
+                    </span>
+                        </ng-template>
+                    </ng-select>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="input-group input-group-default">
+                    <ng-select [items]="validationTypes" [clearable]="false"
+                               placeholder='{{ "components.question_form.validation_types" | translate }}' controlStatus
+                               formControlName="validationType">
+                        <ng-template ng-option-tmp ng-label-tmp let-item="item">
+                            <i class="fal" [ngClass]="getValidationIcon(item)"></i>
+                            <span class="ng-option-label">
+                                {{ item }}
+                            </span>
+                        </ng-template>
+                    </ng-select>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <span class="infoText">
+                    {{ "components.question_form.answer_admin" | translate }} :
+                </span>
+            </div>
+            <div class="col-sm-12">
+                <div class="input-group input-group-default">
+                    <input class="form-control full-width" type="text"
+                           placeholder="{{ 'components.question_form.answer_placeholder' | translate }}"
+                           formControlName="answer"
+                           controlStatus/>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="input-group input-group-default">
+                    <ng-select [items]="inputTypes" [clearable]="false"
+                               placeholder='{{ "components.question_form.input_types" | translate }}' controlStatus
+                               formControlName="inputType">
+                        <ng-template ng-option-tmp ng-label-tmp let-item="item">
+                            <i class="fal" [ngClass]="getInputTypeIcon(item)"></i>
+                            <span class="ng-option-label">
+                        {{ item }}
+                    </span>
+                        </ng-template>
+                    </ng-select>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="input-group input-group-default">
+                    <input class="form-control full-width" type="number"
+                           placeholder="{{ 'components.question_form.score' | translate }}" formControlName="score"
+                           controlStatus/>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

@@ -3,11 +3,9 @@ import { AngularFireMessagingModule } from "@angular/fire/messaging";
 import { BrowserModule } from "@angular/platform-browser";
 import { NgModule } from "@angular/core";
 import { ServiceWorkerModule } from "@angular/service-worker";
-
 import { AppComponent } from "./app.component";
 import { StoreModule } from "@ngrx/store";
 import { EffectsModule } from "@ngrx/effects";
-
 import * as fromApp from "./store/app.reducers";
 import { AppEffects } from "./store/app.effects";
 import { RouterModule } from "@angular/router";
@@ -32,6 +30,7 @@ import { TeamService } from "./providers/team.service";
 import { EventService } from "./providers/event.service";
 import { RegisterService } from "./providers/register.service";
 import { ForgetModule } from "./features/forget/forget.module";
+import { MarkdownModule } from "ngx-markdown";
 import { PasswordService } from "./providers/password.service";
 import { ToastrModule } from "ngx-toastr";
 import { NgxMaskModule } from "ngx-mask";
@@ -43,7 +42,7 @@ import {
     TooltipModule,
     TimepickerModule,
     DatepickerModule,
-    BsDatepickerModule
+    BsDatepickerModule, SortableModule
 } from "ngx-bootstrap";
 import { SponsorsService } from "./providers/sponsors.service";
 import { ScheduleService } from "./providers/schedule.service";
@@ -53,6 +52,9 @@ import { PuzzleHeroService } from "./providers/puzzle-hero.service";
 import { NotificationService } from "./providers/notification.service";
 import { UpdateModule } from "./update/update.module";
 import { FlashoutService } from "./providers/flashout.service";
+import "brace";
+import "brace/mode/markdown";
+import "brace/theme/github";
 import { CompetitionsService } from "./providers/competitions.service";
 
 export function loadFactory(http: HttpClient): TranslateHttpLoader {
@@ -61,7 +63,7 @@ export function loadFactory(http: HttpClient): TranslateHttpLoader {
 
 @NgModule({
     declarations: [
-        AppComponent,
+        AppComponent
     ],
     imports: [
         BrowserModule,
@@ -86,7 +88,9 @@ export function loadFactory(http: HttpClient): TranslateHttpLoader {
         BsDatepickerModule.forRoot(),
         DatepickerModule.forRoot(),
         TimepickerModule.forRoot(),
+        SortableModule.forRoot(),
         NgxMaskModule.forRoot(),
+        MarkdownModule.forRoot(),
         ApiModule,
         ForgetModule,
         ResetModule,
@@ -122,4 +126,4 @@ export function loadFactory(http: HttpClient): TranslateHttpLoader {
     ],
     bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}

@@ -1,5 +1,4 @@
 import { NgModule } from "@angular/core";
-
 import { HomeComponent } from "./home.component";
 import { CommonModule } from "@angular/common";
 import { HomeRoutingModule } from "./home-routing.module";
@@ -8,10 +7,10 @@ import { LoadingSpinnerModule } from "src/app/components/loading-spinner/loading
 import { TracksModule } from "../puzzle-hero/tracks/tracks.module";
 import { ScheduleModule } from "../schedule/schedule.module";
 import { FlexLayoutModule } from "@angular/flex-layout";
-import { CompetitionsModule } from "../competitions/competitions.module";
 import { PuzzleHeroModule } from "../puzzle-hero/puzzle-hero.module";
 import { PuzzleComponentsModule } from "../puzzle-hero/components/puzzle-components.module";
 import { DirectivesModule } from "src/app/directives/directives.module";
+import { CompetitionsListModule } from "../competitions/list/competitions-list.module";
 
 @NgModule({
     imports: [
@@ -22,7 +21,7 @@ import { DirectivesModule } from "src/app/directives/directives.module";
         TracksModule,
         ScheduleModule,
         FlexLayoutModule,
-        CompetitionsModule,
+        CompetitionsListModule,
         PuzzleHeroModule,
         PuzzleComponentsModule,
         DirectivesModule

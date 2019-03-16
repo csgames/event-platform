@@ -1,5 +1,5 @@
 import { Action } from "@ngrx/store";
-import { PuzzleFormDto } from "../../puzzle-form/dto/puzzle-form.dto";
+import { QuestionFormDto } from "../../../../../../components/question-form/dto/question-form.dto";
 
 export enum CreatePuzzleActionTypes {
     CreatePuzzle = "[Create Puzzle Hero Puzzle] Create puzzle",
@@ -11,7 +11,7 @@ export enum CreatePuzzleActionTypes {
 export class CreatePuzzle implements Action {
     readonly type = CreatePuzzleActionTypes.CreatePuzzle;
 
-    constructor(public trackId: string, public parentId: string, public puzzleFormDto: PuzzleFormDto) {}
+    constructor(public trackId: string, public parentId: string, public questionFormDto: QuestionFormDto) {}
 }
 
 export class CreatePuzzleSuccess implements Action {

@@ -1,8 +1,6 @@
 import { Component, OnDestroy, OnInit, ViewChild } from "@angular/core";
 import { SimpleModalComponent } from "ngx-simple-modal";
 import { PuzzleInfo, Track } from "src/app/api/models/puzzle-hero";
-import { PuzzleFormComponent } from "../puzzle-form/puzzle-form.component";
-import { PuzzleFormDto } from "../puzzle-form/dto/puzzle-form.dto";
 import { select, Store } from "@ngrx/store";
 import {
     getPuzzleHeroCreatePuzzleError,
@@ -12,6 +10,8 @@ import {
 } from "./store/create-puzzle-hero.reducer";
 import { Subscription } from "rxjs";
 import { ResetState, CreatePuzzle } from "./store/create-puzzle-hero.actions";
+import { QuestionFormComponent } from "../../../../../components/question-form/question-form.component";
+import { QuestionFormDto } from "../../../../../components/question-form/dto/question-form.dto";
 
 export interface CreatePuzzleHeroModal {
     info: [Track, PuzzleInfo];
@@ -23,13 +23,13 @@ export interface CreatePuzzleHeroModal {
     styleUrls: ["create-puzzle-hero.style.scss"]
 })
 export class CreatePuzzleHeroComponent extends SimpleModalComponent<CreatePuzzleHeroModal, void> implements OnInit, OnDestroy {
-    @ViewChild(PuzzleFormComponent)
-    public puzzleForm: PuzzleFormComponent;
+    @ViewChild(QuestionFormComponent)
+    public questionFormComponent: QuestionFormComponent;
 
     public info: [Track, PuzzleInfo];
     public parentPuzzle: PuzzleInfo;
     public track: Track;
-    public puzzleFormDto: PuzzleFormDto;
+    public questionFormDto: QuestionFormDto;
 
     loading$ = this.store$.pipe(select(getPuzzleHeroCreatePuzzleLoading));
     error$ = this.store$.pipe(select(getPuzzleHeroCreatePuzzleError));
@@ -63,11 +63,11 @@ export class CreatePuzzleHeroComponent extends SimpleModalComponent<CreatePuzzle
     }
 
     public clickSave() {
-        if (this.puzzleForm.validate()) {
+        if (this.questionFormComponent.validate()) {
             if (this.parentPuzzle && this.parentPuzzle.id) {
-                this.store$.dispatch(new CreatePuzzle(this.track._id, this.parentPuzzle.id, this.puzzleFormDto));
+                this.store$.dispatch(new CreatePuzzle(this.track._id, this.parentPuzzle.id, this.questionFormDto));
             } else {
-                this.store$.dispatch(new CreatePuzzle(this.track._id, null, this.puzzleFormDto));
+                this.store$.dispatch(new CreatePuzzle(this.track._id, null, this.questionFormDto));
             }
         }
     }

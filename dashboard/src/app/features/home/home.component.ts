@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from "@angular/core";
 import { select, Store } from "@ngrx/store";
 import * as fromTracks from "../puzzle-hero/tracks/store/tracks.reducer";
 import * as fromSchedule from "../schedule/store/schedule.reducer";
-import * as fromCompetitions from "../competitions/store/competitions.reducer";
+import * as fromCompetitions from "../competitions/list/store/competitions-list.reducer";
 import { LoadStarredTracks, LoadTracks, StarTrack } from "../puzzle-hero/tracks/store/tracks.actions";
 import { Track } from "src/app/api/models/puzzle-hero";
 import { LoadActivities, ShowActivityInfo } from "../schedule/store/schedule.actions";
@@ -11,7 +11,7 @@ import { Subscription } from "rxjs";
 import { Activity } from "src/app/api/models/activity";
 import { TranslateService } from "@ngx-translate/core";
 import { formatDate } from "@angular/common";
-import { LoadCompetitions } from "../competitions/store/competitions.actions";
+import { LoadCompetitions } from "../competitions/list/store/competitions-list.actions";
 import { Competition } from "src/app/api/models/competition";
 import { CompetitionsService } from "src/app/providers/competitions.service";
 

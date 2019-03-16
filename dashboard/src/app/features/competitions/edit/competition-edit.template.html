@@ -1,0 +1,54 @@
+<div class="page-wrapper">
+    <app-loading-spinner [loading]="loading$">
+    </app-loading-spinner>
+
+    <ng-container *ngIf="error$ | async">
+        <h1 class="title">{{ "pages.competition.competition" | translate }}</h1>
+        <div style="text-align: center">
+            <i class="far fa-times-circle text-danger fa-8x"></i>
+            <h3 class="mt-3">{{ "pages.competition.loading_error" | translate }}</h3>
+        </div>
+    </ng-container>
+
+    <ng-container *ngIf="competition">
+        <div fxLayout="row" fxLayoutAlign="start center">
+            <h1 class="title">{{ "pages.competition.competition" | translate }}</h1>
+
+            <div fxFlex></div>
+            <a class="btn btn-outline-primary" (click)="clickSave(competition)">
+                {{ "general.button.save" | translate }}
+            </a>
+            <a class="btn btn-default" (click)="clickSettings(competition)"><i class="fal fa-cogs"></i></a>
+        </div>
+        <div class="row mt-4">
+            <div class="col-sm-7">
+                <h2>
+                    {{ competition.activities[0].name | t18n }}
+                </h2>
+            </div>
+        </div>
+        <hr>
+        <app-custom-text-box
+            label="{{ 'pages.competition.edit.description' | translate }}"
+            [(ngModel)]="competition.description"
+            [formType]="'markdown'">
+        </app-custom-text-box>
+
+        <div class="mt-4">
+            <ng-template #questionTemplate let-item="item">
+                <app-question-edit-card [question]="item.value"
+                                        (clickEditQuestion)="clickEditQuestion(item.value)"></app-question-edit-card>
+            </ng-template>
+
+            <bs-sortable
+                [(ngModel)]="competition.questions"
+                [itemTemplate]="questionTemplate"
+            ></bs-sortable>
+
+            <button type="button" class="add-button btn btn-lg btn-block borders"
+                    (click)="clickAddQuestion()">
+                + {{ "pages.competition.edit.add_question" | translate }}
+            </button>
+        </div>
+    </ng-container>
+</div>

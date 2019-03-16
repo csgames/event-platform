@@ -1,3 +1,5 @@
+import { Question, QuestionTypes } from "./question";
+
 export enum TrackTypes {
     Crypto = "crypto",
     Gaming = "gaming",
@@ -5,32 +7,10 @@ export enum TrackTypes {
     Sponsor = "sponsor"
 }
 
-export enum PuzzleTypes {
-    Crypto = "crypto",
-    Gaming = "gaming",
-    Scavenger = "scavenger",
-    Sponsor = "sponsor"
-}
-
-export enum ValidationTypes {
-    String = "string",
-    Regex = "regex",
-    Function = "function"
-}
-
-export interface Question {
-    label: string;
-    description: { [lang: string]: string };
-    type: PuzzleTypes;
-    validationType: string;
-    answer: any;
-    score: number;
-}
-
 export interface PuzzleInfo {
     id: string;
     label?: string;
-    type?: PuzzleTypes;
+    type?: QuestionTypes;
     completed?: boolean;
     locked?: boolean;
     description?: { [lang: string]: string };

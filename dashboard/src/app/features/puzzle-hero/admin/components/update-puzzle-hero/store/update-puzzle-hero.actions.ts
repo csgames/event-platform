@@ -1,5 +1,5 @@
 import { Action } from "@ngrx/store";
-import { PuzzleFormDto } from "../../puzzle-form/dto/puzzle-form.dto";
+import { QuestionFormDto } from "../../../../../../components/question-form/dto/question-form.dto";
 
 export enum UpdatePuzzleActionTypes {
     UpdatePuzzle = "[Update Puzzle Hero Puzzle] Update puzzle",
@@ -11,7 +11,7 @@ export enum UpdatePuzzleActionTypes {
 export class UpdatePuzzle implements Action {
     readonly type = UpdatePuzzleActionTypes.UpdatePuzzle;
 
-    constructor(public trackId: string, public id: string, public puzzleFormDto: PuzzleFormDto) {}
+    constructor(public trackId: string, public id: string, public questionFormDto: QuestionFormDto) {}
 }
 
 export class UpdatePuzzleSuccess implements Action {

@@ -34,5 +34,8 @@
                 "./app/providers/*"
             ]
         }
+    },
+    "angularCompilerOptions": {
+        "preserveWhitespaces": true
     }
 }

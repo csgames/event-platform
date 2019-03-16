@@ -29,8 +29,6 @@ export class CustomTextBoxComponent implements OnInit, ControlValueAccessor {
     @Input()
     public textareaRows?: number;
 
-    public formTypesArray: string[];
-    
     public languages: string[];
 
     public languageValue: string;
@@ -59,7 +57,6 @@ export class CustomTextBoxComponent implements OnInit, ControlValueAccessor {
     public ngOnInit() {
         this.languages = ["EN", "FR"];
         this.languageValue = "EN";
-        this.formTypesArray = ["textbox", "textarea", "rich"];
         if (this.contentText) {
             this.currentTextValue = this.contentText[this.languageValue.toLowerCase()];
         }

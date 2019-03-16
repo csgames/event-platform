@@ -1,11 +1,12 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { SimpleModalComponent } from "ngx-simple-modal";
-import { PuzzleInfo, PuzzleTypes, Track } from "src/app/api/models/puzzle-hero";
+import { PuzzleInfo, Track } from "src/app/api/models/puzzle-hero";
 import { TranslateService } from "@ngx-translate/core";
 import { select, Store } from "@ngrx/store";
 import { getInfoPuzzleHeroError, getInfoPuzzleHeroLoading, getInfoPuzzleHeroSuccess, State } from "./store/info-puzzle-hero.reducer";
 import { ResetState, ValidateAnswer } from "./store/info-puzzle-hero.actions";
 import { Subscription } from "rxjs";
+import { QuestionTypes } from "../../../../../api/models/question";
 
 export interface InfoPuzzleHeroModal {
     puzzle: PuzzleInfo;
@@ -18,8 +19,6 @@ export interface InfoPuzzleHeroModal {
     styleUrls: ["info-puzzle-hero.style.scss"]
 })
 export class InfoPuzzleHeroComponent extends SimpleModalComponent<InfoPuzzleHeroModal, void> implements OnInit, OnDestroy {
-
-
     error$ = this.store$.pipe(select(getInfoPuzzleHeroError));
     loading$ = this.store$.pipe(select(getInfoPuzzleHeroLoading));
     success$ = this.store$.pipe(select(getInfoPuzzleHeroSuccess));
@@ -59,13 +58,13 @@ export class InfoPuzzleHeroComponent extends SimpleModalComponent<InfoPuzzleHero
 
     get icon(): string {
         switch (this.puzzle.type) {
-            case PuzzleTypes.Crypto:
+            case QuestionTypes.Crypto:
                 return "fa-key";
-            case PuzzleTypes.Gaming:
+            case QuestionTypes.Gaming:
                 return "fa-gamepad";
-            case PuzzleTypes.Scavenger:
+            case QuestionTypes.Scavenger:
                 return "fa-camera-alt";
-            case PuzzleTypes.Sponsor:
+            case QuestionTypes.Sponsor:
                 return "fa-gem";
         }
         return "";

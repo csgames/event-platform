@@ -23,6 +23,10 @@ a {
     }
 }
 
+hr {
+    margin-top: 0 !important;
+}
+
 .page-wrapper {
     padding: 20px;
     position: relative;
@@ -687,21 +691,72 @@ html, body {
     height: 100%;
 }
 
-h1 {
+h1.title {
     font-family: 'Flipbash', sans-serif;
     font-size: 29px;
+    text-transform: uppercase;
+}
+
+h1 {
+    font-size: 32px;
 }
 
 h2 {
     font-weight: normal;
+    font-size: 1.5em;
 }
 
 h3 {
     font-weight: normal;
+    font-size: 1.25em;
 }
 
 h4 {
     font-weight: normal;
+    font-size: 1em;
+}
+
+h5 {
+    font-size: .875em;
+}
+
+h6 {
+    color: #6a737d;
+    font-size: .85em;
+}
+
+pre code {
+    display: block;
+    overflow-x: auto;
+    padding: 0.5em;
+    color: #abb2bf;
+    background: #282c34;
+}
+
+table {
+    margin-bottom: 16px;
+    border: 1px solid #dfe2e5;
+}
+
+table th {
+    font-weight: 600;
+    text-align: left;
+}
+
+table td,
+table th {
+    border: 1px solid #dfe2e5;
+    padding: 6px 13px;
+    text-align: left;
+}
+
+table tr {
+    background-color: #fff;
+    border-top: 1px solid #c6cbd1;
+}
+
+table tr:nth-child(2n) {
+    background-color: #f6f8fa;
 }
 
 .btn-primary {
@@ -1001,7 +1056,7 @@ iframe {
     }
 }
 
- .language-select > .ng-select > .ng-select-container > .ng-clear-wrapper {
+.language-select > .ng-select > .ng-select-container > .ng-clear-wrapper {
     display: none !important;
 }
 
@@ -1042,4 +1097,13 @@ timepicker {
     &:hover {
         border: 1px dashed #08579d;
     }
+}
+
+.ql-tooltip {
+    z-index: 1000;
+}
+
+
+.btn:focus {
+    box-shadow: none !important;
 }

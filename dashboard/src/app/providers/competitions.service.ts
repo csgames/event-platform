@@ -1,18 +1,23 @@
 import { Injectable } from "@angular/core";
 import { ApiService } from "../api/api.service";
 import { Observable } from "rxjs";
-import { Competition, Question } from "../api/models/competition";
-import { AuthCompetitionDto } from "../features/competitions/components/info-competition/dto/auth-competition.dto";
+import { Competition } from "../api/models/competition";
+import { AuthCompetitionDto, UpdateCompetitionDto } from "../api/dto/competition";
+import { CreateQuestionDto, UpdateQuestionDto } from "../api/dto/question";
 import { formatDate } from "@angular/common";
 import { TranslateService } from "@ngx-translate/core";
-
-const SUBSCRIBED_COMPETITIONS = "SUBSCRIBED_COMPETITIONS";
+import { QuestionGraphNode } from "../api/models/question";
+import { CompetitionFormDto } from "../features/competitions/admin/components/competition-form/dto/competition-form.dto";
 import { QuestionAnswerDto } from "../api/dto/competition";
 
 @Injectable()
 export class CompetitionsService {
     constructor(private apiService: ApiService,
                 private translateService: TranslateService) { }
+
+    public create(dto: CompetitionFormDto): Observable<Competition> {
+        return this.apiService.competition.create(dto);
+    }
 
     public getCompetitionsForEvent(): Observable<Competition[]> {
         return this.apiService.event.getCompetitions();
@@ -53,12 +58,24 @@ export class CompetitionsService {
 
         return "d MMMM";
     }
-    
+
     public getInfoForCompetition(competitionId: string): Observable<Competition> {
         return this.apiService.competition.getInfoForCompetition(competitionId);
     }
 
     public validateQuestion(competitionId: string, questionId: string, questionAnswerDto: QuestionAnswerDto): Observable<void> {
         return this.apiService.competition.validateQuestion(competitionId, questionId, questionAnswerDto);
+    }
+
+    public createQuestion(competitionId: string, createQuestionDto: CreateQuestionDto): Observable<QuestionGraphNode> {
+        return this.apiService.competition.createQuestion(competitionId, createQuestionDto);
+    }
+
+    public updateQuestion(competitionId: string, questionId: string, updateQuestionDto: UpdateQuestionDto): Observable<void> {
+        return this.apiService.competition.updateQuestion(competitionId, questionId, updateQuestionDto);
+    }
+
+    public updateCompetition(competitionId: string, dto: UpdateCompetitionDto): Observable<void> {
+        return this.apiService.competition.updateCompetition(competitionId, dto);
     }
 }

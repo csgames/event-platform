@@ -10,6 +10,8 @@ import { PopoverModule, DatepickerModule, BsDatepickerModule, TimepickerModule }
 import { SimpleModalModule } from "ngx-simple-modal";
 import { PuzzleComponentsModule } from "src/app/features/puzzle-hero/components/puzzle-components.module";
 import { QuillModule } from "ngx-quill";
+import { LMarkdownEditorModule } from "ngx-markdown-editor";
+import { FlexLayoutModule } from "@angular/flex-layout";
 
 @NgModule({
     imports: [
@@ -30,7 +32,9 @@ import { QuillModule } from "ngx-quill";
         DatepickerModule,
         BsDatepickerModule,
         TimepickerModule,
-        QuillModule
+        QuillModule,
+        FlexLayoutModule,
+        LMarkdownEditorModule
     ],
     declarations: [CustomTextBoxComponent],
     providers: [],

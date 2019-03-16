@@ -1,6 +1,6 @@
 <div class="page-wrapper">
     <div fxLayout="row" fxLayoutAlign="start center" *ngIf="puzzleHero$ | async as puzzleHero">
-        <h1>{{ "pages.puzzle_hero.puzzle_hero" | translate }}</h1>
+        <h1 class="title">{{ "pages.puzzle_hero.puzzle_hero" | translate }}</h1>
 
         <div fxFlex></div>
         <a class="btn btn-default" (click)="clickSettings(puzzleHero)"><i class="fal fa-cogs"></i></a>
@@ -18,7 +18,7 @@
     <ng-container *ngIf="error$ | async">
         <div style="text-align: center">
             <i class="far fa-times-circle error fa-8x"></i>
-            <h5>{{ "pages.puzzle_hero.loading_error" | translate }}</h5>
+            <h3>{{ "pages.puzzle_hero.loading_error" | translate }}</h3>
         </div>
     </ng-container>
 

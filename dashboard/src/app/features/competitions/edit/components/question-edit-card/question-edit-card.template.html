@@ -1,0 +1,49 @@
+<accordion class="card-wrapper">
+    <accordion-group (isOpenChange)="onOpen()" [isOpen]="false">
+        <div accordion-heading fxLayout="row" fxLayoutAlign="start center">
+            <i class="fal firstIcon" [ngClass]="icon"></i>
+            <div class="question-title">
+                <span class="title">{{ question?.question?.label }}</span><br>
+            </div>
+            <div fxFlex></div>
+            <a class="btn btn-default" (click)="onClickEditQuestion($event)">
+                <i class="fal fa-edit"></i>
+            </a>
+            <i class="fas fa-caret-down ml-2" [class.fa-rotate-90]="!isOpen"></i>
+        </div>
+        <div class="question-container">
+            <markdown data="{{ question?.question?.description | t18n }}"></markdown>
+
+            <hr class="mt-2">
+
+            <div fxLayoutAlign="start center" fxLayout="row">
+                <div class="mr-3">
+                    {{ "components.question_form.puzzle_types" | translate }}:<br>
+                    {{ "components.question_form.input_types" | translate }}:<br>
+                    {{ "components.question_form.validation_types" | translate }}n:
+                </div>
+                <div fxFlex>
+                    <strong>
+                        <i class="fal" [ngClass]="icon"></i>&nbsp;{{ question?.question?.type }}<br>
+                        <i class="fal" [ngClass]="inputIcon"></i>&nbsp;{{ question?.question?.inputType }}<br>
+                        <i class="fal" [ngClass]="validationIcon"></i>&nbsp;{{ question?.question?.validationType }}
+                    </strong>
+                </div>
+            </div>
+
+            <hr class="mt-2">
+
+            <div fxLayoutAlign="start center" fxLayout="row">
+                <div class="mr-3">
+                    {{ "components.question_form.answer" | translate }}:<br>
+                </div>
+                <div fxFlex>
+                    <strong>
+                        {{ question?.question?.answer }}<br>
+                    </strong>
+                </div>
+            </div>
+
+        </div>
+    </accordion-group>
+</accordion>

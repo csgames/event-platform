@@ -1,9 +1,10 @@
 import { TrackFormDto } from "./components/track-form/dto/track-form.dto";
 import { CreateTrackDto, UpdateTrackDto, CreatePuzzleDto } from "../../../api/dto/puzzle-hero";
-import { PuzzleHero, Track, ValidationTypes, PuzzleTypes } from "../../../api/models/puzzle-hero";
+import { PuzzleHero, Track } from "../../../api/models/puzzle-hero";
 import { PuzzleHeroSettingsDto } from "./components/puzzle-hero-settings/dto/puzzle-hero-settings.dto";
-import { PuzzleFormDto } from "./components/puzzle-form/dto/puzzle-form.dto";
 import { UpdateQuestionDto } from "src/app/api/dto/question";
+import { InputTypes, QuestionTypes, ValidationTypes } from "../../../api/models/question";
+import { QuestionFormDto } from "../../../components/question-form/dto/question-form.dto";
 
 export namespace PuzzleAdminUtils {
     export function trackFormDtoToTrackDto(trackFormDto: TrackFormDto): CreateTrackDto | UpdateTrackDto {
@@ -30,20 +31,22 @@ export namespace PuzzleAdminUtils {
         };
     }
 
-    export function puzzleFormDtoToPuzzleDto(parentId: string, puzzleFormDto: PuzzleFormDto): CreatePuzzleDto {
+    export function puzzleFormDtoToPuzzleDto(parentId: string, questionFormDto: QuestionFormDto): CreatePuzzleDto {
         return {
-            ...puzzleFormDto,
-            type: puzzleFormDto.type as PuzzleTypes,
-            validationType: puzzleFormDto.validationType as ValidationTypes,
+            ...questionFormDto,
+            type: questionFormDto.type as QuestionTypes,
+            validationType: questionFormDto.validationType as ValidationTypes,
+            inputType: questionFormDto.inputType as InputTypes,
             dependsOn: parentId
         };
     }
 
-    export function puzzleFormDtoToUpdateQuestionDto(puzzleFormDto: PuzzleFormDto): UpdateQuestionDto {
+    export function puzzleFormDtoToUpdateQuestionDto(questionFormDto: QuestionFormDto): UpdateQuestionDto {
         return {
-            ...puzzleFormDto,
-            type: puzzleFormDto.type as PuzzleTypes,
-            validationType: puzzleFormDto.validationType as ValidationTypes
+            ...questionFormDto,
+            type: questionFormDto.type as QuestionTypes,
+            validationType: questionFormDto.validationType as ValidationTypes,
+            inputType: questionFormDto.inputType as InputTypes
         };
     }
 

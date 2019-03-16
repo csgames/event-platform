@@ -10,7 +10,7 @@ import { TrackFormDto } from "../features/puzzle-hero/admin/components/track-for
 import { CreateTrackDto, UpdateTrackDto, CreatePuzzleDto } from "../api/dto/puzzle-hero";
 import { PuzzleAdminUtils } from "../features/puzzle-hero/admin/puzzle-admin.utils";
 import { PuzzleHeroSettingsDto } from "../features/puzzle-hero/admin/components/puzzle-hero-settings/dto/puzzle-hero-settings.dto";
-import { PuzzleFormDto } from "../features/puzzle-hero/admin/components/puzzle-form/dto/puzzle-form.dto";
+import { QuestionFormDto } from "../components/question-form/dto/question-form.dto";
 
 const STARRED_TRACKS = "STARRED_TRACKS";
 
@@ -116,15 +116,15 @@ export class PuzzleHeroService {
         return this.apiService.puzzleHero.updatePuzzleHero(PuzzleAdminUtils.puzzleHeroSettingsDtoToPuzzleHero(puzzleHeroSettingsDto));
     }
 
-    createPuzzle(trackId: string, parentId: string, puzzleFormDto: PuzzleFormDto): Observable<PuzzleInfo> {
+    createPuzzle(trackId: string, parentId: string, questionFormDto: QuestionFormDto): Observable<PuzzleInfo> {
         return this.apiService.puzzleHero.createPuzzle(
             trackId,
-            PuzzleAdminUtils.puzzleFormDtoToPuzzleDto(parentId, puzzleFormDto) as CreatePuzzleDto
+            PuzzleAdminUtils.puzzleFormDtoToPuzzleDto(parentId, questionFormDto) as CreatePuzzleDto
         );
     }
 
-    updatePuzzle(trackId: string, id: string, puzzleFormDto: PuzzleFormDto): Observable<void> {
-        return this.apiService.puzzleHero.updatePuzzle(trackId, id, PuzzleAdminUtils.puzzleFormDtoToUpdateQuestionDto(puzzleFormDto));
+    updatePuzzle(trackId: string, id: string, questionFormDto: QuestionFormDto): Observable<void> {
+        return this.apiService.puzzleHero.updatePuzzle(trackId, id, PuzzleAdminUtils.puzzleFormDtoToUpdateQuestionDto(questionFormDto));
     }
-    
+
 }
