@@ -199,6 +199,10 @@
             "ended": "La compétition est terminée",
             "add_competition": "Ajouter une compétition",
             "create_competition_success": "Compétition ajoutée avec succès.",
+            "admin": {
+                "edit_competition": "Modifier une compétition",
+                "edit_competition_success": "Compétition sauvegardée avec succès."
+            },
             "edit": {
                 "description": "Description",
                 "add_question": "Ajouter une question",
@@ -311,7 +315,7 @@
         },
         "directors": {
             "directors": "Directeurs",
-            "add_director": "Ajouter un directeurs"
+            "add_director": "Ajouter un directeur"
         },
         "question": {
             "upload": "Téléverser votre fichier",

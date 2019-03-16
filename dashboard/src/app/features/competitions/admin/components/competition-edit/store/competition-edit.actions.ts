@@ -47,8 +47,7 @@ export class LoadDirectors implements Action {
 export class DirectorsLoaded implements Action {
     readonly type = CompetitionEditActionTypes.DirectorsLoaded;
 
-    constructor(public payload: Attendee[]) {
-    }
+    constructor(public payload: Attendee[]) {}
 }
 
 export class ModalLoaded implements Action {

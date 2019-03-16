@@ -72,7 +72,7 @@ export class CompetitionEditEffects {
     competitionEditSaved$ = this.actions$.pipe(
         ofType<CompetitionEditSaved>(CompetitionEditActionTypes.CompetitionEditSaved),
         tap(() => {
-            this.toastrService.success(this.translateService.instant("components.competition_edit.edit_competition_success"));
+            this.toastrService.success(this.translateService.instant("components.competition.admin.edit_competition_success"));
         })
     );
 }

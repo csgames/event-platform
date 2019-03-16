@@ -199,6 +199,9 @@
             "ended": "Competition has ended",
             "add_competition": "Add competition",
             "create_competition_success": "Competition created with success.",
+            "admin": {
+                "edit_competition": "Edit competition"
+            },
             "edit": {
                 "description": "Description",
                 "add_question": "Add question",

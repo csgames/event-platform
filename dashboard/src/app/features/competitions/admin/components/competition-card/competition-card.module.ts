@@ -8,7 +8,6 @@ import { TabsModule } from "ngx-bootstrap";
 import { FlexLayoutModule } from "@angular/flex-layout";
 import { PipeModule } from "src/app/pipe/pipe.module";
 import { CompetitionCardComponent } from "./competition-card.component";
-import { AttendeeViewModule } from "src/app/components/attendee-view/attendee-view.module";
 
 @NgModule({
     imports: [
@@ -19,7 +18,6 @@ import { AttendeeViewModule } from "src/app/components/attendee-view/attendee-vi
         TabsModule.forRoot(),
         FlexLayoutModule,
         PipeModule,
-        AttendeeViewModule,
         RouterModule
     ],
     declarations: [CompetitionCardComponent],    

@@ -76,8 +76,6 @@ export class CompetitionAdminEffects {
         })
     );
 
-
-
     @Effect()
     editCompetition$ = this.actions$.pipe(
         ofType(CompetitionsAdminActionTypes.EditCompetition),

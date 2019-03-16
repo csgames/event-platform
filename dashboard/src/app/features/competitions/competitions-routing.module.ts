@@ -7,7 +7,7 @@ const routes: Routes = [
         path: "admin",
         loadChildren: "src/app/features/competitions/admin/competitions-admin.module#CompetitionsAdminModule",
         canActivate: [RoleGuard],
-        data: { roles: ["admin", "super-admin"], redirect: "competition" }
+        data: { roles: ["admin", "super-admin", "director"], redirect: "competition" }
     },
     {
         path: "edit",
