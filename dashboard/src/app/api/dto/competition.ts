@@ -16,7 +16,8 @@ export interface SubscriptionDto {
 }
 
 export interface UpdateCompetitionDto {
-    activities?: string[];
+    activities?: string;
+    directors?: string;
     questions?: QuestionGraphNode[];
     description?: { [lang: string]: string };
     maxMembers?: number;
