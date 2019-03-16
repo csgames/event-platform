@@ -103,6 +103,9 @@
             "answer_placeholder": "Answer / URL",
             "description_placeholder": "Your puzzle description here",
             "answer": "Answer"
+        },
+        "flashout_settings": {
+            "flashout_settings": "Flash Out settings"
         }
     },
     "errors": {
@@ -190,9 +193,10 @@
             "participate": "Participate",
             "subscribed": "Subscribed competitions",
             "wrong_password": "Wrong password",
-            "loading_error": "An error occured while loading the competition",
+            "loading_error": "An error occured while loading the competitions",
             "live": "Happening now",
             "validate_success": "You have the right password!",
+            "next": "Next competitions",
             "answered": "Answered questions",
             "not_answered": "Not answered questions",
             "answered_all_questions": "You have answered all questions.",
@@ -215,7 +219,9 @@
         "flashouts": {
             "vote_success": "The vote has been successfully saved.",
             "vote_error": "Please rate all the flash outs before voting.",
-            "add_flashout": "Add a Flash Out"
+            "add_flashout": "Add a Flash Out",
+            "flashouts": "Flash Outs",
+            "votes": "Number of votes :"
         },
         "guide": {
             "guide": "Guide",
@@ -272,27 +278,28 @@
             "confirm_password": "Confirm password",
             "register": "Register",
             "validation_error": "An error occured while validating your invitation."
-        },
-        "schedule": {
-            "schedule": "Schedule",
-            "view_competition": "View competition"
-        },
-        "sponsors": {
-            "bronze": "Bronze",
-            "gold": "Gold",
-            "partner": "Partner",
-            "platinum": "Platinum",
-            "silver": "Silver",
-            "sponsors": "Sponsors"
-        },
-        "team": {
-            "add_a_godparent": "Add a godparent",
-            "add_a_member": "Add a team member",
-            "add_godparent": "Add godparent",
-            "add_member": "Add member",
-            "add_team": "Add team",
-            "godparent": "Godparent",
-            "loading_error": "An error occured while loading the team.",
+		},
+		"schedule": {
+			"schedule": "Schedule",
+			"view_competition": "View competition",
+            "next": "Next activities"
+		},
+		"sponsors": {
+			"bronze": "Bronze",
+			"gold": "Gold",
+			"partner": "Partner",
+			"platinum": "Platinum",
+			"silver": "Silver",
+			"sponsors": "Sponsors"
+		},
+		"team": {
+			"add_a_godparent": "Add a godparent",
+			"add_a_member": "Add a team member",
+			"add_godparent": "Add godparent",
+			"add_member": "Add member",
+			"add_team": "Add team",
+			"godparent": "Godparent",
+			"loading_error": "An error occured while loading the team.",
             "teams_loading_error": "An error occured while loading the teams.",
             "no_godparent": "No godparent yet",
             "not_registered": "Not registered",

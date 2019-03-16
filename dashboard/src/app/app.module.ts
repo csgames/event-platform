@@ -51,11 +51,11 @@ import { SchoolService } from "./providers/school.service";
 import { PuzzleHeroService } from "./providers/puzzle-hero.service";
 import { NotificationService } from "./providers/notification.service";
 import { UpdateModule } from "./update/update.module";
-import { CompetitionsService } from "./providers/competitions.service";
 import { FlashoutService } from "./providers/flashout.service";
 import "brace";
 import "brace/mode/markdown";
 import "brace/theme/github";
+import { CompetitionsService } from "./providers/competitions.service";
 
 export function loadFactory(http: HttpClient): TranslateHttpLoader {
     return new TranslateHttpLoader(http, "../assets/i18n/", ".json");

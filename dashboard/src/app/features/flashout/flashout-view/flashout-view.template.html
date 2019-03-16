@@ -2,7 +2,7 @@
     <h1 class="title">Flash Outs</h1>
     <app-loading-spinner [loading]="loading$"></app-loading-spinner>
     <div *ngIf="flashouts$ | async" class="animated fadeIn">
-        <div class="row">
+        <div class="row" *ngIf="flashouts && flashouts[0] && flashouts[0].votes[0]">
             <div *ngFor="let f of flashouts" class="col-xs-12 col-md-6 col-xl-4">
                 <app-flashout-card [flashout]="f" [showRate]="hasVoted" [(ngModel)]="f.votes[0].rating" rate></app-flashout-card>
             </div>

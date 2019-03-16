@@ -1,7 +1,116 @@
-<h1 *ngIf="loading$ | async">{{ "general.loading.loading" | translate }}</h1>
+<div class="page-wrapper">
+    <h1>{{ "pages.home.home" | translate }}</h1>
 
-<ul>
-    <li *ngFor="let t of teams$ | async">{{t.name}}</li>
-</ul>
+    <ng-container *ngIf="starredTracks$ | async as starredTracks">
+        <div class="animated fadeIn">
+            <ng-container *ngIf="starredTracks?.length > 0">
+                <div class="row mt-4">
+                    <div class="col-sm-7">
+                        <h3>
+                            {{ "pages.puzzle_hero.starred" | translate }}
+                        </h3>
+                    </div>
+                </div>
+                <hr class="title">
+                <app-track *ngFor="let track of starredTracks" (clickStar)="clickStar(track)" (openChange)="trackOpenChange(track, $event)" [track]="track"
+                    [startsOpen]="isTrackOpen(track)"></app-track>
 
-<p *ngIf="error$ | async">{{ "general.error.something" | translate }}</p>
+            </ng-container>
+        </div>
+    </ng-container>
+
+    <ng-container *ngIf="nextActivities.length > 0">
+        <div class="row mt-4">
+            <div class="col-sm-7">
+                <h3>
+                    {{ "pages.schedule.next" | translate }}
+                </h3>
+            </div>
+        </div>
+        <hr class="title">
+
+        <ng-container [ngSwitch]="nextActivities.length">
+            <ng-container *ngSwitchCase="1">
+                <div fxLayout="row">
+                    <div fxFlex="100">
+                        <app-activity-card [activity]="nextActivities[0]" [time]="getTime(nextActivities[0])" (info)="onShowInfo(nextActivities[0])">
+                        </app-activity-card>
+                    </div>
+                </div>
+            </ng-container>
+            <ng-container *ngSwitchCase="2">
+                <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="30px" fxLayoutGap.xs="5px">
+                    <div fxFlex="50" fxFlex.xs="100">
+                        <app-activity-card [activity]="nextActivities[0]" [time]="getTime(nextActivities[0])" (info)="onShowInfo(nextActivities[0])">
+                        </app-activity-card>
+                    </div>
+                    <div fxFlex="50" fxFlex.xs="100">
+                        <app-activity-card [activity]="nextActivities[1]" [time]="getTime(nextActivities[1])" (info)="onShowInfo(nextActivities[1])">
+                        </app-activity-card>
+                    </div>
+                </div>
+            </ng-container>
+            <ng-container *ngSwitchCase="3">
+                <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="30px" fxLayoutGap.xs="5px">
+                    <div fxFlex="33" fxFlex.xs="100">
+                        <app-activity-card [activity]="nextActivities[0]" [time]="getTime(nextActivities[0])" (info)="onShowInfo(nextActivities[0])">
+                        </app-activity-card>
+                    </div>
+                    <div fxFlex="33" fxFlex.xs="100">
+                        <app-activity-card [activity]="nextActivities[1]" [time]="getTime(nextActivities[1])" (info)="onShowInfo(nextActivities[1])">
+                        </app-activity-card>
+                    </div>
+                    <div fxFlex="33" fxFlex.xs="100">
+                        <app-activity-card [activity]="nextActivities[2]" [time]="getTime(nextActivities[2])" (info)="onShowInfo(nextActivities[2])">
+                        </app-activity-card>
+                    </div>
+                </div>
+            </ng-container>
+            <ng-container *ngSwitchCase="4">
+                <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="30px" fxLayoutGap.xs="5px">
+                    <div fxFlex="50" fxFlex.xs="100">
+                        <app-activity-card [activity]="nextActivities[0]" [time]="getTime(nextActivities[0])" (info)="onShowInfo(nextActivities[0])">
+                        </app-activity-card>
+                    </div>
+                    <div fxFlex="50" fxFlex.xs="100">
+                        <app-activity-card [activity]="nextActivities[1]" [time]="getTime(nextActivities[1])" (info)="onShowInfo(nextActivities[1])">
+                        </app-activity-card>
+                    </div>
+                </div>
+                <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="30px" fxLayoutGap.xs="5px">
+                    <div fxFlex="50" fxFlex.xs="100">
+                        <app-activity-card [activity]="nextActivities[2]" [time]="getTime(nextActivities[2])" (info)="onShowInfo(nextActivities[2])">
+                        </app-activity-card>
+                    </div>
+                    <div fxFlex="50" fxFlex.xs="100">
+                        <app-activity-card [activity]="nextActivities[3]" [time]="getTime(nextActivities[3])" (info)="onShowInfo(nextActivities[3])">
+                        </app-activity-card>
+                    </div>
+                </div>
+            </ng-container>
+        </ng-container>
+    </ng-container>
+
+    <ng-container *ifRole="['attendee', 'captain', 'admin', 'super-admin']">
+        <ng-container *ngIf="nextCompetitions.length > 0">
+            <div class="row mt-4">
+                <div class="col-sm-7">
+                    <h3>
+                        {{ "pages.competition.next" | translate }}
+                    </h3>
+                </div>
+            </div>
+            <hr class="title">
+    
+            <div class="animated fadeIn">
+                <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="30px" fxLayoutGap.xs="5px">
+                    <div fxFlex.xs="100" *ngFor="let competition of nextCompetitions">
+                        <app-competition-card [competition]="competition">
+                        </app-competition-card>
+                    </div>
+                </div>
+            </div>
+        </ng-container>
+    </ng-container>
+    
+</div>

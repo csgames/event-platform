@@ -8,9 +8,9 @@ import { CompetitionsRoutingModule } from "./competitions-routing.module";
         CommonModule,
         CompetitionsRoutingModule
     ],
-    exports: [],
-    providers: [
-        RoleGuard
-    ]
+    declarations: [CompetitionsComponent, InfoCompetitionComponent, CompetitionCardComponent],
+    entryComponents: [CompetitionsComponent, InfoCompetitionComponent],
+    exports: [CompetitionsComponent, InfoCompetitionComponent, CompetitionCardComponent],
+    providers: [SubscriptionService]
 })
 export class CompetitionsModule {}

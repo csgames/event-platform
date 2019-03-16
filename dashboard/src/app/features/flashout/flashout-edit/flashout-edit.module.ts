@@ -17,6 +17,7 @@ import { FlashoutEditDto } from "./components/flashout-form/dto/flashout-edit.dt
 import { FormGeneratorFactory } from "../../../form-generator/factory";
 import { FlashoutComponentModule } from "../components/flashout.component.module";
 import { FlashoutFormComponent } from "./components/flashout-form/flashout-form.component";
+import { FlexLayoutModule } from "@angular/flex-layout";
 
 @NgModule({
     imports: [
@@ -31,7 +32,8 @@ import { FlashoutFormComponent } from "./components/flashout-form/flashout-form.
         DirectivesModule,
         StoreModule.forFeature("flashoutEdit", fromFlashoutEdit.reducer),
         EffectsModule.forFeature([FlashoutEditEffects]),
-        FlashoutEditRoutingModule
+        FlashoutEditRoutingModule,
+        FlexLayoutModule
     ],
     declarations: [FlashoutEditComponent, FlashoutFormComponent],
     providers: [

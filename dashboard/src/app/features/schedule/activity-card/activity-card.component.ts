@@ -1,7 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 import { Activity } from "../../../api/models/activity";
-import { Store } from "@ngrx/store";
-import { State } from "../store/schedule.reducer";
 import { TranslateService } from "@ngx-translate/core";
 
 @Component({
@@ -18,11 +16,11 @@ export class ActivityCardComponent implements OnInit {
     @Output()
     public info = new EventEmitter();
 
-    constructor(private store$: Store<State>, private translateService: TranslateService) {}
+    constructor(private translateService: TranslateService) { }
+
+    public ngOnInit() { }
 
     public get lang(): string {
         return this.translateService.getDefaultLang();
     }
-
-    public ngOnInit() {}
 }

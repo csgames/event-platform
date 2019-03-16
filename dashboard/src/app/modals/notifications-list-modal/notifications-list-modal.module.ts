@@ -10,6 +10,7 @@ import { EffectsModule } from "@ngrx/effects";
 import { NotificationsEffects } from "./store/notifications.effects";
 import { TranslateModule } from "@ngx-translate/core";
 import { PipeModule } from "src/app/pipe/pipe.module";
+import { LoadingSpinnerModule } from "src/app/components/loading-spinner/loading-spinner.module";
 
 @NgModule({
     imports: [
@@ -21,7 +22,8 @@ import { PipeModule } from "src/app/pipe/pipe.module";
         StoreModule.forFeature("notifications", fromNotification.reducer),
         EffectsModule.forFeature([NotificationsEffects]),
         TranslateModule,
-        PipeModule
+        PipeModule,
+        LoadingSpinnerModule
     ],
     exports: [],
     declarations: [NotificationsListModalComponent],
