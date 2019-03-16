@@ -65,11 +65,11 @@ export class CompetitionEditComponent implements OnInit, OnDestroy {
                 return {
                     ...q,
                     question: (q.question as Question)._id
-                } as QuestionGraphNode;
+                } as unknown;
             });
         this.store$.dispatch(new SaveQuestionsAndDescription({
             description: this.competition.description,
-            questions: questionGraphNodes
+            questions: questionGraphNodes as QuestionGraphNode[]
         }));
     }
 

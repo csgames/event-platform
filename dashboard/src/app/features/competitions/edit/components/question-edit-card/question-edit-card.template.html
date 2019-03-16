@@ -6,7 +6,7 @@
                 <span class="title">{{ question?.question?.label }}</span><br>
             </div>
             <div fxFlex></div>
-            <a class="btn btn-default" (click)="onClickEditQuestion($event, question)">
+            <a class="btn btn-default" (click)="onClickEditQuestion($event)">
                 <i class="fal fa-edit"></i>
             </a>
             <i class="fas fa-caret-down ml-2" [class.fa-rotate-90]="!isOpen"></i>

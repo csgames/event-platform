@@ -34,6 +34,6 @@ export interface Question {
 
 export interface QuestionGraphNode {
     _id?: string;
-    question: Question | string;
+    question: Question;
     dependsOn?: Question | string;
 }
