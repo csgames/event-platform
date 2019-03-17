@@ -123,54 +123,95 @@ class _EventPageState extends State<EventPage> {
         return true;
     }
 
-    List<Widget> _buildItems() {
-        return <Widget>[
-            IconButton(
-                icon: Icon(
-                    FontAwesomeIcons.book,
-                    color: _currentTabIndex == EventTabs.Guide.index ? Constants.csBlue : Colors.black
+    List<Widget> _buildItems(_EventPageViewModel vm) {
+        if (vm.puzzleHeroOpen != null && vm.puzzleHeroOpen) {
+            return <Widget>[
+                IconButton(
+                    icon: Icon(
+                        FontAwesomeIcons.book,
+                        color: _currentTabIndex == EventTabs.Guide.index ? Constants.csBlue : Colors.black
+                    ),
+                    onPressed: () {
+                        setState(() => _currentTabIndex = EventTabs.Guide.index);
+                    }
                 ),
-                onPressed: () {
-                    setState(() => _currentTabIndex = EventTabs.Guide.index);
-                }
-            ),
-            IconButton(
-                icon: Icon(
-                    FontAwesomeIcons.gem,
-                    color: _currentTabIndex == EventTabs.Sponsors.index ? Constants.csBlue : Colors.black
+                IconButton(
+                    icon: Icon(
+                        FontAwesomeIcons.gem,
+                        color: _currentTabIndex == EventTabs.Sponsors.index ? Constants.csBlue : Colors.black
+                    ),
+                    onPressed: () {
+                        setState(() => _currentTabIndex = EventTabs.Sponsors.index);
+                    }
                 ),
-                onPressed: () {
-                    setState(() => _currentTabIndex = EventTabs.Sponsors.index);
-                }
-            ),
-            IconButton(
-                icon: Icon(
-                    FontAwesomeIcons.puzzlePiece,
-                    color: _currentTabIndex == EventTabs.Puzzle.index ? Constants.csBlue : Colors.black
+                IconButton(
+                    icon: Icon(
+                        FontAwesomeIcons.puzzlePiece,
+                        color: _currentTabIndex == EventTabs.Puzzle.index ? Constants.csBlue : Colors.black
+                    ),
+                    onPressed: () {
+                        setState(() => _currentTabIndex = EventTabs.Puzzle.index);
+                    }
                 ),
-                onPressed: () {
-                    setState(() => _currentTabIndex = EventTabs.Puzzle.index);
-                }
-            ),
-            IconButton(
-                icon: Icon(
-                    FontAwesomeIcons.calendar,
-                    color: _currentTabIndex == EventTabs.Activities.index ? Constants.csBlue : Colors.black
+                IconButton(
+                    icon: Icon(
+                        FontAwesomeIcons.calendar,
+                        color: _currentTabIndex == EventTabs.Activities.index ? Constants.csBlue : Colors.black
+                    ),
+                    onPressed: () {
+                        setState(() => _currentTabIndex = EventTabs.Activities.index);
+                    }
                 ),
-                onPressed: () {
-                    setState(() => _currentTabIndex = EventTabs.Activities.index);
-                }
-            ),
-            IconButton(
-                icon: Icon(
-                    FontAwesomeIcons.userAlt,
-                    color: _currentTabIndex == EventTabs.Profile.index ? Constants.csBlue : Colors.black
+                IconButton(
+                    icon: Icon(
+                        FontAwesomeIcons.userAlt,
+                        color: _currentTabIndex == EventTabs.Profile.index ? Constants.csBlue : Colors.black
+                    ),
+                    onPressed: () {
+                        setState(() => _currentTabIndex = EventTabs.Profile.index);
+                    }
+                )
+            ];
+        } else {
+            return <Widget>[
+                IconButton(
+                    icon: Icon(
+                        FontAwesomeIcons.book,
+                        color: _currentTabIndex == EventTabs.Guide.index ? Constants.csBlue : Colors.black
+                    ),
+                    onPressed: () {
+                        setState(() => _currentTabIndex = EventTabs.Guide.index);
+                    }
                 ),
-                onPressed: () {
-                    setState(() => _currentTabIndex = EventTabs.Profile.index);
-                }
-            )
-        ];
+                IconButton(
+                    icon: Icon(
+                        FontAwesomeIcons.gem,
+                        color: _currentTabIndex == EventTabs.Sponsors.index ? Constants.csBlue : Colors.black
+                    ),
+                    onPressed: () {
+                        setState(() => _currentTabIndex = EventTabs.Sponsors.index);
+                    }
+                ),
+                IconButton(
+                    icon: Icon(
+                        FontAwesomeIcons.calendar,
+                        color: _currentTabIndex == EventTabs.Activities.index ? Constants.csBlue : Colors.black
+                    ),
+                    onPressed: () {
+                        setState(() => _currentTabIndex = EventTabs.Activities.index);
+                    }
+                ),
+                IconButton(
+                    icon: Icon(
+                        FontAwesomeIcons.userAlt,
+                        color: _currentTabIndex == EventTabs.Profile.index ? Constants.csBlue : Colors.black
+                    ),
+                    onPressed: () {
+                        setState(() => _currentTabIndex = EventTabs.Profile.index);
+                    }
+                )
+            ];
+        }
     }
 
     List<Widget> _buildVolunteerItems(_EventPageViewModel model) {
@@ -311,7 +352,7 @@ class _EventPageState extends State<EventPage> {
                 items = _buildVolunteerItems(vm);
                 break;
             default:
-                items = _buildItems();
+                items = _buildItems(vm);
                 break;
         }
         return BottomAppBar(
@@ -423,6 +464,7 @@ class _EventPageViewModel {
     bool hasUnseenNotifications;
     Event event;
     Attendee attendee;
+    bool puzzleHeroOpen;
     Function resetSchedule;
     Function resetAttendeeRetrieval;
     Function resetCurrentAttendee;
@@ -446,12 +488,14 @@ class _EventPageViewModel {
         this.resetPuzzle,
         this.resetCurrentAttendee,
         this.resetPuzzleCard,
+        this.puzzleHeroOpen
     );
 
     _EventPageViewModel.fromStore(Store<AppState> store) {
         hasUnseenNotifications = store.state.notificationState.hasUnseenNotifications;
         event = store.state.currentEvent;
         attendee = store.state.currentAttendee;
+        puzzleHeroOpen = store.state.puzzleHeroState.isOpen;
         resetSchedule = () => store.dispatch(ResetScheduleAction());
         resetAttendeeRetrieval = () => store.dispatch(ResetAttendeeAction());
         resetCurrentAttendee = () => store.dispatch(ResetCurrentAttendeeAction());
