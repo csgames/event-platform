@@ -325,13 +325,19 @@ export class PuzzleHeroesService extends BaseService<PuzzleHeroes, PuzzleHeroes>
         if (!puzzle) {
             throw new NotFoundException('No puzzle found');
         }
+
+        const teamId = await this.getTeamId(email, eventId);
+        if (puzzle.dependsOn
+            && !puzzleHero.answers.some(x => (x.teamId as mongoose.Types.ObjectId).equals(teamId)
+                && (puzzle.dependsOn as mongoose.Types.ObjectId).equals(x.puzzle))) {
+            throw new BadRequestException('The puzzle hero is locked');
+        }
         if (puzzleHero.answers.some(x => (x.teamId as mongoose.Types.ObjectId).equals(teamId) && puzzle._id.equals(x.puzzle))) {
             throw new BadRequestException('Cannot answer puzzle twice');
         }
 
         const score = await this.questionsService.validateAnswer(answer, puzzle.question as string);
 
-        const teamId = await this.getTeamId(email, eventId);
         puzzleHero.answers.push({
             puzzle: puzzle._id.toHexString(),
             teamId,

@@ -82,7 +82,7 @@ export class PuzzleHeroesController {
     }
 
     @Post('puzzle/:puzzleId/validate')
-    @Permissions('csgames-api:validate-puzzle:event')
+    @Permissions('csgames-api:validate-puzzle:puzzle-hero')
     @HttpCode(HttpStatus.OK)
     public async validateAnswer(@EventId() id: string, @Param('puzzleId') puzzleId, @Body(new ValidationPipe()) dto: QuestionAnswerDto,
                                 @User() user: UserModel): Promise<void> {

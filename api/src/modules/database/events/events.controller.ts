@@ -205,7 +205,7 @@ export class EventsController {
     public async addSponsor(@Param('id') eventId: string, @Body(new ValidationPipe()) dto: AddSponsorDto): Promise<Events> {
         return await this.eventsService.addSponsor(eventId, dto);
     }
-    
+
     @Put(':attendee_id/scan')
     @Permissions('csgames-api:set-scan:event')
     public async addScannedAttendee(@EventId() eventId: string, @Param('attendee_id') attendeeId: string,
