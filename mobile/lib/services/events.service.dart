@@ -9,51 +9,51 @@ import 'package:CSGamesApp/domain/activity.dart';
 import 'package:CSGamesApp/domain/event.dart';
 
 class EventsService extends CSGamesApi {
-  HttpClient _httpClient;
+    HttpClient _httpClient;
 
 
-  EventsService(this._httpClient) : super("event");
+    EventsService(this._httpClient) : super("event");
 
-  Future<Guide> getGuide() async {
-      final response = await this._httpClient.get(url('guide'));
-      var responseMap = json.decode(response.body);
-      return Guide.fromMap(responseMap);
-  }
-
-  Future<List<Event>> getAllEvents() async {
-    final response = await _httpClient.get(url(), headers: {"With-Event": "false"});
-    final responseMap = json.decode(response.body);
-    return List.castFrom<dynamic, Event>(responseMap.map((e) => Event.fromMap(e)).toList());
-  }
-
-  Future<Event> getEventById(String id) async {
-    try {
-      final response = await _httpClient.get(url('$id'));
-      final responseMap = json.decode(response.body);
-      return Event.fromMap(responseMap['event']);
+    Future<Guide> getGuide() async {
+        final response = await this._httpClient.get(url('guide'));
+        var responseMap = json.decode(response.body);
+        return Guide.fromMap(responseMap);
     }
-    catch (e) {
-      print('EventsService.getEventById(): $e');
-      return null;
-    }
-  }
 
-  Future<List<Activity>> getActivitiesForEvent(String eventId) async {
-    final res = await _httpClient.get(url('activity'))
-        .then((r) => json.decode(r.body));
-    return List.castFrom<dynamic, Activity>(res.map((a) => Activity.fromMap(a)).toList());
-  }
-
-  Future<bool> addScannedAttendee(String attendeeId, String scannedAttendeeId) async {
-    try {
-      final body = {'scannedAttendee': scannedAttendeeId};
-      final response = await _httpClient.put(url('$attendeeId/scan'), body: body);
-      return response.statusCode == 200;
-    } catch (err) {
-      print('AttendeesService.addScannedAttendee(): $err');
-      return false;
+    Future<List<Event>> getAllEvents() async {
+        final response = await _httpClient.get(url(), headers: {"With-Event": "false"});
+        final responseMap = json.decode(response.body);
+        return List.castFrom<dynamic, Event>(responseMap.map((e) => Event.fromMap(e)).toList());
     }
-  }
+
+    Future<Event> getEventById(String id) async {
+        try {
+            final response = await _httpClient.get(url('$id'));
+            final responseMap = json.decode(response.body);
+            return Event.fromMap(responseMap['event']);
+        }
+        catch (e) {
+            print('EventsService.getEventById(): $e');
+            return null;
+        }
+    }
+
+    Future<List<Activity>> getActivitiesForEvent(String eventId) async {
+        final res = await _httpClient.get(url('activity'))
+            .then((r) => json.decode(r.body));
+        return List.castFrom<dynamic, Activity>(res.map((a) => Activity.fromMap(a)).toList());
+    }
+
+    Future<bool> addScannedAttendee(String attendeeId, String scannedAttendeeId) async {
+        try {
+            final body = {'scannedAttendee': scannedAttendeeId};
+            final response = await _httpClient.put(url('$attendeeId/scan'), body: body);
+            return response.statusCode == 200;
+        } catch (err) {
+            print('AttendeesService.addScannedAttendee(): $err');
+            return false;
+        }
+    }
 
     Future<List<AppNotification>> getNotificationsForEvent() async {
         final response = await _httpClient.get(url('notification'));
@@ -77,7 +77,7 @@ class EventsService extends CSGamesApi {
         }
         return unseen.length;
     }
-    
+
     Future<Map<String, List<Sponsors>>> getAllSponsors() async {
         final response = await this._httpClient.get(url('sponsor'));
         final responseMap = json.decode(response.body);
@@ -121,7 +121,7 @@ class EventsService extends CSGamesApi {
         );
         return response.statusCode == 201;
     }
-    
+
     Future<bool> sendPushToEvent(String title, String content) async {
         final body = {'title': title, 'body': content};
         final response = await _httpClient.post(

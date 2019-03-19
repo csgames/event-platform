@@ -13,6 +13,7 @@ class Activity {
     List<String> attendees;
     Map<String, dynamic> description;
     bool subscribed;
+    bool hidden;
 
     Activity({
         this.id,
@@ -22,7 +23,8 @@ class Activity {
         this.endDate,
         this.location,
         this.attendees,
-        this.description
+        this.description,
+        this.hidden
     });
 
     Activity.fromMap(Map<String, dynamic> map) {
@@ -35,6 +37,7 @@ class Activity {
         attendees = List.castFrom<dynamic, String>(map['attendees']);
         description = Map.castFrom<String, dynamic, String, String>(map['details'] ?? {});
         subscribed = map['subscribed'];
+        hidden = map['hidden'] ?? false;
     }
 
     Activity.fromNotificationData(Map<String, dynamic> map) {
