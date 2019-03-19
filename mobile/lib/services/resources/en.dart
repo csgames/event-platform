@@ -20,7 +20,10 @@ Map<String, dynamic> en = {
     'register': 'Register',
     'activities': 'Activities',
     'profile': 'Profile',
-    'sponsors': 'Sponsors'
+    'sponsors': 'Sponsors',
+    'transport': 'Transport',
+    'school': 'School',
+    'visit': 'Visit Website'
   },
   'profile': {
     'title': 'Profile',
