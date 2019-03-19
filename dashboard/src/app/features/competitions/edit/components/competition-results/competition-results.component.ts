@@ -25,7 +25,6 @@ export class CompetitionResultsComponent implements OnInit {
     set questions(questions: QuestionGraphNode[]) {
         const oldQuestions = this._questions;
         this._questions = questions;
-        console.log(oldQuestions);
         if (oldQuestions) {
             this.init();
         }
