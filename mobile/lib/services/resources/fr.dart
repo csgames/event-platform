@@ -58,7 +58,7 @@ Map<String, dynamic> fr = {
         'restaurant': 'Restaurants',
         'hotel': 'Hôtel',
         'transport': 'Transport',
-        'school': 'School',
+        'school': 'École',
         'visit': 'Visiter le site Web'
     },
     'event-list': {
@@ -136,6 +136,6 @@ Map<String, dynamic> fr = {
         'push-title': 'Entrer le titre de la notification',
         'push-text': 'Entrer le text de la notification',
         'send': 'Envoyer',
-        'no-notifications': 'No notifications yet'
+        'no-notifications': 'Pas encore de notifications'
     }
 };
