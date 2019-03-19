@@ -127,11 +127,19 @@ class NotificationListPage extends StatelessWidget {
 
     Widget _buildBody(BuildContext context, _NotificationsListViewModel model) {
         model.notifications.sort((AppNotification a, AppNotification b) => b.date.compareTo(a.date));
-        return model.hasErrors
-            ? Text(LocalizationService
-            .of(context)
-            .notification['error'])
-            : _buildNotifications(context, model);
+        if (model.notifications.length > 0) {
+            return model.hasErrors
+                ? Text(LocalizationService
+                .of(context)
+                .notification['error'])
+                : _buildNotifications(context, model);
+        } else {
+            return Center(
+                child: Text(LocalizationService
+                    .of(context)
+                    .notification['no-notifications'])
+            );
+        }
     }
 
     @override
@@ -147,7 +155,7 @@ class NotificationListPage extends StatelessWidget {
             builder: (BuildContext context, _NotificationsListViewModel model) {
                 return Scaffold(
                     appBar: AppBar(
-                      backgroundColor: Constants.csBlue,
+                        backgroundColor: Constants.csBlue,
                         leading: IconButton(
                             icon: Icon(Icons.clear),
                             onPressed: () {
