@@ -22,6 +22,10 @@ export class RedisService {
         return this.client.get(key);
     }
 
+    public del(key: string): Promise<number> {
+        return this.client.del(key);
+    }
+
     public lpush(key: string, value: string): Promise<number> {
         return this.client.lpush(key, value);
     }
