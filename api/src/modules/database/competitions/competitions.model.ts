@@ -7,7 +7,7 @@ import { QuestionAnswers, QuestionAnswersSchema } from './questions/question-ans
 import { QuestionGraphNodes, QuestionGraphNodesSchema } from './questions/question-graph-nodes.model';
 import { DateUtils } from '../../../utils/date.utils';
 import { PuzzleHeroes } from '../puzzle-heroes/puzzle-heroes.model';
-import { TeamResultsSchema } from './results/team-result.model';
+import { TeamResults, TeamResultsSchema } from './results/team-result.model';
 
 export interface Competitions extends mongoose.Document {
     event: Events | mongoose.Types.ObjectId | string;
@@ -16,9 +16,11 @@ export interface Competitions extends mongoose.Document {
     questions: QuestionGraphNodes[];
     answers: QuestionAnswers[];
     members: Members[];
+    results: TeamResults[];
     description: { [lang: string]: string };
     maxMembers: number;
     password: string;
+    weight: number;
     isLive: boolean;
     onDashboard: boolean;
 }
@@ -66,6 +68,10 @@ export const CompetitionsSchema = new mongoose.Schema({
     },
     password: {
         type: String
+    },
+    weight: {
+        type: Number,
+        default: 0
     },
     isLive: {
         type: Boolean,
