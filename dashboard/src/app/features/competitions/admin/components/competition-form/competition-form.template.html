@@ -56,6 +56,19 @@
         <div class="col-sm-12">
             <div class="input-group input-group-default mx-0">
                 <div class="input-group-prepend">
+                    <a class="form-icon">
+                        <i class="fal fa-weight"></i>
+                    </a>
+                </div>
+                <input autofocus class="form-control" formControlName="weight" type="number"
+                       placeholder='{{ "components.competition_form.weight" | translate }}' controlStatus>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="input-group input-group-default mx-0">
+                <div class="input-group-prepend">
                     <i class="far fa-lock"></i>
                 </div>
                 <input autofocus class="form-control" [type]="viewPassword ? 'text' : 'password'" controlStatus

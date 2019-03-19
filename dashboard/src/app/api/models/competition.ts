@@ -16,6 +16,7 @@ export interface Competition {
     answers: QuestionAnswers;
     questions: Question[] | QuestionGraphNode[];
     results: TeamResult[];
+    weight: number;
     password: string;
     isLive: boolean;
     onDashboard: boolean;

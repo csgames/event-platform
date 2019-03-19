@@ -18,6 +18,10 @@ export class CompetitionFormDto {
     password: string;
 
     @Control()
+    @Required()
+    weight: number;
+
+    @Control()
     onDashboard: boolean;
 
     @Control()
