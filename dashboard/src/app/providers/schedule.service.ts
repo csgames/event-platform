@@ -16,7 +16,7 @@ export class ScheduleService {
 
     public getActivitiesPerDay(activities: Activity[]): { [date: string]: { [time: string]: Activity[] } } {
         const dates: { [date: string]: { [time: string]: Activity[] } } = {};
-        for (const a of activities) {
+        for (const a of activities.filter(activity => !activity.hidden)) {
             const date = new Date(a.beginDate);
             const day = formatDate(date, this.getDateFormat(), this.translateService.getDefaultLang(), "utc");
             const time = formatDate(date, "h:mm a", this.translateService.getDefaultLang(), "utc");
@@ -28,7 +28,7 @@ export class ScheduleService {
     }
 
     public getNextActivities(activities: Activity[]): Activity[] {
-        const sorted = activities.sort((a, b) => a.beginDate < b.beginDate ? -1 : 1);
+        const sorted = activities.filter(a => !a.hidden).sort((a, b) => a.beginDate < b.beginDate ? -1 : 1);
         const now = new Date();
         const nextActivities = [];
         for (const a of sorted) {

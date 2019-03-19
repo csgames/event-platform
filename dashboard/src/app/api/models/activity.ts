@@ -7,6 +7,7 @@ export interface Activity {
     location: string;
     attendees: string[];
     subscribers: string[];
+    hidden: boolean;
     details: any;
     subscribed?: boolean;
 }
