@@ -3,19 +3,19 @@ import { Actions, Effect, ofType } from "@ngrx/effects";
 import { CompetitionsService } from "../../../../providers/competitions.service";
 import {
     CompetitionEditActionTypes,
-    CompetitionLoaded,
+    CompetitionLoaded, CompetitionResultsLoaded,
     CreateQuestion,
-    CreateQuestionError,
+    CreateQuestionError, DownloadUploadedSubmissions,
     LoadCompetition,
-    LoadCompetitionError,
+    LoadCompetitionError, LoadCompetitionResults, LoadCompetitionResultsError,
     OpenCreateQuestionModal, OpenSettingsModal,
     OpenUpdateQuestionModal,
     QuestionCreated,
-    QuestionsAndDescriptionSaved,
+    CompetitionSaved,
     QuestionUpdated,
-    SaveQuestionsAndDescription, SaveQuestionsAndDescriptionError,
+    SaveCompetition, SaveCompetitionError,
     UpdateQuestion,
-    UpdateQuestionError
+    UpdateQuestionError, UploadedSubmissionsDownloaded
 } from "./competition-edit.actions";
 import { catchError, filter, map, switchMap, tap, withLatestFrom } from "rxjs/operators";
 import { Competition } from "../../../../api/models/competition";
@@ -30,6 +30,7 @@ import { ToastrService } from "ngx-toastr";
 import { TranslateService } from "@ngx-translate/core";
 import { EditCompetitionComponent } from "../../admin/components/edit-competition/edit-competition.component";
 import { GlobalError } from "../../../../store/app.actions";
+import { FileUtils } from "../../../../utils/file.utils";
 
 @Injectable()
 export class CompetitionEditEffects {
@@ -42,7 +43,7 @@ export class CompetitionEditEffects {
         ofType<LoadCompetition>(CompetitionEditActionTypes.LoadCompetition),
         switchMap((action: LoadCompetition) => this.competitionsService.getInfoForCompetition(action.id)
             .pipe(
-                map((competition: Competition) => (console.log(competition), new CompetitionLoaded(competition))),
+                map((competition: Competition) => new CompetitionLoaded(competition)),
                 catchError(() => of(new LoadCompetitionError()))
             )
         )
@@ -114,29 +115,29 @@ export class CompetitionEditEffects {
     );
 
     @Effect()
-    saveQuestionsAndDescription$ = this.actions$.pipe(
-        ofType<SaveQuestionsAndDescription>(CompetitionEditActionTypes.SaveQuestionsAndDescription),
+    saveCompetition$ = this.actions$.pipe(
+        ofType<SaveCompetition>(CompetitionEditActionTypes.SaveCompetition),
         withLatestFrom(this.store$.pipe(select(getCompetitionEditCompetition))),
-        switchMap(([action, competition]: [SaveQuestionsAndDescription, Competition]) =>
+        switchMap(([action, competition]: [SaveCompetition, Competition]) =>
             this.competitionsService.updateCompetition(competition._id, { ...action.payload })
                 .pipe(
-                    map(() => new QuestionsAndDescriptionSaved()),
-                    catchError(() => of(new SaveQuestionsAndDescriptionError()))
+                    map(() => new CompetitionSaved()),
+                    catchError(() => of(new SaveCompetitionError()))
                 )
         )
     );
 
     @Effect()
-    questionsAndDescriptionSaved$ = this.actions$.pipe(
-        ofType<QuestionsAndDescriptionSaved>(CompetitionEditActionTypes.QuestionsAndDescriptionSaved),
+    competitionSaved$ = this.actions$.pipe(
+        ofType<CompetitionSaved>(CompetitionEditActionTypes.QuestionsAndDescriptionSaved),
         withLatestFrom(this.store$.pipe(select(getCompetitionEditCompetition))),
         tap(() => this.toastrService.success("", this.translateService.instant("pages.competition.edit.save_success"))),
-        map(([_, competition]: [QuestionsAndDescriptionSaved, Competition]) => new LoadCompetition(competition._id))
+        map(([_, competition]: [CompetitionSaved, Competition]) => new LoadCompetition(competition._id))
     );
 
     @Effect({ dispatch: false })
-    saveQuestionsAndDescriptionError$ = this.actions$.pipe(
-        ofType<SaveQuestionsAndDescriptionError>(CompetitionEditActionTypes.SaveQuestionsAndDescriptionError),
+    saveCompetitionError$ = this.actions$.pipe(
+        ofType<SaveCompetitionError>(CompetitionEditActionTypes.SaveCompetitionError),
         tap(() => this.toastrService.error("", this.translateService.instant("pages.competition.edit.save_error")))
     );
 
@@ -151,5 +152,43 @@ export class CompetitionEditEffects {
                     map(() => new LoadCompetition(competition._id))
                 );
         })
+    );
+
+    @Effect()
+    loadCompetitionResults$ = this.actions$.pipe(
+        ofType<LoadCompetitionResults>(CompetitionEditActionTypes.LoadCompetitionResults),
+        switchMap((action: LoadCompetitionResults) => this.competitionsService.getCompetitionResult(action.competitionId)
+            .pipe(
+                map((competitionResults) => new CompetitionResultsLoaded(competitionResults)),
+                catchError(() => of(new LoadCompetitionResultsError()))
+            )
+        )
+    );
+
+    @Effect({ dispatch: false })
+    loadCompetitionResultsError$ = this.actions$.pipe(
+        ofType<LoadCompetitionResultsError>(CompetitionEditActionTypes.LoadCompetitionResultsError),
+        tap(() => this.toastrService.error("", this.translateService.instant("pages.competition.edit.load_results_error")))
+    );
+
+    @Effect()
+    downloadUploadedSubmissions$ = this.actions$.pipe(
+        ofType<DownloadUploadedSubmissions>(CompetitionEditActionTypes.DownloadUploadedSubmissions),
+        switchMap((action: DownloadUploadedSubmissions) =>
+            this.competitionsService.getQuestionResult(action.payload.competitionId, action.payload.question._id)
+                .pipe(
+                    map((buffer: Blob) => new UploadedSubmissionsDownloaded({
+                        buffer,
+                        questionName: action.payload.question.question.label
+                    })),
+                    catchError((err) => of(new GlobalError(err)))
+                )
+        )
+    );
+
+    @Effect({ dispatch: false })
+    uploadedSubmissionsDownloaded$ = this.actions$.pipe(
+        ofType<UploadedSubmissionsDownloaded>(CompetitionEditActionTypes.UploadedSubmissionsDownloaded),
+        tap((action: UploadedSubmissionsDownloaded) => FileUtils.downloadFile(action.payload.questionName, action.payload.buffer))
     );
 }

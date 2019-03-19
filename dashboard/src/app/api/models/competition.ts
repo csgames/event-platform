@@ -2,6 +2,10 @@ import { Activity } from "./activity";
 import { Attendee } from "./attendee";
 import { Question, QuestionGraphNode } from "./question";
 
+export interface TeamResult {
+    teamId: string;
+    score: number;
+}
 
 export interface Competition {
     _id: string;
@@ -11,6 +15,7 @@ export interface Competition {
     members: Members[];
     answers: QuestionAnswers;
     questions: Question[] | QuestionGraphNode[];
+    results: TeamResult[];
     password: string;
     isLive: boolean;
     onDashboard: boolean;

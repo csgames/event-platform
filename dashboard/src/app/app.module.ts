@@ -42,7 +42,7 @@ import {
     TooltipModule,
     TimepickerModule,
     DatepickerModule,
-    BsDatepickerModule, SortableModule
+    BsDatepickerModule, SortableModule, TabsModule
 } from "ngx-bootstrap";
 import { SponsorsService } from "./providers/sponsors.service";
 import { ScheduleService } from "./providers/schedule.service";
@@ -90,6 +90,7 @@ export function loadFactory(http: HttpClient): TranslateHttpLoader {
         TimepickerModule.forRoot(),
         SortableModule.forRoot(),
         NgxMaskModule.forRoot(),
+        TabsModule.forRoot(),
         MarkdownModule.forRoot(),
         ApiModule,
         ForgetModule,

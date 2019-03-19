@@ -7,6 +7,7 @@ import { AuthCompetitionDto, QuestionAnswerDto, SubscriptionDto, UpdateCompetiti
 import { CompetitionFormDto } from "../features/competitions/admin/components/competition-form/dto/competition-form.dto";
 import { CreateQuestionDto, UpdateQuestionDto } from "./dto/question";
 import { QuestionGraphNode } from "./models/question";
+import { TeamCompetitionResult } from "./definitions/competition";
 
 @Injectable()
 export class CompetitionApi extends CSGamesApi {
@@ -59,5 +60,18 @@ export class CompetitionApi extends CSGamesApi {
 
     public updateCompetition(competitionId: string, dto: UpdateCompetitionDto): Observable<void> {
         return this.http.put<void>(this.url(`${competitionId}`), dto, { withCredentials: true });
+    }
+
+    public getCompetitionResult(competitionId: string): Observable<TeamCompetitionResult[]> {
+        return this.http.get<TeamCompetitionResult[]>(this.url(`${competitionId}/result`), {
+            withCredentials: true
+        });
+    }
+
+    public getQuestionResult(competitionId: string, questionId: string): Observable<Blob> {
+        return this.http.get(this.url(`${competitionId}/question/${questionId}/result`), {
+            responseType: "blob",
+            withCredentials: true
+        });
     }
 }

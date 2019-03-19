@@ -733,30 +733,32 @@ pre code {
     background: #282c34;
 }
 
-table {
-    margin-bottom: 16px;
-    border: 1px solid #dfe2e5;
-}
+markdown {
+    table {
+        margin-bottom: 16px;
+        border: 1px solid #dfe2e5;
+    }
 
-table th {
-    font-weight: 600;
-    text-align: left;
-}
+    table th {
+        font-weight: 600;
+        text-align: left;
+    }
 
-table td,
-table th {
-    border: 1px solid #dfe2e5;
-    padding: 6px 13px;
-    text-align: left;
-}
+    table td,
+    table th {
+        border: 1px solid #dfe2e5;
+        padding: 6px 13px;
+        text-align: left;
+    }
 
-table tr {
-    background-color: #fff;
-    border-top: 1px solid #c6cbd1;
-}
+    table tr {
+        background-color: #fff;
+        border-top: 1px solid #c6cbd1;
+    }
 
-table tr:nth-child(2n) {
-    background-color: #f6f8fa;
+    table tr:nth-child(2n) {
+        background-color: #f6f8fa;
+    }
 }
 
 .btn-primary {
