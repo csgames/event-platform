@@ -56,7 +56,10 @@ Map<String, dynamic> fr = {
     'bring': 'Quoi apporter?',
     'parking': 'Stationnement',
     'restaurant': 'Restaurants',
-    'hotel': 'Hôtel'
+    'hotel': 'Hôtel',
+    'transport': 'Transport',
+    'school': 'École',
+    'visit': 'Visiter le site Web'
   },
   'event-list': {
     'title': 'Événements',
