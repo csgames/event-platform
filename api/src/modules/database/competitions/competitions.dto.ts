@@ -28,6 +28,9 @@ export class CreateCompetitionDto {
     @IsBoolean()
     @IsNotEmpty()
     onDashboard: boolean;
+
+    @IsNumber()
+    weight: number;
 }
 
 export class UpdateCompetitionDto {
@@ -39,7 +42,6 @@ export class UpdateCompetitionDto {
     directors: string[];
 
     @IsOptional()
-    @ArrayNotEmpty()
     questions: QuestionGraphNodes[];
 
     @IsOptional()
@@ -58,6 +60,10 @@ export class UpdateCompetitionDto {
     @IsString()
     @IsNotEmpty()
     password: string;
+
+    @IsOptional()
+    @IsNumber()
+    weight: number;
 
     @IsOptional()
     @IsNotEmpty()
