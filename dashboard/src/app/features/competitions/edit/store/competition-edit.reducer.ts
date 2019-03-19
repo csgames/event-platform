@@ -3,17 +3,20 @@ import * as fromApp from "../../../../store/app.reducers";
 import { CompetitionEditActions, CompetitionEditActionTypes } from "./competition-edit.actions";
 import { createFeatureSelector, createSelector } from "@ngrx/store";
 import { Question, QuestionGraphNode } from "../../../../api/models/question";
+import { TeamCompetitionResult } from "../../../../api/definitions/competition";
 
 export interface CompetitionEditState {
     loading: boolean;
     error: boolean;
     competition: Competition;
+    competitionResults: TeamCompetitionResult[];
 }
 
 export const initialState: CompetitionEditState = {
     loading: false,
     error: false,
-    competition: null
+    competition: null,
+    competitionResults: []
 };
 
 export interface State extends fromApp.State {
@@ -70,12 +73,6 @@ export function reducer(state = initialState, action: CompetitionEditActions): C
                 }
             };
 
-        case CompetitionEditActionTypes.UpdateQuestionError:
-            return {
-                ...state,
-                loading: false
-            };
-
         case CompetitionEditActionTypes.CreateQuestion:
             return {
                 ...state,
@@ -95,23 +92,41 @@ export function reducer(state = initialState, action: CompetitionEditActions): C
                 }
             };
 
-        case CompetitionEditActionTypes.CreateQuestionError:
-            return {
-                ...state,
-                loading: false
-            };
-
-        case CompetitionEditActionTypes.SaveQuestionsAndDescription:
+        case CompetitionEditActionTypes.SaveCompetition:
             return {
                 ...state,
                 loading: true
             };
 
+        case CompetitionEditActionTypes.LoadCompetitionResults:
+            return {
+                ...state,
+                loading: true,
+                competitionResults: []
+            };
+
+        case CompetitionEditActionTypes.CompetitionResultsLoaded:
+            return {
+                ...state,
+                loading: false,
+                competitionResults: action.competitionResults
+            };
+
+        case CompetitionEditActionTypes.UpdateQuestionError:
+        case CompetitionEditActionTypes.CreateQuestionError:
         case CompetitionEditActionTypes.QuestionsAndDescriptionSaved:
-        case CompetitionEditActionTypes.SaveQuestionsAndDescriptionError:
+        case CompetitionEditActionTypes.LoadCompetitionResultsError:
+        case CompetitionEditActionTypes.SaveCompetitionError:
+        case CompetitionEditActionTypes.UploadedSubmissionsDownloaded:
             return {
                 ...state,
                 loading: false
+            };
+
+        case CompetitionEditActionTypes.DownloadUploadedSubmissions:
+            return {
+                ...state,
+                loading: true
             };
 
         case CompetitionEditActionTypes.ResetStore:
@@ -136,4 +151,9 @@ export const getCompetitionEditLoading = createSelector(
 export const getCompetitionEditError = createSelector(
     getCompetitionEditState,
     (state: CompetitionEditState) => state.error
+);
+
+export const getCompetitionEditCompetitionResults = createSelector(
+    getCompetitionEditState,
+    (state: CompetitionEditState) => state.competitionResults
 );

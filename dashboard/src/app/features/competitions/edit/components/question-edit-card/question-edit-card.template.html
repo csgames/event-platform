@@ -4,6 +4,7 @@
             <i class="fal firstIcon" [ngClass]="icon"></i>
             <div class="question-title">
                 <span class="title">{{ question?.question?.label }}</span><br>
+                <span class="score">{{ question?.question?.score }} points</span>
             </div>
             <div fxFlex></div>
             <a class="btn btn-default" (click)="onClickEditQuestion($event)">
@@ -20,7 +21,7 @@
                 <div class="mr-3">
                     {{ "components.question_form.puzzle_types" | translate }}:<br>
                     {{ "components.question_form.input_types" | translate }}:<br>
-                    {{ "components.question_form.validation_types" | translate }}n:
+                    {{ "components.question_form.validation_types" | translate }}:
                 </div>
                 <div fxFlex>
                     <strong>

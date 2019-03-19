@@ -91,7 +91,7 @@
         "question_form": {
             "label_placeholder": "Votre titre de puzzle ici",
             "score": "Pointage de la question",
-            "validation_types": "Type de réponse",
+            "validation_types": "Type de validation",
             "input_types": "Type de réponse",
             "puzzle_types": "Type de défi",
             "answer_admin": "Réponse",
@@ -222,7 +222,18 @@
                 "update_question_error": "Une erreur est survenue lors de la mise à jour de la question.",
                 "create_question_error": "Une erreur est survenue lors de la création de la question.",
                 "save_error": "Une erreur est survenue lors de la sauvegarde de la compétition.",
-                "save_success": "Compétition sauvegardée avec succès."
+                "save_success": "Compétition sauvegardée avec succès.",
+                "description_and_questions": "Énoncé et questions",
+                "submissions": "Soumissions",
+                "results": "Résultats",
+                "load_results_error": "Une erreur est survenue lors du chargement des soumissions.",
+                "teams_that_answered_question": "Équipes ayant soumis une réponse à la question",
+                "answers": "Réponse(s)",
+                "download_all_submissions": "Télécharger toutes les soumissions",
+                "answered_questions_count": "Nombre de questions répondues",
+                "score": "Pointage",
+                "percent_result": "Résultat en pourcentage",
+                "position": "Position"
             }
         },
         "guide": {

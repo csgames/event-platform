@@ -13,12 +13,14 @@ import { CustomTextBoxModule } from "../../../components/custom-text-box/custom-
 import { FormsModule } from "@angular/forms";
 import { FlexLayoutModule } from "@angular/flex-layout";
 import { QuestionEditCardComponent } from "./components/question-edit-card/question-edit-card.component";
-import { AccordionModule, SortableModule } from "ngx-bootstrap";
+import { AccordionModule, SortableModule, TabsModule } from "ngx-bootstrap";
 import { QuestionFormModule } from "../../../components/question-form/question-form.module";
 import { UpdateQuestionComponent } from "./components/update-question/update-question.component";
 import { CreateQuestionComponent } from "./components/create-question/create-question.component";
 import { MarkdownModule } from "ngx-markdown";
 import { EditCompetitionModule } from "../admin/components/edit-competition/edit-competition.module";
+import { QuestionResultsCardComponent } from "./components/question-results-card/question-results-card.component";
+import { CompetitionResultsComponent } from "./components/competition-results/competition-results.component";
 
 @NgModule({
     imports: [
@@ -35,13 +37,21 @@ import { EditCompetitionModule } from "../admin/components/edit-competition/edit
         QuestionFormModule,
         MarkdownModule,
         EditCompetitionModule,
+        TabsModule,
 
         StoreModule.forFeature("competitionEdit", fromCompetitionEdit.reducer),
         EffectsModule.forFeature([CompetitionEditEffects])
     ],
     exports: [],
     entryComponents: [UpdateQuestionComponent, CreateQuestionComponent],
-    declarations: [CompetitionEditComponent, QuestionEditCardComponent, UpdateQuestionComponent, CreateQuestionComponent],
+    declarations: [
+        CompetitionEditComponent,
+        QuestionEditCardComponent,
+        UpdateQuestionComponent,
+        CreateQuestionComponent,
+        CompetitionResultsComponent,
+        QuestionResultsCardComponent
+    ],
     providers: []
 })
 export class CompetitionEditModule {}

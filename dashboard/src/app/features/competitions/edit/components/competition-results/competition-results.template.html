@@ -1,0 +1,33 @@
+<table class="table table-hover mt-3">
+    <thead>
+    <tr>
+        <th class="text-center">{{ "pages.competition.edit.position" | translate }}</th>
+        <th>{{ "general.team.name" | translate }}</th>
+        <th class="text-center">{{ "pages.competition.edit.answered_questions_count" | translate }}</th>
+        <th>{{ "pages.competition.edit.score" | translate }}</th>
+        <th class="text-center">{{ "pages.competition.edit.percent_result" | translate }}</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let teamScoreResult of teamScoreResults" class="clickable">
+        <td class="text-center">
+            {{ getPosition(teamScoreResult) }}
+        </td>
+        <td>
+            {{ teamScoreResult?.teamName }}
+        </td>
+        <td class="text-center">
+            {{ teamScoreResult?.answers?.length }}
+        </td>
+        <td>
+            <div class="input-group input-group-default">
+                <input type="number" class="form-control" [ngModel]="teamScoreResult.score" [min]="0"
+                       (ngModelChange)="onUpdateScore(teamScoreResult, $event)">
+            </div>
+        </td>
+        <td class="text-center">
+            {{ getPercentageScore(teamScoreResult?.score) }}
+        </td>
+    </tr>
+    </tbody>
+</table>

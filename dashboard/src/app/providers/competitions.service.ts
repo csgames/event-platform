@@ -9,6 +9,7 @@ import { TranslateService } from "@ngx-translate/core";
 import { QuestionGraphNode } from "../api/models/question";
 import { CompetitionFormDto } from "../features/competitions/admin/components/competition-form/dto/competition-form.dto";
 import { QuestionAnswerDto } from "../api/dto/competition";
+import { TeamCompetitionResult } from "../api/definitions/competition";
 
 @Injectable()
 export class CompetitionsService {
@@ -77,5 +78,13 @@ export class CompetitionsService {
 
     public updateCompetition(competitionId: string, dto: UpdateCompetitionDto): Observable<void> {
         return this.apiService.competition.updateCompetition(competitionId, dto);
+    }
+
+    public getCompetitionResult(competitionId: string): Observable<TeamCompetitionResult[]> {
+        return this.apiService.competition.getCompetitionResult(competitionId);
+    }
+
+    public getQuestionResult(competitionId: string, questionId: string): Observable<Blob> {
+        return this.apiService.competition.getQuestionResult(competitionId, questionId);
     }
 }

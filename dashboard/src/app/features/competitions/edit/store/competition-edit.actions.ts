@@ -1,6 +1,7 @@
 import { Action } from "@ngrx/store";
-import { Competition } from "../../../../api/models/competition";
+import { Competition, TeamResult } from "../../../../api/models/competition";
 import { Question, QuestionGraphNode } from "../../../../api/models/question";
+import { TeamCompetitionResult } from "../../../../api/definitions/competition";
 
 export enum CompetitionEditActionTypes {
     LoadCompetition = "[Competition Edit] Load competition",
@@ -19,9 +20,16 @@ export enum CompetitionEditActionTypes {
 
     OpenSettingsModal = "[Competition Edit] Open settings modal",
 
-    SaveQuestionsAndDescription = "[Competition Edit] Save questions and description",
-    SaveQuestionsAndDescriptionError = "[Competition Edit] Save questions and description error",
-    QuestionsAndDescriptionSaved = "[Competition Edit] Questions and description saved",
+    SaveCompetition = "[Competition Edit] Save competition",
+    SaveCompetitionError = "[Competition Edit] Save competition error",
+    QuestionsAndDescriptionSaved = "[Competition Edit] Competition saved",
+
+    LoadCompetitionResults = "[Competition Edit] Load competition results",
+    CompetitionResultsLoaded = "[Competition Edit] Competition results loaded",
+    LoadCompetitionResultsError = "[Competition Edit] Load competition results error",
+
+    DownloadUploadedSubmissions = "[Competition Edit] Download uploaded submissions",
+    UploadedSubmissionsDownloaded = "[Competition Edit] Uploaded submissions downloaded",
 
     ResetStore = "[Competition Edit] Reset Store"
 }
@@ -84,18 +92,22 @@ export class CreateQuestionError implements Action {
     readonly type = CompetitionEditActionTypes.CreateQuestionError;
 }
 
-export class SaveQuestionsAndDescription implements Action {
-    readonly type = CompetitionEditActionTypes.SaveQuestionsAndDescription;
+export class SaveCompetition implements Action {
+    readonly type = CompetitionEditActionTypes.SaveCompetition;
 
-    constructor(public payload: { description: { [lang: string]: string }, questions: QuestionGraphNode[] }) {}
+    constructor(public payload: {
+        description: { [lang: string]: string },
+        questions: QuestionGraphNode[],
+        results?: TeamResult[]
+    }) {}
 }
 
-export class QuestionsAndDescriptionSaved implements Action {
+export class CompetitionSaved implements Action {
     readonly type = CompetitionEditActionTypes.QuestionsAndDescriptionSaved;
 }
 
-export class SaveQuestionsAndDescriptionError implements Action {
-    readonly type = CompetitionEditActionTypes.SaveQuestionsAndDescriptionError;
+export class SaveCompetitionError implements Action {
+    readonly type = CompetitionEditActionTypes.SaveCompetitionError;
 }
 
 export class ResetStore implements Action {
@@ -108,12 +120,45 @@ export class OpenSettingsModal implements Action {
     constructor(public competition: Competition) {}
 }
 
+export class LoadCompetitionResults implements Action {
+    readonly type = CompetitionEditActionTypes.LoadCompetitionResults;
+
+    constructor(public competitionId: string) {}
+}
+
+export class CompetitionResultsLoaded implements Action {
+    readonly type = CompetitionEditActionTypes.CompetitionResultsLoaded;
+
+    constructor(public competitionResults: TeamCompetitionResult[]) {}
+}
+
+export class LoadCompetitionResultsError implements Action {
+    readonly type = CompetitionEditActionTypes.LoadCompetitionResultsError;
+}
+
+export class DownloadUploadedSubmissions implements Action {
+    readonly type = CompetitionEditActionTypes.DownloadUploadedSubmissions;
+
+    constructor(public payload: { competitionId: string, question: QuestionGraphNode }) {}
+}
+
+export class UploadedSubmissionsDownloaded implements Action {
+    readonly type = CompetitionEditActionTypes.UploadedSubmissionsDownloaded;
+
+    constructor(public payload: { buffer: Blob, questionName: string }) {}
+}
+
 export type CompetitionEditActions =
+    | DownloadUploadedSubmissions
+    | UploadedSubmissionsDownloaded
+    | LoadCompetitionResults
+    | CompetitionResultsLoaded
+    | LoadCompetitionResultsError
     | ResetStore
     | OpenSettingsModal
-    | SaveQuestionsAndDescription
-    | SaveQuestionsAndDescriptionError
-    | QuestionsAndDescriptionSaved
+    | SaveCompetition
+    | SaveCompetitionError
+    | CompetitionSaved
     | OpenUpdateQuestionModal
     | UpdateQuestion
     | QuestionUpdated

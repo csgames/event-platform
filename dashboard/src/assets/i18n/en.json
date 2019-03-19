@@ -25,14 +25,14 @@
             "school": "School"
         },
         "toast": {
-            "attendee_failed": "An error occured while saving the attendee info.",
+            "attendee_failed": "An error occurred while saving the attendee info.",
             "attendee_success": "Attendee info successfully saved.",
-            "email_failed": "An error occured while sending the email.",
+            "email_failed": "An error occurred while sending the email.",
             "email_success": "Email successfully sent.",
             "password_success": "Password successfully changed!",
-            "password_failure": "An error occured while changing the password.",
-            "add_member_failure": "An error occured while adding a member to the team",
-            "update_team_name_failure": "An error occured while updating the team name"
+            "password_failure": "An error occurred while changing the password.",
+            "add_member_failure": "An error occurred while adding a member to the team",
+            "update_team_name_failure": "An error occurred while updating the team name"
         },
         "top_bar": {
             "change_language": "Français",
@@ -57,12 +57,12 @@
         },
         "create_track": {
             "create_track": "Create track",
-            "error": "An error occured while creating the track.",
+            "error": "An error occurred while creating the track.",
             "success": "Track created!"
         },
         "update_track": {
             "update_track": "Update track",
-            "error": "An error occured while updating the track.",
+            "error": "An error occurred while updating the track.",
             "success": "Track updated!"
         },
         "puzzle_hero_settings": {
@@ -72,7 +72,7 @@
             "scoreboard_end_date": "Scoreboard end date",
             "open": "Open",
             "success": "Settings updated!",
-            "error": "An error occured while saving the settings."
+            "error": "An error occurred while saving the settings."
         },
         "update_puzzle": {
             "success": "Puzzle updated!"
@@ -99,6 +99,7 @@
             "score": "Puzzle value",
             "validation_types": "Validation type",
             "puzzle_types": "Puzzle type",
+            "input_types": "Input type",
             "answer_admin": "Answer",
             "answer_placeholder": "Answer / URL",
             "description_placeholder": "Your puzzle description here",
@@ -193,7 +194,7 @@
             "participate": "Participate",
             "subscribed": "Subscribed competitions",
             "wrong_password": "Wrong password",
-            "loading_error": "An error occured while loading the competitions",
+            "loading_error": "An error occurred while loading the competitions",
             "live": "Happening now",
             "validate_success": "You have the right password!",
             "next": "Next competitions",
@@ -204,16 +205,29 @@
             "add_competition": "Add competition",
             "create_competition_success": "Competition created with success.",
             "admin": {
-                "edit_competition": "Edit competition"
+                "edit_competition": "Edit competition",
+                "edit_competition_success": "Successfully saved competition.",
+                "create_competition_success": "Successfully added competition."
             },
             "edit": {
                 "description": "Description",
                 "add_question": "Add question",
                 "update_question": "Update question",
-                "update_question_error": "An error occured while updating the question.",
-                "create_question_error": "An error occured while creating the question.",
-                "save_error": "An error occured while saving the competition.",
-                "save_success": "Successfully saved competition."
+                "update_question_error": "An error occurred while updating the question.",
+                "create_question_error": "An error occurred while creating the question.",
+                "save_error": "An error occurred while saving the competition.",
+                "save_success": "Successfully saved competition.",
+                "description_and_questions": "Description and questions",
+                "submissions": "Submissions",
+                "results": "Results",
+                "load_results_error": "An error occurred while loading submissions.",
+                "teams_that_answered_question": "Team that answered the question",
+                "answers": "Answer(s)",
+                "download_all_submissions": "Download all submissions",
+                "answered_questions_count": "Number of answered questions",
+                "score": "Score",
+                "percent_result": "Score /100",
+                "position": "Position"
             }
         },
         "flashouts": {
@@ -257,8 +271,8 @@
             "track": "Track",
             "tracks": "Tracks",
             "wrong_answer": "Wrong answer!",
-            "loading_error": "An error occured while loading the puzzle hero",
-            "scoreboard_loading_error": "An error occured while loading the scoreboard",
+            "loading_error": "An error occurred while loading the puzzle hero",
+            "scoreboard_loading_error": "An error occurred while loading the scoreboard",
             "validate_success": "Good answer!",
             "answer": "Answer",
             "admin": {
@@ -277,30 +291,30 @@
             "already_have_account": "Already have an account?",
             "confirm_password": "Confirm password",
             "register": "Register",
-            "validation_error": "An error occured while validating your invitation."
-		},
-		"schedule": {
-			"schedule": "Schedule",
-			"view_competition": "View competition",
+            "validation_error": "An error occurred while validating your invitation."
+        },
+        "schedule": {
+            "schedule": "Schedule",
+            "view_competition": "View competition",
             "next": "Next activities"
-		},
-		"sponsors": {
-			"bronze": "Bronze",
-			"gold": "Gold",
-			"partner": "Partner",
-			"platinum": "Platinum",
-			"silver": "Silver",
-			"sponsors": "Sponsors"
-		},
-		"team": {
-			"add_a_godparent": "Add a godparent",
-			"add_a_member": "Add a team member",
-			"add_godparent": "Add godparent",
-			"add_member": "Add member",
-			"add_team": "Add team",
-			"godparent": "Godparent",
-			"loading_error": "An error occured while loading the team.",
-            "teams_loading_error": "An error occured while loading the teams.",
+        },
+        "sponsors": {
+            "bronze": "Bronze",
+            "gold": "Gold",
+            "partner": "Partner",
+            "platinum": "Platinum",
+            "silver": "Silver",
+            "sponsors": "Sponsors"
+        },
+        "team": {
+            "add_a_godparent": "Add a godparent",
+            "add_a_member": "Add a team member",
+            "add_godparent": "Add godparent",
+            "add_member": "Add member",
+            "add_team": "Add team",
+            "godparent": "Godparent",
+            "loading_error": "An error occurred while loading the team.",
+            "teams_loading_error": "An error occurred while loading the teams.",
             "no_godparent": "No godparent yet",
             "not_registered": "Not registered",
             "registered": "Registered",
