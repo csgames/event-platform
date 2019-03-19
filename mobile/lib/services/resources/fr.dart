@@ -136,6 +136,6 @@ Map<String, dynamic> fr = {
         'push-title': 'Entrer le titre de la notification',
         'push-text': 'Entrer le text de la notification',
         'send': 'Envoyer',
-        'no-notifications': 'No notifications yet'
+        'no-notifications': 'Pas encore de notifications'
     }
 };
