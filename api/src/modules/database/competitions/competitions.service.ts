@@ -492,6 +492,7 @@ export class CompetitionsService extends BaseService<Competitions, Competitions>
         delete c.answers;
         delete c.password;
         delete c.members;
+        delete c.results;
 
         return c;
     }
