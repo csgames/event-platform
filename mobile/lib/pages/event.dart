@@ -495,7 +495,7 @@ class _EventPageViewModel {
         hasUnseenNotifications = store.state.notificationState.hasUnseenNotifications;
         event = store.state.currentEvent;
         attendee = store.state.currentAttendee;
-        puzzleHeroOpen = store.state.puzzleHeroState.isOpen;
+        puzzleHeroOpen = store.state.puzzleHeroState?.isOpen ?? false;
         resetSchedule = () => store.dispatch(ResetScheduleAction());
         resetAttendeeRetrieval = () => store.dispatch(ResetAttendeeAction());
         resetCurrentAttendee = () => store.dispatch(ResetCurrentAttendeeAction());

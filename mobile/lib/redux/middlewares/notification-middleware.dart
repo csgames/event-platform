@@ -10,7 +10,6 @@ import 'package:CSGamesApp/services/events.service.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:redux_epics/redux_epics.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 class NotificationMiddleware implements EpicClass<AppState> {
     final FirebaseMessaging _firebaseMessaging;
@@ -93,19 +92,6 @@ class NotificationMiddleware implements EpicClass<AppState> {
 
     Stream<dynamic> _setupNotifications() async* {
         try {
-            var flutterLocalNotificationsPlugin = new FlutterLocalNotificationsPlugin();
-            var initializationSettingsAndroid = new AndroidInitializationSettings('notification_icon');
-            var initializationSettingsIOS = new IOSInitializationSettings();
-            var initializationSettings = new InitializationSettings(initializationSettingsAndroid, initializationSettingsIOS);
-            flutterLocalNotificationsPlugin = new FlutterLocalNotificationsPlugin();
-            flutterLocalNotificationsPlugin.initialize(initializationSettings, onSelectNotification: (r) {});
-
-            var androidPlatformChannelSpecifics = new AndroidNotificationDetails(
-                'csgames', 'csgames', 'CSGames Channel',
-                importance: Importance.Default, priority: Priority.Default);
-            var iOSPlatformChannelSpecifics = new IOSNotificationDetails();
-            var platformChannelSpecifics = new NotificationDetails(
-                androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
 
             if (Platform.isIOS) {
                 _firebaseMessaging.requestNotificationPermissions(IosNotificationSettings(sound: true, badge: true, alert: true));
@@ -116,7 +102,6 @@ class NotificationMiddleware implements EpicClass<AppState> {
             _firebaseMessaging.configure(
                 onMessage: (Map<String, dynamic> message) async {
                     print('on message $message');
-                    await flutterLocalNotificationsPlugin.show(0, message['notification']['title'], message['notification']['body'], platformChannelSpecifics);
                 },
                 onResume: (Map<String, dynamic> message) async {
                     print('on resume $message');

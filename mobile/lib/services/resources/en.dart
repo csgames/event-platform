@@ -135,6 +135,7 @@ Map<String, dynamic> en = {
     'push': 'Send Push Notifications',
     'push-title': 'Enter push notification title',
     'push-text': 'Enter push notification text',
-    'send': 'Send'
+    'send': 'Send',
+    'no-notifications': 'No notifications yet'
   }
 };
