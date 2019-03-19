@@ -352,6 +352,8 @@ export class PuzzleHeroesService extends BaseService<PuzzleHeroes, PuzzleHeroes>
             event: eventId
         }).exec();
 
+        await this.redisService.del(this.getScoreboardKey(eventId));
+
         for (const team of teams) {
             await this.redisService.scanDel(this.getTeamSeriesKey(eventId, team._id.toHexString()));
             await this.addTeamScore(eventId, team._id.toHexString(), 0);
