@@ -22,6 +22,7 @@ import { Subscription } from "rxjs";
 export class CompetitionFormComponent implements OnInit, OnDestroy, ControlValueAccessor {
     @Input()
     public activities: Activity[];
+
     @Input()
     public directors: Attendee[];
 

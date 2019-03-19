@@ -92,7 +92,8 @@
             "directors": "Directors",
             "max_members": "Max members",
             "on_dashboard": "Competition in dashboard",
-            "is_live": "Competition is live"
+            "is_live": "Competition is live",
+            "weight": "Weight"
         },
         "question_form": {
             "label_placeholder": "Your puzzle title here",
