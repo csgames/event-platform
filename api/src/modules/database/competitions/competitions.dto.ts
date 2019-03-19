@@ -2,6 +2,7 @@ import { ArrayNotEmpty, IsBoolean, IsEmail, IsMongoId, IsNotEmpty, IsNumber, IsO
 import { CreateAttendeeDto } from '../attendees/attendees.dto';
 import { CreateQuestionDto } from '../questions/questions.dto';
 import { QuestionGraphNodes } from './questions/question-graph-nodes.model';
+import { TeamResults } from './results/team-result.model';
 
 export class CreateCompetitionDto {
     @IsNotEmpty()
@@ -40,6 +41,9 @@ export class UpdateCompetitionDto {
     @IsOptional()
     @ArrayNotEmpty()
     questions: QuestionGraphNodes[];
+
+    @IsOptional()
+    results: TeamResults[];
 
     @IsOptional()
     @IsNotEmpty()
