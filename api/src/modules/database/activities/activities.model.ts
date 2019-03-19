@@ -1,7 +1,6 @@
 import * as mongoose from 'mongoose';
 import { Attendees } from '../attendees/attendees.model';
 import { DateUtils } from '../../../utils/date.utils';
-import { PuzzleHeroes } from '../puzzle-heroes/puzzle-heroes.model';
 
 export const ActivityTypes = [
     'food',
@@ -16,6 +15,7 @@ export interface Activities extends mongoose.Document {
     endDate: Date | string;
     details: { [lang: string]: string };
     location: string;
+    hidden: boolean;
     attendees: (Attendees | mongoose.Types.ObjectId | string)[];
     subscribers: (Attendees | mongoose.Types.ObjectId | string)[];
 }
@@ -45,6 +45,10 @@ export const ActivitiesSchema = new mongoose.Schema({
     location: {
         type: String,
         required: true
+    },
+    hidden: {
+        type: Boolean,
+        default: false
     },
     attendees: {
         type: [mongoose.Schema.Types.ObjectId],
