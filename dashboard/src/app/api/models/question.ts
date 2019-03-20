@@ -3,7 +3,25 @@ export enum QuestionTypes {
     Gaming = "gaming",
     Scavenger = "scavenger",
     Sponsor = "sponsor",
-    Upload = "upload"
+    Upload = "upload",
+    Vine = "vine",
+    EsotericLanguages = "esoteric_languages",
+    DataAnalysis = "data_analysis",
+    Recon = "recon",
+    Steganography = "steganography",
+    Debugging = "debugging",
+    Forensics = "forensics",
+    Charades = "charades",
+    ReverseEngineering = "reverse_engineering",
+    CodeGolf = "code_golf",
+    Regex = "regex",
+    Scripting = "scripting",
+    Food = "food",
+    Karaoke = "karaoke",
+    Pwning = "pwning",
+    Authentication = "authentication",
+    StaticAnalysis = "static_analysis",
+    ArtificialIntelligence = "artificial_intelligence"
 }
 
 export enum ValidationTypes {

@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 import { Question, QuestionTypes } from "../../../../../api/models/question";
+import { QuestionUtils } from "../../../../../utils/question.utils";
 
 @Component({
     selector: "app-question-results-card",
@@ -28,17 +29,7 @@ export class QuestionResultsCardComponent implements OnInit {
     }
 
     get icon(): string {
-        switch (this.question.type) {
-            case QuestionTypes.Crypto:
-                return "fal fa-key";
-            case QuestionTypes.Gaming:
-                return "fal fa-gamepad";
-            case QuestionTypes.Scavenger:
-                return "fal fa-camera-alt";
-            case QuestionTypes.Upload:
-                return "fal fa-upload";
-        }
-        return "";
+        return QuestionUtils.getQuestionTypeIconClass(this.question.type);
     }
 
     onClickDownloadSubmissions(event: MouseEvent) {

@@ -5,6 +5,8 @@ import { TrackFormDto } from "./dto/track-form.dto";
 import { Subscription } from "rxjs";
 import { ControlValueAccessor, FormGroup, NG_VALUE_ACCESSOR } from "@angular/forms";
 import { TrackTypes } from "../../../../../api/models/puzzle-hero";
+import { TrackUtils } from "../../../../../utils/track.utils";
+import { QuestionTypes } from "../../../../../api/models/question";
 
 @Component({
     selector: "app-track-form",
@@ -20,12 +22,7 @@ import { TrackTypes } from "../../../../../api/models/puzzle-hero";
 })
 export class TrackFormComponent implements OnInit, ControlValueAccessor, OnDestroy {
 
-    public types = [
-        TrackTypes.Crypto,
-        TrackTypes.Gaming,
-        TrackTypes.Scavenger,
-        TrackTypes.Sponsor
-    ];
+    public types = Object.values(TrackTypes);
 
     public formGroup: FormGroup;
 
@@ -60,18 +57,8 @@ export class TrackFormComponent implements OnInit, ControlValueAccessor, OnDestr
         }
     }
 
-    getIcon(type: string): string {
-        switch (type) {
-            case TrackTypes.Crypto:
-                return "fa-key";
-            case TrackTypes.Gaming:
-                return "fa-gamepad";
-            case TrackTypes.Scavenger:
-                return "fa-camera-alt";
-            case TrackTypes.Sponsor:
-                return "fa-gem";
-        }
-        return "";
+    getIcon(type: TrackTypes): string {
+        return TrackUtils.getTrackTypeIconClass(type);
     }
 
     validate(): boolean {

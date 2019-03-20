@@ -16,7 +16,8 @@
                   [class.completed]="puzzle?.completed"/>
 
         <svg width="77" height="77">
-            <svg:text class="fal fa-3x" x="50%" y="50%" alignment-baseline="middle" dominant-baseline="middle"
+            <svg:text [ngClass]="{fal: puzzle.type !== 'vine', fab: puzzle.type === 'vine'}" class="fa-3x" x="50%"
+                      y="50%" alignment-baseline="middle" dominant-baseline="middle"
                       text-anchor="middle" [innerHTML]="icon">
             </svg:text>
             <svg:text class="fa fa-3x text-danger" x="50%" y="50%" alignment-baseline="middle"

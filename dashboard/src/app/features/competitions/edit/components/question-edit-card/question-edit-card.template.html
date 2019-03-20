@@ -25,7 +25,9 @@
                 </div>
                 <div fxFlex>
                     <strong>
-                        <i class="fal" [ngClass]="icon"></i>&nbsp;{{ question?.question?.type }}<br>
+                        <i class="fal"
+                           [ngClass]="icon"></i>&nbsp;{{ "general.question.types." + question?.question?.type | translate }}
+                        <br>
                         <i class="fal" [ngClass]="inputIcon"></i>&nbsp;{{ question?.question?.inputType }}<br>
                         <i class="fal" [ngClass]="validationIcon"></i>&nbsp;{{ question?.question?.validationType }}
                     </strong>
