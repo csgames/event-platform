@@ -26,7 +26,7 @@ export class CreateQuestionDto {
     @IsNotEmpty({
         always: true
     })
-    @IsIn(['crypto', 'gaming', 'scavenger', 'upload', 'none'])
+    @IsIn(['crypto', 'gaming', 'scavenger', 'upload', 'none', 'sponsor'])
     type: QuestionTypes;
 
     @IsNotEmpty()
