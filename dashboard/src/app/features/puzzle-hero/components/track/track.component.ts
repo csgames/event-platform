@@ -1,8 +1,9 @@
 import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 import * as shape from "d3-shape";
-import { PuzzleInfo, Track, TrackTypes } from "../../../../api/models/puzzle-hero";
+import { PuzzleInfo, Track } from "../../../../api/models/puzzle-hero";
 import { PuzzleHeroService } from "../../../../providers/puzzle-hero.service";
 import { SimpleModalService } from "ngx-simple-modal";
+import { TrackUtils } from "../../../../utils/track.utils";
 
 @Component({
     selector: "app-track",
@@ -71,17 +72,7 @@ export class TrackComponent implements OnInit {
     }
 
     get icon(): string {
-        switch (this.track.type) {
-            case TrackTypes.Crypto:
-                return "fa-key";
-            case TrackTypes.Gaming:
-                return "fa-gamepad";
-            case TrackTypes.Scavenger:
-                return "fa-camera-alt";
-            case TrackTypes.Sponsor:
-                return "fa-gem";
-        }
-        return "";
+        return TrackUtils.getTrackTypeIconClass(this.track.type);
     }
 
     get isStarred(): boolean {

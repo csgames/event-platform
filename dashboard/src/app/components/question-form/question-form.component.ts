@@ -5,6 +5,7 @@ import { QUESTION_FORM_GENERATOR } from "./question-form.constants";
 import { ControlValueAccessor, FormGroup, NG_VALUE_ACCESSOR } from "@angular/forms";
 import { Subscription } from "rxjs";
 import { InputTypes, QuestionTypes, ValidationTypes } from "../../api/models/question";
+import { QuestionUtils } from "../../utils/question.utils";
 
 @Component({
     selector: "app-question-form",
@@ -79,18 +80,8 @@ export class QuestionFormComponent implements OnInit, ControlValueAccessor, OnDe
         return false;
     }
 
-    getQuestionTypeIcon(type: string): string {
-        switch (type) {
-            case QuestionTypes.Crypto:
-                return "fa-key";
-            case QuestionTypes.Gaming:
-                return "fa-gamepad";
-            case QuestionTypes.Scavenger:
-                return "fa-camera-alt";
-            case QuestionTypes.Sponsor:
-                return "fa-gem";
-        }
-        return "";
+    getQuestionTypeIcon(type: QuestionTypes): string {
+        return QuestionUtils.getQuestionTypeIconClass(type);
     }
 
     getValidationIcon(type: string): string {

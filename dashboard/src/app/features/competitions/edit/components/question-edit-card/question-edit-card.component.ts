@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 import { InputTypes, Question, QuestionGraphNode, QuestionTypes, ValidationTypes } from "../../../../../api/models/question";
+import { QuestionUtils } from "../../../../../utils/question.utils";
 
 @Component({
     selector: "app-question-edit-card",
@@ -25,17 +26,7 @@ export class QuestionEditCardComponent implements OnInit {
     }
 
     get icon(): string {
-        switch ((this.question.question as Question).type) {
-            case QuestionTypes.Crypto:
-                return "fal fa-key";
-            case QuestionTypes.Gaming:
-                return "fal fa-gamepad";
-            case QuestionTypes.Scavenger:
-                return "fal fa-camera-alt";
-            case QuestionTypes.Upload:
-                return "fal fa-upload";
-        }
-        return "";
+        return QuestionUtils.getQuestionTypeIconClass((this.question.question as Question).type);
     }
 
     get validationIcon(): string {

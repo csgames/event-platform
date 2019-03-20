@@ -30,10 +30,10 @@
                                placeholder='{{ "components.question_form.puzzle_types" | translate }}' controlStatus
                                formControlName="type">
                         <ng-template ng-option-tmp ng-label-tmp let-item="item">
-                            <i class="fal" [ngClass]="getQuestionTypeIcon(item)"></i>
+                            <i [ngClass]="getQuestionTypeIcon(item)"></i>&nbsp;
                             <span class="ng-option-label">
-                        {{ item }}
-                    </span>
+                                {{ "general.question.types." + item | translate }}
+                            </span>
                         </ng-template>
                     </ng-select>
                 </div>
@@ -44,7 +44,7 @@
                                placeholder='{{ "components.question_form.validation_types" | translate }}' controlStatus
                                formControlName="validationType">
                         <ng-template ng-option-tmp ng-label-tmp let-item="item">
-                            <i class="fal" [ngClass]="getValidationIcon(item)"></i>
+                            <i class="fal" [ngClass]="getValidationIcon(item)"></i>&nbsp;
                             <span class="ng-option-label">
                                 {{ item }}
                             </span>
@@ -73,7 +73,7 @@
                                placeholder='{{ "components.question_form.input_types" | translate }}' controlStatus
                                formControlName="inputType">
                         <ng-template ng-option-tmp ng-label-tmp let-item="item">
-                            <i class="fal" [ngClass]="getInputTypeIcon(item)"></i>
+                            <i class="fal" [ngClass]="getInputTypeIcon(item)"></i>&nbsp;
                             <span class="ng-option-label">
                         {{ item }}
                     </span>

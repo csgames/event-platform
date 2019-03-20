@@ -4,7 +4,23 @@ export enum TrackTypes {
     Crypto = "crypto",
     Gaming = "gaming",
     Scavenger = "scavenger",
-    Sponsor = "sponsor"
+    Sponsor = "sponsor",
+    Vine = "vine",
+    EsotericLanguages = "esoteric_languages",
+    DataAnalysis = "data_analysis",
+    Recon = "recon",
+    Steganography = "steganography",
+    Debugging = "debugging",
+    Forensics = "forensics",
+    Charades = "charades",
+    ReverseEngineering = "reverse_engineering",
+    CodeGolf = "code_golf",
+    Regex = "regex",
+    Scripting = "scripting",
+    Food = "food",
+    Karaoke = "karaoke",
+    Pwning = "pwning",
+    Authentication = "authentication"
 }
 
 export interface PuzzleInfo {

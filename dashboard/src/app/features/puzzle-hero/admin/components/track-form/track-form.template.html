@@ -14,7 +14,7 @@
                 <ng-select [items]="types" [clearable]="false" placeholder='{{ "components.track_form.type" | translate }}'
                            formControlName="type" controlStatus>
                     <ng-template ng-option-tmp ng-label-tmp let-item="item">
-                        <i class="fal" [ngClass]="getIcon(item)"></i>
+                        <i [ngClass]="getIcon(item)"></i>
                         <span class="ng-option-label">
                             {{ "general.track.types." + item | translate }}
                         </span>
