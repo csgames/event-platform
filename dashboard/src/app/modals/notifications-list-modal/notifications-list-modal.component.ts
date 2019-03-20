@@ -5,6 +5,8 @@ import { State, getNotifications, getNotificationsLoading } from "./store/notifi
 import { Subscription } from "rxjs";
 import { AttendeeNotification } from "../../api/models/notification";
 import { LoadNotifications } from "./store/notifications.actions";
+import { not } from "rxjs/internal-compatibility";
+import { Activity } from "../../api/models/activity";
 
 @Component({
     selector: "app-notifications-list-modal",
@@ -33,6 +35,34 @@ export class NotificationsListModalComponent extends SimpleModalComponent<void, 
 
     ngOnDestroy() {
         this.notificationSub$.unsubscribe();
+    }
+
+    getIcon(notification: Notification): string {
+        if (!notification.data) {
+            return "";
+        }
+        switch (notification.data.type) {
+            case "event":
+                return "fal fa-calendar-check text-danger";
+            case "activity":
+                const activity = JSON.parse(notification.data.activity);
+                if (activity.type === "competition") {
+                    return "fal fa-trophy text-primary";
+                } else if (activity.type === "food") {
+                    return "fal fa-utensils text-primary";
+                } else {
+                    return "fal fa-calendar text-primary";
+                }
+        }
+        return "";
+    }
+
+    getActivityName(notification: Notification): { [lang: string]: string } {
+        if (!notification.data || !notification.data.activity || notification.data.type !== "activity") {
+            return null;
+        }
+        const activity: Activity = JSON.parse(notification.data.activity);
+        return activity.name;
     }
 
     close() {

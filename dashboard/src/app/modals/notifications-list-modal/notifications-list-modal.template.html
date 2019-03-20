@@ -1,31 +1,41 @@
-<div class="modal-right-side fade slide-right show animated slideInRight" tabindex="-1" role="dialog" style="display: block;">
+<div class="modal-right-side fade slide-right show animated slideInRight" tabindex="-1" role="dialog"
+     style="display: block;">
     <div class="modal-dialog modal-md">
         <div class="modal-content-wrapper">
             <div class="modal-content">
                 <app-loading-spinner [loading]="loading$"></app-loading-spinner>
                 <a class="close mt-2" (click)="close()"><i class="fa fa-times"></i>
                 </a>
-                <div class="container-xs-height full-height">
-                    <div class="row-xs-height">
-                        <div class="modal-body mt-2 col-xs-height col-middle text-center">
-                            <h4>Notifications</h4>
-                            <div *ngIf="!notifications || notifications.length == 0" class="no-notif">
-                                {{ "components.notification.no_notification" | translate }}</div>
-                            <ng-container *ngIf="notifications">
-                                <div *ngFor="let n of notifications">
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <p class="notif-title">{{ n.notification.title }}</p>
-                                            <p class="notif-message">{{ n.notification.body }}</p>
-                                            <hr class="notif-line">
-                                            <p class="timestamp">{{ n.notification.timestamp | timeago }}</p>
+                <ng-container *ngIf="!(loading$ | async)">
+                    <div fxLayout="column" class="modal-body mt-2 col-xs-height col-middle text-center p-0">
+                        <h3>Notifications</h3>
+                        <div *ngIf="!notifications || notifications.length == 0" class="no-notif">
+                            {{ "components.notification.no_notification" | translate }}</div>
+                        <div fxFlex class="notifications" *ngIf="notifications">
+                            <div *ngFor="let n of notifications">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div fxLayout="row" fxLayoutAlign="start center">
+                                            <i fxFlex="initial" class="notif-icon"
+                                               [ngClass]="getIcon(n.notification)"></i>
+                                            <div class="ml-3" fxFlex fxLayout="column"
+                                                 fxLayoutAlign="center start">
+                                                <p class="notif-activity"
+                                                   *ngIf="getActivityName(n.notification)">
+                                                    {{ getActivityName(n.notification) | t18n }}
+                                                </p>
+                                                <p class="notif-title">{{ n.notification.title }}</p>
+                                                <p class="notif-message">{{ n.notification.body }}</p>
+                                                <hr class="notif-line">
+                                                <p class="timestamp">{{ n.notification.timestamp | timeago }}</p>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </ng-container>
+                            </div>
                         </div>
                     </div>
-                </div>
+                </ng-container>
             </div>
         </div>
     </div>
