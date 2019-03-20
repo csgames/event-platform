@@ -43,6 +43,10 @@ export namespace TrackUtils {
                 return "fal fa-skull";
             case TrackTypes.Authentication:
                 return "fal fa-mobile";
+            case TrackTypes.StaticAnalysis:
+                return "fal fa-file-code";
+            case TrackTypes.ArtificialIntelligence:
+                return "fal fa-robot";
         }
         return "";
     }

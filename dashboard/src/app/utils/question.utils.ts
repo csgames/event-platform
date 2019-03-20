@@ -1,4 +1,5 @@
 import { QuestionTypes } from "../api/models/question";
+import { TrackTypes } from "../api/models/puzzle-hero";
 
 export namespace QuestionUtils {
     export function getQuestionTypeIconClass(type: QuestionTypes): string {
@@ -45,6 +46,10 @@ export namespace QuestionUtils {
                 return "fal fa-skull";
             case QuestionTypes.Authentication:
                 return "fal fa-mobile";
+            case QuestionTypes.StaticAnalysis:
+                return "fal fa-file-code";
+            case QuestionTypes.ArtificialIntelligence:
+                return "fal fa-robot";
         }
         return "";
     }
@@ -93,6 +98,10 @@ export namespace QuestionUtils {
                 return "&#xf54c";
             case QuestionTypes.Authentication:
                 return "&#xf10b";
+            case QuestionTypes.StaticAnalysis:
+                return "&#xf1c9";
+            case QuestionTypes.ArtificialIntelligence:
+                return "&#xf544";
         }
         return "";
     }

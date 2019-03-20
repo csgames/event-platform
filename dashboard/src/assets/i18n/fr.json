@@ -198,7 +198,9 @@
                 "food": "Food",
                 "karaoke": "Karaoke",
                 "pwning": "Pwning",
-                "authentication": "Authentication"
+                "authentication": "Authentication",
+                "static_analysis": "Analyse statique",
+                "artificial_intelligence": "Intelligence artificielle"
             }
         },
         "question": {
@@ -223,7 +225,9 @@
                 "food": "Food",
                 "karaoke": "Karaoke",
                 "pwning": "Pwning",
-                "authentication": "Authentication"
+                "authentication": "Authentication",
+                "static_analysis": "Analyse statique",
+                "artificial_intelligence": "Intelligence artificielle"
             }
         }
     },

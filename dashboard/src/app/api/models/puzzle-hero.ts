@@ -20,7 +20,9 @@ export enum TrackTypes {
     Food = "food",
     Karaoke = "karaoke",
     Pwning = "pwning",
-    Authentication = "authentication"
+    Authentication = "authentication",
+    StaticAnalysis = "static_analysis",
+    ArtificialIntelligence = "artificial_intelligence"
 }
 
 export interface PuzzleInfo {
