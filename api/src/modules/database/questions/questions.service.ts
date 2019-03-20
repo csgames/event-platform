@@ -94,12 +94,7 @@ export class QuestionsService {
     }
 
     public async validateCustomFunction(answer: string, url: string): Promise<boolean> {
-        let jsonAnswer: object = null;
-        try {
-            jsonAnswer = JSON.parse(answer);
-        } catch (e) {
-            throw new BadRequestException('Custom function validation requires the answer to be a valid JSON object.');
-        }
+        let jsonAnswer = { answer : answer };
 
         if (jsonAnswer) {
             let response: AxiosResponse;
