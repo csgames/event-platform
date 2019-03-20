@@ -1,5 +1,6 @@
 .timestamp {
     font-size: 12px;
+    font-weight: 100;
     text-align: left;
     margin-bottom: 0px;
 }
@@ -7,30 +8,49 @@
 .notif-line {
     margin-top: 3px;
     margin-bottom: 3px;
+    width: 100%;
 }
 
 .notif-title {
-    font-size: 14px;
-    font-weight: bold;
+    font-size: 16px;
+    font-weight: 400;
     text-align: left;
     margin-bottom: 0px;
+}
+
+.notif-activity {
+    font-size: 11px;
+    font-weight: 600;
+    text-align: left;
+    margin-bottom: 0;
 }
 
 .notif-message {
     font-size: 13px;
     text-align: left;
+    font-weight: 300;
     margin-bottom: 0px;
+}
+
+.notif-icon {
+    font-size: 40px;
 }
 
 .card {
     margin-bottom: 10px;
+    background-color: white;
 }
 
 .card-body {
-    padding: 10px;
+    padding: 0.5rem 1rem;
 }
 
 .modal-content {
     height: 100% !important;
+    background-color: #F5F4F0 !important;
+}
+
+.notifications {
+    padding: 0.5rem 1rem;
     overflow-y: auto !important;
 }
