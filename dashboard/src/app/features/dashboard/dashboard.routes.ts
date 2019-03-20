@@ -22,6 +22,7 @@ export const DASHBOARD_ROUTES: Routes = [
     {
         path: "puzzle-hero",
         loadChildren: "src/app/features/puzzle-hero/puzzle-hero.module#PuzzleHeroModule",
+        canActivate: [RegisteredGuard]
     },
     {
         path: "onboarding",
@@ -31,6 +32,7 @@ export const DASHBOARD_ROUTES: Routes = [
     {
         path: "guide",
         loadChildren: "src/app/features/guide/guide.module#GuideModule",
+        canActivate: [RegisteredGuard]
     },
     {
         path: "sponsors",
