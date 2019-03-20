@@ -25,7 +25,6 @@ export const TracksSchema = new mongoose.Schema({
     },
     type: {
         type: String,
-        enum: ["crypto", "gaming", "scavenger", "sponsor"],
         required: true
     },
     puzzles: {

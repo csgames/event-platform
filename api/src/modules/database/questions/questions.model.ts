@@ -47,7 +47,6 @@ export const QuestionsSchema = new mongoose.Schema({
     },
     type: {
         type: String,
-        enum: ["crypto", "gaming", "scavenger", "upload", "none", "sponsor"],
         required: true
     },
     validationType: {
