@@ -1,4 +1,4 @@
-import { IsIn, IsMongoId, IsNotEmpty, IsOptional } from 'class-validator';
+import { IsMongoId, IsNotEmpty, IsOptional } from 'class-validator';
 import { CreateQuestionDto, UpdateQuestionDto } from '../questions/questions.dto';
 
 export class CreatePuzzleHeroDto {
@@ -28,7 +28,6 @@ export class CreateTrackDto {
     label: string;
 
     @IsNotEmpty()
-    @IsIn(['crypto', 'gaming', 'scavenger', 'sponsor'])
     type: string;
 
     @IsNotEmpty()
@@ -43,7 +42,6 @@ export class UpdateTrackDto {
     label: string;
 
     @IsNotEmpty()
-    @IsIn(['crypto', 'gaming', 'scavenger', 'sponsor'])
     type: string;
 
     @IsNotEmpty()
