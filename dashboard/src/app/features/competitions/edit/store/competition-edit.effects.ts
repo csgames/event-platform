@@ -101,7 +101,10 @@ export class CompetitionEditEffects {
                 .pipe(
                     map((r) => new QuestionCreated({
                         ...r,
-                        question: action.question
+                        question: {
+                            _id: r.question as any,
+                            ...action.question
+                        }
                     })),
                     catchError(() => of(new CreateQuestionError()))
                 );
