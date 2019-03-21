@@ -11,6 +11,7 @@ import { LoadingSpinnerModule } from "../../../../../components/loading-spinner/
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { MarkdownModule } from "ngx-markdown";
 import { PipeModule } from "../../../../../pipe/pipe.module";
+import { MonacoEditorModule } from "ngx-monaco-editor";
 
 @NgModule({
     imports: [
@@ -21,6 +22,7 @@ import { PipeModule } from "../../../../../pipe/pipe.module";
         LoadingSpinnerModule,
         MarkdownModule,
         PipeModule,
+        MonacoEditorModule,
 
         StoreModule.forFeature("infoPuzzleHero", fromInfoPuzzleHero.reducer),
         EffectsModule.forFeature([InfoPuzzleHeroEffects])

@@ -35,6 +35,7 @@ import { PasswordService } from "./providers/password.service";
 import { ToastrModule } from "ngx-toastr";
 import { NgxMaskModule } from "ngx-mask";
 import { ResetModule } from "./features/reset/reset.module";
+import { MonacoEditorModule } from "ngx-monaco-editor";
 import {
     AccordionModule,
     PopoverModule,
@@ -104,6 +105,7 @@ export function loadFactory(http: HttpClient): TranslateHttpLoader {
         !environment.production ? StoreDevtoolsModule.instrument() : [],
         BrowserAnimationsModule,
         ToastrModule.forRoot(),
+        MonacoEditorModule.forRoot(),
         NoopAnimationsModule,
         UpdateModule
     ],
