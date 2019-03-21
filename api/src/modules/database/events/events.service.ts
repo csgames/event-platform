@@ -19,6 +19,17 @@ import { Events, EventSponsorDetails } from './events.model';
 import { UpdateAttendeeDto } from '../attendees/attendees.dto';
 import { Teams } from '../teams/teams.model';
 
+export interface EventScore {
+    overall: TeamScore[];
+    competitions: { _id: string, name: object, result: TeamScore[] }[];
+}
+
+export interface TeamScore {
+    teamId: string;
+    teamName: string;
+    score: number;
+}
+
 @Injectable()
 export class EventsService extends BaseService<Events, CreateEventDto> {
     constructor(@InjectModel('events') private readonly eventsModel: Model<Events>,
@@ -383,5 +394,88 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
             event.attendees;
 
         return await this.attendeeService.getFromEvent(eventId, attendees, type);
+    }
+
+    public async getScore(eventId: string): Promise<EventScore> {
+        const competitions = await this.competitionsModel.find({
+            event: eventId
+        }).select(['name', 'weight', 'results'])
+            .populate([{
+                path: 'results.teamId',
+                model: 'teams',
+                lean: true
+            }, {
+                path: 'activities',
+                model: 'activities',
+                lean: true
+            }]).lean().exec();
+
+        competitions.forEach(competition => {
+            if (!competition.results) {
+                competition.results = [];
+            }
+            let max = 1;
+            if (competition.results.length === 1) {
+                max = competition.results[0].score;
+            } else if (competition.results.length) {
+                max = competition.results.reduce((previous, current) => current.score > previous.score ? current : previous).score;
+            }
+            competition.results = competition.results.map(x => {
+                return {
+                    ...x,
+                    score: x.score ? +((x.score / max) * 100).toFixed(2) : 0
+                };
+            }).sort((a, b) => a.score > b.score ? -1 : 1);
+        });
+
+        return {
+            overall: await this.getOverallScore(eventId, competitions),
+            competitions: competitions.map(x => {
+                const name = (x.activities[0] as Activities).name;
+                delete x.activities;
+                return {
+                    ...x,
+                    name,
+                    results: x.results.map(result => {
+                        const team = result.teamId as Teams;
+                        return {
+                            teamId: team._id.toHexString(),
+                            teamName: team.name,
+                            score: result.score
+                        };
+                    })
+                };
+            })
+        };
+    }
+
+    private async getOverallScore(eventId: string, competitions: Competitions[]): Promise<TeamScore[]> {
+        const teams = await this.teamsModel.find({
+            event: eventId
+        }).select(['_id', 'name']).exec();
+
+        const overall: TeamScore[] = [];
+        for (const team of teams) {
+            overall.push(this.getTeamOverallScore(team, competitions));
+        }
+
+        return overall.sort((a, b) => a.score > b.score ? -1 : 1);
+    }
+
+    private getTeamOverallScore(team: Teams, competitions: Competitions[]): TeamScore {
+        let total = 0;
+        for (const competition of competitions) {
+            const teamResult = competition.results.find(x => team._id.equals((x.teamId as Teams)._id));
+            if (!teamResult) {
+                continue;
+            }
+
+            total += teamResult.score ? teamResult.score * competition.weight : 0;
+        }
+        return {
+            teamId: team._id.toHexString(),
+            teamName: team.name,
+            score: +total.toFixed(2)
+        };
     }
 }

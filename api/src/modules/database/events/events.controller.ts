@@ -90,6 +90,12 @@ export class EventsController {
         return await this.flashOutService.getByEvent(eventId, user.username, user.role);
     }
 
+    @Get('score')
+    @Permissions('csgames-api:get-score:event')
+    public async getScore(@EventId() eventId: string) {
+        return await this.eventsService.getScore(eventId);
+    }
+
     @Put('flash-out/rating')
     @HttpCode(HttpStatus.NO_CONTENT)
     @Permissions('csgames-api:update:flash-out')
