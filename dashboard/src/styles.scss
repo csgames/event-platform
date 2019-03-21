@@ -759,6 +759,44 @@ markdown {
     table tr:nth-child(2n) {
         background-color: #f6f8fa;
     }
+
+    table td ul {
+        margin-bottom: 0 !important;
+    }
+}
+
+.preview-panel {
+    table {
+        margin-bottom: 16px !important;
+        border: 1px solid #dfe2e5 !important;
+    }
+
+    table th {
+        font-weight: 600 !important;
+        text-align: left !important;
+    }
+
+    table td,
+    table th {
+        border: 1px solid #dfe2e5 !important;
+        padding: 6px 13px !important;
+        text-align: left !important;
+        color: rgb(74, 74, 74) !important;
+        font-size: 16px !important;
+    }
+
+    table tr {
+        background-color: #fff !important;
+        border-top: 1px solid #c6cbd1 !important;
+    }
+
+    table tr:nth-child(2n) {
+        background-color: #f6f8fa !important;
+    }
+
+    table td ul {
+        margin-bottom: 0 !important;
+    }
 }
 
 .btn-primary {
