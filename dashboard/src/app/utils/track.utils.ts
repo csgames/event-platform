@@ -47,6 +47,10 @@ export namespace TrackUtils {
                 return "fal fa-file-code";
             case TrackTypes.ArtificialIntelligence:
                 return "fal fa-robot";
+            case TrackTypes.OffensiveSecurity:
+                return "fal fa-swords";
+            case TrackTypes.DefensiveSecurity:
+                return "fal fa-shield-alt";
         }
         return "";
     }

@@ -200,7 +200,9 @@
                 "pwning": "Pwning",
                 "authentication": "Authentication",
                 "static_analysis": "Analyse statique",
-                "artificial_intelligence": "Intelligence artificielle"
+                "artificial_intelligence": "Intelligence artificielle",
+                "defensive_security": "Sécurité défensive",
+                "offensive_security": "Sécurité offensive"
             }
         },
         "question": {
@@ -227,7 +229,9 @@
                 "pwning": "Pwning",
                 "authentication": "Authentication",
                 "static_analysis": "Analyse statique",
-                "artificial_intelligence": "Intelligence artificielle"
+                "artificial_intelligence": "Intelligence artificielle",
+                "defensive_security": "Sécurité défensive",
+                "offensive_security": "Sécurité offensive"
             }
         }
     },

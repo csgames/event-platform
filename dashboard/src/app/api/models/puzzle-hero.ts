@@ -22,7 +22,9 @@ export enum TrackTypes {
     Pwning = "pwning",
     Authentication = "authentication",
     StaticAnalysis = "static_analysis",
-    ArtificialIntelligence = "artificial_intelligence"
+    ArtificialIntelligence = "artificial_intelligence",
+    DefensiveSecurity = "defensive_security",
+    OffensiveSecurity = "offensive_security"
 }
 
 export interface PuzzleInfo {
