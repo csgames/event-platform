@@ -18,6 +18,7 @@ import { AttendeeAlreadyRegisteredException, EventNotFoundException, UserNotAtte
 import { Events, EventSponsorDetails } from './events.model';
 import { UpdateAttendeeDto } from '../attendees/attendees.dto';
 import { Teams } from '../teams/teams.model';
+import { Schools } from '../schools/schools.model';
 
 export interface EventScore {
     overall: TeamScore[];
@@ -27,6 +28,7 @@ export interface EventScore {
 export interface TeamScore {
     teamId: string;
     teamName: string;
+    teamSchoolName: string;
     score: number;
 }
 
@@ -403,7 +405,12 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
             .populate([{
                 path: 'results.teamId',
                 model: 'teams',
-                lean: true
+                lean: true,
+                populate: {
+                    path: 'school',
+                    model: 'schools',
+                    lean: true
+                }
             }, {
                 path: 'activities',
                 model: 'activities',
@@ -441,6 +448,7 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
                         return {
                             teamId: team._id.toHexString(),
                             teamName: team.name,
+                            teamSchoolName: (team.school as Schools).name,
                             score: result.score
                         };
                     })
@@ -452,7 +460,12 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
     private async getOverallScore(eventId: string, competitions: Competitions[]): Promise<TeamScore[]> {
         const teams = await this.teamsModel.find({
             event: eventId
-        }).select(['_id', 'name']).exec();
+        }).select(['_id', 'name', 'school'])
+            .populate([{
+                path: 'school',
+                model: 'schools',
+                lean: true
+            }]).lean().exec();
 
         const overall: TeamScore[] = [];
         for (const team of teams) {
@@ -475,6 +488,7 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
         return {
             teamId: team._id.toHexString(),
             teamName: team.name,
+            teamSchoolName: (team.school as Schools).name,
             score: +total.toFixed(2)
         };
     }
