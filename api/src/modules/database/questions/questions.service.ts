@@ -94,7 +94,7 @@ export class QuestionsService {
     }
 
     public async validateCustomFunction(answer: string, url: string): Promise<boolean> {
-        let jsonAnswer = { answer : answer };
+        let jsonAnswer = {answer: answer};
 
         if (jsonAnswer) {
             let response: AxiosResponse;

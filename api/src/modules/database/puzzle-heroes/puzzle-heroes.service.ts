@@ -28,6 +28,7 @@ export interface PuzzleDefinition extends PuzzleGraphNodes {
     label: string;
     description: { [lang: string]: string };
     type: string;
+    inputType: string;
 }
 
 export interface PuzzleHeroInfo {
@@ -368,6 +369,7 @@ export class PuzzleHeroesService extends BaseService<PuzzleHeroes, PuzzleHeroes>
             const question = puzzle.question as Questions;
             puzzle.label = question.label;
             puzzle.type = question.type;
+            puzzle.inputType = question.inputType;
             puzzle.description = question.description;
             if (type && puzzle.type !== type) {
                 continue;
