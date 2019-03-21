@@ -35,6 +35,7 @@ export interface PuzzleInfo {
     locked?: boolean;
     description?: { [lang: string]: string };
     dependsOn?: string;
+    score?: number;
     question?: Question;
 }
 
