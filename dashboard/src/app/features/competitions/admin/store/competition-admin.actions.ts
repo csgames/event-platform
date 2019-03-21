@@ -3,6 +3,7 @@ import { Activity } from "../../../../api/models/activity";
 import { Competition } from "src/app/api/models/competition";
 import { CompetitionFormDto } from "../components/competition-form/dto/competition-form.dto";
 import { Attendee } from "../../../../api/models/attendee";
+import { EventScore } from "../../../../api/models/event";
 
 export enum CompetitionsAdminActionTypes {
     LoadCompetitionsAdmin = "[Competition admin] Load competitions admin",
@@ -14,7 +15,10 @@ export enum CompetitionsAdminActionTypes {
     DirectorsLoaded = "[Competition admin] Directors loaded",
     CreateCompetition = "[Competition admin] Create competition",
     CreateCompetitionSuccess = "[Competition admin] Create competition success",
-    EditCompetition = "[Competition admin] Edit competition"
+    EditCompetition = "[Competition admin] Edit competition",
+    LoadEventScore = "[Competition admin] Load event score",
+    EventScoreLoaded = "[Competition admin] Event score loaded",
+    LoadEventScoreError = "[Competition admin] Load event score error"
 }
 
 export class LoadCompetitionsAdmin implements Action {
@@ -71,6 +75,20 @@ export class EditCompetition implements Action {
     constructor(public payload: Competition) {}
 }
 
+export class LoadEventScore implements Action {
+    readonly type = CompetitionsAdminActionTypes.LoadEventScore;
+}
+
+export class EventScoreLoaded implements Action {
+    readonly type = CompetitionsAdminActionTypes.EventScoreLoaded;
+
+    constructor(public eventScore: EventScore) {}
+}
+
+export class LoadEventScoreError implements Action {
+    readonly type = CompetitionsAdminActionTypes.LoadEventScoreError;
+}
+
 export type CompetitionAdminActions =
     | LoadCompetitionsAdmin
     | CompetitionsAdminLoaded
@@ -81,4 +99,7 @@ export type CompetitionAdminActions =
     | DirectorsLoaded
     | CreateCompetition
     | CreateCompetitionSuccess
-    | EditCompetition;
+    | EditCompetition
+    | LoadEventScore
+    | EventScoreLoaded
+    | LoadEventScoreError;

@@ -14,6 +14,11 @@ import { LoadingSpinnerModule } from "src/app/components/loading-spinner/loading
 import { CompetitionAdminCardModule } from "./components/competition-card/competition-card.module";
 import { DirectivesModule } from "../../../directives/directives.module";
 import { EditCompetitionModule } from "./components/edit-competition/edit-competition.module";
+import { TabsModule } from "ngx-bootstrap";
+import { EventResultsComponent } from "./components/event-results/event-results.component";
+import { FlexLayoutModule } from "@angular/flex-layout";
+import { PipeModule } from "../../../pipe/pipe.module";
+import { NgSelectModule } from "@ng-select/ng-select";
 
 @NgModule({
     imports: [
@@ -29,10 +34,14 @@ import { EditCompetitionModule } from "./components/edit-competition/edit-compet
         LoadingSpinnerModule,
         DirectivesModule,
         CompetitionsAdminRoutingModule,
-        CompetitionAdminCardModule
+        CompetitionAdminCardModule,
+        NgSelectModule,
+        TabsModule,
+        PipeModule,
+        FlexLayoutModule
     ],
     exports: [],
-    declarations: [CompetitionsAdminComponent],
+    declarations: [CompetitionsAdminComponent, EventResultsComponent],
     providers: []
 })
 export class CompetitionsAdminModule {}

@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { Event } from "../api/models/event";
+import { Event, EventScore } from "../api/models/event";
 import { Observable } from "rxjs";
 import { Attendee } from "../api/models/attendee";
 import { ApiService } from "../api/api.service";
@@ -34,7 +34,7 @@ export class EventService {
     public getGuideEvent(): Observable<EventGuide> {
         return this.apiService.event.getGuide();
     }
-    
+
     public onboardAttendee(attendee: Attendee): Observable<void> {
         let file: File = null;
         if (attendee.cv && typeof attendee.cv !== "string") {
@@ -67,5 +67,9 @@ export class EventService {
 
     public getAttendeesData(type: string): Observable<Blob> {
         return this.apiService.event.getAttendees({ roles: ["captain", "attendee", "godparent"], type });
+    }
+
+    public getEventScore(): Observable<EventScore> {
+        return this.apiService.event.getEventScore();
     }
 }

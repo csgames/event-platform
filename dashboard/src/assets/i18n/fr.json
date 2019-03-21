@@ -260,10 +260,12 @@
             "answered_all_questions": "Vous avez répondu à toutes les questions.",
             "ended": "La compétition est terminée",
             "add_competition": "Ajouter une compétition",
+            "results": "Résultats",
             "admin": {
                 "edit_competition": "Modifier une compétition",
                 "edit_competition_success": "Compétition sauvegardée avec succès.",
-                "create_competition_success": "Compétition ajoutée avec succès."
+                "create_competition_success": "Compétition ajoutée avec succès.",
+                "load_score_error": "Erreur lors du chargement des résultats."
             },
             "edit": {
                 "description": "Description",
