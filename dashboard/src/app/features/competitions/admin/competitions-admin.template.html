@@ -11,49 +11,73 @@
     </ng-container>
 
     <ng-container *ngIf="competitions$ | async as competitions">
-        <div class="row mt-4">
-            <div class="col-sm-12">
-                <h2>
-                    {{ competitions?.length }} {{ "pages.competition.competitions" | translate }}
-                </h2>
-                <hr>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-xs-12 col-md-6 col-xl-6" *ifNotRole="['director']">
-                <button type="button" class="add-button btn btn-lg btn-block borders" *ngIf="!showCreateCompetitionCard"
-                        (click)="clickAddCompetition()">
-                    + {{ "pages.competition.add_competition" | translate }}
-                </button>
-                <div *ngIf="showCreateCompetitionCard" class="add-competition-card">
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-sm-12">
-                                <app-competition-form [activities]="activities$ | async"
-                                                      [directors]="directors$ | async"
-                                                      [(ngModel)]="dto">
-                                </app-competition-form>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="offset-sm-5 col-sm-7">
-                                <div class="button-group">
-                                    <a class="btn btn-danger cancel float-right" (click)="onCancelCompetition()">
-                                        {{ "general.button.cancel" | translate }} <i class="fal fa-times"></i>
-                                    </a>
-                                    <a class="btn btn-primary mr-2 float-right" (click)="onAdd()">
-                                        {{ "general.button.add" | translate }} <i class="fal fa-plus"></i>
-                                    </a>
+        <tabset type="pills">
+            <tab>
+                <ng-template tabHeading>
+                    <span>
+                        <i class="fal fa-trophy"></i>&nbsp;
+                        {{ "pages.competition.competitions" | translate }}
+                    </span>
+                </ng-template>
+                <div class="row mt-4">
+                    <div class="col-sm-12">
+                        <h2>
+                            {{ competitions?.length }} {{ "pages.competition.competitions" | translate }}
+                        </h2>
+                        <hr>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 col-md-6 col-xl-6" *ifNotRole="['director']">
+                        <button type="button" class="add-button btn btn-lg btn-block borders"
+                                *ngIf="!showCreateCompetitionCard"
+                                (click)="clickAddCompetition()">
+                            + {{ "pages.competition.add_competition" | translate }}
+                        </button>
+                        <div *ngIf="showCreateCompetitionCard" class="add-competition-card">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <app-competition-form [activities]="activities$ | async"
+                                                              [directors]="directors$ | async"
+                                                              [(ngModel)]="dto">
+                                        </app-competition-form>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="offset-sm-5 col-sm-7">
+                                        <div class="button-group">
+                                            <a class="btn btn-danger cancel float-right"
+                                               (click)="onCancelCompetition()">
+                                                {{ "general.button.cancel" | translate }} <i class="fal fa-times"></i>
+                                            </a>
+                                            <a class="btn btn-primary mr-2 float-right" (click)="onAdd()">
+                                                {{ "general.button.add" | translate }} <i class="fal fa-plus"></i>
+                                            </a>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    <div class="col-sm-6 col-lg-6" *ngFor="let competition of competitions">
+                        <app-competition-card [competition]="competition" (edit)="onEdit(competition)">
+                        </app-competition-card>
+                    </div>
                 </div>
-            </div>
-            <div class="col-sm-6 col-lg-6" *ngFor="let competition of competitions">
-                <app-competition-card [competition]="competition" (edit)="onEdit(competition)">
-                </app-competition-card>
-            </div>
-        </div>
+            </tab>
+            <tab>
+                <ng-template tabHeading>
+                    <span>
+                        <i class="fal fa-poll"></i>&nbsp;
+                        {{ "pages.competition.results" | translate }}
+                    </span>
+                </ng-template>
+                <ng-container *ngIf="eventScore$ | async as eventScore">
+                    <app-event-results [eventScore]="eventScore"></app-event-results>
+                </ng-container>
+            </tab>
+        </tabset>
+
     </ng-container>
 </div>

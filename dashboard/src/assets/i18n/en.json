@@ -254,10 +254,12 @@
             "ended": "Competition has ended",
             "add_competition": "Add competition",
             "create_competition_success": "Competition created with success.",
+            "results": "Results",
             "admin": {
                 "edit_competition": "Edit competition",
                 "edit_competition_success": "Successfully saved competition.",
-                "create_competition_success": "Successfully added competition."
+                "create_competition_success": "Successfully added competition.",
+                "load_score_error": "An error occured while loading the results."
             },
             "edit": {
                 "description": "Description",

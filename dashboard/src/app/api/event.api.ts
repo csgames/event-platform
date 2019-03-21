@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { CSGamesApi } from "./csgames.api";
 import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
-import { Event } from "./models/event";
+import { Event, EventScore } from "./models/event";
 import { map } from "rxjs/operators";
 import { Attendee, AttendeeModel } from "./models/attendee";
 import { EventGuide } from "./models/guide";
@@ -11,7 +11,6 @@ import { Activity } from "./models/activity";
 import { Team } from "./models/team";
 import { AttendeeNotification } from "./models/notification";
 import { AttendeeVote, Flashout } from "./models/flashout";
-import { FlashoutSettingsDto } from "../features/flashout/components/flashout-settings/dto/flashout-settings.dto";
 import { Competition } from "./models/competition";
 
 
@@ -77,7 +76,7 @@ export class EventApi extends CSGamesApi {
     public getTeams(): Observable<Team[]> {
         return this.http.get<Team[]>(this.url("team"), { withCredentials: true });
     }
-    
+
     public checkUnseenNotifications(): Observable<AttendeeNotification[]> {
         return this.http.get<AttendeeNotification[]>(this.url("notification?seen=false"), { withCredentials: true });
     }
@@ -101,7 +100,7 @@ export class EventApi extends CSGamesApi {
             withCredentials: true
         });
     }
-    
+
     public voteFlashouts(votes: { votes: AttendeeVote[] }): Observable<void> {
         return this.http.put<void>(this.url("flash-out/rating"), votes, {
             withCredentials: true
@@ -139,5 +138,11 @@ export class EventApi extends CSGamesApi {
 
     public updateFlashout(event: Event): Observable<void> {
         return this.http.put<void>(this.url(), event, { withCredentials: true });
+    }
+
+    public getEventScore(): Observable<EventScore> {
+        return this.http.get<EventScore>(this.url("score"), {
+            withCredentials: true
+        });
     }
 }

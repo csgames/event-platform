@@ -1,4 +1,5 @@
 import { EventGuide } from "./guide";
+import { TeamResult } from "./competition";
 
 export interface Event {
     _id?: string;
@@ -18,4 +19,9 @@ export interface Event {
     guide?: EventGuide;
     teamEditLocked?: boolean;
     teamEditLockDate?: Date | string;
+}
+
+export interface EventScore {
+    overall: TeamResult[];
+    competitions: { _id: string, name: any, results: TeamResult[] }[];
 }

@@ -1,0 +1,48 @@
+<div fxLayout="row" fxLayoutAlign="start center">
+    <div>
+        <span class="results margin-left">
+            {{ "pages.competition.results" | translate }}:
+        </span>
+    </div>
+    <div fxFlex></div>
+    <div fxFlex="300px">
+        <div class="input-group input-group-default language-select">
+            <ng-select [(ngModel)]="selectedCompetition" [items]="competitions" controlStatus>
+                <ng-template ng-option-tmp ng-label-tmp let-item="item">
+                <span class="ng-option-label">
+                    {{ item.name | t18n }}
+                </span>
+                </ng-template>
+            </ng-select>
+        </div>
+    </div>
+</div>
+
+<ng-container *ngIf="getTeamResults() as teamResults">
+    <table class="table table-hover mt-3">
+        <thead>
+        <tr>
+            <th class="text-center">{{ "pages.competition.edit.position" | translate }}</th>
+            <th>{{ "general.team.name" | translate }}</th>
+            <th>{{ "general.team.school" | translate }}</th>
+            <th class="text-center">{{ "pages.competition.edit.percent_result" | translate }}</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let teamResult of teamResults; let i = index" class="clickable">
+            <td class="text-center">
+                {{ i + 1 }}
+            </td>
+            <td>
+                {{ teamResult?.teamName }}
+            </td>
+            <td>
+                {{ teamResult?.teamSchoolName }}
+            </td>
+            <td class="text-center">
+                {{ teamResult?.score?.toFixed(2) }}%
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</ng-container>

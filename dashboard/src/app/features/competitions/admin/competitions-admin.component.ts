@@ -5,11 +5,11 @@ import {
     getActivities,
     getCompetitionsAdmin,
     getCompetitionsAdminError,
-    getCompetitionsAdminLoading, getDirectors,
+    getCompetitionsAdminLoading, getDirectors, getEventScore,
     State
 } from "./store/competition-admin.reducer";
 import {
-    CreateCompetition, EditCompetition, LoadActivities, LoadCompetitionsAdmin, LoadDirectors
+    CreateCompetition, EditCompetition, LoadActivities, LoadCompetitionsAdmin, LoadDirectors, LoadEventScore
 } from "./store/competition-admin.actions";
 import { CompetitionFormComponent } from "./components/competition-form/competition-form.component";
 import { CompetitionFormDto } from "./components/competition-form/dto/competition-form.dto";
@@ -27,6 +27,7 @@ export class CompetitionsAdminComponent implements OnInit {
     activities$ = this.store$.pipe(select(getActivities));
     directors$ = this.store$.pipe(select(getDirectors));
     competitions$ = this.store$.pipe(select(getCompetitionsAdmin));
+    eventScore$ = this.store$.pipe(select(getEventScore));
     loading$ = this.store$.pipe(select(getCompetitionsAdminLoading));
     error$ = this.store$.pipe(select(getCompetitionsAdminError));
 
@@ -37,6 +38,7 @@ export class CompetitionsAdminComponent implements OnInit {
 
     ngOnInit() {
         this.store$.dispatch(new LoadCompetitionsAdmin());
+        this.store$.dispatch(new LoadEventScore());
         this.store$.dispatch(new LoadActivities());
         this.store$.dispatch(new LoadDirectors());
     }
