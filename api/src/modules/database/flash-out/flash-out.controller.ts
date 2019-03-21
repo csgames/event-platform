@@ -24,10 +24,4 @@ export class FlashOutController {
             videoId: flashOut.videoId
         });
     }
-
-    @Get()
-    @Permissions("csgames-api:get-all:flash-out")
-    public async getAll(): Promise<FlashOut[]> {
-        return await this.flashOutsService.findAll();
-    }
 }
