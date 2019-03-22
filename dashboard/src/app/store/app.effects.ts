@@ -13,6 +13,7 @@ import { Event } from "../api/models/event";
 import { PuzzleHeroInfo } from "../api/models/puzzle-hero";
 import { ChangePasswordComponent } from "../features/dashboard/modals/change-password/change-password.component";
 import { ProfileSettingComponent } from "../features/dashboard/modals/profile-setting/profile-setting.component";
+import { TicketComponent } from "../features/dashboard/modals/ticket/ticket.component";
 import { AttendeeService } from "../providers/attendee.service";
 import { AuthenticationService } from "../providers/authentication.service";
 import { EventService } from "../providers/event.service";
@@ -21,7 +22,8 @@ import { PuzzleHeroService } from "../providers/puzzle-hero.service";
 import {
     AllNotificationsSeen, AppActionTypes, AppLoaded, ChangeLanguage, ChangePassword, CheckUnseenNotification, CurrentAttendeeLoaded,
     EditProfile, EventsLoaded, GetPuzzleHeroInfo, GlobalError, HasUnseenNotification, InitializeMessaging, LoadCurrentAttendee, LoadEvents,
-    Logout, SetCurrentEvent, SetupMessagingToken, UpdatePuzzleHeroStatus, LoadRegisteredCompetitions, RegisteredCompetitionsLoaded, 
+    Logout, SetCurrentEvent, SetupMessagingToken, UpdatePuzzleHeroStatus, LoadRegisteredCompetitions, RegisteredCompetitionsLoaded,
+    ViewTicket
 } from "./app.actions";
 import { getCurrentAttendee, getEvents, getPuzzleHeroInfo, State } from "./app.reducers";
 import { CompetitionsService } from "../providers/competitions.service";
@@ -169,6 +171,14 @@ export class AppEffects {
         ofType<ChangePassword>(AppActionTypes.ChangePassword),
         map(() => {
             this.modalService.addModal(ChangePasswordComponent);
+        })
+    );
+
+    @Effect({ dispatch: false })
+    viewTicket$ = this.actions$.pipe(
+        ofType<ViewTicket>(AppActionTypes.ViewTicket),
+        map(() => {
+            this.modalService.addModal(TicketComponent);
         })
     );
 

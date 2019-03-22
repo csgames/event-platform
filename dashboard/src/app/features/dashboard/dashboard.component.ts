@@ -4,7 +4,7 @@ import { select, Store } from "@ngrx/store";
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
 import { Event } from "../../api/models/event";
-import { ChangePassword, EditProfile, SetCurrentEvent } from "../../store/app.actions";
+import { ChangePassword, EditProfile, SetCurrentEvent, ViewTicket } from "../../store/app.actions";
 import { getCurrentEvent, getEvents, getLoading, State } from "../../store/app.reducers";
 
 @Component({
@@ -39,5 +39,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
     changePassword() {
         this.store$.dispatch(new ChangePassword());
+    }
+
+    viewTicket() {
+        this.store$.dispatch(new ViewTicket());
     }
 }

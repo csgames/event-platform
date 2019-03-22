@@ -17,6 +17,7 @@ export enum AppActionTypes {
     Logout = "[App] Logout",
     ChangeLanguage = "[App] Change language",
     ChangePassword = "[App] Change password",
+    ViewTicket = "[App] View ticket",
     CheckUnseenNotification = "[App] Check unseen notification",
     HasUnseenNotification = "[App] Has unseen notification",
     AllNotificationsSeen = "[App] All notifications seen",
@@ -83,6 +84,10 @@ export class ChangePassword implements Action {
     readonly type = AppActionTypes.ChangePassword;
 }
 
+export class ViewTicket implements Action {
+    readonly type = AppActionTypes.ViewTicket;
+}
+
 export class CheckUnseenNotification implements Action {
     readonly type = AppActionTypes.CheckUnseenNotification;
 }
@@ -138,6 +143,7 @@ export type AppActions =
     | LoadCurrentAttendee
     | ChangeLanguage
     | ChangePassword
+    | ViewTicket
     | CheckUnseenNotification
     | HasUnseenNotification
     | AllNotificationsSeen
