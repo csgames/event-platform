@@ -54,7 +54,7 @@ export class EventsController {
 
     @Get()
     public async getAll(): Promise<Events[]> {
-        return await this. eventsService.getEventList();
+        return await this.eventsService.getEventList();
     }
 
     @Get("guide")
