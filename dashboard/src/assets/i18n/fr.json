@@ -276,7 +276,7 @@
                 "add_question": "Ajouter une question",
                 "update_question": "Modifier une question",
                 "update_question_error": "Une erreur est survenue lors de la mise à jour de la question.",
-                "create_question_error": "Une erreur est survenue lors de la création de la question.",
+                "add_question_error": "Une erreur est survenue lors de la création de la question.",
                 "save_error": "Une erreur est survenue lors de la sauvegarde de la compétition.",
                 "save_success": "Compétition sauvegardée avec succès.",
                 "description_and_questions": "Énoncé et questions",
