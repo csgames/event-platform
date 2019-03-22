@@ -270,7 +270,7 @@
                 "add_question": "Add question",
                 "update_question": "Update question",
                 "update_question_error": "An error occurred while updating the question.",
-                "create_question_error": "An error occurred while creating the question.",
+                "add_question_error": "An error occurred while creating the question.",
                 "save_error": "An error occurred while saving the competition.",
                 "save_success": "Successfully saved competition.",
                 "description_and_questions": "Description and questions",
