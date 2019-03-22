@@ -16,7 +16,8 @@
         <app-top-nav [loading]="loading$ | async"
                      [showToggleSideNav]="isHandset$ | async"
                      (toggleSideNav)="drawer.toggle()" (editProfile)="editProfile()"
-                     (changePassword)="changePassword()"></app-top-nav>
+                     (changePassword)="changePassword()"
+                     (ticket)="viewTicket()"></app-top-nav>
         <div class="content">
             <router-outlet *ngIf="!(loading$ | async)"></router-outlet>
             <app-loading-spinner [loading]="loading$"></app-loading-spinner>

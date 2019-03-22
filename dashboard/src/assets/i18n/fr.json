@@ -39,7 +39,8 @@
             "profile_settings": "Paramètres du profil",
             "sign_out": "Déconnexion",
             "change_password": "Changer le mot de passe",
-            "edit_account": "Modifier le compte"
+            "edit_account": "Modifier le compte",
+            "ticket": "Billet"
         },
         "add_team_form": {
             "captain_informations": "Informations sur le capitaine",
@@ -108,6 +109,9 @@
         },
         "flashout_settings": {
             "flashout_settings": "Paramètres du Flash Out"
+        },
+        "ticket": {
+            "ticket": "Billet"
         }
     },
     "errors": {
