@@ -39,7 +39,8 @@
             "profile_settings": "Profile settings",
             "sign_out": "Sign Out",
             "change_password": "Change password",
-            "edit_account": "Edit Account"
+            "edit_account": "Edit Account",
+            "ticket": "Ticket"
         },
         "add_team_form": {
             "captain_informations": "Captain informations",
@@ -108,6 +109,9 @@
         },
         "flashout_settings": {
             "flashout_settings": "Flash Out settings"
+        },
+        "ticket": {
+            "ticket": "Ticket"
         }
     },
     "errors": {
@@ -266,7 +270,7 @@
                 "add_question": "Add question",
                 "update_question": "Update question",
                 "update_question_error": "An error occurred while updating the question.",
-                "create_question_error": "An error occurred while creating the question.",
+                "add_question_error": "An error occurred while creating the question.",
                 "save_error": "An error occurred while saving the competition.",
                 "save_success": "Successfully saved competition.",
                 "description_and_questions": "Description and questions",

@@ -21,6 +21,9 @@
                         class="fa fa-cog"></i> {{ "components.top_bar.profile_settings" | translate }}</a>
                     <a class="dropdown-item" (click)="changePassword.emit()"><i
                         class="fa fa-unlock-alt"></i> {{ "components.top_bar.change_password" | translate }}</a>
+                    <a class="dropdown-item" *ngIf="(currentAttendee$ | async)?.registered"
+                       (click)="ticket.emit()"><i
+                        class="fa fa-ticket"></i> {{ "components.top_bar.ticket" | translate }}</a>
                     <a class="dropdown-item" (click)="changeLanguage()"><i
                         class="fas fa-globe-americas"></i> {{ "components.top_bar.change_language" | translate }}</a>
                     <a class="dropdown-item" (click)="clickLogout()"><i
