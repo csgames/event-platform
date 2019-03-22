@@ -121,7 +121,8 @@ export class QuestionsService {
     }
 
     public async uploadFile(file: Express.Multer.File, question: Questions, teamId: string): Promise<boolean> {
-        if (!question.option.contentTypes.some(x => x.toLowerCase() === file.mimetype.toLowerCase())) {
+        if (question.option && question.option.contentTypes &&
+            !question.option.contentTypes.some(x => x.toLowerCase() === file.mimetype.toLowerCase())) {
             return false;
         }
 
