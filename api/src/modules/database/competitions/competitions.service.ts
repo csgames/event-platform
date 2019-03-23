@@ -290,12 +290,14 @@ export class CompetitionsService extends BaseService<Competitions, Competitions>
             if (teamId.length < 2) {
                 continue;
             }
-            const team = teams.find(x => x._id.equals(key.split('-')[1].replace('.zip', '')));
+            const team = teams.find(x => x._id.equals(teamId[1].split(".")[0]));
             if (!team) {
                 continue;
             }
 
-            zip.addFile(`${team.name}.zip`, files[key]);
+            const file = teamId[1];
+            const ext = file.slice(file.indexOf("."), file.length);
+            zip.addFile(`${team.name}${ext}`, files[key]);
         }
 
         return zip.toBuffer();

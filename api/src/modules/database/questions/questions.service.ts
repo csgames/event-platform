@@ -127,7 +127,8 @@ export class QuestionsService {
         }
 
         try {
-            file.originalname = `${teamId}.zip`;
+            const ext = file.originalname.slice(file.originalname.indexOf("."), file.originalname.length);
+            file.originalname = `${teamId}${ext}`;
             await this.storageService.upload(file, `questions/${question._id.toHexString()}`);
             return true;
         } catch (e) {
