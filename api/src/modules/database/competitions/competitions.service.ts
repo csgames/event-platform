@@ -71,7 +71,7 @@ export class CompetitionsService extends BaseService<Competitions, Competitions>
             throw new BadRequestException('Competition not available');
         }
 
-        if (!ActivitiesUtils.isLive(competition.activities as Activities[])) {
+        if (!competition.isLive) {
             throw new BadRequestException('Competition must me live');
         }
 
@@ -180,7 +180,7 @@ export class CompetitionsService extends BaseService<Competitions, Competitions>
             throw new NotFoundException();
         }
 
-        if (!CompetitionsUtils.isLive(competition)) {
+        if (!competition.isLive) {
             throw new BadRequestException('Competition not live');
         }
 
@@ -482,16 +482,8 @@ export class CompetitionsService extends BaseService<Competitions, Competitions>
             return competition;
         }
 
-        if (CompetitionsUtils.isEnded(competition)) {
-            return {
-                activities: competition.activities,
-                description: competition.description,
-                isLive: CompetitionsUtils.isLive(competition)
-            } as any;
-        }
-
-        if (!CompetitionsUtils.isStarted(competition)) {
-            throw new BadRequestException('Competition not started yet');
+        if (!competition.isLive) {
+            throw new BadRequestException('Competition is not live.');
         }
 
         const attendee = await this.attendeesModel.findOne({

@@ -49,8 +49,10 @@ export class QuestionsService {
                 }
                 break;
             case ValidationTypes.Function:
+                console.log("ben au moins on sait que cest un type de validation custom yknow");
                 success = await this.validateCustomFunction(dto.answer, question.answer);
                 if (!success) {
+                    console.log("!success returned true in validate answer question service");
                     throw new BadRequestException('Invalid answer');
                 }
                 break;
@@ -94,28 +96,36 @@ export class QuestionsService {
     }
 
     public async validateCustomFunction(answer: string, url: string): Promise<boolean> {
-        let jsonAnswer = {answer: answer};
-
+        console.log("validate custom function method is called");
+        let jsonAnswer = { answer : answer };
+        
         if (jsonAnswer) {
             let response: AxiosResponse;
             try {
+                console.log("trying to POST server with answer...");
                 response = await this.httpService.post(url, jsonAnswer, {
                     headers: {
                         Secret: process.env.PUZZLE_HERO_VALIDATION_SECRET
                     }
                 }).toPromise();
             } catch (e) {
+                console.log("catch exception after post");
+                console.log(e);
                 throw new BadRequestException('Invalid answer');
             }
 
             if (!response) {
+                console.log("!response returned true");
                 throw new InternalServerErrorException('Custom validation endpoint does not respond.');
             }
             if (response.status !== 200) {
+                console.log("response !== 200 returned true");
+                console.log("status: " + response.status);
                 throw new BadRequestException('Invalid answer');
             }
             return true;
         } else {
+            console.log("jsonAnswer is empty wtf");
             throw new BadRequestException('Problem with JSON answer.');
         }
     }
