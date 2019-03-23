@@ -18,7 +18,7 @@
             <div>
                 <markdown data="{{ question?.description | t18n }}"></markdown>
             </div>
-            <ng-container [ngSwitch]="question?.inputType" *ngIf="!question?.isAnswered">
+            <ng-container [ngSwitch]="question?.inputType">
                 <app-file-upload *ngSwitchCase="'upload'" class="upload"
                                  placeholder='{{ "pages.question.upload" | translate }}'
                                  [formControl]="file" ngDefaultControl>
