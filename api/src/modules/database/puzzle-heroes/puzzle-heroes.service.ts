@@ -29,6 +29,7 @@ export interface PuzzleDefinition extends PuzzleGraphNodes {
     description: { [lang: string]: string };
     type: string;
     inputType: string;
+    score: number;
 }
 
 export interface PuzzleHeroInfo {
@@ -372,6 +373,7 @@ export class PuzzleHeroesService extends BaseService<PuzzleHeroes, PuzzleHeroes>
             puzzle.type = question.type;
             puzzle.inputType = question.inputType;
             puzzle.description = question.description;
+            puzzle.score = question.score;
             if (type && puzzle.type !== type) {
                 continue;
             }
