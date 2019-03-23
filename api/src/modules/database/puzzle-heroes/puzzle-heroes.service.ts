@@ -304,6 +304,7 @@ export class PuzzleHeroesService extends BaseService<PuzzleHeroes, PuzzleHeroes>
     }
 
     public async validateAnswer(answer: QuestionAnswerDto, puzzleId: string, eventId: string, email: string): Promise<void> {
+        console.log("validate answer is called lol no shit");
         const puzzleHero = await this.findOne({
             event: eventId
         });

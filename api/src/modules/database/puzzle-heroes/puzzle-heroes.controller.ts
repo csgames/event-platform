@@ -86,6 +86,7 @@ export class PuzzleHeroesController {
     @HttpCode(HttpStatus.OK)
     public async validateAnswer(@EventId() id: string, @Param('puzzleId') puzzleId, @Body(new ValidationPipe()) dto: QuestionAnswerDto,
                                 @User() user: UserModel): Promise<void> {
+        console.log("validating puzzle...");
         return await this.puzzleHeroService.validateAnswer(dto, puzzleId, id, user.username);
     }
 
