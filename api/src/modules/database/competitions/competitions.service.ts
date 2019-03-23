@@ -194,21 +194,38 @@ export class CompetitionsService extends BaseService<Competitions, Competitions>
             throw new BadRequestException('Question locked');
         }
 
-        if (this.isQuestionAnswered(competition, question, teamId)) {
-            throw new BadRequestException('Cannot answer question twice');
-        }
-
         await this.questionService.validateAnswer({
             ...dto,
             teamId
         }, question.question as string);
 
-        competition.answers.push({
-            question: (question.question as Questions)._id,
-            teamId,
-            timestamp: DateUtils.nowUTC()
-        } as QuestionAnswers);
-        await competition.save();
+
+        if (this.isQuestionAnswered(competition, question, teamId)) {
+            await this.competitionsModel.updateOne({
+                _id: competitionId,
+                event: eventId,
+                answers: {
+                    _id: question._id
+                }
+            }, {
+                $set: {
+                    "answer.$.timestamp": DateUtils.nowUTC()
+                }
+            }).exec();
+        } else {
+            await this.competitionsModel.updateOne({
+                _id: competitionId,
+                event: eventId,
+            }, {
+                $push: {
+                    answers: {
+                        question: (question.question as Questions)._id,
+                        teamId,
+                        timestamp: DateUtils.nowUTC()
+                    }
+                }
+            }).exec();
+        }
     }
 
     public async updateQuestion(eventId: string, competitionId: string, questionId: string, dto: UpdateQuestionDto): Promise<void> {
@@ -275,11 +292,10 @@ export class CompetitionsService extends BaseService<Competitions, Competitions>
             throw new BadRequestException('No question found');
         }
 
-        const files = await this.questionService.getUplodedFile(question.question as string);
+        let files = await this.questionService.getUplodedFile(question.question as string);
         const teams = await this.teamsModel.find({
             event: eventId
         }).select('name').exec();
-
         const zip = new AdmZip();
         for (const key in files) {
             if (!files.hasOwnProperty(key)) {
