@@ -56,7 +56,7 @@ export class CompetitionResultsComponent implements OnInit {
             .map(tcr => {
                 const answeredQuestions = tcr.answers.map(a => this._questions.find(q => q.question._id === a));
                 let score = idx(this.teamResults.find(tr => tr.teamId === tcr._id), _ => _.score);
-                if (score === null || score === undefined) {
+                if (!score) {
                     score = answeredQuestions
                         .filter(q => q.question.validationType !== "none")
                         .reduce((acc, q) => acc + q.question.score, 0);
