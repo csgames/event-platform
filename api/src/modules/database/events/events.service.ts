@@ -83,13 +83,19 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
             throw new AttendeeAlreadyRegisteredException();
         }
 
+        let registered = false;
+        if (role === "admin" || role === "volunteer" || role === "director") {
+            registered = true;
+        }
+
         return this.eventsModel.updateOne({
             _id: eventId
         }, {
             $push: {
                 attendees: {
                     attendee: attendee._id,
-                    role: role
+                    role: role,
+                    registered
                 }
             }
         }).exec();
