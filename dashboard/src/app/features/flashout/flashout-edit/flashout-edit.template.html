@@ -1,6 +1,6 @@
 <div class="page-wrapper">
     <div fxLayout="row" fxLayoutAlign="start center" *ngIf="event$ | async as event">
-        {{ "pages.flashouts.flashouts" | translate }}
+        <h1 class="title">{{ "pages.flashouts.flashouts" | translate }}</h1>
 
         <div fxFlex></div>
         <a class="btn btn-default" (click)="clickSettings(event)"><i class="fal fa-cogs"></i></a>
