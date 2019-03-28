@@ -25,7 +25,7 @@
                 </div>
             </ng-container>
             <div *ngIf="showAverageRate">
-                <p class="vote">{{ flashout.averageRating }} / 5</p>
+                <p class="vote">{{flashout.averageRating | number : '1.2-2'}} / 5</p>
             </div>            
         </div>
     </div>
