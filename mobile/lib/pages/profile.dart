@@ -157,8 +157,7 @@ class ProfilePage extends StatelessWidget {
                             _buildName(model),
                             model.team != null ? _buildTeam(model) : Container(),
                             model.team != null ? _buildSchool(context, model) : Container(),
-                            _buildQR(context, model),
-                            _buildButton(context, model)
+                            _buildQR(context, model)
                         ]
                     )
                 );
