@@ -20,7 +20,7 @@
            tooltip="{{ 'pages.team.not_registered' | translate }}"
            placement="left" *ngIf="!attendee.registered"></i>
     </div>
-    <div fxLayout="column" class="icons-right d-none d-md-flex d-lg-flex d-xl-flex text-center">
+    <div *ngIf="showRegister" fxLayout="column" class="icons-right d-none d-md-flex d-lg-flex d-xl-flex text-center">
         <div><span *ngIf="attendee.registered"
                    class="badge badge-pill badge-primary">{{ "pages.team.registered" | translate }}</span></div>
         <div><span *ngIf="!attendee.registered"

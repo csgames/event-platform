@@ -4,7 +4,7 @@
     <ng-container *ngIf="attendees$ | async as attendees">
         <hr class="my-2">
         <div *ngFor="let member of attendees">
-            <app-attendee-view class="mb-4" [attendee]="member">
+            <app-attendee-view class="mb-4" [attendee]="member" [showRegister]="false">
             </app-attendee-view>
         </div>
     </ng-container>
