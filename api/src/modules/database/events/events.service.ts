@@ -55,7 +55,8 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
             teamEditLocked: true,
             teamEditLockDate: true,
             flashoutBeginDate: true,
-            flashoutEndDate: true
+            flashoutEndDate: true,
+            attendee: true
         }).exec();
     }
 
@@ -160,44 +161,6 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
         }, {
             $push: {
                 sponsors: dto
-            }
-        }).exec();
-    }
-
-    public async addScannedAttendee(eventId: string, attendeeId: string, scanInfo: AddScannedAttendee) {
-        if (attendeeId === scanInfo.scannedAttendee) {
-            throw new BadRequestException('An attendee cannot scan itself');
-        }
-
-        const event = await this.eventsModel.findById(eventId).exec();
-        if (!event) {
-            throw new EventNotFoundException();
-        }
-
-        const attendee = event.attendees.find(x => {
-            return (x.attendee as mongoose.Types.ObjectId).toHexString() === attendeeId;
-        });
-        if (!attendee) {
-            throw new NotFoundException('Attendee not found in event');
-        }
-
-        const scanned = event.attendees.find(x => {
-            return (x.attendee as mongoose.Types.ObjectId).toHexString() === scanInfo.scannedAttendee;
-        });
-        if (!scanned) {
-            throw new NotFoundException('Scanned attendee not found in event');
-        }
-
-        if (attendee.scannedAttendees.indexOf(scanInfo.scannedAttendee) >= 0) {
-            throw new BadRequestException('Scanned attendee already scanned by attendee');
-        }
-
-        await this.eventsModel.update({
-            '_id': eventId,
-            'attendees.attendee': attendeeId
-        }, {
-            $push: {
-                'attendees.$.scannedAttendees': scanInfo.scannedAttendee
             }
         }).exec();
     }
