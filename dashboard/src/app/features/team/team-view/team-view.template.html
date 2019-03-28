@@ -36,7 +36,7 @@
             </h4>
             <hr class="my-2">
             <div *ngFor="let member of currentAttendees">
-                <app-attendee-view class="mb-4" [attendee]="member">
+                <app-attendee-view class="mb-4" [attendee]="member" [showRegister]="true">
                 </app-attendee-view>
             </div>
             <div *ifRole="['admin', 'captain', 'super-admin']">
@@ -80,7 +80,7 @@
             </h4>
             <hr class="my-2">
             <div *ngFor="let member of currentGodparent">
-                <app-attendee-view style="margin-bottom:20px;" [attendee]="member">
+                <app-attendee-view style="margin-bottom:20px;" [attendee]="member" [showRegister]="true">
                 </app-attendee-view>
             </div>
             <div *ifRole="['admin', 'captain', 'super-admin']">

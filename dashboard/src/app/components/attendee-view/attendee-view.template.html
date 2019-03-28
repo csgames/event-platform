@@ -11,31 +11,34 @@
         </div>
         <div class="email">{{ attendee.email }}</div>
     </div>
-    <div class="d-lg-none d-xl-none d-md-none">
-        <i class="fal fa-check-circle text-white text-primary"
-           tooltip="{{ 'pages.team.registered' | translate }}"
-           placement="left" *ngIf="attendee.registered"></i>
-
-        <i class="fal fa-times-circle text-white text-danger"
-           tooltip="{{ 'pages.team.not_registered' | translate }}"
-           placement="left" *ngIf="!attendee.registered"></i>
-    </div>
-    <div fxLayout="column" class="icons-right d-none d-md-flex d-lg-flex d-xl-flex text-center">
-        <div><span *ngIf="attendee.registered"
-                   class="badge badge-pill badge-primary">{{ "pages.team.registered" | translate }}</span></div>
-        <div><span *ngIf="!attendee.registered"
-                   class="badge badge-pill badge-danger">{{ "pages.team.not_registered" | translate }}</span></div>
-        <div class="mt-2" fxLayout="row" fxLayoutAlign="space-between center"
-             *ngIf="attendee.registered">
-            <a [attr.href]="attendee.website">
-                <i class="fas fa-globe fa-lg" [class.link]="attendee.website"></i>
-            </a>
-            <a [attr.href]="attendee.linkedIn">
-                <i class="fab fa-linkedin fa-lg" [class.link]="attendee.linkedIn"></i>
-            </a>
-            <a [attr.href]="attendee.github">
-                <i class="fab fa-github fa-lg" [class.link]="attendee.github"></i>
-            </a>
+    <ng-container *ngIf="showRegister">
+        <div class="d-lg-none d-xl-none d-md-none">
+            <i class="fal fa-check-circle text-white text-primary"
+               tooltip="{{ 'pages.team.registered' | translate }}"
+               placement="left" *ngIf="attendee.registered"></i>
+    
+            <i class="fal fa-times-circle text-white text-danger"
+               tooltip="{{ 'pages.team.not_registered' | translate }}"
+               placement="left" *ngIf="!attendee.registered"></i>
         </div>
-    </div>
+        <div fxLayout="column" class="icons-right d-none d-md-flex d-lg-flex d-xl-flex text-center">
+            <div><span *ngIf="attendee.registered"
+                       class="badge badge-pill badge-primary">{{ "pages.team.registered" | translate }}</span></div>
+            <div><span *ngIf="!attendee.registered"
+                       class="badge badge-pill badge-danger">{{ "pages.team.not_registered" | translate }}</span></div>
+            <div class="mt-2" fxLayout="row" fxLayoutAlign="space-between center"
+                 *ngIf="attendee.registered">
+                <a [attr.href]="attendee.website">
+                    <i class="fas fa-globe fa-lg" [class.link]="attendee.website"></i>
+                </a>
+                <a [attr.href]="attendee.linkedIn">
+                    <i class="fab fa-linkedin fa-lg" [class.link]="attendee.linkedIn"></i>
+                </a>
+                <a [attr.href]="attendee.github">
+                    <i class="fab fa-github fa-lg" [class.link]="attendee.github"></i>
+                </a>
+            </div>
+        </div>
+    </ng-container>
+    
 </div>
