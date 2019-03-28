@@ -18,7 +18,7 @@ import { AttendeesService } from '../attendees/attendees.service';
 import { Competitions } from '../competitions/competitions.model';
 import { Teams } from '../teams/teams.model';
 import { TeamsService } from '../teams/teams.service';
-import { AddScannedAttendee, AddSponsorDto, CreateEventDto, SendNotificationDto, SendSmsDto, UpdateEventDto } from './events.dto';
+import { AddSponsorDto, CreateEventDto, SendNotificationDto, SendSmsDto, UpdateEventDto } from './events.dto';
 import { codeMap, EventNotFoundException } from './events.exception';
 import { Events, EventSponsorDetails, EventGuide } from './events.model';
 import { EventsService } from './events.service';
