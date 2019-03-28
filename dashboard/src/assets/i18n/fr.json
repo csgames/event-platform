@@ -39,7 +39,8 @@
             "profile_settings": "Paramètres du profil",
             "sign_out": "Déconnexion",
             "change_password": "Changer le mot de passe",
-            "edit_account": "Modifier le compte"
+            "edit_account": "Modifier le compte",
+            "ticket": "Billet"
         },
         "add_team_form": {
             "captain_informations": "Informations sur le capitaine",
@@ -108,6 +109,9 @@
         },
         "flashout_settings": {
             "flashout_settings": "Paramètres du Flash Out"
+        },
+        "ticket": {
+            "ticket": "Billet"
         }
     },
     "errors": {
@@ -200,7 +204,9 @@
                 "pwning": "Pwning",
                 "authentication": "Authentication",
                 "static_analysis": "Analyse statique",
-                "artificial_intelligence": "Intelligence artificielle"
+                "artificial_intelligence": "Intelligence artificielle",
+                "defensive_security": "Sécurité défensive",
+                "offensive_security": "Sécurité offensive"
             }
         },
         "question": {
@@ -227,7 +233,9 @@
                 "pwning": "Pwning",
                 "authentication": "Authentication",
                 "static_analysis": "Analyse statique",
-                "artificial_intelligence": "Intelligence artificielle"
+                "artificial_intelligence": "Intelligence artificielle",
+                "defensive_security": "Sécurité défensive",
+                "offensive_security": "Sécurité offensive"
             }
         }
     },
@@ -256,17 +264,19 @@
             "answered_all_questions": "Vous avez répondu à toutes les questions.",
             "ended": "La compétition est terminée",
             "add_competition": "Ajouter une compétition",
+            "results": "Résultats",
             "admin": {
                 "edit_competition": "Modifier une compétition",
                 "edit_competition_success": "Compétition sauvegardée avec succès.",
-                "create_competition_success": "Compétition ajoutée avec succès."
+                "create_competition_success": "Compétition ajoutée avec succès.",
+                "load_score_error": "Erreur lors du chargement des résultats."
             },
             "edit": {
                 "description": "Description",
                 "add_question": "Ajouter une question",
                 "update_question": "Modifier une question",
                 "update_question_error": "Une erreur est survenue lors de la mise à jour de la question.",
-                "create_question_error": "Une erreur est survenue lors de la création de la question.",
+                "add_question_error": "Une erreur est survenue lors de la création de la question.",
                 "save_error": "Une erreur est survenue lors de la sauvegarde de la compétition.",
                 "save_success": "Compétition sauvegardée avec succès.",
                 "description_and_questions": "Énoncé et questions",

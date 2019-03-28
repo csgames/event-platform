@@ -4,11 +4,13 @@ import { Competition } from "../../../../api/models/competition";
 import { createFeatureSelector, createSelector } from "@ngrx/store";
 import { Activity } from "../../../../api/models/activity";
 import { Attendee } from "../../../../api/models/attendee";
+import { EventScore } from "../../../../api/models/event";
 
 export interface CompetitionsAdminState {
     competitions: Competition[];
     activities: Activity[];
     directors: Attendee[];
+    eventScore: EventScore;
     loading: boolean;
     error: boolean;
 }
@@ -21,6 +23,7 @@ export const initialState: CompetitionsAdminState = {
     competitions: [],
     activities: [],
     directors: [],
+    eventScore: null,
     loading: false,
     error: false
 };
@@ -65,6 +68,22 @@ export function reducer(state = initialState, action: CompetitionAdminActions): 
                 ...state,
                 loading: false
             };
+        case CompetitionsAdminActionTypes.LoadEventScore:
+            return {
+                ...state,
+                loading: true
+            };
+        case CompetitionsAdminActionTypes.EventScoreLoaded:
+            return {
+                ...state,
+                loading: false,
+                eventScore: action.eventScore
+            };
+        case CompetitionsAdminActionTypes.LoadEventScoreError:
+            return {
+                ...state,
+                loading: false
+            };
 
         default:
             return state;
@@ -79,3 +98,4 @@ export const getCompetitionsAdminError = createSelector(getCompetitionsAdminStat
 export const getActivities = createSelector(getCompetitionsAdminState, (state: CompetitionsAdminState) => state.activities
     .filter(x => x.type === "competition"));
 export const getDirectors = createSelector(getCompetitionsAdminState, (state: CompetitionsAdminState) => state.directors);
+export const getEventScore = createSelector(getCompetitionsAdminState, (state: CompetitionsAdminState) => state.eventScore);

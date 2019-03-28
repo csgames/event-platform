@@ -143,7 +143,7 @@
                     </div>
                 </div>
             </a>
-            <ng-container *ifNotRole="['volunteer', 'sponsor']">
+            <ng-container *ifNotRole="['volunteer', 'sponsor', 'godparent']">
                 <a *ngIf="(attendee$ | async)?.registered" [routerLink]="['/competition']" routerLinkActive="active">
                     <div [fxLayout]="'row'" fxFlexFill>
                         <div fxFlex="20">

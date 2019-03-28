@@ -43,6 +43,8 @@ export class TrackComponent implements OnInit {
 
     curve = shape.curveBundle.beta(1);
 
+    orientation = "LR";
+
     isOpen = false;
 
     constructor(private puzzleHeroService: PuzzleHeroService, private modalService: SimpleModalService) {}
@@ -58,6 +60,9 @@ export class TrackComponent implements OnInit {
     showGraph() {
         this.nodes = this.track.puzzles;
         this.links = this.getLinks(this.track.puzzles);
+        if (this.links.length === 0) {
+            this.orientation = "TB";
+        }
     }
 
     getLinks(puzzles: PuzzleInfo[]): { source: string, target: string }[] {

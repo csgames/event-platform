@@ -7,6 +7,7 @@ import { getInfoPuzzleHeroError, getInfoPuzzleHeroLoading, getInfoPuzzleHeroSucc
 import { ResetState, ValidateAnswer } from "./store/info-puzzle-hero.actions";
 import { Subscription } from "rxjs";
 import { QuestionTypes } from "../../../../../api/models/question";
+import { QuestionUtils } from "../../../../../utils/question.utils";
 
 export interface InfoPuzzleHeroModal {
     puzzle: PuzzleInfo;
@@ -57,17 +58,7 @@ export class InfoPuzzleHeroComponent extends SimpleModalComponent<InfoPuzzleHero
     }
 
     get icon(): string {
-        switch (this.puzzle.type) {
-            case QuestionTypes.Crypto:
-                return "fa-key";
-            case QuestionTypes.Gaming:
-                return "fa-gamepad";
-            case QuestionTypes.Scavenger:
-                return "fa-camera-alt";
-            case QuestionTypes.Sponsor:
-                return "fa-gem";
-        }
-        return "";
+        return QuestionUtils.getQuestionTypeIconClass(this.puzzle.type);
     }
 
     validate() {

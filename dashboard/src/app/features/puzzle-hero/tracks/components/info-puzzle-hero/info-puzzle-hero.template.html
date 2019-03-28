@@ -9,10 +9,11 @@
                         class="sr-only">{{ "general.button.close" | translate }}</span>
                     </button>
                     <div fxLayout="row" fxLayoutGap="10px" class="tile">
-                        <i class="fal" [ngClass]="icon"></i>
+                        <i class="firstIcon" [ngClass]="icon"></i>
                         <div class="ml-3" fxFlex>
                             <p class="name">{{ puzzle.label }}</p>
                             <p class="hours">{{ track.label }}</p>
+                            <p class="score">{{ puzzle?.score }} points</p>
                         </div>
                     </div>
                 </div>
@@ -22,9 +23,19 @@
                         <markdown data="{{ puzzle.description | t18n }}"></markdown>
                     </div>
                     <ng-container *ngIf="!puzzle.completed">
-                        <div class="input-group input-group-default input answer" [class.has-error]="error$ | async">
+                        <div *ngIf="puzzle?.inputType !== 'code'"
+                             class="input-group input-group-default input answer" [class.has-error]="error$ | async">
                             <input class="form-control" [(ngModel)]="answer" type="text"
                                    placeholder='{{ "pages.puzzle_hero.answer" | translate }}'>
+                        </div>
+                        <div class="row" *ngIf="puzzle?.inputType === 'code'">
+                            <div class="col-12">
+                                <ngx-monaco-editor
+                                    style="height: 100px;"
+                                    [options]=" {theme: 'vs-dark', language: 'javascript'}"
+                                    [(ngModel)]="answer">
+                                </ngx-monaco-editor>
+                            </div>
                         </div>
                         <span class="control-error"
                               *ngIf="error$ | async">{{ "pages.puzzle_hero.wrong_answer" | translate }}</span>

@@ -12,7 +12,7 @@ import { ScheduleService } from "../../../../providers/schedule.service";
 import { GlobalError } from "../../../../store/app.actions";
 import {
     ActivitiesLoaded, CompetitionsAdminActionTypes, CompetitionsAdminLoaded, CreateCompetition, CreateCompetitionSuccess, DirectorsLoaded,
-    EditCompetition, LoadCompetitionsAdmin
+    EditCompetition, EventScoreLoaded, LoadCompetitionsAdmin, LoadEventScore, LoadEventScoreError
 } from "./competition-admin.actions";
 import { EditCompetitionComponent } from "../components/edit-competition/edit-competition.component";
 
@@ -87,4 +87,22 @@ export class CompetitionAdminEffects {
             );
         })
     );
+
+    @Effect()
+    loadEventScore$ = this.actions$.pipe(
+        ofType<LoadEventScore>(CompetitionsAdminActionTypes.LoadEventScore),
+        switchMap(() => this.eventService.getEventScore().pipe(
+            map((eventScore) => new EventScoreLoaded(eventScore)),
+            catchError(() => of(new LoadEventScoreError()))
+        ))
+    );
+
+    @Effect({ dispatch: false })
+    loadEventScoreError$ = this.actions$.pipe(
+        ofType<LoadEventScoreError>(CompetitionsAdminActionTypes.LoadEventScoreError),
+        tap(() => {
+            this.toastrService.error(this.translateService.instant("pages.competition.admin.load_score_error"));
+        })
+    );
+
 }
