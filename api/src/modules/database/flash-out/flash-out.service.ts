@@ -24,20 +24,19 @@ export class FlashOutsService extends BaseService<FlashOut, FlashOut> {
             throw new UserNotAttendeeException();
         }
 
-        
         const flashOuts = await this.flashOutsModel.find({
             event: eventId
         }).populate({
             path: "school"
         }).exec();
-        
+
         if (role.endsWith("admin")) {
             flashOuts.forEach((f) => {
                 const total = f.votes.reduce((a, v) => a + v.rating, 0);
                 f.averageRating = total / f.votes.length;
             });
 
-            return flashOuts
+            return flashOuts;
         }
 
         const event = await this.eventModel.findById(eventId);
