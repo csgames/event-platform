@@ -64,12 +64,12 @@
                 <div class="card-wrapper">
                     <div class="card bg-white">
                         <div class="card-body">
-                            <h3>
+                            <h2>
                                 {{ team?.name }}
                                 <a class="btn btn-link float-right" [routerLink]="['/team/' + team?._id]">
                                     <i class="fas fa-eye"></i>
                                 </a>
-                            </h3>
+                            </h2>
                             <small>{{ team?.school?.name }}</small>
                             <br>
                             <small>{{ "pages.team.max" | translate }} : {{ team?.maxMembersNumber }}</small>
