@@ -11,6 +11,7 @@ export enum TeamViewActionTypes {
     AddTeamMember = "[Team] add team member",
     AddMemberFailure = "[Team] add member failure",
     AddTeamGodparent = "[Team] add team godparent",
+    DeleteAttendee = "[Team] delete attendee"
 }
 
 export class LoadTeam implements Action {
@@ -59,6 +60,12 @@ export class UpdateTeamNameFailure implements Action {
     constructor (public err: any) {}
 }
 
+export class DeleteAttendee implements Action {
+    readonly type = TeamViewActionTypes.DeleteAttendee;
+
+    constructor(public attendeeId: string) {}
+}
+
 export type TeamViewActions =
     | LoadTeam
     | LoadTeamSuccess
@@ -67,4 +74,5 @@ export type TeamViewActions =
     | AddTeamMember
     | AddTeamGodparent
     | AddMemberFailure
-    | UpdateTeamNameFailure;
+    | UpdateTeamNameFailure
+    | DeleteAttendee;

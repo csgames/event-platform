@@ -21,4 +21,8 @@ export class TeamApi extends CSGamesApi {
     public updateTeamName(name: string, id: string): Observable<void> {
         return this.http.put<void>(this.url(`${id}`), { name }, { withCredentials: true });
     }
+
+    public deleteAttendeeFromTeam(attendeeId: string, teamId: string): Observable<void> {
+        return this.http.delete<void>(this.url(`${teamId}/attendee/${attendeeId}`), { withCredentials: true });
+    }
 }
