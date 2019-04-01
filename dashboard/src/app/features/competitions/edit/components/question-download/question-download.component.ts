@@ -48,5 +48,10 @@ export class QuestionDownloadComponent implements OnInit, OnDestroy {
     }
 
     public ngOnDestroy() {
+        this.downloadStartSub$.unsubscribe();
+        this.downloadEndSub$.unsubscribe();
+        this.downloadUpdateSub$.unsubscribe();
+        this.downloadTeamSub$.unsubscribe();
+        this.downloadSavingSub$.unsubscribe();
     }
 }
