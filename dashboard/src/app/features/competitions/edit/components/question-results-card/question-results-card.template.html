@@ -1,0 +1,33 @@
+<accordion class="card-wrapper">
+    <accordion-group (isOpenChange)="onOpen()" [isOpen]="false">
+        <div accordion-heading fxLayout="row" fxLayoutAlign="start center">
+            <i class="fal firstIcon" [ngClass]="icon"></i>
+            <div class="question-title">
+                <span class="title">{{ question?.label }}</span><br>
+                <span class="answers">{{ teamResults.length }} {{ "pages.competition.edit.answers" | translate }}</span>
+            </div>
+            <div fxFlex></div>
+            <a *ngIf="question.type === 'upload'" class="btn btn-primary" (click)="onClickDownloadSubmissions($event)">
+                <i class="fal fa-download"></i> {{ "pages.competition.edit.download_all_submissions" | translate }}
+            </a>
+            <i class="fas fa-caret-down ml-2" [class.fa-rotate-90]="!isOpen"></i>
+        </div>
+        <div>
+            <strong>{{ "pages.competition.edit.teams_that_answered_question" | translate }}:</strong>
+            <table class="table mt-3">
+                <thead>
+                <tr>
+                    <th>{{ "general.team.name" | translate }}</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let team of teamResults" class="clickable">
+                    <td>
+                        {{ team }}
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </accordion-group>
+</accordion>

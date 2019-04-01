@@ -9,6 +9,7 @@ import { Attendee } from "src/app/api/models/attendee";
 export class AttendeeViewComponent implements OnInit {
 
     @Input() attendee: Attendee;
+    @Input() showRegister: boolean;
 
     constructor() { }
 

@@ -17,10 +17,13 @@ import { MatToolbarModule, MatSidenavModule } from "@angular/material";
 import { TranslateModule } from "@ngx-translate/core";
 import { LoadingSpinnerModule } from "../../components/loading-spinner/loading-spinner.module";
 import { ProfileSettingModule } from "./modals/profile-setting/profile-setting.module";
+import { TicketModule } from "./modals/ticket/ticket.module";
 import { RegisteredGuard } from "./utils/registered.guard";
 import { NotRegisteredGuard } from "./utils/not-registered.guard";
 import { DirectivesModule } from "../../directives/directives.module";
 import { ChangePasswordModule } from "./modals/change-password/change-password.module";
+import { PipeModule } from "src/app/pipe/pipe.module";
+import { FlashoutGuard } from "../flashout/guards/flashout.guard";
 
 @NgModule({
     imports: [
@@ -40,7 +43,9 @@ import { ChangePasswordModule } from "./modals/change-password/change-password.m
         TranslateModule,
         MatSidenavModule,
         ProfileSettingModule,
-        ChangePasswordModule
+        ChangePasswordModule,
+        TicketModule,
+        PipeModule
     ],
     declarations: [
         DashboardComponent,
@@ -53,7 +58,8 @@ import { ChangePasswordModule } from "./modals/change-password/change-password.m
     ],
     providers: [
         RegisteredGuard,
-        NotRegisteredGuard
+        NotRegisteredGuard,
+        FlashoutGuard
     ]
 })
 export class DashboardModule {}

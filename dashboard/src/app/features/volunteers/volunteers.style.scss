@@ -1,0 +1,30 @@
+h1 {
+    text-transform: uppercase;
+}
+
+.borders {
+    background: transparent;
+    border: 1px dashed #9B9B9B;
+    margin-bottom: 10px;
+
+    &:hover {
+        border: 1px dashed #08579d;
+    }
+}
+
+.button-group {
+    margin-bottom: 4px;
+    margin-left: 5px;
+}
+
+.add-organizer-card {
+    background-color: #ffffff;
+    margin-bottom: 20px;
+    width: 100%;
+    border-radius: 6px;
+    box-shadow: 0 1px 4px 0 rgba(0, 0, 0, .14);
+}
+
+.cancel {
+    margin-left: 10px;
+}

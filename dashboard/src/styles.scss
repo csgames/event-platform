@@ -23,6 +23,10 @@ a {
     }
 }
 
+hr {
+    margin-top: 0 !important;
+}
+
 .page-wrapper {
     padding: 20px;
     position: relative;
@@ -687,21 +691,112 @@ html, body {
     height: 100%;
 }
 
-h1 {
+h1.title {
     font-family: 'Flipbash', sans-serif;
     font-size: 29px;
+    text-transform: uppercase;
+}
+
+h1 {
+    font-size: 32px;
 }
 
 h2 {
     font-weight: normal;
+    font-size: 1.5em;
 }
 
 h3 {
     font-weight: normal;
+    font-size: 1.25em;
 }
 
 h4 {
     font-weight: normal;
+    font-size: 1em;
+}
+
+h5 {
+    font-size: .875em;
+}
+
+h6 {
+    color: #6a737d;
+    font-size: .85em;
+}
+
+pre code {
+    display: block;
+    overflow-x: auto;
+    padding: 0.5em;
+    color: #abb2bf;
+    background: #282c34;
+}
+
+markdown {
+    table {
+        margin-bottom: 16px;
+        border: 1px solid #dfe2e5;
+    }
+
+    table th {
+        font-weight: 600;
+        text-align: left;
+    }
+
+    table td,
+    table th {
+        border: 1px solid #dfe2e5;
+        padding: 6px 13px;
+        text-align: left;
+    }
+
+    table tr {
+        background-color: #fff;
+        border-top: 1px solid #c6cbd1;
+    }
+
+    table tr:nth-child(2n) {
+        background-color: #f6f8fa;
+    }
+
+    table td ul {
+        margin-bottom: 0 !important;
+    }
+}
+
+.preview-panel {
+    table {
+        margin-bottom: 16px !important;
+        border: 1px solid #dfe2e5 !important;
+    }
+
+    table th {
+        font-weight: 600 !important;
+        text-align: left !important;
+    }
+
+    table td,
+    table th {
+        border: 1px solid #dfe2e5 !important;
+        padding: 6px 13px !important;
+        text-align: left !important;
+        color: rgb(74, 74, 74) !important;
+        font-size: 16px !important;
+    }
+
+    table tr {
+        background-color: #fff !important;
+        border-top: 1px solid #c6cbd1 !important;
+    }
+
+    table tr:nth-child(2n) {
+        background-color: #f6f8fa !important;
+    }
+
+    table td ul {
+        margin-bottom: 0 !important;
+    }
 }
 
 .btn-primary {
@@ -720,8 +815,23 @@ h4 {
     margin-bottom: 1px;
 }
 
+.btn-default {
+    &:hover {
+        color: #0D5899 !important;
+    }
+}
+
 .badge-primary {
     background-color: #08579d;
+}
+
+.btn-outline-primary {
+    border-color: #08579d;
+}
+
+.btn-outline-primary:hover {
+    background-color: #08579d;
+    color: white !important;
 }
 
 .badge-danger {
@@ -896,6 +1006,27 @@ svg {
     }
 }
 
+table.table {
+    margin-bottom: 16px;
+    border: none;
+}
+
+table.table td,
+table.table th {
+    border: none;
+    padding: 6px 13px;
+    text-align: left;
+}
+
+table.table tr {
+    background-color: transparent;
+    border-top: none;
+}
+
+table.table tr:nth-child(2n) {
+    background-color: transparent;
+}
+
 .table {
     border-spacing: 5px;
 }
@@ -947,10 +1078,93 @@ svg {
     }
 }
 
+bs-datepicker-container {
+    z-index: 3000;
+}
+
+.bs-timepicker-field {
+    border-radius: 8px;
+    border: #9B9B9B solid 1px;
+
+    &:focus {
+        border: 1px solid #0D5899;
+    }
+}
+
 .btn-primary {
     height: 100% !important;
 }
 
 .btn:hover {
     cursor: pointer !important;
+}
+
+iframe {
+    width: 100% !important;
+    height: 300px !important;
+}
+
+.popover {
+    border: none;
+
+    box-shadow: 0 1px 4px 0 rgba(0, 0, 0, .14);
+
+    .arrow {
+        &:before,
+        &:after {
+            border: none;
+        }
+    }
+}
+
+.language-select > .ng-select > .ng-select-container > .ng-clear-wrapper {
+    display: none !important;
+}
+
+.ql-toolbar {
+    border-radius: 8px 8px 0px 0px;
+}
+
+.ql-container {
+    border-radius: 0px 0px 8px 8px;
+}
+
+.quill:focus-within > .ql-toolbar {
+    border-left-color: #0D5899;
+    border-right-color: #0D5899;
+    border-top-color: #0D5899;
+}
+
+.quill:focus-within > .ql-container {
+    border-left-color: #0D5899;
+    border-right-color: #0D5899;
+    border-bottom-color: #0D5899;
+}
+
+.alert {
+    margin: 1rem 0;
+    border-radius: 11px;
+}
+
+timepicker {
+    margin: 5px;
+}
+
+.borders {
+    background: transparent;
+    border: 1px dashed #9B9B9B;
+    margin-bottom: 10px;
+
+    &:hover {
+        border: 1px dashed #08579d;
+    }
+}
+
+.ql-tooltip {
+    z-index: 1000;
+}
+
+
+.btn:focus {
+    box-shadow: none !important;
 }

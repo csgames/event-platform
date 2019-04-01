@@ -1,11 +1,12 @@
 import { Injectable } from "@angular/core";
-import { Event } from "../api/models/event";
+import { Event, EventScore } from "../api/models/event";
 import { Observable } from "rxjs";
 import { Attendee } from "../api/models/attendee";
 import { ApiService } from "../api/api.service";
 import { UppyFile } from "@uppy/core";
 import { EventGuide } from "../api/models/guide";
 import { Team } from "../api/models/team";
+import { Competition } from "../api/models/competition";
 
 
 const CURRENT_EVENT = "CURRENT_EVENT";
@@ -33,7 +34,7 @@ export class EventService {
     public getGuideEvent(): Observable<EventGuide> {
         return this.apiService.event.getGuide();
     }
-    
+
     public onboardAttendee(attendee: Attendee): Observable<void> {
         let file: File = null;
         if (attendee.cv && typeof attendee.cv !== "string") {
@@ -42,5 +43,33 @@ export class EventService {
         }
 
         return this.apiService.event.onboardAttendee(attendee, file);
+    }
+
+    public getRegisteredCompetitions(): Observable<Competition[]> {
+        return this.apiService.event.getRegisteredCompetitions();
+    }
+
+    public getAdmins(): Observable<Attendee[]> {
+        return this.apiService.event.getAttendees({ roles: ["admin"] });
+    }
+
+    public getVolunteers(): Observable<Attendee[]> {
+        return this.apiService.event.getAttendees({ roles: ["volunteer"] });
+    }
+
+    public getDirectors(): Observable<Attendee[]> {
+        return this.apiService.event.getAttendees({ roles: ["director"] });
+    }
+
+    public getAttendees(): Observable<Attendee[]> {
+        return this.apiService.event.getAttendees({ roles: ["captain", "attendee", "godparent"] });
+    }
+
+    public getAttendeesData(type: string): Observable<Blob> {
+        return this.apiService.event.getAttendees({ roles: ["captain", "attendee", "godparent"], type });
+    }
+
+    public getEventScore(): Observable<EventScore> {
+        return this.apiService.event.getEventScore();
     }
 }

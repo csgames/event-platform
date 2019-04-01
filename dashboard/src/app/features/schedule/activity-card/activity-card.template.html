@@ -7,12 +7,12 @@
                 <i *ngSwitchCase="'food'" class="fal fa-utensils"></i>
             </div>
             <div fxFlex>
-                <p class="name">{{ activity.name }}</p>
+                <p class="name">{{ activity.name | t18n }}</p>
                 <p class="hours">{{ time }} - {{ activity.endDate | hours }}</p>
                 <p class="location">{{ activity.location }}</p>
             </div>
             <div fxFlex="nogrow">
-                <i class="fal fa-check text-success" *ngIf="subscribed | async"></i>
+                <i class="fal fa-check text-success" *ngIf="activity.subscribed"></i>
             </div>
         </div>
     </div>

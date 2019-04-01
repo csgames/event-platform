@@ -1,0 +1,50 @@
+<div fxLayout="row" fxLayoutAlign="start center">
+    <div>
+        <span class="infoText margin-left">
+            {{ label }} :
+        </span>
+    </div>
+    <div fxFlex></div>
+    <div fxFlex="100px">
+        <div class="input-group input-group-default language-select">
+            <ng-select [(ngModel)]="languageValue" [items]="languages" (ngModelChange)="onLanguageChange()"
+                       controlStatus>
+                <ng-template ng-option-tmp ng-label-tmp let-item="item">
+                <span class="ng-option-label">
+                    {{ item }}
+                </span>
+                </ng-template>
+            </ng-select>
+        </div>
+    </div>
+</div>
+<div class="row" *ngIf="formType === 'textbox' || formType === 'textarea'">
+    <div class="input-group input-group-default col-12 auto-height">
+        <input *ngIf="formType === 'textbox'"
+               [(ngModel)]="currentTextValue"
+               (ngModelChange)="onContentTextChange()"
+               type="text" class="form-control full-width" placeholder="{{ placeholder }}"/>
+        <textarea *ngIf="formType === 'textarea'"
+                  [(ngModel)]="currentTextValue"
+                  (ngModelChange)="onContentTextChange()"
+                  [rows]="textareaRows"
+                  type="text" class="form-control full-width auto-height" placeholder="{{ placeholder }}"></textarea>
+    </div>
+</div>
+<div class="row quill-container" *ngIf="formType === 'rich'">
+    <div class="col-12 auto-height">
+        <quill-editor class="quill"
+                      [(ngModel)]="currentTextValue"
+                      (ngModelChange)="onContentTextChange()"
+                      [placeholder]="placeholder">
+        </quill-editor>
+    </div>
+</div>
+<div class="row" *ngIf="formType === 'markdown'">
+    <div class="col-12 auto-height">
+        <md-editor
+            [(ngModel)]="currentTextValue"
+            (ngModelChange)="onContentTextChange()">
+        </md-editor>
+    </div>
+</div>

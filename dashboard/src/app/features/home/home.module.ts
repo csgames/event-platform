@@ -1,25 +1,31 @@
 import { NgModule } from "@angular/core";
-
 import { HomeComponent } from "./home.component";
 import { CommonModule } from "@angular/common";
 import { HomeRoutingModule } from "./home-routing.module";
-import { StoreModule } from "@ngrx/store";
-
-import * as fromHome from "./store/home.reducers";
-import { HomeService } from "./providers/home.service";
-import { EffectsModule } from "@ngrx/effects";
-import { HomeEffects } from "./store/home.effects";
 import { TranslateModule } from "@ngx-translate/core";
+import { LoadingSpinnerModule } from "src/app/components/loading-spinner/loading-spinner.module";
+import { TracksModule } from "../puzzle-hero/tracks/tracks.module";
+import { ScheduleModule } from "../schedule/schedule.module";
+import { FlexLayoutModule } from "@angular/flex-layout";
+import { PuzzleHeroModule } from "../puzzle-hero/puzzle-hero.module";
+import { PuzzleComponentsModule } from "../puzzle-hero/components/puzzle-components.module";
+import { DirectivesModule } from "src/app/directives/directives.module";
+import { CompetitionsListModule } from "../competitions/list/competitions-list.module";
 
 @NgModule({
     imports: [
         CommonModule,
         HomeRoutingModule,
         TranslateModule,
-        StoreModule.forFeature("home", fromHome.reducer),
-        EffectsModule.forFeature([HomeEffects])
+        LoadingSpinnerModule,
+        TracksModule,
+        ScheduleModule,
+        FlexLayoutModule,
+        CompetitionsListModule,
+        PuzzleHeroModule,
+        PuzzleComponentsModule,
+        DirectivesModule
     ],
-    providers: [HomeService],
     declarations: [HomeComponent]
 })
 export class HomeModule {}

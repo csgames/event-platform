@@ -1,0 +1,43 @@
+<div class="page-wrapper">
+    <h1 class="title">{{ "pages.directors.directors" | translate }}</h1>
+    <app-loading-spinner [loading]="loading$"></app-loading-spinner>
+    <ng-container *ngIf="attendees$ | async as attendees">
+        <hr class="my-2">
+        <div *ngFor="let member of attendees">
+            <app-attendee-view class="mb-4" [attendee]="member" [showRegister]="false">
+            </app-attendee-view>
+        </div>
+    </ng-container>
+    <div>
+        <button *ngIf="!isAddingTeamMember" type="button"
+                class="btn btn-lg btn-block borders"
+                (click)="onEditTeamMember()">
+            + {{ "pages.directors.add_director" | translate }}
+        </button>
+    </div>
+    <div *ngIf="isAddingTeamMember" class="card-wrapper">
+        <div class="add-organizer-card">
+            <div class="card-body">
+                {{ "pages.directors.add_director" | translate }}
+                <br>
+                <div class="row">
+                    <div class="col-sm-12 col-lg-7">
+                        <app-register-attendee-form [(ngModel)]="newAttendee"></app-register-attendee-form>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-7">
+                        <div class="button-group">
+                            <a class="btn btn-primary" (click)="onAddTeamMember()">
+                                {{ "general.button.add" | translate }} <i class="fal fa-plus"></i>
+                            </a>
+                            <a class="btn btn-danger cancel" (click)="onCancelTeamMember()">
+                                {{ "general.button.cancel" | translate }} <i class="fal fa-times"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -3,6 +3,7 @@ import { Attendee } from "../api/models/attendee";
 import { HttpErrorResponse } from "@angular/common/http";
 import { Event } from "../api/models/event";
 import { PuzzleHeroInfo } from "../api/models/puzzle-hero";
+import { Competition } from "../api/models/competition";
 
 export enum AppActionTypes {
     GlobalError = "[App] Global error",
@@ -16,6 +17,7 @@ export enum AppActionTypes {
     Logout = "[App] Logout",
     ChangeLanguage = "[App] Change language",
     ChangePassword = "[App] Change password",
+    ViewTicket = "[App] View ticket",
     CheckUnseenNotification = "[App] Check unseen notification",
     HasUnseenNotification = "[App] Has unseen notification",
     AllNotificationsSeen = "[App] All notifications seen",
@@ -23,7 +25,9 @@ export enum AppActionTypes {
     SetMessagingToken = "[App] Set messaging",
     SetupMessagingToken = "[App] Setup messaging token",
     GetPuzzleHeroInfo = "[App] Get puzzle hero info",
-    UpdatePuzzleHeroStatus = "[App] Update puzzle hero status"
+    UpdatePuzzleHeroStatus = "[App] Update puzzle hero status",
+    LoadRegisteredCompetitions = "[App] Load Registered competitions",
+    RegisteredCompetitionsLoaded = "[App] Registered competitions loaded"
 }
 
 export class ChangeLanguage implements Action {
@@ -58,7 +62,7 @@ export class EventsLoaded implements Action {
     constructor(public events: Event[]) {}
 }
 
-export class AppLoaded {
+export class AppLoaded implements Action {
     readonly type = AppActionTypes.AppLoaded;
 }
 
@@ -78,6 +82,10 @@ export class Logout implements Action {
 
 export class ChangePassword implements Action {
     readonly type = AppActionTypes.ChangePassword;
+}
+
+export class ViewTicket implements Action {
+    readonly type = AppActionTypes.ViewTicket;
 }
 
 export class CheckUnseenNotification implements Action {
@@ -102,14 +110,24 @@ export class SetupMessagingToken implements Action {
     constructor(public payload: string) {}
 }
 
-export class GetPuzzleHeroInfo {
+export class GetPuzzleHeroInfo implements Action {
     readonly type = AppActionTypes.GetPuzzleHeroInfo;
 }
 
-export class UpdatePuzzleHeroStatus {
+export class UpdatePuzzleHeroStatus implements Action {
     readonly type = AppActionTypes.UpdatePuzzleHeroStatus;
 
     constructor(public payload: PuzzleHeroInfo) {}
+}
+
+export class LoadRegisteredCompetitions {
+    readonly type = AppActionTypes.LoadRegisteredCompetitions;
+}
+
+export class RegisteredCompetitionsLoaded {
+    readonly type = AppActionTypes.RegisteredCompetitionsLoaded;
+
+    constructor(public payload: Competition []) {}
 }
 
 export type AppActions =
@@ -125,10 +143,13 @@ export type AppActions =
     | LoadCurrentAttendee
     | ChangeLanguage
     | ChangePassword
+    | ViewTicket
     | CheckUnseenNotification
     | HasUnseenNotification
     | AllNotificationsSeen
     | InitializeMessaging
     | SetupMessagingToken
     | GetPuzzleHeroInfo
-    | UpdatePuzzleHeroStatus;
+    | UpdatePuzzleHeroStatus
+    | LoadRegisteredCompetitions
+    | RegisteredCompetitionsLoaded;

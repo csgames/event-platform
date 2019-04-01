@@ -1,0 +1,51 @@
+<ng-container xmlns:svg="http://www.w3.org/1999/XSL/Transform"
+              xmlns:xhtml="http://www.w3.org/1999/xhtml">
+
+    <svg:g (click)="onClickPuzzle()" *ngIf="!adminMode" class="tile">
+        <ng-container *ngTemplateOutlet="content"></ng-container>
+    </svg:g>
+
+    <svg:g #pop="bs-popover" [popover]="popoverContent" container="body" [outsideClick]="true" class="tile"
+           *ngIf="adminMode">
+        <ng-container *ngTemplateOutlet="content"></ng-container>
+    </svg:g>
+
+    <ng-template #content>
+        <svg:rect width="77" height="77" rx="11" ry="11" class="background"
+                  [class.locked]="puzzle?.locked"
+                  [class.completed]="puzzle?.completed"/>
+
+        <svg width="77" height="77">
+            <svg:text [ngClass]="{fal: puzzle.type !== 'vine', fab: puzzle.type === 'vine'}" class="fa-3x" x="50%"
+                      y="50%" alignment-baseline="middle" dominant-baseline="middle"
+                      text-anchor="middle" [innerHTML]="icon">
+            </svg:text>
+            <svg:text class="fa fa-3x text-danger" x="50%" y="50%" alignment-baseline="middle"
+                      dominant-baseline="middle"
+                      text-anchor="middle" *ngIf="puzzle?.locked">
+                &#xf023;
+            </svg:text>
+            <svg:text class="fa fa-4x text-success" x="50%" y="50%" alignment-baseline="middle"
+                      dominant-baseline="middle"
+                      text-anchor="middle" *ngIf="puzzle?.completed">
+                &#xf00c;
+            </svg:text>
+        </svg>
+
+        <svg:foreignObject width="127" height="80" x="-25" y="77">
+            <xhtml:p>
+                {{ puzzle?.label }}
+            </xhtml:p>
+        </svg:foreignObject>
+    </ng-template>
+
+    <ng-template #popoverContent>
+        <a class="btn btn-primary" (click)="onClickAddLink()">
+            {{ "general.button.add" | translate }} <i class="fal fa-plus"></i>
+        </a>
+        <a class="btn btn-default" (click)="onClickPuzzle()">
+            <i class="fal fa-edit"></i>
+        </a>
+    </ng-template>
+
+</ng-container>

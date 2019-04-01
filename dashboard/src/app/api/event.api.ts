@@ -2,14 +2,16 @@ import { Injectable } from "@angular/core";
 import { CSGamesApi } from "./csgames.api";
 import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
-import { Event } from "./models/event";
+import { Event, EventScore } from "./models/event";
 import { map } from "rxjs/operators";
-import { AttendeeModel } from "./models/attendee";
+import { Attendee, AttendeeModel } from "./models/attendee";
 import { EventGuide } from "./models/guide";
 import { Sponsors } from "./models/sponsors";
 import { Activity, CreateActivity } from "./models/activity";
 import { Team } from "./models/team";
 import { AttendeeNotification } from "./models/notification";
+import { AttendeeVote, Flashout } from "./models/flashout";
+import { Competition } from "./models/competition";
 
 
 @Injectable()
@@ -33,6 +35,12 @@ export class EventApi extends CSGamesApi {
                 });
             })
         );
+    }
+
+    public getEvent(id: string): Observable<Event> {
+        return this.http.get<Event>(this.url(id), {
+            withCredentials: true
+        });
     }
 
     public getGuide(): Observable<EventGuide> {
@@ -68,13 +76,21 @@ export class EventApi extends CSGamesApi {
     public getTeams(): Observable<Team[]> {
         return this.http.get<Team[]>(this.url("team"), { withCredentials: true });
     }
-    
+
     public checkUnseenNotifications(): Observable<AttendeeNotification[]> {
         return this.http.get<AttendeeNotification[]>(this.url("notification?seen=false"), { withCredentials: true });
     }
 
     public getNotifications(): Observable<AttendeeNotification[]> {
         return this.http.get<AttendeeNotification[]>(this.url("notification"), { withCredentials: true });
+    }
+
+    public getCompetitions(): Observable<Competition[]> {
+        return this.http.get<Competition[]>(this.url("competition"), { withCredentials: true });
+    }
+
+    public getRegisteredCompetitions(): Observable<Competition[]> {
+        return this.http.get<Competition[]>(this.url("competition/member"), { withCredentials: true });
     }
 
     public sendSms(text: string) {
@@ -85,11 +101,47 @@ export class EventApi extends CSGamesApi {
         });
     }
 
+    public voteFlashouts(votes: { votes: AttendeeVote[] }): Observable<void> {
+        return this.http.put<void>(this.url("flash-out/rating"), votes, {
+            withCredentials: true
+        });
+    }
+
     public sendPush(title: string, body: string) {
         return this.http.post<void>(this.url("notification"), {
             title,
             body
         }, {
+            withCredentials: true
+        });
+    }
+
+    public getAllFlashouts(): Observable<Flashout[]> {
+        return this.http.get<Flashout[]>(this.url("flash-out"), { withCredentials: true });
+    }
+
+    public getAttendees(query: { type?: string; roles?: string[]; } = {}): Observable<any> {
+        let queryParam = "?";
+        if (query.type) {
+            queryParam += `type=${query.type}&`;
+        }
+        if (query.roles) {
+            queryParam += `roles=${query.roles.join(",")}`;
+        }
+
+        if (query.type && query.type !== "json") {
+            return this.http.get(this.url(`attendee/${queryParam}`), { responseType: "blob", withCredentials: true });
+        } else {
+            return this.http.get(this.url(`attendee/${queryParam}`), { responseType: "json", withCredentials: true });
+        }
+    }
+
+    public updateFlashout(event: Event): Observable<void> {
+        return this.http.put<void>(this.url(), event, { withCredentials: true });
+    }
+
+    public getEventScore(): Observable<EventScore> {
+        return this.http.get<EventScore>(this.url("score"), {
             withCredentials: true
         });
     }

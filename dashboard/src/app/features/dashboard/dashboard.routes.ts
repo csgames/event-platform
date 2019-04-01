@@ -1,16 +1,18 @@
 import { Routes } from "@angular/router";
 import { NotRegisteredGuard } from "./utils/not-registered.guard";
 import { RegisteredGuard } from "./utils/registered.guard";
+import { FlashoutGuard } from "../flashout/guards/flashout.guard";
 
 export const DASHBOARD_ROUTES: Routes = [
     {
         path: "",
-        redirectTo: "team",
+        redirectTo: "guide",
         pathMatch: "full"
     },
     // {
     //     path: "home",
     //     loadChildren: "src/app/features/home/home.module#HomeModule",
+    //     canActivate: [RegisteredGuard]
     // },
     {
         path: "team",
@@ -20,6 +22,7 @@ export const DASHBOARD_ROUTES: Routes = [
     {
         path: "puzzle-hero",
         loadChildren: "src/app/features/puzzle-hero/puzzle-hero.module#PuzzleHeroModule",
+        canActivate: [RegisteredGuard]
     },
     {
         path: "onboarding",
@@ -29,6 +32,7 @@ export const DASHBOARD_ROUTES: Routes = [
     {
         path: "guide",
         loadChildren: "src/app/features/guide/guide.module#GuideModule",
+        canActivate: [RegisteredGuard]
     },
     {
         path: "sponsors",
@@ -41,9 +45,35 @@ export const DASHBOARD_ROUTES: Routes = [
         canActivate: [RegisteredGuard]
     },
     {
+        path: "competition",
+        loadChildren: "src/app/features/competitions/competitions.module#CompetitionsModule",
+        canActivate: [RegisteredGuard]
+    },
+    {
         path: "notifications",
         loadChildren: "src/app/features/notifications/notifications.module#NotificationsModule",
         canActivate: [RegisteredGuard]
+    },
+    {
+        path: "flash-out",
+        loadChildren: "src/app/features/flashout/flashout.module#FlashoutModule",
+        canActivate: [RegisteredGuard]
+    },
+    {
+        path: "organizer",
+        loadChildren: "src/app/features/organizers/organizers.module#OrganizersModule"
+    },
+    {
+        path: "volunteer",
+        loadChildren: "src/app/features/volunteers/volunteers.module#VolunteersModule"
+    },
+    {
+        path: "director",
+        loadChildren: "src/app/features/directors/directors.module#DirectorsModule"
+    },
+    {
+        path: "attendee",
+        loadChildren: "src/app/features/attendees/attendees.module#AttendeesModule"
     },
     {
         path: "activities",
@@ -52,7 +82,7 @@ export const DASHBOARD_ROUTES: Routes = [
     },
     {
         path: "**",
-        redirectTo: "team",
+        redirectTo: "guide",
         pathMatch: "full"
     }
 ];

@@ -3,6 +3,7 @@ import { CommonModule } from "@angular/common";
 import { PuzzleHeroGuard } from "./guards/puzzle-hero.guard";
 import { ScoreboardGuard } from "./guards/scoreboard.guard";
 import { PuzzleHeroRoutingModule } from "./puzzle-hero-routing.module";
+import { RoleGuard } from "../../guards/role.guard";
 
 @NgModule({
     imports: [
@@ -12,7 +13,8 @@ import { PuzzleHeroRoutingModule } from "./puzzle-hero-routing.module";
     exports: [],
     providers: [
         PuzzleHeroGuard,
-        ScoreboardGuard
+        ScoreboardGuard,
+        RoleGuard
     ]
 })
 export class PuzzleHeroModule {}

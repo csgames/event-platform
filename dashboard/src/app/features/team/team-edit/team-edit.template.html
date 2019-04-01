@@ -1,11 +1,11 @@
 <div class="page-wrapper">
-    <h1>{{ "pages.team.teams" | translate }}</h1>
+    <h1 class="title">{{ "pages.team.teams" | translate }}</h1>
     <app-loading-spinner [loading]="loading$">
     </app-loading-spinner>
     <ng-container *ngIf="error$ | async">
         <div style="text-align: center">
             <i class="far fa-times-circle error fa-8x"></i>
-            <h5>{{ "pages.team.loading_error" | translate }}</h5>
+            <h3>{{ "pages.team.loading_error" | translate }}</h3>
         </div>
     </ng-container>
 
@@ -64,22 +64,19 @@
                 <div class="card-wrapper">
                     <div class="card bg-white">
                         <div class="card-body">
-                            <h3>
+                            <h2>
                                 {{ team?.name }}
                                 <a class="btn btn-link float-right" [routerLink]="['/team/' + team?._id]">
                                     <i class="fas fa-eye"></i>
                                 </a>
-                            </h3>
+                            </h2>
                             <small>{{ team?.school?.name }}</small>
+                            <br>
+                            <small>{{ "pages.team.max" | translate }} : {{ team?.maxMembersNumber }}</small>
                             <app-attendee-view [attendee]="getTeamCaptain(team)"></app-attendee-view>
                             <h5 class="mt-1">{{ "pages.team.team_members" | translate }}
                                 <b>
-                                    <a *ngIf="team?.maxMembersNumber === 11"> ({{ getTeamAttendees(team)?.length }}
-                                        /10)</a>
-                                    <a *ngIf="team?.maxMembersNumber !== 11">
-                                        ({{ getTeamAttendees(team)?.length }}
-                                        /{{ team?.maxMembersNumber - 1 }})
-                                    </a>
+                                    <a>({{ getTeamAttendees(team)?.length }})</a>
                                 </b>
                                 <i class="fal fa-check-circle text-white text-primary float-right"
                                    tooltip="{{ 'pages.team.registered' | translate }}"
@@ -90,7 +87,7 @@
                             </h5>
                             <h5 class="mt-1">
                                 {{ "pages.team.godparent" | translate }}
-                                <b>({{ getTeamGodparent(team)?.length }}/1)</b>
+                                <b>({{ getTeamGodparent(team)?.length }})</b>
                                 <i class="fal fa-check-circle text-white text-primary float-right"
                                    tooltip="{{ 'pages.team.registered' | translate }}"
                                    placement="left" *ngIf="areTeamMembersAllRegistered(team)"></i>

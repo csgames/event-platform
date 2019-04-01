@@ -32,6 +32,7 @@ import { ActivityCardComponent } from "./activity-card/activity-card.component";
         InfoActivityModule
     ],
     declarations: [ScheduleComponent, ActivityCardComponent],
-    entryComponents: [ScheduleComponent]
+    entryComponents: [ScheduleComponent],
+    exports: [ScheduleComponent, ActivityCardComponent]
 })
 export class ScheduleModule { }

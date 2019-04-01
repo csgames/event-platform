@@ -8,6 +8,7 @@ import { Subscription } from "rxjs";
 import { AuthenticationService } from "./providers/authentication.service";
 import { LoadEvents } from "./store/app.actions";
 import { getCurrentAttendee, State } from "./store/app.reducers";
+import { MarkdownService } from "ngx-markdown";
 
 @Component({
     selector: "app-root",
@@ -20,6 +21,7 @@ export class AppComponent {
 
     constructor(private translate: TranslateService,
                 private authService: AuthenticationService,
+                private markdownService: MarkdownService,
                 private store$: Store<State>) {
         registerLocaleData(localeFr);
         registerLocaleData(localeFrCa);
@@ -32,5 +34,9 @@ export class AppComponent {
             }
             this.currentAttendeeSub$.unsubscribe();
         });
+
+        this.markdownService.renderer.heading = (text: string, level: number) => {
+            return `<h${level}>${text}</h${level}><hr>`;
+        };
     }
 }

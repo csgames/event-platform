@@ -16,3 +16,10 @@ export interface CreateInvitationDto {
     schoolId?: string;
     maxMembersNumber?: number;
 }
+
+export class RegisterRoleDto {
+    role: string;
+    username: string;
+    password: string;
+    attendee: CreateAttendeeDto;
+}

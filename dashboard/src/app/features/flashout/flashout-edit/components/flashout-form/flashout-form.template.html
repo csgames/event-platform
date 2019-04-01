@@ -1,0 +1,45 @@
+<form [formGroup]="formGroup">
+    <div class="row">
+        <div class="col-sm-12">
+            {{ "components.flashout_form.flashout_informations" | translate }}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="input-group input-group-default mx-0">
+                <div class="input-group-prepend">
+                    <a class="form-icon">
+                        <i class="fal fa-school"></i>
+                    </a>
+                </div>
+                <ng-select [items]="schools" placeholder='{{ "components.flashout_form.school" | translate }}'
+                           formControlName="school" bindValue="_id" bindLabel="name" controlStatus>
+                </ng-select>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="input-group input-group-default mx-0">
+                <div class="input-group-prepend">
+                    <a class="form-icon">
+                        <i class="fal fa-browser"></i>
+                    </a>
+                </div>
+                <input autofocus class="form-control" formControlName="url" (ngModelChange)="setVideoId($event)"
+                       placeholder='{{ "components.flashout_form.url" | translate }}'>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="input-group input-group-default mx-0">
+                <div class="input-group-prepend">
+                    <i class="fal fa-video"></i>
+                </div>
+                <input autofocus class="form-control" type="text" controlStatus
+                       formControlName="videoId" placeholder='{{ "components.flashout_form.video_id" | translate }}'>
+            </div>
+        </div>
+    </div>
+</form>

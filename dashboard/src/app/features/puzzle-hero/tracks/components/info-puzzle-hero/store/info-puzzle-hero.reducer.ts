@@ -1,7 +1,6 @@
 import * as fromApp from "../../../../../../store/app.reducers";
 import { InfoPuzzleHeroActions, InfoPuzzleHeroActionTypes } from "./info-puzzle-hero.actions";
 import { createFeatureSelector, createSelector } from "@ngrx/store";
-import { init } from "protractor/built/launcher";
 
 export interface InfoPuzzleHeroState {
     loading: boolean;
