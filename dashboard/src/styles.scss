@@ -765,6 +765,10 @@ markdown {
     }
 }
 
+.editor-container {
+    overflow: auto;
+}
+
 .preview-panel {
     table {
         margin-bottom: 16px !important;
