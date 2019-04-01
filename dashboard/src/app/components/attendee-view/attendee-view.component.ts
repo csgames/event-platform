@@ -3,7 +3,7 @@ import { Attendee } from "src/app/api/models/attendee";
 import { Store } from "@ngrx/store";
 import { State } from "src/app/features/team/team-view/store/team-view.reducer";
 import { DeleteAttendee } from "src/app/features/team/team-view/store/team-view.actions";
-import swal from 'sweetalert';
+import swal from "sweetalert";
 import { TranslateService } from "@ngx-translate/core";
 
 @Component({

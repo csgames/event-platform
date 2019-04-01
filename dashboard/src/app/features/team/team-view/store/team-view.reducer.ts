@@ -60,7 +60,7 @@ export function reducer(state = initialState, action: TeamViewActions): TeamView
             return {
                 ...state,
                 loading: true
-            }
+            };
         default:
             return state;
     }
