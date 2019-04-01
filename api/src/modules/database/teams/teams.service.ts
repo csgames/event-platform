@@ -157,4 +157,15 @@ export class TeamsService extends BaseService<Teams, CreateTeamDto> {
             throw new BadRequestException("Edit locked");
         }
     }
+
+    public async deleteAttendeeFromTeam(eventId: string, attendeeId: string, teamId: string) {
+        await this.teamsModel.updateOne({
+            _id: teamId,
+            event: eventId
+        }, {
+            $pull: {
+                attendees: attendeeId
+            }
+        }).exec();
+    }
 }
