@@ -144,8 +144,6 @@ export class DownloadUploadedSubmissions implements Action {
 
 export class UploadedSubmissionsDownloaded implements Action {
     readonly type = CompetitionEditActionTypes.UploadedSubmissionsDownloaded;
-
-    constructor(public payload: { buffer: Blob, questionName: string }) {}
 }
 
 export type CompetitionEditActions =

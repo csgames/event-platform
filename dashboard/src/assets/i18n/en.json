@@ -112,6 +112,10 @@
         },
         "ticket": {
             "ticket": "Ticket"
+        },
+        "download_question": {
+            "download_team": "Fetching {{teamName}} result",
+            "download_saving": "Saving file"
         }
     },
     "errors": {
