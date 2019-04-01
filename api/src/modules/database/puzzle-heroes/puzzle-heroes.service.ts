@@ -208,7 +208,6 @@ export class PuzzleHeroesService extends BaseService<PuzzleHeroes, PuzzleHeroes>
             .puzzles.find(x => (x.question as mongoose.Types.ObjectId).equals(question._id));
     }
 
-
     public async updatePuzzle(eventId: string, trackId: string, puzzleId: string, dto: UpdateQuestionDto): Promise<void> {
         const puzzleHero = await this.findOne({
             event: eventId
@@ -230,11 +229,11 @@ export class PuzzleHeroesService extends BaseService<PuzzleHeroes, PuzzleHeroes>
         return await this.questionsService.updateQuestion((puzzle.question as mongoose.Types.ObjectId).toHexString(), dto);
     }
 
-    public async addTeamScore(eventId: string, teamId: string, score: number): Promise<void> {
+    public async addTeamScore(eventId: string, teamId: string, score: number, date: string): Promise<void> {
         const lastScore = await this.getTeamLastScore(eventId, teamId);
         const newScore = lastScore + score;
         const newSerie = {
-            name: new Date().toISOString(),
+            name: date,
             value: newScore
         };
         await this.redisService.lpush(this.getTeamSeriesKey(eventId, teamId), JSON.stringify(newSerie));
@@ -250,7 +249,7 @@ export class PuzzleHeroesService extends BaseService<PuzzleHeroes, PuzzleHeroes>
             throw new NotFoundException('No puzzle hero found');
         }
 
-        if (!PuzzleHeroesUtils.isScoreboardAvailable(puzzleHero) && user.role !== 'admin') {
+        if (!PuzzleHeroesUtils.isScoreboardAvailable(puzzleHero) && !user.role.endsWith('admin')) {
             return;
         }
 
@@ -347,19 +346,55 @@ export class PuzzleHeroesService extends BaseService<PuzzleHeroes, PuzzleHeroes>
             timestamp: DateUtils.nowUTC()
         } as TracksAnswers);
         await puzzleHero.save();
-        await this.addTeamScore(eventId, teamId, score);
+        await this.addTeamScore(eventId, teamId, score, new Date().toISOString());
     }
 
-    public async start(eventId: string): Promise<void> {
-        const teams = await this.teamsModel.find({
-            event: eventId
-        }).exec();
+    public async start(eventId: string, teams?: Teams[], date?: string): Promise<void> {
+        if (!teams) {
+            teams = await this.teamsModel.find({
+                event: eventId
+            }).exec();
+        }
 
         await this.redisService.del(this.getScoreboardKey(eventId));
 
+        date = date ? date : new Date().toISOString();
         for (const team of teams) {
             await this.redisService.scanDel(this.getTeamSeriesKey(eventId, team._id.toHexString()));
-            await this.addTeamScore(eventId, team._id.toHexString(), 0);
+            await this.addTeamScore(eventId, team._id.toHexString(), 0, date);
+        }
+    }
+
+    public async populateScoreboard(eventId: string): Promise<void> {
+        const puzzleHero = await this.findOne({
+            event: eventId
+        });
+        if (!puzzleHero) {
+            throw new NotFoundException('No puzzle hero found');
+        }
+
+        const teams = await this.teamsModel.find({
+            event: eventId
+        }).exec();
+        await this.start(eventId, teams, (puzzleHero.releaseDate as Date).toISOString());
+
+        for (const team of teams) {
+            const answers = puzzleHero.answers.filter(value => team._id.equals(value.teamId as string));
+            for (const answer of answers) {
+                const track = puzzleHero.tracks.find(track => track
+                    .puzzles.findIndex(puzzle => puzzle._id.equals(answer.puzzle)) >= 0);
+                if (!track) {
+                    continue;
+                }
+                const puzzle = track.puzzles.find(puzzle => puzzle._id.equals(answer.puzzle));
+                if (!puzzle) {
+                    continue;
+                }
+                const question = await this.questionsModel.findOne({
+                    _id: puzzle.question
+                }).exec();
+                await this.addTeamScore(eventId, team._id.toHexString(), question.score, (answer.timestamp as Date).toISOString());
+            }
         }
     }
 
