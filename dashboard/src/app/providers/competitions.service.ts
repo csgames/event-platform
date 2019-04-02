@@ -10,6 +10,8 @@ import { QuestionGraphNode } from "../api/models/question";
 import { CompetitionFormDto } from "../features/competitions/admin/components/competition-form/dto/competition-form.dto";
 import { QuestionAnswerDto } from "../api/dto/competition";
 import { TeamCompetitionResult } from "../api/definitions/competition";
+import { CompetitionSettingsDto } from "../features/competitions/admin/components/competition-settings/dto/competition-settings.dto";
+import { CompetitionSettingsUtils } from "../features/competitions/admin/components/competition-settings/competition-settings.utils";
 
 @Injectable()
 export class CompetitionsService {
@@ -86,5 +88,9 @@ export class CompetitionsService {
 
     public getQuestionResult(competitionId: string, questionId: string): Observable<Blob> {
         return this.apiService.competition.getQuestionResult(competitionId, questionId);
+    }
+
+    public updateCompetitionSettings(dto: CompetitionSettingsDto): Observable<void> {
+        return this.apiService.event.updateCompetitionResults(CompetitionSettingsUtils.competitionSettingsDtoToEvent(dto));
     }
 }
