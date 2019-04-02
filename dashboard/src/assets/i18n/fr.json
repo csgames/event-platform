@@ -113,6 +113,10 @@
         "ticket": {
             "ticket": "Billet"
         },
+        "download_question": {
+            "download_team": "Récupération des résultats de {{teamName}}",
+            "download_saving": "Enregistrement du fichier"
+        },
         "delete_attendee": {
             "sure": "Êtes-vous sûr de vouloir supprimer ce participant?",
             "deleted": "Une fois supprimer il ne sera plus possible de l'ajouter à votre équipe.",
