@@ -159,6 +159,18 @@ export class TeamsService extends BaseService<Teams, CreateTeamDto> {
     }
 
     public async deleteAttendeeFromTeam(eventId: string, attendeeId: string, teamId: string) {
+        const event = await this.eventsModel.findOne({
+            _id: eventId
+        });
+        if (!event) {
+            throw new NotFoundException("No event found");
+        }
+
+        const now = DateUtils.nowUTC();
+        if (now > event.teamEditLockDate && event.teamEditLocked) {
+            throw new BadRequestException("Edit locked");
+        }
+
         await this.teamsModel.updateOne({
             _id: teamId,
             event: eventId
