@@ -112,6 +112,12 @@
         },
         "ticket": {
             "ticket": "Billet"
+        },
+        "delete_attendee": {
+            "sure": "Êtes-vous sûr de vouloir supprimer ce participant?",
+            "deleted": "Une fois supprimer il ne sera plus possible de l'ajouter à votre équipe.",
+            "safe": "Action annulée",
+            "delete": "Participant supprimé"
         }
     },
     "errors": {
@@ -137,7 +143,8 @@
             "subscribed": "Abonné",
             "validate": "Valider",
             "edit": "Modifier",
-            "vote": "Voter"
+            "vote": "Voter",
+            "delete": "Supprimer"
         },
         "error": {
             "something": "Une erreur est survenue...",
