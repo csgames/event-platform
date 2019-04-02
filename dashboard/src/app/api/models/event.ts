@@ -19,6 +19,7 @@ export interface Event {
     guide?: EventGuide;
     teamEditLocked?: boolean;
     teamEditLockDate?: Date | string;
+    competitionResultsLocked?: boolean;
 }
 
 export interface EventScore {

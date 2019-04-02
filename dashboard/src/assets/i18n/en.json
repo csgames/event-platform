@@ -112,6 +112,9 @@
         },
         "ticket": {
             "ticket": "Ticket"
+        },
+        "competition_settings": {
+            "settings": "Competition Settings"
         }
     },
     "errors": {

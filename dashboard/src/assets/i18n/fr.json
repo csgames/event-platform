@@ -112,6 +112,9 @@
         },
         "ticket": {
             "ticket": "Billet"
+        },
+        "competition_settings": {
+            "settings": "Paramètres de compétitions"
         }
     },
     "errors": {
