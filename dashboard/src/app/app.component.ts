@@ -9,6 +9,7 @@ import { AuthenticationService } from "./providers/authentication.service";
 import { LoadEvents } from "./store/app.actions";
 import { getCurrentAttendee, State } from "./store/app.reducers";
 import { MarkdownService } from "ngx-markdown";
+import { LANGUAGE } from "./store/app.effects";
 
 @Component({
     selector: "app-root",
@@ -25,7 +26,8 @@ export class AppComponent {
                 private store$: Store<State>) {
         registerLocaleData(localeFr);
         registerLocaleData(localeFrCa);
-        this.translate.setDefaultLang(this.translate.getBrowserLang());
+        const lang = localStorage.getItem(LANGUAGE) ? localStorage.getItem(LANGUAGE) : this.translate.getBrowserLang();
+        this.translate.setDefaultLang(lang);
 
         this.currentAttendeeSub$ = this.currentAttendee$.subscribe(async attendee => {
             const isLoggedIn = await this.authService.isLoggedIn().toPromise();

@@ -26,8 +26,9 @@ import {
     ViewTicket
 } from "./app.actions";
 import { getCurrentAttendee, getEvents, getPuzzleHeroInfo, State } from "./app.reducers";
-import { CompetitionsService } from "../providers/competitions.service";
 import { Competition } from "../api/models/competition";
+
+export const LANGUAGE = "LANGUAGE";
 
 @Injectable()
 export class AppEffects {
@@ -84,6 +85,7 @@ export class AppEffects {
         ofType<ChangeLanguage>(AppActionTypes.ChangeLanguage),
         tap((action: ChangeLanguage) => { 
             this.translateService.setDefaultLang(action.payload);
+            localStorage.setItem(LANGUAGE, action.payload);
         })
     );
 
