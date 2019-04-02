@@ -112,6 +112,15 @@
         },
         "ticket": {
             "ticket": "Billet"
+        },
+        "activity_form": {
+            "activity_information": "Informations de l'activité",
+            "title_placeholder": "Titre de l'activité",
+            "activity_types": "Type d'activité",
+            "begin_date": "Date de début",
+            "end_date":"Date de fin",
+            "details_information": "Détails de l'activité",
+            "location": "Lieu"
         }
     },
     "errors": {
@@ -236,6 +245,13 @@
                 "artificial_intelligence": "Intelligence artificielle",
                 "defensive_security": "Sécurité défensive",
                 "offensive_security": "Sécurité offensive"
+            }
+        },
+        "activity": {
+            "types": {
+                "other": "Autre",
+                "food": "Repas",
+                "competition": "Compétition"
             }
         }
     },
@@ -407,7 +423,9 @@
             "good_answer": "Réponse enregistrée!"
         },
         "activities": {
-            "activities": "Activités"
+            "activities": "Activités",
+            "add_activity": "Ajouter une activité",
+            "load_error": "Une erreur est survenue lors du chargement des activités. "
         }
     }
 }

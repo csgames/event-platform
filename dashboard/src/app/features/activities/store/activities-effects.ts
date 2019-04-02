@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Actions, Effect, ofType } from "@ngrx/effects";
 import { ScheduleService } from "src/app/providers/schedule.service";
-import { AddActivity, ActivitiesActionTypes, ActivityAdded } from "./activities-actions";
+import { AddActivity, ActivitiesActionTypes, ActivityAdded, ActivitiesLoaded, ActivitiesError } from "./activities-actions";
 import { switchMap, map, catchError } from "rxjs/operators";
 import { of } from "rxjs";
 import { GlobalError } from "src/app/store/app.actions";
@@ -20,5 +20,16 @@ export class ActivitiesEffects {
                 catchError((err) => of(new GlobalError(err)))
             )
         )
+    );
+
+    @Effect()
+    loadActivities$ = this.actions$.pipe(
+        ofType(ActivitiesActionTypes.LoadActivities),
+        switchMap(() => {
+            return this.scheduleService.getActivitiesForEvent().pipe(
+                map(activities => new ActivitiesLoaded(activities)),
+                catchError(() => of(new ActivitiesError())
+            ));
+        })
     );
 } 

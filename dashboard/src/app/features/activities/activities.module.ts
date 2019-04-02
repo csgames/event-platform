@@ -12,6 +12,8 @@ import { NgSelectModule } from "@ng-select/ng-select";
 import { ActivitiesComponent } from "./activities.component";
 import { ActivitiesEffects } from "./store/activities-effects";
 import { ActivitiesRoutingModule } from "./activities-routing.module";
+import { ActivityFormModule } from "./components/activity-form/activity-form.module";
+import { ActivityCardModule } from "./components/activity-card/activity-card.module";
 
 @NgModule({
     imports: [
@@ -24,7 +26,9 @@ import { ActivitiesRoutingModule } from "./activities-routing.module";
         EffectsModule.forFeature([ActivitiesEffects]),
         DirectivesModule,
         FormsModule,
-        NgSelectModule
+        NgSelectModule,
+        ActivityFormModule,
+        ActivityCardModule
     ],
     declarations: [ActivitiesComponent],
     entryComponents: [ActivitiesComponent]

@@ -112,6 +112,16 @@
         },
         "ticket": {
             "ticket": "Ticket"
+        },
+        "activity_form": {
+            "activity_information": "Activity information",
+            "title_placeholder": "Title of the activity",
+            "activity_types": "Activity type",
+            "begin_date": "Start date",
+            "end_date":"End date",
+            "details_information": "Details of the activity",
+            "location": "Location"
+
         }
     },
     "errors": {
@@ -236,6 +246,13 @@
                 "artificial_intelligence": "Artificial intelligence",
                 "defensive_security": "Defensive security",
                 "offensive_security": "Offensive security"
+            }
+        },
+        "activity": {
+            "types": {
+                "other": "Other",
+                "food": "Meal",
+                "competition": "Competition"
             }
         }
     },
@@ -408,7 +425,9 @@
             "good_answer": "Answer saved!"
         },
         "activities": {
-            "activities": "Activities"
+            "activities": "Activities",
+            "add_activity": "Add an activity",
+            "load_error": "An error occurred while loading the activities. "
         }
     }
 }
