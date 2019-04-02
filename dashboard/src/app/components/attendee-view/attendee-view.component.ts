@@ -1,10 +1,10 @@
-import { Component, OnInit, Input } from "@angular/core";
-import { Attendee } from "src/app/api/models/attendee";
+import { Component, Input, OnInit } from "@angular/core";
 import { Store } from "@ngrx/store";
-import { State } from "src/app/features/team/team-view/store/team-view.reducer";
-import { DeleteAttendee } from "src/app/features/team/team-view/store/team-view.actions";
-import swal from "sweetalert";
 import { TranslateService } from "@ngx-translate/core";
+import { Attendee } from "src/app/api/models/attendee";
+import { DeleteAttendee } from "src/app/features/team/team-view/store/team-view.actions";
+import { State } from "src/app/features/team/team-view/store/team-view.reducer";
+import swal from "sweetalert";
 
 @Component({
     selector: "app-attendee-view",
@@ -34,16 +34,15 @@ export class AttendeeViewComponent implements OnInit {
             text,
             icon: "warning",
             buttons,
-            dangerMode: true,
-          })
-          .then((willDelete) => {
+            dangerMode: true
+        }).then((willDelete) => {
             if (willDelete) {
-              swal(this.translateService.instant("components.delete_attendee.delete"), {
-                icon: "success",
-              });
-              this.store$.dispatch(new DeleteAttendee(this.attendee._id));
+                swal(this.translateService.instant("components.delete_attendee.delete"), {
+                    icon: "success"
+                });
+                this.store$.dispatch(new DeleteAttendee(this.attendee._id));
             } else {
-              swal(this.translateService.instant("components.delete_attendee.safe"));
+                swal(this.translateService.instant("components.delete_attendee.safe"));
             }
         });
     }
