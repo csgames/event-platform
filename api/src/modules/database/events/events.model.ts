@@ -144,6 +144,7 @@ export interface Events extends mongoose.Document {
     readonly guide: EventGuide;
     readonly teamEditLocked: boolean;
     readonly teamEditLockDate: Date | string;
+    readonly competitionResultsLocked: boolean;
 }
 
 export const EventsSchema = new mongoose.Schema({
@@ -211,6 +212,10 @@ export const EventsSchema = new mongoose.Schema({
     teamEditLockDate: {
         type: Date,
         required: true
+    },
+    competitionResultsLocked: {
+        type: Boolean,
+        default: false
     }
 });
 

@@ -56,7 +56,8 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
             teamEditLockDate: true,
             flashoutBeginDate: true,
             flashoutEndDate: true,
-            attendee: true
+            attendee: true,
+            competitionResultsLocked: true
         }).exec();
     }
 

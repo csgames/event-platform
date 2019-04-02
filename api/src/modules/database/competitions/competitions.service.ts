@@ -13,7 +13,7 @@ import { EventsService } from '../events/events.service';
 import { UpdateQuestionDto } from '../questions/questions.dto';
 import { RegistrationsService } from '../registrations/registrations.service';
 import { Teams } from '../teams/teams.model';
-import { AuthCompetitionDto, CreateCompetitionDto, CreateCompetitionQuestionDto, CreateDirectorDto } from './competitions.dto';
+import { AuthCompetitionDto, CreateCompetitionDto, CreateCompetitionQuestionDto, CreateDirectorDto, UpdateCompetitionDto } from './competitions.dto';
 import { Competitions, CompetitionsUtils } from './competitions.model';
 import { QuestionAnswers } from './questions/question-answers.model';
 import { QuestionGraphNodes } from './questions/question-graph-nodes.model';
@@ -44,6 +44,19 @@ export class CompetitionsService extends BaseService<Competitions, Competitions>
                 private readonly eventsService: EventsService,
                 private readonly questionService: QuestionsService) {
         super(competitionsModel);
+    }
+
+    public async updateCompetition(eventId: string, competitionId: string, dto: UpdateCompetitionDto) {
+        const event = await this.eventsService.findById(eventId);
+
+        if (event.competitionResultsLocked) {
+            throw new BadRequestException();
+        }
+
+        await this.competitionsModel.update({
+            _id: competitionId,
+            event: eventId
+        }, dto);
     }
 
     public async create(obj: Partial<CreateCompetitionDto & { event: string }>): Promise<Competitions> {
