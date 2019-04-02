@@ -106,7 +106,7 @@ export class CompetitionsController {
     public async update(@EventId() eventId: string,
                         @Param('id') competitionId: string,
                         @Body(new ValidationPipe()) dto: UpdateCompetitionDto): Promise<void> {
-        this.competitionService.updateCompetition(eventId, competitionId, dto);
+        await this.competitionService.updateCompetition(eventId, competitionId, dto);
     }
 
     @Put(':id/question/:questionId')

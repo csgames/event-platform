@@ -48,9 +48,8 @@ export class CompetitionsService extends BaseService<Competitions, Competitions>
 
     public async updateCompetition(eventId: string, competitionId: string, dto: UpdateCompetitionDto) {
         const event = await this.eventsService.findById(eventId);
-
         if (event.competitionResultsLocked) {
-            throw new BadRequestException();
+            throw new BadRequestException('Competition results are close');
         }
 
         await this.competitionsModel.update({
