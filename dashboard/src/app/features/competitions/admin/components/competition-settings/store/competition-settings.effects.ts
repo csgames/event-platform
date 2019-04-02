@@ -3,7 +3,12 @@ import { Actions, Effect, ofType } from "@ngrx/effects";
 import { CompetitionsService } from "src/app/providers/competitions.service";
 import { ToastrService } from "ngx-toastr";
 import { TranslateService } from "@ngx-translate/core";
-import { SaveCompetitionSettings, CompetitionSettingsActionTypes, SaveCompetitionSettingsSuccess, SaveCompetitionSettingsError } from "./competition-settings.actions";
+import {
+    SaveCompetitionSettings,
+    CompetitionSettingsActionTypes,
+    SaveCompetitionSettingsSuccess,
+    SaveCompetitionSettingsError
+} from "./competition-settings.actions";
 import { switchMap, map, catchError, tap } from "rxjs/operators";
 import { of } from "rxjs";
 

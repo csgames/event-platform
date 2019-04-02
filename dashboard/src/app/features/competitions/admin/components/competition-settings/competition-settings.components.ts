@@ -6,13 +6,18 @@ import { Subscription } from "rxjs";
 import { COMPETITIONS_SETTINGS_FORM_GENERATOR } from "./competition-settings.constants";
 import { FormGenerator } from "src/app/form-generator/form-generator";
 import { Store, select } from "@ngrx/store";
-import { State, getCompetitionSettingsLoading, getCompetitionSettingsError, getCompetitionSettingsSucess } from "./store/competition-settings.reducer";
+import {
+    State,
+    getCompetitionSettingsLoading,
+    getCompetitionSettingsError,
+    getCompetitionSettingsSucess
+} from "./store/competition-settings.reducer";
 import { CompetitionSettingsDto } from "./dto/competition-settings.dto";
 import { CompetitionSettingsUtils } from "./competition-settings.utils";
 import { ResetCompetitionSettingsState, SaveCompetitionSettings } from "./store/competition-settings.actions";
 
 export interface CompetitionSettingsModal {
-    event: Event
+    event: Event;
 }
 
 @Component({

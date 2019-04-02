@@ -12,7 +12,7 @@ export const initialState: CompetitionSettingsState = {
     loading: false,
     error: false,
     success: false
-}
+};
 
 export interface State extends fromApp.State {
     competitionSettings: CompetitionSettingsState;
@@ -48,6 +48,9 @@ export function reducer(state = initialState, action: CompetitionSettingsActions
 
 export const getCompetitionSettingsState = createFeatureSelector<State, CompetitionSettingsState>("competitionSettings");
 
-export const getCompetitionSettingsLoading = createSelector(getCompetitionSettingsState, (state: CompetitionSettingsState) => state.loading);
-export const getCompetitionSettingsError = createSelector(getCompetitionSettingsState, (state: CompetitionSettingsState) => state.error);
-export const getCompetitionSettingsSucess = createSelector(getCompetitionSettingsState, (state: CompetitionSettingsState) => state.success);
+export const getCompetitionSettingsLoading =
+    createSelector(getCompetitionSettingsState, (state: CompetitionSettingsState) => state.loading);
+export const getCompetitionSettingsError =
+    createSelector(getCompetitionSettingsState, (state: CompetitionSettingsState) => state.error);
+export const getCompetitionSettingsSucess =
+    createSelector(getCompetitionSettingsState, (state: CompetitionSettingsState) => state.success);
