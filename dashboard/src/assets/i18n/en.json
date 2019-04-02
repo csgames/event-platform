@@ -116,6 +116,12 @@
         "download_question": {
             "download_team": "Fetching {{teamName}} result",
             "download_saving": "Saving file"
+        },
+        "delete_attendee": {
+            "sure": "Are you sure you want to delete this participant?",
+            "deleted": "Once deleted you won't be able to add the participant back.",
+            "safe": "Action cancelled",
+            "delete": "Participant deleted"
         }
     },
     "errors": {
@@ -141,7 +147,8 @@
             "subscribed": "Subscribed",
             "validate": "Validate",
             "edit": "Edit",
-            "vote": "Vote"
+            "vote": "Vote",
+            "delete": "Delete"
         },
         "error": {
             "something": "Something happened...",

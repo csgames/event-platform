@@ -11,8 +11,16 @@ import { GlobalError } from "src/app/store/app.actions";
 import { Attendee } from "../../../../api/models/attendee";
 import { getCurrentAttendee } from "../../../../store/app.reducers";
 import {
-    AddMemberFailure, AddTeamGodparent, AddTeamMember, LoadTeam, LoadTeamFailure, LoadTeamSuccess, TeamViewActionTypes, UpdateTeamName,
-    UpdateTeamNameFailure
+    AddMemberFailure,
+    AddTeamGodparent,
+    AddTeamMember,
+    LoadTeam,
+    LoadTeamFailure,
+    LoadTeamSuccess,
+    TeamViewActionTypes,
+    UpdateTeamName,
+    UpdateTeamNameFailure,
+    DeleteAttendee,
 } from "./team-view.actions";
 import { getCurrentTeam, State } from "./team-view.reducer";
 
@@ -108,4 +116,13 @@ export class TeamViewEffects {
         })
     );
 
+    @Effect()
+    deleteAttendee = this.actions$.pipe(
+        ofType<DeleteAttendee>(TeamViewActionTypes.DeleteAttendee),
+        withLatestFrom(this.store$.pipe(select(getCurrentTeam))),
+        switchMap(([action, team]: [DeleteAttendee, Team]) =>
+            this.teamService.deleteAttendeeFromTeam(action.attendeeId, team._id).pipe(
+                map(() => new LoadTeam())
+            ))
+    );
 }
