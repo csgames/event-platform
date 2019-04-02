@@ -10,6 +10,7 @@ import { CompetitionsService } from './competitions.service';
 import { ActivitiesModule } from '../activities/activities.module';
 import { TeamsSchema } from '../teams/teams.model';
 import { QuestionsModule } from '../questions/questions.module';
+import { CompetitionsGateway } from './competitions.gateway';
 
 @Module({
     imports: [
@@ -36,7 +37,8 @@ import { QuestionsModule } from '../questions/questions.module';
     ],
     controllers: [CompetitionsController],
     providers: [
-        CompetitionsService
+        CompetitionsService,
+        CompetitionsGateway
     ],
     exports: [
         CompetitionsService
