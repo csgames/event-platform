@@ -57,7 +57,7 @@ export class TeamAlreadyExistException extends CodeException {
 
 export class TeamDoesntExistException extends CodeException {
     constructor () {
-        super(Code.TEAM_ALREADY_EXIST);
+        super(Code.TEAM_DOESNT_EXIST);
     }
 }
 

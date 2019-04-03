@@ -2,6 +2,7 @@ import * as mongoose from "mongoose";
 import { Attendees } from "../attendees/attendees.model";
 import { Events } from "../events/events.model";
 import { Schools } from "../schools/schools.model";
+import { Sponsors } from '../sponsors/sponsors.model';
 
 export interface Teams extends mongoose.Document {
     _id: mongoose.Types.ObjectId;
@@ -9,6 +10,7 @@ export interface Teams extends mongoose.Document {
     attendees: (Attendees | mongoose.Types.ObjectId | string)[];
     event: Events | mongoose.Types.ObjectId | string;
     school: Schools | mongoose.Types.ObjectId | string;
+    sponsor: Sponsors | mongoose.Types.ObjectId | string;
     present: boolean;
     maxMembersNumber: number;
 }
@@ -30,8 +32,11 @@ export const TeamsSchema = new mongoose.Schema({
     },
     school: {
         type: mongoose.Schema.Types.ObjectId,
-        required: true,
         ref: 'schools'
+    },
+    sponsor: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'sponsors'
     },
     maxMembersNumber: {
         type: Number,

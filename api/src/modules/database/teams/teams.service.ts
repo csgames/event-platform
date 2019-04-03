@@ -25,6 +25,7 @@ export class TeamsService extends BaseService<Teams, CreateTeamDto> {
             event: createTeamDto.event,
             attendees: [Types.ObjectId(createTeamDto.attendeeId)],
             school: createTeamDto.school,
+            sponsor: createTeamDto.sponsor,
             maxMembersNumber: createTeamDto.maxMembersNumber
         });
     }
@@ -61,6 +62,9 @@ export class TeamsService extends BaseService<Teams, CreateTeamDto> {
         }, {
             model: 'schools',
             path: 'school'
+        }, {
+            model: 'sponsors',
+            path: 'sponsor'
         }]).exec() as Teams[];
 
         for (let team of teams) {
