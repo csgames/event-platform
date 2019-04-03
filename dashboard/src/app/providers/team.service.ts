@@ -22,13 +22,14 @@ export class TeamService {
         return this.apiService.team.updateTeamName(newName, id);
     }
 
-    addTeamMember(newAttendee: Attendee, teamName: string, role: string): Observable<any> {
+    addTeamMember(newAttendee: Attendee, teamName: string, role: string, sponsorId?: string): Observable<any> {
         return this.apiService.registration.inviteAttendee({
             firstName: newAttendee.firstName,
             lastName: newAttendee.lastName,
             email: newAttendee.email,
             role: role,
-            teamName: teamName
+            teamName: teamName,
+            sponsorId
         });
     }
 

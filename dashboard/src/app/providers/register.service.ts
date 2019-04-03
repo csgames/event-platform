@@ -11,9 +11,10 @@ export class RegisterService {
     constructor(private registrationApi: RegistrationApi) {}
 
     public createRegistration(dto: AddTeamFormDto): Observable<Registration> {
+        const role = dto.sponsorId ? "sponsor" : "captain";
         return this.registrationApi.createRegistration({
             ...dto,
-            role: "captain"
+            role
         });
     }
 

@@ -21,6 +21,7 @@
             </div>
             <div class="col-sm-2">
                 <div class="btn-group w-100">
+                    <a class="btn btn-outline-primary" (click)="downloadAllResume()">Resume</a>
                     <a class="btn btn-outline-primary" (click)="downloadData('csv')">CSV</a>
                     <a class="btn btn-outline-primary" (click)="downloadData('xlsx')">Xlsx</a>
                 </div>
@@ -36,7 +37,6 @@
                         <th class="col-header" scope="col">Team</th>
                         <th class="col-header" scope="col">School</th>
                         <th></th>
-                        <th></th>
                     </tr>
                     </thead>
                     <tbody>
@@ -45,13 +45,10 @@
                         <td class="col-data">{{ attendee.email }}</td>
                         <td class="col-data">{{ attendee.team }}</td>
                         <td class="col-data">{{ attendee.school }}</td>
-                        <td class="col-data">
-                            <span *ngIf="attendee.registered" class="badge badge-pill badge-primary">{{ "pages.team.registered" | translate }}</span>
-                            <span *ngIf="!attendee.registered" class="badge badge-pill badge-danger">{{ "pages.team.not_registered" | translate }}</span>
-                        </td>
                         <td>
                             <div class="btn-group">
-                                <a class="btn btn-outline-primary" (click)="viewTeam(attendee.teamId)">View Team</a>
+                                <a *ifRole="['admin', 'super-admin']" class="btn btn-outline-primary" (click)="viewTeam(attendee.teamId)">View Team</a>
+                                <a class="btn btn-outline-primary" [class.disabled]="!attendee.cv" (click)="downloadResume(attendee._id)">Download Resume</a>
                             </div>
                         </td>
                     </tr>

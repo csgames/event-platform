@@ -88,7 +88,7 @@
                 </div>
             </ng-container>
 
-            <ng-container *ifRole="['attendee', 'captain', 'godparent']">
+            <ng-container *ifRole="['attendee', 'captain', 'godparent', 'sponsor']">
                 <a *ngIf="!(attendee$ | async) || (attendee$ | async)?.registered" [routerLink]="['/team']"
                    routerLinkActive="active">
                     <div [fxLayout]="'row'" fxFlexFill>
@@ -121,17 +121,69 @@
                     </div>
                 </div>
             </a>
+            <a *ifRole="['sponsor']" [routerLink]="['/user/attendee']" routerLinkActive="active">
+                <div [fxLayout]="'row'" fxFlexFill>
+                    <div fxFlex="20">
+                        <i class="fal fa-user-friends"></i>
+                    </div>
+                    <div fxFlex="80">
+                        {{ "pages.attendees.attendees" | translate }}
+                    </div>
+                </div>
+            </a>
             <ng-container *ifRole="['admin', 'super-admin']">
-                <a [routerLink]="['/attendee']" routerLinkActive="active">
+                <a [routerLink]="['/user']" routerLinkActive="active">
                     <div [fxLayout]="'row'" fxFlexFill>
                         <div fxFlex="20">
                             <i class="fal fa-user-friends"></i>
                         </div>
                         <div fxFlex="80">
-                            {{ "pages.attendees.attendees" | translate }}
+                            {{ "Users" | translate }}
                         </div>
                     </div>
                 </a>
+                <div class="sublinks" *ngIf="isActive('user')">
+                    <a [routerLink]="['/user/attendee']" routerLinkActive="active">
+                        <div [fxLayout]="'row'" fxFlexFill>
+                            <div fxFlex="20">
+                                <i class="fal fa-user-friends"></i>
+                            </div>
+                            <div fxFlex="80">
+                                {{ "pages.attendees.attendees" | translate }}
+                            </div>
+                        </div>
+                    </a>
+                    <a [routerLink]="['/user/organizer']" routerLinkActive="active">
+                        <div [fxLayout]="'row'" fxFlexFill>
+                            <div fxFlex="20">
+                                <i class="fal fa-users-cog"></i>
+                            </div>
+                            <div fxFlex="80">
+                                {{ "pages.organizers.organizers" | translate }}
+                            </div>
+                        </div>
+                    </a>
+                    <a [routerLink]="['/user/volunteer']" routerLinkActive="active">
+                        <div [fxLayout]="'row'" fxFlexFill>
+                            <div fxFlex="20">
+                                <i class="fal fa-people-carry"></i>
+                            </div>
+                            <div fxFlex="80">
+                                {{ "pages.volunteers.volunteers" | translate }}
+                            </div>
+                        </div>
+                    </a>
+                    <a [routerLink]="['/user/director']" routerLinkActive="active">
+                        <div [fxLayout]="'row'" fxFlexFill>
+                            <div fxFlex="20">
+                                <i class="fal fa-user-astronaut"></i>
+                            </div>
+                            <div fxFlex="80">
+                                {{ "pages.directors.directors" | translate }}
+                            </div>
+                        </div>
+                    </a>
+                </div>
             </ng-container>
             <a *ngIf="(attendee$ | async)?.registered" [routerLink]="['/sponsors']" routerLinkActive="active">
                 <div [fxLayout]="'row'" fxFlexFill>
@@ -175,42 +227,6 @@
                         </div>
                         <div fxFlex="80">
                             Flash Outs
-                        </div>
-                    </div>
-                </a>
-            </ng-container>
-            <ng-container *ifRole="['admin', 'super-admin']">
-                <a [routerLink]="['/organizer']" routerLinkActive="active">
-                    <div [fxLayout]="'row'" fxFlexFill>
-                        <div fxFlex="20">
-                            <i class="fal fa-users-cog"></i>
-                        </div>
-                        <div fxFlex="80">
-                            {{ "pages.organizers.organizers" | translate }}
-                        </div>
-                    </div>
-                </a>
-            </ng-container>
-            <ng-container *ifRole="['admin', 'super-admin']">
-                <a [routerLink]="['/volunteer']" routerLinkActive="active">
-                    <div [fxLayout]="'row'" fxFlexFill>
-                        <div fxFlex="20">
-                            <i class="fal fa-people-carry"></i>
-                        </div>
-                        <div fxFlex="80">
-                            {{ "pages.volunteers.volunteers" | translate }}
-                        </div>
-                    </div>
-                </a>
-            </ng-container>
-            <ng-container *ifRole="['admin', 'super-admin']">
-                <a [routerLink]="['/director']" routerLinkActive="active">
-                    <div [fxLayout]="'row'" fxFlexFill>
-                        <div fxFlex="20">
-                            <i class="fal fa-user-astronaut"></i>
-                        </div>
-                        <div fxFlex="80">
-                            {{ "pages.directors.directors" | translate }}
                         </div>
                     </div>
                 </a>

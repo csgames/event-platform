@@ -1,19 +1,24 @@
 import { Injectable } from "@angular/core";
 import { Effect, Actions, ofType } from "@ngrx/effects";
 import { Attendee } from "../../../api/models/attendee";
+import { AttendeeService } from "../../../providers/attendee.service";
 import { EventService } from "../../../providers/event.service";
-import { map, catchError, switchMap, tap } from "rxjs/operators";
+import { map, catchError, switchMap, tap, filter } from "rxjs/operators";
 import { GlobalError } from "src/app/store/app.actions";
 import { of } from "rxjs";
 import { FileUtils } from "../../../utils/file.utils";
 import {
-    AttendeesActionTypes, AttendeesLoaded, CsvDownloaded, DownloadCsv, DownloadXlsx, LoadAttendees, XlsxDownloaded
+    AllResumeDownloaded,
+    AttendeesActionTypes, AttendeesLoaded, CsvDownloaded, DownloadAllResume, DownloadCsv, DownloadResume, DownloadXlsx, LoadAttendees,
+    ResumeDownloaded,
+    XlsxDownloaded
 } from "./attendees.actions";
 
 @Injectable()
 export class AttendeesEffects {
     constructor(private actions$: Actions,
-                private eventService: EventService) { }
+                private eventService: EventService,
+                private attendeeService: AttendeeService) { }
 
     @Effect()
     loadAttendees$ = this.actions$.pipe(
@@ -61,6 +66,45 @@ export class AttendeesEffects {
         ofType<XlsxDownloaded>(AttendeesActionTypes.XlsxDownloaded),
         tap((action: XlsxDownloaded) => {
             FileUtils.downloadFile("attendees.xlsx", action.payload);
+        })
+    );
+
+    @Effect()
+    downloadResume$ = this.actions$.pipe(
+        ofType<DownloadResume>(AttendeesActionTypes.DownloadResume),
+        switchMap((action: DownloadResume) => {
+            return this.attendeeService.getAttendeeCvLink(action.payload).pipe(
+                map((link: string) => new ResumeDownloaded(link)),
+                catchError((e) => of(new GlobalError(e)))
+            );
+        })
+    );
+
+    @Effect({ dispatch: false })
+    resumeDownloaded$ = this.actions$.pipe(
+        ofType<ResumeDownloaded>(AttendeesActionTypes.ResumeDownloaded),
+        filter((action: ResumeDownloaded) => action.payload !== null),
+        tap((action: ResumeDownloaded) => {
+            FileUtils.downloadFromLink(action.payload);
+        })
+    );
+
+    @Effect()
+    downloadAllResume$ = this.actions$.pipe(
+        ofType<DownloadAllResume>(AttendeesActionTypes.DownloadAllResume),
+        switchMap(() => {
+            return this.eventService.getAttendeesCv().pipe(
+                map((buffer: Blob) => new AllResumeDownloaded(buffer)),
+                catchError((e) => of(new GlobalError(e)))
+            );
+        })
+    );
+
+    @Effect({ dispatch: false })
+    allResumeDownloaded$ = this.actions$.pipe(
+        ofType<AllResumeDownloaded>(AttendeesActionTypes.AllResumeDownloaded),
+        tap((action: AllResumeDownloaded) => {
+            FileUtils.downloadFile("resume.zip", action.payload);
         })
     );
 }

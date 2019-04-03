@@ -85,5 +85,5 @@ export const getTeamGodparent = createSelector(
 export const getTeamAttendees = createSelector(
     getCurrentTeam,
     (team: Team) => team && team.attendees.filter((attendee: Attendee) =>
-        attendee.role === "captain" || attendee.role === "attendee")
+        attendee.role === "captain" || attendee.role === "attendee" || attendee.role === "sponsor")
 );

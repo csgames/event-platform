@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
-import { getTeamEditError, getTeamEditLoading, getTeamEditTeams, getTeamSchools, State } from "./store/team-edit.reducer";
+import { getTeamEditError, getTeamEditLoading, getTeamEditTeams, getTeamSchools, getTeamSponsors, State } from "./store/team-edit.reducer";
 import { select, Store } from "@ngrx/store";
-import { AddTeam, LoadSchools, LoadTeams } from "./store/team-edit.actions";
+import { AddTeam, LoadSchools, LoadSponsors, LoadTeams } from "./store/team-edit.actions";
 import { Attendee } from "../../../api/models/attendee";
 import { Team } from "../../../api/models/team";
 import { map } from "rxjs/operators";
@@ -19,6 +19,7 @@ export class TeamEditComponent implements OnInit {
     error$ = this.store$.pipe(select(getTeamEditError));
 
     schools$ = this.store$.pipe(select(getTeamSchools));
+    sponsors$ = this.store$.pipe(select(getTeamSponsors));
 
     showCreateTeamCard = false;
 
@@ -42,10 +43,11 @@ export class TeamEditComponent implements OnInit {
     ngOnInit() {
         this.store$.dispatch(new LoadTeams());
         this.store$.dispatch(new LoadSchools());
+        this.store$.dispatch(new LoadSponsors());
     }
 
     getTeamCaptain(team: Team): Attendee {
-        return team && team.attendees && team.attendees.find(a => a.role === "captain");
+        return team && team.attendees && team.attendees.find(a => a.role === "captain") || team.attendees[0];
     }
 
     getTeamAttendees(team: Team): Attendee[] {

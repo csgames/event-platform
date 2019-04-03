@@ -145,4 +145,8 @@ export class EventApi extends CSGamesApi {
             withCredentials: true
         });
     }
+
+    public getAttendeesCv(): Observable<Blob> {
+        return this.http.get(this.url("attendee/cv"), { responseType: "blob", withCredentials: true });
+    }
 }
