@@ -2,6 +2,8 @@ import { CSGamesApi } from "./csgames.api";
 import { HttpClient } from "@angular/common/http";
 import { SubscriptionDto } from "../features/schedule/info-activity/dto/subscription.dto";
 import { Injectable } from "@angular/core";
+import { CreateActivity } from "./models/activity";
+import { Observable } from "rxjs";
 
 @Injectable()
 export class ActivityApi extends CSGamesApi {
@@ -28,5 +30,9 @@ export class ActivityApi extends CSGamesApi {
         }, {
             withCredentials: true
         });
+    }
+
+    public updateActivity(activityId: string, dto: CreateActivity): Observable<void> {
+        return this.http.put<void>(this.url(`${activityId}`), dto, { withCredentials: true });
     }
 }

@@ -158,4 +158,5 @@ export class EventApi extends CSGamesApi {
             withCredentials: true
         });
     }
+
 }

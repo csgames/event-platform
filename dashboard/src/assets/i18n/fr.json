@@ -425,7 +425,9 @@
         "activities": {
             "activities": "Activités",
             "add_activity": "Ajouter une activité",
-            "load_error": "Une erreur est survenue lors du chargement des activités. "
+            "load_error": "Une erreur est survenue lors du chargement des activités. ",
+            "edit_activity_success": "Activité sauvegardée avec succès",
+            "edit_activity": "Modifier une activité"
         }
     }
 }

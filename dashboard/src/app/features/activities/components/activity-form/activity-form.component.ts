@@ -4,7 +4,7 @@ import { ActivityFormDto } from "./dto/activity-form.dto";
 import { ACTIVITY_FORM_GENERATOR } from "./activity-form.constants";
 import { FormGenerator } from "src/app/form-generator/form-generator";
 import { Subscription } from "rxjs";
-import { ActivityTypes } from "src/app/api/models/activity";
+import { ActivityTypes, Activity } from "src/app/api/models/activity";
 import { ActivityUtils } from "src/app/utils/activity.utils";
 
 @Component({
@@ -20,6 +20,8 @@ import { ActivityUtils } from "src/app/utils/activity.utils";
     ]
 })
 export class ActivityFormComponent implements OnInit, OnDestroy, ControlValueAccessor {
+    @Input()
+    public activity: Activity;
 
     public formGroup: FormGroup;
     public activityTypes: string[];

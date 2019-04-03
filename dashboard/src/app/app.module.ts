@@ -57,6 +57,7 @@ import "brace";
 import "brace/mode/markdown";
 import "brace/theme/github";
 import { CompetitionsService } from "./providers/competitions.service";
+import { ActivityService } from "./providers/activity.service";
 
 export function loadFactory(http: HttpClient): TranslateHttpLoader {
     return new TranslateHttpLoader(http, "../assets/i18n/", ".json");
@@ -125,7 +126,8 @@ export function loadFactory(http: HttpClient): TranslateHttpLoader {
         ScheduleService,
         NotificationService,
         FlashoutService,
-        CompetitionsService
+        CompetitionsService,
+        ActivityService
     ],
     bootstrap: [AppComponent]
 })

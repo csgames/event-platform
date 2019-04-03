@@ -1,12 +1,13 @@
 import { Component, OnInit, OnDestroy, ViewChild } from "@angular/core";
 import { Store, select } from "@ngrx/store";
-import { State, getLoading, getSuccess, getActivities, getActivitiesError } from "./store/activities-reducer";
+import { State, getLoading, getSuccess, getActivities, getActivitiesError } from "./store/activities.reducer";
 import { ToastrService } from "ngx-toastr";
 import { Subscription } from "rxjs";
 import { ActivityFormDto } from "./components/activity-form/dto/activity-form.dto";
 import { ActivityFormComponent } from "./components/activity-form/activity-form.component";
-import { AddActivity } from "./store/activities-actions";
-import { LoadActivities } from "./store/activities-actions";
+import { AddActivity, EditActivity } from "./store/activities.actions";
+import { LoadActivities } from "./store/activities.actions";
+import { Activity } from "src/app/api/models/activity";
 
 @Component({
     selector: "app-activities",
@@ -52,5 +53,9 @@ export class ActivitiesComponent implements OnInit {
         }
         this.store$.dispatch(new AddActivity(this.dto));
         this.onCancelActivity();
+    }
+
+    public onEdit(activity: Activity) {
+        this.store$.dispatch(new EditActivity(activity));
     }
 }

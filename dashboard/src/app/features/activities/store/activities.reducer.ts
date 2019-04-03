@@ -1,8 +1,7 @@
 import * as fromApp from "src/app/store/app.reducers";
-import { ActivitiesAction, ActivitiesActionTypes } from "./activities-actions";
+import { ActivitiesAction, ActivitiesActionTypes } from "./activities.actions";
 import { createFeatureSelector, createSelector } from "@ngrx/store";
 import { Activity } from "src/app/api/models/activity";
-import { Action } from "rxjs/internal/scheduler/Action";
 
 export interface ActivitiesState {
     loading: boolean;

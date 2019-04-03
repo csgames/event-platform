@@ -6,7 +6,8 @@ export enum ActivitiesActionTypes {
     ActivityAdded = "[Activities] Activity added",
     LoadActivities = "[Activities] Load activities",
     ActivitiesLoaded = "[Activities] Activities loaded",
-    ActivitiesError = "[Activities] Activities error"
+    ActivitiesError = "[Activities] Activities error",
+    EditActivity = "[Activities] Edit activity"
 }
 
 export class AddActivity implements Action {
@@ -33,9 +34,16 @@ export class ActivitiesError implements Action {
     readonly type = ActivitiesActionTypes.ActivitiesError;
 }
 
+export class EditActivity implements Action {
+    readonly type = ActivitiesActionTypes.EditActivity;
+
+    constructor(public activity: Activity) {}
+}
+
 export type ActivitiesAction =
     | AddActivity
     | ActivityAdded
     | LoadActivities
     | ActivitiesLoaded
-    | ActivitiesError;
+    | ActivitiesError
+    | EditActivity;

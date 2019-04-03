@@ -40,7 +40,7 @@
                 </div>
             </div>
             <div class="col-sm-6 col-lg-6" *ngFor="let activity of activities">
-                <app-activity-card [activity]="activity" (edit)="onEdit(competition)">
+                <app-activity-card [activity]="activity" (edit)="onEdit(activity)">
                 </app-activity-card>
             </div>
         </div>

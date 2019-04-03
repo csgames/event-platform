@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from "@angular/core";
-import { Activity, ActivityTypes } from "src/app/api/models/activity";
+import { Activity } from "src/app/api/models/activity";
 import { ActivityUtils } from "src/app/utils/activity.utils";
 
 @Component({
