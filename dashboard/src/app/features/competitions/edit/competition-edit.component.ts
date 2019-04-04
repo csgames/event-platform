@@ -13,12 +13,14 @@ import {
     LoadCompetition, LoadCompetitionResults,
     OpenCreateQuestionModal, OpenSettingsModal,
     OpenUpdateQuestionModal, ResetStore,
-    SaveCompetition
+    SaveCompetition, UploadedSubmissionsDownloaded
 } from "./store/competition-edit.actions";
 import { Question, QuestionGraphNode } from "../../../api/models/question";
 import { Competition, TeamResult } from "../../../api/models/competition";
 import { Subscription } from "rxjs";
 import { TeamCompetitionResult } from "../../../api/definitions/competition";
+import { CompetitionsService } from "../../../providers/competitions.service";
+import { FileUtils } from "../../../utils/file.utils";
 
 @Component({
     selector: "app-edit-competition",
@@ -39,9 +41,10 @@ export class CompetitionEditComponent implements OnInit, OnDestroy {
     private competitionIdSub$: Subscription;
     private competitionSub$: Subscription;
 
-    constructor(private store$: Store<State>, private activatedRoute: ActivatedRoute) {}
+    constructor(private store$: Store<State>, private activatedRoute: ActivatedRoute, private competitionService: CompetitionsService) {}
 
     ngOnInit() {
+        this.competitionService.open();
         this.store$.dispatch(new ResetStore());
         this.competitionIdSub$ = this.activatedRoute.params.subscribe(
             params => {
@@ -56,6 +59,7 @@ export class CompetitionEditComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy(): void {
+        this.competitionService.close();
         this.competitionIdSub$.unsubscribe();
         this.competitionSub$.unsubscribe();
     }
@@ -102,5 +106,10 @@ export class CompetitionEditComponent implements OnInit, OnDestroy {
 
     onResultsUpdate(teamResults: TeamResult[]) {
         this.competition.results = teamResults;
+    }
+
+    downloadUrl(url: string) {
+        FileUtils.downloadFromLink(url);
+        this.store$.dispatch(new UploadedSubmissionsDownloaded());
     }
 }

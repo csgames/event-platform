@@ -21,6 +21,7 @@ import { MarkdownModule } from "ngx-markdown";
 import { EditCompetitionModule } from "../admin/components/edit-competition/edit-competition.module";
 import { QuestionResultsCardComponent } from "./components/question-results-card/question-results-card.component";
 import { CompetitionResultsComponent } from "./components/competition-results/competition-results.component";
+import { QuestionDownloadComponent } from "./components/question-download/question-download.component";
 
 @NgModule({
     imports: [
@@ -50,7 +51,8 @@ import { CompetitionResultsComponent } from "./components/competition-results/co
         UpdateQuestionComponent,
         CreateQuestionComponent,
         CompetitionResultsComponent,
-        QuestionResultsCardComponent
+        QuestionResultsCardComponent,
+        QuestionDownloadComponent
     ],
     providers: []
 })
