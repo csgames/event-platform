@@ -21,6 +21,7 @@ import {
     UpdateTeamName,
     UpdateTeamNameFailure,
     DeleteAttendee,
+    DeleteAttendeeFailure,
 } from "./team-view.actions";
 import { getCurrentTeam, State } from "./team-view.reducer";
 
@@ -122,7 +123,13 @@ export class TeamViewEffects {
         withLatestFrom(this.store$.pipe(select(getCurrentTeam))),
         switchMap(([action, team]: [DeleteAttendee, Team]) =>
             this.teamService.deleteAttendeeFromTeam(action.attendeeId, team._id).pipe(
-                map(() => new LoadTeam())
+                map(() => new LoadTeam()),
+                catchError(err => {
+                    if (err.status === 400) {
+                        return of(new DeleteAttendeeFailure(err.error) as Action);
+                    }
+                    return of(new GlobalError(err) as Action);
+                })
             ))
     );
 }

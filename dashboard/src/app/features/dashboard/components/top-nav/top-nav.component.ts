@@ -8,6 +8,7 @@ import { Logout, ChangeLanguage, CheckUnseenNotification } from "../../../../sto
 import * as fromApp from "../../../../store/app.reducers";
 import { Subscription } from "rxjs";
 import { TranslateService } from "@ngx-translate/core";
+import { LANGUAGE } from "src/app/store/app.effects";
 
 @Component({
     selector: "app-top-nav",
@@ -83,7 +84,7 @@ export class TopNavComponent implements OnInit, OnDestroy {
 
     changeLanguage() {
         if (!this.language) {
-            const lang: string = this.translateService.getBrowserLang();
+            const lang: string = localStorage.getItem(LANGUAGE) ? localStorage.getItem(LANGUAGE) : this.translateService.getBrowserLang();
             this.store$.dispatch(new ChangeLanguage(lang === "en" ? "fr" : "en"));
             return;
         }

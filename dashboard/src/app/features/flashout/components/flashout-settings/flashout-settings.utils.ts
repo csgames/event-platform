@@ -2,7 +2,7 @@ import { FlashoutSettingsDto } from "./dto/flashout-settings.dto";
 import { Event } from "../../../../api/models/event";
 
 export namespace FlashoutSettingsUtils {
-    export function puzzleHeroSettingsDtoToPuzzleHero(dto: FlashoutSettingsDto): Event {
+    export function flashoutSettingsDtoToEvent(dto: FlashoutSettingsDto): Event {
         const flashoutBeginDate = dto.flashoutBeginDate;
         flashoutBeginDate.setHours(dto.beginTime.getHours(), dto.beginTime.getMinutes(), 0);
         const flashoutEndDate = dto.flashoutEndDate;

@@ -114,6 +114,9 @@
         "ticket": {
             "ticket": "Billet"
         },
+        "competition_settings": {
+            "settings": "Paramètres de compétitions"
+        },
         "delete_attendee": {
             "sure": "Êtes-vous sûr de vouloir supprimer ce participant?",
             "deleted": "Une fois supprimer il ne sera plus possible de l'ajouter à votre équipe.",
