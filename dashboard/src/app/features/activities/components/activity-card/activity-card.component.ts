@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from "@angular/core";
+import { Component, EventEmitter, Input, Output, OnInit } from "@angular/core";
 import { Activity } from "src/app/api/models/activity";
 import { ActivityUtils } from "src/app/utils/activity.utils";
 

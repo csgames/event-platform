@@ -7,6 +7,9 @@ import { ActivityFormComponent } from "../activity-form/activity-form.component"
 import { getActivities, getActivityEditLoading, getActivityEditSuccess, State } from "./store/edit-activity.reducer";
 import { ActivityFormDto } from "../activity-form/dto/activity-form.dto";
 import { ResetStore, LoadActivities, SaveActivityEdit } from "./store/edit-activity.actions";
+import { TranslateService } from "@ngx-translate/core";
+import { formatDate } from "@angular/common";
+import { ReturnStatement } from "@angular/compiler";
 
 export interface EditActivityModal {
     activity: Activity;
@@ -28,7 +31,8 @@ export class EditActivityComponent extends SimpleModalComponent<EditActivityModa
     public dto = new ActivityFormDto();
     private successSub$: Subscription;
 
-    constructor(private store$: Store<State>) {
+    constructor(private store$: Store<State>,
+                private translateService: TranslateService) {
         super();
     }
 

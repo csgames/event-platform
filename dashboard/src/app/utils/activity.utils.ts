@@ -1,4 +1,4 @@
-import { ActivityTypes } from "../api/models/activity";
+import { ActivityTypes, CreateActivity } from "../api/models/activity";
 
 export namespace ActivityUtils {
     export function getActivityTypeIconClass(type: string): string {
@@ -10,5 +10,25 @@ export namespace ActivityUtils {
             case ActivityTypes.Competition: 
                 return "fal fal-4x fa-trophy";
         }
+    }
+
+    export function createTimeActivity(activity: CreateActivity): CreateActivity {
+        const beginDate = (activity.beginDate as Date);
+        beginDate.setHours(
+            (activity.beginTime as Date).getHours(),
+            (activity.beginTime as Date).getMinutes(), 
+            0
+        );
+        const endDate = (activity.endDate as Date);
+        endDate.setHours(
+            (activity.endTime as Date).getHours(),
+            (activity.endTime as Date).getMinutes(),
+            0
+        );
+        return activity = {
+            ... activity,
+            beginDate: beginDate,
+            endDate: endDate
+        };
     }
 }
