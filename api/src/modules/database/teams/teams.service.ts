@@ -186,5 +186,15 @@ export class TeamsService extends BaseService<Teams, CreateTeamDto> {
                 attendees: attendeeId
             }
         }).exec();
+
+        await this.eventsModel.updateOne({
+            _id: eventId
+        }, {
+            $pull: {
+                attendees: {
+                    attendee: attendeeId
+                }
+            }
+        });
     }
 }
