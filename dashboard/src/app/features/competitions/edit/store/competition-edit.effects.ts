@@ -29,8 +29,9 @@ import { CreateQuestionComponent } from "../components/create-question/create-qu
 import { ToastrService } from "ngx-toastr";
 import { TranslateService } from "@ngx-translate/core";
 import { EditCompetitionComponent } from "../../admin/components/edit-competition/edit-competition.component";
-import { GlobalError } from "../../../../store/app.actions";
+import { Event } from "../../../../api/models/event";
 import { FileUtils } from "../../../../utils/file.utils";
+import { getCurrentEvent } from "../../../../store/app.reducers";
 
 @Injectable()
 export class CompetitionEditEffects {
@@ -174,24 +175,12 @@ export class CompetitionEditEffects {
         tap(() => this.toastrService.error("", this.translateService.instant("pages.competition.edit.load_results_error")))
     );
 
-    @Effect()
+    @Effect({ dispatch: false })
     downloadUploadedSubmissions$ = this.actions$.pipe(
         ofType<DownloadUploadedSubmissions>(CompetitionEditActionTypes.DownloadUploadedSubmissions),
-        switchMap((action: DownloadUploadedSubmissions) =>
-            this.competitionsService.getQuestionResult(action.payload.competitionId, action.payload.question._id)
-                .pipe(
-                    map((buffer: Blob) => new UploadedSubmissionsDownloaded({
-                        buffer,
-                        questionName: action.payload.question.question.label
-                    })),
-                    catchError((err) => of(new GlobalError(err)))
-                )
+        withLatestFrom(this.store$.pipe(select(getCurrentEvent))),
+        switchMap(([action, event]: [DownloadUploadedSubmissions, Event]) =>
+            this.competitionsService.getQuestionResult(event._id, action.payload.competitionId, action.payload.question._id)
         )
-    );
-
-    @Effect({ dispatch: false })
-    uploadedSubmissionsDownloaded$ = this.actions$.pipe(
-        ofType<UploadedSubmissionsDownloaded>(CompetitionEditActionTypes.UploadedSubmissionsDownloaded),
-        tap((action: UploadedSubmissionsDownloaded) => FileUtils.downloadFile(action.payload.questionName, action.payload.buffer))
     );
 }
