@@ -113,6 +113,15 @@
         "ticket": {
             "ticket": "Ticket"
         },
+        "competition_settings": {
+            "settings": "Competition Settings"
+        },
+        "delete_attendee": {
+            "sure": "Are you sure you want to delete this participant?",
+            "deleted": "Once deleted you won't be able to add the participant back.",
+            "safe": "Action cancelled",
+            "delete": "Participant deleted"
+        },
         "activity_form": {
             "activity_information": "Activity information",
             "title_placeholder": "Title of the activity",
@@ -121,7 +130,6 @@
             "end_date":"End date",
             "details_information": "Details of the activity",
             "location": "Location"
-
         }
     },
     "errors": {
@@ -147,7 +155,8 @@
             "subscribed": "Subscribed",
             "validate": "Validate",
             "edit": "Edit",
-            "vote": "Vote"
+            "vote": "Vote",
+            "delete": "Delete"
         },
         "error": {
             "something": "Something happened...",

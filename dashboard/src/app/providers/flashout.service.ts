@@ -24,6 +24,6 @@ export class FlashoutService {
     }
 
     public saveSettings(dto: FlashoutSettingsDto): Observable<void> {
-        return this.apiService.event.updateFlashout(FlashoutSettingsUtils.puzzleHeroSettingsDtoToPuzzleHero(dto));
+        return this.apiService.event.updateFlashout(FlashoutSettingsUtils.flashoutSettingsDtoToEvent(dto));
     }
 }

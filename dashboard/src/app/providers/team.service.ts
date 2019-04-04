@@ -41,4 +41,8 @@ export class TeamService {
             teamName: teamName
         });
     }
+
+    deleteAttendeeFromTeam(attendeeId: string, teamId: string): Observable<void> {
+        return this.apiService.team.deleteAttendeeFromTeam(attendeeId, teamId);
+    }
 }

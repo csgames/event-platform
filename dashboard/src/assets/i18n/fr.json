@@ -113,6 +113,15 @@
         "ticket": {
             "ticket": "Billet"
         },
+        "competition_settings": {
+            "settings": "Paramètres de compétitions"
+        },
+        "delete_attendee": {
+            "sure": "Êtes-vous sûr de vouloir supprimer ce participant?",
+            "deleted": "Une fois supprimer il ne sera plus possible de l'ajouter à votre équipe.",
+            "safe": "Action annulée",
+            "delete": "Participant supprimé"
+        },
         "activity_form": {
             "activity_information": "Informations de l'activité",
             "title_placeholder": "Titre de l'activité",
@@ -146,7 +155,8 @@
             "subscribed": "Abonné",
             "validate": "Valider",
             "edit": "Modifier",
-            "vote": "Voter"
+            "vote": "Voter",
+            "delete": "Supprimer"
         },
         "error": {
             "something": "Une erreur est survenue...",

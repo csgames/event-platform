@@ -56,6 +56,16 @@ export function reducer(state = initialState, action: TeamViewActions): TeamView
                 ...state,
                 loading: false
             };
+        case TeamViewActionTypes.DeleteAttendee:
+            return {
+                ...state,
+                loading: true
+            };
+        case TeamViewActionTypes.DeleteAttendeeFailure:
+            return {
+                ...state,
+                loading: false
+            };
         default:
             return state;
     }

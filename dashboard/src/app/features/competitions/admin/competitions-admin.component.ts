@@ -5,7 +5,9 @@ import {
     getActivities,
     getCompetitionsAdmin,
     getCompetitionsAdminError,
-    getCompetitionsAdminLoading, getDirectors, getEventScore,
+    getCompetitionsAdminLoading,
+    getDirectors,
+    getEventScore,
     State
 } from "./store/competition-admin.reducer";
 import {
@@ -13,6 +15,10 @@ import {
 } from "./store/competition-admin.actions";
 import { CompetitionFormComponent } from "./components/competition-form/competition-form.component";
 import { CompetitionFormDto } from "./components/competition-form/dto/competition-form.dto";
+import { getCurrentAttendee, getCurrentEvent } from "src/app/store/app.reducers";
+import { Event } from "../../../api/models/event";
+import { SimpleModalService } from "ngx-simple-modal";
+import { CompetitionSettingsComponent } from "./components/competition-settings/competition-settings.components";
 
 @Component({
     selector: "app-competitions-admin",
@@ -30,11 +36,14 @@ export class CompetitionsAdminComponent implements OnInit {
     eventScore$ = this.store$.pipe(select(getEventScore));
     loading$ = this.store$.pipe(select(getCompetitionsAdminLoading));
     error$ = this.store$.pipe(select(getCompetitionsAdminError));
+    attendee$ = this.store$.pipe(select(getCurrentAttendee));
+    event$ = this.store$.pipe(select(getCurrentEvent));
 
     public dto = new CompetitionFormDto();
     public showCreateCompetitionCard = false;
 
-    constructor(private store$: Store<State>) { }
+    constructor(private store$: Store<State>,
+                private modalService: SimpleModalService) { }
 
     ngOnInit() {
         this.store$.dispatch(new LoadCompetitionsAdmin());
@@ -62,5 +71,9 @@ export class CompetitionsAdminComponent implements OnInit {
 
     public onEdit(competition: Competition) {
         this.store$.dispatch(new EditCompetition(competition));
+    }
+
+    clickSettings(event: Event) {
+        this.modalService.addModal(CompetitionSettingsComponent, { event });
     }
 }
