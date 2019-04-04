@@ -145,4 +145,8 @@ export class EventApi extends CSGamesApi {
             withCredentials: true
         });
     }
+
+    public updateCompetitionResults(event: Event): Observable<void> {
+        return this.http.put<void>(this.url(), event, { withCredentials: true });
+    }
 }
