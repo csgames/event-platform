@@ -39,11 +39,14 @@ export class TeamsService extends BaseService<Teams, CreateTeamDto> {
             }
         }
         const team = await this.findOne({ name, event: eventId });
-        if (team) {
+        if (team && !team._id.equals(id)) {
             throw new TeamAlreadyCreatedException();
         }
 
-        return this.update({ _id: id }, { name });
+        return this.update({ _id: id }, {
+            ...updateTeamDto,
+            name
+        });
     }
 
     public async getTeamFromEvent(eventId: string): Promise<Teams[]> {
