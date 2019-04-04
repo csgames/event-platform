@@ -388,7 +388,8 @@
             "teams": "Équipes",
             "team_title": "Equipe",
             "team_members": "Membres de l'équipe",
-            "max": "Nombre maximal de participants"
+            "max": "Nombre maximal de participants",
+            "show_on_scoreboard": "Afficher aux classements des compétitions"
         },
         "notifications": {
             "notifications": "Notifications"

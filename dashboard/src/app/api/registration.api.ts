@@ -13,6 +13,8 @@ export class RegistrationApi extends CSGamesApi {
     }
 
     public createRegistration(dto: CreateInvitationDto): Observable<Registration> {
+        console.log("create Registration 222");
+        console.log(dto);
         return this.http.post<Registration>(this.url(), dto, { withCredentials: true });
     }
 

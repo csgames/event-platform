@@ -389,7 +389,8 @@
             "teams": "Teams",
             "team_title": "Team",
             "team_members": "Team members",
-            "max": "Maximum team members"
+            "max": "Maximum team members",
+            "show_on_scoreboard": "Show on competitions' scoreboards"
         },
         "notifications": {
             "notifications": "Notifications"
