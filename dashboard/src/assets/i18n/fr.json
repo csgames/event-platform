@@ -122,6 +122,9 @@
             "deleted": "Une fois supprimer il ne sera plus possible de l'ajouter à votre équipe.",
             "safe": "Action annulée",
             "delete": "Participant supprimé"
+        },
+        "edit_team_info": {
+            "edit_team_info": "Modifier informations équipe"
         }
     },
     "errors": {

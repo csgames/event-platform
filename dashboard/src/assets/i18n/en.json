@@ -122,6 +122,9 @@
             "deleted": "Once deleted you won't be able to add the participant back.",
             "safe": "Action cancelled",
             "delete": "Participant deleted"
+        },
+        "edit_team_info": {
+            "edit_team_info": "Edit team info"
         }
     },
     "errors": {

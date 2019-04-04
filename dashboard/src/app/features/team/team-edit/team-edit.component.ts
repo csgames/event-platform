@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { getTeamEditError, getTeamEditLoading, getTeamEditTeams, getTeamSchools, getTeamSponsors, State } from "./store/team-edit.reducer";
 import { select, Store } from "@ngrx/store";
-import { AddTeam, LoadSchools, LoadSponsors, LoadTeams } from "./store/team-edit.actions";
+import { AddTeam, EditTeam, LoadSchools, LoadSponsors, LoadTeams } from "./store/team-edit.actions";
 import { Attendee } from "../../../api/models/attendee";
 import { Team } from "../../../api/models/team";
 import { map } from "rxjs/operators";
@@ -81,5 +81,9 @@ export class TeamEditComponent implements OnInit {
     onCancelTeam() {
         this.newTeamDto = new AddTeamFormDto();
         this.showCreateTeamCard = false;
+    }
+
+    onEdit(team: Team) {
+        this.store$.dispatch(new EditTeam(team));
     }
 }

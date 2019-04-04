@@ -13,7 +13,8 @@ export enum TeamEditActionTypes {
     LoadSponsors = "[Team edit] Load sponsors",
     SponsorsLoaded = "[Team edit] Sponsors loaded",
     AddTeam = "[Team edit] Add team",
-    AddTeamError = "[Team edit] Add team error"
+    AddTeamError = "[Team edit] Add team error",
+    EditTeam = "[Team edit] Edit team"
 }
 
 export class LoadTeams implements Action {
@@ -60,6 +61,12 @@ export class AddTeamError implements Action {
     readonly type = TeamEditActionTypes.AddTeamError;
 }
 
+export class EditTeam implements Action {
+    readonly type = TeamEditActionTypes.EditTeam;
+
+    constructor(public payload: Team) {}
+}
+
 export type TeamEditActions =
     | LoadSchools
     | SchoolsLoaded
@@ -69,4 +76,5 @@ export type TeamEditActions =
     | SponsorsLoaded
     | AddTeam
     | AddTeamError
-    | TeamsLoaded;
+    | TeamsLoaded
+    | EditTeam;

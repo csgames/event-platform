@@ -70,6 +70,9 @@
                                 <a class="btn btn-link float-right" [routerLink]="['/team/' + team?._id]">
                                     <i class="fas fa-eye"></i>
                                 </a>
+                                <a class="btn btn-default float-right px-0" (click)="onEdit(team)">
+                                    <i class="fal fa-edit"></i>
+                                </a>
                             </h2>
                             <small *ngIf="team?.school">{{ team?.school?.name }}</small>
                             <small *ngIf="team?.sponsor">{{ team?.sponsor?.name }}</small>
