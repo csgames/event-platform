@@ -1,5 +1,5 @@
 import { ApiModelProperty } from "@nestjs/swagger";
-import { IsMongoId, IsNotEmpty, IsString, MaxLength, IsNumber, ValidateIf } from 'class-validator';
+import { IsMongoId, IsNotEmpty, IsString, MaxLength, IsNumber, ValidateIf, IsBoolean } from 'class-validator';
 
 export class CreateTeamDto {
     @IsString()
@@ -36,6 +36,10 @@ export class CreateTeamDto {
     @IsNotEmpty()
     @ApiModelProperty({ required: true })
     maxMembersNumber: number;
+
+    @IsBoolean()
+    @IsNotEmpty()
+    showOnScoreboard: boolean;
 }
 
 export class UpdateTeamDto {

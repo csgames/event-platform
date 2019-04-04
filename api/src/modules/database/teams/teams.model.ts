@@ -13,6 +13,7 @@ export interface Teams extends mongoose.Document {
     sponsor: Sponsors | mongoose.Types.ObjectId | string;
     present: boolean;
     maxMembersNumber: number;
+    showOnScoreboard: boolean;
 }
 
 export const TeamsSchema = new mongoose.Schema({
@@ -40,6 +41,10 @@ export const TeamsSchema = new mongoose.Schema({
     },
     maxMembersNumber: {
         type: Number,
+        required: true
+    },
+    showOnScoreboard: {
+        type: Boolean,
         required: true
     }
 });
