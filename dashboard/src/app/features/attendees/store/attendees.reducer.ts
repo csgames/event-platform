@@ -22,6 +22,8 @@ export function reducer(state = initialState, action: AttendeesActions): Attende
         case AttendeesActionTypes.LoadAttendees:
         case AttendeesActionTypes.DownloadCsv:
         case AttendeesActionTypes.DownloadXlsx:
+        case AttendeesActionTypes.DownloadResume:
+        case AttendeesActionTypes.DownloadAllResume:
             return {
                 ...state,
                 loading: true
@@ -34,6 +36,8 @@ export function reducer(state = initialState, action: AttendeesActions): Attende
             };
         case AttendeesActionTypes.CsvDownloaded:
         case AttendeesActionTypes.XlsxDownloaded:
+        case AttendeesActionTypes.ResumeDownloaded:
+        case AttendeesActionTypes.AllResumeDownloaded:
             return {
                 ...state,
                 loading: false

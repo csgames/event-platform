@@ -1,4 +1,5 @@
 import { Action } from "@ngrx/store";
+import { Sponsors } from "../../../../api/models/sponsors";
 import { Team } from "../../../../api/models/team";
 import { School } from "../../../../api/models/school";
 import { AddTeamFormDto } from "../components/add-team-form/dto/add-team-form.dto";
@@ -9,8 +10,11 @@ export enum TeamEditActionTypes {
     TeamsLoaded = "[Team edit] Teams loaded",
     LoadSchools = "[Team edit] Load schools",
     SchoolsLoaded = "[Team edit] Schools loaded",
+    LoadSponsors = "[Team edit] Load sponsors",
+    SponsorsLoaded = "[Team edit] Sponsors loaded",
     AddTeam = "[Team edit] Add team",
-    AddTeamError = "[Team edit] Add team error"
+    AddTeamError = "[Team edit] Add team error",
+    EditTeam = "[Team edit] Edit team"
 }
 
 export class LoadTeams implements Action {
@@ -37,6 +41,16 @@ export class SchoolsLoaded implements Action {
     constructor(public schools: School[]) {}
 }
 
+export class LoadSponsors implements Action {
+    readonly type = TeamEditActionTypes.LoadSponsors;
+}
+
+export class SponsorsLoaded implements Action {
+    readonly type = TeamEditActionTypes.SponsorsLoaded;
+
+    constructor(public sponsors: Sponsors[]) {}
+}
+
 export class AddTeam implements Action {
     readonly type = TeamEditActionTypes.AddTeam;
 
@@ -47,11 +61,20 @@ export class AddTeamError implements Action {
     readonly type = TeamEditActionTypes.AddTeamError;
 }
 
+export class EditTeam implements Action {
+    readonly type = TeamEditActionTypes.EditTeam;
+
+    constructor(public payload: Team) {}
+}
+
 export type TeamEditActions =
     | LoadSchools
     | SchoolsLoaded
     | LoadTeams
     | LoadTeamsFailure
+    | LoadSponsors
+    | SponsorsLoaded
     | AddTeam
     | AddTeamError
-    | TeamsLoaded;
+    | TeamsLoaded
+    | EditTeam;

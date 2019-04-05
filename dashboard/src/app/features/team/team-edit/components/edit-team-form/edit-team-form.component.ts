@@ -3,22 +3,22 @@ import { ControlValueAccessor, FormGroup, NG_VALUE_ACCESSOR } from "@angular/for
 import { Subscription } from "rxjs";
 import { Sponsors } from "../../../../../api/models/sponsors";
 import { FormGenerator } from "../../../../../form-generator/form-generator";
-import { ADD_TEAM_FORM_GENERATOR } from "../../team-edit.constants";
-import { AddTeamFormDto } from "./dto/add-team-form.dto";
+import { EDIT_TEAM_FORM_GENERATOR } from "../../team-edit.constants";
+import { EditTeamFormDto } from "./dto/edit-team-form.dto";
 import { School } from "../../../../../api/models/school";
 
 @Component({
-    selector: "app-add-team-form",
-    templateUrl: "add-team-form.template.html",
+    selector: "app-edit-team-form",
+    templateUrl: "edit-team-form.template.html",
     providers: [
         {
             provide: NG_VALUE_ACCESSOR,
-            useExisting: forwardRef(() => AddTeamFormComponent),
+            useExisting: forwardRef(() => EditTeamFormComponent),
             multi: true
         }
     ]
 })
-export class AddTeamFormComponent implements OnInit, OnDestroy, ControlValueAccessor {
+export class EditTeamFormComponent implements OnInit, OnDestroy, ControlValueAccessor {
     @Input()
     schools: School[];
 
@@ -28,10 +28,10 @@ export class AddTeamFormComponent implements OnInit, OnDestroy, ControlValueAcce
     public formGroup: FormGroup;
 
 
-    private propagate: (obj: AddTeamFormDto) => void;
+    private propagate: (obj: EditTeamFormDto) => void;
     private valueChangesSub$: Subscription;
 
-    constructor(@Inject(ADD_TEAM_FORM_GENERATOR) private formGenerator: FormGenerator<AddTeamFormDto>) { }
+    constructor(@Inject(EDIT_TEAM_FORM_GENERATOR) private formGenerator: FormGenerator<EditTeamFormDto>) { }
 
     ngOnInit() {
         this.formGroup = this.formGenerator.generateGroup();
@@ -44,13 +44,13 @@ export class AddTeamFormComponent implements OnInit, OnDestroy, ControlValueAcce
         this.valueChangesSub$.unsubscribe();
     }
 
-    public writeValue(obj: AddTeamFormDto): void {
+    public writeValue(obj: EditTeamFormDto): void {
         if (obj) {
             this.formGenerator.patchValues(obj);
         }
     }
 
-    public registerOnChange(fn: (obj: AddTeamFormDto) => void) {
+    public registerOnChange(fn: (obj: EditTeamFormDto) => void) {
         this.propagate = fn;
     }
 

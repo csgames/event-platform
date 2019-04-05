@@ -146,6 +146,10 @@ export class EventApi extends CSGamesApi {
         });
     }
 
+    public getAttendeesCv(): Observable<Blob> {
+        return this.http.get(this.url("attendee/cv"), { responseType: "blob", withCredentials: true });
+    }
+
     public updateCompetitionResults(event: Event): Observable<void> {
         return this.http.put<void>(this.url(), event, { withCredentials: true });
     }

@@ -11,13 +11,12 @@ import { LoadingSpinnerModule } from "../../../components/loading-spinner/loadin
 import { TeamViewModule } from "../team-view/team-view.module";
 import { CollapseModule, TooltipModule } from "ngx-bootstrap";
 import { AttendeeViewModule } from "../../../components/attendee-view/attendee-view.module";
-import { AddTeamFormComponent } from "./components/add-team-form/add-team-form.component";
-import { FormGeneratorFactory } from "../../../form-generator/factory";
-import { FormBuilder, FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { ADD_TEAM_FORM_GENERATOR } from "./team-edit.constants";
-import { AddTeamFormDto } from "./components/add-team-form/dto/add-team-form.dto";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { NgSelectModule } from "@ng-select/ng-select";
 import { DirectivesModule } from "../../../directives/directives.module";
+import { EditTeamInfoModule } from "./modal/edit-team-info/edit-team-info.module";
+import { AddTeamFormModule } from "./components/add-team-form/add-team-form.module";
+import { SimpleModalModule } from "ngx-simple-modal";
 
 @NgModule({
     imports: [
@@ -32,14 +31,14 @@ import { DirectivesModule } from "../../../directives/directives.module";
         TooltipModule,
         NgSelectModule,
         DirectivesModule,
+        SimpleModalModule,
+        AddTeamFormModule,
+        EditTeamInfoModule,
         StoreModule.forFeature("teamEdit", fromTeamEdit.reducer),
         EffectsModule.forFeature([TeamEditEffects]),
         TeamEditRoutingModule
     ],
     exports: [],
-    declarations: [TeamEditComponent, AddTeamFormComponent],
-    providers: [
-        { provide: ADD_TEAM_FORM_GENERATOR, useFactory: FormGeneratorFactory.transform(AddTeamFormDto), deps: [FormBuilder] }
-    ]
+    declarations: [TeamEditComponent]
 })
 export class TeamEditModule {}

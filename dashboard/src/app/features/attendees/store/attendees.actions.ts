@@ -7,7 +7,11 @@ export enum AttendeesActionTypes {
     DownloadCsv = "[Attendees] Download csv",
     DownloadXlsx = "[Attendees] Download xlsx",
     CsvDownloaded = "[Attendees] Csv downloaded",
-    XlsxDownloaded = "[Attendees] Xlsx downloaded"
+    XlsxDownloaded = "[Attendees] Xlsx downloaded",
+    DownloadResume = "[Attendees] Download resume",
+    ResumeDownloaded = "[Attendees] Resume downloaded",
+    DownloadAllResume = "[Attendees] Download all resume",
+    AllResumeDownloaded = "[Attendees] All resume downloaded"
 }
 
 export class LoadAttendees implements Action {
@@ -40,10 +44,38 @@ export class XlsxDownloaded implements Action {
     constructor(public payload: Blob) {}
 }
 
+export class DownloadResume implements Action {
+    readonly type = AttendeesActionTypes.DownloadResume;
+
+    constructor(public payload: string) {}
+}
+
+
+export class ResumeDownloaded implements Action {
+    readonly type = AttendeesActionTypes.ResumeDownloaded;
+
+    constructor(public payload: string) {}
+}
+
+export class DownloadAllResume implements Action {
+    readonly type = AttendeesActionTypes.DownloadAllResume;
+}
+
+
+export class AllResumeDownloaded implements Action {
+    readonly type = AttendeesActionTypes.AllResumeDownloaded;
+
+    constructor(public payload: Blob) {}
+}
+
 export type AttendeesActions =
     | LoadAttendees
     | AttendeesLoaded
     | DownloadCsv
     | DownloadXlsx
     | CsvDownloaded
-    | XlsxDownloaded;
+    | XlsxDownloaded
+    | DownloadResume
+    | ResumeDownloaded
+    | DownloadAllResume
+    | AllResumeDownloaded;

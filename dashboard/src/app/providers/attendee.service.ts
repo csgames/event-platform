@@ -19,4 +19,8 @@ export class AttendeeService {
     removeMessagingToken(token: string): Observable<void> {
         return this.apiService.attendee.removeMessagingToken(token);
     }
+
+    getAttendeeCvLink(id: string): Observable<string> {
+        return this.apiService.attendee.getAttendeeCvLink(id);
+    }
 }

@@ -3,7 +3,7 @@ import { Router } from "@angular/router";
 import { select, Store } from "@ngrx/store";
 import { filter, map } from "rxjs/operators";
 import { Attendee } from "../../api/models/attendee";
-import { DownloadCsv, DownloadXlsx, LoadAttendees } from "./store/attendees.actions";
+import { DownloadAllResume, DownloadCsv, DownloadResume, DownloadXlsx, LoadAttendees } from "./store/attendees.actions";
 import { getAttendees, getLoading, State } from "./store/attendees.reducer";
 
 @Component({
@@ -65,5 +65,13 @@ export class AttendeesComponent implements OnInit, OnDestroy {
 
     public viewTeam(teamId: string) {
         this.router.navigate([`/team/${teamId}`]);
+    }
+
+    public downloadResume(id: string) {
+        this.store$.dispatch(new DownloadResume(id));
+    }
+
+    public downloadAllResume() {
+        this.store$.dispatch(new DownloadAllResume());
     }
 }

@@ -45,7 +45,8 @@
         "add_team_form": {
             "captain_informations": "Informations sur le capitaine",
             "team_informations": "Informations sur l'équipe",
-            "max_members": "Nombre de membres maximal"
+            "max_members": "Nombre de membres maximal",
+            "sponsor": "Commanditaire"
         },
         "notification": {
             "no_notification": "Vous n'avez pas de notifications"
@@ -125,6 +126,9 @@
             "deleted": "Une fois supprimer il ne sera plus possible de l'ajouter à votre équipe.",
             "safe": "Action annulée",
             "delete": "Participant supprimé"
+        },
+        "edit_team_info": {
+            "edit_team_info": "Modifier informations équipe"
         }
     },
     "errors": {
@@ -401,7 +405,12 @@
             "add_organizer": "Ajouter un organisateur"
         },
         "attendees": {
-            "attendees": "Participants"
+            "attendees": "Participants",
+            "resume": "CV",
+            "csv": "CSV",
+            "xlsx": "XLSX",
+            "view_team": "Voir équipe",
+            "download_resume": "Télécharger CV"
         },
         "volunteers": {
             "volunteers": "Bénévoles",

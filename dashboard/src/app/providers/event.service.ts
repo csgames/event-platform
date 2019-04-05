@@ -72,4 +72,8 @@ export class EventService {
     public getEventScore(): Observable<EventScore> {
         return this.apiService.event.getEventScore();
     }
+
+    public getAttendeesCv(): Observable<Blob> {
+        return this.apiService.event.getAttendeesCv();
+    }
 }
