@@ -25,6 +25,7 @@ export class TeamsService extends BaseService<Teams, CreateTeamDto> {
             event: createTeamDto.event,
             attendees: [Types.ObjectId(createTeamDto.attendeeId)],
             school: createTeamDto.school,
+            sponsor: createTeamDto.sponsor,
             maxMembersNumber: createTeamDto.maxMembersNumber
         });
     }
@@ -38,11 +39,14 @@ export class TeamsService extends BaseService<Teams, CreateTeamDto> {
             }
         }
         const team = await this.findOne({ name, event: eventId });
-        if (team) {
+        if (team && !team._id.equals(id)) {
             throw new TeamAlreadyCreatedException();
         }
 
-        return this.update({ _id: id }, { name });
+        return this.update({ _id: id }, {
+            ...updateTeamDto,
+            name
+        });
     }
 
     public async getTeamFromEvent(eventId: string): Promise<Teams[]> {
@@ -61,6 +65,9 @@ export class TeamsService extends BaseService<Teams, CreateTeamDto> {
         }, {
             model: 'schools',
             path: 'school'
+        }, {
+            model: 'sponsors',
+            path: 'sponsor'
         }]).exec() as Teams[];
 
         for (let team of teams) {
@@ -179,5 +186,15 @@ export class TeamsService extends BaseService<Teams, CreateTeamDto> {
                 attendees: attendeeId
             }
         }).exec();
+
+        await this.eventsModel.updateOne({
+            _id: eventId
+        }, {
+            $pull: {
+                attendees: {
+                    attendee: attendeeId
+                }
+            }
+        });
     }
 }

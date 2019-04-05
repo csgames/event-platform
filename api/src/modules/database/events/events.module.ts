@@ -7,7 +7,7 @@ import { EventsController } from './events.controller';
 import { EventsSchema } from './events.model';
 import { EventsService } from './events.service';
 import { AttendeesModule } from '../attendees/attendees.module';
-import { STSModule } from '@polyhx/nest-services';
+import { StorageModule, STSModule } from '@polyhx/nest-services';
 import { EmailModule } from '../../email/email.module';
 import { TeamsSchema } from '../teams/teams.model';
 import { MessagingModule } from '../../messaging/messaging.module';
@@ -35,7 +35,8 @@ import { FlashOutsModule } from '../flash-out/flash-out.module';
         forwardRef(() => TeamsModule),
         MessagingModule,
         NotificationsModule,
-        FlashOutsModule
+        FlashOutsModule,
+        StorageModule
     ],
     controllers: [
         EventsController

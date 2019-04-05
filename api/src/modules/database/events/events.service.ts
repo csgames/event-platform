@@ -1,5 +1,7 @@
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
+import { StorageService } from '@polyhx/nest-services';
+import * as AdmZip from 'adm-zip';
 import * as mongoose from 'mongoose';
 import { Model } from 'mongoose';
 import { isNullOrUndefined } from 'util';
@@ -8,17 +10,17 @@ import { BaseService } from '../../../services/base.service';
 import { CreateActivityDto } from '../activities/activities.dto';
 import { Activities } from '../activities/activities.model';
 import { ActivitiesService } from '../activities/activities.service';
+import { UpdateAttendeeDto } from '../attendees/attendees.dto';
 import { AttendeeNotifications, Attendees } from '../attendees/attendees.model';
 import { AttendeesService } from '../attendees/attendees.service';
 import { Competitions, CompetitionsUtils } from '../competitions/competitions.model';
 import { Notifications } from '../notifications/notifications.model';
 import { NotificationsService } from '../notifications/notifications.service';
-import { AddScannedAttendee, AddSponsorDto, CreateEventDto, SendNotificationDto } from './events.dto';
+import { Schools } from '../schools/schools.model';
+import { Teams } from '../teams/teams.model';
+import { AddSponsorDto, CreateEventDto, SendNotificationDto } from './events.dto';
 import { AttendeeAlreadyRegisteredException, EventNotFoundException, UserNotAttendeeException } from './events.exception';
 import { Events, EventSponsorDetails } from './events.model';
-import { UpdateAttendeeDto } from '../attendees/attendees.dto';
-import { Teams } from '../teams/teams.model';
-import { Schools } from '../schools/schools.model';
 
 export interface EventScore {
     overall: TeamScore[];
@@ -39,6 +41,7 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
                 @InjectModel('competitions') private readonly competitionsModel: Model<Competitions>,
                 private readonly attendeeService: AttendeesService,
                 private readonly activitiesService: ActivitiesService,
+                private readonly storageService: StorageService,
                 private readonly notificationService: NotificationsService) {
         super(eventsModel);
     }
@@ -85,7 +88,7 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
         }
 
         let registered = false;
-        if (role === "admin" || role === "volunteer" || role === "director") {
+        if (role === "admin" || role === "volunteer" || role === "director" || role === "sponsor") {
             registered = true;
         }
 
@@ -368,6 +371,26 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
         return await this.attendeeService.getFromEvent(eventId, attendees, type);
     }
 
+    public async getAttendeeCv(eventId: string): Promise<any> {
+        const attendees = await this.getAttendeesData(eventId, 'json', ['attendee', 'captain', 'godparent']);
+
+        let files = await this.storageService.getDirectory('cv');
+        files = files.filter(file => attendees.some(a => a.cv === file.name));
+
+        const zip = new AdmZip();
+        for (const file of files) {
+            const attendee = attendees.find(a => a.cv === file.name);
+            if (!attendee) {
+                continue;
+            }
+
+            const [buffer] = await file.download();
+            zip.addFile(`${attendee.firstName}_${attendee.lastName}-${file.metadata.metadata.name}`, buffer);
+        }
+
+        return zip.toBuffer();
+    }
+
     public async getScore(eventId: string): Promise<EventScore> {
         const competitions = await this.competitionsModel.find({
             event: eventId
@@ -413,7 +436,7 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
                 return {
                     ...x,
                     name,
-                    results: x.results.map(result => {
+                    results: x.results.filter(x => x.teamId.school).map(result => {
                         const team = result.teamId as Teams;
                         return {
                             teamId: team._id.toHexString(),
@@ -429,7 +452,10 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
 
     private async getOverallScore(eventId: string, competitions: Competitions[]): Promise<TeamScore[]> {
         const teams = await this.teamsModel.find({
-            event: eventId
+            event: eventId,
+            school: {
+                $ne: null
+            }
         }).select(['_id', 'name', 'school'])
             .populate([{
                 path: 'school',

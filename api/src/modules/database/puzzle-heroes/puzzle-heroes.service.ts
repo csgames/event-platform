@@ -2,6 +2,7 @@ import { BadRequestException, Injectable, NotFoundException } from '@nestjs/comm
 import { InjectModel } from '@nestjs/mongoose';
 import { BaseService } from '../../../services/base.service';
 import { DateUtils } from '../../../utils/date.utils';
+import { Sponsors } from '../sponsors/sponsors.model';
 import { PuzzleHeroes, PuzzleHeroesUtils } from './puzzle-heroes.model';
 import * as mongoose from 'mongoose';
 import { Model } from 'mongoose';
@@ -259,14 +260,26 @@ export class PuzzleHeroesService extends BaseService<PuzzleHeroes, PuzzleHeroes>
                 const team = await this.teamsModel.findOne({
                     event: eventId,
                     _id: s.value
-                });
+                }).populate([{
+                    model: 'teams',
+                    path: 'team',
+                    select: ['name']
+                }, {
+                    model: 'sponsors',
+                    path: 'sponsor',
+                    select: ['name']
+                }]).exec();
 
-                const school = await this.schoolsModel.findById(team.school);
+                if (user.role === 'sponsor' && !team.sponsor) {
+                    return null;
+                } else if (!user.role.endsWith('admin') && !team.school) {
+                    return null;
+                }
 
                 return {
                     teamId: team._id.toHexString(),
                     teamName: team.name,
-                    schoolName: school.name,
+                    schoolName: team.school ? (team.school as Schools).name : (team.sponsor as Sponsors).name,
                     score: s.score
                 };
             } catch (e) {

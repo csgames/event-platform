@@ -21,6 +21,7 @@ import { Registrations } from './registrations.model';
 export class RegistrationsService {
     private roleTemplate = {
         attendee: 'attendee_account_creation',
+        sponsor: 'attendee_account_creation',
         captain: 'captain_account_creation',
         godparent: 'godparent_account_creation'
     };
@@ -41,8 +42,9 @@ export class RegistrationsService {
             throw new AttendeeAlreadyExistException();
         }
 
-        await this.validateTeam(dto.teamName, dto.role, eventId);
-
+        if (dto.role !== 'sponsor') {
+            await this.validateTeam(dto.teamName, dto.role, eventId);
+        }
         const attendee = await this.attendeeService.create({
             email: dto.email.toLowerCase(),
             firstName: dto.firstName,
@@ -55,20 +57,10 @@ export class RegistrationsService {
         });
         registration = await registration.save();
 
-        if (dto.role === 'captain' && (role === 'admin' || role === 'super-admin')) {
-            await this.teamsService.createTeam({
-                name: dto.teamName,
-                event: eventId,
-                school: dto.schoolId,
-                attendeeId: attendee._id,
-                maxMembersNumber: dto.maxMembersNumber
-            });
+        if (dto.role === 'sponsor') {
+            await this.addSponsor(dto, role, eventId, attendee);
         } else {
-            await this.teamsService.update({name: dto.teamName, event: eventId}, {
-                $push: {
-                    attendees: attendee._id
-                }
-            } as any);
+            await this.addAttendee(dto, role, eventId, attendee);
         }
 
         await this.eventService.addAttendee(eventId, attendee, dto.role);
@@ -220,6 +212,48 @@ export class RegistrationsService {
             if (attendees.length >= 10) {
                 throw new MaxTeamMemberException();
             }
+        }
+    }
+
+    private async addAttendee(dto: CreateRegistrationDto, role: string, eventId: string, attendee: Attendees) {
+        if (dto.role === 'captain' && (role === 'admin' || role === 'super-admin')) {
+            await this.teamsService.createTeam({
+                name: dto.teamName,
+                event: eventId,
+                school: dto.schoolId,
+                sponsor: null,
+                attendeeId: attendee._id,
+                maxMembersNumber: dto.maxMembersNumber
+            });
+        } else {
+            await this.teamsService.update({name: dto.teamName, event: eventId}, {
+                $push: {
+                    attendees: attendee._id
+                }
+            } as any);
+        }
+    }
+
+    private async addSponsor(dto: CreateRegistrationDto, role: string, eventId: string, attendee: Attendees) {
+        const team = await this.teamsService.findOne({
+            sponsor: dto.sponsorId,
+            event: eventId
+        });
+        if (!team) {
+            await this.teamsService.createTeam({
+                name: dto.teamName,
+                event: eventId,
+                school: null,
+                sponsor: dto.sponsorId,
+                attendeeId: attendee._id,
+                maxMembersNumber: dto.maxMembersNumber
+            });
+        } else {
+            await this.teamsService.update({sponsor: dto.sponsorId, event: eventId}, {
+                $push: {
+                    attendees: attendee._id
+                }
+            } as any);
         }
     }
 

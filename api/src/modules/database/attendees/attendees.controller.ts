@@ -76,6 +76,17 @@ export class AttendeesController {
         });
     }
 
+    @Get(':id/cv/url')
+    @Permissions('csgames-api:get-all:attendee')
+    public async getCvUrlById(@Param('id') id: string): Promise<{ url: string }> {
+        const attendee = await this.attendeesService.findOne({ _id: id });
+        if (attendee.cv) {
+            return { url: await this.storageService.getDownloadUrl(attendee.cv) };
+        } else {
+            return { url: null };
+        }
+    }
+
     @Put()
     @Permissions('csgames-api:update:attendee')
     public async update(@UploadedFile() file, @User() user: UserModel,

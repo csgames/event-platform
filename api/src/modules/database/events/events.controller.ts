@@ -7,6 +7,7 @@ import { Permissions } from '../../../decorators/permission.decorator';
 import { User } from '../../../decorators/user.decorator';
 import { CodeExceptionFilter } from '../../../filters/code-error/code.filter';
 import { PermissionsGuard } from '../../../guards/permission.guard';
+import { BufferInterceptor } from '../../../interceptors/buffer.interceptor';
 import { DataGridDownloadInterceptor } from '../../../interceptors/data-grid-download.interceptor';
 import { UserModel } from '../../../models/user.model';
 import { ArrayPipe } from '../../../pipes/array.pipe';
@@ -139,6 +140,13 @@ export class EventsController {
                              @Query('type') type: string,
                              @Query('roles', ArrayPipe) roles: string[]): Promise<any> {
         return await this.eventsService.getAttendeesData(eventId, type, roles);
+    }
+
+    @Get('attendee/cv')
+    @UseInterceptors(new BufferInterceptor("application/zip"))
+    @Permissions('csgames-api:get-all:attendee')
+    public async getAttendeeCv(@EventId() eventId: string): Promise<any> {
+        return await this.eventsService.getAttendeeCv(eventId);
     }
 
     @Post('sms')
