@@ -141,7 +141,7 @@ export class EventApi extends CSGamesApi {
     }
 
     public getEventScore(): Observable<EventScore> {
-        return this.http.get<EventScore>(this.url("score"), {
+        return this.http.get<EventScore>(this.url("scoreFiltered"), {
             withCredentials: true
         });
     }
