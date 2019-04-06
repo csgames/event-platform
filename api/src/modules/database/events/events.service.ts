@@ -460,30 +460,18 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
     public async getScoreFiltered(eventId: string): Promise<EventScore> {
         let score = await this.getScore(eventId);
         let teams = await this.teamsModel.find({ event: eventId }).exec();
-        console.log("About to get the teams Id to remove");
-        console.log("teams : ");
-        console.log(teams);
+        
         let teamsIdToRemove = teams.filter((team: Teams) => {
-            // false => on veut pas etre retourne => doit donner true
-            // null => on veut etre retourne => doit donner false
-            // true => on veut etre retourne => doit donner false
             return team.showOnScoreboard === false;
         }).map(t => t._id.toHexString());
-        console.log("Got the team id to remove: ");
-        console.log(teamsIdToRemove);
-        console.log("About to filter overall scores");
+
         let filteredOverallScores = score.overall.filter((score: TeamScore) => {
             return teamsIdToRemove.indexOf(score.teamId) === -1;
         });
-        console.log("filtered overall scores: ");
-        console.log(filteredOverallScores);
-        console.log("About to filter competitions scores");
         
         let filteredCompetitionsScores = score.competitions.map((competition: CompetitionScore) => {
             let result = competition.results;
-            console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> competition....");
             if(competition.results) {
-                console.log("competition result is not null ###############################################")
                 result = competition.results.filter((score: TeamScore) => {
                     return teamsIdToRemove.indexOf(score.teamId) === -1;
                 });
@@ -493,8 +481,6 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
                 results: result
             };
         });
-        console.log("filtered competitions scores: ");
-        console.log(filteredCompetitionsScores);
 
         return { overall: filteredOverallScores, competitions: filteredCompetitionsScores };
     }

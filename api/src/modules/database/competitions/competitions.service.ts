@@ -547,9 +547,6 @@ export class CompetitionsService extends BaseService<Competitions, Competitions>
         let results = await this.getResult(eventId, competitionId);
         let teams = await this.teamsModel.find({ event: eventId }).exec();
         let teamsIdToRemove = teams.filter((team: Teams) => {
-            // false => on veut pas etre retourne => doit donner true
-            // null => on veut etre retourne => doit donner false
-            // true => on veut etre retourne => doit donner false
             return team.showOnScoreboard === false;
         }).map(t => t._id.toHexString());
         return results.filter((teamCompetitionResult: TeamCompetitionResult) => {
