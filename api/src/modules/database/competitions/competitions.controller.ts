@@ -89,7 +89,16 @@ export class CompetitionsController {
     @Permissions('csgames-api:get-result:competition')
     public async getCompetitionResult(@EventId() eventId: string,
                                       @Param('id') competitionId: string): Promise<TeamCompetitionResult[]> {
+        console.log("competition result (not filtered)");
         return await this.competitionService.getResult(eventId, competitionId);
+    }
+
+    @Get(':id/filteredResult')
+    @Permissions('csgames-api:get-result:competition')
+    public async getCompetitionFilteredResult(@EventId() eventId: string,
+                                      @Param('id') competitionId: string): Promise<TeamCompetitionResult[]> {
+        console.log("competition result (filtered)");
+        return await this.competitionService.getFilteredResult(eventId, competitionId);
     }
 
     @Get(':id/question/:questionId/result')
