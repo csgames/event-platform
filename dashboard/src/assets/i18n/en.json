@@ -139,6 +139,9 @@
         },
         "edit_team_info": {
             "edit_team_info": "Edit team info"
+        },
+        "create_section": {
+            "error": "An error occurred while creating the section"
         }
     },
     "errors": {
@@ -335,7 +338,13 @@
             "parking": "Parkings",
             "restaurants": "Restaurants and bars",
             "what_to_bring": "What to bring?",
-            "map": "School map"
+            "map": "School map",
+            "admin": {
+                "add_section": "Add section",
+                "create_section": {
+                    "create_section": "Create section"
+                }
+            }
         },
         "home": {
             "home": "Home"

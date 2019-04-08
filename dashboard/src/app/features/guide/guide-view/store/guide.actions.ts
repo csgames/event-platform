@@ -1,5 +1,5 @@
 import { Action } from "@ngrx/store";
-import { EventGuide } from "../../../api/models/guide";
+import { EventGuide } from "../../../../api/models/guide";
 
 export enum GuideActionTypes {
     LoadGuide = "[Guide] Load guide",

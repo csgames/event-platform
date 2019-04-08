@@ -1,20 +1,23 @@
-import { Component, OnDestroy, OnInit } from "@angular/core";
-import { Store, select } from "@ngrx/store";
-import { filter } from "rxjs/operators";
-import * as fromApp from "../../store/app.reducers";
-import { State } from "../../store/app.reducers";
+import { Component, OnInit, OnDestroy } from "@angular/core";
 import { TranslateService } from "@ngx-translate/core";
+import { Store, select } from "@ngrx/store";
+import * as fromApp from "../../../store/app.reducers";
+import { State } from "../../../store/app.reducers";
+import { getGuide, getGuideLoading } from "./store/guide-edit.reducer";
 import { Subscription } from "rxjs";
-import { getGuideLoading, getGuide } from "./store/guide.reducer";
 import { EventGuide } from "src/app/api/models/guide";
-import { LoadGuide } from "./store/guide.actions";
+import { LoadGuideEdit } from "./store/guide-edit.actions";
+import { filter } from "rxjs/operators";
+import { SimpleModalService } from "ngx-simple-modal";
+import { CreateSectionComponent } from "./components/create-section/create-section.component";
 
 @Component({
-    selector: "app-guide",
-    templateUrl: "guide.template.html",
-    styleUrls: ["guide.style.scss"]
+    selector: "app-guide-edit",
+    templateUrl: "guide-edit.template.html",
+    styleUrls: ["guide-edit.style.scss"]
 })
-export class GuideComponent implements OnInit, OnDestroy {
+
+export class GuideEditComponent implements OnInit, OnDestroy {
     private currentGuide$ = this.store$.pipe(select(getGuide));
     public loading$ = this.store$.pipe(select(getGuideLoading));
     public currentEvent$ = this.store$.pipe(select(fromApp.getCurrentEvent));
@@ -24,11 +27,12 @@ export class GuideComponent implements OnInit, OnDestroy {
     public guide: EventGuide;
 
     constructor(private store$: Store<State>,
-                private translateService: TranslateService) {}
+                private translateService: TranslateService,
+                private modalService: SimpleModalService) { }
 
     public ngOnInit() {
         this.currentEventSub$ = this.currentEvent$.pipe(filter((e) => !!e)).subscribe(() => {
-            this.store$.dispatch(new LoadGuide());
+            this.store$.dispatch(new LoadGuideEdit());
         });
 
         this.currentGuideSub$ = this.currentGuide$.subscribe((guide: EventGuide) => {
@@ -43,5 +47,9 @@ export class GuideComponent implements OnInit, OnDestroy {
 
     public lang() {
         return this.translateService.defaultLang;
+    }
+
+    clickAddSection() {
+        this.modalService.addModal(CreateSectionComponent);
     }
 }

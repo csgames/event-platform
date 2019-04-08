@@ -5,6 +5,9 @@
             <div fxFlex class="title">
                 {{ title }}
             </div>
+            <a *ngIf="hasEdit" class="btn btn-default" (click)="onClickUpdateGuide($event, guide)">
+                <i class="fal fa-edit"></i>
+            </a>
             <i fxFlex="nogrow" class='fas fa-caret-down float-right' [class.fa-rotate-90]="!isOpen"></i>
         </div>
         <ng-content></ng-content>

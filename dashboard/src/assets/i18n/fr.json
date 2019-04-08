@@ -139,6 +139,9 @@
         },
         "edit_team_info": {
             "edit_team_info": "Modifier informations équipe"
+        },
+        "create_section": {
+            "error": "Une erreur est survenue lors de la création de la section."
         }
     },
     "errors": {
@@ -334,7 +337,13 @@
             "parking": "Stationnements",
             "restaurants": "Restaurants et bars",
             "what_to_bring": "Que faut-il apporter?",
-            "map": "Plan de l'école"
+            "map": "Plan de l'école",
+            "admin": {
+                "add_section": "Ajouter une section",
+                "create_section": {
+                    "create_section": "Créer une section"
+                }
+            }
         },
         "home": {
             "home": "Accueil"

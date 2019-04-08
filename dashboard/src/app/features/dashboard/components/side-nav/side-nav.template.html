@@ -2,15 +2,15 @@
     <ng-container *ngIf="loading; else content">
         <div class="sidenav-placeholder">
             <svg class="loading-placeholder">
-                <svg:circle cx="120" cy="100" r="100"/>
-                <svg:rect x="10" y="240" rx="8" ry="8" width="220" height="34"/>
-                <svg:rect x="10" y="279" rx="8" ry="8" width="220" height="34"/>
-                <svg:rect x="10" y="319" rx="8" ry="8" width="220" height="34"/>
-                <svg:rect x="10" y="358" rx="8" ry="8" width="220" height="34"/>
-                <svg:rect x="10" y="397" rx="8" ry="8" width="220" height="34"/>
-                <svg:rect x="10" y="436" rx="8" ry="8" width="220" height="34"/>
-                <svg:rect x="10" y="475" rx="8" ry="8" width="220" height="34"/>
-                <svg:rect x="10" y="514" rx="8" ry="8" width="220" height="34"/>
+                <svg:circle cx="120" cy="100" r="100" />
+                <svg:rect x="10" y="240" rx="8" ry="8" width="220" height="34" />
+                <svg:rect x="10" y="279" rx="8" ry="8" width="220" height="34" />
+                <svg:rect x="10" y="319" rx="8" ry="8" width="220" height="34" />
+                <svg:rect x="10" y="358" rx="8" ry="8" width="220" height="34" />
+                <svg:rect x="10" y="397" rx="8" ry="8" width="220" height="34" />
+                <svg:rect x="10" y="436" rx="8" ry="8" width="220" height="34" />
+                <svg:rect x="10" y="475" rx="8" ry="8" width="220" height="34" />
+                <svg:rect x="10" y="514" rx="8" ry="8" width="220" height="34" />
             </svg>
         </div>
     </ng-container>
@@ -29,7 +29,7 @@
                 </div>
             </a> -->
             <a *ngIf="(attendee$ | async) && !((attendee$ | async)?.registered)" [routerLink]="['/onboarding']"
-               routerLinkActive="active">
+                routerLinkActive="active">
                 <div [fxLayout]="'row'" fxFlexFill>
                     <div fxFlex="20">
                         <i class="fal fa-id-card"></i>
@@ -39,7 +39,20 @@
                     </div>
                 </div>
             </a>
-            <a *ngIf="(attendee$ | async)?.registered" [routerLink]="['/guide']" routerLinkActive="active">
+            <ng-container *ifRole="['attendee', 'captain', 'godparent']">
+                <a *ngIf="(attendee$ | async)?.registered" [routerLink]="['/guide']" routerLinkActive="active">
+                    <div [fxLayout]="'row'" fxFlexFill>
+                        <div fxFlex="20">
+                            <i class="fal fa-book"></i>
+                        </div>
+                        <div fxFlex="80">
+                            {{ "pages.guide.guide" | translate }}
+                        </div>
+                    </div>
+                </a>
+            </ng-container>
+
+            <a *ifRole="['admin', 'super-admin']" [routerLink]="['/guide/edit']" routerLinkActive="active">
                 <div [fxLayout]="'row'" fxFlexFill>
                     <div fxFlex="20">
                         <i class="fal fa-book"></i>
@@ -61,7 +74,7 @@
             </a>
             <ng-container *ifNotRole="['volunteer', 'director']">
                 <a *ngIf="(attendee$ | async)?.registered && (puzzleHeroOpen$ | async)" [routerLink]="['/puzzle-hero']"
-                   routerLinkActive="active">
+                    routerLinkActive="active">
                     <div [fxLayout]="'row'" fxFlexFill>
                         <div fxFlex="20">
                             <i class="fal fa-puzzle-piece"></i>
@@ -74,15 +87,15 @@
 
                 <div class="sublinks" *ngIf="isActive('puzzle-hero')">
                     <a [routerLink]="['/puzzle-hero/edit']" routerLinkActive="active"
-                       *ifRole="['admin', 'super-admin']">
+                        *ifRole="['admin', 'super-admin']">
                         {{ "pages.puzzle_hero.tracks" | translate }}
                     </a>
                     <a [routerLink]="['/puzzle-hero/tracks']" routerLinkActive="active"
-                       *ifNotRole="['admin', 'super-admin']">
+                        *ifNotRole="['admin', 'super-admin']">
                         {{ "pages.puzzle_hero.tracks" | translate }}
                     </a>
                     <a *ngIf="scoreboardOpen$ | async" [routerLink]="['/puzzle-hero/scoreboard']"
-                       routerLinkActive="active">
+                        routerLinkActive="active">
                         {{ "pages.puzzle_hero.scoreboard" | translate }}
                     </a>
                 </div>
@@ -90,7 +103,7 @@
 
             <ng-container *ifRole="['attendee', 'captain', 'godparent', 'sponsor']">
                 <a *ngIf="!(attendee$ | async) || (attendee$ | async)?.registered" [routerLink]="['/team']"
-                   routerLinkActive="active">
+                    routerLinkActive="active">
                     <div [fxLayout]="'row'" fxFlexFill>
                         <div fxFlex="20">
                             <i class="fal fa-users"></i>
@@ -230,7 +243,7 @@
             </ng-container>
             <ng-container *ifRole="['attendee', 'captain', 'godparent']">
                 <a *ngIf="(attendee$ | async)?.registered  && (flashoutOpen$ | async)" [routerLink]="['/flash-out']"
-                   routerLinkActive="active">
+                    routerLinkActive="active">
                     <div [fxLayout]="'row'" fxFlexFill>
                         <div fxFlex="20">
                             <i class="fal fa-video"></i>
