@@ -4,6 +4,7 @@ import { Observable } from "rxjs";
 import { Sponsors } from "../api/models/sponsors";
 import { switchMap } from "rxjs/operators";
 import { SponsorInfoDto } from "../features/sponsors/components/sponsor-form/dto/sponsor-info.dto";
+import { SponsorPositionningDto } from "../features/sponsors/components/update-sponsor-positionning/dto/sponsor-positionning.dto";
 
 @Injectable()
 export class SponsorsService {
@@ -23,5 +24,9 @@ export class SponsorsService {
 
     public updateSponsorInfo(id: string, sponsor: SponsorInfoDto): Observable<void> {
         return this.apiService.sponsor.updateSponsor(id, sponsor);
+    }
+
+    public updateSponsorPositionning(id: string, tier: string, sponsor: SponsorPositionningDto): Observable<void> {
+        return this.apiService.event.updateSponsor(id, tier, sponsor);
     }
 }
