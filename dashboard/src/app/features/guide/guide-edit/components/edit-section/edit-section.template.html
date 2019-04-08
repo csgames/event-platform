@@ -1,0 +1,21 @@
+<div class="modal-centered fade slide-up show animated slideInDown scroll" tabindex="-1" role="dialog"
+     style="display: block;">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content-wrapper">
+            <div class="modal-content card">
+                <!-- <app-loading-spinner [loading]="loading$"></app-loading-spinner> -->
+                <div class="modal-header">
+                    <h1 class="title">{{ "pages.guide.admin.create_section.create_section" | translate }}</h1>
+                    <button type="button" class="close" (click)="close()"><span aria-hidden="true">×</span><span
+                        class="sr-only">{{ "general.button.close" | translate }}</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <ng-container [ngSwitch]="type">
+                        <bring-form *ngSwitchCase="'bring'" [(ngModel)]="guide.bring"></bring-form>
+                    </ng-container>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

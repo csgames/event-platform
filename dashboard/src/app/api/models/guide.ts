@@ -1,13 +1,18 @@
 export enum EventGuideTypes {
-    Checklist = "checklist", 
+    Bring = "bring",
     Hotel = "hotel",
     GraduationCap = "graduationCap",
     SchoolMap = "schoolMap",
     Parking = "parking",
     Restaurants = "restaurants"
 }
+
+export interface BringSection {
+    [key: string]: string[];
+}
+
 export interface EventGuide {
-    bring: { [key: string]: string[] };
+    bring: BringSection;
     school: {
         latitude: number,
         longitude: number,

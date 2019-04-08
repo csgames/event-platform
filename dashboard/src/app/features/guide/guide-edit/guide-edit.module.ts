@@ -3,7 +3,7 @@ import { CommonModule } from "@angular/common";
 import { FormsModule, ReactiveFormsModule, FormBuilder } from "@angular/forms";
 import { TranslateModule } from "@ngx-translate/core";
 import { LoadingSpinnerModule } from "src/app/components/loading-spinner/loading-spinner.module";
-import { CollapseModule } from "ngx-bootstrap";
+import { CollapseModule, TypeaheadModule } from "ngx-bootstrap";
 import { NgSelectModule } from "@ng-select/ng-select";
 import { DirectivesModule } from "src/app/directives/directives.module";
 import { FlexLayoutModule } from "@angular/flex-layout";
@@ -22,6 +22,10 @@ import { SimpleModalModule } from "ngx-simple-modal";
 import { SECTION_FORM_GENERATOR } from "./components/section-form/section-form.constants";
 import { FormGeneratorFactory } from "src/app/form-generator/factory";
 import { SectionFormDto } from "./components/section-form/dto/section-form.dto";
+import { BringFormComponent } from "./components/bring-form/bring-form.component";
+import { PipeModule } from "../../../pipe/pipe.module";
+import { EditSectionComponent } from "./components/edit-section/edit-section.component";
+import { CustomTextBoxModule } from "../../../components/custom-text-box/custom-text-box.module";
 
 @NgModule({
     imports: [
@@ -41,15 +45,21 @@ import { SectionFormDto } from "./components/section-form/dto/section-form.dto";
         AgmCoreModule.forRoot({
             apiKey: environment.GOOGLE_MAPS_API_KEY
         }),
-        SimpleModalModule
+        SimpleModalModule,
+        PipeModule,
+        CustomTextBoxModule,
+        TypeaheadModule
     ],
     declarations: [
         GuideEditComponent,
         CreateSectionComponent,
-        SectionFormComponent
+        EditSectionComponent,
+        SectionFormComponent,
+        BringFormComponent
     ],
     entryComponents: [
         CreateSectionComponent,
+        EditSectionComponent,
         SectionFormComponent
     ],
     providers: [

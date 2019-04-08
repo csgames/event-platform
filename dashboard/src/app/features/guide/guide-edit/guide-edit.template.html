@@ -7,7 +7,7 @@
     <div class="guide animated fadeIn" *ngIf="guide">
         <!-- What to bring -->
         <app-accordion-component iconClass="fa-clipboard-check" title="{{ 'pages.guide.what_to_bring' | translate }}"
-            [startsOpened]="false" [hasEdit]="true">
+            [startsOpened]="false" [hasEdit]="true" (clickUpdateGuide)="update('bring')">
             <div class="row">
                 <div class="inside-text-div col-12" *ngIf="lang() !== 'fr'">
                     <ul class="bullet-list">
@@ -86,17 +86,17 @@
             </agm-map>
         </app-accordion-component>
         <!-- Restaurants -->
-        <app-accordion-component iconClass="fa-utensils" title="{{ 'pages.guide.restaurants' | translate }}"
-            [hasEdit]="true">
-            <agm-map *ngIf="guide" [latitude]="guide.restaurant.latitude" [longitude]="guide.restaurant.longitude"
-                [zoom]="guide.restaurant.zoom" [disableDefaultUI]="false" [zoomControl]="false">>
-                <agm-marker *ngFor="let marker of guide.restaurant.coordinates" [latitude]="marker.latitude"
-                    [longitude]="marker.longitude" [label]="" [markerDraggable]="false">
-                    <agm-info-window>
-                        <strong>{{ marker.info }}</strong>
-                    </agm-info-window>
-                </agm-marker>
-            </agm-map>
-        </app-accordion-component>
+<!--        <app-accordion-component iconClass="fa-utensils" title="{{ 'pages.guide.restaurants' | translate }}"-->
+<!--            [hasEdit]="true">-->
+<!--            <agm-map *ngIf="guide" [latitude]="guide.restaurant.latitude" [longitude]="guide.restaurant.longitude"-->
+<!--                [zoom]="guide.restaurant.zoom" [disableDefaultUI]="false" [zoomControl]="false">>-->
+<!--                <agm-marker *ngFor="let marker of guide.restaurant.coordinates" [latitude]="marker.latitude"-->
+<!--                    [longitude]="marker.longitude" [label]="" [markerDraggable]="false">-->
+<!--                    <agm-info-window>-->
+<!--                        <strong>{{ marker.info }}</strong>-->
+<!--                    </agm-info-window>-->
+<!--                </agm-marker>-->
+<!--            </agm-map>-->
+<!--        </app-accordion-component>-->
     </div>
 </div>

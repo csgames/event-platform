@@ -3,7 +3,7 @@ import { EventGuideTypes } from "../api/models/guide";
 export namespace GuideUtils {
     export function getGuideTypeIconClass(type: string): string {
         switch (type) {
-            case EventGuideTypes.Checklist:
+            case EventGuideTypes.Bring:
                 return "fal fal-4x fa-clipboard-check";
             case EventGuideTypes.Hotel:
                 return "fal fal-4x fa-hotel";

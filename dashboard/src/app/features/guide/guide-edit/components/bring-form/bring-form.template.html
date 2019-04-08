@@ -1,0 +1,20 @@
+<div fxLayout="row" fxLayoutAlign="end center">
+    <div fxFlex="10" class="input-group input-group-default language-select">
+        <ng-select [(ngModel)]="lang" [items]="languages">
+            controlStatus>
+            <ng-template ng-option-tmp ng-label-tmp let-item="item">
+                <span class="ng-option-label">
+                    {{ item.toUpperCase() }}
+                </span>
+            </ng-template>
+        </ng-select>
+    </div>
+</div>
+<div fxLayout="column" *ngIf="lang && section">
+    <div fxFlex="100" *ngFor="let d of section[lang]">
+        <div class="input-group input-group-default">
+            <input class="form-control" type="text" [(ngModel)]="d">
+            <span class="input-group-btn"><a class="btn btn-danger btn-outline pull-right"><i class="fa fa-trash"></i></a></span>
+        </div>
+    </div>
+</div>

@@ -10,6 +10,7 @@ import { LoadGuideEdit } from "./store/guide-edit.actions";
 import { filter } from "rxjs/operators";
 import { SimpleModalService } from "ngx-simple-modal";
 import { CreateSectionComponent } from "./components/create-section/create-section.component";
+import { EditSectionComponent, EditSectionModal } from "./components/edit-section/edit-section.component";
 
 @Component({
     selector: "app-guide-edit",
@@ -51,5 +52,12 @@ export class GuideEditComponent implements OnInit, OnDestroy {
 
     clickAddSection() {
         this.modalService.addModal(CreateSectionComponent);
+    }
+
+    public update(type: string) {
+        this.modalService.addModal(EditSectionComponent, {
+            type,
+            guide: this.guide
+        });
     }
 }
