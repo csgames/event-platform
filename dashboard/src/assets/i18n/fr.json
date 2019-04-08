@@ -114,6 +114,10 @@
         "ticket": {
             "ticket": "Billet"
         },
+        "download_question": {
+            "download_team": "Récupération des résultats de {{teamName}}",
+            "download_saving": "Enregistrement du fichier"
+        },
         "competition_settings": {
             "settings": "Paramètres de compétitions"
         },
@@ -122,6 +126,19 @@
             "deleted": "Une fois supprimer il ne sera plus possible de l'ajouter à votre équipe.",
             "safe": "Action annulée",
             "delete": "Participant supprimé"
+        },
+        "activity_form": {
+            "activity_information": "Informations de l'activité",
+            "title_placeholder": "Titre de l'activité",
+            "activity_types": "Type d'activité",
+            "begin_date": "Date de début",
+            "end_date":"Date de fin",
+            "details_information": "Détails de l'activité",
+            "location": "Lieu",
+            "on_dashboard": "Activité cachée du dashboard"
+        },
+        "edit_team_info": {
+            "edit_team_info": "Modifier informations équipe"
         }
     },
     "errors": {
@@ -247,6 +264,13 @@
                 "artificial_intelligence": "Intelligence artificielle",
                 "defensive_security": "Sécurité défensive",
                 "offensive_security": "Sécurité offensive"
+            }
+        },
+        "activity": {
+            "types": {
+                "other": "Autre",
+                "food": "Repas",
+                "competition": "Compétition"
             }
         }
     },
@@ -422,6 +446,13 @@
             "validation_error": "Réponse invalide.",
             "answered": "La question a été répondue.",
             "good_answer": "Réponse enregistrée!"
+        },
+        "activities": {
+            "activities": "Activités",
+            "add_activity": "Ajouter une activité",
+            "load_error": "Une erreur est survenue lors du chargement des activités. ",
+            "edit_activity_success": "Activité sauvegardée avec succès",
+            "edit_activity": "Modifier une activité"
         }
     }
 }

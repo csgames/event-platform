@@ -3,6 +3,7 @@ import { ApiService } from "../api/api.service";
 import { Observable } from "rxjs";
 import { Team } from "../api/models/team";
 import { Attendee } from "../api/models/attendee";
+import { EditTeamFormDto } from "../features/team/team-edit/components/edit-team-form/dto/edit-team-form.dto";
 
 @Injectable()
 export class TeamService {
@@ -45,5 +46,9 @@ export class TeamService {
 
     deleteAttendeeFromTeam(attendeeId: string, teamId: string): Observable<void> {
         return this.apiService.team.deleteAttendeeFromTeam(attendeeId, teamId);
+    }
+
+    updateTeam(id: string, team: EditTeamFormDto): Observable<void> {
+        return this.apiService.team.updateTeam(id, team);
     }
 }

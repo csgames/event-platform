@@ -121,6 +121,16 @@
                     </div>
                 </div>
             </a>
+            <a *ifRole="['admin', 'super-admin']" [routerLink]="['/activities']" routerLinkActive="active">
+                <div [fxLayout]="'row'" fxFlexFill>
+                    <div fxFlex="20">
+                        <i class="fal fa-calendar-day"></i>
+                    </div>
+                    <div fxFlex="80">
+                        {{ "pages.activities.activities" | translate }}
+                    </div>
+                </div>
+            </a>
             <a *ifRole="['sponsor']" [routerLink]="['/user/attendee']" routerLinkActive="active">
                 <div [fxLayout]="'row'" fxFlexFill>
                     <div fxFlex="20">
