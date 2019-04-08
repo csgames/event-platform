@@ -40,4 +40,4 @@ export function reducer(state = initialState, action: UpdateSponsorPositionningA
 export const getUpdateSponsorPositionningState = createFeatureSelector<State, UpdateSponsorPositionningState>("updateSponsorPositionning");
 
 export const getLoading = createSelector(getUpdateSponsorPositionningState, (state: UpdateSponsorPositionningState) => state.loading);
-export const getSucces = createSelector(getUpdateSponsorPositionningState, (state: UpdateSponsorPositionningState) => state.success);
+export const getSuccess = createSelector(getUpdateSponsorPositionningState, (state: UpdateSponsorPositionningState) => state.success);

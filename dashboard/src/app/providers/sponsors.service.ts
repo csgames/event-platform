@@ -4,7 +4,7 @@ import { Observable } from "rxjs";
 import { Sponsors } from "../api/models/sponsors";
 import { switchMap } from "rxjs/operators";
 import { SponsorInfoDto } from "../features/sponsors/components/sponsor-form/dto/sponsor-info.dto";
-import { SponsorPositionningDto } from "../features/sponsors/components/update-sponsor-positionning/dto/sponsor-positionning.dto";
+import { SponsorPositionningDto } from "../features/sponsors/components/sponsor-positionning-form/dto/sponsor-positionning.dto";
 
 @Injectable()
 export class SponsorsService {

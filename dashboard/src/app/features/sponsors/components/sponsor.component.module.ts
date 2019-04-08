@@ -18,6 +18,12 @@ import { UpdateSponsorInfoEffects } from "./update-sponsor-info/store/update-spo
 import { StoreModule } from "@ngrx/store";
 import { EffectsModule } from "@ngrx/effects";
 import * as fromUpdateSponsorInfo from "./update-sponsor-info/store/update-sponsor-info.reducer";
+import { SponsorPositionningDto } from "./sponsor-positionning-form/dto/sponsor-positionning.dto";
+import { UPDATE_SPONSOR_POSITIONNING_FORM_GENERATOR } from "./sponsor-positionning-form/sponsor-positionning-form.constants";
+import { SponsorPositionningFormComponent } from "./sponsor-positionning-form/sponsor-positionning-form.component";
+import { UpdateSponsorPositionningComponent } from "./update-sponsor-positionning/update-sponsor-positionning.component";
+import { UpdateSponsorPositionningEffects } from "./update-sponsor-positionning/store/update-sponsor-positionning.effects";
+import * as fromUpdateSponsorPositionning from "./update-sponsor-positionning/store/update-sponsor-positionning.reducer";
 
 @NgModule({
     imports: [
@@ -32,12 +38,37 @@ import * as fromUpdateSponsorInfo from "./update-sponsor-info/store/update-spons
         CustomTextBoxModule,
         StoreModule.forFeature("updateSponsorInfo", fromUpdateSponsorInfo.reducer),
         EffectsModule.forFeature([UpdateSponsorInfoEffects]),
+        StoreModule.forFeature("updateSponsorPositionning", fromUpdateSponsorPositionning.reducer),
+        EffectsModule.forFeature([UpdateSponsorPositionningEffects])
     ],
-    declarations: [SponsorTierComponent, InfoSponsorComponent, SponsorFormComponent, UpdateSponsorInfoComponent],
-    exports: [SponsorTierComponent, SponsorFormComponent],
-    entryComponents: [InfoSponsorComponent, UpdateSponsorInfoComponent],
+    declarations: [
+        SponsorTierComponent,
+        InfoSponsorComponent,
+        SponsorFormComponent,
+        UpdateSponsorInfoComponent,
+        SponsorPositionningFormComponent,
+        UpdateSponsorPositionningComponent
+    ],
+    exports: [
+        SponsorTierComponent,
+        SponsorFormComponent
+    ],
+    entryComponents: [
+        InfoSponsorComponent,
+        UpdateSponsorInfoComponent,
+        UpdateSponsorPositionningComponent        
+    ],
     providers: [
-        { provide: ADD_SPONSOR_FORM_GENERATOR, useFactory: FormGeneratorFactory.transform(SponsorInfoDto), deps: [FormBuilder] }
+        {
+            provide: ADD_SPONSOR_FORM_GENERATOR,
+            useFactory: FormGeneratorFactory.transform(SponsorInfoDto),
+            deps: [FormBuilder]
+        },
+        {
+            provide: UPDATE_SPONSOR_POSITIONNING_FORM_GENERATOR,
+            useFactory: FormGeneratorFactory.transform(SponsorPositionningDto),
+            deps: [FormBuilder]
+        }
     ]
 })
 export class SponsorComponentModule {}

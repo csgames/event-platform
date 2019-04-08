@@ -4,9 +4,9 @@
     <app-loading-spinner [loading]="loading$"></app-loading-spinner>
 
     <div class="animated fadeIn">
-        <app-sponsor-tier [tier]="platinumTier" [showAdd]="true" (info)="onShowInfo($event)"></app-sponsor-tier>
-        <app-sponsor-tier [tier]="goldTier" [showAdd]="true" (info)="onShowInfo($event)"></app-sponsor-tier>
-        <app-sponsor-tier [tier]="silverTier" [showAdd]="true" (info)="onShowInfo($event)"></app-sponsor-tier>
-        <app-sponsor-tier [tier]="bronzeTier" [showAdd]="true" (info)="onShowInfo($event)"></app-sponsor-tier>
+        <app-sponsor-tier [tier]="platinumTier" [showAdd]="true" (info)="onShowInfo($event, platinumTier)"></app-sponsor-tier>
+        <app-sponsor-tier [tier]="goldTier" [showAdd]="true" (info)="onShowInfo($event, goldTier)"></app-sponsor-tier>
+        <app-sponsor-tier [tier]="silverTier" [showAdd]="true" (info)="onShowInfo($event, silverTier)"></app-sponsor-tier>
+        <app-sponsor-tier [tier]="bronzeTier" [showAdd]="true" (info)="onShowInfo($event, bronzeTier)"></app-sponsor-tier>
     </div>
 </div>

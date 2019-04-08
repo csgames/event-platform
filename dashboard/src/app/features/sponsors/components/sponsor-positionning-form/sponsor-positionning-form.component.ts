@@ -1,32 +1,33 @@
-import { Component, forwardRef, OnInit, OnDestroy, Inject } from "@angular/core";
+import { Component, OnInit, OnDestroy, forwardRef, Inject } from "@angular/core";
 import { NG_VALUE_ACCESSOR, ControlValueAccessor, FormGroup } from "@angular/forms";
+import { SponsorPositionningDto } from "./dto/sponsor-positionning.dto";
 import { Subscription } from "rxjs";
+import { UPDATE_SPONSOR_POSITIONNING_FORM_GENERATOR } from "./sponsor-positionning-form.constants";
 import { FormGenerator } from "src/app/form-generator/form-generator";
-import { ADD_SPONSOR_FORM_GENERATOR } from "../../sponsor-edit/sponsor-edit.constants";
-import { SponsorInfoDto } from "./dto/sponsor-info.dto";
 
 @Component({
-    selector: "app-sponsor-form",
-    templateUrl: "sponsor-form.template.html",
-    styleUrls: ["./sponsor-form.style.scss"],
+    selector: "app-sponsor-positionning-form",
+    templateUrl: "sponsor-positionning-form.template.html",
     providers: [
         {
             provide: NG_VALUE_ACCESSOR,
-            useExisting: forwardRef(() => SponsorFormComponent),
+            useExisting: forwardRef(() => SponsorPositionningFormComponent),
             multi: true
         }
     ]
 })
-export class SponsorFormComponent implements OnInit, OnDestroy, ControlValueAccessor {
+export class SponsorPositionningFormComponent implements OnInit, OnDestroy, ControlValueAccessor {
     public formGroup: FormGroup;
-    private propagate: (dto: SponsorInfoDto) => void;
+    private propagate: (dto: SponsorPositionningDto) => void;
     private valueChangesSub$: Subscription;
     
-    constructor(@Inject(ADD_SPONSOR_FORM_GENERATOR) private formGenerator: FormGenerator<SponsorInfoDto>) {}
+    constructor(
+        @Inject(UPDATE_SPONSOR_POSITIONNING_FORM_GENERATOR) private formGenerator: FormGenerator<SponsorPositionningDto>
+    ) {}
 
     public ngOnInit() {
         this.formGroup = this.formGenerator.generateGroup();
-        this.valueChangesSub$ = this.formGroup.valueChanges.subscribe((value: SponsorInfoDto) => {
+        this.valueChangesSub$ = this.formGroup.valueChanges.subscribe((value: SponsorPositionningDto) => {
             this.propagate(value);
         });
     }
@@ -35,7 +36,7 @@ export class SponsorFormComponent implements OnInit, OnDestroy, ControlValueAcce
         this.valueChangesSub$.unsubscribe();
     }
 
-    public writeValue(obj: SponsorInfoDto): void {
+    public writeValue(obj: SponsorPositionningDto): void {
         if (obj) {
             this.formGenerator.patchValues(obj);
         }

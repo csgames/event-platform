@@ -18,7 +18,19 @@ export class SponsorPositionningDto {
 
     @Control()
     @Required()
-    webPadding: number[];
+    webLeftPadding: number;
+
+    @Control()
+    @Required()
+    webRightPadding: number;
+
+    @Control()
+    @Required()
+    webTopPadding: number;
+
+    @Control()
+    @Required()
+    webBottomPadding: number;
 
     @Control()
     @Required()
@@ -32,7 +44,20 @@ export class SponsorPositionningDto {
     @Max(1)
     mobileHeight: number;
 
+    
     @Control()
     @Required()
-    mobilePadding: number[];
+    mobileLeftPadding: number;
+
+    @Control()
+    @Required()
+    mobileRightPadding: number;
+
+    @Control()
+    @Required()
+    mobileTopPadding: number;
+    
+    @Control()
+    @Required()
+    mobileBottomPadding: number;
 }

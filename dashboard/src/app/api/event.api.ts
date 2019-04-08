@@ -13,7 +13,7 @@ import { AttendeeNotification } from "./models/notification";
 import { AttendeeVote, Flashout } from "./models/flashout";
 import { Competition } from "./models/competition";
 import { SponsorInfoDto } from "../features/sponsors/components/sponsor-form/dto/sponsor-info.dto";
-import { SponsorPositionningDto } from "../features/sponsors/components/update-sponsor-positionning/dto/sponsor-positionning.dto";
+import { SponsorPositionningDto } from "../features/sponsors/components/sponsor-positionning-form/dto/sponsor-positionning.dto";
 
 @Injectable()
 export class EventApi extends CSGamesApi {
@@ -175,12 +175,22 @@ export class EventApi extends CSGamesApi {
             tier,
             sponsor: id,
             web: {
-                padding: sponsor.webPadding,
+                padding: [
+                    sponsor.webLeftPadding,
+                    sponsor.webTopPadding,
+                    sponsor.webRightPadding,
+                    sponsor.webBottomPadding
+                ],
                 widthFactor: sponsor.webWidth,
                 heightFactor: sponsor.webHeight
             },
             mobile: {
-                padding: sponsor.mobilePadding,
+                padding: [
+                    sponsor.mobileLeftPadding,
+                    sponsor.mobileTopPadding,
+                    sponsor.mobileRightPadding,
+                    sponsor.mobileBottomPadding
+                ],
                 widthFactor: sponsor.mobileWidth,
                 heightFactor: sponsor.mobileHeight
             }

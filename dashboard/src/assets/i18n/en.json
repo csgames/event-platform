@@ -129,7 +129,17 @@
             "image": "Link to image",
             "description": "The description given by the sponsor",
             "update": "Update the sponsor info",
-            "webWidth": "Width factor of the logo on the website [0, 1]"
+            "positionning": "Sponsor positionning",
+            "web_width": "Width factor of the logo on the website [0, 1]",
+            "web_height": "Height factor of the logo on the website [0, 1]",
+            "web_padding": "Padding on the website [0, x[",
+            "mobile_width": "Width factor of the logo on the mobile app [0, 1]",
+            "mobile_height": "Height factor of the logo on the mobile app [0, 1]",
+            "mobile_padding": "Padding sur l'application mobile [0, x[",
+            "left": "Left padding",
+            "right": "Right padding",
+            "top": "Top padding",
+            "bottom": "Bottom padding"
         }
     },
     "errors": {

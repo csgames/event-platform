@@ -1,5 +1,5 @@
 import { Action } from "@ngrx/store";
-import { SponsorPositionningDto } from "../dto/sponsor-positionning.dto";
+import { SponsorPositionningDto } from "../../sponsor-positionning-form/dto/sponsor-positionning.dto";
 
 export enum UpdateSponsorPositionningActionTypes {
     UpdatePositionning = "[Update Sponsor Positionning] Update sponsor positionning",
