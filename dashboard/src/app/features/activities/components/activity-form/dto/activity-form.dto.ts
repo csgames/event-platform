@@ -35,5 +35,6 @@ export class ActivityFormDto {
     location: string;
 
     @Control()
+    @Required()
     hidden: boolean;
 }

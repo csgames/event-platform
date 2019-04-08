@@ -134,7 +134,8 @@
             "begin_date": "Date de début",
             "end_date":"Date de fin",
             "details_information": "Détails de l'activité",
-            "location": "Lieu"
+            "location": "Lieu",
+            "on_dashboard": "Activité cachée du dashboard"
         },
         "edit_team_info": {
             "edit_team_info": "Modifier informations équipe"

@@ -134,7 +134,8 @@
             "begin_date": "Start date",
             "end_date":"End date",
             "details_information": "Details of the activity",
-            "location": "Location"
+            "location": "Location",
+            "on_dashboard": "Activity hidden from dashboard"
         },
         "edit_team_info": {
             "edit_team_info": "Edit team info"

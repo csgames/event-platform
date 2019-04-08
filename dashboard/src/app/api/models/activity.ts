@@ -27,4 +27,5 @@ export interface CreateActivity {
     endTime: Date | string;
     details: { [lang: string]: string };
     location: string;
+    hidden: boolean;
 }
