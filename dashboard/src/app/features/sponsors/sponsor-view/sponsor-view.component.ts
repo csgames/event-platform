@@ -1,19 +1,19 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
 import { Store, select } from "@ngrx/store";
-import { SponsorTier } from "./models/sponsor-tier";
-import { State, getSponsors, getSponsorsLoading } from "./store/sponsors.reducer";
-import { LoadSponsors } from "./store/sponsors.actions";
+import { SponsorTier } from "../models/sponsor-tier";
+import { State, getSponsors, getSponsorsLoading } from "./store/sponsors-view.reducer";
+import { LoadSponsors } from "./store/sponsors-view.actions";
 import { Subscription } from "rxjs";
 import { Sponsors } from "src/app/api/models/sponsors";
 import { SimpleModalService } from "ngx-simple-modal";
-import { InfoSponsorComponent } from "./info-sponsor/info-sponsor.component";
+import { InfoSponsorComponent } from "../components/info-sponsor/info-sponsor.component";
 
 @Component({
     selector: "app-sponsors",
-    templateUrl: "sponsors.template.html",
-    styleUrls: ["sponsors.style.scss"]
+    templateUrl: "sponsor-view.template.html",
+    styleUrls: ["sponsor-view.style.scss"]
 })
-export class SponsorsComponent implements OnInit, OnDestroy {
+export class SponsorViewComponent implements OnInit, OnDestroy {
     sponsors$ = this.store$.pipe(select(getSponsors));
     loading$ = this.store$.pipe(select(getSponsorsLoading));
 

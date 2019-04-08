@@ -121,6 +121,14 @@
             "deleted": "Une fois supprimer il ne sera plus possible de l'ajouter à votre équipe.",
             "safe": "Action annulée",
             "delete": "Participant supprimé"
+        },
+        "sponsor_form": {
+            "info": "Information du commanditaire",
+            "website": "Site internet",
+            "name": "Nom du commanditaire",
+            "image": "Lien vers le logo",
+            "description": "La description donnée par le commanditaire",
+            "webWidth": "Facteur de largeur du logo sur le site web [0, 1]"
         }
     },
     "errors": {
@@ -369,7 +377,8 @@
             "partner": "Partenaire",
             "platinum": "Platine",
             "silver": "Argent",
-            "sponsors": "Commanditaires"
+            "sponsors": "Commanditaires",
+            "add_sponsor": "Ajouter un commanditaire"
         },
         "team": {
             "add_a_godparent": "Ajouter un(e) parrain/marraine",

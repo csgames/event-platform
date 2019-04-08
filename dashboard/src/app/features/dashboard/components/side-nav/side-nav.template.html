@@ -133,13 +133,25 @@
                     </div>
                 </a>
             </ng-container>
-            <a *ngIf="(attendee$ | async)?.registered" [routerLink]="['/sponsors']" routerLinkActive="active">
+            <ng-container *ifRole="['volunteer', 'sponsor', 'godparent', 'captain', 'attendee']">
+                <a *ngIf="(attendee$ | async)?.registered" [routerLink]="['/sponsors']" routerLinkActive="active">
+                    <div [fxLayout]="'row'" fxFlexFill>
+                        <div fxFlex="20">
+                            <i class="fal fa-gem"></i>
+                        </div>
+                        <div fxFlex="80">
+                            {{ "pages.sponsors.sponsors" | translate }}
+                        </div>
+                    </div>
+                </a>
+            </ng-container>
+            <a *ifRole="['admin', 'super-admin']" [routerLink]="['/sponsors/edit']" routerLinkActive="active">
                 <div [fxLayout]="'row'" fxFlexFill>
                     <div fxFlex="20">
                         <i class="fal fa-gem"></i>
                     </div>
                     <div fxFlex="80">
-                        {{ "pages.sponsors.sponsors" | translate }}
+                            {{ "pages.sponsors.sponsors" | translate }}
                     </div>
                 </div>
             </a>
@@ -179,6 +191,16 @@
                     </div>
                 </a>
             </ng-container>
+            <a *ifRole="['admin', 'super-admin']" [routerLink]="['/flash-out/edit']" routerLinkActive="active">
+                <div [fxLayout]="'row'" fxFlexFill>
+                    <div fxFlex="20">
+                        <i class="fal fa-video"></i>
+                    </div>
+                    <div fxFlex="80">
+                        Flash Outs
+                    </div>
+                </div>
+            </a>
             <ng-container *ifRole="['admin', 'super-admin']">
                 <a [routerLink]="['/organizer']" routerLinkActive="active">
                     <div [fxLayout]="'row'" fxFlexFill>
@@ -215,17 +237,8 @@
                     </div>
                 </a>
             </ng-container>
-            <a *ifRole="['admin', 'super-admin']" [routerLink]="['/flash-out/edit']" routerLinkActive="active">
-                <div [fxLayout]="'row'" fxFlexFill>
-                    <div fxFlex="20">
-                        <i class="fal fa-video"></i>
-                    </div>
-                    <div fxFlex="80">
-                        Flash Outs
-                    </div>
-                </div>
-            </a>
-
+            
+            
         </div>
     </ng-template>
 </div>

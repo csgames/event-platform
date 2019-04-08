@@ -121,6 +121,14 @@
             "deleted": "Once deleted you won't be able to add the participant back.",
             "safe": "Action cancelled",
             "delete": "Participant deleted"
+        },
+        "sponsor_form": {
+            "info": "Sponsor information",
+            "website": "Website",
+            "name": "Sponsor name",
+            "image": "Link to image",
+            "description": "The description given by the sponsor",
+            "webWidth": "Width factor of the logo on the website [0, 1]"
         }
     },
     "errors": {
@@ -370,7 +378,8 @@
             "partner": "Partner",
             "platinum": "Platinum",
             "silver": "Silver",
-            "sponsors": "Sponsors"
+            "sponsors": "Sponsors",
+            "add_sponsor": "Add a sponsors"
         },
         "team": {
             "add_a_godparent": "Add a godparent",

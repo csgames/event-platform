@@ -1,13 +1,13 @@
 import { Routes, RouterModule } from "@angular/router";
+import { SponsorEditComponent } from "./sponsor-edit.component";
 import { NgModule } from "@angular/core";
-import { SponsorsComponent } from "./sponsors.component";
 
 const routes: Routes = [
-    { path: "", component: SponsorsComponent }
+    { path: "", component: SponsorEditComponent }
 ];
 
 @NgModule({
     imports: [RouterModule.forChild(routes)],
     exports: [RouterModule]
 })
-export class SponsorsRoutingModule { }
+export class SponsorEditRoutingModule {}

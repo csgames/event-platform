@@ -12,7 +12,7 @@ import { Team } from "./models/team";
 import { AttendeeNotification } from "./models/notification";
 import { AttendeeVote, Flashout } from "./models/flashout";
 import { Competition } from "./models/competition";
-
+import { AddSponsorFormDto } from "../features/sponsors/components/sponsor-form/dto/add-sponsor.dto";
 
 @Injectable()
 export class EventApi extends CSGamesApi {
@@ -148,5 +148,24 @@ export class EventApi extends CSGamesApi {
 
     public updateCompetitionResults(event: Event): Observable<void> {
         return this.http.put<void>(this.url(), event, { withCredentials: true });
+    }
+
+    public addSponsorToEvent(sponsor: AddSponsorFormDto, id: string, tier: string): Observable<void> {
+        const body = {
+            tier,
+            sponsor: id,
+            web: {
+                padding: [0, 0, 0, 0],
+                widthFactor: 1,
+                heightFactor: 1
+            },
+            mobile: {
+                padding: [0, 0, 0, 0],
+                widthFactor: 1,
+                heightFactor: 1
+            }
+        }
+
+        return this.http.put<void>(this.url("sponsor"), body, { withCredentials: true });
     }
 }
