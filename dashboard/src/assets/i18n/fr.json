@@ -141,7 +141,9 @@
             "edit_team_info": "Modifier informations équipe"
         },
         "create_section": {
-            "error": "Une erreur est survenue lors de la création de la section."
+            "error": "Une erreur est survenue lors de la création de la section.",
+            "success": "Section créée avec succès. ",
+            "type_section": "Type de la section"
         }
     },
     "errors": {
@@ -274,6 +276,16 @@
                 "other": "Autre",
                 "food": "Repas",
                 "competition": "Compétition"
+            }
+        },
+        "guide": {
+            "types": {
+                "checklist": "Que faut-il apporter? ",
+                "hotel": "Se rendre à l'hôtel",
+                "graduation_cap": "Se rendre à l'école",
+                "school_map": "Plan de l'école",
+                "parking": "Stationnements",
+                "restaurants": "Restaurants et bars"
             }
         }
     },

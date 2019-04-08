@@ -1,8 +1,8 @@
 export enum EventGuideTypes {
     Bring = "bring",
     Hotel = "hotel",
-    GraduationCap = "graduationCap",
-    SchoolMap = "schoolMap",
+    GraduationCap = "graduation_cap",
+    SchoolMap = "school_map",
     Parking = "parking",
     Restaurants = "restaurants"
 }

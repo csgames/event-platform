@@ -12,6 +12,7 @@ import { Team } from "./models/team";
 import { AttendeeNotification } from "./models/notification";
 import { AttendeeVote, Flashout } from "./models/flashout";
 import { Competition } from "./models/competition";
+import { SectionFormDto } from "../features/guide/guide-edit/components/section-form/dto/section-form.dto";
 
 
 @Injectable()
@@ -158,4 +159,7 @@ export class EventApi extends CSGamesApi {
         return this.http.put<void>(this.url("activity"), activity, { withCredentials: true });
     }
 
+    public createSection(sectionDto: SectionFormDto) {
+        return this.http.put<void>(this.url("guide"), sectionDto, { withCredentials: true });
+    }
 }

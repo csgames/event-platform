@@ -3,13 +3,14 @@ import { CommonModule } from "@angular/common";
 import { FormsModule, ReactiveFormsModule, FormBuilder } from "@angular/forms";
 import { TranslateModule } from "@ngx-translate/core";
 import { LoadingSpinnerModule } from "src/app/components/loading-spinner/loading-spinner.module";
-import { CollapseModule, TypeaheadModule } from "ngx-bootstrap";
+import { CollapseModule } from "ngx-bootstrap";
 import { NgSelectModule } from "@ng-select/ng-select";
 import { DirectivesModule } from "src/app/directives/directives.module";
 import { FlexLayoutModule } from "@angular/flex-layout";
 import { GuideEditRoutingModule } from "./guide-edit-routing.module";
 import { GuideEditComponent } from "./guide-edit.component";
 import * as fromGuide from "./store/guide-edit.reducer";
+import * as fromSection from "../guide-edit/components/create-section/store/create-section.reducer";
 import { StoreModule } from "@ngrx/store";
 import { EffectsModule } from "@ngrx/effects";
 import { GuideEditEffects } from "./store/guide-edit.effects";
@@ -22,6 +23,7 @@ import { SimpleModalModule } from "ngx-simple-modal";
 import { SECTION_FORM_GENERATOR } from "./components/section-form/section-form.constants";
 import { FormGeneratorFactory } from "src/app/form-generator/factory";
 import { SectionFormDto } from "./components/section-form/dto/section-form.dto";
+import { CreateSectionEffects } from "./components/create-section/store/create-section.effets";
 import { BringFormComponent } from "./components/bring-form/bring-form.component";
 import { PipeModule } from "../../../pipe/pipe.module";
 import { EditSectionComponent } from "./components/edit-section/edit-section.component";
@@ -40,15 +42,15 @@ import { CustomTextBoxModule } from "../../../components/custom-text-box/custom-
         GuideEditRoutingModule,
         FlexLayoutModule,
         StoreModule.forFeature("guideEdit", fromGuide.reducer),
-        EffectsModule.forFeature([GuideEditEffects]),
+        EffectsModule.forFeature([GuideEditEffects, CreateSectionEffects]),
+        StoreModule.forFeature("guideCreateSection", fromSection.reducer),
         GuideAccordionModule,
         AgmCoreModule.forRoot({
             apiKey: environment.GOOGLE_MAPS_API_KEY
         }),
         SimpleModalModule,
         PipeModule,
-        CustomTextBoxModule,
-        TypeaheadModule
+        CustomTextBoxModule
     ],
     declarations: [
         GuideEditComponent,
