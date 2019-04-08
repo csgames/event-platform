@@ -43,7 +43,7 @@ export class UpdateSponsorInfoComponent extends SimpleModalComponent<UpdateSpons
             if (success) {
                 this.close();
             }
-        })
+        });
     }
     
     public ngOnDestroy() {
