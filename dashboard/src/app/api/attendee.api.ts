@@ -19,6 +19,10 @@ export class AttendeeApi extends CSGamesApi {
         return this.http.get<{ url: string }>(this.url("cv/url"), { withCredentials: true }).pipe(map(x => x.url));
     }
 
+    public getAttendeeCvLink(id: string): Observable<string> {
+        return this.http.get<{ url: string }>(this.url(`${id}/cv/url`), { withCredentials: true }).pipe(map(x => x.url));
+    }
+
     public update(attendee: AttendeeModel, file: File) {
         const form = new FormData();
         for (const key in attendee) {

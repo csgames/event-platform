@@ -39,7 +39,7 @@
                 <app-attendee-view class="mb-4" [attendee]="member" [showRegister]="true">
                 </app-attendee-view>
             </div>
-            <div *ifRole="['admin', 'captain', 'super-admin']">
+            <div *ifRole="['admin', 'captain', 'super-admin', 'sponsor']">
                 <button *ngIf="!isAddingTeamMember && canAddTeamMember$ | async" type="button"
                         class="btn btn-lg btn-block borders"
                         (click)="onEditTeamMember()">
@@ -73,7 +73,7 @@
                 </div>
             </div>
         </div>
-        <ng-container *ngIf="currentGodparent$ | async as currentGodparent">
+        <ng-container *ngIf="currentTeam.school && currentGodparent$ | async as currentGodparent">
             <h4 class="team-members">
                 {{ "pages.team.godparent" | translate }}
                 <b>({{ currentGodparent?.length }}/{{ godparentSize$ | async}})</b>

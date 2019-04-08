@@ -2,31 +2,18 @@ import { Control } from "../../../../../../form-generator/decorators/control.dec
 import { Required } from "../../../../../../form-generator/decorators/required.decorator";
 import { Email } from "../../../../../../form-generator/decorators/email.decorator";
 
-export class AddTeamFormDto {
+export class EditTeamFormDto {
     @Control()
     @Required()
-    firstName: string;
-
-    @Control()
-    @Required()
-    lastName: string;
-
-    @Control()
-    @Required()
-    @Email()
-    email: string;
-
-    @Control()
-    @Required()
-    teamName: string;
+    name: string;
 
     @Control()
     @Required()
     maxMembersNumber: number;
 
     @Control()
-    schoolId: string;
+    school: string;
 
     @Control()
-    sponsorId: string;
+    sponsor: string;
 }

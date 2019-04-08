@@ -72,7 +72,7 @@ export class TeamViewEffects {
         ofType<AddTeamMember>(TeamViewActionTypes.AddTeamMember),
         withLatestFrom(this.store$.pipe(select(getCurrentTeam))),
         switchMap(([action, team]: [AddTeamMember, Team]) =>
-            this.teamService.addTeamMember(action.payload, team.name, "attendee").pipe(
+            this.teamService.addTeamMember(action.payload, team.name, team.school ? "attendee" : "sponsor", team.sponsor).pipe(
                 map(() => new LoadTeam()),
                 catchError(err => {
                     if (err.status === 400) {

@@ -45,7 +45,8 @@
         "add_team_form": {
             "captain_informations": "Captain informations",
             "team_informations": "Team informations",
-            "max_members": "Nombre de membres maximal"
+            "max_members": "Max team members",
+            "sponsor": "Sponsor"
         },
         "notification": {
             "no_notification": "You have no notifications"
@@ -134,6 +135,9 @@
             "end_date":"End date",
             "details_information": "Details of the activity",
             "location": "Location"
+        },
+        "edit_team_info": {
+            "edit_team_info": "Edit team info"
         }
     },
     "errors": {
@@ -418,7 +422,12 @@
             "add_organizer": "Add an organizer"
         },
         "attendees": {
-            "attendees": "Attendees"
+            "attendees": "Attendees",
+            "resume": "Resume",
+            "csv": "CSV",
+            "xlsx": "XLSX",
+            "view_team": "View Team",
+            "download_resume": "Download Resume"
         },
         "volunteers": {
             "volunteers": "Volunteers",

@@ -6,6 +6,7 @@ export interface Team {
     attendees: Attendee[];
     event?: string;
     school?: string;
+    sponsor?: string;
     present?: boolean;
     maxMembersNumber: number;
 }

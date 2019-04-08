@@ -45,7 +45,8 @@
         "add_team_form": {
             "captain_informations": "Informations sur le capitaine",
             "team_informations": "Informations sur l'équipe",
-            "max_members": "Nombre de membres maximal"
+            "max_members": "Nombre de membres maximal",
+            "sponsor": "Commanditaire"
         },
         "notification": {
             "no_notification": "Vous n'avez pas de notifications"
@@ -118,7 +119,7 @@
             "download_saving": "Enregistrement du fichier"
         },
         "competition_settings": {
-            "settings": "Paramètres de compétitions
+            "settings": "Paramètres de compétitions"
         },
         "delete_attendee": {
             "sure": "Êtes-vous sûr de vouloir supprimer ce participant?",
@@ -134,6 +135,9 @@
             "end_date":"Date de fin",
             "details_information": "Détails de l'activité",
             "location": "Lieu"
+        },
+        "edit_team_info": {
+            "edit_team_info": "Modifier informations équipe"
         }
     },
     "errors": {
@@ -417,7 +421,12 @@
             "add_organizer": "Ajouter un organisateur"
         },
         "attendees": {
-            "attendees": "Participants"
+            "attendees": "Participants",
+            "resume": "CV",
+            "csv": "CSV",
+            "xlsx": "XLSX",
+            "view_team": "Voir équipe",
+            "download_resume": "Télécharger CV"
         },
         "volunteers": {
             "volunteers": "Bénévoles",

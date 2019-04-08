@@ -49,7 +49,11 @@ export class SideNavComponent implements OnInit {
 
     ngOnInit() { }
 
-    isActive(route: string) {
-        return this.router.isActive(route, false);
+    isActive(route: string | string[]) {
+        if (typeof route === "string") {
+            return this.router.isActive(route, false);
+        }
+
+        return route.some(x => this.router.isActive(x, false));
     }
 }

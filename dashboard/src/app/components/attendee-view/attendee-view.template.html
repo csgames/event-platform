@@ -18,8 +18,8 @@
             <div fxLayout="row">
                 <div><span *ngIf="attendee.registered" class="badge badge-pill badge-primary">{{ "pages.team.registered" | translate }}</span></div>
                 <div><span *ngIf="!attendee.registered" class="badge badge-pill badge-danger">{{ "pages.team.not_registered" | translate }}</span></div>
-                <button  type="button" class="close" (click)="clickDelete()">
-                        <span *ngIf="attendee.role == 'attendee' || attendee.role == 'godparent'" aria-hidden="true">
+                <button  type="button" class="close" (click)="clickDelete()" *ifRole="['admin', 'super-admin', 'captain', 'sponsor']">
+                        <span *ngIf="attendee.role == 'attendee' || attendee.role == 'godparent' || attendee.role === 'sponsor'" aria-hidden="true">
                             <i class="fal fa-trash fa-lg trash"></i>
                         </span>
                         <span *ngIf="attendee.role == 'admin' || attendee.role == 'captain' || attendee.role == 'super-admin'" aria-hidden="true" style="visibility: hidden">x</span>
