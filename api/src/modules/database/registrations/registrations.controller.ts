@@ -25,7 +25,6 @@ export class RegistrationsController {
                                   @Role() role: string,
                                   @EventId() eventId: string
     ): Promise<Registrations> {
-        console.log(dto);
         return await this.registrationService.create(dto, role, eventId);
     }
 
