@@ -31,7 +31,7 @@ export class SponsorFormComponent implements OnInit, OnDestroy, ControlValueAcce
         this.formGroup = this.formGenerator.generateGroup();
         this.valueChangesSub$ = this.formGroup.valueChanges.subscribe((value: SponsorInfoDto) => {
             this.propagate(value);
-        })
+        });
     }
 
     public ngOnDestroy() {

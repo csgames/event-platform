@@ -16,5 +16,5 @@ export class SponsorInfoDto {
     
     @Control()
     @Required()
-    imageUrl: string
+    imageUrl: string;
 }

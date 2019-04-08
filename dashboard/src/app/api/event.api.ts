@@ -164,7 +164,7 @@ export class EventApi extends CSGamesApi {
                 widthFactor: 1,
                 heightFactor: 1
             }
-        }
+        };
 
         return this.http.put<void>(this.url("sponsor"), body, { withCredentials: true });
     }

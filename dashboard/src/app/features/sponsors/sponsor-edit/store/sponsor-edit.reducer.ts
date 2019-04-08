@@ -20,7 +20,7 @@ export interface State extends fromApp.State {
 }
 
 export function reducer(state = initialState, action: SponsorEditActions): SponsorEditState {
-    switch(action.type) {
+    switch (action.type) {
         case SponsorEditActionTypes.LoadSponsors:
             return {
                 ...state,
@@ -38,7 +38,7 @@ export function reducer(state = initialState, action: SponsorEditActions): Spons
             return {
                 ...state,
                 addLoading: true
-            }
+            };
         default:
             return state;
     }

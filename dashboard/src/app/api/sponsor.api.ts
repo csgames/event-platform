@@ -17,7 +17,7 @@ export class SponsorApi extends CSGamesApi {
             description: sponsor.description,
             website: sponsor.website,
             imageUrl: sponsor.imageUrl
-        }
+        };
         return this.http.post<any>(this.url(), body, { withCredentials: true }).pipe(
             map((r) => r._id)
         );

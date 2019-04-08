@@ -15,7 +15,7 @@ const routes: Routes = [
         canActivate: [RoleGuard],
         data: { roles: ["admin", "super-admin"], redirect: "sponsor"}
     }
-]
+];
 
 @NgModule({
     imports: [RouterModule.forChild(routes)],

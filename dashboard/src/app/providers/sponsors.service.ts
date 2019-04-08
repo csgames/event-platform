@@ -18,7 +18,7 @@ export class SponsorsService {
             switchMap((id: string) => 
                 this.apiService.event.addSponsorToEvent(id, tier)
             )
-        )
+        );
     }
 
     public updateSponsorInfo(id: string, sponsor: SponsorInfoDto): Observable<void> {
