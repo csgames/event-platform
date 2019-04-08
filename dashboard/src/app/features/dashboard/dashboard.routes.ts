@@ -81,6 +81,11 @@ export const DASHBOARD_ROUTES: Routes = [
         loadChildren: "src/app/features/attendees/attendees.module#AttendeesModule"
     },
     {
+        path: "activities",
+        loadChildren: "src/app/features/activities/activities.module#ActivitiesModule",
+        canActivate: [RegisteredGuard]
+    },
+    {
         path: "**",
         redirectTo: "guide",
         pathMatch: "full"

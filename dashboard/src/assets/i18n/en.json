@@ -127,6 +127,16 @@
             "safe": "Action cancelled",
             "delete": "Participant deleted"
         },
+        "activity_form": {
+            "activity_information": "Activity information",
+            "title_placeholder": "Title of the activity",
+            "activity_types": "Activity type",
+            "begin_date": "Start date",
+            "end_date":"End date",
+            "details_information": "Details of the activity",
+            "location": "Location",
+            "on_dashboard": "Activity hidden from dashboard"
+        },
         "edit_team_info": {
             "edit_team_info": "Edit team info"
         }
@@ -254,6 +264,13 @@
                 "artificial_intelligence": "Artificial intelligence",
                 "defensive_security": "Defensive security",
                 "offensive_security": "Offensive security"
+            }
+        },
+        "activity": {
+            "types": {
+                "other": "Other",
+                "food": "Meal",
+                "competition": "Competition"
             }
         }
     },
@@ -429,6 +446,13 @@
             "validation_error": "Invalid answer.",
             "answered": "The question has been answered.",
             "good_answer": "Answer saved!"
+        },
+        "activities": {
+            "activities": "Activities",
+            "add_activity": "Add an activity",
+            "load_error": "An error occurred while loading the activities. ",
+            "edit_activity_success": "Successfully saved activity",
+            "edit_activity": "Edit activity"
         }
     }
 }

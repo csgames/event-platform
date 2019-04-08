@@ -1,9 +1,10 @@
 import { Injectable } from "@angular/core";
 import { ApiService } from "../api/api.service";
-import { Activity } from "../api/models/activity";
+import { Activity, CreateActivity } from "../api/models/activity";
 import { Observable } from "rxjs";
 import { formatDate } from "@angular/common";
 import { TranslateService } from "@ngx-translate/core";
+import { ActivityUtils } from "../utils/activity.utils";
 
 @Injectable()
 export class ScheduleService {
@@ -57,5 +58,9 @@ export class ScheduleService {
         }
 
         return "d MMMM";
+    }
+
+    public createActivity(activity: CreateActivity) {
+        return this.apiService.event.createActivity(ActivityUtils.createTimeActivity(activity));
     }
 }
