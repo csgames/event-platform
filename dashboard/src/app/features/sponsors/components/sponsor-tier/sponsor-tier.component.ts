@@ -1,11 +1,11 @@
 import { Component, EventEmitter, Input, Output, ViewChild } from "@angular/core";
 import { Sponsors } from "../../../../api/models/sponsors";
 import { SponsorTier } from "../../models/sponsor-tier";
-import { AddSponsorFormDto } from "../sponsor-form/dto/add-sponsor.dto";
 import { SponsorFormComponent } from "../sponsor-form/sponsor-form.component";
 import { Store } from "@ngrx/store";
 import { State } from "../../sponsor-edit/store/sponsor-edit.reducer";
 import { AddSponsor } from "../../sponsor-edit/store/sponsor-edit.actions";
+import { SponsorInfoDto } from "../sponsor-form/dto/sponsor-info.dto";
 
 @Component({
     selector: "app-sponsor-tier",
@@ -17,7 +17,7 @@ export class SponsorTierComponent {
     private form: SponsorFormComponent;
 
     public showCreateSponsorCard = false;
-    public dto = new AddSponsorFormDto();
+    public dto = new SponsorInfoDto();
 
     @Input()
     public tier: SponsorTier;
@@ -71,7 +71,7 @@ export class SponsorTierComponent {
     }
 
     public onCancel() {
-        this.dto = new AddSponsorFormDto();
+        this.dto = new SponsorInfoDto();
         this.showCreateSponsorCard = false;
     }
 
@@ -79,7 +79,7 @@ export class SponsorTierComponent {
         if (this.form.validate()) {
             const tierName = this.tier.name.charAt(0).toUpperCase() + this.tier.name.slice(1);
             this.store$.dispatch(new AddSponsor(this.dto, tierName));
-            this.dto = new AddSponsorFormDto();
+            this.dto = new SponsorInfoDto();
             this.showCreateSponsorCard = false;
         }
     }

@@ -10,9 +10,14 @@ import { InfoSponsorComponent } from "./info-sponsor/info-sponsor.component";
 import { SimpleModalModule } from "ngx-simple-modal";
 import { ADD_SPONSOR_FORM_GENERATOR } from "../sponsor-edit/sponsor-edit.constants";
 import { FormGeneratorFactory } from "src/app/form-generator/factory";
-import { AddSponsorFormDto } from "./sponsor-form/dto/add-sponsor.dto";
 import { SponsorFormComponent } from "./sponsor-form/sponsor-form.component";
 import { CustomTextBoxModule } from "src/app/components/custom-text-box/custom-text-box.module";
+import { SponsorInfoDto } from "./sponsor-form/dto/sponsor-info.dto";
+import { UpdateSponsorInfoComponent } from "./update-sponsor-info/update-sponsor-info.component";
+import { UpdateSponsorInfoEffects } from "./update-sponsor-info/store/update-sponsor-info.effects";
+import { StoreModule } from "@ngrx/store";
+import { EffectsModule } from "@ngrx/effects";
+import * as fromUpdateSponsorInfo from "./update-sponsor-info/store/update-sponsor-info.reducer";
 
 @NgModule({
     imports: [
@@ -24,13 +29,15 @@ import { CustomTextBoxModule } from "src/app/components/custom-text-box/custom-t
         FormsModule,
         SimpleModalModule,
         ReactiveFormsModule,
-        CustomTextBoxModule
+        CustomTextBoxModule,
+        StoreModule.forFeature("updateSponsorInfo", fromUpdateSponsorInfo.reducer),
+        EffectsModule.forFeature([UpdateSponsorInfoEffects]),
     ],
-    declarations: [SponsorTierComponent, InfoSponsorComponent, SponsorFormComponent],
-    exports: [SponsorTierComponent],
-    entryComponents: [InfoSponsorComponent],
+    declarations: [SponsorTierComponent, InfoSponsorComponent, SponsorFormComponent, UpdateSponsorInfoComponent],
+    exports: [SponsorTierComponent, SponsorFormComponent],
+    entryComponents: [InfoSponsorComponent, UpdateSponsorInfoComponent],
     providers: [
-        { provide: ADD_SPONSOR_FORM_GENERATOR, useFactory: FormGeneratorFactory.transform(AddSponsorFormDto), deps: [FormBuilder] }
+        { provide: ADD_SPONSOR_FORM_GENERATOR, useFactory: FormGeneratorFactory.transform(SponsorInfoDto), deps: [FormBuilder] }
     ]
 })
 export class SponsorComponentModule {}

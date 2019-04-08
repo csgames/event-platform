@@ -3,7 +3,7 @@ import { CSGamesApi } from "./csgames.api";
 import { HttpClient } from "@angular/common/http";
 import { map } from "rxjs/operators";
 import { Observable } from "rxjs";
-import { AddSponsorFormDto } from "../features/sponsors/components/sponsor-form/dto/add-sponsor.dto";
+import { SponsorInfoDto } from "../features/sponsors/components/sponsor-form/dto/sponsor-info.dto";
 
 @Injectable()
 export class SponsorApi extends CSGamesApi {
@@ -11,7 +11,7 @@ export class SponsorApi extends CSGamesApi {
         super("sponsor");
     }
 
-    public addSponsor(sponsor: AddSponsorFormDto): Observable<string> {
+    public addSponsor(sponsor: SponsorInfoDto): Observable<string> {
         const body = {
             name: sponsor.name,
             description: sponsor.description,
@@ -21,5 +21,9 @@ export class SponsorApi extends CSGamesApi {
         return this.http.post<any>(this.url(), body, { withCredentials: true }).pipe(
             map((r) => r._id)
         );
+    }
+
+    public updateSponsor(id: string, sponsor: SponsorInfoDto): Observable<void> {
+        return this.http.put<void>(this.url(id), sponsor, { withCredentials: true });
     }
 }

@@ -1,6 +1,6 @@
 import { Action } from "@ngrx/store";
 import { Sponsors } from "src/app/api/models/sponsors";
-import { AddSponsorFormDto } from "../../components/sponsor-form/dto/add-sponsor.dto";
+import { SponsorInfoDto } from "../../components/sponsor-form/dto/sponsor-info.dto";
 
 export enum SponsorEditActionTypes {
     LoadSponsors = "[Sponsor edit] Load sponsors",
@@ -21,7 +21,7 @@ export class SponsorsLoaded implements Action {
 export class AddSponsor implements Action {
     readonly type = SponsorEditActionTypes.AddSponsor;
 
-    constructor(public dto: AddSponsorFormDto, public tier: string) {}
+    constructor(public dto: SponsorInfoDto, public tier: string) {}
 }
 
 export type SponsorEditActions =

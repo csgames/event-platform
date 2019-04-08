@@ -128,6 +128,7 @@
             "name": "Nom du commanditaire",
             "image": "Lien vers le logo",
             "description": "La description donnée par le commanditaire",
+            "update": "Mettre à jour les informations du commanditaire",
             "webWidth": "Facteur de largeur du logo sur le site web [0, 1]"
         }
     },

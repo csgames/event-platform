@@ -7,6 +7,7 @@ import { Sponsors } from "src/app/api/models/sponsors";
 import { Subscription } from "rxjs";
 import { SponsorTier } from "../models/sponsor-tier";
 import { InfoSponsorComponent } from "../components/info-sponsor/info-sponsor.component";
+import { UpdateSponsorInfoComponent } from "../components/update-sponsor-info/update-sponsor-info.component";
 
 @Component({
     selector: "app-sponsor-edit",
@@ -83,6 +84,6 @@ export class SponsorEditComponent implements OnInit, OnDestroy {
     }
  
     public onShowInfo(sponsor: Sponsors) {
-        this.modalService.addModal(InfoSponsorComponent, {sponsor});
+        this.modalService.addModal(UpdateSponsorInfoComponent, {sponsor});
     }
 }

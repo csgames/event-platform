@@ -1,9 +1,9 @@
 import { Component, forwardRef, OnInit, OnDestroy, Input, Inject } from "@angular/core";
 import { NG_VALUE_ACCESSOR, ControlValueAccessor, FormGroup } from "@angular/forms";
-import { AddSponsorFormDto } from "./dto/add-sponsor.dto";
 import { Subscription } from "rxjs";
 import { FormGenerator } from "src/app/form-generator/form-generator";
 import { ADD_SPONSOR_FORM_GENERATOR } from "../../sponsor-edit/sponsor-edit.constants";
+import { SponsorInfoDto } from "./dto/sponsor-info.dto";
 
 @Component({
     selector: "app-sponsor-form",
@@ -22,14 +22,14 @@ export class SponsorFormComponent implements OnInit, OnDestroy, ControlValueAcce
     tier: string;
 
     public formGroup: FormGroup;
-    private propagate: (dto: AddSponsorFormDto) => void;
+    private propagate: (dto: SponsorInfoDto) => void;
     private valueChangesSub$: Subscription;
     
-    constructor(@Inject(ADD_SPONSOR_FORM_GENERATOR) private formGenerator: FormGenerator<AddSponsorFormDto>) {}
+    constructor(@Inject(ADD_SPONSOR_FORM_GENERATOR) private formGenerator: FormGenerator<SponsorInfoDto>) {}
 
     public ngOnInit() {
         this.formGroup = this.formGenerator.generateGroup();
-        this.valueChangesSub$ = this.formGroup.valueChanges.subscribe((value: AddSponsorFormDto) => {
+        this.valueChangesSub$ = this.formGroup.valueChanges.subscribe((value: SponsorInfoDto) => {
             this.propagate(value);
         })
     }
@@ -38,7 +38,7 @@ export class SponsorFormComponent implements OnInit, OnDestroy, ControlValueAcce
         this.valueChangesSub$.unsubscribe();
     }
 
-    public writeValue(obj: AddSponsorFormDto): void {
+    public writeValue(obj: SponsorInfoDto): void {
         if (obj) {
             this.formGenerator.patchValues(obj);
         }
