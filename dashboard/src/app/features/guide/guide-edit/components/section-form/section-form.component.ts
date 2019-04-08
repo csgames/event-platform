@@ -4,10 +4,7 @@ import { SECTION_FORM_GENERATOR } from "./section-form.constants";
 import { SectionFormDto } from "./dto/section-form.dto";
 import { Subscription } from "rxjs";
 import { ControlValueAccessor, FormGroup, NG_VALUE_ACCESSOR } from "@angular/forms";
-import { TrackTypes } from "../../../../../api/models/puzzle-hero";
-import { TrackUtils } from "../../../../../utils/track.utils";
 import { EventGuideTypes } from "src/app/api/models/guide";
-import { GuideAccordionModule } from "src/app/components/guide-accordion/accordion.module";
 import { GuideUtils } from "src/app/utils/guide.utils";
 
 @Component({
@@ -25,7 +22,7 @@ import { GuideUtils } from "src/app/utils/guide.utils";
 
 export class SectionFormComponent implements OnInit, ControlValueAccessor, OnDestroy {
 
-    public types = Object.values(TrackTypes);
+    public types = Object.values(EventGuideTypes);
 
     public formGroup: FormGroup;
 
@@ -33,7 +30,7 @@ export class SectionFormComponent implements OnInit, ControlValueAccessor, OnDes
 
     private valueChangeSub$: Subscription;
 
-    private propagate: (trackFormDto: SectionFormDto) => void;
+    private propagate: (sectionFormDto: SectionFormDto) => void;
 
     ngOnInit() {
         this.formGroup = this.formGenerator.generateGroup();

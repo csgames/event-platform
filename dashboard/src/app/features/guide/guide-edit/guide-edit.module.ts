@@ -10,6 +10,7 @@ import { FlexLayoutModule } from "@angular/flex-layout";
 import { GuideEditRoutingModule } from "./guide-edit-routing.module";
 import { GuideEditComponent } from "./guide-edit.component";
 import * as fromGuide from "./store/guide-edit.reducer";
+import * as fromSection from "../guide-edit/components/create-section/store/create-section.reducer";
 import { StoreModule } from "@ngrx/store";
 import { EffectsModule } from "@ngrx/effects";
 import { GuideEditEffects } from "./store/guide-edit.effects";
@@ -22,6 +23,7 @@ import { SimpleModalModule } from "ngx-simple-modal";
 import { SECTION_FORM_GENERATOR } from "./components/section-form/section-form.constants";
 import { FormGeneratorFactory } from "src/app/form-generator/factory";
 import { SectionFormDto } from "./components/section-form/dto/section-form.dto";
+import { CreateSectionEffects } from "./components/create-section/store/create-section.effets";
 
 @NgModule({
     imports: [
@@ -36,7 +38,8 @@ import { SectionFormDto } from "./components/section-form/dto/section-form.dto";
         GuideEditRoutingModule,
         FlexLayoutModule,
         StoreModule.forFeature("guideEdit", fromGuide.reducer),
-        EffectsModule.forFeature([GuideEditEffects]),
+        EffectsModule.forFeature([GuideEditEffects, CreateSectionEffects]),
+        StoreModule.forFeature("guideCreateSection", fromSection.reducer),
         GuideAccordionModule,
         AgmCoreModule.forRoot({
             apiKey: environment.GOOGLE_MAPS_API_KEY
