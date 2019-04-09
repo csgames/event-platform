@@ -36,7 +36,7 @@ export const DASHBOARD_ROUTES: Routes = [
     },
     {
         path: "sponsors",
-        loadChildren: "src/app/features/sponsors/sponsors.module#SponsorsModule",
+        loadChildren: "src/app/features/sponsors/sponsor.module#SponsorModule",
         canActivate: [RegisteredGuard]
     },
     {

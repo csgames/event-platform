@@ -9,7 +9,7 @@ const routes: Routes = [
         path: "edit",
         loadChildren: "src/app/features/puzzle-hero/admin/puzzle-admin.module#PuzzleAdminModule",
         canActivate: [RoleGuard],
-        data: { roles: ["admin"], redirect: "puzzle-hero/tracks" }
+        data: { roles: ["admin", "super-admin"], redirect: "puzzle-hero/tracks" }
     },
     {
         path: "tracks",
