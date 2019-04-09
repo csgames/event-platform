@@ -164,6 +164,9 @@
             "latitude": "Latitude",
             "longitude": "Longitude",
             "zoom": "Zoom sur la map"
+        },
+        "bring_form": {
+            "add": "Ajouter un item à apporter"
         }
     },
     "errors": {
