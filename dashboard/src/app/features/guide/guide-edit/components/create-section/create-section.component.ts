@@ -10,18 +10,24 @@ import { State,
          getGuideCreateSectionSuccess 
 } from "./store/create-section.reducer";
 import { CreateSection, ResetState } from "./store/create-section.actions";
+import { EventGuide, EventGuideTypes } from "src/app/api/models/guide";
+
+export interface CreateSectionModal {
+    guide: EventGuide;
+}
 
 @Component({
     selector: "app-create-section",
     templateUrl: "create-section.template.html"
 })
-export class CreateSectionComponent extends SimpleModalComponent<void, void> implements OnInit, OnDestroy {
+export class CreateSectionComponent extends SimpleModalComponent<CreateSectionModal, void> implements OnInit, OnDestroy {
     @ViewChild(SectionFormComponent)
     public sectionForm: SectionFormComponent;
-
+    public types: string[];
     public sectionFormDto: SectionFormDto = new SectionFormDto();
 
     private successSubscription$: Subscription;
+    private guide: EventGuide;
 
     loading$ = this.store$.pipe(select(getGuideCreateSectionLoading));
     error$ = this.store$.pipe(select(getGuideCreateSectionError));
@@ -38,6 +44,8 @@ export class CreateSectionComponent extends SimpleModalComponent<void, void> imp
                 this.close();
             }
         });
+        const guideSection = Object.keys(this.guide);
+        this.types = Object.values(EventGuideTypes).filter((type: string) => !guideSection.some((x) => x === type));
     }
 
     ngOnDestroy(): void {

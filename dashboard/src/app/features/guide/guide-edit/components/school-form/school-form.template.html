@@ -1,0 +1,30 @@
+<form [formGroup]="formGroup">
+    <div fxLayout="row" fxLayoutAlign="end center">
+        <div class="col-sm-12">
+            <div class="input-group input-group-default no-grow">
+                <input autofocus class="form-control" type="text" name="name" controlStatus formControlName="name"
+                    placeholder='{{ "components.school_form.name" | translate }}'>
+            </div>
+            <div class="input-group input-group-default no-grow">
+                <input autofocus class="form-control" type="text" name="address" controlStatus formControlName="address"
+                    placeholder='{{ "components.school_form.address" | translate }}'>
+            </div>
+            <div class="input-group input-group-default no-grow">
+                <input autofocus class="form-control" type="text" name="latitude" controlStatus formControlName="latitude"
+                    placeholder='{{ "components.school_form.latitude" | translate }}'>
+            </div>
+            <div class="input-group input-group-default no-grow">
+                <input autofocus class="form-control" type="text" name="longitude" controlStatus formControlName="longitude"
+                    placeholder='{{ "components.school_form.longitude" | translate }}'>
+            </div>
+            <div class="input-group input-group-default no-grow">
+                <input autofocus class="form-control" type="text" name="zoom" controlStatus formControlName="zoom"
+                    placeholder='{{ "components.school_form.zoom" | translate }}'>
+            </div>
+        </div>
+    </div>
+    <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="center center" class="container">
+        <a class="btn btn-primary btn-rounded mt-1 mb-3 px-3"
+           (click)="clickSave()">{{ "general.button.save" | translate }}</a>
+    </div>
+</form>

@@ -140,10 +140,30 @@
         "edit_team_info": {
             "edit_team_info": "Modifier informations équipe"
         },
-        "create_section": {
-            "error": "Une erreur est survenue lors de la création de la section.",
-            "success": "Section créée avec succès. ",
-            "type_section": "Type de la section"
+        "section": {
+            "create_error": "Une erreur est survenue lors de la création de la section.",
+            "create_success": "Section créée avec succès. ",
+            "type_section": "Type de la section",
+            "edit_section": "Modifier la section"
+        },
+        "hotel_form": {
+            "name": "Nom de l'hôtel",
+            "latitude": "Latitude",
+            "longitude": "Longitude",
+            "address": "Adresse de l'hôtel",
+            "zoom": "Zoom sur la map"
+        },
+        "school_form": {
+            "name": "Nom de l'école",
+            "latitude": "Latitude",
+            "longitude": "Longitude",
+            "address": "Adresse de l'école",
+            "zoom": "Zoom sur la map"
+        },
+        "parking_form": {
+            "latitude": "Latitude",
+            "longitude": "Longitude",
+            "zoom": "Zoom sur la map"
         }
     },
     "errors": {
@@ -280,12 +300,12 @@
         },
         "guide": {
             "types": {
-                "checklist": "Que faut-il apporter? ",
+                "bring": "Que faut-il apporter? ",
                 "hotel": "Se rendre à l'hôtel",
-                "graduation_cap": "Se rendre à l'école",
-                "school_map": "Plan de l'école",
+                "transport": "Se rendre à l'école",
+                "school": "Plan de l'école",
                 "parking": "Stationnements",
-                "restaurants": "Restaurants et bars"
+                "restaurant": "Restaurants et bars"
             }
         }
     },
@@ -351,8 +371,8 @@
             "what_to_bring": "Que faut-il apporter?",
             "map": "Plan de l'école",
             "admin": {
-                "add_section": "Ajouter une section",
-                "create_section": {
+                "section": {
+                    "add_section": "Ajouter une section",
                     "create_section": "Créer une section"
                 }
             }

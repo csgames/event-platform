@@ -1,4 +1,4 @@
-import { Component, forwardRef, Inject, OnInit, OnDestroy } from "@angular/core";
+import { Component, forwardRef, Inject, OnInit, OnDestroy, Input } from "@angular/core";
 import { FormGenerator } from "../../../../../form-generator/form-generator";
 import { SECTION_FORM_GENERATOR } from "./section-form.constants";
 import { SectionFormDto } from "./dto/section-form.dto";
@@ -22,7 +22,8 @@ import { GuideUtils } from "src/app/utils/guide.utils";
 
 export class SectionFormComponent implements OnInit, ControlValueAccessor, OnDestroy {
 
-    public types = Object.values(EventGuideTypes);
+    @Input()
+    public types: string[];
 
     public formGroup: FormGroup;
 

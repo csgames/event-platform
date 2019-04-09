@@ -28,6 +28,15 @@ import { BringFormComponent } from "./components/bring-form/bring-form.component
 import { PipeModule } from "../../../pipe/pipe.module";
 import { EditSectionComponent } from "./components/edit-section/edit-section.component";
 import { CustomTextBoxModule } from "../../../components/custom-text-box/custom-text-box.module";
+import { HotelFormComponent } from "./components/hotel-form/hotel-form.component";
+import { HOTEL_FORM_GENERATOR } from "./components/hotel-form/hotel-form.constants";
+import { HotelFormDto } from "./components/hotel-form/dto/hotel-form.dto";
+import { SchoolFormComponent } from "./components/school-form/school-form.component";
+import { SCHOOL_FORM_GENERATOR } from "./components/school-form/school-form.constants";
+import { SchoolFormDto } from "./components/school-form/dto/school-form.dto";
+import { PARKING_FORM_GENERATOR } from "./components/parking-form/parking-form.constants";
+import { ParkingFormDto } from "./components/parking-form/dto/parking-form.dto";
+import { ParkingFormComponent } from "./components/parking-form/parking-form.component";
 
 @NgModule({
     imports: [
@@ -57,7 +66,10 @@ import { CustomTextBoxModule } from "../../../components/custom-text-box/custom-
         CreateSectionComponent,
         EditSectionComponent,
         SectionFormComponent,
-        BringFormComponent
+        BringFormComponent,
+        HotelFormComponent,
+        SchoolFormComponent,
+        ParkingFormComponent
     ],
     entryComponents: [
         CreateSectionComponent,
@@ -65,7 +77,26 @@ import { CustomTextBoxModule } from "../../../components/custom-text-box/custom-
         SectionFormComponent
     ],
     providers: [
-        { provide: SECTION_FORM_GENERATOR, useFactory: FormGeneratorFactory.transform(SectionFormDto), deps: [FormBuilder] }
+        { 
+            provide: SECTION_FORM_GENERATOR, 
+            useFactory: FormGeneratorFactory.transform(SectionFormDto), 
+            deps: [FormBuilder] 
+        },
+        {
+            provide: HOTEL_FORM_GENERATOR,
+            useFactory: FormGeneratorFactory.transform(HotelFormDto),
+            deps: [FormBuilder]
+        },
+        {
+            provide: SCHOOL_FORM_GENERATOR,
+            useFactory: FormGeneratorFactory.transform(SchoolFormDto),
+            deps: [FormBuilder]
+        },
+        {
+            provide: PARKING_FORM_GENERATOR,
+            useFactory: FormGeneratorFactory.transform(ParkingFormDto),
+            deps: [FormBuilder]
+        }
     ]
 })
 export class GuideEditModule {}

@@ -51,7 +51,7 @@ export class GuideEditComponent implements OnInit, OnDestroy {
     }
 
     clickAddSection() {
-        this.modalService.addModal(CreateSectionComponent);
+        this.modalService.addModal(CreateSectionComponent, {guide: this.guide});
     }
 
     public update(type: string) {

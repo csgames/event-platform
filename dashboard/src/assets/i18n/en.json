@@ -140,10 +140,30 @@
         "edit_team_info": {
             "edit_team_info": "Edit team info"
         },
-        "create_section": {
-            "error": "An error occurred while creating the section",
-            "success": "Section successfully created.",
-            "type_section": "Section type"
+        "section": {
+            "create_error": "An error occurred while creating the section",
+            "create_success": "Section successfully created.",
+            "type_section": "Section type",
+            "edit_section": "Edit section"
+        },
+        "hotel_form": {
+            "name": "Name of the hotel",
+            "latitude": "Latitude",
+            "longitude": "Longitude",
+            "address": "Address of the hotel",
+            "zoom": "Zoom on map"
+        },
+        "school_form": {
+            "name": "Name of school",
+            "latitude": "Latitude",
+            "longitude": "Longitude",
+            "address": "Address of the school",
+            "zoom": "Zoom on map"
+        },
+        "parking_form": {
+            "latitude": "Latitude",
+            "longitude": "Longitude",
+            "zoom": "Zoom on map"
         }
     },
     "errors": {
@@ -280,12 +300,12 @@
         },
         "guide": {
             "types": {
-                "checklist": "What to bring ?",
+                "bring": "What to bring ?",
                 "hotel": "Get to the hotel",
-                "graduation_cap": "Get to the school",
-                "school_map": "School map",
+                "transport": "Get to the school",
+                "school": "School map",
                 "parking": "Parkings",
-                "restaurants": "Restaurants and bars"
+                "restaurant": "Restaurants and bars"
             }
         }
     },
@@ -352,8 +372,8 @@
             "what_to_bring": "What to bring?",
             "map": "School map",
             "admin": {
-                "add_section": "Add section",
-                "create_section": {
+                "section": {
+                    "add_section": "Add section",
                     "create_section": "Create section"
                 }
             }

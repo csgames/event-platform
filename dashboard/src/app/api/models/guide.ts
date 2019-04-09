@@ -1,42 +1,48 @@
 export enum EventGuideTypes {
     Bring = "bring",
     Hotel = "hotel",
-    GraduationCap = "graduation_cap",
-    SchoolMap = "school_map",
+    GraduationCap = "transport",
+    SchoolMap = "school",
     Parking = "parking",
-    Restaurants = "restaurants"
+    Restaurants = "restaurant"
 }
 
 export interface BringSection {
     [key: string]: string[];
 }
 
+export interface HotelSection {
+    latitude: number;
+    longitude: number;
+    zoom: number;
+    address: string;
+    name: string;
+}
+
+export interface SchoolSection {
+    latitude: number;
+    longitude: number;
+    zoom: number;
+    address: string;
+    name: string;
+    maps: [string];
+}
+
+export interface ParkingSection {
+    latitude: number;
+    longitude: number;
+    zoom: number;
+    coordinates: [{
+        latitude: number,
+        longitude: number
+    }];
+}
+
 export interface EventGuide {
     bring: BringSection;
-    school: {
-        latitude: number,
-        longitude: number,
-        zoom: number,
-        address: string,
-        name: string,
-        maps: [string]
-    };
-    hotel: {
-        latitude: number,
-        longitude: number,
-        zoom: number,
-        address: string,
-        name: string
-    };
-    parkings: {
-        latitude: number,
-        longitude: number,
-        zoom: number,
-        coordinates: [ { 
-            latitude: number,
-            longitude: number
-        }]
-    };
+    school: SchoolSection;
+    hotel: HotelSection;
+    parkings: ParkingSection;
     restaurant: {
         latitude: number,
         longitude: number,

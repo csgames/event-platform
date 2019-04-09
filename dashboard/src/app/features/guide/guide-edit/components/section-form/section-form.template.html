@@ -2,7 +2,7 @@
     <div class="row">
         <div class="col-sm-12">
             <div class="input-group input-group-default">
-                <ng-select [items]="types" [clearable]="false" placeholder='{{ "components.create_section.type_section" | translate }}'
+                <ng-select [items]="types" [clearable]="false" placeholder='{{ "components.section.type_section" | translate }}'
                            formControlName="type" controlStatus>
                     <ng-template ng-option-tmp ng-label-tmp let-item="item">
                         <i [ngClass]="getIcon(item)" ></i>
