@@ -24,6 +24,7 @@ import { SponsorPositionningFormComponent } from "./sponsor-positionning-form/sp
 import { UpdateSponsorPositionningComponent } from "./update-sponsor-positionning/update-sponsor-positionning.component";
 import { UpdateSponsorPositionningEffects } from "./update-sponsor-positionning/store/update-sponsor-positionning.effects";
 import * as fromUpdateSponsorPositionning from "./update-sponsor-positionning/store/update-sponsor-positionning.reducer";
+import { NgSelectModule } from "@ng-select/ng-select";
 
 @NgModule({
     imports: [
@@ -39,7 +40,8 @@ import * as fromUpdateSponsorPositionning from "./update-sponsor-positionning/st
         StoreModule.forFeature("updateSponsorInfo", fromUpdateSponsorInfo.reducer),
         EffectsModule.forFeature([UpdateSponsorInfoEffects]),
         StoreModule.forFeature("updateSponsorPositionning", fromUpdateSponsorPositionning.reducer),
-        EffectsModule.forFeature([UpdateSponsorPositionningEffects])
+        EffectsModule.forFeature([UpdateSponsorPositionningEffects]),
+        NgSelectModule
     ],
     declarations: [
         SponsorTierComponent,
@@ -47,7 +49,7 @@ import * as fromUpdateSponsorPositionning from "./update-sponsor-positionning/st
         SponsorFormComponent,
         UpdateSponsorInfoComponent,
         SponsorPositionningFormComponent,
-        UpdateSponsorPositionningComponent
+        UpdateSponsorPositionningComponent,
     ],
     exports: [
         SponsorTierComponent,

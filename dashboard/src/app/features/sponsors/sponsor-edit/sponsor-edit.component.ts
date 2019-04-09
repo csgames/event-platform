@@ -6,9 +6,6 @@ import { LoadSponsors } from "./store/sponsor-edit.actions";
 import { Sponsors } from "src/app/api/models/sponsors";
 import { Subscription } from "rxjs";
 import { SponsorTier } from "../models/sponsor-tier";
-import { InfoSponsorComponent } from "../components/info-sponsor/info-sponsor.component";
-import { UpdateSponsorInfoComponent } from "../components/update-sponsor-info/update-sponsor-info.component";
-import { UpdateSponsorPositionningComponent } from "../components/update-sponsor-positionning/update-sponsor-positionning.component";
 
 @Component({
     selector: "app-sponsor-edit",
@@ -82,13 +79,5 @@ export class SponsorEditComponent implements OnInit, OnDestroy {
 
     public ngOnDestroy() {
         this.sponsorsSub$.unsubscribe();
-    }
- 
-    public onShowInfo(sponsor: Sponsors, tier: SponsorTier) {
-        const tierName = tier.name.charAt(0).toUpperCase() + tier.name.slice(1);
-        this.modalService.addModal(UpdateSponsorPositionningComponent, {
-            sponsor,
-            tier: tierName
-        });
     }
 }
