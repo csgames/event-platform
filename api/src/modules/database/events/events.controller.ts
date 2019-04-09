@@ -129,7 +129,7 @@ export class EventsController {
     @Get('competition/member')
     @Permissions('csgames-api:get:competition')
     public async getCompetitionsAsMember(@EventId() eventId: string,
-                                 @User() user: UserModel): Promise<Competitions[]> {
+                                         @User() user: UserModel): Promise<Competitions[]> {
         return await this.eventsService.getCompetitionsAsMember(eventId, user);
     }
 
@@ -186,7 +186,7 @@ export class EventsController {
                 $in: attendeeIds
             },
             hasDietaryRestrictions: true,
-            dietaryRestrictions: {$regex: /^v/i}
+            dietaryRestrictions: { $regex: /^v/i }
         });
 
         return attendees.length;
@@ -214,10 +214,24 @@ export class EventsController {
         await this.eventsService.createActivity(eventId, activity);
     }
 
-    @Put(':id/sponsor')
+    @Put('sponsor')
     @Permissions('csgames-api:update:event')
-    public async addSponsor(@Param('id') eventId: string, @Body(new ValidationPipe()) dto: AddSponsorDto): Promise<Events> {
+    public async addSponsor(@EventId() eventId: string, @Body(new ValidationPipe()) dto: AddSponsorDto): Promise<Events> {
         return await this.eventsService.addSponsor(eventId, dto);
+    }
+
+    @Put('sponsor/:sponsorId')
+    @Permissions('csgames-api:update:event')
+    public async updateSponsor(@EventId() eventId: string, @Param('sponsorId') sponsorId: string,
+                               @Body(new ValidationPipe()) dto: AddSponsorDto) {
+        return await this.eventsService.update({
+            _id: eventId,
+            "sponsors.sponsor": sponsorId
+        }, {
+            $set: {
+                "sponsors.$": dto
+            }
+        } as any);
     }
 
     @Put()
