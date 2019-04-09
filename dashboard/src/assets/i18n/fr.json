@@ -384,6 +384,7 @@
             "scoreboard_loading_error": "Une erreur est survenue lors du chargement du classement",
             "validate_success": "Bonne réponse!",
             "answer": "Réponse",
+            "count": "Nombre de réponse:",
             "admin": {
                 "add_track": "Ajouter une piste",
                 "add_puzzle": "Ajouter un puzzle",
