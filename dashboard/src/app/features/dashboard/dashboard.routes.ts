@@ -60,20 +60,30 @@ export const DASHBOARD_ROUTES: Routes = [
         canActivate: [RegisteredGuard]
     },
     {
-        path: "organizer",
+        path: "user",
+        redirectTo: "user/attendee",
+        pathMatch: "full"
+    },
+    {
+        path: "user/organizer",
         loadChildren: "src/app/features/organizers/organizers.module#OrganizersModule"
     },
     {
-        path: "volunteer",
+        path: "user/volunteer",
         loadChildren: "src/app/features/volunteers/volunteers.module#VolunteersModule"
     },
     {
-        path: "director",
+        path: "user/director",
         loadChildren: "src/app/features/directors/directors.module#DirectorsModule"
     },
     {
-        path: "attendee",
+        path: "user/attendee",
         loadChildren: "src/app/features/attendees/attendees.module#AttendeesModule"
+    },
+    {
+        path: "activities",
+        loadChildren: "src/app/features/activities/activities.module#ActivitiesModule",
+        canActivate: [RegisteredGuard]
     },
     {
         path: "**",

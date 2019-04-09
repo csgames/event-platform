@@ -183,3 +183,10 @@
     height: 100%;
     z-index: 2;
 }
+
+.loading-content {
+    position: absolute;
+    top: 55%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}

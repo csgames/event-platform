@@ -45,7 +45,8 @@
         "add_team_form": {
             "captain_informations": "Captain informations",
             "team_informations": "Team informations",
-            "max_members": "Nombre de membres maximal"
+            "max_members": "Max team members",
+            "sponsor": "Sponsor"
         },
         "notification": {
             "no_notification": "You have no notifications"
@@ -113,6 +114,10 @@
         "ticket": {
             "ticket": "Ticket"
         },
+        "download_question": {
+            "download_team": "Fetching {{teamName}} result",
+            "download_saving": "Saving file"
+        },
         "competition_settings": {
             "settings": "Competition Settings"
         },
@@ -140,6 +145,19 @@
             "right": "Right padding",
             "top": "Top padding",
             "bottom": "Bottom padding"
+        },
+        "activity_form": {
+            "activity_information": "Activity information",
+            "title_placeholder": "Title of the activity",
+            "activity_types": "Activity type",
+            "begin_date": "Start date",
+            "end_date":"End date",
+            "details_information": "Details of the activity",
+            "location": "Location",
+            "on_dashboard": "Activity hidden from dashboard"
+        },
+        "edit_team_info": {
+            "edit_team_info": "Edit team info"
         }
     },
     "errors": {
@@ -265,6 +283,13 @@
                 "artificial_intelligence": "Artificial intelligence",
                 "defensive_security": "Defensive security",
                 "offensive_security": "Offensive security"
+            }
+        },
+        "activity": {
+            "types": {
+                "other": "Other",
+                "food": "Meal",
+                "competition": "Competition"
             }
         }
     },
@@ -418,7 +443,12 @@
             "add_organizer": "Add an organizer"
         },
         "attendees": {
-            "attendees": "Attendees"
+            "attendees": "Attendees",
+            "resume": "Resume",
+            "csv": "CSV",
+            "xlsx": "XLSX",
+            "view_team": "View Team",
+            "download_resume": "Download Resume"
         },
         "volunteers": {
             "volunteers": "Volunteers",
@@ -436,6 +466,13 @@
             "validation_error": "Invalid answer.",
             "answered": "The question has been answered.",
             "good_answer": "Answer saved!"
+        },
+        "activities": {
+            "activities": "Activities",
+            "add_activity": "Add an activity",
+            "load_error": "An error occurred while loading the activities. ",
+            "edit_activity_success": "Successfully saved activity",
+            "edit_activity": "Edit activity"
         }
     }
 }

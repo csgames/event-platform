@@ -1,5 +1,8 @@
 <div class="page-wrapper">
     <app-loading-spinner [loading]="loading$">
+        <ng-template ng-loading-body>
+            <question-download (downloadUrl)="downloadUrl($event)"></question-download>
+        </ng-template>
     </app-loading-spinner>
 
     <ng-container *ngIf="error$ | async">
@@ -15,10 +18,10 @@
             <h1 class="title">{{ "pages.competition.competition" | translate }}</h1>
 
             <div fxFlex></div>
-            <a class="btn btn-outline-primary" (click)="clickSave(competition)">
+            <a class="btn btn-outline-primary" (click)="clickSave()">
                 {{ "general.button.save" | translate }}
             </a>
-            <a class="btn btn-default" (click)="clickSettings(competition)"><i class="fal fa-cogs"></i></a>
+            <a class="btn btn-default" (click)="clickSettings()"><i class="fal fa-cogs"></i></a>
         </div>
         <div class="row mt-4">
             <div class="col-sm-7">

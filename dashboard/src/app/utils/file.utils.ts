@@ -17,4 +17,12 @@ export namespace FileUtils {
         downloadLink.href = link;
         downloadLink.click();
     }
+
+    export function downloadFileFromUrl(url: string) {
+        const downloadLink = document.createElement("a");
+        document.body.appendChild(downloadLink);
+        downloadLink.style.display = "none";
+        downloadLink.href = url;
+        downloadLink.click();
+    }
 }

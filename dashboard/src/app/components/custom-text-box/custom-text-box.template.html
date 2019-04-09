@@ -1,12 +1,12 @@
 <div fxLayout="row" fxLayoutAlign="start center">
-    <div>
+    <div fxFlex="none">
         <span class="infoText margin-left">
             {{ label }} :
         </span>
     </div>
     <div fxFlex></div>
-    <div fxFlex="100px">
-        <div class="input-group input-group-default language-select">
+    <div fxFlex="nogrow">
+        <div class="input-group-default language-select">
             <ng-select [(ngModel)]="languageValue" [items]="languages" (ngModelChange)="onLanguageChange()"
                        controlStatus>
                 <ng-template ng-option-tmp ng-label-tmp let-item="item">
@@ -18,8 +18,8 @@
         </div>
     </div>
 </div>
-<div class="row" *ngIf="formType === 'textbox' || formType === 'textarea'">
-    <div class="input-group input-group-default col-12 auto-height">
+<div fxLayout="row" *ngIf="formType === 'textbox' || formType === 'textarea'">
+    <div fxFlex="100" class="input-group input-group-default auto-height">
         <input *ngIf="formType === 'textbox'"
                [(ngModel)]="currentTextValue"
                (ngModelChange)="onContentTextChange()"

@@ -17,8 +17,8 @@
             </div>
         </div>
     </div>
-    <div class="row">
-        <div class="col-sm-12">
+    <div class="row error-group">
+        <div class="col-sm-6">
             <div class="input-group input-group-default mx-0">
                 <div class="input-group-prepend">
                     <a class="form-icon">
@@ -27,6 +27,18 @@
                 </div>
                 <ng-select [items]="schools" placeholder='{{ "components.profile.school" | translate }}'
                            formControlName="schoolId" bindValue="_id" bindLabel="name" controlStatus>
+                </ng-select>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="input-group input-group-default mx-0">
+                <div class="input-group-prepend">
+                    <a class="form-icon">
+                        <i class="fal fa-building"></i>
+                    </a>
+                </div>
+                <ng-select [items]="sponsors" placeholder='{{ "components.add_team_form.sponsor" | translate }}'
+                           formControlName="sponsorId" bindValue="_id" bindLabel="name" controlStatus>
                 </ng-select>
             </div>
         </div>

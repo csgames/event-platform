@@ -45,7 +45,8 @@
         "add_team_form": {
             "captain_informations": "Informations sur le capitaine",
             "team_informations": "Informations sur l'équipe",
-            "max_members": "Nombre de membres maximal"
+            "max_members": "Nombre de membres maximal",
+            "sponsor": "Commanditaire"
         },
         "notification": {
             "no_notification": "Vous n'avez pas de notifications"
@@ -113,6 +114,10 @@
         "ticket": {
             "ticket": "Billet"
         },
+        "download_question": {
+            "download_team": "Récupération des résultats de {{teamName}}",
+            "download_saving": "Enregistrement du fichier"
+        },
         "competition_settings": {
             "settings": "Paramètres de compétitions"
         },
@@ -140,6 +145,19 @@
             "right": "Padding à droite",
             "top": "Padding au dessus",
             "bottom": "Padding en dessous"
+        },
+        "activity_form": {
+            "activity_information": "Informations de l'activité",
+            "title_placeholder": "Titre de l'activité",
+            "activity_types": "Type d'activité",
+            "begin_date": "Date de début",
+            "end_date":"Date de fin",
+            "details_information": "Détails de l'activité",
+            "location": "Lieu",
+            "on_dashboard": "Activité cachée du dashboard"
+        },
+        "edit_team_info": {
+            "edit_team_info": "Modifier informations équipe"
         }
     },
     "errors": {
@@ -265,6 +283,13 @@
                 "artificial_intelligence": "Intelligence artificielle",
                 "defensive_security": "Sécurité défensive",
                 "offensive_security": "Sécurité offensive"
+            }
+        },
+        "activity": {
+            "types": {
+                "other": "Autre",
+                "food": "Repas",
+                "competition": "Compétition"
             }
         }
     },
@@ -417,7 +442,12 @@
             "add_organizer": "Ajouter un organisateur"
         },
         "attendees": {
-            "attendees": "Participants"
+            "attendees": "Participants",
+            "resume": "CV",
+            "csv": "CSV",
+            "xlsx": "XLSX",
+            "view_team": "Voir équipe",
+            "download_resume": "Télécharger CV"
         },
         "volunteers": {
             "volunteers": "Bénévoles",
@@ -435,6 +465,13 @@
             "validation_error": "Réponse invalide.",
             "answered": "La question a été répondue.",
             "good_answer": "Réponse enregistrée!"
+        },
+        "activities": {
+            "activities": "Activités",
+            "add_activity": "Ajouter une activité",
+            "load_error": "Une erreur est survenue lors du chargement des activités. ",
+            "edit_activity_success": "Activité sauvegardée avec succès",
+            "edit_activity": "Modifier une activité"
         }
     }
 }

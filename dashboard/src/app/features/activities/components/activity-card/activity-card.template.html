@@ -1,0 +1,20 @@
+<div class="card activity-card">
+    <div class="card-body activity-card-body">
+        <div fxLayout="row" fxLayoutAlign="start center" class="tile">
+            <div fxFlex="initial">
+                <i [ngClass]="icon"></i>
+            </div>
+            <div fxFlex>
+                <p class="name">{{ activity.name | t18n }}</p>
+                <p class="hours">{{ activity.beginDate | hours }}
+                    - {{ activity.endDate | hours }}</p>
+                <p class="location">{{ activity.location }}</p>
+            </div>
+            <div fxFlex="nogrow">
+                <a class="btn btn-default p-0" (click)="edit.emit()">
+                    <i class="fal fa-edit"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

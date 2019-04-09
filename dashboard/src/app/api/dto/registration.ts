@@ -14,6 +14,7 @@ export interface CreateInvitationDto {
     role: string;
     teamName?: string;
     schoolId?: string;
+    sponsorId?: string;
     maxMembersNumber?: number;
 }
 

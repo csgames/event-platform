@@ -25,6 +25,8 @@ export class AddTeamFormDto {
     maxMembersNumber: number;
 
     @Control()
-    @Required()
     schoolId: string;
+
+    @Control()
+    sponsorId: string;
 }

@@ -7,7 +7,7 @@ import { map } from "rxjs/operators";
 import { Attendee, AttendeeModel } from "./models/attendee";
 import { EventGuide } from "./models/guide";
 import { Sponsors } from "./models/sponsors";
-import { Activity } from "./models/activity";
+import { Activity, CreateActivity } from "./models/activity";
 import { Team } from "./models/team";
 import { AttendeeNotification } from "./models/notification";
 import { AttendeeVote, Flashout } from "./models/flashout";
@@ -147,6 +147,10 @@ export class EventApi extends CSGamesApi {
         });
     }
 
+    public getAttendeesCv(): Observable<Blob> {
+        return this.http.get(this.url("attendee/cv"), { responseType: "blob", withCredentials: true });
+    }
+
     public updateCompetitionResults(event: Event): Observable<void> {
         return this.http.put<void>(this.url(), event, { withCredentials: true });
     }
@@ -198,4 +202,9 @@ export class EventApi extends CSGamesApi {
 
         return this.http.put<void>(this.url(`sponsor/${id}`), body, { withCredentials: true });
     }
+    
+    public createActivity(activity: CreateActivity) {
+        return this.http.put<void>(this.url("activity"), activity, { withCredentials: true });
+    }
+
 }
