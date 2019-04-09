@@ -19,6 +19,13 @@ export class BringFormComponent implements OnInit, ControlValueAccessor {
     public lang: string;
     public languages = ["fr", "en"];
     public section: BringSection;
+    public showCreate = false;
+    public newItem = {
+        fr: "",
+        en: ""
+    };
+    public newItemError = false;
+
     private propagate: (data: BringSection) => void;
 
     constructor(private translate: TranslateService) {
@@ -39,5 +46,41 @@ export class BringFormComponent implements OnInit, ControlValueAccessor {
     }
 
     public registerOnTouched(fn: any): void {
+    }
+
+    public itemChange() {
+        this.propagate(this.section);
+    }
+
+    public deleteValue(index: number) {
+        const lang = Object.keys(this.section);
+        for (const l of lang) {
+            this.section[l].splice(index, 1);
+        }
+    }
+
+    public clickAdd() {
+        this.newItem = {
+            fr: "",
+            en: ""
+        };
+        this.showCreate = true;
+        this.newItemError = false;
+    }
+
+    public cancel() {
+        this.showCreate = false;
+        this.newItemError = false;
+    }
+
+    public add() {
+        if (!this.newItem["fr"].length || !this.newItem["en"].length) {
+            this.newItemError = true;
+            return;
+        }
+        this.section["fr"].push(this.newItem["fr"]);
+        this.section["en"].push(this.newItem["en"]);
+        this.propagate(this.section);
+        this.showCreate = false;
     }
 }
