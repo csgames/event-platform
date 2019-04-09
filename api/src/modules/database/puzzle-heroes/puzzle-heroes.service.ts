@@ -261,8 +261,8 @@ export class PuzzleHeroesService extends BaseService<PuzzleHeroes, PuzzleHeroes>
                     event: eventId,
                     _id: s.value
                 }).populate([{
-                    model: 'teams',
-                    path: 'team',
+                    model: 'schools',
+                    path: 'school',
                     select: ['name']
                 }, {
                     model: 'sponsors',
