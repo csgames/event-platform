@@ -29,6 +29,7 @@ import { NullPipe } from '../../../pipes/null-pipe.service';
 import { FlashOut } from '../flash-out/flash-out.model';
 import { FlashOutsService } from '../flash-out/flash-out.service';
 import { VotesFlashOutDto } from '../flash-out/flash-out.dto';
+import { AddGuideSectionDto, GuideDto } from './guide.dto';
 
 @ApiUseTags('Event')
 @Controller('event')
@@ -212,6 +213,18 @@ export class EventsController {
     @Permissions('csgames-api:update:event')
     public async addActivity(@EventId() eventId: string, @Body(new ValidationPipe()) activity: CreateActivityDto) {
         await this.eventsService.createActivity(eventId, activity);
+    }
+
+    @Put('guide')
+    @Permissions('csgames-api:update:event')
+    public async updateGuide(@EventId() id: string, @Body(new ValidationPipe()) dto: GuideDto) {
+        await this.eventsService.updateGuide(id, dto);
+    }
+
+    @Put('guide/section')
+    @Permissions('csgames-api:update:event')
+    public async addGuideSection(@EventId() id: string, @Body(new ValidationPipe()) dto: AddGuideSectionDto) {
+        await this.eventsService.addGuideSection(id, dto);
     }
 
     @Put('sponsor')

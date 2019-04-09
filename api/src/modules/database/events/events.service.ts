@@ -20,7 +20,8 @@ import { Schools } from '../schools/schools.model';
 import { Teams } from '../teams/teams.model';
 import { AddSponsorDto, CreateEventDto, SendNotificationDto } from './events.dto';
 import { AttendeeAlreadyRegisteredException, EventNotFoundException, UserNotAttendeeException } from './events.exception';
-import { Events, EventSponsorDetails } from './events.model';
+import { DefaultGuide, Events, EventSponsorDetails } from './events.model';
+import { AddGuideSectionDto, GuideDto } from './guide.dto';
 
 export interface EventScore {
     overall: TeamScore[];
@@ -448,6 +449,38 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
                 };
             })
         };
+    }
+
+    public async updateGuide(eventId: string, dto: GuideDto) {
+        const event = await this.findById(eventId);
+        if (!event) {
+            throw new EventNotFoundException();
+        }
+
+        await this.update({
+            _id: eventId,
+        }, {
+            guide: dto
+        } as any);
+    }
+
+    public async addGuideSection(eventId: string, dto: AddGuideSectionDto) {
+        const event = await this.findById(eventId);
+        if (!event) {
+            throw new EventNotFoundException();
+        }
+
+        const guide = event.guide || {};
+        if (guide[dto.type]) {
+            return;
+        }
+
+        guide[dto.type] = DefaultGuide[dto.type];
+        await this.update({
+            _id: eventId,
+        }, {
+            guide
+        } as any);
     }
 
     private async getOverallScore(eventId: string, competitions: Competitions[]): Promise<TeamScore[]> {
