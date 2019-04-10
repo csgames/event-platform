@@ -6,7 +6,6 @@ import { FormGenerator } from "../../../../../form-generator/form-generator";
 import { ADD_TEAM_FORM_GENERATOR } from "../../team-edit.constants";
 import { AddTeamFormDto } from "./dto/add-team-form.dto";
 import { School } from "../../../../../api/models/school";
-import { formGroupNameProvider } from "@angular/forms/src/directives/reactive_directives/form_group_name";
 
 @Component({
     selector: "app-add-team-form",
