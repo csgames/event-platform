@@ -815,15 +815,17 @@ markdown {
 }
 
 .btn-danger {
-    background-color: var(--accent-color);
-    border-color: var(--accent-color);
-    color: white !important;
+    background-color: transparent;
+    border: none;
+    color: #4A4A4A !important;
     height: 100% !important;
     margin-bottom: 1px;
 
-    &:hover {
-        background-color: var(--accent-color);
-        border-color: var(--accent-color);
+    &:hover,
+    &:active {
+        background-color: transparent !important;
+        border: none !important;
+        color: var(--primary-color) !important;
         filter: brightness(95%);
     }
 }
@@ -844,6 +846,7 @@ markdown {
 
 .btn-outline-primary:hover {
     background-color: var(--primary-color);
+    border-color: var(--primary-color);
     color: white !important;
 }
 

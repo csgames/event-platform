@@ -160,8 +160,8 @@ export class EventApi extends CSGamesApi {
         return this.http.get(this.url("attendee/cv"), { responseType: "blob", withCredentials: true });
     }
 
-    public updateCompetitionResults(event: Event): Observable<void> {
-        return this.http.put<void>(this.url(), event, { withCredentials: true });
+    public updateCompetitionResults(competitionResults: { competitionResultsLocked: boolean }): Observable<void> {
+        return this.http.put<void>(this.url(), competitionResults, { withCredentials: true });
     }
 
     public addSponsorToEvent(id: string, tier: string): Observable<void> {
