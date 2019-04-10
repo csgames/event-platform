@@ -18,17 +18,26 @@ export type AttendeeInfo = Attendees & { role: string; permissions: string[], re
 export class AttendeesService extends BaseService<Attendees, CreateAttendeeDto> {
     private sheetHeaders = ['First Name', 'Last Name', 'Email', 'Team', 'School'];
 
-    constructor(@InjectModel("attendees") private readonly attendeesModel: Model<Attendees>,
-                @InjectModel("events") private readonly eventsModel: Model<Events>,
+    constructor(@InjectModel('attendees') private readonly attendeesModel: Model<Attendees>,
+                @InjectModel('events') private readonly eventsModel: Model<Events>,
                 @InjectModel('teams') private readonly teamsModel: Model<Teams>,
                 private storageService: StorageService) {
         super(attendeesModel);
     }
 
     public async getAttendeeInfo(user: UserModel, eventId: string): Promise<AttendeeInfo> {
-        const attendee = await this.findOne({ email: user.username });
+        const attendee = await this.findOne({email: user.username});
         if (!attendee) {
             throw new NotFoundException();
+        }
+
+        if (user.role === 'super-admin') {
+            return {
+                ...attendee.toJSON(),
+                role: user.role,
+                permissions: user.permissions,
+                registered: true
+            };
         }
 
         const event = await this.eventsModel.findOne({
@@ -116,14 +125,14 @@ export class AttendeesService extends BaseService<Attendees, CreateAttendeeDto> 
 
         return this.attendeesModel.updateOne({
             email: email,
-            "notifications.notification": dto.notification
+            'notifications.notification': dto.notification
         }, {
-            "notifications.$.seen": dto.seen
+            'notifications.$.seen': dto.seen
         });
     }
 
     public async updateAttendeeInfo(conditionOrId: Object | string, dto: UpdateAttendeeDto, file: Express.Multer.File) {
-        if (typeof conditionOrId === "string") {
+        if (typeof conditionOrId === 'string') {
             conditionOrId = {
                 _id: conditionOrId
             };

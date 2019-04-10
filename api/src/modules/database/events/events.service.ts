@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import * as mongoose from 'mongoose';
 import { Model } from 'mongoose';
@@ -13,7 +13,7 @@ import { AttendeesService } from '../attendees/attendees.service';
 import { Competitions, CompetitionsUtils } from '../competitions/competitions.model';
 import { Notifications } from '../notifications/notifications.model';
 import { NotificationsService } from '../notifications/notifications.service';
-import { AddScannedAttendee, AddSponsorDto, CreateEventDto, SendNotificationDto } from './events.dto';
+import { AddSponsorDto, CreateEventDto, SendNotificationDto } from './events.dto';
 import { AttendeeAlreadyRegisteredException, EventNotFoundException, UserNotAttendeeException } from './events.exception';
 import { Events, EventSponsorDetails } from './events.model';
 import { UpdateAttendeeDto } from '../attendees/attendees.dto';
@@ -56,7 +56,8 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
             teamEditLockDate: true,
             flashoutBeginDate: true,
             flashoutEndDate: true,
-            attendee: true
+            attendee: true,
+            primaryColor: true
         }).exec();
     }
 
@@ -84,7 +85,7 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
         }
 
         let registered = false;
-        if (role === "admin" || role === "volunteer" || role === "director") {
+        if (role === 'admin' || role === 'volunteer' || role === 'director') {
             registered = true;
         }
 
