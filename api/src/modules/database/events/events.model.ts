@@ -145,6 +145,7 @@ export interface Events extends mongoose.Document {
     readonly teamEditLocked: boolean;
     readonly teamEditLockDate: Date | string;
     readonly primaryColor: string;
+    readonly competitionResultsLocked: boolean;
 }
 
 export const EventsSchema = new mongoose.Schema({
@@ -216,6 +217,10 @@ export const EventsSchema = new mongoose.Schema({
     primaryColor: {
         type: String,
         default: "#0d5899"
+    },
+    competitionResultsLocked: {
+        type: Boolean,
+        default: false
     }
 });
 

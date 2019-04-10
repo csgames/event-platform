@@ -7,6 +7,7 @@ import { Permissions } from '../../../decorators/permission.decorator';
 import { User } from '../../../decorators/user.decorator';
 import { CodeExceptionFilter } from '../../../filters/code-error/code.filter';
 import { PermissionsGuard } from '../../../guards/permission.guard';
+import { BufferInterceptor } from '../../../interceptors/buffer.interceptor';
 import { DataGridDownloadInterceptor } from '../../../interceptors/data-grid-download.interceptor';
 import { UserModel } from '../../../models/user.model';
 import { ArrayPipe } from '../../../pipes/array.pipe';
@@ -128,7 +129,7 @@ export class EventsController {
     @Get('competition/member')
     @Permissions('csgames-api:get:competition')
     public async getCompetitionsAsMember(@EventId() eventId: string,
-                                 @User() user: UserModel): Promise<Competitions[]> {
+                                         @User() user: UserModel): Promise<Competitions[]> {
         return await this.eventsService.getCompetitionsAsMember(eventId, user);
     }
 
@@ -139,6 +140,13 @@ export class EventsController {
                              @Query('type') type: string,
                              @Query('roles', ArrayPipe) roles: string[]): Promise<any> {
         return await this.eventsService.getAttendeesData(eventId, type, roles);
+    }
+
+    @Get('attendee/cv')
+    @UseInterceptors(new BufferInterceptor("application/zip"))
+    @Permissions('csgames-api:get-all:attendee')
+    public async getAttendeeCv(@EventId() eventId: string): Promise<any> {
+        return await this.eventsService.getAttendeeCv(eventId);
     }
 
     @Post('sms')
@@ -178,7 +186,7 @@ export class EventsController {
                 $in: attendeeIds
             },
             hasDietaryRestrictions: true,
-            dietaryRestrictions: {$regex: /^v/i}
+            dietaryRestrictions: { $regex: /^v/i }
         });
 
         return attendees.length;
@@ -206,10 +214,24 @@ export class EventsController {
         await this.eventsService.createActivity(eventId, activity);
     }
 
-    @Put(':id/sponsor')
+    @Put('sponsor')
     @Permissions('csgames-api:update:event')
-    public async addSponsor(@Param('id') eventId: string, @Body(new ValidationPipe()) dto: AddSponsorDto): Promise<Events> {
+    public async addSponsor(@EventId() eventId: string, @Body(new ValidationPipe()) dto: AddSponsorDto): Promise<Events> {
         return await this.eventsService.addSponsor(eventId, dto);
+    }
+
+    @Put('sponsor/:sponsorId')
+    @Permissions('csgames-api:update:event')
+    public async updateSponsor(@EventId() eventId: string, @Param('sponsorId') sponsorId: string,
+                               @Body(new ValidationPipe()) dto: AddSponsorDto) {
+        return await this.eventsService.update({
+            _id: eventId,
+            "sponsors.sponsor": sponsorId
+        }, {
+            $set: {
+                "sponsors.$": dto
+            }
+        } as any);
     }
 
     @Put()

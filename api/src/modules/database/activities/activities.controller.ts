@@ -93,4 +93,12 @@ export class ActivitiesController {
     public async createNotification(@Param("id") id: string, @Body(new ValidationPipe()) dto: SendNotificationDto) {
         await this.activitiesService.createNotification(id, dto);
     }
+
+    @Put(":id")
+    @Permissions("csgames-api:update:activity")
+    public async update(@Param("id") id: string, @Body(new ValidationPipe()) activity: CreateActivityDto) {
+        await this.activitiesService.update({
+            _id: id
+        }, activity);
+    }
 }

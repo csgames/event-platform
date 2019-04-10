@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Put, UseFilters, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Param, Put, UseFilters, UseGuards, Delete, HttpCode, HttpStatus } from '@nestjs/common';
 import { ApiUseTags } from '@nestjs/swagger';
 import { EventId } from '../../../decorators/event-id.decorator';
 import { Permissions } from '../../../decorators/permission.decorator';
@@ -70,5 +70,13 @@ export class TeamsController {
     @Permissions('csgames-api:get:team')
     public get(@Param('id') id: string, @EventId() eventId: string): Promise<Teams> {
         return this.teamsService.getTeamById(id, eventId);
+    }
+
+    @Delete(':teamId/attendee/:attendeeId')
+    @Permissions('csgames-api:update:team')
+    @HttpCode(HttpStatus.NO_CONTENT)
+    public async deleteAttendeeFromTeam(@Param('teamId') teamId: string, @Param('attendeeId') attendeeId: string,
+                                        @EventId() eventId: string) {
+        await this.teamsService.deleteAttendeeFromTeam(eventId, attendeeId, teamId);
     }
 }

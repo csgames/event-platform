@@ -3,7 +3,6 @@ import { ArrayUnique, IsArray, IsBoolean, IsIn, IsNotEmpty, IsOptional, IsString
 import { ActivityTypes } from './activities.model';
 
 export class CreateActivityDto {
-    @IsString()
     @IsNotEmpty()
     @ApiModelProperty({required: true})
     name: { [lang: string]: string };

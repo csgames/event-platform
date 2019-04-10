@@ -1,5 +1,5 @@
 import { ApiModelProperty } from "@nestjs/swagger";
-import { IsMongoId, IsNotEmpty, IsString, IsOptional, MaxLength, IsNumber } from "class-validator";
+import { IsMongoId, IsNotEmpty, IsString, MaxLength, IsNumber, ValidateIf, IsOptional } from 'class-validator';
 
 export class CreateTeamDto {
     @IsString()
@@ -15,8 +15,16 @@ export class CreateTeamDto {
     @IsMongoId()
     @IsNotEmpty()
     @IsString()
+    @ValidateIf(x => !x.sponsor)
     @ApiModelProperty({required: true})
     school: string;
+
+    @IsMongoId()
+    @IsNotEmpty()
+    @IsString()
+    @ValidateIf(x => !x.school)
+    @ApiModelProperty({required: true})
+    sponsor: string;
 
     @IsMongoId()
     @IsNotEmpty()
@@ -36,4 +44,26 @@ export class UpdateTeamDto {
     @MaxLength(30)
     @ApiModelProperty({required: true})
     name: string;
+
+    @IsOptional()
+    @IsNumber()
+    @IsNotEmpty()
+    @ApiModelProperty({ required: true })
+    maxMembersNumber: number;
+
+    @IsOptional()
+    @IsMongoId()
+    @IsNotEmpty()
+    @IsString()
+    @ValidateIf(x => !x.sponsor)
+    @ApiModelProperty({required: true})
+    school: string;
+
+    @IsOptional()
+    @IsMongoId()
+    @IsNotEmpty()
+    @IsString()
+    @ValidateIf(x => !x.school)
+    @ApiModelProperty({required: true})
+    sponsor: string;
 }

@@ -5,7 +5,7 @@ import { CreateAttendeeDto } from '../attendees/attendees.dto';
 export class CreateRegistrationDto {
     @IsString()
     @IsNotEmpty()
-    @IsIn(['attendee', 'captain', 'godparent'])
+    @IsIn(['attendee', 'captain', 'godparent', 'sponsor'])
     @ApiModelProperty({ required: true })
     role: string;
 
@@ -35,6 +35,12 @@ export class CreateRegistrationDto {
     @ValidateIf(x => x.role === 'captain')
     @ApiModelProperty({ required: true })
     schoolId: string;
+
+    @IsMongoId()
+    @IsNotEmpty()
+    @ValidateIf(x => x.role === 'sponsor')
+    @ApiModelProperty({ required: true })
+    sponsorId: string;
 
     @IsNumber()
     @ValidateIf(x => x.role === 'captain')

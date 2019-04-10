@@ -25,6 +25,7 @@ export class TeamsService extends BaseService<Teams, CreateTeamDto> {
             event: createTeamDto.event,
             attendees: [Types.ObjectId(createTeamDto.attendeeId)],
             school: createTeamDto.school,
+            sponsor: createTeamDto.sponsor,
             maxMembersNumber: createTeamDto.maxMembersNumber
         });
     }
@@ -38,11 +39,14 @@ export class TeamsService extends BaseService<Teams, CreateTeamDto> {
             }
         }
         const team = await this.findOne({ name, event: eventId });
-        if (team) {
+        if (team && !team._id.equals(id)) {
             throw new TeamAlreadyCreatedException();
         }
 
-        return this.update({ _id: id }, { name });
+        return this.update({ _id: id }, {
+            ...updateTeamDto,
+            name
+        });
     }
 
     public async getTeamFromEvent(eventId: string): Promise<Teams[]> {
@@ -61,6 +65,9 @@ export class TeamsService extends BaseService<Teams, CreateTeamDto> {
         }, {
             model: 'schools',
             path: 'school'
+        }, {
+            model: 'sponsors',
+            path: 'sponsor'
         }]).exec() as Teams[];
 
         for (let team of teams) {
@@ -156,5 +163,38 @@ export class TeamsService extends BaseService<Teams, CreateTeamDto> {
         if (now > event.teamEditLockDate && event.teamEditLocked) {
             throw new BadRequestException("Edit locked");
         }
+    }
+
+    public async deleteAttendeeFromTeam(eventId: string, attendeeId: string, teamId: string) {
+        const event = await this.eventsModel.findOne({
+            _id: eventId
+        });
+        if (!event) {
+            throw new NotFoundException("No event found");
+        }
+
+        const now = DateUtils.nowUTC();
+        if (now > event.teamEditLockDate && event.teamEditLocked) {
+            throw new BadRequestException("Edit locked");
+        }
+
+        await this.teamsModel.updateOne({
+            _id: teamId,
+            event: eventId
+        }, {
+            $pull: {
+                attendees: attendeeId
+            }
+        }).exec();
+
+        await this.eventsModel.updateOne({
+            _id: eventId
+        }, {
+            $pull: {
+                attendees: {
+                    attendee: attendeeId
+                }
+            }
+        });
     }
 }

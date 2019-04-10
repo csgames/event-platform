@@ -131,6 +131,6 @@ export class PuzzleHeroesController {
     @Patch('scoreboard')
     @Permissions('csgames-api:update:puzzle-hero')
     public async resetScoreboard(@EventId() eventId: string) {
-        await this.puzzleHeroService.populateScoreboard(eventId);
+        this.puzzleHeroService.populateScoreboard(eventId);
     }
 }
