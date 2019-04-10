@@ -4,7 +4,7 @@ import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { Event, EventScore } from "./models/event";
 import { map } from "rxjs/operators";
-import { Attendee, AttendeeModel } from "./models/attendee";
+import { AttendeeModel } from "./models/attendee";
 import { EventGuide } from "./models/guide";
 import { Sponsors } from "./models/sponsors";
 import { Activity } from "./models/activity";
@@ -12,6 +12,7 @@ import { Team } from "./models/team";
 import { AttendeeNotification } from "./models/notification";
 import { AttendeeVote, Flashout } from "./models/flashout";
 import { Competition } from "./models/competition";
+import { CreateEventDto, UpdateEventDto } from "./dto/event";
 
 
 @Injectable()
@@ -136,7 +137,7 @@ export class EventApi extends CSGamesApi {
         }
     }
 
-    public updateFlashout(event: Event): Observable<void> {
+    public updateFlashout(event: { flashoutBeginDate: Date, flashoutEndDate: Date }): Observable<void> {
         return this.http.put<void>(this.url(), event, { withCredentials: true });
     }
 
@@ -144,5 +145,13 @@ export class EventApi extends CSGamesApi {
         return this.http.get<EventScore>(this.url("score"), {
             withCredentials: true
         });
+    }
+
+    public createEvent(createEventDto: CreateEventDto): Observable<Event> {
+        return this.http.post<Event>(this.url(), createEventDto, { withCredentials: true });
+    }
+
+    public updateEvent(updateEventDto: UpdateEventDto): Observable<Event> {
+        return this.http.put<Event>(this.url(), updateEventDto, { withCredentials: true });
     }
 }

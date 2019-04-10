@@ -112,6 +112,27 @@
         },
         "ticket": {
             "ticket": "Billet"
+        },
+        "event_form": {
+            "name": "Nom de l'évènement",
+            "details": "Détails",
+            "begin_date": "Date de début",
+            "end_date": "Date de fin",
+            "image_url": "URL du logo",
+            "cover_url": "URL du cover",
+            "location_name": "Nom de l'école",
+            "location_address": "Adresse de l'école",
+            "website": "Site web",
+            "team_edit_lock_date": "Date de fin des modifications aux équipes",
+            "create_event_success": "Évènement créé avec succès",
+            "primary_color": "Couleur principale",
+            "edit_event_success": "Évènement modifié avec succès"
+        },
+        "create_event_modal": {
+            "title": "Créer un évènement"
+        },
+        "edit_event_modal": {
+            "title": "Modifier l'évènement"
         }
     },
     "errors": {
@@ -123,7 +144,8 @@
         "maxlength": "Ce champ doit avoir au plus {{value}} caractères",
         "minlength": "Ce champ doit avoir un minimum de {{value}} caractères",
         "passwords_mismatch": "Les mots de passe ne correspondent pas.",
-        "required": "Ce champ est requis"
+        "required": "Ce champ est requis",
+        "bsDate": "Date invalide"
     },
     "general": {
         "button": {

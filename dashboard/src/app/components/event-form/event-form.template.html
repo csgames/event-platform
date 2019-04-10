@@ -1,0 +1,145 @@
+<form [formGroup]="formGroup">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="input-group input-group-default">
+                <div class="input-group-prepend">
+                    <a class="form-icon">
+                        <i class="fal fa-calendar-alt"></i>
+                    </a>
+                </div>
+                <input class="form-control" type="text"
+                       placeholder="{{ 'components.event_form.name' | translate }}" formControlName="name"
+                       controlStatus>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="input-group">
+                <app-custom-text-box
+                    fxFlex="100%"
+                    label="{{ 'components.event_form.details' | translate }}"
+                    [formType]="'textarea'"
+                    controlStatus
+                    formControlName="details">
+                </app-custom-text-box>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="row">
+                <div class="col-sm-12">
+                    <label class="mb-0 ml-1">{{ "components.event_form.begin_date" | translate }}:</label>
+                </div>
+                <div class="col-sm-12">
+                    <div class="input-group input-group-default">
+                        <div class="input-group-prepend">
+                            <i class="fal fa-calendar"></i>
+                        </div>
+                        <input autofocus class="form-control" name="beginDate" controlStatus
+                               formControlName="beginDate" autocomplete="off"
+                               #dp="bsDatepicker"
+                               [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY', containerClass: 'theme-dark-blue' }"
+                               bsDatepicker
+                               placeholder='{{ "components.event_form.begin_date" | translate }}'>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="row">
+                <div class="col-sm-12">
+                    <label class="mb-0 ml-1">{{ "components.event_form.end_date" | translate }}:</label>
+                </div>
+                <div class="col-sm-12">
+                    <div class="input-group input-group-default">
+                        <div class="input-group-prepend">
+                            <i class="fal fa-calendar"></i>
+                        </div>
+                        <input autofocus class="form-control" name="endDate" controlStatus
+                               formControlName="endDate" autocomplete="off"
+                               #dp="bsDatepicker"
+                               [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY', containerClass: 'theme-dark-blue' }"
+                               bsDatepicker
+                               placeholder='{{ "components.event_form.end_date" | translate }}'>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <label class="mb-0 ml-1">{{ "components.event_form.team_edit_lock_date" | translate }}:</label>
+        </div>
+        <div class="col-sm-12">
+            <div class="input-group input-group-default">
+                <div class="input-group-prepend">
+                    <i class="fal fa-user-lock"></i>
+                </div>
+                <input autofocus class="form-control" name="teamEditLockDate" controlStatus
+                       formControlName="teamEditLockDate" autocomplete="off"
+                       #dp="bsDatepicker"
+                       [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY', containerClass: 'theme-dark-blue' }"
+                       bsDatepicker
+                       placeholder='{{ "components.event_form.team_edit_lock_date" | translate }}'>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <label class="mb-0 ml-1">{{ "components.event_form.image_url" | translate }}:</label>
+        </div>
+        <div class="col-sm-12">
+            <div class="input-group input-group-default">
+                <div class="input-group-prepend">
+                    <a class="form-icon">
+                        <i class="fal fa-image"></i>
+                    </a>
+                </div>
+                <input class="form-control" type="url"
+                       placeholder="{{ 'components.event_form.image_url' | translate }}" formControlName="imageUrl"
+                       controlStatus>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <label class="mb-0 ml-1">{{ "components.event_form.cover_url" | translate }}:</label>
+        </div>
+        <div class="col-sm-12">
+            <div class="input-group input-group-default">
+                <div class="input-group-prepend">
+                    <a class="form-icon">
+                        <i class="fal fa-image"></i>
+                    </a>
+                </div>
+                <input class="form-control" type="url"
+                       placeholder="{{ 'components.event_form.cover_url' | translate }}" formControlName="coverUrl"
+                       controlStatus>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <label class="mb-0 ml-1">{{ "components.event_form.primary_color" | translate }}:</label>
+        </div>
+        <div class="col-sm-12">
+            <div class="input-group input-group-default">
+                <div class="input-group-prepend">
+                    <a class="form-icon">
+                        <i class="fal fa-palette"></i>
+                    </a>
+                </div>
+                <input class="form-control" formControlName="primaryColor" [(colorPicker)]="primaryColor"
+                       [cpPosition]="'top'" controlStatus>
+            </div>
+        </div>
+    </div>
+</form>

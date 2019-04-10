@@ -1,12 +1,13 @@
 import { Injectable } from "@angular/core";
 import { Event, EventScore } from "../api/models/event";
-import { Observable } from "rxjs";
+import { Observable, of } from "rxjs";
 import { Attendee } from "../api/models/attendee";
 import { ApiService } from "../api/api.service";
 import { UppyFile } from "@uppy/core";
 import { EventGuide } from "../api/models/guide";
 import { Team } from "../api/models/team";
 import { Competition } from "../api/models/competition";
+import { EventFormDto } from "../components/event-form/dto/event-form.dto";
 
 
 const CURRENT_EVENT = "CURRENT_EVENT";
@@ -71,5 +72,17 @@ export class EventService {
 
     public getEventScore(): Observable<EventScore> {
         return this.apiService.event.getEventScore();
+    }
+
+    public createEvent(eventFormDto: EventFormDto): Observable<Event> {
+        return this.apiService.event.createEvent({
+            ...eventFormDto,
+            flashoutBeginDate: eventFormDto.beginDate,
+            flashoutEndDate: eventFormDto.endDate
+        });
+    }
+
+    public editEvent(eventFormDto: EventFormDto): Observable<Event> {
+        return this.apiService.event.updateEvent(eventFormDto);
     }
 }

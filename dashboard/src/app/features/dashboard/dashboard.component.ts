@@ -12,7 +12,6 @@ import { getCurrentEvent, getEvents, getLoading, State } from "../../store/app.r
     templateUrl: "dashboard.template.html",
     styleUrls: ["./dashboard.style.scss"]
 })
-
 export class DashboardComponent implements OnInit, OnDestroy {
     events$ = this.store$.pipe(select(getEvents));
     currentEvent$ = this.store$.pipe(select(getCurrentEvent));

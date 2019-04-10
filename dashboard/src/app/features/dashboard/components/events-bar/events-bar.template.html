@@ -1,8 +1,13 @@
 <div class="events-bar-wrapper">
-    <div class="event-container" *ngFor="let event of events" (click)="clickEvent(event)">
+    <div class="event-container" *ngFor="let event of sortedEvents" (click)="clickEvent(event)">
         <div class="event" [class.active]="isActive(event)">
             <img [src]="event.imageUrl">
         </div>
         <p class="year">{{ getEventYear(event) }}</p>
+    </div>
+    <div class="event-container" *ifRole="['super-admin']" (click)="clickCreate()">
+        <div class="event event-add" fxLayout="column" fxLayoutAlign="center center">
+            <i class="far fa-plus fa-2x add-button text-center m-0"></i>
+        </div>
     </div>
 </div>

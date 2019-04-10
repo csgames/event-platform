@@ -1,10 +1,12 @@
 import { Component, Input, OnInit } from "@angular/core";
-import { Store, select } from "@ngrx/store";
+import { select, Store } from "@ngrx/store";
 import { Observable } from "rxjs";
 import { map, withLatestFrom } from "rxjs/operators";
-import { getPuzzleHeroInfo, State, getRegisteredCompetitions } from "src/app/store/app.reducers";
 import * as fromApp from "src/app/store/app.reducers";
+import { getPuzzleHeroInfo, getRegisteredCompetitions, State } from "src/app/store/app.reducers";
 import { Router } from "@angular/router";
+import { SimpleModalService } from "ngx-simple-modal";
+import { EditEventModalComponent } from "../../../../modals/edit-event-modal/edit-event-modal.component";
 
 @Component({
     selector: "app-side-nav",
@@ -45,11 +47,15 @@ export class SideNavComponent implements OnInit {
     @Input()
     loading = false;
 
-    constructor(private store$: Store<State>, private router: Router) { }
+    constructor(private store$: Store<State>, private router: Router, private dialogService: SimpleModalService) { }
 
     ngOnInit() { }
 
     isActive(route: string) {
         return this.router.isActive(route, false);
+    }
+
+    clickEditEvent() {
+        this.dialogService.addModal(EditEventModalComponent);
     }
 }

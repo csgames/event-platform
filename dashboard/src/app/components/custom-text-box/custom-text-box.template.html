@@ -1,8 +1,8 @@
 <div fxLayout="row" fxLayoutAlign="start center">
     <div>
-        <span class="infoText margin-left">
+        <label class="infoText margin-left">
             {{ label }} :
-        </span>
+        </label>
     </div>
     <div fxFlex></div>
     <div fxFlex="100px">
@@ -19,16 +19,19 @@
     </div>
 </div>
 <div class="row" *ngIf="formType === 'textbox' || formType === 'textarea'">
-    <div class="input-group input-group-default col-12 auto-height">
-        <input *ngIf="formType === 'textbox'"
-               [(ngModel)]="currentTextValue"
-               (ngModelChange)="onContentTextChange()"
-               type="text" class="form-control full-width" placeholder="{{ placeholder }}"/>
-        <textarea *ngIf="formType === 'textarea'"
-                  [(ngModel)]="currentTextValue"
-                  (ngModelChange)="onContentTextChange()"
-                  [rows]="textareaRows"
-                  type="text" class="form-control full-width auto-height" placeholder="{{ placeholder }}"></textarea>
+    <div class="col-sm-12">
+        <div class="input-group input-group-default auto-height">
+            <input *ngIf="formType === 'textbox'"
+                   [(ngModel)]="currentTextValue"
+                   (ngModelChange)="onContentTextChange()"
+                   type="text" class="form-control full-width" placeholder="{{ placeholder }}"/>
+            <textarea *ngIf="formType === 'textarea'"
+                      [(ngModel)]="currentTextValue"
+                      (ngModelChange)="onContentTextChange()"
+                      [rows]="textareaRows"
+                      type="text" class="form-control full-width auto-height"
+                      placeholder="{{ placeholder }}"></textarea>
+        </div>
     </div>
 </div>
 <div class="row quill-container" *ngIf="formType === 'rich'">

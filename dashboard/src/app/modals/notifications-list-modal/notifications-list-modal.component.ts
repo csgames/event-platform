@@ -5,7 +5,6 @@ import { State, getNotifications, getNotificationsLoading } from "./store/notifi
 import { Subscription } from "rxjs";
 import { AttendeeNotification } from "../../api/models/notification";
 import { LoadNotifications } from "./store/notifications.actions";
-import { not } from "rxjs/internal-compatibility";
 import { Activity } from "../../api/models/activity";
 
 @Component({

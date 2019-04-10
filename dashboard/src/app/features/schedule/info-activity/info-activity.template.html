@@ -22,7 +22,7 @@
                 <div class="modal-body description">
                     <p>{{ activity.details | t18n }}</p>
                     <div class="text-center" *ngIf="!(subscribed$ | async)">
-                        <a class="not-subscribed btn btn-primary btn-rounded mt-3 px-3" (click)="subscribe()">
+                        <a class="btn btn-danger btn-rounded mt-3 px-3" (click)="subscribe()">
                             {{ "general.button.subscribe" | translate }}
                         </a>
                     </div>

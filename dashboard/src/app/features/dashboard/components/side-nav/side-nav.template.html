@@ -227,5 +227,10 @@
             </a>
 
         </div>
+
+        <div class="navigation-bottom" *ifRole="['admin', 'super-admin']" (click)="clickEditEvent()">
+            <hr class="mx-2">
+            <i class="fal fa-edit"></i> Modifier l'évènement
+        </div>
     </ng-template>
 </div>
