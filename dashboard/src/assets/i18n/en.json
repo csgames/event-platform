@@ -45,7 +45,8 @@
         "add_team_form": {
             "captain_informations": "Captain informations",
             "team_informations": "Team informations",
-            "max_members": "Nombre de membres maximal"
+            "max_members": "Max team members",
+            "sponsor": "Sponsor"
         },
         "notification": {
             "no_notification": "You have no notifications"
@@ -113,6 +114,51 @@
         "ticket": {
             "ticket": "Ticket"
         },
+        "download_question": {
+            "download_team": "Fetching {{teamName}} result",
+            "download_saving": "Saving file"
+        },
+        "competition_settings": {
+            "settings": "Competition Settings"
+        },
+        "delete_attendee": {
+            "sure": "Are you sure you want to delete this participant?",
+            "deleted": "Once deleted you won't be able to add the participant back.",
+            "safe": "Action cancelled",
+            "delete": "Participant deleted"
+        },
+        "sponsor_form": {
+            "info": "Sponsor information",
+            "website": "Website",
+            "name": "Sponsor name",
+            "image": "Link to image",
+            "description": "The description given by the sponsor",
+            "update": "Update the sponsor info",
+            "positionning": "Sponsor positionning",
+            "web_width": "Width factor of the logo on the website [0, 1]",
+            "web_height": "Height factor of the logo on the website [0, 1]",
+            "web_padding": "Padding on the website [0, x[",
+            "mobile_width": "Width factor of the logo on the mobile app [0, 1]",
+            "mobile_height": "Height factor of the logo on the mobile app [0, 1]",
+            "mobile_padding": "Padding sur l'application mobile [0, x[",
+            "left": "Left padding",
+            "right": "Right padding",
+            "top": "Top padding",
+            "bottom": "Bottom padding"
+        },
+        "activity_form": {
+            "activity_information": "Activity information",
+            "title_placeholder": "Title of the activity",
+            "activity_types": "Activity type",
+            "begin_date": "Start date",
+            "end_date":"End date",
+            "details_information": "Details of the activity",
+            "location": "Location",
+            "on_dashboard": "Activity hidden from dashboard"
+        },
+        "edit_team_info": {
+            "edit_team_info": "Edit team info"
+        },
         "event_form": {
             "name": "Name of the event",
             "details": "Details",
@@ -159,7 +205,8 @@
             "subscribed": "Subscribed",
             "validate": "Validate",
             "edit": "Edit",
-            "vote": "Vote"
+            "vote": "Vote",
+            "delete": "Delete"
         },
         "error": {
             "something": "Something happened...",
@@ -258,6 +305,13 @@
                 "artificial_intelligence": "Artificial intelligence",
                 "defensive_security": "Defensive security",
                 "offensive_security": "Offensive security"
+            }
+        },
+        "activity": {
+            "types": {
+                "other": "Other",
+                "food": "Meal",
+                "competition": "Competition"
             }
         }
     },
@@ -382,7 +436,8 @@
             "partner": "Partner",
             "platinum": "Platinum",
             "silver": "Silver",
-            "sponsors": "Sponsors"
+            "sponsors": "Sponsors",
+            "add_sponsor": "Add a sponsors"
         },
         "team": {
             "add_a_godparent": "Add a godparent",
@@ -410,7 +465,12 @@
             "add_organizer": "Add an organizer"
         },
         "attendees": {
-            "attendees": "Attendees"
+            "attendees": "Attendees",
+            "resume": "Resume",
+            "csv": "CSV",
+            "xlsx": "XLSX",
+            "view_team": "View Team",
+            "download_resume": "Download Resume"
         },
         "volunteers": {
             "volunteers": "Volunteers",
@@ -428,6 +488,13 @@
             "validation_error": "Invalid answer.",
             "answered": "The question has been answered.",
             "good_answer": "Answer saved!"
+        },
+        "activities": {
+            "activities": "Activities",
+            "add_activity": "Add an activity",
+            "load_error": "An error occurred while loading the activities. ",
+            "edit_activity_success": "Successfully saved activity",
+            "edit_activity": "Edit activity"
         }
     }
 }

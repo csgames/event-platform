@@ -53,7 +53,7 @@
         "firebase": "^5.8.3",
         "hammerjs": "^2.0.8",
         "highlightjs": "^9.12.0",
-        "idx": "^2.5.4",
+        "idx": "2.3.0",
         "javascript-time-ago": "^2.0.1",
         "moment": "^2.24.0",
         "ngx-bootstrap": "^3.1.3",
@@ -73,6 +73,7 @@
         "quill": "^1.3.6",
         "rxjs": "~6.3.3",
         "socket.io-client": "^2.1.1",
+        "sweetalert": "^2.1.2",
         "uuid": "^3.3.2",
         "zone.js": "~0.8.26"
     },
@@ -104,6 +105,6 @@
         "protractor": "~5.4.0",
         "ts-node": "~7.0.0",
         "tslint": "~5.11.0",
-        "typescript": "~3.2.4"
+        "typescript": "~3.1.1"
     }
 }

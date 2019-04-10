@@ -1,9 +1,10 @@
 import { Injectable } from "@angular/core";
 import { ApiService } from "../api/api.service";
-import { Activity } from "../api/models/activity";
+import { Activity, CreateActivity } from "../api/models/activity";
 import { Observable } from "rxjs";
 import { formatDate } from "@angular/common";
 import { TranslateService } from "@ngx-translate/core";
+import { ActivityUtils } from "../utils/activity.utils";
 
 @Injectable()
 export class ScheduleService {
@@ -14,17 +15,22 @@ export class ScheduleService {
         return this.apiService.event.getActivitiesForEvent();
     }
 
-    public getActivitiesPerDay(activities: Activity[]): { [date: string]: { [time: string]: Activity[] } } {
+    public getActivitiesPerDay(activities: Activity[]): [{ [date: string]: { [time: string]: Activity[] } }, string[]] {
         const dates: { [date: string]: { [time: string]: Activity[] } } = {};
+        const days: Date[] = [];
         for (const a of activities.filter(activity => !activity.hidden)) {
             const date = new Date(a.beginDate);
-            const day = formatDate(date, this.getDateFormat(), this.translateService.getDefaultLang(), "utc");
-            const time = formatDate(date, "h:mm a", this.translateService.getDefaultLang(), "utc");
-            if (!dates[day]) { dates[day] = {}; }
+            const day = formatDate(date, this.getDateFormat(), this.translateService.getDefaultLang());
+            const time = formatDate(date, "h:mm a", this.translateService.getDefaultLang());
+            if (!dates[day]) { dates[day] = {}; days.push(date); }
             if (!dates[day][time]) { dates[day][time] = []; }
             dates[day][time].push(a);
         }
-        return dates;
+        return [
+            dates,
+            days.sort((a, b) => a < b ? -1 : 1)
+                .map(x => formatDate(x, this.getDateFormat(), this.translateService.getDefaultLang()))
+        ];
     }
 
     public getNextActivities(activities: Activity[]): Activity[] {
@@ -38,10 +44,10 @@ export class ScheduleService {
                     nextActivities.push(a);
                 } else {
                     const first = new Date(nextActivities[0].beginDate);
-                    const day1 = formatDate(first, this.getDateFormat(), this.translateService.getDefaultLang(), "utc");
-                    const time1 = formatDate(first, "h:mm a", this.translateService.getDefaultLang(), "utc");
-                    const day2 = formatDate(date, this.getDateFormat(), this.translateService.getDefaultLang(), "utc");
-                    const time2 = formatDate(date, "h:mm a", this.translateService.getDefaultLang(), "utc");
+                    const day1 = formatDate(first, this.getDateFormat(), this.translateService.getDefaultLang());
+                    const time1 = formatDate(first, "h:mm a", this.translateService.getDefaultLang());
+                    const day2 = formatDate(date, this.getDateFormat(), this.translateService.getDefaultLang());
+                    const time2 = formatDate(date, "h:mm a", this.translateService.getDefaultLang());
                     if (day1 === day2 && time1 === time2) {
                         nextActivities.push(a);
                     }
@@ -57,5 +63,9 @@ export class ScheduleService {
         }
 
         return "d MMMM";
+    }
+
+    public createActivity(activity: CreateActivity) {
+        return this.apiService.event.createActivity(ActivityUtils.createTimeActivity(activity));
     }
 }

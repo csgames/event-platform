@@ -11,6 +11,7 @@ import { PuzzleHeroApi } from "./puzzle-hero.api";
 import { ActivityApi } from "./activity.api";
 import { CompetitionApi } from "./competition.api";
 import { FlashoutApi } from "./flashout.api";
+import { SponsorApi } from "./sponsor.api";
 
 @Injectable({
     providedIn: "root"
@@ -29,7 +30,8 @@ export class ApiService {
         private puzzleHeroApi: PuzzleHeroApi,
         private activityApi: ActivityApi,
         private flashoutApi: FlashoutApi,
-        private competitionApi: CompetitionApi
+        private competitionApi: CompetitionApi,
+        private sponsorApi: SponsorApi
     ) { }
 
     public get auth(): AuthApi {
@@ -78,5 +80,9 @@ export class ApiService {
 
     public get competition(): CompetitionApi {
         return this.competitionApi;
+    }
+
+    public get sponsor(): SponsorApi {
+        return this.sponsorApi;
     }
 }

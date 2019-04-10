@@ -56,6 +56,16 @@ export function reducer(state = initialState, action: TeamViewActions): TeamView
                 ...state,
                 loading: false
             };
+        case TeamViewActionTypes.DeleteAttendee:
+            return {
+                ...state,
+                loading: true
+            };
+        case TeamViewActionTypes.DeleteAttendeeFailure:
+            return {
+                ...state,
+                loading: false
+            };
         default:
             return state;
     }
@@ -80,5 +90,5 @@ export const getTeamGodparent = createSelector(
 export const getTeamAttendees = createSelector(
     getCurrentTeam,
     (team: Team) => team && team.attendees.filter((attendee: Attendee) =>
-        attendee.role === "captain" || attendee.role === "attendee")
+        attendee.role === "captain" || attendee.role === "attendee" || attendee.role === "sponsor")
 );

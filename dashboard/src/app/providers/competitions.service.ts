@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { ApiService } from "../api/api.service";
-import { Observable } from "rxjs";
+import { Observable, of, Subject } from "rxjs";
 import { Competition } from "../api/models/competition";
 import { AuthCompetitionDto, UpdateCompetitionDto } from "../api/dto/competition";
 import { CreateQuestionDto, UpdateQuestionDto } from "../api/dto/question";
@@ -10,11 +10,57 @@ import { QuestionGraphNode } from "../api/models/question";
 import { CompetitionFormDto } from "../features/competitions/admin/components/competition-form/dto/competition-form.dto";
 import { QuestionAnswerDto } from "../api/dto/competition";
 import { TeamCompetitionResult } from "../api/definitions/competition";
+import { CompetitionSettingsDto } from "../features/competitions/admin/components/competition-settings/dto/competition-settings.dto";
+import { CompetitionSettingsUtils } from "../features/competitions/admin/components/competition-settings/competition-settings.utils";
+import * as io from "socket.io-client";
+import { environment } from "../../environments/environment";
+
+export enum CompetitionsMessageTypes {
+    Download = "download",
+    DownloadStart = "download-start",
+    DownloadEnd = "download-end",
+    DownloadUpdate = "download-update",
+    DownloadTeam = "download-team",
+    DownloadSaving = "download-saving"
+}
 
 @Injectable()
 export class CompetitionsService {
+    private socket = io.Socket;
+    public downloadStart$ = new Subject();
+    public downloadEnd$ = new Subject();
+    public downloadTeam$ = new Subject();
+    public downloadUpdate$ = new Subject();
+    public downloadSaving$ = new Subject();
+
     constructor(private apiService: ApiService,
-                private translateService: TranslateService) { }
+                private translateService: TranslateService) {
+    }
+
+    open() {
+        this.socket = io.connect(environment.GATEWAY_URL + "/competition", {
+            path: environment.SOCKET_IO_PATH
+        });
+        this.socket.on(CompetitionsMessageTypes.DownloadStart, (data) => {
+            this.downloadStart$.next(data);
+        });
+        this.socket.on(CompetitionsMessageTypes.DownloadEnd, (data) => {
+            this.downloadEnd$.next(data);
+        });
+        this.socket.on(CompetitionsMessageTypes.DownloadUpdate, (data) => {
+            this.downloadUpdate$.next(data);
+        });
+        this.socket.on(CompetitionsMessageTypes.DownloadTeam, (data) => {
+            this.downloadTeam$.next(data);
+        });
+        this.socket.on(CompetitionsMessageTypes.DownloadSaving, (data) => {
+            this.downloadSaving$.next(data);
+        });
+    }
+
+    close() {
+        this.socket.close();
+    }
 
     public create(dto: CompetitionFormDto): Observable<Competition> {
         return this.apiService.competition.create(dto);
@@ -84,7 +130,16 @@ export class CompetitionsService {
         return this.apiService.competition.getCompetitionResult(competitionId);
     }
 
-    public getQuestionResult(competitionId: string, questionId: string): Observable<Blob> {
-        return this.apiService.competition.getQuestionResult(competitionId, questionId);
+    public getQuestionResult(eventId: string, competitionId: string, questionId: string): Observable<void> {
+        this.socket.emit(CompetitionsMessageTypes.Download, {
+            eventId,
+            competitionId,
+            questionId
+        });
+        return of();
+    }
+
+    public updateCompetitionSettings(dto: CompetitionSettingsDto): Observable<void> {
+        return this.apiService.event.updateCompetitionResults(CompetitionSettingsUtils.competitionSettingsDtoToEvent(dto));
     }
 }

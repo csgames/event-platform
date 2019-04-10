@@ -19,6 +19,7 @@ export class NotificationsComponent implements OnInit, OnDestroy {
     public activities: Activity[];
     public activity: Activity;
     private activitiesSub$: Subscription;
+    private successSub$: Subscription;
 
     public sms = "";
     public title = "";
@@ -40,7 +41,7 @@ export class NotificationsComponent implements OnInit, OnDestroy {
             } as Activity);
         });
 
-        this.success$.subscribe((success) => {
+        this.successSub$ = this.success$.subscribe((success) => {
             if (success) {
                 this.sms = "";
                 this.title = "";
@@ -53,6 +54,7 @@ export class NotificationsComponent implements OnInit, OnDestroy {
 
     public ngOnDestroy() {
         this.activitiesSub$.unsubscribe();
+        this.successSub$.unsubscribe();
     }
 
     public sendSms() {

@@ -1,0 +1,48 @@
+<form [formGroup]="formGroup">
+    <div class="row">
+        <div class="col-sm-12">
+            {{ "components.sponsor_form.info" | translate }}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="input-group input-group-default mx-0">
+                <div class="input-group-prepend">
+                    <a class="form-icon">
+                        <i class="fal fa-gem"></i>
+                    </a>
+                </div>
+                <input autofocus class="form-control" type="text" controlStatus formControlName="name" placeholder='{{ "components.sponsor_form.name" | translate }}'>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="input-group">
+                <app-custom-text-box fxFlex="100%" label="{{ 'general.label.description' | translate }}" formControlName="description"
+                    placeholder="{{ 'components.sponsor_form.description' | translate }}" formType="textarea" [textareaRows]="10" class="custom-text" controlStatus>
+                </app-custom-text-box>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="input-group input-group-default mx-0">
+                <div class="input-group-prepend">
+                    <i class="fal fa-globe"></i>
+                </div>
+                <input autofocus class="form-control" type="text" controlStatus formControlName="website" placeholder='{{ "components.sponsor_form.website" | translate }}'>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="input-group input-group-default mx-0">
+                <div class="input-group-prepend">
+                    <i class="fal fa-image"></i>
+                </div>
+                <input autofocus class="form-control" type="text" controlStatus formControlName="imageUrl" placeholder='{{ "components.sponsor_form.image" | translate }}'>
+            </div>
+        </div>
+    </div>
+</form>

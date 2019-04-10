@@ -20,6 +20,7 @@ export interface Event {
     teamEditLocked?: boolean;
     teamEditLockDate?: Date | string;
     primaryColor: string;
+    competitionResultsLocked?: boolean;
 }
 
 export interface EventScore {

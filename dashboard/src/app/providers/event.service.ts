@@ -74,6 +74,10 @@ export class EventService {
         return this.apiService.event.getEventScore();
     }
 
+    public getAttendeesCv(): Observable<Blob> {
+        return this.apiService.event.getAttendeesCv();
+    }
+
     public createEvent(eventFormDto: EventFormDto): Observable<Event> {
         return this.apiService.event.createEvent({
             ...eventFormDto,

@@ -1,6 +1,5 @@
 import { Action } from "@ngrx/store";
 import { FlashoutSettingsDto } from "../dto/flashout-settings.dto";
-import { Event } from "../../../../../api/models/event";
 
 export enum FlashoutSettingsActionTypes {
     SaveSettings = "[Flashout Settings] Save settings",

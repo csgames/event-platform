@@ -1,3 +1,4 @@
+import { Sponsors } from "../../../../api/models/sponsors";
 import * as fromApp from "../../../../store/app.reducers";
 import { TeamEditActions, TeamEditActionTypes } from "./team-edit.actions";
 import { createFeatureSelector, createSelector } from "@ngrx/store";
@@ -9,13 +10,15 @@ export interface TeamEditState {
     error: boolean;
     teams: Team[];
     schools: School[];
+    sponsors: Sponsors[];
 }
 
 export const initialState: TeamEditState = {
     loading: false,
     error: false,
     teams: [],
-    schools: []
+    schools: [],
+    sponsors: []
 };
 
 export interface State extends fromApp.State {
@@ -52,6 +55,12 @@ export function reducer(state = initialState, action: TeamEditActions): TeamEdit
                 schools: action.schools
             };
 
+        case TeamEditActionTypes.SponsorsLoaded:
+            return {
+                ...state,
+                sponsors: action.sponsors
+            };
+
         case TeamEditActionTypes.AddTeam:
             return {
                 ...state,
@@ -74,3 +83,4 @@ export const getTeamEditLoading = createSelector(getTeamEditState, (state: TeamE
 export const getTeamEditError = createSelector(getTeamEditState, (state: TeamEditState) => state.error);
 export const getTeamEditTeams = createSelector(getTeamEditState, (state: TeamEditState) => state.teams);
 export const getTeamSchools = createSelector(getTeamEditState, (state: TeamEditState) => state.schools);
+export const getTeamSponsors = createSelector(getTeamEditState, (state: TeamEditState) => state.sponsors);

@@ -7,6 +7,6 @@ export class HoursPipe implements PipeTransform {
     constructor(private translateService: TranslateService) { }
 
     transform(date: string): string {
-        return formatDate(date, "h:mm a", this.translateService.getDefaultLang(), "utc");
+        return formatDate(date, "h:mm a", this.translateService.getDefaultLang());
     }
 }

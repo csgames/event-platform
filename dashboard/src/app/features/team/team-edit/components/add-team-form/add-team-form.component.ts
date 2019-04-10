@@ -1,8 +1,7 @@
 import { Component, forwardRef, Inject, Input, OnDestroy, OnInit } from "@angular/core";
 import { ControlValueAccessor, FormGroup, NG_VALUE_ACCESSOR } from "@angular/forms";
-import { AddAttendeeFormDto } from "../../../team-view/components/add-attendee-form/dto/add-attendee-form.dto";
 import { Subscription } from "rxjs";
-import { Attendee } from "../../../../../api/models/attendee";
+import { Sponsors } from "../../../../../api/models/sponsors";
 import { FormGenerator } from "../../../../../form-generator/form-generator";
 import { ADD_TEAM_FORM_GENERATOR } from "../../team-edit.constants";
 import { AddTeamFormDto } from "./dto/add-team-form.dto";
@@ -20,11 +19,14 @@ import { School } from "../../../../../api/models/school";
     ]
 })
 export class AddTeamFormComponent implements OnInit, OnDestroy, ControlValueAccessor {
-
     @Input()
     schools: School[];
 
+    @Input()
+    sponsors: Sponsors[];
+
     public formGroup: FormGroup;
+
 
     private propagate: (obj: AddTeamFormDto) => void;
     private valueChangesSub$: Subscription;
