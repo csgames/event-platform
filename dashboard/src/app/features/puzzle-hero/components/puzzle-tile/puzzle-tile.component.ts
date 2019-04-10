@@ -40,4 +40,10 @@ export class PuzzleTileComponent {
         this.popover.hide();
         this.clickAddPuzzle.emit();
     }
+
+    onClickAnswers() {
+        if (this.popover) {
+            this.popover.hide();
+        }
+    }
 }
