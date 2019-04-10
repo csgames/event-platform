@@ -10,7 +10,6 @@ import { GuideUtils } from "src/app/utils/guide.utils";
 @Component({
     selector: "app-section-form",
     templateUrl: "section-form.template.html",
-    styleUrls: ["./section-form.style.scss"],
     providers: [
         {
             provide: NG_VALUE_ACCESSOR,

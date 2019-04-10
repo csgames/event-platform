@@ -10,7 +10,6 @@ import { SchoolFormDto } from "./dto/school-form.dto";
 @Component({
     selector: "school-form",
     templateUrl: "school-form.template.html",
-    styleUrls: ["school-form.style.scss"],
     providers: [
         {
             provide: NG_VALUE_ACCESSOR,
@@ -56,9 +55,5 @@ export class SchoolFormComponent implements OnInit, ControlValueAccessor {
         }
         this.formGenerator.markAsDirty();
         return false;
-    }
-
-    public clickSave() {
-        if (this.validate()) { }
     }
 }

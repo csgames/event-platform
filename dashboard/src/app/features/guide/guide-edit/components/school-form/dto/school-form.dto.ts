@@ -1,5 +1,6 @@
 import { Control } from "../../../../../../form-generator/decorators/control.decorator";
 import { Required } from "../../../../../../form-generator/decorators/required.decorator";
+import { TranslateWebsite } from "src/app/api/models/guide";
 
 export class SchoolFormDto {
 
@@ -22,5 +23,14 @@ export class SchoolFormDto {
     @Control()
     @Required()
     address: string;
+
+    @Control()
+    @Required()
+    maps: string[];
+
+    @Control()
+    @Required()
+    website: TranslateWebsite;
+
 
 }

@@ -11,6 +11,7 @@ import { GuideEditRoutingModule } from "./guide-edit-routing.module";
 import { GuideEditComponent } from "./guide-edit.component";
 import * as fromGuide from "./store/guide-edit.reducer";
 import * as fromSection from "../guide-edit/components/create-section/store/create-section.reducer";
+import * as fromEditSection from "../guide-edit/components/edit-section/store/edit-section.reducer";
 import { StoreModule } from "@ngrx/store";
 import { EffectsModule } from "@ngrx/effects";
 import { GuideEditEffects } from "./store/guide-edit.effects";
@@ -37,6 +38,9 @@ import { SchoolFormDto } from "./components/school-form/dto/school-form.dto";
 import { PARKING_FORM_GENERATOR } from "./components/parking-form/parking-form.constants";
 import { ParkingFormDto } from "./components/parking-form/dto/parking-form.dto";
 import { ParkingFormComponent } from "./components/parking-form/parking-form.component";
+import { EditSectionEffects } from "./components/edit-section/store/edit-section.effects";
+import { MAP_FORM_GENERATOR } from "./components/map-form/map-form.constants";
+import { MapFormComponent } from "./components/map-form/map-form.component";
 
 @NgModule({
     imports: [
@@ -51,8 +55,9 @@ import { ParkingFormComponent } from "./components/parking-form/parking-form.com
         GuideEditRoutingModule,
         FlexLayoutModule,
         StoreModule.forFeature("guideEdit", fromGuide.reducer),
-        EffectsModule.forFeature([GuideEditEffects, CreateSectionEffects]),
+        EffectsModule.forFeature([GuideEditEffects, CreateSectionEffects, EditSectionEffects]),
         StoreModule.forFeature("guideCreateSection", fromSection.reducer),
+        StoreModule.forFeature("guideEditSection", fromEditSection.reducer),
         GuideAccordionModule,
         AgmCoreModule.forRoot({
             apiKey: environment.GOOGLE_MAPS_API_KEY
@@ -69,7 +74,8 @@ import { ParkingFormComponent } from "./components/parking-form/parking-form.com
         BringFormComponent,
         HotelFormComponent,
         SchoolFormComponent,
-        ParkingFormComponent
+        ParkingFormComponent,
+        MapFormComponent
     ],
     entryComponents: [
         CreateSectionComponent,
@@ -95,6 +101,11 @@ import { ParkingFormComponent } from "./components/parking-form/parking-form.com
         {
             provide: PARKING_FORM_GENERATOR,
             useFactory: FormGeneratorFactory.transform(ParkingFormDto),
+            deps: [FormBuilder]
+        },
+        {
+            provide: MAP_FORM_GENERATOR,
+            useFactory: FormGeneratorFactory.transform(SchoolFormDto),
             deps: [FormBuilder]
         }
     ]

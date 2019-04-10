@@ -10,7 +10,6 @@ import { HotelFormDto } from "./dto/hotel-form.dto";
 @Component({
     selector: "hotel-form",
     templateUrl: "hotel-form.template.html",
-    styleUrls: ["hotel-form.style.scss"],
     providers: [
         {
             provide: NG_VALUE_ACCESSOR,
@@ -56,9 +55,5 @@ export class HotelFormComponent implements OnInit, ControlValueAccessor {
         }
         this.formGenerator.markAsDirty();
         return false;
-    }
-
-    public clickSave() {
-        if (this.validate()) { }
     }
 }

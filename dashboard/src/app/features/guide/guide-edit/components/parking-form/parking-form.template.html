@@ -1,22 +1,77 @@
-<form [formGroup]="formGroup">
-    <div fxLayout="row" fxLayoutAlign="end center">
-        <div class="col-sm-12">
-            <div class="input-group input-group-default no-grow">
-                <input autofocus class="form-control" type="text" name="latitude" controlStatus formControlName="latitude"
-                    placeholder='{{ "components.parking_form.latitude" | translate }}'>
+<div fxLayout="row" *ngIf="lang && section">
+    <div class="input-group input-group-default">
+        <input class="form-control" type="number" [(ngModel)]="section.latitude" (ngModelChange)="itemChange()"
+            placeholder='{{ "components.parking_form.latitude" | translate }}'>
+    </div>
+    <div class="input-group input-group-default">
+        <input class="form-control" type="number" [(ngModel)]="section.longitude" (ngModelChange)="itemChange()"
+            placeholder='{{ "components.parking_form.longitude" | translate }}'>
+    </div>
+</div>
+<div fxLayout="row" *ngIf="lang && section">
+    <div class="input-group input-group-default">
+        <input class="form-control" type="number" [(ngModel)]="section.zoom" (ngModelChange)="itemChange()"
+            placeholder='{{ "components.parking_form.zoom" | translate }}'>
+    </div>
+</div>
+<div fxLayout="column" *ngIf="lang && section">
+    <div fxFlex="100" *ngFor="let d of section.coordinates; let i = index">
+        <div fxFlex="50">
+            <div class="input-group input-group-default">
+                <input class="form-control" type="text" [(ngModel)]="d.latitude" (ngModelChange)="itemChange()">
             </div>
-            <div class="input-group input-group-default no-grow">
-                <input autofocus class="form-control" type="text" name="longitude" controlStatus formControlName="longitude"
-                    placeholder='{{ "components.parking_form.longitude" | translate }}'>
-            </div>
-            <div class="input-group input-group-default no-grow">
-                <input autofocus class="form-control" type="text" name="zoom" controlStatus formControlName="zoom"
-                    placeholder='{{ "components.parking_form.zoom" | translate }}'>
+        </div>
+        <div fxFlex="50">
+            <div class="input-group input-group-default">
+                <input class="form-control" type="text" [(ngModel)]="d.longitude" (ngModelChange)="itemChange()">
+                <span class="input-group-btn">
+                    <a class="remove btn btn-danger btn-outline pull-right" (click)="deleteValue(d)">
+                        <i class="fa fa-trash"></i>
+                    </a>
+                </span>
             </div>
         </div>
     </div>
-    <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="center center" class="container">
-        <a class="btn btn-primary btn-rounded mt-1 mb-3 px-3"
-           (click)="clickSave()">{{ "general.button.save" | translate }}</a>
+</div>
+<div>
+    <button *ngIf="!showCreate" type="button" class="add-button btn btn-lg btn-block borders" (click)="clickAdd()">
+        + {{ "components.parking_form.add" | translate }}
+    </button>
+    <div *ngIf="showCreate">
+        <div fxLayout="column">
+            <div fxFlex="100">
+                <div fxLayout="row" fxLayoutAlign="end center" *ngIf="newMarker">
+                    <div class="col-sm-6">
+                        <div class="input-group input-group-default no-grow">
+                            <input autofocus class="form-control" type="number" name="latitude"
+                                [(ngModel)]="newMarker.latitude"
+                                placeholder='{{ "components.parking_form.latitude" | translate }}'>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="input-group input-group-default no-grow">
+                            <input autofocus class="form-control" type="number" name="longitude"
+                                [(ngModel)]="newMarker.longitude"
+                                placeholder='{{ "components.parking_form.longitude" | translate }}'>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div fxFlex="100" class="control-error" *ngIf="newItemError">
+                {{ "components.parking_form.add_error" }}
+            </div>
+        </div>
+        <div fxLayout="row" fxLayoutAlign="end center">
+            <div fxFlex="40">
+                <div class="button-group">
+                    <a class="btn btn-danger cancel float-right" (click)="cancel()">
+                        {{ "general.button.cancel" | translate }} <i class="fal fa-times"></i>
+                    </a>
+                    <a class="btn btn-primary mr-2 float-right" (click)="add()">
+                        {{ "general.button.add" | translate }} <i class="fal fa-plus"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
     </div>
-</form>
+</div>

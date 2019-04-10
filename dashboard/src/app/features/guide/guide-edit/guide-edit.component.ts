@@ -4,10 +4,10 @@ import { Store, select } from "@ngrx/store";
 import * as fromApp from "../../../store/app.reducers";
 import { State } from "../../../store/app.reducers";
 import { getGuide, getGuideLoading } from "./store/guide-edit.reducer";
-import { Subscription } from "rxjs";
-import { EventGuide } from "src/app/api/models/guide";
+import { Subscription, Observable } from "rxjs";
+import { EventGuide, EventGuideTypes } from "src/app/api/models/guide";
 import { LoadGuideEdit } from "./store/guide-edit.actions";
-import { filter } from "rxjs/operators";
+import { filter, map } from "rxjs/operators";
 import { SimpleModalService } from "ngx-simple-modal";
 import { CreateSectionComponent } from "./components/create-section/create-section.component";
 import { EditSectionComponent, EditSectionModal } from "./components/edit-section/edit-section.component";
@@ -59,5 +59,12 @@ export class GuideEditComponent implements OnInit, OnDestroy {
             type,
             guide: this.guide
         });
+    }
+
+    public guideCompleted(): Observable<boolean> {
+        return this.currentGuide$.pipe(
+            filter((guide) => !!guide),
+            map((guide) => Object.keys(guide).length === Object.keys(EventGuideTypes).length)
+        );
     }
 }

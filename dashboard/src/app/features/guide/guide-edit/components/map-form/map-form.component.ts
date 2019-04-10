@@ -1,34 +1,36 @@
 import { Component, forwardRef, OnInit, Inject } from "@angular/core";
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, FormGroup } from "@angular/forms";
-import { ParkingSection, Coordinate } from "../../../../../api/models/guide";
+import { SchoolSection } from "../../../../../api/models/guide";
 import { TranslateService } from "@ngx-translate/core";
 import { FormGenerator } from "src/app/form-generator/form-generator";
 import { Subscription } from "rxjs";
-import { PARKING_FORM_GENERATOR } from "./parking-form.constants";
-import { ParkingFormDto } from "./dto/parking-form.dto";
+import { MAP_FORM_GENERATOR } from "./map-form.constants";
+import { SchoolFormDto } from "../school-form/dto/school-form.dto";
 
 @Component({
-    selector: "parking-form",
-    templateUrl: "parking-form.template.html",
+    selector: "map-form",
+    templateUrl: "map-form.template.html",
+    styleUrls: ["map-form.style.scss"],
     providers: [
         {
             provide: NG_VALUE_ACCESSOR,
-            useExisting: forwardRef(() => ParkingFormComponent),
+            useExisting: forwardRef(() => MapFormComponent),
             multi: true
         }
     ]
 })
-export class ParkingFormComponent implements OnInit, ControlValueAccessor {
+export class MapFormComponent implements OnInit, ControlValueAccessor {
     public lang: string;
-    public section: ParkingSection;
-    private propagate: (data: ParkingFormDto) => void;
+    public languages = ["fr", "en"];
+    public section: SchoolSection;
+    private propagate: (data: SchoolFormDto) => void;
     public formGroup: FormGroup;
     public showCreate = false;
-    public newMarker: Coordinate;
-    public newMarkerError = false;
+    public newMap: string;
+    public newMapError = false;
     private valueChangeSub$: Subscription;
 
-    constructor(private translate: TranslateService, @Inject(PARKING_FORM_GENERATOR) private formGenerator: FormGenerator<ParkingFormDto>) {
+    constructor(private translate: TranslateService, @Inject(MAP_FORM_GENERATOR) private formGenerator: FormGenerator<SchoolFormDto>) {
     }
 
     public ngOnInit() {
@@ -39,7 +41,7 @@ export class ParkingFormComponent implements OnInit, ControlValueAccessor {
         });
     }
 
-    public writeValue(obj: ParkingSection) {
+    public writeValue(obj: SchoolSection) {
         if (obj) {
             this.section = obj;
         }
@@ -49,29 +51,25 @@ export class ParkingFormComponent implements OnInit, ControlValueAccessor {
         this.propagate = fn;
     }
 
-    public registerOnTouched(fn: any): void {
-    }
+    public registerOnTouched(fn: any): void { }
 
     public itemChange() {
         this.propagate(this.section);
     }
 
     public clickAdd() {
-        this.newMarker = {
-            latitude: 0,
-            longitude: 0
-        };
+        this.newMap = "";
         this.showCreate = true;
-        this.newMarkerError = false;
+        this.newMapError = false;
     }
 
     public cancel() {
         this.showCreate = false;
-        this.newMarkerError = false;
+        this.newMapError = false;
     }
 
     public add() {
-        this.section.coordinates.push(this.newMarker);
+        this.section["maps"].push(this.newMap);
         this.propagate(this.section);
         this.showCreate = false;
     }
@@ -85,6 +83,6 @@ export class ParkingFormComponent implements OnInit, ControlValueAccessor {
     }
 
     public deleteValue(index: number) {
-        this.section.coordinates.splice(index, 1);
+        this.section.maps.splice(index, 1);
     }
 }

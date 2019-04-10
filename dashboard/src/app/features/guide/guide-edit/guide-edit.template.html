@@ -1,12 +1,12 @@
 <div class="page-wrapper">
     <h1 class="title">{{ "pages.guide.guide" | translate }}</h1>
     <app-loading-spinner [loading]="loading$"></app-loading-spinner>
-    <button type="button" class="add-button btn btn-lg btn-block borders" (click)="clickAddSection()">
+    <button type="button" class="add-button btn btn-lg btn-block borders" *ngIf="!(guideCompleted() | async)" (click)="clickAddSection()">
         + {{ "pages.guide.admin.section.add_section" | translate }}
     </button>
     <div class="guide animated fadeIn" *ngIf="guide">
         <!-- What to bring -->
-        <app-accordion-component iconClass="fa-clipboard-check" title="{{ 'pages.guide.what_to_bring' | translate }}"
+        <app-accordion-component *ngIf="guide.bring" iconClass="fa-clipboard-check" title="{{ 'pages.guide.what_to_bring' | translate }}"
             [startsOpened]="false" [hasEdit]="true" (clickUpdateGuide)="update('bring')">
             <div class="row">
                 <div class="inside-text-div col-12" *ngIf="lang() !== 'fr'">
@@ -22,7 +22,7 @@
             </div>
         </app-accordion-component>
         <!-- Hotel -->
-        <app-accordion-component iconClass="fa-hotel" title="{{ 'pages.guide.hotel' | translate }}" 
+        <app-accordion-component *ngIf="guide.hotel" iconClass="fa-hotel" title="{{ 'pages.guide.hotel' | translate }}" 
         [hasEdit]="true" (clickUpdateGuide)="update('hotel')">
             <div class="row">
                 <div class="inside-text-div col-12">
@@ -44,7 +44,7 @@
             </agm-map>
         </app-accordion-component>
         <!-- School -->
-        <app-accordion-component iconClass="fa-graduation-cap" title="{{ 'pages.guide.school' | translate }}"
+        <app-accordion-component *ngIf="guide.school" iconClass="fa-graduation-cap" title="{{ 'pages.guide.school' | translate }}"
             [hasEdit]="true" (clickUpdateGuide)="update('school')">
             <div class="row">
                 <div class="inside-text-div col-12">
@@ -67,8 +67,8 @@
             </agm-map>
         </app-accordion-component>
         <!-- Inside the school -->
-        <app-accordion-component *ngIf="guide.school?.maps?.length > 0" iconClass="fa-map-marked-alt"
-            title="{{ 'pages.guide.map' | translate }}" [hasEdit]="true">
+        <app-accordion-component *ngIf="guide.school && guide.school?.maps?.length > 0" iconClass="fa-map-marked-alt"
+            title="{{ 'pages.guide.map' | translate }}" [hasEdit]="true" (clickUpdateGuide)="update('map')">
             <div class="row">
                 <div *ngFor="let map of guide.school.maps" class="col-lg-6 col-md-6 col-sm-12">
                     <img [src]="map" class="img-fluid">
@@ -76,7 +76,7 @@
             </div>
         </app-accordion-component>
         <!-- Parkings -->
-        <app-accordion-component iconClass="fa-parking" title="{{ 'pages.guide.parking' | translate }}"
+        <app-accordion-component *ngIf="guide.parking" iconClass="fa-parking" title="{{ 'pages.guide.parking' | translate }}"
             [hasEdit]="true" (clickUpdateGuide)="update('parking')">
 
             <agm-map *ngIf="guide" [latitude]="guide.parking.latitude" [longitude]="guide.parking.longitude"
@@ -87,7 +87,7 @@
             </agm-map>
         </app-accordion-component>
         <!-- Restaurants -->
-        <!-- <app-accordion-component iconClass="fa-utensils" title="{{ 'pages.guide.restaurants' | translate }}"
+        <app-accordion-component *ngIf="guide.restaurant" iconClass="fa-utensils" title="{{ 'pages.guide.restaurants' | translate }}"
             [hasEdit]="true">
             <agm-map *ngIf="guide" [latitude]="guide.restaurant.latitude" [longitude]="guide.restaurant.longitude"
                 [zoom]="guide.restaurant.zoom" [disableDefaultUI]="false" [zoomControl]="false">>
@@ -98,6 +98,6 @@
                     </agm-info-window>
                 </agm-marker>
             </agm-map>
-        </app-accordion-component> -->
+        </app-accordion-component>
     </div>
 </div>

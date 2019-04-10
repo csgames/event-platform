@@ -4,7 +4,7 @@ export enum EventGuideTypes {
     GraduationCap = "transport",
     SchoolMap = "school",
     Parking = "parking",
-    Restaurants = "restaurant"
+    Restaurants = "restaurant",
 }
 
 export interface BringSection {
@@ -19,38 +19,48 @@ export interface HotelSection {
     name: string;
 }
 
+export interface TranslateWebsite {
+    [key: string]: string[];
+}
+
 export interface SchoolSection {
     latitude: number;
     longitude: number;
     zoom: number;
     address: string;
     name: string;
-    maps: [string];
+    maps: string[];
+    website: TranslateWebsite;
+}
+
+export interface Coordinate {
+    longitude: number;
+    latitude: number;
 }
 
 export interface ParkingSection {
     latitude: number;
     longitude: number;
     zoom: number;
-    coordinates: [{
-        latitude: number,
-        longitude: number
-    }];
+    coordinates: Coordinate[];
 }
 
+export interface RestaurantCoordinate {
+    info: string;
+    latitude: number;
+    longitude: number;
+}
+
+export interface RestaurantSection {
+    latitude: number;
+    longitude: number;
+    zoom: number;
+    coordinates: RestaurantCoordinate[];
+}
 export interface EventGuide {
     bring: BringSection;
     school: SchoolSection;
     hotel: HotelSection;
-    parkings: ParkingSection;
-    restaurant: {
-        latitude: number,
-        longitude: number,
-        zoom: number,
-        coordinates: [{ 
-            info: string,
-            latitude: number,
-            longitude: number
-        }]
-    };
+    parking: ParkingSection;
+    restaurant: RestaurantSection;
 }

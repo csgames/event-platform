@@ -144,7 +144,9 @@
             "create_error": "An error occurred while creating the section",
             "create_success": "Section successfully created.",
             "type_section": "Section type",
-            "edit_section": "Edit section"
+            "edit_section": "Edit section",
+            "edit_success": "Section successfully updated",
+            "edit_error": "An error occurred while updating the section"
         },
         "hotel_form": {
             "name": "Name of the hotel",
@@ -163,10 +165,21 @@
         "parking_form": {
             "latitude": "Latitude",
             "longitude": "Longitude",
-            "zoom": "Zoom on map"
+            "zoom": "Zoom on map",
+            "add": "Add marker",
+            "add_success": "Marker succesfully added ",
+            "add_error": "An error occurred while adding a marker",
+            "marker": "Marker for parking "
         },
         "bring_form": {
             "add": "Add item to bring"
+        },
+        "map_form": {
+            "website": "Website of the school",
+            "map": "School map",
+            "add": "Add school map",
+            "add_success": "School map succesfully added ",
+            "add_error": "An error occurred while adding a school map" 
         }
     },
     "errors": {

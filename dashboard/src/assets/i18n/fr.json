@@ -144,7 +144,9 @@
             "create_error": "Une erreur est survenue lors de la création de la section.",
             "create_success": "Section créée avec succès. ",
             "type_section": "Type de la section",
-            "edit_section": "Modifier la section"
+            "edit_section": "Modifier la section",
+            "edit_success": "Section modifiée avec succès. ",
+            "edit_error": "Une erreur est survenue lors de la modification de la section"
         },
         "hotel_form": {
             "name": "Nom de l'hôtel",
@@ -163,10 +165,21 @@
         "parking_form": {
             "latitude": "Latitude",
             "longitude": "Longitude",
-            "zoom": "Zoom sur la map"
+            "zoom": "Zoom sur la map",
+            "add": "Ajouter un marqueur",
+            "add_success": "Le marqueur a été ajouté avec succès. ",
+            "add_error": "Une erreur est survenue lors de l'ajout du marqueur. ",
+            "marker": "Marqueur pour le stationnement "
         },
         "bring_form": {
             "add": "Ajouter un item à apporter"
+        },
+        "map_form": {
+            "website": "Site internet de l'école",
+            "map": "Plan de l'école",
+            "add": "Ajouter plan de l'école",
+            "add_success": "Le plan de l'école a été ajouté avec succès. ",
+            "add_error": "Une erreur est survenue lors de l'ajout du plan de l'école. "
         }
     },
     "errors": {

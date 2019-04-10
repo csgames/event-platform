@@ -1,0 +1,59 @@
+<div fxLayout="row" fxLayoutAlign="end center">
+    <div fxFlex="10" class="input-group input-group-default language-select">
+        <ng-select [(ngModel)]="lang" [items]="languages">
+            controlStatus>
+            <ng-template ng-option-tmp ng-label-tmp let-item="item">
+                <span class="ng-option-label">
+                    {{ item.toUpperCase() }}
+                </span>
+            </ng-template>
+        </ng-select>
+    </div>
+</div>
+<div fxLayout="column" *ngIf="lang && section">
+    <div class="input-group input-group-default">
+        <input class="form-control" type="text" [(ngModel)]="section.website[lang]" (ngModelChange)="itemChange()">
+    </div>
+</div>
+<div fxLayout="column" *ngIf="lang && section">
+    <div fxFlex="100" *ngFor="let d of section.maps; let i = index">
+        <div class="input-group input-group-default">
+            <input class="form-control" type="text" [(ngModel)]="d" (ngModelChange)="itemChange()">
+            <span class="input-group-btn">
+                <a class="remove btn btn-danger btn-outline pull-right" (click)="deleteValue(d)">
+                    <i class="fa fa-trash"></i>
+                </a>
+            </span>
+        </div>
+    </div>
+</div>
+<div>
+    <button *ngIf="!showCreate" type="button" class="add-button btn btn-lg btn-block borders" (click)="clickAdd()">
+        + {{ "components.map_form.add" | translate }}
+    </button>
+    <div *ngIf="showCreate">
+        <div fxLayout="column">
+            <div fxFlex="100">
+                <div class="input-group input-group-default no-grow">
+                    <input autofocus class="form-control" type="textbox" name="map" [(ngModel)]="newMap" controlStatus
+                        placeholder='{{ "components.map_form.map" | translate }}'>
+                </div>
+            </div>
+            <div fxFlex="100" class="control-error" *ngIf="newItemError">
+                {{ "components.map_form.add_error" }}
+            </div>
+        </div>
+        <div fxLayout="row" fxLayoutAlign="end center">
+            <div fxFlex="40">
+                <div class="button-group">
+                    <a class="btn btn-danger cancel float-right" (click)="cancel()">
+                        {{ "general.button.cancel" | translate }} <i class="fal fa-times"></i>
+                    </a>
+                    <a class="btn btn-primary mr-2 float-right" (click)="add()">
+                        {{ "general.button.add" | translate }} <i class="fal fa-plus"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

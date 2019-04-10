@@ -160,6 +160,10 @@ export class EventApi extends CSGamesApi {
     }
 
     public createSection(sectionDto: SectionFormDto) {
-        return this.http.put<void>(this.url("guide"), sectionDto, { withCredentials: true });
+        return this.http.put<void>(this.url("guide/section"), sectionDto, { withCredentials: true });
+    }
+
+    public updateSection(eventGuide: EventGuide): Observable<void> {
+        return this.http.put<void>(this.url("guide"), eventGuide, { withCredentials: true });
     }
 }

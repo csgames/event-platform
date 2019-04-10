@@ -25,7 +25,7 @@ export class CreateSectionEffects {
     @Effect()
     createSectionSuccess$ = this.actions$.pipe(
         ofType<CreateSectionSuccess>(CreateSectionActionTypes.CreateSectionSuccess),
-        tap(() => this.toastrService.success("", this.translateService.instant("components.create_section.success"))),
+        tap(() => this.toastrService.success("", this.translateService.instant("components.section.create_success"))),
         map(() => new LoadGuideEdit())
     );
 }
