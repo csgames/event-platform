@@ -41,6 +41,9 @@ import { ParkingFormComponent } from "./components/parking-form/parking-form.com
 import { EditSectionEffects } from "./components/edit-section/store/edit-section.effects";
 import { MAP_FORM_GENERATOR } from "./components/map-form/map-form.constants";
 import { MapFormComponent } from "./components/map-form/map-form.component";
+import { RESTAURANT_FORM_GENERATOR } from "./components/restaurant-form/restaurant-form.constants";
+import { RestaurantFormDto } from "./components/restaurant-form/dto/restaurant-form.dto";
+import { RestaurantFormComponent } from "./components/restaurant-form/restaurant-form.component";
 
 @NgModule({
     imports: [
@@ -75,7 +78,8 @@ import { MapFormComponent } from "./components/map-form/map-form.component";
         HotelFormComponent,
         SchoolFormComponent,
         ParkingFormComponent,
-        MapFormComponent
+        MapFormComponent,
+        RestaurantFormComponent
     ],
     entryComponents: [
         CreateSectionComponent,
@@ -106,6 +110,11 @@ import { MapFormComponent } from "./components/map-form/map-form.component";
         {
             provide: MAP_FORM_GENERATOR,
             useFactory: FormGeneratorFactory.transform(SchoolFormDto),
+            deps: [FormBuilder]
+        },
+        {
+            provide: RESTAURANT_FORM_GENERATOR,
+            useFactory: FormGeneratorFactory.transform(RestaurantFormDto),
             deps: [FormBuilder]
         }
     ]

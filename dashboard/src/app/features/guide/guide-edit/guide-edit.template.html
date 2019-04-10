@@ -88,7 +88,7 @@
         </app-accordion-component>
         <!-- Restaurants -->
         <app-accordion-component *ngIf="guide.restaurant" iconClass="fa-utensils" title="{{ 'pages.guide.restaurants' | translate }}"
-            [hasEdit]="true">
+            [hasEdit]="true" (clickUpdateGuide)="update('restaurant')">
             <agm-map *ngIf="guide" [latitude]="guide.restaurant.latitude" [longitude]="guide.restaurant.longitude"
                 [zoom]="guide.restaurant.zoom" [disableDefaultUI]="false" [zoomControl]="false">>
                 <agm-marker *ngFor="let marker of guide.restaurant.coordinates" [latitude]="marker.latitude"

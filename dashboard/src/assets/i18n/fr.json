@@ -180,6 +180,15 @@
             "add": "Ajouter plan de l'école",
             "add_success": "Le plan de l'école a été ajouté avec succès. ",
             "add_error": "Une erreur est survenue lors de l'ajout du plan de l'école. "
+        },
+        "restaurant_form": {
+            "latitude": "Latitude",
+            "longitude": "Longitude",
+            "zoom": "Zoom sur la map",
+            "add": "Ajouter restaurant",
+            "add_success": "Restaurant ajouté avec succès. ",
+            "add_error": "Une erreur est surevenue lors de l'ajout du restaurant. ",
+            "info": "Information à propos du restaurant"
         }
     },
     "errors": {

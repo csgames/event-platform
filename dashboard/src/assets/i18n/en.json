@@ -180,6 +180,15 @@
             "add": "Add school map",
             "add_success": "School map succesfully added ",
             "add_error": "An error occurred while adding a school map" 
+        },
+        "restaurant_form": {
+            "latitude": "Latitude",
+            "longitude": "Longitude",
+            "zoom": "Zoom on map",
+            "add": "Add restaurant",
+            "add_success": "Restaurant succesfully added ",
+            "add_error": "An error occurred while adding a restaurant",
+            "info": "Information about the restaurant"
         }
     },
     "errors": {
