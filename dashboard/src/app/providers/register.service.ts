@@ -12,8 +12,6 @@ export class RegisterService {
 
     public createRegistration(dto: AddTeamFormDto): Observable<Registration> {
         const role = dto.sponsorId ? "sponsor" : "captain";
-        console.log("create registration 111");
-        console.log(dto);
         return this.registrationApi.createRegistration({
             ...dto,
             role
