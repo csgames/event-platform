@@ -32,6 +32,12 @@ export class TracksAnswersUtils {
         };
     }
 
+    public static findById(puzzle: PuzzleGraphNodes) {
+        return (answer: TracksAnswers) => {
+            return (answer.puzzle as mongoose.Types.ObjectId).toHexString() === (puzzle._id as mongoose.Types.ObjectId).toHexString();
+        };
+    }
+
     public static findDepends(puzzle: PuzzleGraphNodes, teamId: string) {
         return (answer: TracksAnswers) => {
             return (answer.teamId as mongoose.Types.ObjectId).toHexString() === teamId && puzzle.dependsOn &&

@@ -31,6 +31,7 @@ export interface PuzzleDefinition extends PuzzleGraphNodes {
     type: string;
     inputType: string;
     score: number;
+    answersCount: number;
 }
 
 export interface PuzzleHeroInfo {
@@ -411,10 +412,11 @@ export class PuzzleHeroesService extends BaseService<PuzzleHeroes, PuzzleHeroes>
         }
     }
 
-    private async formatTrack(track: Tracks, puzzleHero: PuzzleHeroes, teamId: string, type?: string, admin = false): Promise<Tracks> {
+    private async formatTrack(track: Tracks, puzzleHero: PuzzleHeroes, teamId: string, type?: string): Promise<Tracks> {
         const puzzles = [];
         for (const puzzle of track.puzzles as PuzzleDefinition[]) {
             puzzle.completed = puzzleHero.answers.some(TracksAnswersUtils.find(puzzle, teamId));
+            puzzle.answersCount = puzzleHero.answers.filter(TracksAnswersUtils.findById(puzzle)).length;
 
             const question = puzzle.question as Questions;
             puzzle.label = question.label;
@@ -429,7 +431,7 @@ export class PuzzleHeroesService extends BaseService<PuzzleHeroes, PuzzleHeroes>
 
             puzzles.push(puzzle);
             puzzle.locked = false;
-            if (!puzzle.dependsOn || admin) {
+            if (!puzzle.dependsOn) {
                 continue;
             }
             const depends = puzzleHero.answers.find(TracksAnswersUtils.findDepends(puzzle, teamId));
