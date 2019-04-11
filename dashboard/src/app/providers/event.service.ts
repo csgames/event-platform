@@ -7,6 +7,7 @@ import { UppyFile } from "@uppy/core";
 import { EventGuide } from "../api/models/guide";
 import { Team } from "../api/models/team";
 import { Competition } from "../api/models/competition";
+import { EventFormDto } from "../components/event-form/dto/event-form.dto";
 
 
 const CURRENT_EVENT = "CURRENT_EVENT";
@@ -75,5 +76,17 @@ export class EventService {
 
     public getAttendeesCv(): Observable<Blob> {
         return this.apiService.event.getAttendeesCv();
+    }
+
+    public createEvent(eventFormDto: EventFormDto): Observable<Event> {
+        return this.apiService.event.createEvent({
+            ...eventFormDto,
+            flashoutBeginDate: eventFormDto.beginDate,
+            flashoutEndDate: eventFormDto.endDate
+        });
+    }
+
+    public editEvent(eventFormDto: EventFormDto): Observable<Event> {
+        return this.apiService.event.updateEvent(eventFormDto);
     }
 }

@@ -151,13 +151,36 @@
             "title_placeholder": "Title of the activity",
             "activity_types": "Activity type",
             "begin_date": "Start date",
-            "end_date":"End date",
+            "end_date": "End date",
             "details_information": "Details of the activity",
             "location": "Location",
             "on_dashboard": "Activity hidden from dashboard"
         },
         "edit_team_info": {
             "edit_team_info": "Edit team info"
+        },
+        "event_form": {
+            "name": "Name of the event",
+            "details": "Details",
+            "begin_date": "Begin date",
+            "end_date": "End date",
+            "image_url": "Logo URL",
+            "cover_url": "Cover URL",
+            "location_name": "School name",
+            "location_address": "School address",
+            "website": "Website",
+            "team_edit_lock_date": "Team edit end date",
+            "create_event_success": "Event successfully created",
+            "create_event_error": "An error occurred while creating the event",
+            "primary_color": "Primary color",
+            "edit_event_success": "Event successfully updated",
+            "edit_event_error": "An error occurred while updating the event"
+        },
+        "create_event_modal": {
+            "title": "Create an event"
+        },
+        "edit_event_modal": {
+            "title": "Edit event"
         }
     },
     "errors": {
@@ -169,7 +192,8 @@
         "maxlength": "This field must have maximum {{value}} characters",
         "minlength": "This field must have at least {{value}} characters",
         "passwords_mismatch": "The passwords do not match.",
-        "required": "This field is required."
+        "required": "This field is required.",
+        "bsDate": "Invalid date"
     },
     "general": {
         "button": {

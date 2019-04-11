@@ -17,6 +17,7 @@
 .navigation {
     margin: 0 10px;
     padding: 0;
+    padding-bottom: 40px;
 }
 
 .navigation a {
@@ -49,12 +50,12 @@
     &:hover {
         background-color: transparent;
         text-decoration: none;
-        color: #0D5899;
+        color: var(--primary-color);
     }
 
     &.active {
         background-color: transparent;
-        color: #0D5899;
+        color: var(--primary-color);
     }
 }
 
@@ -70,12 +71,12 @@
     &:hover {
         background-color: transparent;
         text-decoration: none;
-        color: #0D5899;
+        color: var(--primary-color);
     }
 
     &.active {
         background-color: transparent;
-        color: #0D5899;
+        color: var(--primary-color);
     }
 }
 
@@ -85,7 +86,7 @@
 }
 
 .navigation a.active {
-    background-color: #0D5899;
+    background-color: var(--primary-color);
 }
 
 .navigation a.active {
@@ -97,4 +98,23 @@
     height: 550px;
 
     fill: #D8D8D8;
+}
+
+.navigation-bottom {
+    position: absolute;
+    bottom: 0;
+    width: 240px;
+    margin-top: 5px;
+    padding-bottom: 1rem;
+    background-color: #EBEAE7;
+
+    text-align: center;
+    font-size: 13px;
+    font-weight: normal;
+
+    &:hover {
+        cursor: pointer;
+        background-color: #e6e5e2;
+        color: var(--primary-color);
+    }
 }

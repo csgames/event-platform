@@ -13,7 +13,7 @@ import { SimpleModalModule } from "ngx-simple-modal";
 import { NotificationsListModalModule } from "../../modals/notifications-list-modal/notifications-list-modal.module";
 import { NotificationsListModalComponent } from "../../modals/notifications-list-modal/notifications-list-modal.component";
 import { LayoutModule } from "@angular/cdk/layout";
-import { MatToolbarModule, MatSidenavModule } from "@angular/material";
+import { MatSidenavModule, MatToolbarModule } from "@angular/material";
 import { TranslateModule } from "@ngx-translate/core";
 import { LoadingSpinnerModule } from "../../components/loading-spinner/loading-spinner.module";
 import { ProfileSettingModule } from "./modals/profile-setting/profile-setting.module";
@@ -24,6 +24,8 @@ import { DirectivesModule } from "../../directives/directives.module";
 import { ChangePasswordModule } from "./modals/change-password/change-password.module";
 import { PipeModule } from "src/app/pipe/pipe.module";
 import { FlashoutGuard } from "../flashout/guards/flashout.guard";
+import { CreateEventModalModule } from "../../modals/create-event-modal/create-event-modal.module";
+import { EditEventModalModule } from "../../modals/edit-event-modal/edit-event-modal.module";
 
 @NgModule({
     imports: [
@@ -36,6 +38,8 @@ import { FlashoutGuard } from "../flashout/guards/flashout.guard";
         SimpleModalModule,
         BsDropdownModule,
         NotificationsListModalModule,
+        CreateEventModalModule,
+        EditEventModalModule,
         GravatarModule.forRoot({ fallback: FALLBACK.mm }),
         LoadingSpinnerModule,
         LayoutModule,

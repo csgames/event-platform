@@ -20,13 +20,32 @@ import { EventService } from "../providers/event.service";
 import { NotificationService } from "../providers/notification.service";
 import { PuzzleHeroService } from "../providers/puzzle-hero.service";
 import {
-    AllNotificationsSeen, AppActionTypes, AppLoaded, ChangeLanguage, ChangePassword, CheckUnseenNotification, CurrentAttendeeLoaded,
-    EditProfile, EventsLoaded, GetPuzzleHeroInfo, GlobalError, HasUnseenNotification, InitializeMessaging, LoadCurrentAttendee, LoadEvents,
-    Logout, SetCurrentEvent, SetupMessagingToken, UpdatePuzzleHeroStatus, LoadRegisteredCompetitions, RegisteredCompetitionsLoaded,
+    AllNotificationsSeen,
+    AppActionTypes,
+    AppLoaded,
+    ChangeLanguage,
+    ChangePassword,
+    CheckUnseenNotification,
+    CurrentAttendeeLoaded,
+    EditProfile,
+    EventsLoaded,
+    GetPuzzleHeroInfo,
+    GlobalError,
+    HasUnseenNotification,
+    InitializeMessaging,
+    LoadCurrentAttendee,
+    LoadEvents,
+    LoadRegisteredCompetitions,
+    Logout,
+    RegisteredCompetitionsLoaded,
+    SetCurrentEvent,
+    SetupMessagingToken,
+    UpdatePuzzleHeroStatus,
     ViewTicket
 } from "./app.actions";
 import { getCurrentAttendee, getEvents, getPuzzleHeroInfo, State } from "./app.reducers";
 import { Competition } from "../api/models/competition";
+import { ThemeService } from "../providers/theme.service";
 
 export const LANGUAGE = "LANGUAGE";
 
@@ -44,7 +63,8 @@ export class AppEffects {
         private toastr: ToastrService,
         private notificationService: NotificationService,
         private afMessaging: AngularFireMessaging,
-        private puzzleHeroService: PuzzleHeroService
+        private puzzleHeroService: PuzzleHeroService,
+        private themeService: ThemeService
     ) {}
 
     @Effect()
@@ -65,6 +85,7 @@ export class AppEffects {
     logout$ = this.actions$.pipe(
         ofType<Logout>(AppActionTypes.Logout),
         tap(async () => {
+            this.themeService.resetTheme();
             const token = await this.afMessaging.getToken.toPromise();
             if (token) {
                 await this.attendeeService.removeMessagingToken(token).toPromise();
@@ -83,7 +104,7 @@ export class AppEffects {
     @Effect({ dispatch: false })
     changeLanguage$ = this.actions$.pipe(
         ofType<ChangeLanguage>(AppActionTypes.ChangeLanguage),
-        tap((action: ChangeLanguage) => { 
+        tap((action: ChangeLanguage) => {
             this.translateService.setDefaultLang(action.payload);
             localStorage.setItem(LANGUAGE, action.payload);
         })
@@ -156,7 +177,10 @@ export class AppEffects {
     @Effect()
     setCurrentEvent$ = this.actions$.pipe(
         ofType<SetCurrentEvent>(AppActionTypes.SetCurrentEvent),
-        tap((action) => this.eventService.saveCurrentEvent(action.event._id)),
+        tap((action) => {
+            this.eventService.saveCurrentEvent(action.event._id);
+            this.themeService.setPrimaryColor(action.event.primaryColor);
+        }),
         switchMap(() => [new LoadCurrentAttendee(), new GetPuzzleHeroInfo(), new LoadRegisteredCompetitions()])
     );
 
@@ -214,7 +238,7 @@ export class AppEffects {
             return this.puzzleHeroService.getInfo().pipe(
                 map((info: PuzzleHeroInfo) => new UpdatePuzzleHeroStatus(info))
             );
-        }),
+        })
     );
 
     @Effect()
@@ -224,6 +248,6 @@ export class AppEffects {
             return this.eventService.getRegisteredCompetitions().pipe(
                 map((competitions: Competition[]) => new RegisteredCompetitionsLoaded(competitions))
             );
-        }),
+        })
     );
 }

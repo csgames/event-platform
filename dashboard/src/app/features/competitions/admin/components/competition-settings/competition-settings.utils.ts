@@ -2,7 +2,7 @@ import { CompetitionSettingsDto } from "./dto/competition-settings.dto";
 import { Event } from "../../../../../api/models/event";
 
 export namespace CompetitionSettingsUtils {
-    export function competitionSettingsDtoToEvent(dto: CompetitionSettingsDto): Event {
+    export function competitionSettingsDtoToEvent(dto: CompetitionSettingsDto): { competitionResultsLocked: boolean } {
         return {
             competitionResultsLocked: dto.open
         };
