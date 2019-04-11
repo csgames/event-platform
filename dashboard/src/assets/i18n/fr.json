@@ -188,7 +188,9 @@
             "add": "Ajouter restaurant",
             "add_success": "Restaurant ajouté avec succès. ",
             "add_error": "Une erreur est surevenue lors de l'ajout du restaurant. ",
-            "info": "Information à propos du restaurant"
+            "info": "Information à propos du restaurant",
+            "map_default_position": "Position par défaut de la carte",
+            "restaurants": "Restaurants"
         }
     },
     "errors": {

@@ -61,8 +61,8 @@ export class RestaurantFormComponent implements OnInit, ControlValueAccessor {
     public clickAdd() {
         this.newRestaurant = {
             info: "",
-            latitude: 0,
-            longitude: 0
+            latitude: null,
+            longitude: null
         };
         this.showCreate = true;
         this.newRestaurantError = false;
