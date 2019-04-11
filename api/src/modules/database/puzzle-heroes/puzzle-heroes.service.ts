@@ -31,6 +31,7 @@ export interface PuzzleDefinition extends PuzzleGraphNodes {
     type: string;
     inputType: string;
     score: number;
+    answersCount: number;
 }
 
 export interface PuzzleHeroInfo {
@@ -69,7 +70,10 @@ export class PuzzleHeroesService extends BaseService<PuzzleHeroes, PuzzleHeroes>
         }).populate({
             path: 'tracks.puzzles.question',
             model: 'questions'
-        }).exec();
+        }).populate({
+            path: 'answers.teamId',
+            model: 'teams'
+        }).lean().exec();
         if (!puzzleHero) {
             throw new NotFoundException('No puzzle hero found');
         }
@@ -81,8 +85,17 @@ export class PuzzleHeroesService extends BaseService<PuzzleHeroes, PuzzleHeroes>
                 return this.getPuzzleHeroForAttendee(eventId, user, type, puzzleHero);
             case 'admin':
             case 'super-admin':
-                return puzzleHero;
+                return this.formatPuzzleHeroForAdmin(puzzleHero);
         }
+    }
+
+    private formatPuzzleHeroForAdmin(puzzleHero: PuzzleHeroes): any {
+        for (const track of puzzleHero.tracks) {
+            track.puzzles.forEach((p: any) => {
+                p.answers = puzzleHero.answers.filter((a) => p._id.equals(a.puzzle));
+            });
+        }
+        return puzzleHero;
     }
 
     private async getPuzzleHeroForAttendee(eventId: string,
@@ -412,10 +425,11 @@ export class PuzzleHeroesService extends BaseService<PuzzleHeroes, PuzzleHeroes>
         }
     }
 
-    private async formatTrack(track: Tracks, puzzleHero: PuzzleHeroes, teamId: string, type?: string, admin = false): Promise<Tracks> {
+    private async formatTrack(track: Tracks, puzzleHero: PuzzleHeroes, teamId: string, type?: string): Promise<Tracks> {
         const puzzles = [];
         for (const puzzle of track.puzzles as PuzzleDefinition[]) {
             puzzle.completed = puzzleHero.answers.some(TracksAnswersUtils.find(puzzle, teamId));
+            puzzle.answersCount = puzzleHero.answers.filter(TracksAnswersUtils.findById(puzzle)).length;
 
             const question = puzzle.question as Questions;
             puzzle.label = question.label;
@@ -430,7 +444,7 @@ export class PuzzleHeroesService extends BaseService<PuzzleHeroes, PuzzleHeroes>
 
             puzzles.push(puzzle);
             puzzle.locked = false;
-            if (!puzzle.dependsOn || admin) {
+            if (!puzzle.dependsOn) {
                 continue;
             }
             const depends = puzzleHero.answers.find(TracksAnswersUtils.findDepends(puzzle, teamId));

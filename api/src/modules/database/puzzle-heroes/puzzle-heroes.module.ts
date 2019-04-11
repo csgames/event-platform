@@ -8,9 +8,10 @@ import { AttendeesSchema } from '../attendees/attendees.model';
 import { TeamsSchema } from '../teams/teams.model';
 import { RedisModule } from '../../redis/redis.module';
 import { SchoolsSchema } from '../schools/schools.model';
-import { QuestionsService } from '../questions/questions.service';
 import { PuzzleHeroesGateway } from './puzzle-heroes.gateway';
 import { QuestionsModule } from '../questions/questions.module';
+import { TracksAnswersSchema } from './tracks/tracks-answers.model';
+import { PuzzleGraphNodesSchema } from './puzzle-graph-nodes/puzzle-graph.nodes.model';
 
 @Module({
     imports: [
