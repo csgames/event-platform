@@ -45,7 +45,7 @@ export class RestaurantFormComponent implements OnInit, ControlValueAccessor {
         }
     }
 
-    public registerOnChange(fn: any): void {
+    public registerOnChange(fn: (data: RestaurantFormDto) => void): void {
         this.propagate = fn;
     }
 

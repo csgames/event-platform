@@ -18,7 +18,6 @@ import { GuideUtils } from "src/app/utils/guide.utils";
         }
     ]
 })
-
 export class SectionFormComponent implements OnInit, ControlValueAccessor, OnDestroy {
 
     @Input()

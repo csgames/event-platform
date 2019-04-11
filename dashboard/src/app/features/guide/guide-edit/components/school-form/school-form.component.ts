@@ -42,7 +42,7 @@ export class SchoolFormComponent implements OnInit, ControlValueAccessor {
         }
     }
 
-    public registerOnChange(fn: any): void {
+    public registerOnChange(fn: (data: SchoolFormDto) => void): void {
         this.propagate = fn;
     }
 

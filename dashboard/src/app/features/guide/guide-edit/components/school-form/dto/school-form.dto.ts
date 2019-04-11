@@ -31,6 +31,4 @@ export class SchoolFormDto {
     @Control()
     @Required()
     website: TranslateInfo;
-
-
 }

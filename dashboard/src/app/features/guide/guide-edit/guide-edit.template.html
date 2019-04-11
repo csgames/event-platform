@@ -1,7 +1,7 @@
 <div class="page-wrapper">
     <h1 class="title">{{ "pages.guide.guide" | translate }}</h1>
     <app-loading-spinner [loading]="loading$"></app-loading-spinner>
-    <button type="button" class="add-button btn btn-lg btn-block borders" *ngIf="!(guideCompleted() | async)"
+    <button type="button" class="add-button btn btn-lg btn-block borders" *ngIf="!guideCompleted$"
         (click)="clickAddSection()">
         + {{ "pages.guide.admin.section.add_section" | translate }}
     </button>

@@ -29,7 +29,7 @@ export class EditSectionEffects {
         map(() => new LoadGuideEdit())
     );
 
-    @Effect()
+    @Effect({dispatch: false})
     editSectionError$ = this.actions$.pipe(
         ofType<EditSectionError>(EditSectionActionTypes.EditSectionError),
         tap(() => this.toastrService.error("", this.translateService.instant("components.section.edit_error")))

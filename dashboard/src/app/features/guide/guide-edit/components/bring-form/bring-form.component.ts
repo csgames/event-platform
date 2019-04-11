@@ -28,8 +28,7 @@ export class BringFormComponent implements OnInit, ControlValueAccessor {
 
     private propagate: (data: BringSection) => void;
 
-    constructor(private translate: TranslateService) {
-    }
+    constructor(private translate: TranslateService) { }
 
     public ngOnInit() {
         this.lang = this.translate.getDefaultLang();
@@ -41,7 +40,7 @@ export class BringFormComponent implements OnInit, ControlValueAccessor {
         }
     }
 
-    public registerOnChange(fn: any): void {
+    public registerOnChange(fn: (data: BringSection) => void): void {
         this.propagate = fn;
     }
 

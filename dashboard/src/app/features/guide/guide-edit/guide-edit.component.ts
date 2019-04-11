@@ -61,7 +61,7 @@ export class GuideEditComponent implements OnInit, OnDestroy {
         });
     }
 
-    public guideCompleted(): Observable<boolean> {
+    public guideCompleted$(): Observable<boolean> {
         return this.currentGuide$.pipe(
             filter((guide) => !!guide),
             map((guide) => Object.keys(guide).length === Object.keys(EventGuideTypes).length)
