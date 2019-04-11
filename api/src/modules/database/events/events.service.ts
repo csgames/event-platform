@@ -35,11 +35,11 @@ export interface TeamScore {
     score: number;
 }
 
-export interface CompetitionScore { 
-    _id: string; 
-    name: object; 
-    results: TeamScore[]; 
-    weight: Number; 
+export interface CompetitionScore {
+    _id: string;
+    name: object;
+    results: TeamScore[];
+    weight: Number;
 }
 
 @Injectable()
@@ -54,8 +54,18 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
         super(eventsModel);
     }
 
-    public async getEventList(): Promise<Events[]> {
-        return await this.eventsModel.find().select({
+    public async getEventList(user: UserModel): Promise<Events[]> {
+        let condition = {};
+        if (user.role !== 'super-admin') {
+            const attendee = await this.attendeeService.findOne({
+                email: user.username
+            });
+            condition = {
+                'attendees.attendee': attendee._id
+            };
+        }
+
+        return await this.eventsModel.find(condition).select({
             name: true,
             imageUrl: true,
             beginDate: true,
@@ -68,7 +78,7 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
             flashoutBeginDate: true,
             flashoutEndDate: true,
             attendee: true,
-            primaryColor: true
+            primaryColor: true,
             competitionResultsLocked: true
         }).exec();
     }
@@ -97,7 +107,7 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
         }
 
         let registered = false;
-        if (role === "admin" || role === "volunteer" || role === "director" || role === "sponsor") {
+        if (role === 'admin' || role === 'volunteer' || role === 'director' || role === 'sponsor') {
             registered = true;
         }
 
@@ -493,8 +503,8 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
 
     public async getScoreFiltered(eventId: string): Promise<EventScore> {
         let score = await this.getScore(eventId);
-        let teams = await this.teamsModel.find({ event: eventId }).exec();
-        
+        let teams = await this.teamsModel.find({event: eventId}).exec();
+
         let teamsIdToRemove = teams.filter((team: Teams) => {
             return team.showOnScoreboard === false;
         }).map(t => t._id.toHexString());
@@ -502,10 +512,10 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
         let filteredOverallScores = score.overall.filter((score: TeamScore) => {
             return teamsIdToRemove.indexOf(score.teamId) === -1;
         });
-        
+
         let filteredCompetitionsScores = score.competitions.map((competition: CompetitionScore) => {
             let result = competition.results;
-            if(competition.results) {
+            if (competition.results) {
                 result = competition.results.filter((score: TeamScore) => {
                     return teamsIdToRemove.indexOf(score.teamId) === -1;
                 });
@@ -516,7 +526,7 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
             };
         });
 
-        return { overall: filteredOverallScores, competitions: filteredCompetitionsScores };
+        return {overall: filteredOverallScores, competitions: filteredCompetitionsScores};
     }
 
     private async getOverallScore(eventId: string, competitions: Competitions[]): Promise<TeamScore[]> {
