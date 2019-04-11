@@ -20,11 +20,12 @@ import { Schools } from '../schools/schools.model';
 import { Teams } from '../teams/teams.model';
 import { AddSponsorDto, CreateEventDto, SendNotificationDto } from './events.dto';
 import { AttendeeAlreadyRegisteredException, EventNotFoundException, UserNotAttendeeException } from './events.exception';
-import { Events, EventSponsorDetails } from './events.model';
+import { DefaultGuide, Events, EventSponsorDetails } from './events.model';
+import { AddGuideSectionDto, GuideDto } from './guide.dto';
 
 export interface EventScore {
     overall: TeamScore[];
-    competitions: { _id: string, name: object, result: TeamScore[] }[];
+    competitions: CompetitionScore[];
 }
 
 export interface TeamScore {
@@ -32,6 +33,13 @@ export interface TeamScore {
     teamName: string;
     teamSchoolName: string;
     score: number;
+}
+
+export interface CompetitionScore { 
+    _id: string; 
+    name: object; 
+    results: TeamScore[]; 
+    weight: Number; 
 }
 
 @Injectable()
@@ -449,6 +457,66 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
                 };
             })
         };
+    }
+
+    public async updateGuide(eventId: string, dto: GuideDto) {
+        const event = await this.findById(eventId);
+        if (!event) {
+            throw new EventNotFoundException();
+        }
+
+        await this.update({
+            _id: eventId,
+        }, {
+            guide: dto
+        } as any);
+    }
+
+    public async addGuideSection(eventId: string, dto: AddGuideSectionDto) {
+        const event = await this.findById(eventId);
+        if (!event) {
+            throw new EventNotFoundException();
+        }
+
+        const guide = event.guide || {};
+        if (guide[dto.type]) {
+            return;
+        }
+
+        guide[dto.type] = DefaultGuide[dto.type];
+        await this.update({
+            _id: eventId,
+        }, {
+            guide
+        } as any);
+    }
+
+    public async getScoreFiltered(eventId: string): Promise<EventScore> {
+        let score = await this.getScore(eventId);
+        let teams = await this.teamsModel.find({ event: eventId }).exec();
+        
+        let teamsIdToRemove = teams.filter((team: Teams) => {
+            return team.showOnScoreboard === false;
+        }).map(t => t._id.toHexString());
+
+        let filteredOverallScores = score.overall.filter((score: TeamScore) => {
+            return teamsIdToRemove.indexOf(score.teamId) === -1;
+        });
+        
+        let filteredCompetitionsScores = score.competitions.map((competition: CompetitionScore) => {
+            let result = competition.results;
+            if(competition.results) {
+                result = competition.results.filter((score: TeamScore) => {
+                    return teamsIdToRemove.indexOf(score.teamId) === -1;
+                });
+            }
+            return {
+                ...competition,
+                results: result
+            };
+        });
+
+        return { overall: filteredOverallScores, competitions: filteredCompetitionsScores };
     }
 
     private async getOverallScore(eventId: string, competitions: Competitions[]): Promise<TeamScore[]> {

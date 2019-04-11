@@ -223,7 +223,8 @@ export class RegistrationsService {
                 school: dto.schoolId,
                 sponsor: null,
                 attendeeId: attendee._id,
-                maxMembersNumber: dto.maxMembersNumber
+                maxMembersNumber: dto.maxMembersNumber,
+                showOnScoreboard: dto.showOnScoreboard
             });
         } else {
             await this.teamsService.update({name: dto.teamName, event: eventId}, {
@@ -246,7 +247,8 @@ export class RegistrationsService {
                 school: null,
                 sponsor: dto.sponsorId,
                 attendeeId: attendee._id,
-                maxMembersNumber: dto.maxMembersNumber
+                maxMembersNumber: dto.maxMembersNumber,
+                showOnScoreboard: dto.showOnScoreboard
             });
         } else {
             await this.teamsService.update({sponsor: dto.sponsorId, event: eventId}, {

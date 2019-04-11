@@ -543,6 +543,17 @@ export class CompetitionsService extends BaseService<Competitions, Competitions>
         return result;
     }
 
+    public async getFilteredResult(eventId: string, competitionId: string): Promise<TeamCompetitionResult[]> {
+        let results = await this.getResult(eventId, competitionId);
+        let teams = await this.teamsModel.find({ event: eventId }).exec();
+        let teamsIdToRemove = teams.filter((team: Teams) => {
+            return team.showOnScoreboard === false;
+        }).map(t => t._id.toHexString());
+        return results.filter((teamCompetitionResult: TeamCompetitionResult) => {
+            return teamsIdToRemove.indexOf(teamCompetitionResult._id.toHexString()) === -1;
+        });
+    }
+
     private async formatQuestions(competition: Competitions, attendee: Attendees, eventId: string): Promise<QuestionInfo[]> {
         const questions: QuestionInfo[] = [];
         const teamId = await this.getTeamId(attendee, eventId);
