@@ -2,35 +2,37 @@ import { Control } from "../../../../../../form-generator/decorators/control.dec
 import { Required } from "../../../../../../form-generator/decorators/required.decorator";
 import { TranslateInfo } from "src/app/api/models/guide";
 
-export class SchoolFormDto {
+export class TransportationFormDto {
 
     @Control()
     @Required()
-    name: string;
+    info: TranslateInfo;
 
     @Control()
     @Required()
-    latitude: number;
+    image: string;
 
     @Control()
     @Required()
-    longitude: number;
+    school: string;
 
     @Control()
     @Required()
-    zoom: number;
+    hotel: string;
 
     @Control()
     @Required()
-    address: string;
+    schoolLatitude: number;
 
     @Control()
     @Required()
-    maps: string[];
+    schoolLongitude: number;
 
     @Control()
     @Required()
-    website: TranslateInfo;
+    hotelLatitude: number;
 
-
+    @Control()
+    @Required()
+    hotelLongitude: number;
 }

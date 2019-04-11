@@ -19,7 +19,7 @@ export interface HotelSection {
     name: string;
 }
 
-export interface TranslateWebsite {
+export interface TranslateInfo {
     [key: string]: string[];
 }
 
@@ -30,7 +30,7 @@ export interface SchoolSection {
     address: string;
     name: string;
     maps: string[];
-    website: TranslateWebsite;
+    website: TranslateInfo;
 }
 
 export interface Coordinate {
@@ -57,10 +57,22 @@ export interface RestaurantSection {
     zoom: number;
     coordinates: RestaurantCoordinate[];
 }
+
+export interface TransportationSection {
+    info: TranslateInfo;
+    hotel: string;
+    school: string;
+    image: string;
+    hotelLatitude: number;
+    hotelLongitude: number;
+    schoolLatitude: number;
+    schoolLongitude: number;
+}
 export interface EventGuide {
     bring: BringSection;
     school: SchoolSection;
     hotel: HotelSection;
     parking: ParkingSection;
     restaurant: RestaurantSection;
+    transport: TransportationSection;
 }

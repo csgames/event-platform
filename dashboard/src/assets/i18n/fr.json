@@ -240,6 +240,12 @@
             "info": "Information à propos du restaurant",
             "map_default_position": "Position par défaut de la carte",
             "restaurants": "Restaurants"
+        },
+        "transportation_form": {
+            "info": "Information pour le trajet entre l'hôtel et l'école ",
+            "school": "Adresse de l'école ",
+            "hotel": "Adresse de l'hôtel ",
+            "image": "Url de l'image pour le trajet "
         }
     },
     "errors": {
@@ -452,7 +458,8 @@
                     "add_section": "Ajouter une section",
                     "create_section": "Créer une section"
                 }
-            }
+            },
+            "transport": "Transport"
         },
         "home": {
             "home": "Accueil"

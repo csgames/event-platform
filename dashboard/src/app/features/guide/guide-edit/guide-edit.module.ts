@@ -44,6 +44,9 @@ import { MapFormComponent } from "./components/map-form/map-form.component";
 import { RESTAURANT_FORM_GENERATOR } from "./components/restaurant-form/restaurant-form.constants";
 import { RestaurantFormDto } from "./components/restaurant-form/dto/restaurant-form.dto";
 import { RestaurantFormComponent } from "./components/restaurant-form/restaurant-form.component";
+import { TRANSPORTATION_FORM_GENERATOR } from "./components/transportation-form/transportation-form.constants";
+import { TransportationFormDto } from "./components/transportation-form/dto/transportation-form.dto";
+import { TransportationFormComponent } from "./components/transportation-form/transportation-form.component";
 
 @NgModule({
     imports: [
@@ -79,7 +82,8 @@ import { RestaurantFormComponent } from "./components/restaurant-form/restaurant
         SchoolFormComponent,
         ParkingFormComponent,
         MapFormComponent,
-        RestaurantFormComponent
+        RestaurantFormComponent,
+        TransportationFormComponent
     ],
     entryComponents: [
         CreateSectionComponent,
@@ -115,6 +119,11 @@ import { RestaurantFormComponent } from "./components/restaurant-form/restaurant
         {
             provide: RESTAURANT_FORM_GENERATOR,
             useFactory: FormGeneratorFactory.transform(RestaurantFormDto),
+            deps: [FormBuilder]
+        },
+        {
+            provide: TRANSPORTATION_FORM_GENERATOR,
+            useFactory: FormGeneratorFactory.transform(TransportationFormDto),
             deps: [FormBuilder]
         }
     ]

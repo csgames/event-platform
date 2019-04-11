@@ -240,6 +240,12 @@
         },
         "edit_event_modal": {
             "title": "Edit event"
+        },
+        "transportation_form": {
+            "info": "Information about the itinery between the hotel and the school",
+            "school": "School address",
+            "hotel": "Hotel address",
+            "image": "Url for image of the itinery"
         }
     },
     "errors": {
@@ -453,7 +459,8 @@
                     "add_section": "Add section",
                     "create_section": "Create section"
                 }
-            }
+            },
+            "transport": "Transportation"
         },
         "home": {
             "home": "Home"
