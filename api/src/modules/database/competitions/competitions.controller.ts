@@ -92,6 +92,13 @@ export class CompetitionsController {
         return await this.competitionService.getResult(eventId, competitionId);
     }
 
+    @Get(':id/result/filter')
+    @Permissions('csgames-api:get-result:competition')
+    public async getCompetitionFilteredResult(@EventId() eventId: string,
+                                      @Param('id') competitionId: string): Promise<TeamCompetitionResult[]> {
+        return await this.competitionService.getFilteredResult(eventId, competitionId);
+    }
+
     @Get(':id/question/:questionId/result')
     @UseInterceptors(new BufferInterceptor("application/zip"))
     @Permissions('csgames-api:get-result:competition')

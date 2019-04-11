@@ -97,6 +97,12 @@ export class EventsController {
         return await this.eventsService.getScore(eventId);
     }
 
+    @Get('score/filter')
+    @Permissions('csgames-api:get-score:event')
+    public async getScoreFiltered(@EventId() eventId: string) {
+        return await this.eventsService.getScoreFiltered(eventId);
+    }
+
     @Put('flash-out/rating')
     @HttpCode(HttpStatus.NO_CONTENT)
     @Permissions('csgames-api:update:flash-out')
