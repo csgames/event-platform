@@ -1,35 +1,34 @@
-<div fxLayout="row" *ngIf="lang && section">
-    <div class="input-group input-group-default">
-        <input class="form-control" type="number" [(ngModel)]="section.latitude" (ngModelChange)="itemChange()"
-            placeholder='{{ "components.parking_form.latitude" | translate }}'>
-    </div>
-    <div class="input-group input-group-default">
-        <input class="form-control" type="number" [(ngModel)]="section.longitude" (ngModelChange)="itemChange()"
-            placeholder='{{ "components.parking_form.longitude" | translate }}'>
-    </div>
-</div>
-<div fxLayout="row" *ngIf="lang && section">
-    <div class="input-group input-group-default">
-        <input class="form-control" type="number" [(ngModel)]="section.zoom" (ngModelChange)="itemChange()"
-            placeholder='{{ "components.parking_form.zoom" | translate }}'>
-    </div>
-</div>
-<div fxLayout="column" *ngIf="lang && section">
-    <div fxFlex="100" *ngFor="let d of section.coordinates; let i = index">
-        <div fxFlex="50">
-            <div class="input-group input-group-default">
-                <input class="form-control" type="text" [(ngModel)]="d.latitude" (ngModelChange)="itemChange()">
-            </div>
+<form [formGroup]="formGroup">
+    <label>{{ "components.parking_form.coords" | translate }}</label>
+    <div fxLayout="row" fxLayoutAlign="center center">
+        <div class="input-group input-group-default ml-0">
+            <input autofocus class="form-control" type="number" name="zoom" controlStatus formControlName="zoom"
+                placeholder='{{ "components.parking_form.zoom" | translate }}'>
         </div>
-        <div fxFlex="50">
-            <div class="input-group input-group-default">
-                <input class="form-control" type="text" [(ngModel)]="d.longitude" (ngModelChange)="itemChange()">
-                <span class="input-group-btn">
-                    <a class="remove btn btn-danger btn-outline pull-right" (click)="deleteValue(d)">
-                        <i class="fa fa-trash"></i>
-                    </a>
-                </span>
-            </div>
+        <div class="input-group input-group-default">
+            <input autofocus class="form-control" type="number" name="latitude" controlStatus formControlName="latitude"
+                placeholder='{{ "components.parking_form.latitude" | translate }}'>
+        </div>
+        <div class="input-group input-group-default mr-0">
+            <input autofocus class="form-control" type="number" name="longitude" controlStatus
+                formControlName="longitude" placeholder='{{ "components.parking_form.longitude" | translate }}'>
+        </div>
+    </div>
+</form>
+
+<div fxLayout="column" *ngIf="lang && section">
+    <label>{{ "components.parking_form.markers" | translate }}</label>
+    <div fxLayout="row" *ngFor="let d of section.coordinates; let i = index">
+        <div class="input-group input-group-default ml-0">
+            <input class="form-control" type="text" [(ngModel)]="d.latitude" (ngModelChange)="itemChange()">
+        </div>
+        <div class="input-group input-group-default mr-0">
+            <input class="form-control" type="text" [(ngModel)]="d.longitude" (ngModelChange)="itemChange()">
+            <span class="input-group-btn">
+                <a class="remove btn btn-danger btn-outline pull-right" (click)="deleteValue(i)">
+                    <i class="fa fa-trash"></i>
+                </a>
+            </span>
         </div>
     </div>
 </div>
@@ -41,19 +40,17 @@
         <div fxLayout="column">
             <div fxFlex="100">
                 <div fxLayout="row" fxLayoutAlign="end center" *ngIf="newMarker">
-                    <div class="col-sm-6">
-                        <div class="input-group input-group-default no-grow">
-                            <input autofocus class="form-control" type="number" name="latitude"
-                                [(ngModel)]="newMarker.latitude"
-                                placeholder='{{ "components.parking_form.latitude" | translate }}'>
-                        </div>
+                    <div class="input-group input-group-default ml-0">
+                        <input autofocus class="form-control" type="number" name="latitude"
+                            [(ngModel)]="newMarker.latitude"
+                            placeholder='{{ "components.parking_form.latitude" | translate }}'
+                            (ngModelChange)="itemChange()">
                     </div>
-                    <div class="col-sm-6">
-                        <div class="input-group input-group-default no-grow">
-                            <input autofocus class="form-control" type="number" name="longitude"
-                                [(ngModel)]="newMarker.longitude"
-                                placeholder='{{ "components.parking_form.longitude" | translate }}'>
-                        </div>
+                    <div class="input-group input-group-default mr-0">
+                        <input autofocus class="form-control" type="number" name="longitude"
+                            [(ngModel)]="newMarker.longitude"
+                            placeholder='{{ "components.parking_form.longitude" | translate }}'
+                            (ngModelChange)="itemChange()">
                     </div>
                 </div>
             </div>

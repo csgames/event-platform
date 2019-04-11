@@ -10,6 +10,7 @@ import { ParkingFormDto } from "./dto/parking-form.dto";
 @Component({
     selector: "parking-form",
     templateUrl: "parking-form.template.html",
+    styleUrls: ["parking-form.style.scss"],
     providers: [
         {
             provide: NG_VALUE_ACCESSOR,
@@ -42,6 +43,7 @@ export class ParkingFormComponent implements OnInit, ControlValueAccessor {
     public writeValue(obj: ParkingSection) {
         if (obj) {
             this.section = obj;
+            this.formGenerator.patchValues(this.section);
         }
     }
 
