@@ -29,6 +29,7 @@ import { NullPipe } from '../../../pipes/null-pipe.service';
 import { FlashOut } from '../flash-out/flash-out.model';
 import { FlashOutsService } from '../flash-out/flash-out.service';
 import { VotesFlashOutDto } from '../flash-out/flash-out.dto';
+import { AddGuideSectionDto, GuideDto } from './guide.dto';
 
 @ApiUseTags('Event')
 @Controller('event')
@@ -54,8 +55,8 @@ export class EventsController {
     }
 
     @Get()
-    public async getAll(): Promise<Events[]> {
-        return await this.eventsService.getEventList();
+    public async getAll(@User() user: UserModel): Promise<Events[]> {
+        return await this.eventsService.getEventList(user);
     }
 
     @Get("guide")
@@ -95,6 +96,12 @@ export class EventsController {
     @Permissions('csgames-api:get-score:event')
     public async getScore(@EventId() eventId: string) {
         return await this.eventsService.getScore(eventId);
+    }
+
+    @Get('score/filter')
+    @Permissions('csgames-api:get-score:event')
+    public async getScoreFiltered(@EventId() eventId: string) {
+        return await this.eventsService.getScoreFiltered(eventId);
     }
 
     @Put('flash-out/rating')
@@ -212,6 +219,18 @@ export class EventsController {
     @Permissions('csgames-api:update:event')
     public async addActivity(@EventId() eventId: string, @Body(new ValidationPipe()) activity: CreateActivityDto) {
         await this.eventsService.createActivity(eventId, activity);
+    }
+
+    @Put('guide')
+    @Permissions('csgames-api:update:event')
+    public async updateGuide(@EventId() id: string, @Body(new ValidationPipe()) dto: GuideDto) {
+        await this.eventsService.updateGuide(id, dto);
+    }
+
+    @Put('guide/section')
+    @Permissions('csgames-api:update:event')
+    public async addGuideSection(@EventId() id: string, @Body(new ValidationPipe()) dto: AddGuideSectionDto) {
+        await this.eventsService.addGuideSection(id, dto);
     }
 
     @Put('sponsor')

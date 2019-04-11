@@ -81,6 +81,7 @@ export class PuzzleHeroesService extends BaseService<PuzzleHeroes, PuzzleHeroes>
             case 'godparent':
                 return this.getPuzzleHeroForAttendee(eventId, user, type, puzzleHero);
             case 'admin':
+            case 'super-admin':
                 return puzzleHero;
         }
     }

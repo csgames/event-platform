@@ -14,6 +14,15 @@ export enum EventAttendeeTypes {
     Volunteer = 'volunteer'
 }
 
+export enum EventGuideTypes {
+    Bring = "bring",
+    Hotel = "hotel",
+    Transport = "transport",
+    School = "school",
+    Parking = "parking",
+    Restaurant = "restaurant"
+}
+
 export interface EventSponsorDetails extends Sponsors {
     padding: number[];
     widthFactor: number;
@@ -83,7 +92,7 @@ export interface EventGuide {
         zoom: number,
         address: string,
         name: string,
-        maps: [string],
+        maps: string[],
         website: { [lang: string]: string }
     };
     hotel: {
@@ -93,24 +102,24 @@ export interface EventGuide {
         address: string,
         name: string
     };
-    parkings: {
+    parking: {
         latitude: number,
         longitude: number,
         zoom: number,
-        coordinates: [{
+        coordinates: {
             latitude: number,
             longitude: number
-        }]
+        }[]
     };
     restaurant: {
         latitude: number,
         longitude: number,
         zoom: number,
-        coordinates: [{
+        coordinates: {
             info: string
             latitude: number,
             longitude: number
-        }]
+        }[]
     };
     transport: {
         info: { [lang: string]: string },
@@ -123,6 +132,57 @@ export interface EventGuide {
         hotelLongitude: number
     };
 }
+
+export const DefaultGuide: EventGuide = {
+    bring: {
+        fr: [],
+        en: []
+    },
+    hotel: {
+        address: "",
+        latitude: null,
+        longitude: null,
+        name: "",
+        zoom: null
+    },
+    parking: {
+        latitude: null,
+        longitude: null,
+        zoom: null,
+        coordinates: []
+    },
+    restaurant: {
+        latitude: null,
+        longitude: null,
+        zoom: null,
+        coordinates: []
+    },
+    school: {
+        latitude: null,
+        longitude: null,
+        zoom: null,
+        address: "",
+        maps: [],
+        name: "",
+        website: {
+            fr: "",
+            en: ""
+        }
+    },
+    transport: {
+        hotel: "",
+        hotelLatitude: null,
+        hotelLongitude: null,
+        image: "",
+        info: {
+            fr: "",
+            en: ""
+        },
+        school: "",
+        schoolLatitude: null,
+        schoolLongitude: null
+    }
+};
 
 export interface Events extends mongoose.Document {
     readonly name: string;
@@ -144,6 +204,7 @@ export interface Events extends mongoose.Document {
     readonly guide: EventGuide;
     readonly teamEditLocked: boolean;
     readonly teamEditLockDate: Date | string;
+    readonly primaryColor: string;
     readonly competitionResultsLocked: boolean;
 }
 
@@ -212,6 +273,10 @@ export const EventsSchema = new mongoose.Schema({
     teamEditLockDate: {
         type: Date,
         required: true
+    },
+    primaryColor: {
+        type: String,
+        default: "#0d5899"
     },
     competitionResultsLocked: {
         type: Boolean,
