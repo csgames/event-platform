@@ -29,4 +29,8 @@ export class AddTeamFormDto {
 
     @Control()
     sponsorId: string;
+
+    @Control()
+    @Required()
+    showOnScoreboard: boolean;
 }

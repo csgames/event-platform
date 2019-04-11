@@ -16,6 +16,7 @@ export interface CreateInvitationDto {
     schoolId?: string;
     sponsorId?: string;
     maxMembersNumber?: number;
+    showOnScoreboard?: boolean;
 }
 
 export class RegisterRoleDto {

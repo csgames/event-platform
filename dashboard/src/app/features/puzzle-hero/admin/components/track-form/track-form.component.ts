@@ -6,7 +6,6 @@ import { Subscription } from "rxjs";
 import { ControlValueAccessor, FormGroup, NG_VALUE_ACCESSOR } from "@angular/forms";
 import { TrackTypes } from "../../../../../api/models/puzzle-hero";
 import { TrackUtils } from "../../../../../utils/track.utils";
-import { QuestionTypes } from "../../../../../api/models/question";
 
 @Component({
     selector: "app-track-form",
