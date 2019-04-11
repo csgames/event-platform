@@ -50,6 +50,7 @@ export interface Question {
     score: number;
     isAnswered?: boolean;
     isLocked?: boolean;
+    answersCount?: number;
 }
 
 export interface QuestionGraphNode {

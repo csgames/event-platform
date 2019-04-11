@@ -181,6 +181,9 @@
         },
         "edit_event_modal": {
             "title": "Edit event"
+        },
+        "answers": {
+            "answers": "Puzzle answers"
         }
     },
     "errors": {
@@ -409,6 +412,7 @@
             "scoreboard_loading_error": "An error occurred while loading the scoreboard",
             "validate_success": "Good answer!",
             "answer": "Answer",
+            "count": "Answers count:",
             "admin": {
                 "add_track": "Add track",
                 "add_puzzle": "Add puzzle",

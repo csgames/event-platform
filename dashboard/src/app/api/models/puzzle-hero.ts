@@ -1,4 +1,5 @@
 import { Question, QuestionTypes } from "./question";
+import { Team } from "./team";
 
 export enum TrackTypes {
     Crypto = "crypto",
@@ -37,6 +38,7 @@ export interface PuzzleInfo {
     dependsOn?: string;
     score?: number;
     question?: Question;
+    answers?: Answers[];
 }
 
 export interface Track {
@@ -46,6 +48,13 @@ export interface Track {
     puzzles: PuzzleInfo[];
     releaseDate: string;
     endDate: string;
+}
+
+export interface Answers {
+    _id: string;
+    timestamp: string | Date;
+    puzzle: string;
+    teamId: Team;
 }
 
 export interface PuzzleHero {
