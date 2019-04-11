@@ -7,7 +7,7 @@ export namespace GuideUtils {
                 return "fal fal-4x fa-clipboard-check";
             case EventGuideTypes.Hotel:
                 return "fal fal-4x fa-hotel";
-            case EventGuideTypes.GraduationCap: 
+            case EventGuideTypes.Transport: 
                 return "fal fal-4x fa-graduation-cap";
             case EventGuideTypes.SchoolMap:
                 return "fal fal-4x fa-map-marked-alt";
