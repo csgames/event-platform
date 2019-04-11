@@ -11,6 +11,7 @@ import { SchoolsSchema } from '../schools/schools.model';
 import { PuzzleHeroesGateway } from './puzzle-heroes.gateway';
 import { QuestionsModule } from '../questions/questions.module';
 import { TracksAnswersSchema } from './tracks/tracks-answers.model';
+import { PuzzleGraphNodesSchema } from './puzzle-graph-nodes/puzzle-graph.nodes.model';
 
 @Module({
     imports: [

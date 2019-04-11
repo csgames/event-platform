@@ -70,7 +70,10 @@ export class PuzzleHeroesService extends BaseService<PuzzleHeroes, PuzzleHeroes>
         }).populate({
             path: 'tracks.puzzles.question',
             model: 'questions'
-        }).exec();
+        }).populate({
+            path: 'answers.teamId',
+            model: 'teams'
+        }).lean().exec();
         if (!puzzleHero) {
             throw new NotFoundException('No puzzle hero found');
         }
@@ -82,8 +85,17 @@ export class PuzzleHeroesService extends BaseService<PuzzleHeroes, PuzzleHeroes>
                 return this.getPuzzleHeroForAttendee(eventId, user, type, puzzleHero);
             case 'admin':
             case 'super-admin':
-                return puzzleHero;
+                return this.formatPuzzleHeroForAdmin(puzzleHero);
         }
+    }
+
+    private formatPuzzleHeroForAdmin(puzzleHero: PuzzleHeroes): any {
+        for (const track of puzzleHero.tracks) {
+            track.puzzles.forEach((p: any) => {
+                p.answers = puzzleHero.answers.filter((a) => p._id.equals(a.puzzle));
+            });
+        }
+        return puzzleHero;
     }
 
     private async getPuzzleHeroForAttendee(eventId: string,
