@@ -55,8 +55,8 @@ export class EventsController {
     }
 
     @Get()
-    public async getAll(): Promise<Events[]> {
-        return await this.eventsService.getEventList();
+    public async getAll(@User() user: UserModel): Promise<Events[]> {
+        return await this.eventsService.getEventList(user);
     }
 
     @Get("guide")

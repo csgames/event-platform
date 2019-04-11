@@ -140,27 +140,27 @@ export const DefaultGuide: EventGuide = {
     },
     hotel: {
         address: "",
-        latitude: 0,
-        longitude: 0,
+        latitude: null,
+        longitude: null,
         name: "",
-        zoom: 0
+        zoom: null
     },
     parking: {
-        latitude: 0,
-        longitude: 0,
-        zoom: 0,
+        latitude: null,
+        longitude: null,
+        zoom: null,
         coordinates: []
     },
     restaurant: {
-        latitude: 0,
-        longitude: 0,
-        zoom: 0,
+        latitude: null,
+        longitude: null,
+        zoom: null,
         coordinates: []
     },
     school: {
-        latitude: 0,
-        longitude: 0,
-        zoom: 0,
+        latitude: null,
+        longitude: null,
+        zoom: null,
         address: "",
         maps: [],
         name: "",
@@ -171,16 +171,16 @@ export const DefaultGuide: EventGuide = {
     },
     transport: {
         hotel: "",
-        hotelLatitude: 0,
-        hotelLongitude: 0,
+        hotelLatitude: null,
+        hotelLongitude: null,
         image: "",
         info: {
             fr: "",
             en: ""
         },
         school: "",
-        schoolLatitude: 0,
-        schoolLongitude: 0
+        schoolLatitude: null,
+        schoolLongitude: null
     }
 };
 
@@ -204,6 +204,7 @@ export interface Events extends mongoose.Document {
     readonly guide: EventGuide;
     readonly teamEditLocked: boolean;
     readonly teamEditLockDate: Date | string;
+    readonly primaryColor: string;
     readonly competitionResultsLocked: boolean;
 }
 
@@ -272,6 +273,10 @@ export const EventsSchema = new mongoose.Schema({
     teamEditLockDate: {
         type: Date,
         required: true
+    },
+    primaryColor: {
+        type: String,
+        default: "#0d5899"
     },
     competitionResultsLocked: {
         type: Boolean,
