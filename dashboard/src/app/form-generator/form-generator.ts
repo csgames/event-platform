@@ -10,7 +10,8 @@ export class FormGenerator<T> {
     private _group: FormGroup;
     private controls: ControlModel[];
 
-    constructor(private formBuilder: FormBuilder) {}
+    constructor(private formBuilder: FormBuilder) {
+    }
 
     public setControls(controls: ControlModel[]) {
         this.controls = controls;
@@ -91,12 +92,11 @@ export class FormGenerator<T> {
                         } else {
                             array.push(this.formBuilder.control(value[control.key][i], Validators.required));
                         }
+                    }
+                    if (hasChildren) {
+                        this.patchFormGroup(value[control.key][i], array.at(i) as FormGroup);
                     } else {
-                        if (hasChildren) {
-                            this.patchFormGroup(value[control.key][i], array.at(i) as FormGroup);
-                        } else {
-                            array.at(i).patchValue(value[control.key][i]);
-                        }
+                        array.at(i).patchValue(value[control.key][i]);
                     }
                 }
             } else if (control.children) {

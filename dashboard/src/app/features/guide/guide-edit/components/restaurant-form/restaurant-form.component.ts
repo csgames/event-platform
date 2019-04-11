@@ -5,7 +5,7 @@ import { TranslateService } from "@ngx-translate/core";
 import { FormGenerator } from "src/app/form-generator/form-generator";
 import { Subscription } from "rxjs";
 import { RESTAURANT_FORM_GENERATOR } from "./restaurant-form.constants";
-import { RestaurantFormDto } from "../restaurant-form/dto/restaurant-form.dto";
+import { RestaurantFormDto } from "./dto/restaurant-form.dto";
 
 @Component({
     selector: "restaurant-form",
@@ -21,21 +21,17 @@ import { RestaurantFormDto } from "../restaurant-form/dto/restaurant-form.dto";
 })
 
 export class RestaurantFormComponent implements OnInit, ControlValueAccessor {
-    public lang: string;
-    public languages = ["fr", "en"];
     public section: RestaurantSection;
     private propagate: (data: RestaurantFormDto) => void;
     public formGroup: FormGroup;
     public showCreate = false;
     public newRestaurant: RestaurantCoordinate;
-    public newRestaurantError = false;
     private valueChangeSub$: Subscription;
 
     constructor(private translate: TranslateService, 
                 @Inject(RESTAURANT_FORM_GENERATOR) private formGenerator: FormGenerator<RestaurantFormDto>) { }
 
     public ngOnInit() {
-        this.lang = this.translate.getDefaultLang();
         this.formGroup = this.formGenerator.generateGroup();
         this.valueChangeSub$ = this.formGroup.valueChanges.subscribe(() => {
             this.propagate(this.formGenerator.getValues());
@@ -45,6 +41,7 @@ export class RestaurantFormComponent implements OnInit, ControlValueAccessor {
     public writeValue(obj: RestaurantSection) {
         if (obj) {
             this.section = obj;
+            this.formGenerator.patchValues(obj);
         }
     }
 
@@ -54,10 +51,6 @@ export class RestaurantFormComponent implements OnInit, ControlValueAccessor {
 
     public registerOnTouched(fn: any): void { }
 
-    public itemChange() {
-        this.propagate(this.section);
-    }
-
     public clickAdd() {
         this.newRestaurant = {
             info: "",
@@ -65,17 +58,16 @@ export class RestaurantFormComponent implements OnInit, ControlValueAccessor {
             longitude: null
         };
         this.showCreate = true;
-        this.newRestaurantError = false;
     }
 
     public cancel() {
         this.showCreate = false;
-        this.newRestaurantError = false;
     }
 
     public add() {
         this.section.coordinates.push(this.newRestaurant);
         this.propagate(this.section);
+        this.formGenerator.patchValues(this.section);
         this.showCreate = false;
     }
 

@@ -1,6 +1,19 @@
 import { Control } from "../../../../../../form-generator/decorators/control.decorator";
 import { Required } from "../../../../../../form-generator/decorators/required.decorator";
-import { RestaurantCoordinate } from "src/app/api/models/guide";
+
+export class RestaurantCoordinateDto {
+    @Control()
+    @Required()
+    info: string;
+
+    @Control()
+    @Required()
+    latitude: number;
+
+    @Control()
+    @Required()
+    longitude: number;
+}
 
 export class RestaurantFormDto {
 
@@ -16,7 +29,7 @@ export class RestaurantFormDto {
     @Required()
     zoom: number;
 
-    @Control()
+    @Control({ childrenClass: RestaurantCoordinateDto })
     @Required()
-    coordinates: RestaurantCoordinate[];
+    coordinates: RestaurantCoordinateDto[];
 }
