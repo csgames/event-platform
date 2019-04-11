@@ -39,7 +39,7 @@
                     </div>
                 </div>
             </a>
-            <ng-container *ifRole="['attendee', 'captain', 'godparent']">
+            <ng-container *ifRole="['attendee', 'captain', 'godparent', 'sponsor', 'director']">
                 <a *ngIf="(attendee$ | async)?.registered" [routerLink]="['/guide']" routerLinkActive="active">
                     <div [fxLayout]="'row'" fxFlexFill>
                         <div fxFlex="20">

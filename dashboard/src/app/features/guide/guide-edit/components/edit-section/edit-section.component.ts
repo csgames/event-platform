@@ -14,7 +14,7 @@ export interface EditSectionModal {
     selector: "edit-section",
     templateUrl: "edit-section.template.html"
 })
-export class EditSectionComponent extends SimpleModalComponent<EditSectionModal, void> implements OnInit, EditSectionModal {
+export class EditSectionComponent extends SimpleModalComponent<EditSectionModal, void> implements EditSectionModal {
     public guide: EventGuide;
     public type: EventGuideTypes;
 
@@ -24,9 +24,6 @@ export class EditSectionComponent extends SimpleModalComponent<EditSectionModal,
 
     constructor(private store$: Store<State>) {
         super();
-    }
-
-    public ngOnInit() {
     }
 
     public clickSave() {

@@ -28,4 +28,10 @@ export class EditSectionEffects {
         tap(() => this.toastrService.success("", this.translateService.instant("components.section.edit_success"))),
         map(() => new LoadGuideEdit())
     );
+
+    @Effect()
+    editSectionError$ = this.actions$.pipe(
+        ofType<EditSectionError>(EditSectionActionTypes.EditSectionError),
+        tap(() => this.toastrService.error("", this.translateService.instant("components.section.edit_error")))
+    );
 }
