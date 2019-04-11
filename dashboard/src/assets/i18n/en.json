@@ -159,7 +159,6 @@
         "edit_team_info": {
             "edit_team_info": "Edit team info"
         },
-<<<<<<< HEAD
         "section": {
             "create_error": "An error occurred while creating the section",
             "create_success": "Section successfully created.",
@@ -218,7 +217,7 @@
             "info": "Information about the restaurant",
             "map_default_position": "Map default position",
             "restaurants": "Restaurants"
-=======
+        },
         "event_form": {
             "name": "Name of the event",
             "details": "Details",
@@ -241,7 +240,6 @@
         },
         "edit_event_modal": {
             "title": "Edit event"
->>>>>>> master
         }
     },
     "errors": {
