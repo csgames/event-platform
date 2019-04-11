@@ -1,5 +1,5 @@
 import { ApiModelProperty } from '@nestjs/swagger';
-import { IsEmail, IsIn, IsMongoId, IsNotEmpty, IsNumber, IsString, IsUUID, ValidateIf, ValidateNested } from 'class-validator';
+import { IsEmail, IsIn, IsMongoId, IsNotEmpty, IsNumber, IsString, IsUUID, ValidateIf, ValidateNested, IsBoolean, IsOptional } from 'class-validator';
 import { CreateAttendeeDto } from '../attendees/attendees.dto';
 
 export class CreateRegistrationDto {
@@ -47,6 +47,12 @@ export class CreateRegistrationDto {
     @IsNotEmpty()
     @ApiModelProperty({ required: true })
     maxMembersNumber: number;
+
+    @IsBoolean()
+    @IsNotEmpty()
+    @IsOptional()
+    @ApiModelProperty({ required: true })
+    showOnScoreboard: boolean;
 }
 
 export class RegisterAttendeeDto {

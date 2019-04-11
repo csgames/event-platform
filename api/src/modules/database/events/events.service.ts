@@ -25,7 +25,7 @@ import { AddGuideSectionDto, GuideDto } from './guide.dto';
 
 export interface EventScore {
     overall: TeamScore[];
-    competitions: { _id: string, name: object, result: TeamScore[] }[];
+    competitions: CompetitionScore[];
 }
 
 export interface TeamScore {
@@ -33,6 +33,13 @@ export interface TeamScore {
     teamName: string;
     teamSchoolName: string;
     score: number;
+}
+
+export interface CompetitionScore { 
+    _id: string; 
+    name: object; 
+    results: TeamScore[]; 
+    weight: Number; 
 }
 
 @Injectable()
@@ -481,6 +488,34 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
         }, {
             guide
         } as any);
+    }
+
+    public async getScoreFiltered(eventId: string): Promise<EventScore> {
+        let score = await this.getScore(eventId);
+        let teams = await this.teamsModel.find({ event: eventId }).exec();
+        
+        let teamsIdToRemove = teams.filter((team: Teams) => {
+            return team.showOnScoreboard === false;
+        }).map(t => t._id.toHexString());
+
+        let filteredOverallScores = score.overall.filter((score: TeamScore) => {
+            return teamsIdToRemove.indexOf(score.teamId) === -1;
+        });
+        
+        let filteredCompetitionsScores = score.competitions.map((competition: CompetitionScore) => {
+            let result = competition.results;
+            if(competition.results) {
+                result = competition.results.filter((score: TeamScore) => {
+                    return teamsIdToRemove.indexOf(score.teamId) === -1;
+                });
+            }
+            return {
+                ...competition,
+                results: result
+            };
+        });
+
+        return { overall: filteredOverallScores, competitions: filteredCompetitionsScores };
     }
 
     private async getOverallScore(eventId: string, competitions: Competitions[]): Promise<TeamScore[]> {
