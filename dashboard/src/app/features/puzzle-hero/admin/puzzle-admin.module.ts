@@ -29,7 +29,6 @@ import { TrackFormDto } from "./components/track-form/dto/track-form.dto";
 import { NgSelectModule } from "@ng-select/ng-select";
 import { CreateTrackComponent } from "./components/create-track/create-track.component";
 import { CustomTextBoxModule } from "src/app/components/custom-text-box/custom-text-box.module";
-import { PipesModule } from "../../../pipes/pipes.module";
 import { CreateTrackEffects } from "./components/create-track/store/create-track.effects";
 import { CreatePuzzleEffects } from "./components/create-puzzle-hero/store/create-puzzle-hero.effects";
 import { UpdateTrackComponent } from "./components/update-track/update-track.component";
@@ -41,6 +40,8 @@ import { PuzzleHeroSettingsDto } from "./components/puzzle-hero-settings/dto/puz
 import { PuzzleHeroSettingsEffects } from "./components/puzzle-hero-settings/store/puzzle-hero-settings.effects";
 import { DirectivesModule } from "../../../directives/directives.module";
 import { QuestionFormModule } from "../../../components/question-form/question-form.module";
+import { AnswersComponent } from "./components/answers/answers.component";
+import { PipeModule } from "src/app/pipe/pipe.module";
 
 
 @NgModule({
@@ -64,7 +65,7 @@ import { QuestionFormModule } from "../../../components/question-form/question-f
         BsDatepickerModule,
         TimepickerModule,
         CustomTextBoxModule,
-        PipesModule,
+        PipeModule,
         DirectivesModule,
         QuestionFormModule,
         StoreModule.forFeature("puzzleHeroAdmin", fromPuzzleAdmin.reducer),
@@ -88,7 +89,8 @@ import { QuestionFormModule } from "../../../components/question-form/question-f
         CreatePuzzleHeroComponent,
         CreateTrackComponent,
         UpdateTrackComponent,
-        PuzzleHeroSettingsComponent
+        PuzzleHeroSettingsComponent,
+        AnswersComponent
     ],
     declarations: [
         PuzzleAdminComponent,
@@ -97,7 +99,8 @@ import { QuestionFormModule } from "../../../components/question-form/question-f
         TrackFormComponent,
         CreateTrackComponent,
         UpdateTrackComponent,
-        PuzzleHeroSettingsComponent
+        PuzzleHeroSettingsComponent,
+        AnswersComponent
     ],
     providers: [
         { provide: TRACK_FORM_GENERATOR, useFactory: FormGeneratorFactory.transform(TrackFormDto), deps: [FormBuilder] },

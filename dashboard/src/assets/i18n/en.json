@@ -181,6 +181,9 @@
         },
         "edit_event_modal": {
             "title": "Edit event"
+        },
+        "answers": {
+            "answers": "Puzzle answers"
         }
     },
     "errors": {

@@ -1,9 +1,10 @@
 import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 import * as shape from "d3-shape";
-import { PuzzleInfo, Track } from "../../../../api/models/puzzle-hero";
+import { PuzzleInfo, Track, Answers } from "../../../../api/models/puzzle-hero";
 import { PuzzleHeroService } from "../../../../providers/puzzle-hero.service";
 import { SimpleModalService } from "ngx-simple-modal";
 import { TrackUtils } from "../../../../utils/track.utils";
+import { AnswersComponent } from "../../admin/components/answers/answers.component";
 
 @Component({
     selector: "app-track",
@@ -115,5 +116,10 @@ export class TrackComponent implements OnInit {
     isEnded() {
         const now = new Date().toISOString();
         return now > this.track.endDate;
+    }
+
+    clickSeeAnswers(answers: Answers[]) {
+        const sorted = answers.sort((a, b) => a.timestamp < b.timestamp ? -1 : 1);
+        this.modalService.addModal(AnswersComponent, { answers: sorted });
     }
 }

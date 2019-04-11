@@ -181,6 +181,9 @@
         },
         "edit_team_info": {
             "edit_team_info": "Modifier informations équipe"
+        },
+        "answers": {
+            "answers": "Réponse du puzzle"
         }
     },
     "errors": {
