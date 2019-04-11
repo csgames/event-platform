@@ -153,33 +153,40 @@
             "latitude": "Latitude",
             "longitude": "Longitude",
             "address": "Adresse de l'hôtel",
-            "zoom": "Zoom sur la map"
+            "zoom": "Zoom sur la map",
+            "info": "Information de l'hôtel",
+            "coords": "Coordonnées de l'hôtel"
         },
         "school_form": {
             "name": "Nom de l'école",
             "latitude": "Latitude",
             "longitude": "Longitude",
             "address": "Adresse de l'école",
-            "zoom": "Zoom sur la map"
+            "zoom": "Zoom sur la map",
+            "info": "Information de l'école",
+            "coords": "Coordonnées de l'école"
         },
         "parking_form": {
             "latitude": "Latitude",
             "longitude": "Longitude",
             "zoom": "Zoom sur la map",
-            "add": "Ajouter un marqueur",
-            "add_success": "Le marqueur a été ajouté avec succès. ",
-            "add_error": "Une erreur est survenue lors de l'ajout du marqueur. ",
-            "marker": "Marqueur pour le stationnement "
+            "add": "Ajouter un repère",
+            "add_success": "Le repère a été ajouté avec succès. ",
+            "add_error": "Une erreur est survenue lors de l'ajout du repère. ",
+            "marker": "Repère pour le stationnement ",
+            "coords": "Coordonnées de base",
+            "markers": "Repères pour le stationnement "
         },
         "bring_form": {
             "add": "Ajouter un item à apporter"
         },
         "map_form": {
             "website": "Site internet de l'école",
-            "map": "Plan de l'école",
+            "map": "Url du plan de l'école",
             "add": "Ajouter plan de l'école",
             "add_success": "Le plan de l'école a été ajouté avec succès. ",
-            "add_error": "Une erreur est survenue lors de l'ajout du plan de l'école. "
+            "add_error": "Une erreur est survenue lors de l'ajout du plan de l'école. ",
+            "maps": "Plans de l'école"
         },
         "restaurant_form": {
             "latitude": "Latitude",

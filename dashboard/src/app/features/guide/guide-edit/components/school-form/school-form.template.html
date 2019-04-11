@@ -1,4 +1,5 @@
 <form [formGroup]="formGroup">
+    <label>{{ "components.school_form.info" | translate }}</label>
     <div fxLayout="column" fxLayoutAlign="center center">
         <div class="input-group input-group-default">
             <input autofocus class="form-control" type="text" name="name" controlStatus formControlName="name"
@@ -9,6 +10,7 @@
                    placeholder='{{ "components.school_form.address" | translate }}'>
         </div>
     </div>
+    <label>{{ "components.school_form.coords" | translate }}</label>
     <div fxLayout="row" fxLayoutAlign="center center">
         <div class="input-group input-group-default ml-0">
             <input autofocus class="form-control" type="number" name="zoom" controlStatus formControlName="zoom"

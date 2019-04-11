@@ -153,14 +153,18 @@
             "latitude": "Latitude",
             "longitude": "Longitude",
             "address": "Address of the hotel",
-            "zoom": "Zoom on map"
+            "zoom": "Zoom on map",
+            "info": "Information of the hotel",
+            "coords": "Coordinates of the hotel"
         },
         "school_form": {
             "name": "Name of school",
             "latitude": "Latitude",
             "longitude": "Longitude",
             "address": "Address of the school",
-            "zoom": "Zoom on map"
+            "zoom": "Zoom on map",
+            "info": "Information of the school",
+            "coords":"Coordinates of the school"
         },
         "parking_form": {
             "latitude": "Latitude",
@@ -169,17 +173,20 @@
             "add": "Add marker",
             "add_success": "Marker succesfully added ",
             "add_error": "An error occurred while adding a marker",
-            "marker": "Marker for parking "
+            "marker": "Marker for parking ",
+            "coords": "Basic coordinates",
+            "markers": "Markers for parking "
         },
         "bring_form": {
             "add": "Add item to bring"
         },
         "map_form": {
             "website": "Website of the school",
-            "map": "School map",
+            "map": "Url of the school map",
             "add": "Add school map",
             "add_success": "School map succesfully added ",
-            "add_error": "An error occurred while adding a school map" 
+            "add_error": "An error occurred while adding a school map",
+            "maps": "Maps of the school" 
         },
         "restaurant_form": {
             "latitude": "Latitude",
