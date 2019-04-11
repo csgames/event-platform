@@ -44,7 +44,7 @@ export class ParkingFormComponent implements OnInit, ControlValueAccessor {
         }
     }
 
-    public registerOnChange(fn: any): void {
+    public registerOnChange(fn: (data: ParkingFormDto) => void): void {
         this.propagate = fn;
     }
 
