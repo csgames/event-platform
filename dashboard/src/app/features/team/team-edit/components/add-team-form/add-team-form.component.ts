@@ -26,8 +26,7 @@ export class AddTeamFormComponent implements OnInit, OnDestroy, ControlValueAcce
     sponsors: Sponsors[];
 
     public formGroup: FormGroup;
-
-
+    
     private propagate: (obj: AddTeamFormDto) => void;
     private valueChangesSub$: Subscription;
 
