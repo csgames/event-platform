@@ -15,11 +15,11 @@ export class GuideBringDto {
 export class TranslateDto {
     @IsString()
     @IsNotEmpty()
-    fr: string[];
+    fr: string;
 
     @IsString()
     @IsNotEmpty()
-    en: string[];
+    en: string;
 }
 
 
@@ -99,6 +99,7 @@ export class GuideParkingDto {
     zoom: number;
 
     @IsArray()
+    @ArrayNotEmpty()
     @ValidateNested({ each: true })
     @Type(() => CoordinateDto)
     coordinates: CoordinateDto[];
@@ -132,6 +133,7 @@ export class GuideRestaurantDto {
     zoom: number;
 
     @IsArray()
+    @ArrayNotEmpty()
     @ValidateNested({ each: true })
     @Type(() => RestaurantCoordinateDto)
     coordinates: RestaurantCoordinateDto[];
