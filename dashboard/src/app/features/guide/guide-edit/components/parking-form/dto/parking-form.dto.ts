@@ -1,6 +1,15 @@
 import { Control } from "../../../../../../form-generator/decorators/control.decorator";
 import { Required } from "../../../../../../form-generator/decorators/required.decorator";
-import { Coordinate } from "src/app/api/models/guide";
+
+export class CoordinateDto {
+    @Control()
+    @Required()
+    latitude: number;
+
+    @Control()
+    @Required()
+    longitude: number;
+}
 
 export class ParkingFormDto {
 
@@ -16,8 +25,8 @@ export class ParkingFormDto {
     @Required()
     zoom: number;
 
-    @Control()
+    @Control({ childrenClass: CoordinateDto })
     @Required()
-    coordinates: Coordinate[];
+    coordinates: CoordinateDto[];
 
 }

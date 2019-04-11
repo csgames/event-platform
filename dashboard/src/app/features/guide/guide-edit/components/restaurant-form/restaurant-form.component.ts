@@ -81,5 +81,6 @@ export class RestaurantFormComponent implements OnInit, ControlValueAccessor {
 
     public deleteValue(index: number) {
         this.section.coordinates.splice(index, 1);
+        this.formGenerator.patchValues(this.section);
     }
 }

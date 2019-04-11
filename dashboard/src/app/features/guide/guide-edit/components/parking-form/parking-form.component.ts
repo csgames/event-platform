@@ -20,20 +20,17 @@ import { ParkingFormDto } from "./dto/parking-form.dto";
     ]
 })
 export class ParkingFormComponent implements OnInit, ControlValueAccessor {
-    public lang: string;
     public section: ParkingSection;
     private propagate: (data: ParkingFormDto) => void;
     public formGroup: FormGroup;
     public showCreate = false;
     public newMarker: Coordinate;
-    public newMarkerError = false;
     private valueChangeSub$: Subscription;
 
     constructor(private translate: TranslateService, @Inject(PARKING_FORM_GENERATOR) private formGenerator: FormGenerator<ParkingFormDto>) {
     }
 
     public ngOnInit() {
-        this.lang = this.translate.getDefaultLang();
         this.formGroup = this.formGenerator.generateGroup();
         this.valueChangeSub$ = this.formGroup.valueChanges.subscribe(() => {
             this.propagate(this.formGenerator.getValues());
@@ -60,21 +57,20 @@ export class ParkingFormComponent implements OnInit, ControlValueAccessor {
 
     public clickAdd() {
         this.newMarker = {
-            latitude: 0,
-            longitude: 0
+            latitude: null,
+            longitude: null
         };
         this.showCreate = true;
-        this.newMarkerError = false;
     }
 
     public cancel() {
         this.showCreate = false;
-        this.newMarkerError = false;
     }
 
     public add() {
         this.section.coordinates.push(this.newMarker);
         this.propagate(this.section);
+        this.formGenerator.patchValues(this.section);
         this.showCreate = false;
     }
 
@@ -88,5 +84,6 @@ export class ParkingFormComponent implements OnInit, ControlValueAccessor {
 
     public deleteValue(index: number) {
         this.section.coordinates.splice(index, 1);
+        this.formGenerator.patchValues(this.section);
     }
 }

@@ -3,34 +3,40 @@
     <div fxLayout="row" fxLayoutAlign="center center">
         <div class="input-group input-group-default ml-0">
             <input autofocus class="form-control" type="number" name="zoom" controlStatus formControlName="zoom"
-                placeholder='{{ "components.parking_form.zoom" | translate }}'>
+                   placeholder='{{ "components.parking_form.zoom" | translate }}'>
         </div>
         <div class="input-group input-group-default">
             <input autofocus class="form-control" type="number" name="latitude" controlStatus formControlName="latitude"
-                placeholder='{{ "components.parking_form.latitude" | translate }}'>
+                   placeholder='{{ "components.parking_form.latitude" | translate }}'>
         </div>
         <div class="input-group input-group-default mr-0">
             <input autofocus class="form-control" type="number" name="longitude" controlStatus
-                formControlName="longitude" placeholder='{{ "components.parking_form.longitude" | translate }}'>
+                   formControlName="longitude" placeholder='{{ "components.parking_form.longitude" | translate }}'>
         </div>
     </div>
 </form>
 
-<div fxLayout="column" *ngIf="lang && section">
+<div fxLayout="column" *ngIf="section" [formGroup]="formGroup">
     <label>{{ "components.parking_form.markers" | translate }}</label>
-    <div fxLayout="row" *ngFor="let d of section.coordinates; let i = index">
-        <div class="input-group input-group-default ml-0">
-            <input class="form-control" type="text" [(ngModel)]="d.latitude" (ngModelChange)="itemChange()">
+    <ng-container formArrayName="coordinates">
+        <div fxLayout="row" *ngFor="let d of section.coordinates; let i = index">
+            <ng-container [formGroupName]="i">
+                <div class="input-group input-group-default ml-0">
+                    <input class="form-control" type="text" formControlName="latitude"
+                           placeholder='{{ "components.parking_form.zoom" | translate }}'>
+                </div>
+                <div class="input-group input-group-default mr-0">
+                    <input class="form-control" type="text" formControlName="longitude"
+                           placeholder='{{ "components.parking_form.longitude" | translate }}'>
+                    <span class="input-group-btn">
+                        <a class="remove btn btn-danger btn-outline pull-right" (click)="deleteValue(i)">
+                            <i class="fa fa-trash"></i>
+                        </a>
+                    </span>
+                </div>
+            </ng-container>
         </div>
-        <div class="input-group input-group-default mr-0">
-            <input class="form-control" type="text" [(ngModel)]="d.longitude" (ngModelChange)="itemChange()">
-            <span class="input-group-btn">
-                <a class="remove btn btn-danger btn-outline pull-right" (click)="deleteValue(i)">
-                    <i class="fa fa-trash"></i>
-                </a>
-            </span>
-        </div>
-    </div>
+    </ng-container>
 </div>
 <div>
     <button *ngIf="!showCreate" type="button" class="add-button btn btn-lg btn-block borders" (click)="clickAdd()">
@@ -42,20 +48,17 @@
                 <div fxLayout="row" fxLayoutAlign="end center" *ngIf="newMarker">
                     <div class="input-group input-group-default ml-0">
                         <input autofocus class="form-control" type="number" name="latitude"
-                            [(ngModel)]="newMarker.latitude"
-                            placeholder='{{ "components.parking_form.latitude" | translate }}'
-                            (ngModelChange)="itemChange()">
+                               [(ngModel)]="newMarker.latitude"
+                               placeholder='{{ "components.parking_form.latitude" | translate }}'
+                               (ngModelChange)="itemChange()">
                     </div>
                     <div class="input-group input-group-default mr-0">
                         <input autofocus class="form-control" type="number" name="longitude"
-                            [(ngModel)]="newMarker.longitude"
-                            placeholder='{{ "components.parking_form.longitude" | translate }}'
-                            (ngModelChange)="itemChange()">
+                               [(ngModel)]="newMarker.longitude"
+                               placeholder='{{ "components.parking_form.longitude" | translate }}'
+                               (ngModelChange)="itemChange()">
                     </div>
                 </div>
-            </div>
-            <div fxFlex="100" class="control-error" *ngIf="newItemError">
-                {{ "components.parking_form.add_error" }}
             </div>
         </div>
         <div fxLayout="row" fxLayoutAlign="end center">
