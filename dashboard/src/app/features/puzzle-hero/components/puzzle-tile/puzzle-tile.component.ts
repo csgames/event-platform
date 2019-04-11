@@ -1,8 +1,7 @@
 import { Component, EventEmitter, Input, Output, ViewChild } from "@angular/core";
 import { PuzzleInfo } from "../../../../api/models/puzzle-hero";
 import { PopoverDirective } from "ngx-bootstrap";
-import { QuestionTypes } from "../../../../api/models/question";
-import { QuestionUtils } from "../../../../utils/question.utils";
+import { QuestionUtils } from "src/app/utils/question.utils";
 
 @Component({
     selector: "[puzzle-tile]",
@@ -25,6 +24,9 @@ export class PuzzleTileComponent {
     @Output()
     clickAddPuzzle = new EventEmitter<void>();
 
+    @Output()
+    clickSeeAnswers = new EventEmitter<void>();
+
     get icon(): string {
         return QuestionUtils.getQuestionTypeIconCharacter(this.puzzle.type);
     }
@@ -39,5 +41,12 @@ export class PuzzleTileComponent {
     onClickAddLink() {
         this.popover.hide();
         this.clickAddPuzzle.emit();
+    }
+
+    onClickAnswers() {
+        if (this.popover) {
+            this.popover.hide();
+        }
+        this.clickSeeAnswers.emit();
     }
 }

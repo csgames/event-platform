@@ -11,9 +11,11 @@
                     <div fxLayout="row" fxLayoutGap="10px" class="tile">
                         <i class="firstIcon" [ngClass]="icon"></i>
                         <div class="ml-3" fxFlex>
+                            <div fxLayout="row" fxLayoutAlign="space-between">
+                            </div>
                             <p class="name">{{ puzzle.label }}</p>
-                            <p class="hours">{{ track.label }}</p>
                             <p class="score">{{ puzzle?.score }} points</p>
+                            <p class="score">{{ "pages.puzzle_hero.count" | translate }} {{ puzzle?.answersCount }}</p>
                         </div>
                     </div>
                 </div>

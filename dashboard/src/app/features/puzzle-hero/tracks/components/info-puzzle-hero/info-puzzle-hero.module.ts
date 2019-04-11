@@ -12,6 +12,7 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { MarkdownModule } from "ngx-markdown";
 import { PipeModule } from "../../../../../pipe/pipe.module";
 import { MonacoEditorModule } from "ngx-monaco-editor";
+import { FlexLayoutModule } from "@angular/flex-layout";
 
 @NgModule({
     imports: [
@@ -25,7 +26,8 @@ import { MonacoEditorModule } from "ngx-monaco-editor";
         MonacoEditorModule,
 
         StoreModule.forFeature("infoPuzzleHero", fromInfoPuzzleHero.reducer),
-        EffectsModule.forFeature([InfoPuzzleHeroEffects])
+        EffectsModule.forFeature([InfoPuzzleHeroEffects]),
+        FlexLayoutModule
     ],
     exports: [],
     entryComponents: [InfoPuzzleHeroComponent],
