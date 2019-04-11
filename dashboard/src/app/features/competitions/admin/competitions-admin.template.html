@@ -3,7 +3,7 @@
         <h1 class="title">{{ "pages.competition.competitions" | translate }}</h1>
 
         <div fxFlex></div>
-        <a *ngIf="(attendee$ | async)?.role == 'admin'" class="btn btn-default" (click)="clickSettings(event)"><i class="fal fa-cogs"></i></a>
+        <a *ngIf="(attendee$ | async)?.role == 'admin' || (attendee$ | async)?.role == 'super-admin'" class="btn btn-default" (click)="clickSettings(event)"><i class="fal fa-cogs"></i></a>
     </div>
     <app-loading-spinner [loading]="loading$">
     </app-loading-spinner>
