@@ -1,35 +1,31 @@
 <form [formGroup]="formGroup">
     <div class="row">
         <div class="col-sm-12">
-            {{ "components.activity_form.activity_information" | translate }}
+            <div class="input-group">
+                <app-custom-text-box fxFlex="100%"
+                                     label="{{ 'components.activity_form.title_placeholder' | translate }}"
+                                     formControlName="name"
+                                     placeholder="{{ 'components.activity_form.title_placeholder' | translate }}"
+                                     formType="textarea"
+                                     [textareaRows]="1" class="custom-text" controlStatus>
+                </app-custom-text-box>
+            </div>
         </div>
-    </div>
-    <div class="row">
         <div class="col-sm-12">
-            <div class="col-sm-12">
-                <div class="input-group">
-                    <app-custom-text-box fxFlex="100%"
-                        label="{{ 'components.activity_form.title_placeholder' | translate }}"
-                        formControlName="name"
-                        placeholder="{{ 'components.activity_form.title_placeholder' | translate }}" formType="textarea"
-                        [textareaRows]="1" class="custom-text" controlStatus>
-                    </app-custom-text-box>
-                </div>
-                <div class="input-group">
-                    <app-custom-text-box fxFlex="100%"
-                        label="{{ 'components.activity_form.details_information' | translate }}"
-                        formControlName="details"
-                        placeholder="{{ 'components.activity_form.details_information' | translate }}"
-                        formType="textarea" [textareaRows]="3" class="custom-text" controlStatus>
-                    </app-custom-text-box>
-                </div>
+            <div class="input-group">
+                <app-custom-text-box fxFlex="100%"
+                                     label="{{ 'components.activity_form.details_information' | translate }}"
+                                     formControlName="details"
+                                     placeholder="{{ 'components.activity_form.details_information' | translate }}"
+                                     formType="textarea" [textareaRows]="3" class="custom-text" controlStatus>
+                </app-custom-text-box>
             </div>
         </div>
         <div class="col-sm-12">
             <div class="input-group input-group-default no-grow">
                 <ng-select [items]="activityTypes" [clearable]="false"
-                    placeholder='{{ "components.activity_form.activity_types" | translate }}' controlStatus
-                    formControlName="type">
+                           placeholder='{{ "components.activity_form.activity_types" | translate }}' controlStatus
+                           formControlName="type">
                     <ng-template ng-option-tmp ng-label-tmp let-item="item">
                         <i [ngClass]="getActivityTypeIcon(item)"></i>&nbsp;
                         <span class="ng-option-label">
@@ -39,63 +35,54 @@
                 </ng-select>
             </div>
         </div>
-        <form [formGroup]="formGroup">
-            <div class="row error-group">
-                <div class="col-sm-12">
-                    <div class="col-sm-12">
-                        <label class="mb-0 ml-1">{{ "components.activity_form.begin_date" | translate }}
-                            :</label>
-                    </div>
+    </div>
+    <div class="row error-group">
+        <div class="col-sm-12">
+            <label class="mb-0 ml-1">{{ "components.activity_form.begin_date" | translate }}
+                :</label>
+        </div>
+        <div class="col-sm-12">
+            <div fxFlex class="input-group input-group-default no-grow">
+                <div class="input-group-prepend">
+                    <i class="fal fa-calendar"></i>
                 </div>
-                <div class="col-sm-12">
-                    <div class="col-sm-12">
-                        <div fxFlex class="input-group input-group-default no-grow">
-                            <div class="input-group-prepend">
-                                <i class="fal fa-calendar"></i>
-                            </div>
-                            <input autofocus class="form-control" name="beginDate" controlStatus
-                                formControlName="beginDate" autocomplete="off" #dp="bsDatepicker"
-                                [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY', containerClass: 'theme-dark-blue' }"
-                                bsDatepicker placeholder='{{ "components.activity_form.begin_date" | translate }}'>
-                        </div>
-                        <div fxFlex="nogrow" class="input-group no-grow">
-                            <timepicker class="timepicker" formControlName="beginTime" controlStatus
-                                [showMeridian]="false" [showSpinners]="false"></timepicker>
-                        </div>
-                    </div>
-
-                </div>
+                <input autofocus class="form-control" name="beginDate" controlStatus
+                       formControlName="beginDate" autocomplete="off" #dp="bsDatepicker"
+                       [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY', containerClass: 'theme-dark-blue' }"
+                       bsDatepicker placeholder='{{ "components.activity_form.begin_date" | translate }}'>
             </div>
-            <div class="row error-group">
-                <div class="col-sm-12">
-                    <div class="col-sm-12">
-                        <label class="mb-0 ml-1">{{ "components.activity_form.end_date" | translate }}
-                            :</label>
-                    </div>
-                </div>
-                <div class="col-sm-12">
-                    <div class="col-sm-12">
-                        <div fxFlex class="input-group input-group-default">
-                            <div class="input-group-prepend">
-                                <i class="fal fa-calendar"></i>
-                            </div>
-                            <input autofocus class="form-control" name="endDate" controlStatus formControlName="endDate"
-                                autocomplete="off" #dp="bsDatepicker"
-                                [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY', containerClass: 'theme-dark-blue' }"
-                                bsDatepicker placeholder='{{ "components.activity_form.end_date" | translate }}'>
-                        </div>
-                        <div fxFlex="nogrow" class="input-group no-grow">
-                            <timepicker class="timepicker" formControlName="endTime" controlStatus
-                                [showMeridian]="false" [showSpinners]="false"></timepicker>
-                        </div>
-                    </div>
-                </div>
+            <div fxFlex="nogrow" class="input-group no-grow">
+                <timepicker class="timepicker" formControlName="beginTime" controlStatus
+                            [showMeridian]="false" [showSpinners]="false"></timepicker>
             </div>
-        </form>
+        </div>
+    </div>
+    <div class="row error-group">
+        <div class="col-sm-12">
+            <label class="mb-0 ml-1">{{ "components.activity_form.end_date" | translate }}
+                :</label>
+        </div>
+        <div class="col-sm-12">
+            <div fxFlex class="input-group input-group-default">
+                <div class="input-group-prepend">
+                    <i class="fal fa-calendar"></i>
+                </div>
+                <input autofocus class="form-control" name="endDate" controlStatus formControlName="endDate"
+                       autocomplete="off" #dp="bsDatepicker"
+                       [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY', containerClass: 'theme-dark-blue' }"
+                       bsDatepicker placeholder='{{ "components.activity_form.end_date" | translate }}'>
+            </div>
+            <div fxFlex="nogrow" class="input-group no-grow">
+                <timepicker class="timepicker" formControlName="endTime" controlStatus
+                            [showMeridian]="false" [showSpinners]="false"></timepicker>
+            </div>
+        </div>
+    </div>
+    <div class="row">
         <div class="col-sm-12">
             <div class="input-group input-group-default no-grow">
                 <input autofocus class="form-control" type="text" name="location" controlStatus
-                    formControlName="location" placeholder='{{ "components.activity_form.location" | translate }}'>
+                       formControlName="location" placeholder='{{ "components.activity_form.location" | translate }}'>
             </div>
         </div>
     </div>

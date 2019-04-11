@@ -13,7 +13,8 @@ import { AttendeeNotification } from "./models/notification";
 import { AttendeeVote, Flashout } from "./models/flashout";
 import { Competition } from "./models/competition";
 import { SectionFormDto } from "../features/guide/guide-edit/components/section-form/dto/section-form.dto";
-
+import { SponsorInfoDto } from "../features/sponsors/components/sponsor-form/dto/sponsor-info.dto";
+import { SponsorPositionningDto } from "../features/sponsors/components/sponsor-positionning-form/dto/sponsor-positionning.dto";
 
 @Injectable()
 export class EventApi extends CSGamesApi {
@@ -153,6 +154,54 @@ export class EventApi extends CSGamesApi {
 
     public updateCompetitionResults(event: Event): Observable<void> {
         return this.http.put<void>(this.url(), event, { withCredentials: true });
+    }
+
+    public addSponsorToEvent(id: string, tier: string): Observable<void> {
+        const body = {
+            tier,
+            sponsor: id,
+            web: {
+                padding: [0, 0, 0, 0],
+                widthFactor: 1,
+                heightFactor: 1
+            },
+            mobile: {
+                padding: [0, 0, 0, 0],
+                widthFactor: 1,
+                heightFactor: 1
+            }
+        };
+
+        return this.http.put<void>(this.url("sponsor"), body, { withCredentials: true });
+    }
+
+    public updateSponsor(id: string, tier: string, sponsor: SponsorPositionningDto): Observable<void> {
+        const body = {
+            tier,
+            sponsor: id,
+            web: {
+                padding: [
+                    sponsor.webLeftPadding,
+                    sponsor.webTopPadding,
+                    sponsor.webRightPadding,
+                    sponsor.webBottomPadding
+                ],
+                widthFactor: sponsor.webWidth,
+                heightFactor: sponsor.webHeight
+            },
+            mobile: {
+                padding: [
+                    sponsor.mobileLeftPadding,
+                    sponsor.mobileTopPadding,
+                    sponsor.mobileRightPadding,
+                    sponsor.mobileBottomPadding
+                ],
+                widthFactor: sponsor.mobileWidth,
+                heightFactor: sponsor.mobileHeight
+            }
+        };
+
+        return this.http.put<void>(this.url(`sponsor/${id}`), body, { withCredentials: true });
     }
 
     public createActivity(activity: CreateActivity) {

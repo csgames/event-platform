@@ -30,12 +30,10 @@ export class ScheduleComponent implements OnInit, OnDestroy {
         this.store$.dispatch(new LoadActivities());
         this.activitiesSub$ = this.activities$.subscribe((activities) => {
             this.activities = activities;
-            this.activitiesPerDay = this.scheduleService.getActivitiesPerDay(activities);
-            this.dates = Object.keys(this.activitiesPerDay);
+            [this.activitiesPerDay, this.dates] = this.scheduleService.getActivitiesPerDay(activities);
         });
         this.defaultLangSub$ = this.translateService.onDefaultLangChange.subscribe(() => {
-            this.activitiesPerDay = this.scheduleService.getActivitiesPerDay(this.activities);
-            this.dates = Object.keys(this.activitiesPerDay);
+            [this.activitiesPerDay, this.dates] = this.scheduleService.getActivitiesPerDay(this.activities);
         });
     }
 

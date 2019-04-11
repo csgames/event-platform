@@ -127,6 +127,25 @@
             "safe": "Action annulée",
             "delete": "Participant supprimé"
         },
+        "sponsor_form": {
+            "info": "Information du commanditaire",
+            "website": "Site internet",
+            "name": "Nom du commanditaire",
+            "image": "Lien vers le logo",
+            "description": "La description donnée par le commanditaire",
+            "update": "Mettre à jour les informations du commanditaire",
+            "positionning": "Positionnement du commanditaire",
+            "web_width": "Facteur de largeur du logo sur le site web [0, 1]",
+            "web_height": "Facteur de hauteur du logo sur le site web [0, 1]",
+            "web_padding": "Padding sur le site web [0, x[",
+            "mobile_width": "Facteur de largeur du logo sur l'appplication mobile [0, 1]",
+            "mobile_height": "Facteur de hauteur du logo sur l'appplication mobile [0, 1]",
+            "mobile_padding": "Padding sur l'application mobile [0, x[",
+            "left": "Padding à gauche",
+            "right": "Padding à droite",
+            "top": "Padding au dessus",
+            "bottom": "Padding en dessous"
+        },
         "activity_form": {
             "activity_information": "Informations de l'activité",
             "title_placeholder": "Titre de l'activité",
@@ -469,7 +488,8 @@
             "partner": "Partenaire",
             "platinum": "Platine",
             "silver": "Argent",
-            "sponsors": "Commanditaires"
+            "sponsors": "Commanditaires",
+            "add_sponsor": "Ajouter un commanditaire"
         },
         "team": {
             "add_a_godparent": "Ajouter un(e) parrain/marraine",
