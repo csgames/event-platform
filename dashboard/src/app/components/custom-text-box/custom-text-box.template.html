@@ -18,17 +18,20 @@
         </div>
     </div>
 </div>
-<div fxLayout="row" *ngIf="formType === 'textbox' || formType === 'textarea'">
-    <div fxFlex="100" class="input-group input-group-default auto-height">
-        <input *ngIf="formType === 'textbox'"
-               [(ngModel)]="currentTextValue"
-               (ngModelChange)="onContentTextChange()"
-               type="text" class="form-control full-width" placeholder="{{ placeholder }}"/>
-        <textarea *ngIf="formType === 'textarea'"
-                  [(ngModel)]="currentTextValue"
-                  (ngModelChange)="onContentTextChange()"
-                  [rows]="textareaRows"
-                  type="text" class="form-control full-width auto-height" placeholder="{{ placeholder }}"></textarea>
+<div class="row" *ngIf="formType === 'textbox' || formType === 'textarea'">
+    <div class="col-sm-12">
+        <div class="input-group input-group-default auto-height">
+            <input *ngIf="formType === 'textbox'"
+                   [(ngModel)]="currentTextValue"
+                   (ngModelChange)="onContentTextChange()"
+                   type="text" class="form-control full-width" placeholder="{{ placeholder }}"/>
+            <textarea *ngIf="formType === 'textarea'"
+                      [(ngModel)]="currentTextValue"
+                      (ngModelChange)="onContentTextChange()"
+                      [rows]="textareaRows"
+                      type="text" class="form-control full-width auto-height"
+                      placeholder="{{ placeholder }}"></textarea>
+        </div>
     </div>
 </div>
 <div class="row quill-container" *ngIf="formType === 'rich'">

@@ -63,7 +63,7 @@ export class CompetitionApi extends CSGamesApi {
     }
 
     public getCompetitionResult(competitionId: string): Observable<TeamCompetitionResult[]> {
-        return this.http.get<TeamCompetitionResult[]>(this.url(`${competitionId}/result`), {
+        return this.http.get<TeamCompetitionResult[]>(this.url(`${competitionId}/result/filter`), {
             withCredentials: true
         });
     }

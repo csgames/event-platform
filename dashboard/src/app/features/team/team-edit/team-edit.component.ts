@@ -44,6 +44,7 @@ export class TeamEditComponent implements OnInit {
         this.store$.dispatch(new LoadTeams());
         this.store$.dispatch(new LoadSchools());
         this.store$.dispatch(new LoadSponsors());
+        this.newTeamDto.showOnScoreboard = true;
     }
 
     getTeamCaptain(team: Team): Attendee {
