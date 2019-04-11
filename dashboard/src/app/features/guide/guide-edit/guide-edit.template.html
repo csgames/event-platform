@@ -23,6 +23,7 @@
                 </div>
             </div>
         </app-accordion-component>
+        <!-- Transport -->
         <app-accordion-component *ngIf="guide.transport" iconClass="fa-subway"
             title="{{ 'pages.guide.transport' | translate }}" [startsOpened]="false" [hasEdit]="true"
             (clickUpdateGuide)="update('transport')">
@@ -40,7 +41,6 @@
                     <p><i class="fal fa-bed hotel-text-icon"></i>{{ guide.transport.hotel }}</p>
                 </div>
             </div>
-
         </app-accordion-component>
         <!-- Hotel -->
         <app-accordion-component *ngIf="guide.hotel" iconClass="fa-hotel" title="{{ 'pages.guide.hotel' | translate }}"
