@@ -151,7 +151,7 @@
             "title_placeholder": "Title of the activity",
             "activity_types": "Activity type",
             "begin_date": "Start date",
-            "end_date":"End date",
+            "end_date": "End date",
             "details_information": "Details of the activity",
             "location": "Location",
             "on_dashboard": "Activity hidden from dashboard"
@@ -171,8 +171,10 @@
             "website": "Website",
             "team_edit_lock_date": "Team edit end date",
             "create_event_success": "Event successfully created",
+            "create_event_error": "An error occurred while creating the event",
             "primary_color": "Primary color",
-            "edit_event_success": "Event successfully updated"
+            "edit_event_success": "Event successfully updated",
+            "edit_event_error": "An error occurred while updating the event"
         },
         "create_event_modal": {
             "title": "Create an event"

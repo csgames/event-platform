@@ -44,8 +44,4 @@ export class EventsBarComponent implements OnInit {
     clickCreate() {
         this.modalService.addModal(CreateEventModalComponent);
     }
-
-    onClickEditEvent(event: Event) {
-
-    }
 }

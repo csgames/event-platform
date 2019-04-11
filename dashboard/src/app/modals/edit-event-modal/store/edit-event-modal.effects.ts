@@ -32,4 +32,10 @@ export class EditEventModalEffects {
         tap(() => this.toastrService.success("", this.translateService.instant("components.event_form.edit_event_success"))),
         map(() => new LoadEvents())
     );
+
+    @Effect({ dispatch: false })
+    editEventError$ = this.actions$.pipe(
+        ofType<EditEventError>(EditEventModalActionTypes.EditEventError),
+        tap(() => this.toastrService.error("", this.translateService.instant("components.event_form.edit_event_error")))
+    );
 }

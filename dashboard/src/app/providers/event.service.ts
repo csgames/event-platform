@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Event, EventScore } from "../api/models/event";
-import { Observable, of } from "rxjs";
+import { Observable } from "rxjs";
 import { Attendee } from "../api/models/attendee";
 import { ApiService } from "../api/api.service";
 import { UppyFile } from "@uppy/core";

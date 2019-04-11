@@ -30,4 +30,10 @@ export class CreateEventModalEffects {
         tap(() => this.toastrService.success("", this.translateService.instant("components.event_form.create_event_success"))),
         map(() => new LoadEvents())
     );
+
+    @Effect({ dispatch: false })
+    createEventError$ = this.actions$.pipe(
+        ofType<CreateEventError>(CreateEventModalActionTypes.CreateEventError),
+        tap(() => this.toastrService.error("", this.translateService.instant("components.event_form.create_event_error")))
+    );
 }

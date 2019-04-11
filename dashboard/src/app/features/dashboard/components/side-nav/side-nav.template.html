@@ -213,7 +213,7 @@
                         <i class="fal fa-gem"></i>
                     </div>
                     <div fxFlex="80">
-                            {{ "pages.sponsors.sponsors" | translate }}
+                        {{ "pages.sponsors.sponsors" | translate }}
                     </div>
                 </div>
             </a>
@@ -267,7 +267,7 @@
 
         <div class="navigation-bottom" *ifRole="['admin', 'super-admin']" (click)="clickEditEvent()">
             <hr class="mx-2">
-            <i class="fal fa-edit"></i> Modifier l'évènement
+            <i class="fal fa-edit"></i> {{ "components.edit_event_modal.title" | translate }}
         </div>
     </ng-template>
 </div>
