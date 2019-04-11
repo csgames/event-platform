@@ -140,27 +140,27 @@ export const DefaultGuide: EventGuide = {
     },
     hotel: {
         address: "",
-        latitude: 0,
-        longitude: 0,
+        latitude: null,
+        longitude: null,
         name: "",
-        zoom: 0
+        zoom: null
     },
     parking: {
-        latitude: 0,
-        longitude: 0,
-        zoom: 0,
+        latitude: null,
+        longitude: null,
+        zoom: null,
         coordinates: []
     },
     restaurant: {
-        latitude: 0,
-        longitude: 0,
-        zoom: 0,
+        latitude: null,
+        longitude: null,
+        zoom: null,
         coordinates: []
     },
     school: {
-        latitude: 0,
-        longitude: 0,
-        zoom: 0,
+        latitude: null,
+        longitude: null,
+        zoom: null,
         address: "",
         maps: [],
         name: "",
@@ -171,16 +171,16 @@ export const DefaultGuide: EventGuide = {
     },
     transport: {
         hotel: "",
-        hotelLatitude: 0,
-        hotelLongitude: 0,
+        hotelLatitude: null,
+        hotelLongitude: null,
         image: "",
         info: {
             fr: "",
             en: ""
         },
         school: "",
-        schoolLatitude: 0,
-        schoolLongitude: 0
+        schoolLatitude: null,
+        schoolLongitude: null
     }
 };
 
