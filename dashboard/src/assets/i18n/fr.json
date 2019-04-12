@@ -388,10 +388,11 @@
             "types": {
                 "bring": "Que faut-il apporter? ",
                 "hotel": "Se rendre à l'hôtel",
-                "transport": "Se rendre à l'école",
-                "school": "Plan de l'école",
+                "transport": "Transport",
+                "school": "Se rendre à l'école",
                 "parking": "Stationnements",
-                "restaurant": "Restaurants et bars"
+                "restaurant": "Restaurants et bars",
+                "map": "Plan de l'école"
             }
         }
     },
