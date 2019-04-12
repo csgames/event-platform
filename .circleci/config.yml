@@ -48,6 +48,7 @@ jobs:
     - setup_remote_docker
 
     - run:
+        no_output_timeout: 20m
         name: Building docker image
         command: docker build -t polyhx/csgames-dashboard:latest -f Dockerfile.staging .
     - run:
@@ -66,6 +67,7 @@ jobs:
     - setup_remote_docker
 
     - run:
+        no_output_timeout: 20m
         name: Building docker image
         command: docker build -t polyhx/csgames-dashboard:$CIRCLE_TAG .
     - run:
