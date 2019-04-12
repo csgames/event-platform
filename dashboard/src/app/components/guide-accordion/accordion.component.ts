@@ -1,4 +1,5 @@
-import { Component, OnInit, Input } from "@angular/core";
+import { Component, OnInit, Input, EventEmitter, Output } from "@angular/core";
+import { EventGuide } from "src/app/api/models/guide";
 
 
 @Component({
@@ -19,6 +20,14 @@ export class AccordionComponent implements OnInit {
     @Input()
     public startsOpened = false;
 
+    @Input()
+    public hasEdit: boolean;
+
+    @Input()
+    public guide: EventGuide;
+
+    @Output()
+    clickUpdateGuide = new EventEmitter<EventGuide>();
 
     ngOnInit() { 
         this.isOpen = false;
@@ -26,5 +35,10 @@ export class AccordionComponent implements OnInit {
 
     clickAccordion() {
         this.isOpen = !this.isOpen;
+    }
+
+    public onClickUpdateGuide(event: MouseEvent, guide: EventGuide) {
+        event.stopImmediatePropagation();
+        this.clickUpdateGuide.emit(guide);
     }
 }

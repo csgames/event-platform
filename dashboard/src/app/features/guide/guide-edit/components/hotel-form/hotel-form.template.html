@@ -1,0 +1,28 @@
+<form [formGroup]="formGroup">
+    <label>{{ "components.hotel_form.info" | translate }}</label>
+    <div fxLayout="column" fxLayoutAlign="center center">
+        <div class="input-group input-group-default">
+            <input autofocus class="form-control" type="text" name="name" controlStatus formControlName="name"
+                placeholder='{{ "components.hotel_form.name" | translate }}'>
+        </div>
+        <div class="input-group input-group-default">
+            <input autofocus class="form-control" type="text" name="address" controlStatus formControlName="address"
+                placeholder='{{ "components.hotel_form.address" | translate }}'>
+        </div>
+    </div>
+    <label>{{ "components.hotel_form.coords" | translate }}</label>
+    <div fxLayout="row" fxLayoutAlign="center center">
+        <div class="input-group input-group-default ml-0">
+            <input autofocus class="form-control" type="number" name="zoom" controlStatus formControlName="zoom"
+                placeholder='{{ "components.hotel_form.zoom" | translate }}'>
+        </div>
+        <div class="input-group input-group-default">
+            <input autofocus class="form-control" type="number" name="latitude" controlStatus formControlName="latitude"
+                placeholder='{{ "components.hotel_form.latitude" | translate }}'>
+        </div>
+        <div class="input-group input-group-default mr-0">
+            <input autofocus class="form-control" type="number" name="longitude" controlStatus
+                formControlName="longitude" placeholder='{{ "components.hotel_form.longitude" | translate }}'>
+        </div>
+    </div>
+</form>

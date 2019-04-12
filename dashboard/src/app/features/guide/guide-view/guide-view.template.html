@@ -20,6 +20,24 @@
                 </div>
             </div>
         </app-accordion-component>
+        <!-- Transport -->
+        <app-accordion-component *ngIf="guide.transport" iconClass="fa-subway"
+            title="{{ 'pages.guide.transport' | translate }}">
+            <div class="row">
+                <div class="inside-text-div col-12">
+                    <p>{{ guide.transport.info | t18n }}</p>
+                </div>
+                <div>
+                    <img [src]="guide.transport.image" class="img-fluid">
+                </div>
+                <div class="inside-text-div col-12">
+                    <p><i class="fal fa-graduation-cap hotel-text-icon"></i>{{ guide.transport.school }}</p>
+                </div>
+                <div class="inside-text-div col-12">
+                    <p><i class="fal fa-bed hotel-text-icon"></i>{{ guide.transport.hotel }}</p>
+                </div>
+            </div>
+        </app-accordion-component>
         <!-- Hotel -->
         <app-accordion-component
             iconClass="fa-hotel"

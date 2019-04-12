@@ -1,4 +1,4 @@
-import * as fromApp from "../../../store/app.reducers";
+import * as fromApp from "../../../../store/app.reducers";
 import { GuideActions, GuideActionTypes } from "./guide.actions";
 import { createFeatureSelector, createSelector } from "@ngrx/store";
 import { EventGuide } from "src/app/api/models/guide";

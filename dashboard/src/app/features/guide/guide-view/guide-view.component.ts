@@ -1,8 +1,8 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { Store, select } from "@ngrx/store";
 import { filter } from "rxjs/operators";
-import * as fromApp from "../../store/app.reducers";
-import { State } from "../../store/app.reducers";
+import * as fromApp from "../../../store/app.reducers";
+import { State } from "../../../store/app.reducers";
 import { TranslateService } from "@ngx-translate/core";
 import { Subscription } from "rxjs";
 import { getGuideLoading, getGuide } from "./store/guide.reducer";
@@ -11,10 +11,10 @@ import { LoadGuide } from "./store/guide.actions";
 
 @Component({
     selector: "app-guide",
-    templateUrl: "guide.template.html",
-    styleUrls: ["guide.style.scss"]
+    templateUrl: "guide-view.template.html",
+    styleUrls: ["guide-view.style.scss"]
 })
-export class GuideComponent implements OnInit, OnDestroy {
+export class GuideViewComponent implements OnInit, OnDestroy {
     private currentGuide$ = this.store$.pipe(select(getGuide));
     public loading$ = this.store$.pipe(select(getGuideLoading));
     public currentEvent$ = this.store$.pipe(select(fromApp.getCurrentEvent));

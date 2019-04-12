@@ -159,6 +159,65 @@
         "edit_team_info": {
             "edit_team_info": "Edit team info"
         },
+        "section": {
+            "create_error": "An error occurred while creating the section",
+            "create_success": "Section successfully created.",
+            "type_section": "Section type",
+            "edit_section": "Edit section",
+            "edit_success": "Section successfully updated",
+            "edit_error": "An error occurred while updating the section"
+        },
+        "hotel_form": {
+            "name": "Name of the hotel",
+            "latitude": "Latitude",
+            "longitude": "Longitude",
+            "address": "Address of the hotel",
+            "zoom": "Zoom on map",
+            "info": "Information of the hotel",
+            "coords": "Coordinates of the hotel"
+        },
+        "school_form": {
+            "name": "Name of school",
+            "latitude": "Latitude",
+            "longitude": "Longitude",
+            "address": "Address of the school",
+            "zoom": "Zoom on map",
+            "info": "Information of the school",
+            "coords":"Coordinates of the school"
+        },
+        "parking_form": {
+            "latitude": "Latitude",
+            "longitude": "Longitude",
+            "zoom": "Zoom on map",
+            "add": "Add marker",
+            "add_success": "Marker succesfully added ",
+            "add_error": "An error occurred while adding a marker",
+            "marker": "Marker for parking ",
+            "coords": "Basic coordinates",
+            "markers": "Markers for parking "
+        },
+        "bring_form": {
+            "add": "Add item to bring"
+        },
+        "map_form": {
+            "website": "Website of the school",
+            "map": "Url of the school map",
+            "add": "Add school map",
+            "add_success": "School map succesfully added ",
+            "add_error": "An error occurred while adding a school map",
+            "maps": "Maps of the school" 
+        },
+        "restaurant_form": {
+            "latitude": "Latitude",
+            "longitude": "Longitude",
+            "zoom": "Zoom on map",
+            "add": "Add restaurant",
+            "add_success": "Restaurant succesfully added ",
+            "add_error": "An error occurred while adding a restaurant",
+            "info": "Information about the restaurant",
+            "map_default_position": "Map default position",
+            "restaurants": "Restaurants"
+        },
         "event_form": {
             "name": "Name of the event",
             "details": "Details",
@@ -181,6 +240,12 @@
         },
         "edit_event_modal": {
             "title": "Edit event"
+        },
+        "transportation_form": {
+            "info": "Information about the itinery between the hotel and the school",
+            "school": "School address",
+            "hotel": "Hotel address",
+            "image": "Url for image of the itinery"
         },
         "answers": {
             "answers": "Puzzle answers"
@@ -318,6 +383,16 @@
                 "food": "Meal",
                 "competition": "Competition"
             }
+        },
+        "guide": {
+            "types": {
+                "bring": "What to bring ?",
+                "hotel": "Get to the hotel",
+                "transport": "Get to the school",
+                "school": "School map",
+                "parking": "Parkings",
+                "restaurant": "Restaurants and bars"
+            }
         }
     },
     "pages": {
@@ -381,7 +456,14 @@
             "parking": "Parkings",
             "restaurants": "Restaurants and bars",
             "what_to_bring": "What to bring?",
-            "map": "School map"
+            "map": "School map",
+            "admin": {
+                "section": {
+                    "add_section": "Add section",
+                    "create_section": "Create section"
+                }
+            },
+            "transport": "Transportation"
         },
         "home": {
             "home": "Home"

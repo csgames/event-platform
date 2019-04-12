@@ -39,6 +39,7 @@ export interface PuzzleInfo {
     score?: number;
     question?: Question;
     answers?: Answers[];
+    answersCount?: number;
 }
 
 export interface Track {
