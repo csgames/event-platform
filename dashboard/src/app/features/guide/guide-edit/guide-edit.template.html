@@ -1,7 +1,7 @@
 <div class="page-wrapper">
     <h1 class="title">{{ "pages.guide.guide" | translate }}</h1>
     <app-loading-spinner [loading]="loading$"></app-loading-spinner>
-    <ng-container *ngIf="guideCompleted$ as async">
+    <ng-container *ngIf="!(guideCompleted$() | async)">
         <button type="button" class="add-button btn btn-lg btn-block borders"
             (click)="clickAddSection()">
             + {{ "pages.guide.admin.section.add_section" | translate }}
@@ -90,7 +90,7 @@
             </agm-map>
         </app-accordion-component>
         <!-- Inside the school -->
-        <app-accordion-component *ngIf="guide.school && guide.school?.maps?.length > 0" iconClass="fa-map-marked-alt"
+        <app-accordion-component *ngIf="guide.school" iconClass="fa-map-marked-alt"
             title="{{ 'pages.guide.map' | translate }}" [hasEdit]="true" (clickUpdateGuide)="update('map')">
             <div class="row">
                 <div *ngFor="let map of guide.school.maps" class="col-lg-6 col-md-6 col-sm-12">

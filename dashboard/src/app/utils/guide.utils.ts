@@ -11,8 +11,6 @@ export namespace GuideUtils {
                 return "fal fal-4x fa-subway";
             case EventGuideTypes.School: 
                 return "fal fal-4x fa-graduation-cap";
-            case EventGuideTypes.SchoolMap:
-                return "fal fal-4x fa-map-marked-alt";
             case EventGuideTypes.Parking:
                 return "fal fal-4x fa-parking";
             case EventGuideTypes.Restaurants:

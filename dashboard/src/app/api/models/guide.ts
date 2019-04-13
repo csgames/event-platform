@@ -3,7 +3,6 @@ export enum EventGuideTypes {
     Hotel = "hotel",
     Transport = "transport",
     School = "school",
-    SchoolMap = "map",
     Parking = "parking",
     Restaurants = "restaurant",
 }
