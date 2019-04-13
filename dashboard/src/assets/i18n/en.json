@@ -244,10 +244,10 @@
             "title": "Edit event"
         },
         "transportation_form": {
-            "info": "Information about the itinery between the hotel and the school",
+            "info": "Information about the route between the hotel and the school",
             "school": "School address",
             "hotel": "Hotel address",
-            "image": "Url for image of the itinery"
+            "image": "Url of the route image"
         },
         "answers": {
             "answers": "Puzzle answers"
