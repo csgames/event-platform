@@ -388,10 +388,11 @@
             "types": {
                 "bring": "What to bring ?",
                 "hotel": "Get to the hotel",
-                "transport": "Get to the school",
-                "school": "School map",
+                "transport": "Transportation",
+                "school": "Get to the school",
                 "parking": "Parkings",
-                "restaurant": "Restaurants and bars"
+                "restaurant": "Restaurants and bars",
+                "map": "School map"
             }
         }
     },

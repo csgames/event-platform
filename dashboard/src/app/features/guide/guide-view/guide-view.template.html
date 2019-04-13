@@ -4,7 +4,7 @@
     <div class="guide animated fadeIn" *ngIf="guide">
         <!-- What to bring -->
         <app-accordion-component
-            iconClass="fa-clipboard-check"
+            *ngIf="guide.bring" iconClass="fa-clipboard-check"
             title="{{ 'pages.guide.what_to_bring' | translate }}"
             [startsOpened]="false">
             <div class="row">
@@ -40,7 +40,7 @@
         </app-accordion-component>
         <!-- Hotel -->
         <app-accordion-component
-            iconClass="fa-hotel"
+            *ngIf="guide.hotel" iconClass="fa-hotel"
             title="{{ 'pages.guide.hotel' | translate }}">
             <div class="row">
                 <div class="inside-text-div col-12">
@@ -73,7 +73,7 @@
         </app-accordion-component>
         <!-- School -->
         <app-accordion-component
-            iconClass="fa-graduation-cap"
+            *ngIf="guide.school" iconClass="fa-graduation-cap"
             title="{{ 'pages.guide.school' | translate }}">
             <div class="row">
                 <div class="inside-text-div col-12">
@@ -104,7 +104,7 @@
             </agm-map>
         </app-accordion-component>
         <!-- Inside the school -->
-        <app-accordion-component *ngIf="guide.school.maps.length > 0"
+        <app-accordion-component *ngIf="guide.school.maps"
                                  iconClass="fa-map-marked-alt"
                                  title="{{ 'pages.guide.map' | translate }}">
             <div class="row">
@@ -115,7 +115,7 @@
         </app-accordion-component>
         <!-- Parkings -->
         <app-accordion-component
-            iconClass="fa-parking"
+            *ngIf="guide.parking" iconClass="fa-parking"
             title="{{ 'pages.guide.parking' | translate }}">
 
             <agm-map
@@ -136,7 +136,7 @@
         </app-accordion-component>
         <!-- Restaurants -->
         <app-accordion-component
-            iconClass="fa-utensils"
+            *ngIf="guide.restaurant" iconClass="fa-utensils"
             title="{{ 'pages.guide.restaurants' | translate }}">
             <agm-map
                 *ngIf="guide"
