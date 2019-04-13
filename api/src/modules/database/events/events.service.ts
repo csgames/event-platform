@@ -22,6 +22,7 @@ import { AddSponsorDto, CreateEventDto, SendNotificationDto } from './events.dto
 import { AttendeeAlreadyRegisteredException, EventNotFoundException, UserNotAttendeeException } from './events.exception';
 import { DefaultGuide, Events, EventSponsorDetails } from './events.model';
 import { AddGuideSectionDto, GuideDto } from './guide.dto';
+import { PuzzleHeroesService } from '../puzzle-heroes/puzzle-heroes.service';
 
 export interface EventScore {
     overall: TeamScore[];
@@ -50,8 +51,23 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
                 private readonly attendeeService: AttendeesService,
                 private readonly activitiesService: ActivitiesService,
                 private readonly storageService: StorageService,
-                private readonly notificationService: NotificationsService) {
+                private readonly notificationService: NotificationsService,
+                private readonly puzzleHeroesService: PuzzleHeroesService) {
         super(eventsModel);
+    }
+
+    public async create(createEventDto: CreateEventDto): Promise<Events> {
+        const event = await super.create(createEventDto);
+        await this.puzzleHeroesService.create({
+            event: event._id,
+            tracks: [],
+            answers: [],
+            open: false,
+            releaseDate: createEventDto.beginDate,
+            endDate: createEventDto.endDate,
+            scoreboardEndDate: createEventDto.endDate
+        });
+        return event;
     }
 
     public async getEventList(user: UserModel): Promise<Events[]> {

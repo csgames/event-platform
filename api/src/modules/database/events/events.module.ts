@@ -13,6 +13,7 @@ import { TeamsSchema } from '../teams/teams.model';
 import { MessagingModule } from '../../messaging/messaging.module';
 import { NotificationsModule } from '../notifications/notifications.module';
 import { FlashOutsModule } from '../flash-out/flash-out.module';
+import { PuzzleHeroesModule } from '../puzzle-heroes/puzzle-heroes.module';
 
 @Module({
     imports: [
@@ -36,7 +37,8 @@ import { FlashOutsModule } from '../flash-out/flash-out.module';
         MessagingModule,
         NotificationsModule,
         FlashOutsModule,
-        StorageModule
+        StorageModule,
+        PuzzleHeroesModule
     ],
     controllers: [
         EventsController
