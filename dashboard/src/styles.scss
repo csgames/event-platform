@@ -850,6 +850,16 @@ markdown {
     color: white !important;
 }
 
+.btn-outline-danger {
+    border-color: var(--accent-color);
+}
+
+.btn-outline-danger:hover {
+    background-color: var(--accent-color);
+    border-color: var(--accent-color);
+    color: white !important;
+}
+
 .badge-danger {
     background-color: var(--accent-color);
 }

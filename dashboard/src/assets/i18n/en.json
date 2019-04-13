@@ -197,7 +197,9 @@
             "markers": "Markers for parking "
         },
         "bring_form": {
-            "add": "Add item to bring"
+            "add": "Add item to bring",
+            "add_error": "Please enter an item in every language",
+            "no_items": "No items yet"
         },
         "map_form": {
             "website": "Website of the school",

@@ -15,12 +15,13 @@
         <div class="input-group input-group-default">
             <input class="form-control" type="text" [(ngModel)]="d" (ngModelChange)="itemChange()">
             <span class="input-group-btn">
-                <a class="remove btn btn-danger btn-outline pull-right" (click)="deleteValue(i)">
+                <a class="remove btn btn-outline-danger pull-right" (click)="deleteValue(i)">
                     <i class="fa fa-trash"></i>
                 </a>
             </span>
         </div>
     </div>
+    <h4 *ngIf="!section[lang].length" class="text-center">{{ "components.bring_form.no_items" | translate }}</h4>
 </div>
 <div>
     <button *ngIf="!showCreate" type="button" class="add-button btn btn-lg btn-block borders"
@@ -33,7 +34,7 @@
                 <app-custom-text-box formType="textbox" [(ngModel)]="newItem"></app-custom-text-box>
             </div>
             <div fxFlex="100" class="control-error" *ngIf="newItemError">
-                {{ "components.bring_form.add_error" }}
+                {{ "components.bring_form.add_error" | translate }}
             </div>
         </div>
         <div fxLayout="row" fxLayoutAlign="end center">
