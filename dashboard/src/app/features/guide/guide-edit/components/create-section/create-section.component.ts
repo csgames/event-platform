@@ -3,11 +3,12 @@ import { SimpleModalComponent } from "ngx-simple-modal";
 import { SectionFormDto } from "../section-form/dto/section-form.dto";
 import { SectionFormComponent } from "../section-form/section-form.component";
 import { Subscription } from "rxjs";
-import { Store, select } from "@ngrx/store";
-import { State, 
-         getGuideCreateSectionLoading, 
-         getGuideCreateSectionError, 
-         getGuideCreateSectionSuccess 
+import { select, Store } from "@ngrx/store";
+import {
+    getGuideCreateSectionError,
+    getGuideCreateSectionLoading,
+    getGuideCreateSectionSuccess,
+    State
 } from "./store/create-section.reducer";
 import { CreateSection, ResetState } from "./store/create-section.actions";
 import { EventGuide, EventGuideTypes } from "src/app/api/models/guide";
@@ -44,7 +45,7 @@ export class CreateSectionComponent extends SimpleModalComponent<CreateSectionMo
                 this.close();
             }
         });
-        const guideSection = Object.keys(this.guide);
+        const guideSection = Object.keys(this.guide || {});
         this.types = Object.values(EventGuideTypes).filter((type: string) => !guideSection.some((x) => x === type));
     }
 

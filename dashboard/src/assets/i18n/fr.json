@@ -220,7 +220,9 @@
             "markers": "Repères pour le stationnement "
         },
         "bring_form": {
-            "add": "Ajouter un item à apporter"
+            "add": "Ajouter un item à apporter",
+            "add_error": "Veuillez entrer un item dans chaque langue",
+            "no_items": "Pas encore d'items"
         },
         "map_form": {
             "website": "Site internet de l'école",
