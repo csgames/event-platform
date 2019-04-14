@@ -125,14 +125,14 @@ src
 This folder contains all the code of the angular applications
 
 #### Api
-This section contains the logic of the api. In other words, all communications with the different api is handle in this section.
+This section contains the logic of the api. In other words, all communication with the different api is handle in this section.
 This section also contains all the model of the data from the different services.
 
 #### Components
 This section contains all the global components of the Angular application.
 
 #### Features
-This section contains all the pages of the Angular application. Each page must have it's own store and can have custom components and modal.
+This section contains all the pages of the Angular application. Each page must have its own store and can have custom components and modal.
 
 A page structure must look like this
 ```
@@ -165,16 +165,16 @@ This section contains all the global pipes of the Angular application.
 This section contains all the global providers of the Angular application.
 
 #### Store
-This section contains all the global store of the Angular application.
+This section contains all the global stores of the Angular application.
 
 #### Utils
 This section contains all the utils of the Angular application.
 
 ### Assets
-This folder constains all the assets of the project
+This folder constains all the assets of the project.
 
 #### Font
-All the fonts used in the project must be in this folder
+All the fonts used in the project must be in this folder.
 
 #### i18n
 All translation file are in this folder. Translation file are key -> value file (json format) containing all translation of the application.
