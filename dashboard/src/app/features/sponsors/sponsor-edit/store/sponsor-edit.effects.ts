@@ -1,8 +1,8 @@
 import { Injectable } from "@angular/core";
 import { Actions, Effect, ofType } from "@ngrx/effects";
 import { SponsorsService } from "src/app/providers/sponsors.service";
-import { LoadSponsors, SponsorEditActionTypes, SponsorsLoaded, AddSponsor } from "./sponsor-edit.actions";
-import { switchMap, catchError, map } from "rxjs/operators";
+import { AddSponsor, LoadSponsors, SponsorEditActionTypes, SponsorsLoaded } from "./sponsor-edit.actions";
+import { catchError, map, switchMap } from "rxjs/operators";
 import { Sponsors } from "src/app/api/models/sponsors";
 import { of } from "rxjs";
 import { GlobalError } from "src/app/store/app.actions";
@@ -17,7 +17,8 @@ export class SponsorEditEffects {
     @Effect()
     loadSponsors$ = this.actions$.pipe(
         ofType<LoadSponsors>(SponsorEditActionTypes.LoadSponsors),
-        switchMap(() => this.sponsorService.getSponsorsList().pipe(
+        switchMap(() => this.sponsorService.getSponsorsList()
+            .pipe(
                 map((s: { [id: string]: Sponsors[] }) => new SponsorsLoaded(s)),
                 catchError((e) => of(new GlobalError(e)))
             )

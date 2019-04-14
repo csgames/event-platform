@@ -3,10 +3,10 @@
 
     <app-loading-spinner [loading]="loading$"></app-loading-spinner>
 
-    <div class="animated fadeIn">
-        <app-sponsor-tier [tier]="platinumTier" [showAdd]="true"></app-sponsor-tier>
-        <app-sponsor-tier [tier]="goldTier" [showAdd]="true"></app-sponsor-tier>
-        <app-sponsor-tier [tier]="silverTier" [showAdd]="true"></app-sponsor-tier>
-        <app-sponsor-tier [tier]="bronzeTier" [showAdd]="true"></app-sponsor-tier>
+    <div class="animated fadeIn" *ngIf="sponsors$ | async">
+        <app-sponsor-tier [tier]="platinumTier$ | async" [showAdd]="true"></app-sponsor-tier>
+        <app-sponsor-tier [tier]="goldTier$ | async" [showAdd]="true"></app-sponsor-tier>
+        <app-sponsor-tier [tier]="silverTier$ | async" [showAdd]="true"></app-sponsor-tier>
+        <app-sponsor-tier [tier]="bronzeTier$ | async" [showAdd]="true"></app-sponsor-tier>
     </div>
 </div>
