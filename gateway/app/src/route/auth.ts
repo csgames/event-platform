@@ -1,7 +1,7 @@
-import * as express from 'express';
-import * as bodyParser from 'body-parser';
-import * as fetch from 'node-fetch';
-import * as querystring from 'querystring';
+import * as bodyParser from "body-parser";
+import * as express from "express";
+import * as fetch from "node-fetch";
+import * as querystring from "querystring";
 
 export class Auth {
     public router = express.Router();
@@ -9,9 +9,9 @@ export class Auth {
     constructor() {
         this.router.use(bodyParser.json());
         this.router.use(bodyParser.urlencoded({ extended: true }));
-        this.router.post('/login', this.login.bind(this));
-        this.router.get('/logout', this.logout.bind(this));
-        this.router.get('/isloggedin', this.isLoggedIn.bind(this));
+        this.router.post("/login", this.login.bind(this));
+        this.router.get("/logout", this.logout.bind(this));
+        this.router.get("/isloggedin", this.isLoggedIn.bind(this));
     }
 
     // POST /login
@@ -33,24 +33,24 @@ export class Auth {
             client_id: process.env.STS_CLIENT_ID,
             client_secret: process.env.STS_CLIENT_SECRET,
             scope: process.env.STS_CLIENT_SCOPES,
-            grant_type: 'password',
+            grant_type: "password",
             username: email,
             password: password
         });
 
         try {
             let response = await fetch(`${process.env.STS_URL}/connect/token`, {
-                method: 'POST',
+                method: "POST",
                 body: body,
-                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+                headers: { "Content-Type": "application/x-www-form-urlencoded" }
             }).then(r => r.json());
 
             if (response.access_token && response.refresh_token) {
                 req.session.access_token = response.access_token;
-                let payload = JSON.parse(Buffer.from(response.access_token.split('.')[1], 'base64').toString());
+                let payload = JSON.parse(Buffer.from(response.access_token.split(".")[1], "base64").toString());
                 req.session.access_token_expiration = payload.exp;
 
-                if (rememberMe){
+                if (rememberMe) {
                     req.session.refresh_token = response.refresh_token;
                 }
                 res.json({
@@ -81,15 +81,15 @@ export class Auth {
                 } else {
                     res.json({ success: true });
                 }
-            })
+            });
         } else {
-            res.status(401).json({success: false});
+            res.status(401).json({ success: false });
         }
     }
 
     //GET /isloggedin
     private isLoggedIn(req: express.Request, res: express.Response) {
-        if (req.session.access_token){
+        if (req.session.access_token) {
             res.json({
                 logged_in: true
             });

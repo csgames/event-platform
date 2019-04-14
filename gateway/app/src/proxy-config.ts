@@ -1,8 +1,9 @@
 // format de la configuration: https://github.com/chimurai/http-proxy-middleware#options option.router
-import * as http from 'http';
-import * as url from 'url';
+import * as http from "http";
+import * as url from "url";
 
-export type LogLevel = 'debug' | 'info' | 'warn' | 'error' | 'silent';
+export type LogLevel = "debug" | "info" | "warn" | "error" | "silent";
+
 export interface ProxyRouterConfig {
     path_starts_with: string;
     redirect: string;
@@ -10,6 +11,7 @@ export interface ProxyRouterConfig {
     path_to_replace?: string;
     path_replace_by?: string;
 }
+
 export interface ProxyConfig {
     path: string;
     options: {
@@ -23,7 +25,7 @@ export const proxyConfig = (): ProxyConfig => {
     const config = require(process.env.PROXY_CONFIG_PATH);
     const router: Array<ProxyRouterConfig> = config.router;
     const routerFunction = (req: http.IncomingMessage): string => {
-        if (!req.url){
+        if (!req.url) {
             return null;
         }
 
