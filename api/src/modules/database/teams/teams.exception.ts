@@ -1,6 +1,6 @@
-import { CodeException } from '../../../filters/code-error/code.exception';
-import { CodeMap } from "../../../filters/code-error/code.filter";
 import { HttpStatus } from "@nestjs/common";
+import { CodeException } from "../../../filters/code-error/code.exception";
+import { CodeMap } from "../../../filters/code-error/code.filter";
 
 export enum Code {
     UNKNOWN,
@@ -43,7 +43,7 @@ export const codeMap: CodeMap = {
         statusCode: HttpStatus.PRECONDITION_FAILED
     },
     [Code.INVALID_TEAM_NAME]: {
-        message: 'Invalid team name.',
+        message: "Invalid team name.",
         statusCode: HttpStatus.BAD_REQUEST
     }
 };

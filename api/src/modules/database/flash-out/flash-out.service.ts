@@ -1,11 +1,11 @@
-import { BaseService } from "../../../services/base.service";
-import { FlashOut } from "./flash-out.model";
-import { InjectModel } from "@nestjs/mongoose";
 import { Injectable } from "@nestjs/common";
+import { InjectModel } from "@nestjs/mongoose";
 import { Model, Types } from "mongoose";
-import { UserNotAttendeeException } from "../events/events.exception";
+import { BaseService } from "../../../services/base.service";
 import { AttendeesService } from "../attendees/attendees.service";
-import { EventsUtils, Events } from "../events/events.model";
+import { UserNotAttendeeException } from "../events/events.exception";
+import { Events, EventsUtils } from "../events/events.model";
+import { FlashOut } from "./flash-out.model";
 
 @Injectable()
 export class FlashOutsService extends BaseService<FlashOut, FlashOut> {

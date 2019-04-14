@@ -1,11 +1,13 @@
-import { ApiModelProperty } from '@nestjs/swagger';
-import { IsEmail, IsIn, IsMongoId, IsNotEmpty, IsNumber, IsString, IsUUID, ValidateIf, ValidateNested, IsBoolean, IsOptional } from 'class-validator';
-import { CreateAttendeeDto } from '../attendees/attendees.dto';
+import { ApiModelProperty } from "@nestjs/swagger";
+import {
+    IsBoolean, IsEmail, IsIn, IsMongoId, IsNotEmpty, IsNumber, IsOptional, IsString, IsUUID, ValidateIf, ValidateNested
+} from "class-validator";
+import { CreateAttendeeDto } from "../attendees/attendees.dto";
 
 export class CreateRegistrationDto {
     @IsString()
     @IsNotEmpty()
-    @IsIn(['attendee', 'captain', 'godparent', 'sponsor'])
+    @IsIn(["attendee", "captain", "godparent", "sponsor"])
     @ApiModelProperty({ required: true })
     role: string;
 
@@ -32,18 +34,18 @@ export class CreateRegistrationDto {
 
     @IsMongoId()
     @IsNotEmpty()
-    @ValidateIf(x => x.role === 'captain')
+    @ValidateIf(x => x.role === "captain")
     @ApiModelProperty({ required: true })
     schoolId: string;
 
     @IsMongoId()
     @IsNotEmpty()
-    @ValidateIf(x => x.role === 'sponsor')
+    @ValidateIf(x => x.role === "sponsor")
     @ApiModelProperty({ required: true })
     sponsorId: string;
 
     @IsNumber()
-    @ValidateIf(x => x.role === 'captain')
+    @ValidateIf(x => x.role === "captain")
     @IsNotEmpty()
     @ApiModelProperty({ required: true })
     maxMembersNumber: number;
@@ -86,7 +88,7 @@ export class RegisterAttendeeDto {
 export class RegisterRoleDto {
     @IsString()
     @IsNotEmpty()
-    @IsIn(['admin', 'volunteer', 'director'])
+    @IsIn(["admin", "volunteer", "director"])
     @ApiModelProperty({ required: true })
     role: string;
 

@@ -1,36 +1,26 @@
-import { ApiModelProperty } from '@nestjs/swagger';
+import { ApiModelProperty } from "@nestjs/swagger";
 import {
-    ArrayMaxSize,
-    ArrayMinSize,
-    ArrayUnique,
-    IsArray,
-    IsDefined,
-    IsHexColor,
-    IsMongoId,
-    IsNotEmpty,
-    IsNumber,
-    IsOptional,
-    IsString,
+    ArrayMaxSize, ArrayMinSize, ArrayUnique, IsArray, IsDefined, IsHexColor, IsMongoId, IsNotEmpty, IsNumber, IsOptional, IsString,
     ValidateNested
-} from 'class-validator';
-import { EventAttendees } from './events.model';
+} from "class-validator";
+import { EventAttendees } from "./events.model";
 
 export class CreateEventDto {
     @IsString()
     @IsNotEmpty()
-    @ApiModelProperty({required: true})
+    @ApiModelProperty({ required: true })
     name: string;
 
     @IsDefined()
-    @ApiModelProperty({required: true})
+    @ApiModelProperty({ required: true })
     details: object;
 
     @IsNotEmpty()
-    @ApiModelProperty({required: true})
+    @ApiModelProperty({ required: true })
     beginDate: string;
 
     @IsNotEmpty()
-    @ApiModelProperty({required: true})
+    @ApiModelProperty({ required: true })
     endDate: string;
 
     @IsOptional()
@@ -193,12 +183,12 @@ export class SponsorDetailsDto {
 export class AddSponsorDto {
     @IsString()
     @IsNotEmpty()
-    @ApiModelProperty({required: true})
+    @ApiModelProperty({ required: true })
     tier: string;
 
     @IsMongoId()
     @IsNotEmpty()
-    @ApiModelProperty({required: true})
+    @ApiModelProperty({ required: true })
     sponsor: string;
 
     @IsOptional()
@@ -214,22 +204,22 @@ export class AddScannedAttendee {
     @IsString()
     @IsNotEmpty()
     @IsMongoId()
-    @ApiModelProperty({required: true})
+    @ApiModelProperty({ required: true })
     scannedAttendee: string;
 }
 
 export class SendSmsDto {
     @IsNotEmpty()
-    @ApiModelProperty({required: true})
+    @ApiModelProperty({ required: true })
     text: string;
 }
 
 export class SendNotificationDto {
     @IsNotEmpty()
-    @ApiModelProperty({required: true})
+    @ApiModelProperty({ required: true })
     title: string;
 
     @IsNotEmpty()
-    @ApiModelProperty({required: true})
+    @ApiModelProperty({ required: true })
     body: string;
 }

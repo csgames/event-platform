@@ -1,33 +1,33 @@
-import { BadRequestException, HttpException, HttpStatus, Injectable, InternalServerErrorException } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
-import { STSService, UserModel } from '@polyhx/nest-services';
-import * as mongoose from 'mongoose';
-import { Model } from 'mongoose';
-import { CodeException } from '../../../filters/code-error/code.exception';
-import { ConfigService } from '../../configs/config.service';
-import { EmailService } from '../../email/email.service';
-import { Attendees } from '../attendees/attendees.model';
-import { AttendeesService } from '../attendees/attendees.service';
-import { EventsService } from '../events/events.service';
-import { TeamsService } from '../teams/teams.service';
+import { BadRequestException, HttpException, HttpStatus, Injectable, InternalServerErrorException } from "@nestjs/common";
+import { InjectModel } from "@nestjs/mongoose";
+import { STSService, UserModel } from "@polyhx/nest-services";
+import * as mongoose from "mongoose";
+import { Model } from "mongoose";
+import { CodeException } from "../../../filters/code-error/code.exception";
+import { ConfigService } from "../../configs/config.service";
+import { EmailService } from "../../email/email.service";
+import { Attendees } from "../attendees/attendees.model";
+import { AttendeesService } from "../attendees/attendees.service";
+import { EventsService } from "../events/events.service";
+import { TeamsService } from "../teams/teams.service";
 import {
     AttendeeAlreadyExistException, GodParentAlreadyExist, InvalidCodeException, MaxTeamMemberException, TeamAlreadyExistException,
     TeamDoesntExistException
-} from './registration.exception';
-import { CreateRegistrationDto, RegisterRoleDto, RegisterAttendeeDto } from './registrations.dto';
-import { Registrations } from './registrations.model';
+} from "./registration.exception";
+import { CreateRegistrationDto, RegisterAttendeeDto, RegisterRoleDto } from "./registrations.dto";
+import { Registrations } from "./registrations.model";
 
 @Injectable()
 export class RegistrationsService {
     private roleTemplate = {
-        attendee: 'attendee_account_creation',
-        sponsor: 'attendee_account_creation',
-        captain: 'captain_account_creation',
-        godparent: 'godparent_account_creation'
+        attendee: "attendee_account_creation",
+        sponsor: "attendee_account_creation",
+        captain: "captain_account_creation",
+        godparent: "godparent_account_creation"
     };
     private roles: { [name: string]: string };
 
-    constructor(@InjectModel('registrations') private registrationsModel: Model<Registrations>,
+    constructor(@InjectModel("registrations") private registrationsModel: Model<Registrations>,
                 private readonly stsService: STSService,
                 private readonly attendeeService: AttendeesService,
                 private readonly eventService: EventsService,
@@ -37,12 +37,12 @@ export class RegistrationsService {
     }
 
     public async create(dto: CreateRegistrationDto, role: string, eventId: string) {
-        const att = await this.attendeeService.findOne({email: dto.email});
+        const att = await this.attendeeService.findOne({ email: dto.email });
         if (att) {
             throw new AttendeeAlreadyExistException();
         }
 
-        if (dto.role !== 'sponsor') {
+        if (dto.role !== "sponsor") {
             await this.validateTeam(dto.teamName, dto.role, eventId);
         }
         const attendee = await this.attendeeService.create({
@@ -57,7 +57,7 @@ export class RegistrationsService {
         });
         registration = await registration.save();
 
-        if (dto.role === 'sponsor') {
+        if (dto.role === "sponsor") {
             await this.addSponsor(dto, role, eventId, attendee);
         } else {
             await this.addAttendee(dto, role, eventId, attendee);
@@ -72,11 +72,11 @@ export class RegistrationsService {
 
         try {
             await this.emailService.sendEmail({
-                from: 'CS Games <info@csgames.org>',
+                from: "CS Games <info@csgames.org>",
                 to: [dto.email],
-                subject: 'CS Games Account creation',
-                text: 'CS Games Account creation',
-                html: '<h1>Account creation</h1>',
+                subject: "CS Games Account creation",
+                text: "CS Games Account creation",
+                html: "<h1>Account creation</h1>",
                 template: template,
                 variables: {
                     name: dto.firstName,
@@ -105,14 +105,14 @@ export class RegistrationsService {
         }).exec();
 
         if (!registration || registration.used) {
-            throw new BadRequestException('Invalid uuid');
+            throw new BadRequestException("Invalid uuid");
         }
 
         try {
             await this.stsService.registerUser({
                 username: userDto.username,
                 password: userDto.password,
-                roleId: this.roles['attendee']
+                roleId: this.roles["attendee"]
             } as UserModel);
 
             await this.attendeeService.update({
@@ -132,7 +132,7 @@ export class RegistrationsService {
                 throw err;
             }
 
-            throw new HttpException('Error while creating attendee', HttpStatus.INTERNAL_SERVER_ERROR);
+            throw new HttpException("Error while creating attendee", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -145,7 +145,7 @@ export class RegistrationsService {
             await this.stsService.registerUser({
                 username: userDto.username,
                 password: userDto.password,
-                roleId: this.roles['attendee']
+                roleId: this.roles["attendee"]
             } as UserModel);
 
             const attendee = await this.attendeeService.create({
@@ -162,7 +162,7 @@ export class RegistrationsService {
                 throw err;
             }
 
-            throw new HttpException('Error while creating attendee', HttpStatus.INTERNAL_SERVER_ERROR);
+            throw new HttpException("Error while creating attendee", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -170,9 +170,9 @@ export class RegistrationsService {
         const registration = await this.registrationsModel.findOne({
             uuid
         }).populate({
-            path: 'attendee',
-            model: 'attendees',
-            select: ['email', 'firstName', 'lastName']
+            path: "attendee",
+            model: "attendees",
+            select: ["email", "firstName", "lastName"]
         });
 
         if (!registration || registration.used) {
@@ -183,8 +183,8 @@ export class RegistrationsService {
     }
 
     private async validateTeam(name: string, role: string, eventId: string) {
-        const team = await this.teamsService.findOne({name: name, event: eventId});
-        if (role === 'captain') {
+        const team = await this.teamsService.findOne({ name: name, event: eventId });
+        if (role === "captain") {
             if (team) {
                 throw new TeamAlreadyExistException();
             }
@@ -197,18 +197,18 @@ export class RegistrationsService {
             throw new MaxTeamMemberException();
         }
 
-        const event = await this.eventService.findOne({_id: eventId});
+        const event = await this.eventService.findOne({ _id: eventId });
         const attendeeIds = team.attendees.map(x => (x as mongoose.Types.ObjectId).toHexString());
         const members = event.attendees.filter(attendeeEvent => attendeeIds
             .includes((attendeeEvent.attendee as mongoose.Types.ObjectId).toHexString()));
 
-        const godparent = members.filter(attendeeEvent => attendeeEvent.role === 'godparent');
-        if (role === 'godparent') {
+        const godparent = members.filter(attendeeEvent => attendeeEvent.role === "godparent");
+        if (role === "godparent") {
             if (godparent.length > 0) {
                 throw new GodParentAlreadyExist();
             }
         } else {
-            const attendees = members.filter(attendeeEvent => attendeeEvent.role !== 'godparent');
+            const attendees = members.filter(attendeeEvent => attendeeEvent.role !== "godparent");
             if (attendees.length >= 10) {
                 throw new MaxTeamMemberException();
             }
@@ -216,7 +216,7 @@ export class RegistrationsService {
     }
 
     private async addAttendee(dto: CreateRegistrationDto, role: string, eventId: string, attendee: Attendees) {
-        if (dto.role === 'captain' && (role === 'admin' || role === 'super-admin')) {
+        if (dto.role === "captain" && (role === "admin" || role === "super-admin")) {
             await this.teamsService.createTeam({
                 name: dto.teamName,
                 event: eventId,
@@ -227,7 +227,7 @@ export class RegistrationsService {
                 showOnScoreboard: dto.showOnScoreboard
             });
         } else {
-            await this.teamsService.update({name: dto.teamName, event: eventId}, {
+            await this.teamsService.update({ name: dto.teamName, event: eventId }, {
                 $push: {
                     attendees: attendee._id
                 }
@@ -251,7 +251,7 @@ export class RegistrationsService {
                 showOnScoreboard: dto.showOnScoreboard
             });
         } else {
-            await this.teamsService.update({sponsor: dto.sponsorId, event: eventId}, {
+            await this.teamsService.update({ sponsor: dto.sponsorId, event: eventId }, {
                 $push: {
                     attendees: attendee._id
                 }

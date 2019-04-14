@@ -1,6 +1,6 @@
-import { DateUtils } from '../../../../utils/date.utils';
-import { PuzzleGraphNodes, PuzzleGraphNodesSchema } from '../puzzle-graph-nodes/puzzle-graph.nodes.model';
 import * as mongoose from "mongoose";
+import { DateUtils } from "../../../../utils/date.utils";
+import { PuzzleGraphNodes, PuzzleGraphNodesSchema } from "../puzzle-graph-nodes/puzzle-graph.nodes.model";
 
 export enum TrackTypes {
     Crypto = "crypto",

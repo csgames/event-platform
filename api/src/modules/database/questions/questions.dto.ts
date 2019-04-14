@@ -1,13 +1,13 @@
-import { Type } from 'class-transformer';
-import { ArrayNotEmpty, IsIn, IsNotEmpty, IsNumber, IsOptional, ValidateIf, ValidateNested } from 'class-validator';
-import { InputTypes, QuestionTypes, ValidationTypes } from './questions.model';
+import { Type } from "class-transformer";
+import { ArrayNotEmpty, IsIn, IsNotEmpty, IsNumber, IsOptional, ValidateIf, ValidateNested } from "class-validator";
+import { InputTypes, QuestionTypes, ValidationTypes } from "./questions.model";
 
 export class QuestionOptionDto {
     @IsNotEmpty({
-        groups: ['upload']
+        groups: ["upload"]
     })
     @ArrayNotEmpty({
-        groups: ['upload']
+        groups: ["upload"]
     })
     contentTypes: string[];
 }
@@ -29,13 +29,13 @@ export class CreateQuestionDto {
     type: QuestionTypes;
 
     @IsNotEmpty()
-    @IsIn(['string', 'regex', 'function', 'none'])
+    @IsIn(["string", "regex", "function", "none"])
     validationType: ValidationTypes;
 
     @IsNotEmpty({
         always: true
     })
-    @IsIn(['string', 'upload', 'code'], {
+    @IsIn(["string", "upload", "code"], {
         always: true
     })
     inputType: InputTypes;
@@ -57,7 +57,7 @@ export class CreateQuestionDto {
 
     @IsOptional()
     @ValidateNested({
-        groups: ['upload']
+        groups: ["upload"]
     })
     @Type(() => QuestionOptionDto)
     option: QuestionOptionDto;
@@ -86,14 +86,14 @@ export class UpdateQuestionDto {
     @IsNotEmpty({
         always: true
     })
-    @IsIn(['string', 'regex', 'function', 'none'])
+    @IsIn(["string", "regex", "function", "none"])
     validationType: ValidationTypes;
 
     @IsOptional()
     @IsNotEmpty({
         always: true
     })
-    @IsIn(['string', 'upload', 'code'], {
+    @IsIn(["string", "upload", "code"], {
         always: true
     })
     inputType: InputTypes;
@@ -109,7 +109,7 @@ export class UpdateQuestionDto {
 
     @IsOptional()
     @ValidateNested({
-        groups: ['upload']
+        groups: ["upload"]
     })
     option: QuestionOptionDto;
 }

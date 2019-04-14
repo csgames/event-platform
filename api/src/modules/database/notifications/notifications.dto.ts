@@ -1,5 +1,5 @@
-import { IsString, IsNotEmpty, IsArray, IsMongoId, IsOptional } from 'class-validator';
 import { ApiModelProperty } from "@nestjs/swagger";
+import { IsArray, IsMongoId, IsNotEmpty, IsOptional, IsString } from "class-validator";
 
 export class CreateNotificationsDto {
     @IsString()

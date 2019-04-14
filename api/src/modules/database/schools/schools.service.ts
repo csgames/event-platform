@@ -13,7 +13,7 @@ export class SchoolsService extends BaseService<Schools, CreateSchoolDto> {
 
     public async query(searchQuery: string): Promise<Schools[]> {
         const tokens = searchQuery
-            .split(' ')
+            .split(" ")
             .map(t => {
                 return {
                     $or: [
@@ -21,14 +21,14 @@ export class SchoolsService extends BaseService<Schools, CreateSchoolDto> {
                             name: {
                                 $regex: `.*${t}.*`,
                                 $options:
-                                    'i'
+                                    "i"
                             }
                         },
                         {
                             website: {
                                 $regex: `.*${t}.*`,
                                 $options:
-                                    'i'
+                                    "i"
                             }
                         }
                     ]

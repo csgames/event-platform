@@ -1,6 +1,6 @@
 import * as mongoose from "mongoose";
-import { Teams } from '../../teams/teams.model';
-import { PuzzleGraphNodes } from '../puzzle-graph-nodes/puzzle-graph.nodes.model';
+import { Teams } from "../../teams/teams.model";
+import { PuzzleGraphNodes } from "../puzzle-graph-nodes/puzzle-graph.nodes.model";
 
 export interface TracksAnswers extends mongoose.Document {
     puzzle: mongoose.Types.ObjectId | string;

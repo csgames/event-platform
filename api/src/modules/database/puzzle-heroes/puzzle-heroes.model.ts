@@ -1,8 +1,8 @@
 import * as mongoose from "mongoose";
-import { DateUtils } from '../../../utils/date.utils';
-import { Tracks, TracksSchema } from './tracks/tracks.model';
-import { TracksAnswers, TracksAnswersSchema } from './tracks/tracks-answers.model';
-import { Events } from '../events/events.model';
+import { DateUtils } from "../../../utils/date.utils";
+import { Events } from "../events/events.model";
+import { TracksAnswers, TracksAnswersSchema } from "./tracks/tracks-answers.model";
+import { Tracks, TracksSchema } from "./tracks/tracks.model";
 
 export interface PuzzleHeroes extends mongoose.Document {
     event: Events | mongoose.Types.ObjectId | string;

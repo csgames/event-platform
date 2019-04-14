@@ -1,27 +1,27 @@
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
-import { BaseService } from '../../../services/base.service';
-import { DateUtils } from '../../../utils/date.utils';
-import { Sponsors } from '../sponsors/sponsors.model';
-import { PuzzleHeroes, PuzzleHeroesUtils } from './puzzle-heroes.model';
-import * as mongoose from 'mongoose';
-import { Model } from 'mongoose';
-import { Tracks, TracksUtils } from './tracks/tracks.model';
-import { PuzzleGraphNodes } from './puzzle-graph-nodes/puzzle-graph.nodes.model';
-import { CreatePuzzleDto, CreateTrackDto, UpdatePuzzleHeroDto, UpdateTrackDto } from './puzzle-heroes.dto';
-import { Questions } from '../questions/questions.model';
-import { Attendees } from '../attendees/attendees.model';
-import { Teams } from '../teams/teams.model';
-import { RedisService } from '../../redis/redis.service';
-import { Score } from './scoreboard/score.model';
-import { Schools } from '../schools/schools.model';
-import { Serie, TeamSeries } from './scoreboard/team-series.model';
-import { PuzzleHeroesGateway } from './puzzle-heroes.gateway';
-import { QuestionsService } from '../questions/questions.service';
-import { TracksAnswers, TracksAnswersUtils } from './tracks/tracks-answers.model';
-import { QuestionAnswerDto } from '../questions/question-answer.dto';
-import { UserModel } from '../../../models/user.model';
-import { UpdateQuestionDto } from '../questions/questions.dto';
+import { BadRequestException, Injectable, NotFoundException } from "@nestjs/common";
+import { InjectModel } from "@nestjs/mongoose";
+import * as mongoose from "mongoose";
+import { Model } from "mongoose";
+import { UserModel } from "../../../models/user.model";
+import { BaseService } from "../../../services/base.service";
+import { DateUtils } from "../../../utils/date.utils";
+import { RedisService } from "../../redis/redis.service";
+import { Attendees } from "../attendees/attendees.model";
+import { QuestionAnswerDto } from "../questions/question-answer.dto";
+import { UpdateQuestionDto } from "../questions/questions.dto";
+import { Questions } from "../questions/questions.model";
+import { QuestionsService } from "../questions/questions.service";
+import { Schools } from "../schools/schools.model";
+import { Sponsors } from "../sponsors/sponsors.model";
+import { Teams } from "../teams/teams.model";
+import { PuzzleGraphNodes } from "./puzzle-graph-nodes/puzzle-graph.nodes.model";
+import { CreatePuzzleDto, CreateTrackDto, UpdatePuzzleHeroDto, UpdateTrackDto } from "./puzzle-heroes.dto";
+import { PuzzleHeroesGateway } from "./puzzle-heroes.gateway";
+import { PuzzleHeroes, PuzzleHeroesUtils } from "./puzzle-heroes.model";
+import { Score } from "./scoreboard/score.model";
+import { Serie, TeamSeries } from "./scoreboard/team-series.model";
+import { TracksAnswers, TracksAnswersUtils } from "./tracks/tracks-answers.model";
+import { Tracks, TracksUtils } from "./tracks/tracks.model";
 
 export interface PuzzleDefinition extends PuzzleGraphNodes {
     completed: boolean;
@@ -41,11 +41,11 @@ export interface PuzzleHeroInfo {
 
 @Injectable()
 export class PuzzleHeroesService extends BaseService<PuzzleHeroes, PuzzleHeroes> {
-    constructor(@InjectModel('puzzle-heroes') private readonly puzzleHeroesModel: Model<PuzzleHeroes>,
-                @InjectModel('questions') private readonly questionsModel: Model<Questions>,
-                @InjectModel('attendees') private readonly attendeesModel: Model<Attendees>,
-                @InjectModel('teams') private readonly teamsModel: Model<Teams>,
-                @InjectModel('schools') private readonly schoolsModel: Model<Schools>,
+    constructor(@InjectModel("puzzle-heroes") private readonly puzzleHeroesModel: Model<PuzzleHeroes>,
+                @InjectModel("questions") private readonly questionsModel: Model<Questions>,
+                @InjectModel("attendees") private readonly attendeesModel: Model<Attendees>,
+                @InjectModel("teams") private readonly teamsModel: Model<Teams>,
+                @InjectModel("schools") private readonly schoolsModel: Model<Schools>,
                 private questionsService: QuestionsService,
                 private puzzleHeroesGateway: PuzzleHeroesGateway,
                 private redisService: RedisService) {
@@ -58,33 +58,33 @@ export class PuzzleHeroesService extends BaseService<PuzzleHeroes, PuzzleHeroes>
         }).exec();
 
         if (!puzzleHero) {
-            throw new NotFoundException('No puzzle hero found');
+            throw new NotFoundException("No puzzle hero found");
         }
 
-        await this.puzzleHeroesModel.update({_id: puzzleHero._id}, dto).exec();
+        await this.puzzleHeroesModel.update({ _id: puzzleHero._id }, dto).exec();
     }
 
     public async getByEvent(eventId: string, user: UserModel, type: string): Promise<PuzzleHeroes> {
         const puzzleHero = await this.puzzleHeroesModel.findOne({
             event: eventId
         }).populate({
-            path: 'tracks.puzzles.question',
-            model: 'questions'
+            path: "tracks.puzzles.question",
+            model: "questions"
         }).populate({
-            path: 'answers.teamId',
-            model: 'teams'
+            path: "answers.teamId",
+            model: "teams"
         }).lean().exec();
         if (!puzzleHero) {
-            throw new NotFoundException('No puzzle hero found');
+            throw new NotFoundException("No puzzle hero found");
         }
 
         switch (user.role) {
-            case 'captain':
-            case 'attendee':
-            case 'godparent':
+            case "captain":
+            case "attendee":
+            case "godparent":
                 return this.getPuzzleHeroForAttendee(eventId, user, type, puzzleHero);
-            case 'admin':
-            case 'super-admin':
+            case "admin":
+            case "super-admin":
                 return this.formatPuzzleHeroForAdmin(puzzleHero);
         }
     }
@@ -131,11 +131,11 @@ export class PuzzleHeroesService extends BaseService<PuzzleHeroes, PuzzleHeroes>
         const puzzleHero = await this.puzzleHeroesModel.findOne({
             event: eventId
         }).populate({
-            path: 'tracks.puzzles.question',
-            model: 'questions'
+            path: "tracks.puzzles.question",
+            model: "questions"
         }).exec();
         if (!puzzleHero) {
-            throw new NotFoundException('No puzzle hero found');
+            throw new NotFoundException("No puzzle hero found");
         }
 
         return {
@@ -149,7 +149,7 @@ export class PuzzleHeroesService extends BaseService<PuzzleHeroes, PuzzleHeroes>
             event: eventId
         });
         if (!puzzleHero) {
-            throw new NotFoundException('No puzzle hero found');
+            throw new NotFoundException("No puzzle hero found");
         }
 
         puzzleHero.tracks.push(dto as Tracks);
@@ -163,19 +163,19 @@ export class PuzzleHeroesService extends BaseService<PuzzleHeroes, PuzzleHeroes>
             event: eventId
         });
         if (!puzzleHero) {
-            throw new NotFoundException('No puzzle hero found');
+            throw new NotFoundException("No puzzle hero found");
         }
 
         await this.puzzleHeroesModel.update({
                 _id: puzzleHero._id,
-                'tracks._id': id
+                "tracks._id": id
             },
             {
                 $set: {
-                    'tracks.$.label': dto.label,
-                    'tracks.$.type': dto.type,
-                    'tracks.$.endDate': dto.endDate,
-                    'tracks.$.releaseDate': dto.releaseDate
+                    "tracks.$.label": dto.label,
+                    "tracks.$.type": dto.type,
+                    "tracks.$.endDate": dto.endDate,
+                    "tracks.$.releaseDate": dto.releaseDate
                 }
             }
         ).exec();
@@ -186,18 +186,18 @@ export class PuzzleHeroesService extends BaseService<PuzzleHeroes, PuzzleHeroes>
             event: eventId
         });
         if (!puzzleHero) {
-            throw new NotFoundException('No puzzle hero found');
+            throw new NotFoundException("No puzzle hero found");
         }
 
         const track = puzzleHero.tracks.find(x => x._id.equals(trackId));
         if (!track) {
-            throw new NotFoundException('No track found');
+            throw new NotFoundException("No track found");
         }
 
         if (dto.dependsOn) {
             const puzzle = track.puzzles.find(x => x._id.equals(dto.dependsOn));
             if (!puzzle) {
-                throw new BadRequestException('Impossible deps');
+                throw new BadRequestException("Impossible deps");
             }
         }
 
@@ -228,17 +228,17 @@ export class PuzzleHeroesService extends BaseService<PuzzleHeroes, PuzzleHeroes>
             event: eventId
         });
         if (!puzzleHero) {
-            throw new NotFoundException('No puzzle hero found');
+            throw new NotFoundException("No puzzle hero found");
         }
 
         const track = puzzleHero.tracks.find(track => track._id.toHexString() === trackId);
         if (!track) {
-            throw new NotFoundException('No track found');
+            throw new NotFoundException("No track found");
         }
 
         const puzzle = track.puzzles.find(puzzle => puzzle._id.toHexString() === puzzleId);
         if (!puzzle) {
-            throw new NotFoundException('No puzzle found');
+            throw new NotFoundException("No puzzle found");
         }
 
         return await this.questionsService.updateQuestion((puzzle.question as mongoose.Types.ObjectId).toHexString(), dto);
@@ -261,10 +261,10 @@ export class PuzzleHeroesService extends BaseService<PuzzleHeroes, PuzzleHeroes>
             event: eventId
         });
         if (!puzzleHero) {
-            throw new NotFoundException('No puzzle hero found');
+            throw new NotFoundException("No puzzle hero found");
         }
 
-        if (!PuzzleHeroesUtils.isScoreboardAvailable(puzzleHero) && !user.role.endsWith('admin')) {
+        if (!PuzzleHeroesUtils.isScoreboardAvailable(puzzleHero) && !user.role.endsWith("admin")) {
             return;
         }
 
@@ -275,18 +275,18 @@ export class PuzzleHeroesService extends BaseService<PuzzleHeroes, PuzzleHeroes>
                     event: eventId,
                     _id: s.value
                 }).populate([{
-                    model: 'schools',
-                    path: 'school',
-                    select: ['name']
+                    model: "schools",
+                    path: "school",
+                    select: ["name"]
                 }, {
-                    model: 'sponsors',
-                    path: 'sponsor',
-                    select: ['name']
+                    model: "sponsors",
+                    path: "sponsor",
+                    select: ["name"]
                 }]).exec();
 
-                if (user.role === 'sponsor' && !team.sponsor) {
+                if (user.role === "sponsor" && !team.sponsor) {
                     return null;
-                } else if (!user.role.endsWith('admin') && !team.school) {
+                } else if (!user.role.endsWith("admin") && !team.school) {
                     return null;
                 }
 
@@ -306,15 +306,15 @@ export class PuzzleHeroesService extends BaseService<PuzzleHeroes, PuzzleHeroes>
         const puzzleHero = await this.puzzleHeroesModel.findOne({
             event: eventId
         }).populate({
-            path: 'answers.question',
-            model: 'questions'
+            path: "answers.question",
+            model: "questions"
         }).exec();
 
         if (!puzzleHero) {
-            throw new NotFoundException('No puzzle hero found');
+            throw new NotFoundException("No puzzle hero found");
         }
 
-        if (!PuzzleHeroesUtils.isScoreboardAvailable(puzzleHero) && user.role !== 'admin') {
+        if (!PuzzleHeroesUtils.isScoreboardAvailable(puzzleHero) && user.role !== "admin") {
             return;
         }
 
@@ -336,33 +336,33 @@ export class PuzzleHeroesService extends BaseService<PuzzleHeroes, PuzzleHeroes>
             event: eventId
         });
         if (!puzzleHero) {
-            throw new NotFoundException('No puzzle hero found');
+            throw new NotFoundException("No puzzle hero found");
         }
         if (!PuzzleHeroesUtils.isAvailable(puzzleHero)) {
-            throw new BadRequestException('Puzzle hero not available');
+            throw new BadRequestException("Puzzle hero not available");
         }
 
         const track = puzzleHero.tracks.find(track => track.puzzles.findIndex(puzzle => puzzle._id.toHexString() === puzzleId) >= 0);
         if (!track) {
-            throw new NotFoundException('No track found');
+            throw new NotFoundException("No track found");
         }
         if (!TracksUtils.isAvailable(track)) {
-            throw new BadRequestException('Track not available');
+            throw new BadRequestException("Track not available");
         }
 
         const puzzle = track.puzzles.find(puzzle => puzzle._id.toHexString() === puzzleId);
         if (!puzzle) {
-            throw new NotFoundException('No puzzle found');
+            throw new NotFoundException("No puzzle found");
         }
 
         const teamId = await this.getTeamId(email, eventId);
         if (puzzle.dependsOn
             && !puzzleHero.answers.some(x => (x.teamId as mongoose.Types.ObjectId).equals(teamId)
                 && (puzzle.dependsOn as mongoose.Types.ObjectId).equals(x.puzzle))) {
-            throw new BadRequestException('The puzzle hero is locked');
+            throw new BadRequestException("The puzzle hero is locked");
         }
         if (puzzleHero.answers.some(x => (x.teamId as mongoose.Types.ObjectId).equals(teamId) && puzzle._id.equals(x.puzzle))) {
-            throw new BadRequestException('Cannot answer puzzle twice');
+            throw new BadRequestException("Cannot answer puzzle twice");
         }
 
         const score = await this.questionsService.validateAnswer(answer, puzzle.question as string);
@@ -397,7 +397,7 @@ export class PuzzleHeroesService extends BaseService<PuzzleHeroes, PuzzleHeroes>
             event: eventId
         });
         if (!puzzleHero) {
-            throw new NotFoundException('No puzzle hero found');
+            throw new NotFoundException("No puzzle hero found");
         }
 
         const teams = await this.teamsModel.find({
@@ -477,11 +477,11 @@ export class PuzzleHeroesService extends BaseService<PuzzleHeroes, PuzzleHeroes>
     private async getTeamId(email: string, eventId: string): Promise<string> {
         const attendee = await this.attendeesModel.findOne({
             email
-        }).select('_id').exec();
+        }).select("_id").exec();
         const team = await this.teamsModel.findOne({
             attendees: attendee ? attendee._id : null,
             event: eventId
-        }).select('_id').exec();
+        }).select("_id").exec();
         return team ? team._id.toHexString() : null;
     }
 }

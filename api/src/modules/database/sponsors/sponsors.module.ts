@@ -1,13 +1,13 @@
-import { Module } from '@nestjs/common';
-import { MongooseModule } from '@nestjs/mongoose';
-import { SponsorsSchema } from './sponsors.model';
-import { SponsorsController } from './sponsors.controller';
-import { SponsorsService } from './sponsors.service';
+import { Module } from "@nestjs/common";
+import { MongooseModule } from "@nestjs/mongoose";
+import { SponsorsController } from "./sponsors.controller";
+import { SponsorsSchema } from "./sponsors.model";
+import { SponsorsService } from "./sponsors.service";
 
 @Module({
     imports: [
         MongooseModule.forFeature([{
-            name: 'sponsors',
+            name: "sponsors",
             schema: SponsorsSchema
         }])
     ],

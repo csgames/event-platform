@@ -1,9 +1,9 @@
-import { Module } from '@nestjs/common';
-import { HttpModule } from '@nestjs/common/http';
+import { Module } from "@nestjs/common";
+import { HttpModule } from "@nestjs/common/http";
 import { MongooseModule } from "@nestjs/mongoose";
-import { QuestionsSchema } from './questions.model';
-import { QuestionsService } from './questions.service';
-import { StorageModule } from '@polyhx/nest-services';
+import { StorageModule } from "@polyhx/nest-services";
+import { QuestionsSchema } from "./questions.model";
+import { QuestionsService } from "./questions.service";
 
 @Module({
     imports: [
@@ -21,4 +21,5 @@ import { StorageModule } from '@polyhx/nest-services';
         QuestionsService
     ]
 })
-export class QuestionsModule { }
+export class QuestionsModule {
+}

@@ -1,10 +1,10 @@
-import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
-import { STSService } from '@polyhx/nest-services';
-import * as mongoose from 'mongoose';
-import { IRequest } from '../models/i-request';
-import { CacheService } from '../modules/cache/cache.service';
-import { AttendeesService } from '../modules/database/attendees/attendees.service';
-import { EventsService } from '../modules/database/events/events.service';
+import { CanActivate, ExecutionContext, Injectable } from "@nestjs/common";
+import { STSService } from "@polyhx/nest-services";
+import * as mongoose from "mongoose";
+import { IRequest } from "../models/i-request";
+import { CacheService } from "../modules/cache/cache.service";
+import { AttendeesService } from "../modules/database/attendees/attendees.service";
+import { EventsService } from "../modules/database/events/events.service";
 
 @Injectable()
 export class AttendeeGuard implements CanActivate {
@@ -15,14 +15,14 @@ export class AttendeeGuard implements CanActivate {
     public async canActivate(context: ExecutionContext): Promise<boolean> {
         const req = context.switchToHttp().getRequest<IRequest>();
 
-        const role = req.header('token-claim-role');
-        const email = req.header('token-claim-name');
-        const eventId = req.header('Event-Id');
+        const role = req.header("token-claim-role");
+        const email = req.header("token-claim-name");
+        const eventId = req.header("Event-Id");
         req.eventId = eventId;
 
         if (role === "super-admin") {
             req.role = role;
-            req.permissions = JSON.parse(req.header('token-claim-permissions'));
+            req.permissions = JSON.parse(req.header("token-claim-permissions"));
             return true;
         }
 

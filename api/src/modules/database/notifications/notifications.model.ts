@@ -1,5 +1,5 @@
 import * as mongoose from "mongoose";
-import { Events } from '../events/events.model';
+import { Events } from "../events/events.model";
 
 export interface Notifications extends mongoose.Document {
     title: string;

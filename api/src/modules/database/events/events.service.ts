@@ -1,28 +1,28 @@
-import { Injectable } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
-import { StorageService } from '@polyhx/nest-services';
-import * as AdmZip from 'adm-zip';
-import * as mongoose from 'mongoose';
-import { Model } from 'mongoose';
-import { isNullOrUndefined } from 'util';
-import { UserModel } from '../../../models/user.model';
-import { BaseService } from '../../../services/base.service';
-import { CreateActivityDto } from '../activities/activities.dto';
-import { Activities } from '../activities/activities.model';
-import { ActivitiesService } from '../activities/activities.service';
-import { UpdateAttendeeDto } from '../attendees/attendees.dto';
-import { AttendeeNotifications, Attendees } from '../attendees/attendees.model';
-import { AttendeesService } from '../attendees/attendees.service';
-import { Competitions, CompetitionsUtils } from '../competitions/competitions.model';
-import { Notifications } from '../notifications/notifications.model';
-import { NotificationsService } from '../notifications/notifications.service';
-import { Schools } from '../schools/schools.model';
-import { Teams } from '../teams/teams.model';
-import { AddSponsorDto, CreateEventDto, SendNotificationDto } from './events.dto';
-import { AttendeeAlreadyRegisteredException, EventNotFoundException, UserNotAttendeeException } from './events.exception';
-import { DefaultGuide, Events, EventSponsorDetails } from './events.model';
-import { AddGuideSectionDto, GuideDto } from './guide.dto';
-import { PuzzleHeroesService } from '../puzzle-heroes/puzzle-heroes.service';
+import { Injectable } from "@nestjs/common";
+import { InjectModel } from "@nestjs/mongoose";
+import { StorageService } from "@polyhx/nest-services";
+import * as AdmZip from "adm-zip";
+import * as mongoose from "mongoose";
+import { Model } from "mongoose";
+import { isNullOrUndefined } from "util";
+import { UserModel } from "../../../models/user.model";
+import { BaseService } from "../../../services/base.service";
+import { CreateActivityDto } from "../activities/activities.dto";
+import { Activities } from "../activities/activities.model";
+import { ActivitiesService } from "../activities/activities.service";
+import { UpdateAttendeeDto } from "../attendees/attendees.dto";
+import { AttendeeNotifications, Attendees } from "../attendees/attendees.model";
+import { AttendeesService } from "../attendees/attendees.service";
+import { Competitions, CompetitionsUtils } from "../competitions/competitions.model";
+import { Notifications } from "../notifications/notifications.model";
+import { NotificationsService } from "../notifications/notifications.service";
+import { PuzzleHeroesService } from "../puzzle-heroes/puzzle-heroes.service";
+import { Schools } from "../schools/schools.model";
+import { Teams } from "../teams/teams.model";
+import { AddSponsorDto, CreateEventDto, SendNotificationDto } from "./events.dto";
+import { AttendeeAlreadyRegisteredException, EventNotFoundException, UserNotAttendeeException } from "./events.exception";
+import { DefaultGuide, Events, EventSponsorDetails } from "./events.model";
+import { AddGuideSectionDto, GuideDto } from "./guide.dto";
 
 export interface EventScore {
     overall: TeamScore[];
@@ -45,9 +45,9 @@ export interface CompetitionScore {
 
 @Injectable()
 export class EventsService extends BaseService<Events, CreateEventDto> {
-    constructor(@InjectModel('events') private readonly eventsModel: Model<Events>,
-                @InjectModel('teams') private readonly teamsModel: Model<Teams>,
-                @InjectModel('competitions') private readonly competitionsModel: Model<Competitions>,
+    constructor(@InjectModel("events") private readonly eventsModel: Model<Events>,
+                @InjectModel("teams") private readonly teamsModel: Model<Teams>,
+                @InjectModel("competitions") private readonly competitionsModel: Model<Competitions>,
                 private readonly attendeeService: AttendeesService,
                 private readonly activitiesService: ActivitiesService,
                 private readonly storageService: StorageService,
@@ -72,12 +72,12 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
 
     public async getEventList(user: UserModel): Promise<Events[]> {
         let condition = {};
-        if (user.role !== 'super-admin') {
+        if (user.role !== "super-admin") {
             const attendee = await this.attendeeService.findOne({
                 email: user.username
             });
             condition = {
-                'attendees.attendee': attendee._id
+                "attendees.attendee": attendee._id
             };
         }
 
@@ -101,7 +101,7 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
 
     public async addAttendee(eventId: string, userIdOrAttendee: string | Attendees, role: string): Promise<Events> {
         let attendee: Attendees;
-        if (typeof userIdOrAttendee === 'string') {
+        if (typeof userIdOrAttendee === "string") {
             attendee = await this.attendeeService.findOne({
                 userId: userIdOrAttendee
             });
@@ -115,7 +115,7 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
 
         const attendeeAlreadyRegistered = (await this.eventsModel.countDocuments({
             _id: eventId,
-            'attendees.attendee': attendee._id
+            "attendees.attendee": attendee._id
         }).exec()) > 0;
 
         if (attendeeAlreadyRegistered) {
@@ -123,7 +123,7 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
         }
 
         let registered = false;
-        if (role === 'admin' || role === 'volunteer' || role === 'director' || role === 'sponsor') {
+        if (role === "admin" || role === "volunteer" || role === "director" || role === "sponsor") {
             registered = true;
         }
 
@@ -141,7 +141,7 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
     }
 
     public async hasAttendeeForUser(eventId: string, userId: string): Promise<boolean> {
-        const attendee = await this.attendeeService.findOne({userId});
+        const attendee = await this.attendeeService.findOne({ userId });
 
         if (!attendee) {
             throw new UserNotAttendeeException();
@@ -153,7 +153,7 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
     public async hasAttendee(eventId: string, attendeeId: string): Promise<boolean> {
         const occurrencesOfAttendee = await this.eventsModel.count({
             _id: eventId,
-            'attendees.attendee': attendeeId
+            "attendees.attendee": attendeeId
         }).exec();
 
         return occurrencesOfAttendee > 0;
@@ -182,7 +182,7 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
     public async getSponsors(eventId: string): Promise<{ [tier: string]: EventSponsorDetails[] }> {
         const event = await this.eventsModel.findOne({
             _id: eventId
-        }).select('sponsors').populate('sponsors.sponsor').exec();
+        }).select("sponsors").populate("sponsors.sponsor").exec();
         const sponsors = event.sponsors;
         const result: { [tier: string]: EventSponsorDetails[] } = {};
 
@@ -221,7 +221,7 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
             event: id,
             attendees: ids,
             data: {
-                type: 'event',
+                type: "event",
                 event: JSON.stringify({
                     _id: event._id,
                     name: event.name
@@ -243,9 +243,9 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
         const attendee = await this.attendeeService.findOne({
             email
         }, {
-            model: 'notifications',
-            path: 'notifications.notification',
-            select: '-tokens'
+            model: "notifications",
+            path: "notifications.notification",
+            select: "-tokens"
         });
 
         if (!attendee) {
@@ -287,9 +287,9 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
 
         await this.eventsModel.updateOne({
             _id: id,
-            'attendees.attendee': attendee._id
+            "attendees.attendee": attendee._id
         }, {
-            'attendees.$.registered': true
+            "attendees.$.registered": true
         }).exec();
 
         await this.attendeeService.updateAttendeeInfo({
@@ -311,14 +311,14 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
     }
 
     public async getCompetitions(eventId: string, user: UserModel): Promise<Competitions[]> {
-        let competitions = user.role.endsWith('admin') || user.role === 'director' ? await this.competitionsModel.find({
+        let competitions = user.role.endsWith("admin") || user.role === "director" ? await this.competitionsModel.find({
             event: eventId
         }).populate([{
-            path: 'activities',
-            model: 'activities'
+            path: "activities",
+            model: "activities"
         }, {
-            path: 'directors',
-            model: 'attendees',
+            path: "directors",
+            model: "attendees",
             select: {
                 notifications: false
             }
@@ -329,15 +329,15 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
             isLive: true,
             onDashboard: true
         }).populate({
-            path: 'activities',
-            model: 'activities'
+            path: "activities",
+            model: "activities"
         }).exec();
 
-        if (user.role.endsWith('admin')) {
+        if (user.role.endsWith("admin")) {
             return competitions;
         }
 
-        if (user.role === 'director') {
+        if (user.role === "director") {
             const director = await this.attendeeService.findOne({
                 email: user.username
             });
@@ -366,15 +366,15 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
             activities: true,
             members: true
         }).populate({
-            path: 'activities',
-            model: 'activities',
-            select: ['name', 'subscribers'],
+            path: "activities",
+            model: "activities",
+            select: ["name", "subscribers"],
             options: {
                 lean: true
             }
         }).lean().exec();
 
-        if (user.role.endsWith('admin')) {
+        if (user.role.endsWith("admin")) {
             return competitions;
         }
 
@@ -407,9 +407,9 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
     }
 
     public async getAttendeeCv(eventId: string): Promise<any> {
-        const attendees = await this.getAttendeesData(eventId, 'json', ['attendee', 'captain', 'godparent']);
+        const attendees = await this.getAttendeesData(eventId, "json", ["attendee", "captain", "godparent"]);
 
-        let files = await this.storageService.getDirectory('cv');
+        let files = await this.storageService.getDirectory("cv");
         files = files.filter(file => attendees.some(a => a.cv === file.name));
 
         const zip = new AdmZip();
@@ -429,19 +429,19 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
     public async getScore(eventId: string): Promise<EventScore> {
         const competitions = await this.competitionsModel.find({
             event: eventId
-        }).select(['name', 'weight', 'results'])
+        }).select(["name", "weight", "results"])
             .populate([{
-                path: 'results.teamId',
-                model: 'teams',
+                path: "results.teamId",
+                model: "teams",
                 lean: true,
                 populate: {
-                    path: 'school',
-                    model: 'schools',
+                    path: "school",
+                    model: "schools",
                     lean: true
                 }
             }, {
-                path: 'activities',
-                model: 'activities',
+                path: "activities",
+                model: "activities",
                 lean: true
             }]).lean().exec();
 
@@ -492,7 +492,7 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
         }
 
         await this.update({
-            _id: eventId,
+            _id: eventId
         }, {
             guide: dto
         } as any);
@@ -511,7 +511,7 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
 
         guide[dto.type] = DefaultGuide[dto.type];
         await this.update({
-            _id: eventId,
+            _id: eventId
         }, {
             guide
         } as any);
@@ -519,7 +519,7 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
 
     public async getScoreFiltered(eventId: string): Promise<EventScore> {
         let score = await this.getScore(eventId);
-        let teams = await this.teamsModel.find({event: eventId}).exec();
+        let teams = await this.teamsModel.find({ event: eventId }).exec();
 
         let teamsIdToRemove = teams.filter((team: Teams) => {
             return team.showOnScoreboard === false;
@@ -542,7 +542,7 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
             };
         });
 
-        return {overall: filteredOverallScores, competitions: filteredCompetitionsScores};
+        return { overall: filteredOverallScores, competitions: filteredCompetitionsScores };
     }
 
     private async getOverallScore(eventId: string, competitions: Competitions[]): Promise<TeamScore[]> {
@@ -551,10 +551,10 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
             school: {
                 $ne: null
             }
-        }).select(['_id', 'name', 'school'])
+        }).select(["_id", "name", "school"])
             .populate([{
-                path: 'school',
-                model: 'schools',
+                path: "school",
+                model: "schools",
                 lean: true
             }]).lean().exec();
 

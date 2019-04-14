@@ -1,9 +1,10 @@
-import { Model, Document, ModelPopulateOptions } from "mongoose";
 import { HttpException, HttpStatus } from "@nestjs/common";
 import { MongoError } from "mongodb";
+import { Document, Model, ModelPopulateOptions } from "mongoose";
 
 export class BaseService<T extends Document, Dto> {
-    constructor(private readonly model: Model<T>) { }
+    constructor(private readonly model: Model<T>) {
+    }
 
     async create(object: Partial<T>): Promise<T> {
         const instance = new this.model(<T>object);

@@ -1,11 +1,11 @@
-import { APP_GUARD } from '@nestjs/core';
-import { Module } from '@nestjs/common';
-import { JwtGuard, JwtModule } from 'nestjs-jwt2';
-import { CacheModule } from './cache/cache.module';
-import { DatabaseModule } from './database/database.module';
-import { InfoModule } from './info/info.module';
-import { RedisModule } from './redis/redis.module';
-import { AttendeeGuard } from '../guards/attendee.guard';
+import { Module } from "@nestjs/common";
+import { APP_GUARD } from "@nestjs/core";
+import { JwtGuard, JwtModule } from "nestjs-jwt2";
+import { AttendeeGuard } from "../guards/attendee.guard";
+import { CacheModule } from "./cache/cache.module";
+import { DatabaseModule } from "./database/database.module";
+import { InfoModule } from "./info/info.module";
+import { RedisModule } from "./redis/redis.module";
 
 @Module({
     imports: [
@@ -18,12 +18,13 @@ import { AttendeeGuard } from '../guards/attendee.guard';
     providers: [
         {
             provide: APP_GUARD,
-            useClass: JwtGuard,
+            useClass: JwtGuard
         },
         {
             provide: APP_GUARD,
-            useClass: AttendeeGuard,
+            useClass: AttendeeGuard
         }
     ]
 })
-export class ApplicationModule { }
+export class ApplicationModule {
+}

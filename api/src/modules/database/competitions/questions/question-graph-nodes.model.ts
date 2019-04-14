@@ -1,5 +1,5 @@
-import { Questions } from '../../questions/questions.model';
-import * as mongoose from 'mongoose';
+import * as mongoose from "mongoose";
+import { Questions } from "../../questions/questions.model";
 
 export interface QuestionGraphNodes extends mongoose.Document {
     _id: mongoose.Types.ObjectId;

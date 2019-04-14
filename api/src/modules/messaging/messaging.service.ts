@@ -1,6 +1,6 @@
-import { Injectable } from '@nestjs/common';
-import * as admin from 'firebase-admin';
-import { ConfigService } from '../configs/config.service';
+import { Injectable } from "@nestjs/common";
+import * as admin from "firebase-admin";
+import { ConfigService } from "../configs/config.service";
 
 @Injectable()
 export class MessagingService {
@@ -12,7 +12,7 @@ export class MessagingService {
     }
 
     public async send(message: admin.messaging.MessagingPayload, tokens: string[]):
-            Promise<admin.messaging.MessagingDevicesResponse> {
+        Promise<admin.messaging.MessagingDevicesResponse> {
         if (!message.data.click_action) {
             message.data.click_action = "FLUTTER_NOTIFICATION_CLICK";
         }

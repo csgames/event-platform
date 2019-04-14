@@ -1,37 +1,37 @@
-import { InjectModel } from '@nestjs/mongoose';
-import * as mongoose from 'mongoose';
-import { Model } from 'mongoose';
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { ArrayUtils } from '../../../utils/array.utils';
-import { Schools } from '../schools/schools.model';
-import { Teams } from '../teams/teams.model';
-import { Attendees } from './attendees.model';
-import { BaseService } from '../../../services/base.service';
-import { CreateAttendeeDto, UpdateAttendeeDto, UpdateNotificationDto } from './attendees.dto';
-import { StorageService } from '@polyhx/nest-services';
-import { EventAttendees, Events } from '../events/events.model';
-import { UserModel } from '../../../models/user.model';
+import { Injectable, NotFoundException } from "@nestjs/common";
+import { InjectModel } from "@nestjs/mongoose";
+import { StorageService } from "@polyhx/nest-services";
+import * as mongoose from "mongoose";
+import { Model } from "mongoose";
+import { UserModel } from "../../../models/user.model";
+import { BaseService } from "../../../services/base.service";
+import { ArrayUtils } from "../../../utils/array.utils";
+import { EventAttendees, Events } from "../events/events.model";
+import { Schools } from "../schools/schools.model";
+import { Teams } from "../teams/teams.model";
+import { CreateAttendeeDto, UpdateAttendeeDto, UpdateNotificationDto } from "./attendees.dto";
+import { Attendees } from "./attendees.model";
 
 export type AttendeeInfo = Attendees & { role: string; permissions: string[], registered: boolean };
 
 @Injectable()
 export class AttendeesService extends BaseService<Attendees, CreateAttendeeDto> {
-    private sheetHeaders = ['First Name', 'Last Name', 'Email', 'Team', 'School'];
+    private sheetHeaders = ["First Name", "Last Name", "Email", "Team", "School"];
 
-    constructor(@InjectModel('attendees') private readonly attendeesModel: Model<Attendees>,
-                @InjectModel('events') private readonly eventsModel: Model<Events>,
-                @InjectModel('teams') private readonly teamsModel: Model<Teams>,
+    constructor(@InjectModel("attendees") private readonly attendeesModel: Model<Attendees>,
+                @InjectModel("events") private readonly eventsModel: Model<Events>,
+                @InjectModel("teams") private readonly teamsModel: Model<Teams>,
                 private storageService: StorageService) {
         super(attendeesModel);
     }
 
     public async getAttendeeInfo(user: UserModel, eventId: string): Promise<AttendeeInfo> {
-        const attendee = await this.findOne({email: user.username});
+        const attendee = await this.findOne({ email: user.username });
         if (!attendee) {
             throw new NotFoundException();
         }
 
-        if (user.role === 'super-admin') {
+        if (user.role === "super-admin") {
             return {
                 ...attendee.toJSON(),
                 role: user.role,
@@ -71,7 +71,7 @@ export class AttendeesService extends BaseService<Attendees, CreateAttendeeDto> 
         });
 
         if (!attendee) {
-            throw new NotFoundException('Attendee not found');
+            throw new NotFoundException("Attendee not found");
         }
 
         if (attendee.messagingTokens.indexOf(token) >= 0) {
@@ -93,7 +93,7 @@ export class AttendeesService extends BaseService<Attendees, CreateAttendeeDto> 
         });
 
         if (!attendee) {
-            throw new NotFoundException('Attendee not found');
+            throw new NotFoundException("Attendee not found");
         }
 
         if (attendee.messagingTokens.indexOf(token) < 0) {
@@ -115,24 +115,24 @@ export class AttendeesService extends BaseService<Attendees, CreateAttendeeDto> 
         });
 
         if (!attendee) {
-            throw new NotFoundException('Attendee not found');
+            throw new NotFoundException("Attendee not found");
         }
 
         if (!attendee.notifications
             .find(x => (x.notification as mongoose.Types.ObjectId).toHexString() === dto.notification)) {
-            throw new NotFoundException('Notification not found');
+            throw new NotFoundException("Notification not found");
         }
 
         return this.attendeesModel.updateOne({
             email: email,
-            'notifications.notification': dto.notification
+            "notifications.notification": dto.notification
         }, {
-            'notifications.$.seen': dto.seen
+            "notifications.$.seen": dto.seen
         });
     }
 
     public async updateAttendeeInfo(conditionOrId: Object | string, dto: UpdateAttendeeDto, file: Express.Multer.File) {
-        if (typeof conditionOrId === 'string') {
+        if (typeof conditionOrId === "string") {
             conditionOrId = {
                 _id: conditionOrId
             };
@@ -142,7 +142,7 @@ export class AttendeesService extends BaseService<Attendees, CreateAttendeeDto> 
             if (attendee.cv) {
                 await this.storageService.delete(attendee.cv);
             }
-            dto.cv = await this.storageService.upload(file, 'cv');
+            dto.cv = await this.storageService.upload(file, "cv");
         } else if (!dto.cv) {
             if (attendee.cv) {
                 await this.storageService.delete(attendee.cv);
@@ -170,7 +170,7 @@ export class AttendeesService extends BaseService<Attendees, CreateAttendeeDto> 
             },
             event: eventId
         }).populate({
-            path: 'school'
+            path: "school"
         }).lean().exec() as Teams[];
 
         attendees = attendees.map(x => {
@@ -185,7 +185,7 @@ export class AttendeesService extends BaseService<Attendees, CreateAttendeeDto> 
                 school: team ? (team.school as Schools).name : null
             };
         });
-        if (!type || type === 'json') {
+        if (!type || type === "json") {
             return attendees;
         }
 
@@ -199,9 +199,9 @@ export class AttendeesService extends BaseService<Attendees, CreateAttendeeDto> 
             };
         });
 
-        if (type === 'xlsx') {
-            return ArrayUtils.arrayToXlsxBuffer(attendees, 'attendees', this.sheetHeaders);
-        } else if (type === 'csv') {
+        if (type === "xlsx") {
+            return ArrayUtils.arrayToXlsxBuffer(attendees, "attendees", this.sheetHeaders);
+        } else if (type === "csv") {
             return await ArrayUtils.arrayToCsvBuffer(attendees, this.sheetHeaders);
         } else {
             return attendees;

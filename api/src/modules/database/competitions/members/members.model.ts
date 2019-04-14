@@ -1,6 +1,6 @@
 import * as mongoose from "mongoose";
-import { Attendees } from '../../attendees/attendees.model';
-import { Teams } from '../../teams/teams.model';
+import { Attendees } from "../../attendees/attendees.model";
+import { Teams } from "../../teams/teams.model";
 
 export interface Members extends mongoose.Document {
     team: Teams | mongoose.Types.ObjectId | string;

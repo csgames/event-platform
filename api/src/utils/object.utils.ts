@@ -4,9 +4,9 @@ export namespace ObjectUtils {
             let newRealOPObject = {};
             for (let key in value) {
                 if (key in value) {
-                    if (value[key] === 'true') {
+                    if (value[key] === "true") {
                         newRealOPObject[key] = true;
-                    } else if (value[key] === 'false') {
+                    } else if (value[key] === "false") {
                         newRealOPObject[key] = false;
                     } else {
                         newRealOPObject[key] = value[key];

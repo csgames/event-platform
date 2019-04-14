@@ -1,38 +1,36 @@
-import { Module } from '@nestjs/common';
-import { MongooseModule } from '@nestjs/mongoose';
-import { PuzzleHeroesSchema } from './puzzle-heroes.model';
-import { PuzzleHeroesService } from './puzzle-heroes.service';
-import { PuzzleHeroesController } from './puzzle-heroes.controller';
-import { QuestionsSchema } from '../questions/questions.model';
-import { AttendeesSchema } from '../attendees/attendees.model';
-import { TeamsSchema } from '../teams/teams.model';
-import { RedisModule } from '../../redis/redis.module';
-import { SchoolsSchema } from '../schools/schools.model';
-import { PuzzleHeroesGateway } from './puzzle-heroes.gateway';
-import { QuestionsModule } from '../questions/questions.module';
-import { TracksAnswersSchema } from './tracks/tracks-answers.model';
-import { PuzzleGraphNodesSchema } from './puzzle-graph-nodes/puzzle-graph.nodes.model';
+import { Module } from "@nestjs/common";
+import { MongooseModule } from "@nestjs/mongoose";
+import { RedisModule } from "../../redis/redis.module";
+import { AttendeesSchema } from "../attendees/attendees.model";
+import { QuestionsSchema } from "../questions/questions.model";
+import { QuestionsModule } from "../questions/questions.module";
+import { SchoolsSchema } from "../schools/schools.model";
+import { TeamsSchema } from "../teams/teams.model";
+import { PuzzleHeroesController } from "./puzzle-heroes.controller";
+import { PuzzleHeroesGateway } from "./puzzle-heroes.gateway";
+import { PuzzleHeroesSchema } from "./puzzle-heroes.model";
+import { PuzzleHeroesService } from "./puzzle-heroes.service";
 
 @Module({
     imports: [
         MongooseModule.forFeature([{
-            name: 'puzzle-heroes',
+            name: "puzzle-heroes",
             schema: PuzzleHeroesSchema
         }]),
         MongooseModule.forFeature([{
-            name: 'questions',
+            name: "questions",
             schema: QuestionsSchema
         }]),
         MongooseModule.forFeature([{
-            name: 'attendees',
+            name: "attendees",
             schema: AttendeesSchema
         }]),
         MongooseModule.forFeature([{
-            name: 'teams',
+            name: "teams",
             schema: TeamsSchema
         }]),
         MongooseModule.forFeature([{
-            name: 'schools',
+            name: "schools",
             schema: SchoolsSchema
         }]),
         QuestionsModule,

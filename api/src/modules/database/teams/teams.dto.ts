@@ -1,36 +1,36 @@
 import { ApiModelProperty } from "@nestjs/swagger";
-import { IsMongoId, IsNotEmpty, IsString, MaxLength, IsNumber, ValidateIf, IsOptional, IsBoolean } from 'class-validator';
+import { IsBoolean, IsMongoId, IsNotEmpty, IsNumber, IsOptional, IsString, MaxLength, ValidateIf } from "class-validator";
 
 
 export class CreateTeamDto {
     @IsString()
     @IsNotEmpty()
-    @ApiModelProperty({required: true})
+    @ApiModelProperty({ required: true })
     name: string;
 
     @IsMongoId()
     @IsNotEmpty()
-    @ApiModelProperty({required: true})
+    @ApiModelProperty({ required: true })
     event: string;
 
     @IsMongoId()
     @IsNotEmpty()
     @IsString()
     @ValidateIf(x => !x.sponsor)
-    @ApiModelProperty({required: true})
+    @ApiModelProperty({ required: true })
     school: string;
 
     @IsMongoId()
     @IsNotEmpty()
     @IsString()
     @ValidateIf(x => !x.school)
-    @ApiModelProperty({required: true})
+    @ApiModelProperty({ required: true })
     sponsor: string;
 
     @IsMongoId()
     @IsNotEmpty()
     @IsString()
-    @ApiModelProperty({required: true})
+    @ApiModelProperty({ required: true })
     attendeeId: string;
 
     @IsNumber()
@@ -47,7 +47,7 @@ export class UpdateTeamDto {
     @IsNotEmpty()
     @IsString()
     @MaxLength(30)
-    @ApiModelProperty({required: true})
+    @ApiModelProperty({ required: true })
     name: string;
 
     @IsOptional()
@@ -61,7 +61,7 @@ export class UpdateTeamDto {
     @IsNotEmpty()
     @IsString()
     @ValidateIf(x => !x.sponsor)
-    @ApiModelProperty({required: true})
+    @ApiModelProperty({ required: true })
     school: string;
 
     @IsOptional()
@@ -69,6 +69,6 @@ export class UpdateTeamDto {
     @IsNotEmpty()
     @IsString()
     @ValidateIf(x => !x.school)
-    @ApiModelProperty({required: true})
+    @ApiModelProperty({ required: true })
     sponsor: string;
 }

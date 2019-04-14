@@ -1,6 +1,6 @@
-import { ArrayNotEmpty, IsArray, IsIn, IsNotEmpty, IsNumber, IsOptional, IsString, ValidateNested } from 'class-validator';
-import { Type } from 'class-transformer';
-import { EventGuideTypes } from './events.model';
+import { Type } from "class-transformer";
+import { ArrayNotEmpty, IsArray, IsIn, IsNotEmpty, IsNumber, IsOptional, IsString, ValidateNested } from "class-validator";
+import { EventGuideTypes } from "./events.model";
 
 export class GuideBringDto {
     @ArrayNotEmpty()

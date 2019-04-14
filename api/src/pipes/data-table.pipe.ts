@@ -1,8 +1,6 @@
-import { ArgumentMetadata, Injectable, PipeTransform } from '@nestjs/common';
-import {
-    DataTableColumnModel, DataTableModel, DataTableOrderModel, DataTableSearchModel
-} from '../models/data-table.model';
-import { QBRule, QueryBuilderModel } from '../models/query-builder.model';
+import { ArgumentMetadata, Injectable, PipeTransform } from "@nestjs/common";
+import { DataTableColumnModel, DataTableModel, DataTableOrderModel, DataTableSearchModel } from "../models/data-table.model";
+import { QBRule, QueryBuilderModel } from "../models/query-builder.model";
 
 @Injectable()
 export class DataTablePipe implements PipeTransform<any> {
@@ -34,16 +32,16 @@ export class DataTablePipe implements PipeTransform<any> {
         return {
             data: column.data,
             name: column.name,
-            orderable: <any>column.orderable === 'true',
+            orderable: <any>column.orderable === "true",
             search: this.transformSearch(column.search),
-            searchable: <any>column.searchable === 'true'
+            searchable: <any>column.searchable === "true"
         };
     }
 
     private transformSearch(search: DataTableSearchModel): DataTableSearchModel {
         return {
             value: search.value,
-            regex: <any>search.regex === 'true'
+            regex: <any>search.regex === "true"
         };
     }
 
@@ -66,8 +64,8 @@ export class DataTablePipe implements PipeTransform<any> {
 
     private transformRules(rules: QueryBuilderModel): QueryBuilderModel {
         return {
-            not: <any>rules.not === 'true',
-            valid: <any>rules.valid === 'true',
+            not: <any>rules.not === "true",
+            valid: <any>rules.valid === "true",
             condition: rules.condition,
             rules: this.transformQbRules(rules.rules)
         };
@@ -86,7 +84,7 @@ export class DataTablePipe implements PipeTransform<any> {
                 value: rule.value,
                 condition: rule.condition,
                 rules: rule.rules ? this.transformQbRules(rule.rules) : null,
-                not: <any>rule.not === 'true'
+                not: <any>rule.not === "true"
             });
         }
 

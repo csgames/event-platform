@@ -14,6 +14,7 @@ export enum ValidationTypes {
     Function = "function",
     None = "none"
 }
+
 export enum InputTypes {
     String = "string",
     Upload = "upload",

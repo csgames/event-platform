@@ -1,5 +1,6 @@
 export class CodeException {
-    constructor(public code: number) {}
+    constructor(public code: number) {
+    }
 }
 
 export class UnkownCodeException extends CodeException {

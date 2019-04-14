@@ -1,9 +1,10 @@
-import { ArgumentsHost, Catch, ExceptionFilter } from '@nestjs/common';
+import { ArgumentsHost, Catch, ExceptionFilter } from "@nestjs/common";
 import { CodeException } from "./code.exception";
 
 export interface ErrorStatus {
     message: string;
     statusCode: number;
+
     [key: string]: any;
 }
 

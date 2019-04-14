@@ -1,9 +1,9 @@
 import { Module } from "@nestjs/common";
 import { MongooseModule } from "@nestjs/mongoose";
-import { FlashOutSchema } from "./flash-out.model";
-import { FlashOutController } from "./flash-out.controller";
-import { FlashOutsService } from "./flash-out.service";
 import { AttendeesModule } from "../attendees/attendees.module";
+import { FlashOutController } from "./flash-out.controller";
+import { FlashOutSchema } from "./flash-out.model";
+import { FlashOutsService } from "./flash-out.service";
 
 @Module({
     imports: [
@@ -23,4 +23,5 @@ import { AttendeesModule } from "../attendees/attendees.module";
         FlashOutsService
     ]
 })
-export class FlashOutsModule { }
+export class FlashOutsModule {
+}

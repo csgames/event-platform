@@ -1,11 +1,12 @@
-import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
-import { AttendeesService } from './attendees.service';
-import { AttendeeFindErrorException, UserAlreadyAttendeeException } from './attendees.exception';
-import { IRequest } from '../../../models/i-request';
+import { CanActivate, ExecutionContext, Injectable } from "@nestjs/common";
+import { IRequest } from "../../../models/i-request";
+import { AttendeeFindErrorException, UserAlreadyAttendeeException } from "./attendees.exception";
+import { AttendeesService } from "./attendees.service";
 
 @Injectable()
 export class CreateAttendeeGuard implements CanActivate {
-    constructor(private readonly attendeeService: AttendeesService) { }
+    constructor(private readonly attendeeService: AttendeesService) {
+    }
 
     async canActivate(context: ExecutionContext): Promise<boolean> {
         const req = context.switchToHttp().getRequest<IRequest>();

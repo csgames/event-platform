@@ -1,26 +1,25 @@
-import { BadRequestException, Injectable, NotFoundException, UnauthorizedException, ForbiddenException } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
-import * as mongoose from 'mongoose';
-import { Model } from 'mongoose';
-import * as AdmZip from 'adm-zip';
-import { UserModel } from '../../../models/user.model';
-import { BaseService } from '../../../services/base.service';
-import { DateUtils } from '../../../utils/date.utils';
-import { Activities, ActivitiesUtils } from '../activities/activities.model';
-import { ActivitiesService } from '../activities/activities.service';
-import { Attendees } from '../attendees/attendees.model';
-import { EventsService } from '../events/events.service';
-import { UpdateQuestionDto } from '../questions/questions.dto';
-import { RegistrationsService } from '../registrations/registrations.service';
-import { Teams } from '../teams/teams.model';
-import { AuthCompetitionDto, CreateCompetitionDto, CreateCompetitionQuestionDto, CreateDirectorDto, UpdateCompetitionDto } from './competitions.dto';
-import { Competitions, CompetitionsUtils } from './competitions.model';
-import { QuestionAnswers } from './questions/question-answers.model';
-import { QuestionGraphNodes } from './questions/question-graph-nodes.model';
-import { QuestionAnswerDto } from '../questions/question-answer.dto';
-import { QuestionsService } from '../questions/questions.service';
-import { Questions } from '../questions/questions.model';
-import { QuestionsModule } from '../questions/questions.module';
+import { BadRequestException, ForbiddenException, Injectable, NotFoundException, UnauthorizedException } from "@nestjs/common";
+import { InjectModel } from "@nestjs/mongoose";
+import * as AdmZip from "adm-zip";
+import * as mongoose from "mongoose";
+import { Model } from "mongoose";
+import { UserModel } from "../../../models/user.model";
+import { BaseService } from "../../../services/base.service";
+import { DateUtils } from "../../../utils/date.utils";
+import { ActivitiesService } from "../activities/activities.service";
+import { Attendees } from "../attendees/attendees.model";
+import { EventsService } from "../events/events.service";
+import { QuestionAnswerDto } from "../questions/question-answer.dto";
+import { UpdateQuestionDto } from "../questions/questions.dto";
+import { Questions } from "../questions/questions.model";
+import { QuestionsService } from "../questions/questions.service";
+import { RegistrationsService } from "../registrations/registrations.service";
+import { Teams } from "../teams/teams.model";
+import {
+    AuthCompetitionDto, CreateCompetitionDto, CreateCompetitionQuestionDto, CreateDirectorDto, UpdateCompetitionDto
+} from "./competitions.dto";
+import { Competitions } from "./competitions.model";
+import { QuestionGraphNodes } from "./questions/question-graph-nodes.model";
 
 export interface QuestionInfo extends Questions {
     isLocked: boolean;
@@ -35,10 +34,10 @@ export interface TeamCompetitionResult {
 
 @Injectable()
 export class CompetitionsService extends BaseService<Competitions, Competitions> {
-    constructor(@InjectModel('competitions') private readonly competitionsModel: Model<Competitions>,
-                @InjectModel('attendees') private readonly attendeesModel: Model<Attendees>,
-                @InjectModel('teams') private readonly teamsModel: Model<Teams>,
-                @InjectModel('questions') private readonly questionsModel: Model<Questions>,
+    constructor(@InjectModel("competitions") private readonly competitionsModel: Model<Competitions>,
+                @InjectModel("attendees") private readonly attendeesModel: Model<Attendees>,
+                @InjectModel("teams") private readonly teamsModel: Model<Teams>,
+                @InjectModel("questions") private readonly questionsModel: Model<Questions>,
                 private readonly activityService: ActivitiesService,
                 private readonly registrationService: RegistrationsService,
                 private readonly eventsService: EventsService,
@@ -49,7 +48,7 @@ export class CompetitionsService extends BaseService<Competitions, Competitions>
     public async updateCompetition(eventId: string, competitionId: string, dto: UpdateCompetitionDto) {
         const event = await this.eventsService.findById(eventId);
         if (event.competitionResultsLocked) {
-            throw new BadRequestException('Competition results are close');
+            throw new BadRequestException("Competition results are close");
         }
 
         await this.competitionsModel.update({
@@ -72,19 +71,19 @@ export class CompetitionsService extends BaseService<Competitions, Competitions>
             _id: competitionId,
             event: eventId
         }).populate({
-            path: 'activities',
-            model: 'activities'
+            path: "activities",
+            model: "activities"
         }).exec();
         if (!competition) {
             throw new NotFoundException();
         }
 
         if (!competition.onDashboard) {
-            throw new BadRequestException('Competition not available');
+            throw new BadRequestException("Competition not available");
         }
 
         if (!competition.isLive) {
-            throw new BadRequestException('Competition must me live');
+            throw new BadRequestException("Competition must me live");
         }
 
         if (competition.password !== dto.password) {
@@ -93,10 +92,10 @@ export class CompetitionsService extends BaseService<Competitions, Competitions>
 
         const attendee = await this.attendeesModel.findOne({
             email: user.username
-        }).select('_id').exec();
+        }).select("_id").exec();
         const teamId = await this.getTeamId(attendee, eventId);
         if (!teamId) {
-            throw new BadRequestException('Attendee must be in a team');
+            throw new BadRequestException("Attendee must be in a team");
         }
 
         const member = competition.members.find(x => (x.team as mongoose.Types.ObjectId).equals(teamId));
@@ -113,7 +112,7 @@ export class CompetitionsService extends BaseService<Competitions, Competitions>
             }).exec();
         }
         if (member.attendees.length >= competition.maxMembers) {
-            throw new BadRequestException('Cannot add more member for competition');
+            throw new BadRequestException("Cannot add more member for competition");
         }
 
         if (member.attendees.findIndex(x => (x as mongoose.Types.ObjectId).equals(attendee._id)) >= 0) {
@@ -121,10 +120,10 @@ export class CompetitionsService extends BaseService<Competitions, Competitions>
         }
         await this.competitionsModel.updateOne({
             _id: competitionId,
-            'members.team': teamId
+            "members.team": teamId
         }, {
             $push: {
-                'members.$.attendees': attendee._id
+                "members.$.attendees": attendee._id
             }
         }).exec();
     }
@@ -141,7 +140,7 @@ export class CompetitionsService extends BaseService<Competitions, Competitions>
         if (dto.dependsOn) {
             const node = competition.questions.find(x => x._id.equals(dto.dependsOn));
             if (!node) {
-                throw new BadRequestException('Impossible deps');
+                throw new BadRequestException("Impossible deps");
             }
         }
 
@@ -176,16 +175,16 @@ export class CompetitionsService extends BaseService<Competitions, Competitions>
             event: eventId
         }).populate([
             {
-                path: 'activities',
-                model: 'activities',
+                path: "activities",
+                model: "activities",
                 select: {
                     attendees: false,
                     subscribers: false
                 }
             },
             {
-                path: 'questions.question',
-                model: 'questions'
+                path: "questions.question",
+                model: "questions"
             }
         ]).exec();
         if (!competition) {
@@ -193,17 +192,17 @@ export class CompetitionsService extends BaseService<Competitions, Competitions>
         }
 
         if (!competition.isLive) {
-            throw new BadRequestException('Competition not live');
+            throw new BadRequestException("Competition not live");
         }
 
         const question = competition.questions.find(x => (x.question as Questions)._id.equals(questionId));
         if (!question) {
-            throw new BadRequestException('No question found');
+            throw new BadRequestException("No question found");
         }
 
         const teamId = await this.getTeamId(user.username, eventId);
         if (this.isQuestionLocked(competition, question, teamId)) {
-            throw new BadRequestException('Question locked');
+            throw new BadRequestException("Question locked");
         }
 
         await this.questionService.validateAnswer({
@@ -227,7 +226,7 @@ export class CompetitionsService extends BaseService<Competitions, Competitions>
         } else {
             await this.competitionsModel.updateOne({
                 _id: competitionId,
-                event: eventId,
+                event: eventId
             }, {
                 $push: {
                     answers: {
@@ -246,8 +245,8 @@ export class CompetitionsService extends BaseService<Competitions, Competitions>
             event: eventId
         }).populate([
             {
-                path: 'questions.question',
-                model: 'questions'
+                path: "questions.question",
+                model: "questions"
             }
         ]).exec();
         if (!competition) {
@@ -256,7 +255,7 @@ export class CompetitionsService extends BaseService<Competitions, Competitions>
 
         const question = competition.questions.find(x => (x.question as Questions)._id.equals(questionId));
         if (!question) {
-            throw new BadRequestException('No question found');
+            throw new BadRequestException("No question found");
         }
 
         await this.questionsModel.updateOne({
@@ -275,7 +274,7 @@ export class CompetitionsService extends BaseService<Competitions, Competitions>
 
         const question = competition.questions.find(x => x._id.equals(questionId));
         if (!question) {
-            throw new BadRequestException('No question found');
+            throw new BadRequestException("No question found");
         }
 
         await this.questionsModel.deleteOne({
@@ -301,20 +300,20 @@ export class CompetitionsService extends BaseService<Competitions, Competitions>
 
         const question = competition.questions.find(x => x._id.equals(questionId));
         if (!question) {
-            throw new BadRequestException('No question found');
+            throw new BadRequestException("No question found");
         }
 
         let files = await this.questionService.getUplodedFile(question.question as string);
         const teams = await this.teamsModel.find({
             event: eventId
-        }).select('name').exec();
+        }).select("name").exec();
         const zip = new AdmZip();
         for (const key in files) {
             if (!files.hasOwnProperty(key)) {
                 continue;
             }
 
-            const teamId = key.split('-');
+            const teamId = key.split("-");
             if (teamId.length < 2) {
                 continue;
             }
@@ -342,7 +341,7 @@ export class CompetitionsService extends BaseService<Competitions, Competitions>
 
         const attendee = await this.registrationService.registerRole({
             ...dto,
-            role: 'director'
+            role: "director"
         }, eventId);
 
         competition.directors.push(attendee._id);
@@ -364,20 +363,20 @@ export class CompetitionsService extends BaseService<Competitions, Competitions>
             _id: attendeeId
         });
         if (!attendee) {
-            throw new NotFoundException('No attendee found');
+            throw new NotFoundException("No attendee found");
         }
 
         const role = await this.eventsService.getAttendeeRole(eventId, attendeeId);
-        if (role && role !== 'director') {
-            throw new BadRequestException('Attendee must be a director');
+        if (role && role !== "director") {
+            throw new BadRequestException("Attendee must be a director");
         }
 
         if (!role) {
-            await this.eventsService.addAttendee(eventId, attendee, 'director');
+            await this.eventsService.addAttendee(eventId, attendee, "director");
         }
 
         if (competition.directors.findIndex(x => (x as mongoose.Types.ObjectId).equals(attendeeId)) >= 0) {
-            throw new BadRequestException('Attendee is already a director for this competition');
+            throw new BadRequestException("Attendee is already a director for this competition");
         }
 
         await this.competitionsModel.updateOne({
@@ -402,11 +401,11 @@ export class CompetitionsService extends BaseService<Competitions, Competitions>
             _id: attendeeId
         });
         if (!attendee) {
-            throw new NotFoundException('No attendee found');
+            throw new NotFoundException("No attendee found");
         }
 
         if (competition.directors.findIndex(x => (x as mongoose.Types.ObjectId).equals(attendeeId)) < 0) {
-            throw new BadRequestException('Attendee isn\'t a director for this competition');
+            throw new BadRequestException("Attendee isn't a director for this competition");
         }
 
         await this.competitionsModel.updateOne({
@@ -431,7 +430,7 @@ export class CompetitionsService extends BaseService<Competitions, Competitions>
             email: user.username
         });
         if (!attendee) {
-            throw new NotFoundException('No attendee found');
+            throw new NotFoundException("No attendee found");
         }
 
         for (const activity of competition.activities) {
@@ -452,7 +451,7 @@ export class CompetitionsService extends BaseService<Competitions, Competitions>
             email: user.username
         });
         if (!attendee) {
-            throw new NotFoundException('No attendee found');
+            throw new NotFoundException("No attendee found");
         }
 
         for (const activity of competition.activities) {
@@ -466,20 +465,20 @@ export class CompetitionsService extends BaseService<Competitions, Competitions>
             event: eventId
         }).populate([
             {
-                path: 'activities',
-                model: 'activities',
+                path: "activities",
+                model: "activities",
                 select: {
                     attendees: false,
                     subscribers: false
                 }
             },
             {
-                path: 'questions.question',
-                model: 'questions'
+                path: "questions.question",
+                model: "questions"
             },
             {
-                path: 'directors',
-                model: 'attendees',
+                path: "directors",
+                model: "attendees",
                 select: {
                     notifications: false
                 }
@@ -490,12 +489,12 @@ export class CompetitionsService extends BaseService<Competitions, Competitions>
             throw new NotFoundException();
         }
 
-        if (user.role.endsWith('admin') || user.role === 'director') {
+        if (user.role.endsWith("admin") || user.role === "director") {
             return competition;
         }
 
         if (!competition.isLive) {
-            throw new BadRequestException('Competition is not live.');
+            throw new BadRequestException("Competition is not live.");
         }
 
         const attendee = await this.attendeesModel.findOne({
@@ -523,7 +522,7 @@ export class CompetitionsService extends BaseService<Competitions, Competitions>
         const competition = await this.competitionsModel.findOne({
             _id: competitionId,
             event: eventId
-        }).select(['questions', 'answers']).exec();
+        }).select(["questions", "answers"]).exec();
         if (!competition) {
             throw new NotFoundException();
         }
@@ -531,7 +530,7 @@ export class CompetitionsService extends BaseService<Competitions, Competitions>
         const result: TeamCompetitionResult[] = [];
         const teams = await this.teamsModel.find({
             event: eventId
-        }).select(['_id', 'name']).exec();
+        }).select(["_id", "name"]).exec();
         for (const team of teams) {
             result.push({
                 _id: team._id,
@@ -586,15 +585,15 @@ export class CompetitionsService extends BaseService<Competitions, Competitions>
     }
 
     private async getTeamId(attendee: Attendees | string, eventId: string): Promise<string> {
-        if (typeof attendee === 'string') {
+        if (typeof attendee === "string") {
             attendee = await this.attendeesModel.findOne({
                 email: attendee
-            }).select('_id').exec();
+            }).select("_id").exec();
         }
         const team = await this.teamsModel.findOne({
             attendees: attendee ? attendee._id : null,
             event: eventId
-        }).select('_id').exec();
+        }).select("_id").exec();
         return team ? team._id.toHexString() : null;
     }
 
@@ -603,16 +602,16 @@ export class CompetitionsService extends BaseService<Competitions, Competitions>
             _id: attendeeId
         });
         if (!attendee) {
-            throw new NotFoundException('No attendee found');
+            throw new NotFoundException("No attendee found");
         }
 
         const role = await this.eventsService.getAttendeeRole(eventId, attendeeId);
-        if (role && role !== 'director') {
-            throw new BadRequestException('Attendee must be a director');
+        if (role && role !== "director") {
+            throw new BadRequestException("Attendee must be a director");
         }
 
         if (!role) {
-            await this.eventsService.addAttendee(eventId, attendee, 'director');
+            await this.eventsService.addAttendee(eventId, attendee, "director");
         }
     }
 }

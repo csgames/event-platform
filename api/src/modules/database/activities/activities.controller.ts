@@ -1,16 +1,16 @@
-import { Body, Controller, Delete, Get, HttpException, HttpStatus, Param, Post, Put, UseGuards } from '@nestjs/common';
-import { ApiUseTags } from '@nestjs/swagger';
-import { STSService, UserModel } from '@polyhx/nest-services';
-import { Permissions } from '../../../decorators/permission.decorator';
-import { PermissionsGuard } from '../../../guards/permission.guard';
-import { ValidationPipe } from '../../../pipes/validation.pipe';
-import { Attendees } from '../attendees/attendees.model';
-import { AttendeesService } from '../attendees/attendees.service';
-import { CreateActivityDto, SendNotificationDto } from './activities.dto';
-import { Activities, ActivityTypes } from './activities.model';
-import { ActivitiesService } from './activities.service';
+import { Body, Controller, Delete, Get, HttpException, HttpStatus, Param, Post, Put, UseGuards } from "@nestjs/common";
+import { ApiUseTags } from "@nestjs/swagger";
+import { STSService } from "@polyhx/nest-services";
+import { Permissions } from "../../../decorators/permission.decorator";
+import { PermissionsGuard } from "../../../guards/permission.guard";
+import { ValidationPipe } from "../../../pipes/validation.pipe";
+import { Attendees } from "../attendees/attendees.model";
+import { AttendeesService } from "../attendees/attendees.service";
+import { CreateActivityDto, SendNotificationDto } from "./activities.dto";
+import { Activities, ActivityTypes } from "./activities.model";
+import { ActivitiesService } from "./activities.service";
 
-@ApiUseTags('Activity')
+@ApiUseTags("Activity")
 @Controller("activity")
 @UseGuards(PermissionsGuard)
 export class ActivitiesController {
@@ -20,21 +20,21 @@ export class ActivitiesController {
     }
 
     @Post()
-    @Permissions('csgames-api:create:activity')
+    @Permissions("csgames-api:create:activity")
     public async create(@Body(new ValidationPipe()) createActivityDto: CreateActivityDto) {
         await this.activitiesService.create(createActivityDto);
     }
 
     @Get()
-    @Permissions('csgames-api:get-all:activity')
+    @Permissions("csgames-api:get-all:activity")
     public async getAll(): Promise<Activities[]> {
         return await this.activitiesService.findAll();
     }
 
-    @Put(':activity_id/:attendee_id')
-    @Permissions('csgames-api:add-attendee:activity')
-    public async addAttendee(@Param('activity_id') activityId: string,
-                             @Param('attendee_id') attendeeId: string): Promise<Activities> {
+    @Put(":activity_id/:attendee_id")
+    @Permissions("csgames-api:add-attendee:activity")
+    public async addAttendee(@Param("activity_id") activityId: string,
+                             @Param("attendee_id") attendeeId: string): Promise<Activities> {
         const activity: Activities = await this.activitiesService.findById(activityId);
 
         if (!activity) {
@@ -58,33 +58,33 @@ export class ActivitiesController {
         return activity;
     }
 
-    @Get('type')
-    @Permissions('csgames-api:get:activity')
+    @Get("type")
+    @Permissions("csgames-api:get:activity")
     public async getActivityTypes(): Promise<string[]> {
         return ActivityTypes;
     }
 
     @Get(":activity_id/:attendee_id/subscription")
     @Permissions("csgames-api:get:activity")
-    public async getAttendeeSubscription(@Param('activity_id') activityId: string, @Param('attendee_id') attendeeId: string) {
+    public async getAttendeeSubscription(@Param("activity_id") activityId: string, @Param("attendee_id") attendeeId: string) {
         await this.activitiesService.getAttendeeSubscription(activityId, attendeeId);
     }
 
     @Get(":activity_id")
     @Permissions("csgames-api:get:activity")
-    public async getActivity(@Param('activity_id') activityId: string) {
+    public async getActivity(@Param("activity_id") activityId: string) {
         return await this.activitiesService.findById(activityId);
     }
 
     @Put(":activity_id/:attendee_id/subscription")
     @Permissions("csgames-api:get:activity")
-    public async subscribeAttendee(@Param('activity_id') activityId: string, @Param('attendee_id') attendeeId: string) {
+    public async subscribeAttendee(@Param("activity_id") activityId: string, @Param("attendee_id") attendeeId: string) {
         await this.activitiesService.subscribeAttendee(activityId, attendeeId);
     }
 
     @Delete(":activity_id/:attendee_id/subscription")
     @Permissions("csgames-api:get:activity")
-    public async unsubscribeAttendee(@Param('activity_id') activityId: string, @Param('attendee_id') attendeeId: string) {
+    public async unsubscribeAttendee(@Param("activity_id") activityId: string, @Param("attendee_id") attendeeId: string) {
         await this.activitiesService.unsubscribeAttendee(activityId, attendeeId);
     }
 

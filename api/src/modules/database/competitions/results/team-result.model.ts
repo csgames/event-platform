@@ -1,5 +1,5 @@
 import * as mongoose from "mongoose";
-import { Teams } from '../../teams/teams.model';
+import { Teams } from "../../teams/teams.model";
 
 export interface TeamResults extends mongoose.Document {
     score: number;

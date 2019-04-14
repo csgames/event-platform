@@ -1,21 +1,22 @@
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
-import { Model, Types } from 'mongoose';
-import { BaseService } from '../../../services/base.service';
-import { Attendees } from '../attendees/attendees.model';
-import { Events } from '../events/events.model';
-import { CreateTeamDto, UpdateTeamDto } from './teams.dto';
-import { InvalidNameException, TeamAlreadyCreatedException } from './teams.exception';
-import { Teams } from './teams.model';
-import { EventNotFoundException } from '../events/events.exception';
-import { UserModel } from '../../../models/user.model';
-import { DateUtils } from '../../../utils/date.utils';
+import { BadRequestException, Injectable, NotFoundException } from "@nestjs/common";
+import { InjectModel } from "@nestjs/mongoose";
+import { Model, Types } from "mongoose";
+import { UserModel } from "../../../models/user.model";
+import { BaseService } from "../../../services/base.service";
+import { DateUtils } from "../../../utils/date.utils";
+import { Attendees } from "../attendees/attendees.model";
+import { EventNotFoundException } from "../events/events.exception";
+import { Events } from "../events/events.model";
+import { CreateTeamDto, UpdateTeamDto } from "./teams.dto";
+import { InvalidNameException, TeamAlreadyCreatedException } from "./teams.exception";
+import { Teams } from "./teams.model";
+
 type ObjectId = Types.ObjectId;
 
 @Injectable()
 export class TeamsService extends BaseService<Teams, CreateTeamDto> {
-    constructor(@InjectModel('teams') private readonly teamsModel: Model<Teams>,
-                @InjectModel('events') private readonly eventsModel: Model<Events>) {
+    constructor(@InjectModel("teams") private readonly teamsModel: Model<Teams>,
+                @InjectModel("events") private readonly eventsModel: Model<Events>) {
         super(teamsModel);
     }
 
@@ -61,14 +62,14 @@ export class TeamsService extends BaseService<Teams, CreateTeamDto> {
         const teams = await this.teamsModel.find({
             event: eventId
         }).lean().populate([{
-            model: 'attendees',
-            path: 'attendees'
+            model: "attendees",
+            path: "attendees"
         }, {
-            model: 'schools',
-            path: 'school'
+            model: "schools",
+            path: "school"
         }, {
-            model: 'sponsors',
-            path: 'sponsor'
+            model: "sponsors",
+            path: "sponsor"
         }]).exec() as Teams[];
 
         for (let team of teams) {
@@ -85,11 +86,11 @@ export class TeamsService extends BaseService<Teams, CreateTeamDto> {
         const team = await this.findOneLean({
             _id: id
         }, [{
-            path: 'attendees',
-            model: 'attendees'
+            path: "attendees",
+            model: "attendees"
         }, {
-            path: 'school',
-            model: 'schools'
+            path: "school",
+            model: "schools"
         }]);
 
         return this.getTeamAttendeeInfo(team, event);
@@ -100,22 +101,22 @@ export class TeamsService extends BaseService<Teams, CreateTeamDto> {
             attendees: attendeeId,
             event: eventId
         }, [{
-            path: 'attendees',
-            model: 'attendees',
-            select: ['email', 'firstName', 'github', 'lastName', 'linkedIn', 'website']
+            path: "attendees",
+            model: "attendees",
+            select: ["email", "firstName", "github", "lastName", "linkedIn", "website"]
         }, {
-            path: 'school',
-            model: 'schools'
+            path: "school",
+            model: "schools"
         }]);
         if (!team) {
-            throw new NotFoundException('No team found');
+            throw new NotFoundException("No team found");
         }
 
         const event = await this.eventsModel.findOne({
             _id: eventId
         }).exec();
         if (!event) {
-            throw new NotFoundException('No event found');
+            throw new NotFoundException("No event found");
         }
 
         return this.getTeamAttendeeInfo(team, event);
@@ -150,7 +151,7 @@ export class TeamsService extends BaseService<Teams, CreateTeamDto> {
     }
 
     private async checkForLocked(eventId: string, user: UserModel): Promise<void> {
-        if (user.role.endsWith('admin')) {
+        if (user.role.endsWith("admin")) {
             return;
         }
         const event = await this.eventsModel.findOne({

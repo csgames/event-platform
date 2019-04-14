@@ -1,12 +1,12 @@
-import { SubscribeMessage, WebSocketGateway, WebSocketServer } from '@nestjs/websockets';
-import { InjectModel } from '@nestjs/mongoose';
-import { Client, Server } from 'socket.io';
-import { StorageService } from '@polyhx/nest-services';
-import * as AdmZip from 'adm-zip';
-import { Model, Types } from 'mongoose';
-import { Teams } from '../teams/teams.model';
-import { Competitions } from './competitions.model';
-import { Questions } from '../questions/questions.model';
+import { InjectModel } from "@nestjs/mongoose";
+import { SubscribeMessage, WebSocketGateway, WebSocketServer } from "@nestjs/websockets";
+import { StorageService } from "@polyhx/nest-services";
+import * as AdmZip from "adm-zip";
+import { Model, Types } from "mongoose";
+import { Client, Server } from "socket.io";
+import { Questions } from "../questions/questions.model";
+import { Teams } from "../teams/teams.model";
+import { Competitions } from "./competitions.model";
 
 export enum CompetitionsMessageTypes {
     DownloadStart = "download-start",
@@ -23,13 +23,14 @@ export interface DownloadQuestion {
 }
 
 @WebSocketGateway(8081, {
-    namespace: 'competition'
+    namespace: "competition"
 })
 export class CompetitionsGateway {
     constructor(private storageService: StorageService,
-                @InjectModel('competitions') private readonly competitionsModel: Model<Competitions>,
-                @InjectModel('questions') private readonly questionsModel: Model<Questions>,
-                @InjectModel('teams') private readonly teamsModel: Model<Teams>) {}
+                @InjectModel("competitions") private readonly competitionsModel: Model<Competitions>,
+                @InjectModel("questions") private readonly questionsModel: Model<Questions>,
+                @InjectModel("teams") private readonly teamsModel: Model<Teams>) {
+    }
 
     @WebSocketServer()
     private server: Server;
@@ -38,7 +39,7 @@ export class CompetitionsGateway {
     public async downloadQuestion(client: Client, payload: DownloadQuestion) {
         const teams = await this.teamsModel.find({
             event: payload.eventId
-        }).select('name').exec();
+        }).select("name").exec();
         if (!teams.length) {
             this.sendToClient(client.id, CompetitionsMessageTypes.DownloadEnd, {});
             return;
@@ -79,7 +80,7 @@ export class CompetitionsGateway {
         };
 
         for (const file of files) {
-            const teamId = file.name.split('-');
+            const teamId = file.name.split("-");
             if (teamId.length < 2) {
                 sendUpdate();
                 continue;
@@ -105,7 +106,7 @@ export class CompetitionsGateway {
         const res = await this.storageService.upload({
             buffer,
             size: buffer.length,
-            originalname: 'result.zip'
+            originalname: "result.zip"
         } as Express.Multer.File, `questions/${questionId}/result`);
         this.sendToClient(client.id, CompetitionsMessageTypes.DownloadEnd, {
             url: await this.storageService.getDownloadUrl(res)

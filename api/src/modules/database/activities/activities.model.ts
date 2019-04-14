@@ -1,11 +1,11 @@
-import * as mongoose from 'mongoose';
-import { Attendees } from '../attendees/attendees.model';
-import { DateUtils } from '../../../utils/date.utils';
+import * as mongoose from "mongoose";
+import { DateUtils } from "../../../utils/date.utils";
+import { Attendees } from "../attendees/attendees.model";
 
 export const ActivityTypes = [
-    'food',
-    'competition',
-    'other'
+    "food",
+    "competition",
+    "other"
 ];
 
 export interface Activities extends mongoose.Document {
@@ -52,11 +52,11 @@ export const ActivitiesSchema = new mongoose.Schema({
     },
     attendees: {
         type: [mongoose.Schema.Types.ObjectId],
-        ref: 'attendees'
+        ref: "attendees"
     },
     subscribers: {
         type: [mongoose.Schema.Types.ObjectId],
-        ref: 'attendees'
+        ref: "attendees"
     }
 });
 

@@ -1,9 +1,9 @@
-export type QBCondition = 'AND' | 'OR';
+export type QBCondition = "AND" | "OR";
 
-export type QBOperator = 'equal' | 'not_equal' | 'in' | 'not_in' | 'less' | 'less_or_equal'
-    | 'greater' | 'greater_or_equal' | 'between' | 'not_between' | 'is_null' | 'is_not_null'
-    | 'begins_with' | 'not_begins_with' | 'contains' | 'not_contains' | 'ends_with' | 'not_ends_with'
-    | 'is_empty' | 'is_not_empty';
+export type QBOperator = "equal" | "not_equal" | "in" | "not_in" | "less" | "less_or_equal"
+    | "greater" | "greater_or_equal" | "between" | "not_between" | "is_null" | "is_not_null"
+    | "begins_with" | "not_begins_with" | "contains" | "not_contains" | "ends_with" | "not_ends_with"
+    | "is_empty" | "is_not_empty";
 
 export interface QBRule {
     id: string;

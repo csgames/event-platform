@@ -1,8 +1,8 @@
-import { WebSocketGateway, WebSocketServer } from '@nestjs/websockets';
-import { Server } from 'socket.io';
+import { WebSocketGateway, WebSocketServer } from "@nestjs/websockets";
+import { Server } from "socket.io";
 
 export enum PuzzleHeroMessageTypes {
-    ScoreboardUpdate = 'scoreboard_update'
+    ScoreboardUpdate = "scoreboard_update"
 }
 
 @WebSocketGateway(8081)

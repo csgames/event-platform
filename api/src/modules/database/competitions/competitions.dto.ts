@@ -1,8 +1,8 @@
-import { ArrayNotEmpty, IsBoolean, IsEmail, IsMongoId, IsNotEmpty, IsNumber, IsOptional, IsString, ValidateNested } from 'class-validator';
-import { CreateAttendeeDto } from '../attendees/attendees.dto';
-import { CreateQuestionDto } from '../questions/questions.dto';
-import { QuestionGraphNodes } from './questions/question-graph-nodes.model';
-import { TeamResults } from './results/team-result.model';
+import { ArrayNotEmpty, IsBoolean, IsEmail, IsMongoId, IsNotEmpty, IsNumber, IsOptional, IsString, ValidateNested } from "class-validator";
+import { CreateAttendeeDto } from "../attendees/attendees.dto";
+import { CreateQuestionDto } from "../questions/questions.dto";
+import { QuestionGraphNodes } from "./questions/question-graph-nodes.model";
+import { TeamResults } from "./results/team-result.model";
 
 export class CreateCompetitionDto {
     @IsNotEmpty()

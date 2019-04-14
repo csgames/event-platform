@@ -1,7 +1,6 @@
-import { CanActivate, ExecutionContext, ForbiddenException, Injectable } from '@nestjs/common';
-import * as express from 'express';
-import { IRequest } from '../../../models/i-request';
-import { CreateRegistrationDto } from './registrations.dto';
+import { CanActivate, ExecutionContext, ForbiddenException, Injectable } from "@nestjs/common";
+import { IRequest } from "../../../models/i-request";
+import { CreateRegistrationDto } from "./registrations.dto";
 
 @Injectable()
 export class CreateRegistrationGuard implements CanActivate {
@@ -10,7 +9,7 @@ export class CreateRegistrationGuard implements CanActivate {
         const body = req.body as CreateRegistrationDto;
         const role = req.role;
 
-        if (body.role === 'captain' && role === 'captain') {
+        if (body.role === "captain" && role === "captain") {
             throw new ForbiddenException();
         }
 

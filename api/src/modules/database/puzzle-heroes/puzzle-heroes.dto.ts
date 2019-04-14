@@ -1,5 +1,5 @@
-import { IsMongoId, IsNotEmpty, IsOptional } from 'class-validator';
-import { CreateQuestionDto, UpdateQuestionDto } from '../questions/questions.dto';
+import { IsMongoId, IsNotEmpty, IsOptional } from "class-validator";
+import { CreateQuestionDto, UpdateQuestionDto } from "../questions/questions.dto";
 
 export class CreatePuzzleHeroDto {
     @IsNotEmpty()

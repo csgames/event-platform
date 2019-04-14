@@ -1,13 +1,13 @@
-import { Module } from '@nestjs/common';
-import { MongooseModule } from '@nestjs/mongoose';
-import { AttendeesSchema } from '../attendees/attendees.model';
-import { ActivitiesController } from './activities.controller';
-import { ActivitiesSchema } from './activities.model';
-import { ActivitiesService } from './activities.service';
-import { AttendeesModule } from '../attendees/attendees.module';
-import { STSModule } from '@polyhx/nest-services';
-import { NotificationsModule } from '../notifications/notifications.module';
-import { EventsSchema } from '../events/events.model';
+import { Module } from "@nestjs/common";
+import { MongooseModule } from "@nestjs/mongoose";
+import { STSModule } from "@polyhx/nest-services";
+import { AttendeesSchema } from "../attendees/attendees.model";
+import { AttendeesModule } from "../attendees/attendees.module";
+import { EventsSchema } from "../events/events.model";
+import { NotificationsModule } from "../notifications/notifications.module";
+import { ActivitiesController } from "./activities.controller";
+import { ActivitiesSchema } from "./activities.model";
+import { ActivitiesService } from "./activities.service";
 
 @Module({
     imports: [
@@ -16,11 +16,11 @@ import { EventsSchema } from '../events/events.model';
             schema: ActivitiesSchema
         }]),
         MongooseModule.forFeature([{
-            name: 'events',
+            name: "events",
             schema: EventsSchema
         }]),
         MongooseModule.forFeature([{
-            name: 'attendees',
+            name: "attendees",
             schema: AttendeesSchema
         }]),
         AttendeesModule,

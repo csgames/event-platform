@@ -1,6 +1,6 @@
-import { IsString, IsNotEmpty, IsMongoId, IsArray, ArrayUnique, IsNumber, Min, Max, ValidateNested } from "class-validator";
 import { ApiModelProperty } from "@nestjs/swagger";
 import { Type } from "class-transformer";
+import { ArrayUnique, IsArray, IsMongoId, IsNotEmpty, IsNumber, IsString, Max, Min, ValidateNested } from "class-validator";
 
 export class CreateFlashOutDto {
     @IsString()

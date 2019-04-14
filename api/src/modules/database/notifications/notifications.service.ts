@@ -2,13 +2,13 @@ import { Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
 import * as Nexmo from "nexmo";
+import { interval, Subscription } from "rxjs";
 import { BaseService } from "../../../services/base.service";
+import { ConfigService } from "../../configs/config.service";
+import { MessagingService } from "../../messaging/messaging.service";
+import { AttendeesService } from "../attendees/attendees.service";
 import { CreateNotificationsDto } from "./notifications.dto";
 import { Notifications } from "./notifications.model";
-import { interval, Subscription } from 'rxjs';
-import { MessagingService } from '../../messaging/messaging.service';
-import { AttendeesService } from '../attendees/attendees.service';
-import { ConfigService } from '../../configs/config.service';
 
 // TODO: Add Notification_size field in event and use that to check Notification size when joining.
 const MAX_Notification_SIZE = 4;

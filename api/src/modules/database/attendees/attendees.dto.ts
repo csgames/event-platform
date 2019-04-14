@@ -1,5 +1,5 @@
-import { IsString, IsOptional, IsIn, IsNotEmpty, IsBoolean, IsMongoId } from 'class-validator';
 import { ApiModelProperty } from "@nestjs/swagger";
+import { IsBoolean, IsIn, IsMongoId, IsNotEmpty, IsOptional, IsString } from "class-validator";
 
 export class CreateAttendeeDto {
     @IsString()
@@ -35,14 +35,14 @@ export class CreateAttendeeDto {
     @IsOptional()
     @IsString()
     @IsNotEmpty()
-    @IsIn(['male', 'female', 'other', 'no_answer'])
+    @IsIn(["male", "female", "other", "no_answer"])
     @ApiModelProperty({ required: true })
     gender: string;
 
     @IsOptional()
     @IsString()
     @IsNotEmpty()
-    @IsIn(['small', 'medium', 'large', 'x-large', '2x-large'])
+    @IsIn(["small", "medium", "large", "x-large", "2x-large"])
     @ApiModelProperty({ required: true })
     tshirt: string;
 
@@ -112,13 +112,13 @@ export class UpdateAttendeeDto {
 
     @IsOptional()
     @IsString()
-    @IsIn(['male', 'female', 'other', 'no_answer'])
+    @IsIn(["male", "female", "other", "no_answer"])
     @ApiModelProperty()
     gender: string;
 
     @IsOptional()
     @IsString()
-    @IsIn(['small', 'medium', 'large', 'x-large', '2x-large'])
+    @IsIn(["small", "medium", "large", "x-large", "2x-large"])
     @ApiModelProperty()
     tshirt: string;
 

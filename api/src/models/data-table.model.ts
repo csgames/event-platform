@@ -15,7 +15,7 @@ export interface DataTableColumnModel {
 
 export interface DataTableOrderModel {
     column: number;
-    dir: 'asc' | 'desc';
+    dir: "asc" | "desc";
 }
 
 export interface DataTableModel {

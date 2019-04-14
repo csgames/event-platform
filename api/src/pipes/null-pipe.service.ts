@@ -1,5 +1,5 @@
-import { ArgumentMetadata, Injectable, PipeTransform } from '@nestjs/common';
-import { ObjectUtils } from '../utils/object.utils';
+import { ArgumentMetadata, Injectable, PipeTransform } from "@nestjs/common";
+import { ObjectUtils } from "../utils/object.utils";
 
 @Injectable()
 export class NullPipe implements PipeTransform<boolean> {
@@ -12,7 +12,7 @@ export class NullPipe implements PipeTransform<boolean> {
         for (const key in value) {
             if (value.hasOwnProperty(key)) {
                 const data = value[key];
-                if (data === 'null') {
+                if (data === "null") {
                     value[key] = null;
                 }
             }

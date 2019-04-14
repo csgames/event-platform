@@ -1,20 +1,6 @@
-import { getModelToken } from '@nestjs/mongoose';
-import { Test } from '@nestjs/testing';
-import { STSService } from '@polyhx/nest-services';
-import { fail } from 'assert';
-import { expect } from 'chai';
-import { IMock, It, Mock } from 'typemoq';
-import { CodeException } from '../../../filters/code-error/code.exception';
-import { FakeDocumentQuery } from '../../../utils/fake-document-query';
-import { EmailService } from '../../email/email.service';
-import { Attendees } from '../attendees/attendees.model';
-import { AttendeesService } from '../attendees/attendees.service';
-import { Events } from '../events/events.model';
-import { EventsService } from '../events/events.service';
-import { Code } from './teams.exception';
-import { Teams } from './teams.model';
-import { TeamsService } from './teams.service';
-import * as mongoose from 'mongoose';
+import * as mongoose from "mongoose";
+import { FakeDocumentQuery } from "../../../utils/fake-document-query";
+import { Teams } from "./teams.model";
 
 class FakeTeams implements Teams {
     public _id: mongoose.Types.ObjectId;
@@ -24,21 +10,21 @@ class FakeTeams implements Teams {
     }
 
     public static findOne(condition: { name: string, attendees: string, _id: string }): FakeDocumentQuery<FakeTeams> {
-        if (condition.name === 'This team exist' || condition.attendees === '5bde6ec00000000000000000'
-            || condition._id === '5bde6ec00000000000000001') {
+        if (condition.name === "This team exist" || condition.attendees === "5bde6ec00000000000000000"
+            || condition._id === "5bde6ec00000000000000001") {
             return new FakeDocumentQuery(new FakeTeams({
-                _id: mongoose.Types.ObjectId('5bde6ec00000000000000001'),
-                name: 'This team exist',
-                attendees: ['5bde6ec00000000000000000'],
-                event: '',
+                _id: mongoose.Types.ObjectId("5bde6ec00000000000000001"),
+                name: "This team exist",
+                attendees: ["5bde6ec00000000000000000"],
+                event: "",
                 present: false
             } as Teams));
-        } else if (condition._id === '5bde6ec00000000000000002') {
+        } else if (condition._id === "5bde6ec00000000000000002") {
             return new FakeDocumentQuery(new FakeTeams({
-                _id: mongoose.Types.ObjectId('5bde6ec00000000000000001'),
-                name: 'This team exist with more than one member',
-                attendees: ['5bde6ec00000000000000000', '5bde6ec00000000000000001'],
-                event: '',
+                _id: mongoose.Types.ObjectId("5bde6ec00000000000000001"),
+                name: "This team exist with more than one member",
+                attendees: ["5bde6ec00000000000000000", "5bde6ec00000000000000001"],
+                event: "",
                 present: false
             } as Teams));
         }
@@ -52,7 +38,7 @@ class FakeTeams implements Teams {
     // @ts-ignore
     public save(): Promise<FakeTeams> {
         if (!this._id) {
-            this._id = mongoose.Types.ObjectId('5bde6ec00000000000000000');
+            this._id = mongoose.Types.ObjectId("5bde6ec00000000000000000");
         }
         return Promise.resolve(this);
     }

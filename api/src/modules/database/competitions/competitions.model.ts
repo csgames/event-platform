@@ -1,13 +1,11 @@
-import * as mongoose from 'mongoose';
-import { Activities, ActivitiesUtils } from '../activities/activities.model';
-import { Attendees } from '../attendees/attendees.model';
-import { Events } from '../events/events.model';
-import { Members, MembersSchema } from './members/members.model';
-import { QuestionAnswers, QuestionAnswersSchema } from './questions/question-answers.model';
-import { QuestionGraphNodes, QuestionGraphNodesSchema } from './questions/question-graph-nodes.model';
-import { DateUtils } from '../../../utils/date.utils';
-import { PuzzleHeroes } from '../puzzle-heroes/puzzle-heroes.model';
-import { TeamResults, TeamResultsSchema } from './results/team-result.model';
+import * as mongoose from "mongoose";
+import { Activities, ActivitiesUtils } from "../activities/activities.model";
+import { Attendees } from "../attendees/attendees.model";
+import { Events } from "../events/events.model";
+import { Members, MembersSchema } from "./members/members.model";
+import { QuestionAnswers, QuestionAnswersSchema } from "./questions/question-answers.model";
+import { QuestionGraphNodes, QuestionGraphNodesSchema } from "./questions/question-graph-nodes.model";
+import { TeamResults, TeamResultsSchema } from "./results/team-result.model";
 
 export interface Competitions extends mongoose.Document {
     event: Events | mongoose.Types.ObjectId | string;
@@ -28,17 +26,17 @@ export interface Competitions extends mongoose.Document {
 export const CompetitionsSchema = new mongoose.Schema({
     event: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'events',
+        ref: "events",
         required: true
     },
     activities: {
         type: [mongoose.Schema.Types.ObjectId],
-        ref: 'activities',
+        ref: "activities",
         required: true
     },
     directors: {
         type: [mongoose.Schema.Types.ObjectId],
-        ref: 'attendees',
+        ref: "attendees",
         default: []
     },
     questions: {

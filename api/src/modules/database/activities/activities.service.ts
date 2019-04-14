@@ -1,15 +1,14 @@
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
-import * as Mongoose from 'mongoose';
-import { Model, Types } from 'mongoose';
-import { DataTableModel, DataTableReturnModel } from '../../../models/data-table.model';
-import { UserModel } from '../../../models/user.model';
-import { BaseService } from '../../../services/base.service';
-import { Attendees } from '../attendees/attendees.model';
-import { CreateActivityDto, SendNotificationDto } from './activities.dto';
-import { Activities } from './activities.model';
-import { NotificationsService } from '../notifications/notifications.service';
-import { Events } from '../events/events.model';
+import { Injectable, NotFoundException } from "@nestjs/common";
+import { InjectModel } from "@nestjs/mongoose";
+import * as Mongoose from "mongoose";
+import { Model, Types } from "mongoose";
+import { UserModel } from "../../../models/user.model";
+import { BaseService } from "../../../services/base.service";
+import { Attendees } from "../attendees/attendees.model";
+import { Events } from "../events/events.model";
+import { NotificationsService } from "../notifications/notifications.service";
+import { CreateActivityDto, SendNotificationDto } from "./activities.dto";
+import { Activities } from "./activities.model";
 
 @Injectable()
 export class ActivitiesService extends BaseService<Activities, CreateActivityDto> {

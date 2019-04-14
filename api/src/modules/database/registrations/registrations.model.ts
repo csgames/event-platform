@@ -1,7 +1,6 @@
 import * as mongoose from "mongoose";
-import { Events } from '../events/events.model';
-import * as uuid from 'uuid';
-import { Attendees } from '../attendees/attendees.model';
+import * as uuid from "uuid";
+import { Attendees } from "../attendees/attendees.model";
 
 export interface Registrations extends mongoose.Document {
     uuid: string;
@@ -22,7 +21,7 @@ export const RegistrationsSchema = new mongoose.Schema({
     attendee: {
         type: mongoose.Schema.Types.ObjectId,
         required: true,
-        ref: 'attendee'
+        ref: "attendee"
     },
     role: {
         type: String,

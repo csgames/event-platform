@@ -1,33 +1,33 @@
-import { Module } from '@nestjs/common';
-import { MongooseModule } from '@nestjs/mongoose';
-import { AttendeesSchema } from '../attendees/attendees.model';
-import { EventsModule } from '../events/events.module';
-import { QuestionsSchema } from '../questions/questions.model';
-import { RegistrationsModule } from '../registrations/registrations.module';
-import { CompetitionsController } from './competitions.controller';
-import { CompetitionsSchema } from './competitions.model';
-import { CompetitionsService } from './competitions.service';
-import { ActivitiesModule } from '../activities/activities.module';
-import { TeamsSchema } from '../teams/teams.model';
-import { QuestionsModule } from '../questions/questions.module';
-import { CompetitionsGateway } from './competitions.gateway';
+import { Module } from "@nestjs/common";
+import { MongooseModule } from "@nestjs/mongoose";
+import { ActivitiesModule } from "../activities/activities.module";
+import { AttendeesSchema } from "../attendees/attendees.model";
+import { EventsModule } from "../events/events.module";
+import { QuestionsSchema } from "../questions/questions.model";
+import { QuestionsModule } from "../questions/questions.module";
+import { RegistrationsModule } from "../registrations/registrations.module";
+import { TeamsSchema } from "../teams/teams.model";
+import { CompetitionsController } from "./competitions.controller";
+import { CompetitionsGateway } from "./competitions.gateway";
+import { CompetitionsSchema } from "./competitions.model";
+import { CompetitionsService } from "./competitions.service";
 
 @Module({
     imports: [
         MongooseModule.forFeature([{
-            name: 'competitions',
+            name: "competitions",
             schema: CompetitionsSchema
         }]),
         MongooseModule.forFeature([{
-            name: 'attendees',
+            name: "attendees",
             schema: AttendeesSchema
         }]),
         MongooseModule.forFeature([{
-            name: 'teams',
+            name: "teams",
             schema: TeamsSchema
         }]),
         MongooseModule.forFeature([{
-            name: 'questions',
+            name: "questions",
             schema: QuestionsSchema
         }]),
         EventsModule,

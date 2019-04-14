@@ -1,4 +1,4 @@
-import { IsBoolean, IsNotEmpty, ValidateIf } from 'class-validator';
+import { IsBoolean, IsNotEmpty, ValidateIf } from "class-validator";
 
 export class QuestionAnswerDto {
     @IsNotEmpty()

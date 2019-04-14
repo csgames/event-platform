@@ -1,10 +1,10 @@
 import { Module } from "@nestjs/common";
 import { MongooseModule } from "@nestjs/mongoose";
+import { MessagingModule } from "../../messaging/messaging.module";
 import { AttendeesModule } from "../attendees/attendees.module";
 import { NotificationsController } from "./notifications.controller";
 import { NotificationsSchema } from "./notifications.model";
 import { NotificationsService } from "./notifications.service";
-import { MessagingModule } from '../../messaging/messaging.module';
 
 @Module({
     imports: [
@@ -19,7 +19,7 @@ import { MessagingModule } from '../../messaging/messaging.module';
         NotificationsController
     ],
     providers: [
-        NotificationsService,
+        NotificationsService
     ],
     exports: [
         NotificationsService

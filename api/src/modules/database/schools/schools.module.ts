@@ -21,4 +21,5 @@ import { SchoolsService } from "./schools.service";
         SchoolsService
     ]
 })
-export class SchoolsModule { }
+export class SchoolsModule {
+}

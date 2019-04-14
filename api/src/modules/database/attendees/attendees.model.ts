@@ -1,7 +1,7 @@
+import { UserModel } from "@polyhx/nest-services";
 import * as mongoose from "mongoose";
 import * as uuid from "uuid";
-import { UserModel } from '@polyhx/nest-services';
-import { Notifications } from '../notifications/notifications.model';
+import { Notifications } from "../notifications/notifications.model";
 
 export interface AttendeeNotifications {
     notification: (Notifications | mongoose.Types.ObjectId | string);
@@ -12,7 +12,7 @@ export const AttendeeNotificationSchema = new mongoose.Schema({
     notification: {
         type: mongoose.Schema.Types.ObjectId,
         required: true,
-        ref: 'notifications'
+        ref: "notifications"
     },
     seen: {
         type: Boolean,
@@ -74,11 +74,11 @@ export const AttendeesSchema = new mongoose.Schema({
     },
     gender: {
         type: String,
-        enum: ['male', 'female', 'other', 'no_answer']
+        enum: ["male", "female", "other", "no_answer"]
     },
     tshirt: {
         type: String,
-        enum: ['small', 'medium', 'large', 'x-large', '2x-large']
+        enum: ["small", "medium", "large", "x-large", "2x-large"]
     },
     phoneNumber: {
         type: String,

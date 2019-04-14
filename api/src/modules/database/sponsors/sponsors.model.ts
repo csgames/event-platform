@@ -1,4 +1,4 @@
-import * as mongoose from 'mongoose';
+import * as mongoose from "mongoose";
 
 export interface Sponsors extends mongoose.Document {
     name: string;

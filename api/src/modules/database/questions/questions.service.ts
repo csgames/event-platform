@@ -1,24 +1,24 @@
-import { BadRequestException, Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
-import { HttpService } from '@nestjs/common/http';
-import { InjectModel } from '@nestjs/mongoose';
-import { StorageService } from '@polyhx/nest-services';
-import { AxiosResponse } from 'axios';
-import { Model } from 'mongoose';
-import { QuestionAnswerDto } from './question-answer.dto';
-import { Questions, QuestionTypes, ValidationTypes } from './questions.model';
-import { UpdateQuestionDto } from './questions.dto';
+import { BadRequestException, Injectable, InternalServerErrorException, NotFoundException } from "@nestjs/common";
+import { HttpService } from "@nestjs/common/http";
+import { InjectModel } from "@nestjs/mongoose";
+import { StorageService } from "@polyhx/nest-services";
+import { AxiosResponse } from "axios";
+import { Model } from "mongoose";
+import { QuestionAnswerDto } from "./question-answer.dto";
+import { UpdateQuestionDto } from "./questions.dto";
+import { Questions, QuestionTypes, ValidationTypes } from "./questions.model";
 
 @Injectable()
 export class QuestionsService {
-    constructor(@InjectModel('questions') private readonly questionsModel: Model<Questions>,
+    constructor(@InjectModel("questions") private readonly questionsModel: Model<Questions>,
                 private httpService: HttpService,
                 private storageService: StorageService) {
     }
 
     public async updateQuestion(questionId: string, dto: UpdateQuestionDto): Promise<void> {
-        const question = await this.questionsModel.findOne({_id: questionId}).exec();
+        const question = await this.questionsModel.findOne({ _id: questionId }).exec();
         if (!question) {
-            throw new NotFoundException('No question found');
+            throw new NotFoundException("No question found");
         }
 
         await this.questionsModel.update({
@@ -31,7 +31,7 @@ export class QuestionsService {
             _id: questionId
         }).exec();
         if (!question) {
-            throw new NotFoundException('No question found');
+            throw new NotFoundException("No question found");
         }
 
         let success: boolean;
@@ -39,13 +39,13 @@ export class QuestionsService {
             case ValidationTypes.String:
                 success = this.validateString(dto.answer, question.answer);
                 if (!success) {
-                    throw new BadRequestException('Invalid answer');
+                    throw new BadRequestException("Invalid answer");
                 }
                 break;
             case ValidationTypes.Regex:
                 success = this.validateRegex(dto.answer, question.answer);
                 if (!success) {
-                    throw new BadRequestException('Invalid answer');
+                    throw new BadRequestException("Invalid answer");
                 }
                 break;
             case ValidationTypes.Function:
@@ -53,19 +53,19 @@ export class QuestionsService {
                 success = await this.validateCustomFunction(dto.answer, question.answer);
                 if (!success) {
                     console.log("!success returned true in validate answer question service");
-                    throw new BadRequestException('Invalid answer');
+                    throw new BadRequestException("Invalid answer");
                 }
                 break;
             case ValidationTypes.None:
                 break;
             default:
-                throw new BadRequestException('Invalid validation type');
+                throw new BadRequestException("Invalid validation type");
         }
 
         if (question.type === QuestionTypes.Upload) {
             success = await this.uploadFile(dto.file, question, dto.teamId);
             if (!success) {
-                throw new BadRequestException('Upload failed');
+                throw new BadRequestException("Upload failed");
             }
         }
 
@@ -77,10 +77,10 @@ export class QuestionsService {
             _id: questionId
         }).exec();
         if (!question) {
-            throw new NotFoundException('No question found');
+            throw new NotFoundException("No question found");
         }
         if (question.type !== QuestionTypes.Upload) {
-            throw new NotFoundException('Invalid question type');
+            throw new NotFoundException("Invalid question type");
         }
 
         return await this.storageService.getFilesFromDirectory(`questions/${question._id.toHexString()}`);
@@ -97,8 +97,8 @@ export class QuestionsService {
 
     public async validateCustomFunction(answer: string, url: string): Promise<boolean> {
         console.log("validate custom function method is called");
-        let jsonAnswer = { answer : answer };
-        
+        let jsonAnswer = { answer: answer };
+
         if (jsonAnswer) {
             let response: AxiosResponse;
             try {
@@ -111,22 +111,22 @@ export class QuestionsService {
             } catch (e) {
                 console.log("catch exception after post");
                 console.log(e);
-                throw new BadRequestException('Invalid answer');
+                throw new BadRequestException("Invalid answer");
             }
 
             if (!response) {
                 console.log("!response returned true");
-                throw new InternalServerErrorException('Custom validation endpoint does not respond.');
+                throw new InternalServerErrorException("Custom validation endpoint does not respond.");
             }
             if (response.status !== 200) {
                 console.log("response !== 200 returned true");
                 console.log("status: " + response.status);
-                throw new BadRequestException('Invalid answer');
+                throw new BadRequestException("Invalid answer");
             }
             return true;
         } else {
             console.log("jsonAnswer is empty wtf");
-            throw new BadRequestException('Problem with JSON answer.');
+            throw new BadRequestException("Problem with JSON answer.");
         }
     }
 

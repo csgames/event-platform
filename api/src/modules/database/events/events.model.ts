@@ -1,17 +1,17 @@
-import * as mongoose from 'mongoose';
-import { Activities } from '../activities/activities.model';
-import { Attendees } from '../attendees/attendees.model';
-import { Sponsors } from '../sponsors/sponsors.model';
-import { DateUtils } from '../../../utils/date.utils';
+import * as mongoose from "mongoose";
+import { DateUtils } from "../../../utils/date.utils";
+import { Activities } from "../activities/activities.model";
+import { Attendees } from "../attendees/attendees.model";
+import { Sponsors } from "../sponsors/sponsors.model";
 
 export enum EventAttendeeTypes {
-    Admin = 'admin',
-    Attendee = 'attendee',
-    Captain = 'captain',
-    Director = 'director',
-    GodParent = 'godparent',
-    Sponsor = 'sponsor',
-    Volunteer = 'volunteer'
+    Admin = "admin",
+    Attendee = "attendee",
+    Captain = "captain",
+    Director = "director",
+    GodParent = "godparent",
+    Sponsor = "sponsor",
+    Volunteer = "volunteer"
 }
 
 export enum EventGuideTypes {
@@ -39,16 +39,16 @@ export interface EventAttendees extends mongoose.Document {
 export const EventRegistrationsSchema = new mongoose.Schema({
     attendee: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'attendees'
+        ref: "attendees"
     },
     role: {
         type: String,
-        enum: ['admin', 'attendee', 'captain', 'director', 'godparent', 'sponsor', 'volunteer'],
-        default: 'attendee'
+        enum: ["admin", "attendee", "captain", "director", "godparent", "sponsor", "volunteer"],
+        default: "attendee"
     },
     scannedAttendees: {
         type: [mongoose.Schema.Types.ObjectId],
-        ref: 'attendees'
+        ref: "attendees"
     },
     registered: {
         type: Boolean,
@@ -71,7 +71,7 @@ export const EventSponsorsSchema = new mongoose.Schema({
     },
     sponsor: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'sponsors',
+        ref: "sponsors",
         required: true
     },
     web: {
@@ -236,7 +236,7 @@ export const EventsSchema = new mongoose.Schema({
     },
     activities: {
         type: [mongoose.Schema.Types.ObjectId],
-        ref: 'activities'
+        ref: "activities"
     },
     attendees: [EventRegistrationsSchema],
     imageUrl: {

@@ -1,4 +1,4 @@
-import * as mongoose from "mongoose"; 
+import * as mongoose from "mongoose";
 import { Attendees } from "../../attendees/attendees.model";
 
 export interface Votes extends mongoose.Document {
