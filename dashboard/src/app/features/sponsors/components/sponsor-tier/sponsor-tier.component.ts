@@ -2,14 +2,10 @@ import { Component, EventEmitter, Input, Output, ViewChild } from "@angular/core
 import { Sponsors } from "../../../../api/models/sponsors";
 import { SponsorTier } from "../../models/sponsor-tier";
 import { SponsorFormComponent } from "../sponsor-form/sponsor-form.component";
-import { Store } from "@ngrx/store";
-import { State } from "../../sponsor-edit/store/sponsor-edit.reducer";
+import { select, Store } from "@ngrx/store";
+import { getAddLoading, State } from "../../sponsor-edit/store/sponsor-edit.reducer";
 import { AddSponsor } from "../../sponsor-edit/store/sponsor-edit.actions";
 import { SponsorInfoDto } from "../sponsor-form/dto/sponsor-info.dto";
-import { SimpleModalService } from "ngx-simple-modal";
-import { UpdateSponsorPositionningComponent } from "../update-sponsor-positionning/update-sponsor-positionning.component";
-import { UpdateSponsorInfoComponent } from "../update-sponsor-info/update-sponsor-info.component";
-import { InfoSponsorComponent } from "../info-sponsor/info-sponsor.component";
 
 @Component({
     selector: "app-sponsor-tier",
@@ -20,37 +16,43 @@ export class SponsorTierComponent {
     @ViewChild(SponsorFormComponent)
     private form: SponsorFormComponent;
 
+    public addLoading$ = this.store$.pipe(select(getAddLoading));
+
     public showCreateSponsorCard = false;
     public dto = new SponsorInfoDto();
 
+    public _tier: SponsorTier;
+
     @Input()
-    public tier: SponsorTier;
+    public set tier(tier: SponsorTier) {
+        if (!tier || !tier.sponsors || this.sponsors.length) { return; }
+        this._tier = tier;
+        let i = 0;
+        let row = [];
+        for (const sponsor of tier.sponsors) {
+            row.push(sponsor);
+            if (++i % tier.maxInLine === 0) {
+                this.sponsors.push(row);
+                row = [];
+                i = 0;
+            }
+        }
+        if (row.length) {
+            this.sponsors.push(row);
+        }
+    }
+
+    public get tier(): SponsorTier {
+        return this._tier;
+    }
+
     @Input()
     public showAdd = false;
 
     @Output()
     public info = new EventEmitter<Sponsors>();
 
-    public selected: Sponsors;
-
-    public get sponsors(): Sponsors[][] {
-        const sponsors = [];
-        let i = 0;
-        let row = [];
-        for (const sponsor of this.tier.sponsors) {
-            row.push(sponsor);
-            if (++i % this.tier.maxInLine === 0) {
-                sponsors.push(row);
-                row = [];
-                i = 0;
-            }
-        }
-        if (row.length) {
-            sponsors.push(row);
-        }
-
-        return sponsors;
-    }
+    public sponsors: Sponsors[][] = [];
 
     public get flex(): string {
         return `0 0 ${this.tier.size}%`;
@@ -60,19 +62,8 @@ export class SponsorTierComponent {
         return `${this.tier.gap}px`;
     }
 
-    constructor(private store$: Store<State>,
-                private modalService: SimpleModalService) {}
+    constructor(private store$: Store<State>) {}
 
-    public getStyle(sponsors: Sponsors) {
-        return {
-            "padding-left": `${sponsors.web.padding[0]}px`,
-            "padding-top": `${sponsors.web.padding[1]}px`,
-            "padding-right": `${sponsors.web.padding[2]}px`,
-            "padding-bottom": `${sponsors.web.padding[3]}px`,
-            "width": "100%"
-        };
-    }
-    
     public clickAdd() {
         this.showCreateSponsorCard = true;
     }
@@ -89,32 +80,5 @@ export class SponsorTierComponent {
             this.dto = new SponsorInfoDto();
             this.showCreateSponsorCard = false;
         }
-    }
-
-    public onEditInfo() {
-        if (!this.selected) {
-            return;
-        }
-        this.modalService.addModal(UpdateSponsorInfoComponent, { sponsor: this.selected });
-        this.selected = undefined;
-    }
-
-    public onEditPadding() {
-        if (!this.selected) {
-            return;
-        }
-        const tierName = this.tier.name.charAt(0).toUpperCase() + this.tier.name.slice(1);
-        this.modalService.addModal(UpdateSponsorPositionningComponent, {
-            sponsor: this.selected,
-            tier: tierName
-        });
-        this.selected = undefined;
-    }
-
-    public onInfo() {
-        if (!this.selected) {
-            return;
-        }
-        this.modalService.addModal(InfoSponsorComponent, { sponsor: this.selected });
     }
 }

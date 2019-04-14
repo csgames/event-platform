@@ -25,7 +25,8 @@ export function reducer(state = initialState, action: SponsorEditActions): Spons
             return {
                 ...state,
                 addLoading: false,
-                loading: true
+                loading: true,
+                sponsors: null
             };
         case SponsorEditActionTypes.SponsorsLoaded:
             return {

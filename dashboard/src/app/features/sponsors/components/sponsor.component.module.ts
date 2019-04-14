@@ -5,7 +5,7 @@ import { TranslateModule } from "@ngx-translate/core";
 import { FlexLayoutModule } from "@angular/flex-layout";
 import { LoadingSpinnerModule } from "src/app/components/loading-spinner/loading-spinner.module";
 import { DirectivesModule } from "src/app/directives/directives.module";
-import { FormsModule, FormBuilder, ReactiveFormsModule } from "@angular/forms";
+import { FormBuilder, FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { InfoSponsorComponent } from "./info-sponsor/info-sponsor.component";
 import { SimpleModalModule } from "ngx-simple-modal";
 import { ADD_SPONSOR_FORM_GENERATOR } from "../sponsor-edit/sponsor-edit.constants";
@@ -25,6 +25,8 @@ import { UpdateSponsorPositionningComponent } from "./update-sponsor-positionnin
 import { UpdateSponsorPositionningEffects } from "./update-sponsor-positionning/store/update-sponsor-positionning.effects";
 import * as fromUpdateSponsorPositionning from "./update-sponsor-positionning/store/update-sponsor-positionning.reducer";
 import { NgSelectModule } from "@ng-select/ng-select";
+import { PopoverModule } from "ngx-bootstrap";
+import { SponsorTileComponent } from "./sponsor-tile/sponsor-tile.component";
 
 @NgModule({
     imports: [
@@ -37,6 +39,7 @@ import { NgSelectModule } from "@ng-select/ng-select";
         SimpleModalModule,
         ReactiveFormsModule,
         CustomTextBoxModule,
+        PopoverModule,
         StoreModule.forFeature("updateSponsorInfo", fromUpdateSponsorInfo.reducer),
         EffectsModule.forFeature([UpdateSponsorInfoEffects]),
         StoreModule.forFeature("updateSponsorPositionning", fromUpdateSponsorPositionning.reducer),
@@ -50,6 +53,7 @@ import { NgSelectModule } from "@ng-select/ng-select";
         UpdateSponsorInfoComponent,
         SponsorPositionningFormComponent,
         UpdateSponsorPositionningComponent,
+        SponsorTileComponent
     ],
     exports: [
         SponsorTierComponent,
@@ -58,7 +62,7 @@ import { NgSelectModule } from "@ng-select/ng-select";
     entryComponents: [
         InfoSponsorComponent,
         UpdateSponsorInfoComponent,
-        UpdateSponsorPositionningComponent        
+        UpdateSponsorPositionningComponent
     ],
     providers: [
         {

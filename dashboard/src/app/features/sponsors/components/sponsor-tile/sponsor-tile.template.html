@@ -1,0 +1,19 @@
+<img class="clickable" [src]="sponsor.imageUrl" [alt]="sponsor.name" [ngStyle]="getStyle(sponsor)" *ngIf="showAdmin"
+     #pop="bs-popover" [popover]="popoverContent" container="body" [outsideClick]="true"/>
+
+<ng-template #popoverContent>
+    <div fxFlex>
+        <a class="btn btn-default" (click)="onEditInfo(sponsor)">
+            <i class="fal fa-edit"></i>
+        </a>
+        <a class="btn btn-default" (click)="onEditPadding(sponsor)">
+            <i class="fal fa-images"></i>
+        </a>
+        <a class="btn btn-default" (click)="onInfo(sponsor)">
+            <i class="fal fa-info"></i>
+        </a>
+    </div>
+</ng-template>
+
+<img class="clickable" [src]="sponsor.imageUrl" [alt]="sponsor.name" [ngStyle]="getStyle(sponsor)" *ngIf="!showAdmin"
+     (click)="clickSponsor.emit(sponsor)"/>
