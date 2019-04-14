@@ -108,7 +108,7 @@ This section contains all the global interceptors of the NestJs server.
 ### Modules
 This section contains all the modules of the NestJs server.
 
-Each module can have a controller, a service and a model. All modules muste define a NestJs module.
+Each module can have a controller, a service and a model. All modules must define a NestJs module.
 
 ### Pipes
 This section contains all the global pipes of the NestJs server.
