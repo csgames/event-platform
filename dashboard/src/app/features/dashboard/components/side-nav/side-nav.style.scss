@@ -1,0 +1,120 @@
+.side-nav-wrapper {
+    width: 240px;
+    height: 100%;
+    background-color: #EBEAE7;
+    box-shadow: rgba(0, 0, 0, 0.2) 4px 0 8px;
+    overflow: auto;
+    padding-bottom: 15px;
+}
+
+.logo {
+    width: 200px;
+    margin: 40px 20px;
+    height: auto;
+    user-select: none;
+}
+
+.navigation {
+    margin: 0 10px;
+    padding: 0;
+    padding-bottom: 40px;
+}
+
+.navigation a {
+    display: block;
+    height: 34px;
+    margin-top: 5px;
+    padding: 5px 20px;
+    border-radius: 4px;
+    user-select: none;
+    color: #4A4A4A;
+}
+
+.sidenav-placeholder {
+    margin-top: 40px;
+}
+
+.sublinks {
+    margin-left: 30px;
+}
+
+.navigation > .sublinks > a {
+    display: block;
+    height: auto;
+    margin-top: 5px;
+    padding: 5px 20px;
+    font-size: 15px;
+    border-radius: 0;
+    user-select: none;
+
+    &:hover {
+        background-color: transparent;
+        text-decoration: none;
+        color: var(--primary-color);
+    }
+
+    &.active {
+        background-color: transparent;
+        color: var(--primary-color);
+    }
+}
+
+.navigation > .sublinks > div > a {
+    display: block;
+    height: auto;
+    margin-top: 5px;
+    padding: 5px 20px;
+    font-size: 15px;
+    border-radius: 0;
+    user-select: none;
+
+    &:hover {
+        background-color: transparent;
+        text-decoration: none;
+        color: var(--primary-color);
+    }
+
+    &.active {
+        background-color: transparent;
+        color: var(--primary-color);
+    }
+}
+
+.navigation a:hover {
+    text-decoration: none;
+    background-color: #D8D8D8;
+}
+
+.navigation a.active {
+    background-color: var(--primary-color);
+}
+
+.navigation a.active {
+    color: white;
+}
+
+.loading-placeholder {
+    width: 240px;
+    height: 550px;
+
+    fill: #D8D8D8;
+}
+
+.navigation-bottom {
+    position: absolute;
+    bottom: 0;
+    width: 240px;
+    margin-top: 5px;
+    padding-bottom: 1rem;
+    background-color: #EBEAE7;
+
+    text-align: center;
+    font-size: 13px;
+    font-weight: normal;
+
+    &:hover {
+        cursor: pointer;
+        background-color: #e6e5e2;
+        color: var(--primary-color);
+    }
+}

@@ -1,0 +1,42 @@
+<ng-container *ngIf="tier">
+    <h2 class="sponsor-tier">{{ "pages.sponsors." + tier?.name | translate }}</h2>
+    <hr>
+    <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center center" [fxLayoutGap.lt-lg]="gap"
+         [fxLayoutGap.lt-sm]="'0px'" *ngFor="let sponsor of sponsors">
+        <div *ngFor="let s of sponsor" [fxFlex]="flex">
+            <app-sponsor-tile (clickSponsor)="info.emit($event)" [showAdmin]="showAdd" [sponsor]="s"
+                              [tier]="tier"></app-sponsor-tile>
+
+        </div>
+    </div>
+    <div *ngIf="showAdd" class="col-sm-8 offset-sm-2 mt-3">
+        <button type="button" class="add-button btn btn-lg btn-block borders" *ngIf="!showCreateSponsorCard"
+                (click)="clickAdd()">
+            + {{ "pages.sponsors.add_sponsor" | translate }}
+        </button>
+
+        <div *ngIf="showCreateSponsorCard" class="add-flashout-card">
+            <app-loading-spinner [loading]="addLoading$"></app-loading-spinner>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <app-sponsor-form [(ngModel)]="dto"></app-sponsor-form>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="offset-sm-5 col-sm-7">
+                        <div class="button-group">
+                            <a class="btn btn-danger cancel float-right" (click)="onCancel()">
+                                {{ "general.button.cancel" | translate }} <i class="fal fa-times"></i>
+                            </a>
+                            <a class="btn btn-primary mr-2 float-right" (click)="onAdd()">
+                                {{ "general.button.add" | translate }} <i class="fal fa-plus"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</ng-container>

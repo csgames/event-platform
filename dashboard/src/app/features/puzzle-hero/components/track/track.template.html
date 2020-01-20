@@ -1,0 +1,82 @@
+<accordion class="card-wrapper">
+    <accordion-group (isOpenChange)="onOpen()" [isOpen]="startsOpen">
+        <div accordion-heading fxLayout="row" fxLayoutAlign="start center">
+            <i class="firstIcon" [ngClass]="icon"></i>
+            <div class="track-title">
+                <span class="title">{{ track?.label }}</span><br>
+                <ng-container *ifRole="['admin', 'super-admin']">
+                    <span class="released-on" *ngIf="isReleased() && !isEnded()">
+                        {{ "pages.puzzle_hero.admin.released_on" | translate }}
+                        {{ track?.releaseDate | localizedDate: "medium" }}
+                    </span>
+                    <span class="releasing-on" *ngIf="!isReleased()">
+                        {{ "pages.puzzle_hero.admin.releasing_on" | translate }}
+                        {{ track?.releaseDate | localizedDate: "medium" }}
+                    </span>
+                    <span class="ended-on" *ngIf="isEnded()">
+                        {{ "pages.puzzle_hero.admin.ended_on" | translate }}
+                        {{ track?.endDate | localizedDate: "medium" }}
+                    </span>
+                </ng-container>
+            </div>
+            <div fxFlex></div>
+            <a class="fa-star star-button" [ngClass]="{fal: !isStarred, fas: isStarred}" [class.starred]="isStarred"
+               (click)="onClickStar($event)" *ngIf="showStar"></a>
+            <a class="btn btn-primary" *ngIf="adminMode" (click)="onClickAccordionHeadingAddPuzzle($event, track)">
+                {{ "pages.puzzle_hero.admin.add_puzzle" | translate }}&nbsp;
+                <i class="fal fa-plus"></i>
+            </a>
+            <a class="btn btn-default" *ngIf="adminMode" (click)="onClickUpdateTrack($event, track)">
+                <i class="fal fa-edit"></i>
+            </a>
+            <i class="fas fa-caret-down ml-2" [class.fa-rotate-90]="!isOpen"></i>
+        </div>
+        <div class="track-container">
+            <div class="track" xmlns:svg="http://www.w3.org/1999/XSL/Transform">
+                <ngx-graph
+                    track
+                    class="chart-container"
+                    [links]="links"
+                    [nodes]="nodes"
+                    [curve]="curve"
+                    [nodeHeight]="77"
+                    [nodeWidth]="77"
+                    [enableZoom]="false"
+                    [panningEnabled]="false"
+                    [draggingEnabled]="false"
+                    [orientation]="orientation"
+                >
+                    <ng-template #defsTemplate>
+                        <svg:marker id="arrow" viewBox="0 -5 10 10" refX="8" refY="0" markerWidth="4" markerHeight="4"
+                                    orient="auto">
+                            <svg:path d="M0,-5L10,0L0,5" class="arrow-head"/>
+                        </svg:marker>
+                    </ng-template>
+
+                    <ng-template #nodeTemplate let-node>
+                        <svg:g puzzle-tile [puzzle]="node" (clickPuzzle)="onClickPuzzle(node)"
+                               (clickAddPuzzle)="onClickAddPuzzle($event, node)"
+                               (clickSeeAnswers)="clickSeeAnswers(node.answers)"
+                               [adminMode]="adminMode"></svg:g>
+                    </ng-template>
+
+                    <ng-template #linkTemplate let-link>
+                        <svg:g class="edge">
+                            <svg:path
+                                class="line"
+                                stroke-width="2"
+                                marker-end="url(#arrow)">
+                            </svg:path>
+                            <svg:text
+                                class="edge-label"
+                                text-anchor="middle">
+                            </svg:text>
+                        </svg:g>
+                    </ng-template>
+
+                </ngx-graph>
+            </div>
+        </div>
+
+    </accordion-group>
+</accordion>

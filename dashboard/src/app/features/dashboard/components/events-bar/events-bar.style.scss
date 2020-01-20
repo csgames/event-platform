@@ -1,0 +1,49 @@
+.events-bar-wrapper {
+    width: 64px;
+    height: 100%;
+    padding-top: 20px;
+    background-color: var(--primary-color);
+    position: relative;
+}
+
+.event {
+    width: 46px;
+    height: 46px;
+    margin: 0 9px;
+    border-radius: 8px;
+    background-color: white;
+    overflow: hidden;
+}
+
+.event.active {
+    box-shadow: #F5F4F0 0 0 10px;
+}
+
+.event:hover {
+    box-shadow: #F5F4F0 0 0 10px;
+    cursor: pointer;
+}
+
+.event img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    user-select: none;
+}
+
+.year {
+    color: #ffffff;
+    width: 100%;
+    text-align: center;
+    font-family: Metropolis, sans-serif;
+    user-select: none;
+    font-size: 12px;
+}
+
+.event-add {
+    background-color: rgba(255, 255, 255, 0.6);
+}
+
+.add-button {
+    color: var(--primary-color);
+}

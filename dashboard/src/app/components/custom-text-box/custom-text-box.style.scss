@@ -1,0 +1,51 @@
+.infoText {
+    text-align: left;
+    margin-bottom: 0;
+}
+
+.container {
+    text-align: left;
+    margin-left: 0px;
+    padding-left: 0px;
+    margin-right: 0px;
+    padding-right: 10px;
+}
+
+.margin-left {
+    margin-left: 5px;
+}
+
+.text-only {
+    text-align: left;
+}
+
+.full-width {
+    width: 100%;
+}
+
+.title {
+    padding-left: 0px;
+    margin: auto 0px;
+}
+
+.title-container {
+    padding-right: 5px;
+}
+
+.auto-height {
+    height: auto !important;
+}
+
+textarea {
+    resize: none;
+}
+
+.quill {
+    display: inline-block;
+    margin: 5px;
+}
+
+.quill-container {
+    padding-right: 0px;
+    padding-left: 0px;
+}

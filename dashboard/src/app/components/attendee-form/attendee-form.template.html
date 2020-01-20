@@ -1,0 +1,152 @@
+<form [formGroup]="formGroup">
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="input-group input-group-default">
+                <div class="input-group-prepend">
+                    <a class="form-icon">
+                        <i class="fal fa-user"></i>
+                    </a>
+                </div>
+                <ng-select [items]="gender" placeholder='{{ "components.profile.gender" | translate }}'
+                           formControlName="gender" controlStatus>
+                    <ng-template ng-option-tmp ng-label-tmp let-item="item">
+                        <span class="ng-option-label">
+                            {{ "components.profile." + item | translate }}
+                        </span>
+                    </ng-template>
+                </ng-select>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="input-group input-group-default">
+                <div class="input-group-prepend">
+                    <a class="form-icon">
+                        <i class="fal fa-tshirt"></i>
+                    </a>
+                </div>
+                <ng-select [items]="tshirtSize" placeholder='{{ "components.profile.size" | translate }}'
+                           formControlName="tshirt" controlStatus>
+                    <ng-template ng-option-tmp ng-label-tmp let-item="item">
+                            <span class="ng-option-label">
+                                {{ "components.profile." + item | translate }}
+                            </span>
+                    </ng-template>
+                </ng-select>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="input-group input-group-default">
+                <div class="input-group-prepend">
+                    <a class="form-icon">
+                        <i class="fab fa-linkedin"></i>
+                    </a>
+                </div>
+                <input class="form-control" type="text"
+                       placeholder="LinkedIn" formControlName="linkedIn" controlStatus>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="input-group input-group-default">
+                <div class="input-group-prepend">
+                    <a class="form-icon">
+                        <i class="fab fa-github"></i>
+                    </a>
+                </div>
+                <input class="form-control" type="text"
+                       placeholder="GitHub" formControlName="github" controlStatus>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="input-group input-group-default">
+                <div class="input-group-prepend">
+                    <a class="form-icon">
+                        <i class="fal fa-globe"></i>
+                    </a>
+                </div>
+                <input autofocus class="form-control" type="text"
+                       placeholder='{{ "components.profile.website" | translate }}' formControlName="website"
+                       controlStatus>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="input-group input-group-default">
+                <div class="input-group-prepend">
+                    <a class="form-icon">
+                        <i class="fal fa-mobile"></i>
+                    </a>
+                </div>
+                <input autofocus class="form-control" [showMaskTyped]="true" mask="+0 (000) 000-0000"
+                       placeholder='{{ "components.profile.phone" | translate }}' formControlName="phoneNumber"
+                       controlStatus>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12 ellipsis">
+            <div class="input-group">
+                <app-file-upload class="upload" placeholder='{{ "components.profile.cv" | translate }}'
+                                 [formControl]="formGroup?.controls['cv']" controlStatus ngDefaultControl
+                                 (download)="downloadCv.emit()">
+                </app-file-upload>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="checkbox-group flex-container">
+                <input type="checkbox" class="form-checkbox" id="handicapped" formControlName="handicapped"><label
+                class="checkboxText flex-content"
+                for="handicapped">{{ "components.profile.handicapped" | translate }}</label>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="checkbox-group flex-container">
+                <input type="checkbox" class="form-checkbox" id="needs-transport-pass"
+                       formControlName="needsTransportPass">
+                <label class="checkboxText flex-content"
+                       for="needs-transport-pass">{{ "components.profile.transport" | translate }}</label>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="checkbox-group flex-container">
+                <input type="checkbox" class="form-checkbox" id="restriction"
+                       formControlName="hasDietaryRestrictions">
+                <label class="checkboxText flex-content"
+                       for="restriction">{{ "components.profile.has_dietary_restrictions" | translate }}</label>
+            </div>
+        </div>
+    </div>
+    <div class="row" *ngIf="hasDietaryRestrictions">
+        <div class="col-sm-12">
+            <div class="input-group">
+                <textarea class="form-control" formControlName="dietaryRestrictions"
+                          [placeholder]="'components.profile.dietary_restrictions' | translate"></textarea>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="checkbox-group flex-container">
+                <input type="checkbox" class="form-checkbox" id="accept-sms"
+                       formControlName="acceptSMSNotifications">
+                <label class="checkboxText flex-content"
+                       for="accept-sms">{{ "components.profile.accept_sms" | translate }}</label>
+            </div>
+        </div>
+    </div>
+</form>

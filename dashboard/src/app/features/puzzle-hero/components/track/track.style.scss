@@ -1,0 +1,56 @@
+.title {
+    font-size: 18px;
+    font-weight: 200;
+}
+
+.track-title {
+    line-height: 1;
+}
+
+
+.ended-on,
+.released-on,
+.releasing-on {
+    font-size: 12px;
+    font-weight: 600;
+    color: #dc3545;
+}
+
+.ended-on {
+    color: #dc3545;
+}
+
+.released-on {
+    color: #4A4A4A;
+}
+
+.releasing-on {
+    color: #0D5899;
+}
+
+.track-container {
+    position: relative;
+    overflow-x: auto;
+}
+
+.track {
+    display: grid;
+    max-width: 10000px;
+    max-height: 800px;
+}
+
+.star-button {
+    margin-right: 20px;
+
+    &:hover {
+        color: #FED265 !important;
+    }
+}
+
+.button {
+    font-size: 17px;
+}
+
+.starred {
+    color: #FED265 !important;
+}

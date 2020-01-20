@@ -1,0 +1,86 @@
+<ng-container [formGroup]="formGroup">
+    <div fxLayout="column">
+        <h3>{{ "components.restaurant_form.map_default_position" | translate }}</h3>
+    </div>
+    <div fxLayout="row" class="error-group">
+        <div class="input-group input-group-default ml-0">
+            <input class="form-control" type="number" formControlName="zoom" controlStatus
+                   placeholder='{{ "components.restaurant_form.zoom" | translate }}'>
+        </div>
+        <div class="input-group input-group-default">
+            <input class="form-control" type="number" formControlName="latitude" controlStatus
+                   placeholder='{{ "components.restaurant_form.latitude" | translate }}'>
+        </div>
+        <div class="input-group input-group-default mr-0">
+            <input class="form-control" type="number" formControlName="longitude" controlStatus
+                   placeholder='{{ "components.restaurant_form.longitude" | translate }}'>
+        </div>
+    </div>
+    <div fxLayout="column">
+        <h3>{{ "components.restaurant_form.restaurants" | translate }}</h3>
+    </div>
+    <div fxLayout="column" formArrayName="coordinates" *ngIf="section">
+        <ng-container *ngFor="let d of section.coordinates; let i = index">
+            <div fxLayout="row" fxLayoutAlign="center center" [formGroupName]="i">
+                <div fxFlex="90">
+                    <div fxLayout="column" fxLayoutAlign="center center">
+                        <div class="input-group input-group-default">
+                            <input class="form-control" type="text" formControlName="info">
+                        </div>
+                    </div>
+                    <div fxLayout="row" fxLayoutAlign="center center">
+                        <div class="input-group input-group-default ml-0">
+                            <input class="form-control" type="number"  formControlName="latitude">
+                        </div>
+                        <div class="input-group input-group-default mr-0">
+                            <input class="form-control" type="number"  formControlName="longitude">
+                        </div>
+                    </div>
+                </div>
+                <div fxFlex="10">
+                    <div fxLayout="column" fxLayoutAlign="center end">
+                        <a class="remove btn btn-danger btn-outline pull-right" (click)="deleteValue(i)">
+                            <i class="fa fa-trash"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </ng-container>
+    </div>
+</ng-container>
+<button *ngIf="!showCreate" type="button" class="add-button btn btn-lg btn-block borders" (click)="clickAdd()">
+    + {{ "components.restaurant_form.add" | translate }}
+</button>
+<ng-container *ngIf="showCreate">
+    <div fxLayout="column" fxLayoutAlign="center center">
+        <div class="input-group input-group-default">
+            <input autofocus class="form-control" type="text" name="info"
+                   [(ngModel)]="newRestaurant.info"
+                   placeholder='{{ "components.restaurant_form.info" | translate }}'>
+        </div>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="center center">
+        <div class="input-group input-group-default ml-0">
+            <input autofocus class="form-control" type="number" name="latitude"
+                   [(ngModel)]="newRestaurant.latitude"
+                   placeholder='{{ "components.restaurant_form.latitude" | translate }}'>
+        </div>
+        <div class="input-group input-group-default mr-0">
+            <input autofocus class="form-control" type="number" name="longitude"
+                   [(ngModel)]="newRestaurant.longitude"
+                   placeholder='{{ "components.restaurant_form.longitude" | translate }}'>
+        </div>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="end center">
+        <div fxFlex="40">
+            <div class="button-group">
+                <a class="btn btn-danger cancel float-right" (click)="cancel()">
+                    {{ "general.button.cancel" | translate }} <i class="fal fa-times"></i>
+                </a>
+                <a class="btn btn-primary mr-2 float-right" (click)="add()">
+                    {{ "general.button.add" | translate }} <i class="fal fa-plus"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</ng-container>

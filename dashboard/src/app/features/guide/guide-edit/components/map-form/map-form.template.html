@@ -1,0 +1,50 @@
+<div fxLayout="column" *ngIf="lang && section">
+    <app-custom-text-box fxFlex="100%" label="{{ 'components.map_form.website' | translate }}"
+        placeholder="{{ 'components.map_form.website' | translate }}"
+        formType="textbox" class="custom-text" [(ngModel)]="section.website" 
+        (ngModelChange)="itemChange()">
+    </app-custom-text-box>
+</div>
+<label>{{ "components.map_form.maps" | translate }}</label>
+<div fxLayout="column" *ngIf="lang && section">
+    <div fxFlex="100" *ngFor="let d of section.maps; let i = index">
+        <div class="input-group input-group-default">
+            <input class="form-control" type="text" [(ngModel)]="d" (ngModelChange)="itemChange()">
+            <span class="input-group-btn">
+                <a class="remove btn btn-danger btn-outline pull-right" (click)="deleteValue(i)">
+                    <i class="fa fa-trash"></i>
+                </a>
+            </span>
+        </div>
+    </div>
+</div>
+<div>
+    <button *ngIf="!showCreate" type="button" class="add-button btn btn-lg btn-block borders" (click)="clickAdd()">
+        + {{ "components.map_form.add" | translate }}
+    </button>
+    <div *ngIf="showCreate">
+        <div fxLayout="column">
+            <div fxFlex="100">
+                <div class="input-group input-group-default no-grow">
+                    <input autofocus class="form-control" type="textbox" name="map" [(ngModel)]="newMap" controlStatus
+                        placeholder='{{ "components.map_form.map" | translate }}'>
+                </div>
+            </div>
+            <div fxFlex="100" class="control-error" *ngIf="newItemError">
+                {{ "components.map_form.add_error" }}
+            </div>
+        </div>
+        <div fxLayout="row" fxLayoutAlign="end center">
+            <div fxFlex="40">
+                <div class="button-group">
+                    <a class="btn btn-danger cancel float-right" (click)="cancel()">
+                        {{ "general.button.cancel" | translate }} <i class="fal fa-times"></i>
+                    </a>
+                    <a class="btn btn-primary mr-2 float-right" (click)="add()">
+                        {{ "general.button.add" | translate }} <i class="fal fa-plus"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

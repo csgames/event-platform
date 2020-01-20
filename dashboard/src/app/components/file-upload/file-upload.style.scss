@@ -1,0 +1,38 @@
+.has-error > .upload > .row > .col-sm-12 > .input-group-default {
+    border: #dc3545 solid 1px;
+}
+
+.drag-n-drop {
+    margin: 5px;
+    height: 150px;
+}
+
+.file-upload-value {
+    margin-top: 3px;
+    width: 90%;
+}
+
+.file-upload-clickable {
+    cursor: pointer;
+}
+
+.file-upload-placeholder {
+    color: #707880 !important;
+    cursor: default;
+}
+
+.file-upload-close {
+    float: right;
+    margin-right: 15px;
+    margin-top: 9px;
+    cursor: pointer;
+}
+
+.upload {
+    padding-right: 5px !important;
+}
+
+.cv-icon {
+    margin-left: 7px !important;
+    margin-top: 7px !important;
+}

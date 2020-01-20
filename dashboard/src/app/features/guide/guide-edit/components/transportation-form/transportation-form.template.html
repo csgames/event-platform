@@ -1,0 +1,29 @@
+<div fxLayout="column" *ngIf="section">
+    <app-custom-text-box fxFlex="100%" label="{{ 'components.transportation_form.info' | translate }}"
+        placeholder="{{ 'components.transportation_form.info' | translate }}" formType="textarea" class="custom-text"
+        [textareaRows]="3" [(ngModel)]="section.info" (ngModelChange)="itemChange()">
+    </app-custom-text-box>
+</div>
+<form [formGroup]="formGroup">
+    <label>{{ "components.transportation_form.school" | translate }}</label>
+    <div fxLayout="column" fxLayoutAlign="center center">
+        <div class="input-group input-group-default">
+            <input autofocus class="form-control" type="text" name="school" controlStatus formControlName="school"
+                placeholder='{{ "components.transportation_form.school" | translate }}'>
+        </div>
+    </div>
+    <label>{{ "components.transportation_form.hotel" | translate }}</label>
+    <div fxLayout="column" fxLayoutAlign="center center">
+        <div class="input-group input-group-default">
+            <input autofocus class="form-control" type="text" name="hotel" controlStatus formControlName="hotel"
+                placeholder='{{ "components.transportation_form.hotel" | translate }}'>
+        </div>
+    </div>
+    <label>{{ "components.transportation_form.image" | translate }}</label>
+    <div fxLayout="column" fxLayoutAlign="center center">
+        <div class="input-group input-group-default">
+            <input autofocus class="form-control" type="text" name="image" controlStatus formControlName="image"
+                placeholder='{{ "components.transportation_form.image" | translate }}'>
+        </div>
+    </div>
+</form>

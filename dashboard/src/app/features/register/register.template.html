@@ -1,0 +1,35 @@
+<div class="background">
+    <div class="register-content" fxFlexFill fxLayout fxLayoutAlign="center center">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-5 col-md-8 col-sm-10 ml-auto mr-auto">
+                    <div class="card-wrapper animated fadeInDown">
+                        <div class="card">
+                            <app-loading-spinner [loading]="loading$"></app-loading-spinner>
+                            <img class="logo" src="../../../assets/logo-long.svg">
+                            <div class="card-body">
+                                <ng-container *ngIf="!(error$ | async)">
+                                    <app-user-form [(ngModel)]="userFormDto"></app-user-form>
+                                    <div class="text-center">
+                                        <a class="btn btn-primary btn-rounded mt-3 px-3"
+                                           (click)="clickRegister()">{{ "pages.register.register" | translate }}</a>
+                                    </div>
+                                    <hr class="my-3">
+                                    <div class="text-center mt-3">
+                                        <a [routerLink]="['/login']">{{ "pages.register.already_have_account" | translate }}</a>
+                                    </div>
+                                </ng-container>
+                                <ng-container *ngIf="error$ | async">
+                                    <div class="text-center">
+                                        <i class="fal fa-times-circle text-danger fa-8x"></i>
+                                        <h3 class="mt-2">{{ "pages.register.validation_error" | translate }}</h3>
+                                    </div>
+                                </ng-container>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

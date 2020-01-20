@@ -1,0 +1,592 @@
+{
+    "components": {
+        "profile": {
+            "2x-large": "XX-Large",
+            "cv": "CV",
+            "female": "Female",
+            "gender": "Gender",
+            "large": "Large",
+            "male": "Male",
+            "medium": "Medium",
+            "no_answer": "I prefer not to answer.",
+            "other": "Other",
+            "phone": "Phone number",
+            "profile": "Profile",
+            "small": "Small",
+            "update_success": "Profile successfully updated!",
+            "website": "Website",
+            "x-large": "X-Large",
+            "has_dietary_restrictions": "I have dietary restrictions",
+            "dietary_restrictions": "What are they?",
+            "accept_sms": "I would like to receive SMS notifications during the event",
+            "handicapped": "I will need a wheelchair access during the event",
+            "transport": "I will need a 3 days transport pass for the event as I do not own one STM pass myself",
+            "size": "T-Shirt Size",
+            "school": "School"
+        },
+        "toast": {
+            "attendee_failed": "An error occurred while saving the attendee info.",
+            "attendee_success": "Attendee info successfully saved.",
+            "email_failed": "An error occurred while sending the email.",
+            "email_success": "Email successfully sent.",
+            "password_success": "Password successfully changed!",
+            "password_failure": "An error occurred while changing the password.",
+            "add_member_failure": "An error occurred while adding a member to the team",
+            "update_team_name_failure": "An error occurred while updating the team name"
+        },
+        "top_bar": {
+            "change_language": "Français",
+            "profile_settings": "Profile settings",
+            "sign_out": "Sign Out",
+            "change_password": "Change password",
+            "edit_account": "Edit Account",
+            "ticket": "Ticket"
+        },
+        "add_team_form": {
+            "captain_informations": "Captain informations",
+            "team_informations": "Team informations",
+            "max_members": "Max team members",
+            "sponsor": "Sponsor"
+        },
+        "notification": {
+            "no_notification": "You have no notifications"
+        },
+        "track_form": {
+            "label": "Track name",
+            "type": "Track type",
+            "release_date": "Release date",
+            "end_date": "End date"
+        },
+        "create_track": {
+            "create_track": "Create track",
+            "error": "An error occurred while creating the track.",
+            "success": "Track created!"
+        },
+        "update_track": {
+            "update_track": "Update track",
+            "error": "An error occurred while updating the track.",
+            "success": "Track updated!"
+        },
+        "puzzle_hero_settings": {
+            "puzzle_hero_settings": "Puzzle Hero settings",
+            "release_date": "Release date",
+            "end_date": "End date",
+            "scoreboard_end_date": "Scoreboard end date",
+            "open": "Open",
+            "success": "Settings updated!",
+            "error": "An error occurred while saving the settings."
+        },
+        "update_puzzle": {
+            "success": "Puzzle updated!"
+        },
+        "create_puzzle": {
+            "success": "Puzzle created!"
+        },
+        "flashout_form": {
+            "flashout_informations": "Flash Out information",
+            "school": "School",
+            "url": "Video url",
+            "video_id": "Video Id (youtube)"
+        },
+        "competition_form": {
+            "competition_informations": "Competition information",
+            "activities": "Linked activities",
+            "directors": "Directors",
+            "max_members": "Max members",
+            "on_dashboard": "Competition in dashboard",
+            "is_live": "Competition is live",
+            "weight": "Weight"
+        },
+        "question_form": {
+            "label_placeholder": "Your puzzle title here",
+            "score": "Puzzle value",
+            "validation_types": "Validation type",
+            "puzzle_types": "Puzzle type",
+            "input_types": "Input type",
+            "answer_admin": "Answer",
+            "answer_placeholder": "Answer / URL",
+            "description_placeholder": "Your puzzle description here",
+            "answer": "Answer"
+        },
+        "flashout_settings": {
+            "flashout_settings": "Flash Out settings"
+        },
+        "ticket": {
+            "ticket": "Ticket"
+        },
+        "download_question": {
+            "download_team": "Fetching {{teamName}} result",
+            "download_saving": "Saving file"
+        },
+        "competition_settings": {
+            "settings": "Competition Settings"
+        },
+        "delete_attendee": {
+            "sure": "Are you sure you want to delete this participant?",
+            "deleted": "Once deleted you won't be able to add the participant back.",
+            "safe": "Action cancelled",
+            "delete": "Participant deleted"
+        },
+        "sponsor_form": {
+            "info": "Sponsor information",
+            "website": "Website",
+            "name": "Sponsor name",
+            "image": "Link to image",
+            "description": "The description given by the sponsor",
+            "update": "Update the sponsor info",
+            "positionning": "Sponsor positionning",
+            "web_width": "Width factor of the logo on the website [0, 1]",
+            "web_height": "Height factor of the logo on the website [0, 1]",
+            "web_padding": "Padding on the website [0, x[",
+            "mobile_width": "Width factor of the logo on the mobile app [0, 1]",
+            "mobile_height": "Height factor of the logo on the mobile app [0, 1]",
+            "mobile_padding": "Padding sur l'application mobile [0, x[",
+            "left": "Left padding",
+            "right": "Right padding",
+            "top": "Top padding",
+            "bottom": "Bottom padding"
+        },
+        "activity_form": {
+            "activity_information": "Activity information",
+            "title_placeholder": "Title of the activity",
+            "activity_types": "Activity type",
+            "begin_date": "Start date",
+            "end_date": "End date",
+            "details_information": "Details of the activity",
+            "location": "Location",
+            "on_dashboard": "Activity hidden from dashboard"
+        },
+        "edit_team_info": {
+            "edit_team_info": "Edit team info"
+        },
+        "section": {
+            "create_error": "An error occurred while creating the section",
+            "create_success": "Section successfully created.",
+            "type_section": "Section type",
+            "edit_section": "Edit section",
+            "edit_success": "Section successfully updated",
+            "edit_error": "An error occurred while updating the section"
+        },
+        "hotel_form": {
+            "name": "Name of the hotel",
+            "latitude": "Latitude",
+            "longitude": "Longitude",
+            "address": "Address of the hotel",
+            "zoom": "Zoom on map",
+            "info": "Information of the hotel",
+            "coords": "Coordinates of the hotel"
+        },
+        "school_form": {
+            "name": "Name of school",
+            "latitude": "Latitude",
+            "longitude": "Longitude",
+            "address": "Address of the school",
+            "zoom": "Zoom on map",
+            "info": "Information of the school",
+            "coords":"Coordinates of the school"
+        },
+        "parking_form": {
+            "latitude": "Latitude",
+            "longitude": "Longitude",
+            "zoom": "Zoom on map",
+            "add": "Add marker",
+            "add_success": "Marker succesfully added ",
+            "add_error": "An error occurred while adding a marker",
+            "marker": "Marker for parking ",
+            "coords": "Basic coordinates",
+            "markers": "Markers for parking "
+        },
+        "bring_form": {
+            "add": "Add item to bring",
+            "add_error": "Please enter an item in every language",
+            "no_items": "No items yet"
+        },
+        "map_form": {
+            "website": "Website of the school",
+            "map": "Url of the school map",
+            "add": "Add school map",
+            "add_success": "School map succesfully added ",
+            "add_error": "An error occurred while adding a school map",
+            "maps": "Maps of the school" 
+        },
+        "restaurant_form": {
+            "latitude": "Latitude",
+            "longitude": "Longitude",
+            "zoom": "Zoom on map",
+            "add": "Add restaurant",
+            "add_success": "Restaurant succesfully added ",
+            "add_error": "An error occurred while adding a restaurant",
+            "info": "Information about the restaurant",
+            "map_default_position": "Map default position",
+            "restaurants": "Restaurants"
+        },
+        "event_form": {
+            "name": "Name of the event",
+            "details": "Details",
+            "begin_date": "Begin date",
+            "end_date": "End date",
+            "image_url": "Logo URL",
+            "cover_url": "Cover URL",
+            "location_name": "School name",
+            "location_address": "School address",
+            "website": "Website",
+            "team_edit_lock_date": "Team edit end date",
+            "create_event_success": "Event successfully created",
+            "create_event_error": "An error occurred while creating the event",
+            "primary_color": "Primary color",
+            "edit_event_success": "Event successfully updated",
+            "edit_event_error": "An error occurred while updating the event"
+        },
+        "create_event_modal": {
+            "title": "Create an event"
+        },
+        "edit_event_modal": {
+            "title": "Edit event"
+        },
+        "transportation_form": {
+            "info": "Information about the route between the hotel and the school",
+            "school": "School address",
+            "hotel": "Hotel address",
+            "image": "Url of the route image"
+        },
+        "answers": {
+            "answers": "Puzzle answers"
+        }
+    },
+    "errors": {
+        "/^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).{8,}$/": "The password must contain at least 8 characters including a number, a lower case letter and a upper case letter",
+        "email": "The email is invalid.",
+        "group": {
+            "required": "One or more fields are required."
+        },
+        "maxlength": "This field must have maximum {{value}} characters",
+        "minlength": "This field must have at least {{value}} characters",
+        "passwords_mismatch": "The passwords do not match.",
+        "required": "This field is required.",
+        "bsDate": "Invalid date"
+    },
+    "general": {
+        "button": {
+            "add": "Add",
+            "cancel": "Cancel",
+            "close": "Close",
+            "reset": "Reset",
+            "save": "Save",
+            "send": "Send",
+            "subscribe": "Subscribe",
+            "subscribed": "Subscribed",
+            "validate": "Validate",
+            "edit": "Edit",
+            "vote": "Vote",
+            "delete": "Delete"
+        },
+        "error": {
+            "something": "Something happened...",
+            "reset_code_error": "Reset code is expired"
+        },
+        "loading": {
+            "loading": "Loading..."
+        },
+        "profile": {
+            "email": "E-mail address",
+            "first_name": "First name",
+            "last_name": "Last name",
+            "password": "Password",
+            "new": "New password",
+            "old": "Old password",
+            "confirm": "Confirm new password",
+            "team_name": "Team name"
+        },
+        "team": {
+            "name": "Team name",
+            "school": "School"
+        },
+        "toast": {
+            "Error": "Error",
+            "failure": "Failure",
+            "success": "Success!"
+        },
+        "roles": {
+            "captain": "Captain",
+            "admin": "Admin"
+        },
+        "search": {
+            "search": "Search"
+        },
+        "update": {
+            "update_available": "New version available!",
+            "update": "Update"
+        },
+        "label": {
+            "start_at": "Starts at",
+            "end_at": "Ends at",
+            "description": "Description"
+        },
+        "track": {
+            "types": {
+                "crypto": "Cryptography",
+                "gaming": "Gaming",
+                "scavenger": "Scavenger Hunt",
+                "sponsor": "Sponsor",
+                "vine": "Vine",
+                "esoteric_languages": "Esoteric languages",
+                "data_analysis": "Data analysis",
+                "recon": "Recon",
+                "steganography": "Steganography",
+                "debugging": "Debugging",
+                "forensics": "Forensics",
+                "charades": "Charades",
+                "reverse_engineering": "Reverse engineering",
+                "code_golf": "Code golf",
+                "regex": "Regex",
+                "scripting": "Scripting",
+                "food": "Food",
+                "karaoke": "Karaoke",
+                "pwning": "Pwning",
+                "authentication": "Authentification",
+                "static_analysis": "Static analysis",
+                "artificial_intelligence": "Artificial intelligence",
+                "defensive_security": "Defensive security",
+                "offensive_security": "Offensive security"
+            }
+        },
+        "question": {
+            "types": {
+                "crypto": "Cryptography",
+                "gaming": "Gaming",
+                "scavenger": "Scavenger Hunt",
+                "sponsor": "Sponsor",
+                "upload": "Upload",
+                "vine": "Vine",
+                "esoteric_languages": "Esoteric languages",
+                "data_analysis": "Data analysis",
+                "recon": "Recon",
+                "steganography": "Steganography",
+                "debugging": "Debugging",
+                "forensics": "Forensics",
+                "charades": "Charades",
+                "reverse_engineering": "Reverse engineering",
+                "code_golf": "Code golf",
+                "regex": "Regex",
+                "scripting": "Scripting",
+                "food": "Food",
+                "karaoke": "Karaoke",
+                "pwning": "Pwning",
+                "authentication": "Authentification",
+                "static_analysis": "Static analysis",
+                "artificial_intelligence": "Artificial intelligence",
+                "defensive_security": "Defensive security",
+                "offensive_security": "Offensive security"
+            }
+        },
+        "activity": {
+            "types": {
+                "other": "Other",
+                "food": "Meal",
+                "competition": "Competition"
+            }
+        },
+        "guide": {
+            "types": {
+                "bring": "What to bring ?",
+                "hotel": "Get to the hotel",
+                "transport": "Transportation",
+                "school": "Get to the school",
+                "parking": "Parkings",
+                "restaurant": "Restaurants and bars",
+                "map": "School map"
+            }
+        }
+    },
+    "pages": {
+        "competition": {
+            "competition_password": "Competition password",
+            "competitions": "Competitions",
+            "competition": "Competition",
+            "other": "Other competitions",
+            "participate": "Participate",
+            "subscribed": "Subscribed competitions",
+            "wrong_password": "Wrong password",
+            "loading_error": "An error occurred while loading the competitions",
+            "live": "Happening now",
+            "validate_success": "You have the right password!",
+            "next": "Next competitions",
+            "answered": "Answered questions",
+            "not_answered": "Not answered questions",
+            "answered_all_questions": "You have answered all questions.",
+            "ended": "Competition has ended",
+            "add_competition": "Add competition",
+            "create_competition_success": "Competition created with success.",
+            "results": "Results",
+            "admin": {
+                "edit_competition": "Edit competition",
+                "edit_competition_success": "Successfully saved competition.",
+                "create_competition_success": "Successfully added competition.",
+                "load_score_error": "An error occured while loading the results."
+            },
+            "edit": {
+                "description": "Description",
+                "add_question": "Add question",
+                "update_question": "Update question",
+                "update_question_error": "An error occurred while updating the question.",
+                "add_question_error": "An error occurred while creating the question.",
+                "save_error": "An error occurred while saving the competition.",
+                "save_success": "Successfully saved competition.",
+                "description_and_questions": "Description and questions",
+                "submissions": "Submissions",
+                "results": "Results",
+                "load_results_error": "An error occurred while loading submissions.",
+                "teams_that_answered_question": "Team that answered the question",
+                "answers": "Answer(s)",
+                "download_all_submissions": "Download all submissions",
+                "answered_questions_count": "Number of answered questions",
+                "score": "Score",
+                "percent_result": "Score /100",
+                "position": "Position"
+            }
+        },
+        "flashouts": {
+            "vote_success": "The vote has been successfully saved.",
+            "vote_error": "Please rate all the flash outs before voting.",
+            "add_flashout": "Add a Flash Out",
+            "flashouts": "Flash Outs",
+            "votes": "Number of votes :"
+        },
+        "guide": {
+            "guide": "Guide",
+            "hotel": "Get to the hotel",
+            "school": "Get to the school",
+            "parking": "Parkings",
+            "restaurants": "Restaurants and bars",
+            "what_to_bring": "What to bring?",
+            "map": "School map",
+            "admin": {
+                "section": {
+                    "add_section": "Add section",
+                    "create_section": "Create section"
+                }
+            },
+            "transport": "Transportation"
+        },
+        "home": {
+            "home": "Home"
+        },
+        "login": {
+            "forgot_pass": "Forgot password?",
+            "login": "Login",
+            "login_error": "Invalid e-mail or password.",
+            "sign_in": "Sign in"
+        },
+        "onboarding": {
+            "onboarding": "Onboarding",
+            "agree": "I have read and agree the conditions and rules cited in ",
+            "code": "this disclaimer"
+        },
+        "puzzle_hero": {
+            "all": "All tracks",
+            "position": "Position",
+            "puzzle": "Puzzle",
+            "puzzle_hero": "Puzzle Hero",
+            "score": "Score",
+            "scoreboard": "Scoreboard",
+            "starred": "Starred tracks",
+            "track": "Track",
+            "tracks": "Tracks",
+            "wrong_answer": "Wrong answer!",
+            "loading_error": "An error occurred while loading the puzzle hero",
+            "scoreboard_loading_error": "An error occurred while loading the scoreboard",
+            "validate_success": "Good answer!",
+            "answer": "Answer",
+            "count": "Answers count:",
+            "admin": {
+                "add_track": "Add track",
+                "add_puzzle": "Add puzzle",
+                "released_on": "Released on",
+                "releasing_on": "Releasing on",
+                "ended_on": "Ended on",
+                "puzzle_available_for_attendees": "The puzzle hero is currently accessible by attendees.",
+                "puzzle_not_available_for_attendees": "The puzzle hero is not currently accessible by attendees.",
+                "create_puzzle": "Add a puzzle",
+                "update_puzzle": "Update a puzzle"
+            }
+        },
+        "register": {
+            "already_have_account": "Already have an account?",
+            "confirm_password": "Confirm password",
+            "register": "Register",
+            "validation_error": "An error occurred while validating your invitation."
+        },
+        "schedule": {
+            "schedule": "Schedule",
+            "view_competition": "View competition",
+            "next": "Next activities"
+        },
+        "sponsors": {
+            "bronze": "Bronze",
+            "gold": "Gold",
+            "partner": "Partner",
+            "platinum": "Platinum",
+            "silver": "Silver",
+            "sponsors": "Sponsors",
+            "add_sponsor": "Add a sponsor"
+        },
+        "team": {
+            "add_a_godparent": "Add a godparent",
+            "add_a_member": "Add a team member",
+            "add_godparent": "Add godparent",
+            "add_member": "Add member",
+            "add_team": "Add team",
+            "godparent": "Godparent",
+            "loading_error": "An error occurred while loading the team.",
+            "teams_loading_error": "An error occurred while loading the teams.",
+            "no_godparent": "No godparent yet",
+            "not_registered": "Not registered",
+            "registered": "Registered",
+            "team": "Team",
+            "teams": "Teams",
+            "team_title": "Team",
+            "team_members": "Team members",
+            "max": "Maximum team members",
+            "show_on_scoreboard": "Show on competitions' scoreboards"
+        },
+        "notifications": {
+            "notifications": "Notifications"
+        },
+        "organizers": {
+            "organizers": "Organizers",
+            "add_organizer": "Add an organizer"
+        },
+        "attendees": {
+            "attendees": "Attendees",
+            "resume": "Resume",
+            "csv": "CSV",
+            "xlsx": "XLSX",
+            "view_team": "View Team",
+            "download_resume": "Download Resume"
+        },
+        "volunteers": {
+            "volunteers": "Volunteers",
+            "add_volunteer": "Add a volunteer"
+        },
+        "directors": {
+            "directors": "Directors",
+            "add_director": "Add a director"
+        },
+        "question": {
+            "upload": "Upload your file",
+            "submit": "Submit",
+            "answer": "Answer",
+            "submit_error": "Please provide an answer to the question.",
+            "validation_error": "Invalid answer.",
+            "answered": "The question has been answered.",
+            "good_answer": "Answer saved!"
+        },
+        "activities": {
+            "activities": "Activities",
+            "add_activity": "Add an activity",
+            "load_error": "An error occurred while loading the activities. ",
+            "edit_activity_success": "Successfully saved activity",
+            "edit_activity": "Edit activity"
+        }
+    }
+}

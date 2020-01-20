@@ -1,0 +1,60 @@
+<div class="page-wrapper">
+    <h1 class="title">{{ "pages.attendees.attendees" | translate }}</h1>
+    <app-loading-spinner [loading]="loading$"></app-loading-spinner>
+    <ng-container *ngIf="sortedFilteredAttendees$ | async as attendees">
+        <div class="row mt-4">
+            <div class="col-sm-7">
+                <h2>
+                    {{ attendees?.length }} {{ "pages.attendees.attendees" | translate }}
+                </h2>
+            </div>
+            <div class="col-sm-3">
+                <div class="input-group input-group-default mx-0">
+                    <div class="input-group-prepend">
+                        <a class="form-icon">
+                            <i class="fal fa-search"></i>
+                        </a>
+                    </div>
+                    <input autofocus class="form-control" type="text" [(ngModel)]="searchInput"
+                           placeholder='{{ "general.search.search" | translate }}'>
+                </div>
+            </div>
+            <div class="col-sm-2">
+                <div class="btn-group w-100">
+                    <a class="btn btn-outline-primary" (click)="downloadAllResume()">{{ "pages.attendees.resume" | translate }}</a>
+                    <a class="btn btn-outline-primary" (click)="downloadData('csv')">{{ "pages.attendees.csv" | translate }}</a>
+                    <a class="btn btn-outline-primary" (click)="downloadData('xlsx')">{{ "pages.attendees.xlsx" | translate }}</a>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th class="col-header" scope="col">Name</th>
+                        <th class="col-header" scope="col">Email</th>
+                        <th class="col-header" scope="col">Team</th>
+                        <th class="col-header" scope="col">School</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let attendee of attendees">
+                        <td class="col-data">{{ attendee.firstName }} {{ attendee.lastName }}</td>
+                        <td class="col-data">{{ attendee.email }}</td>
+                        <td class="col-data">{{ attendee.team }}</td>
+                        <td class="col-data">{{ attendee.school }}</td>
+                        <td>
+                            <div class="btn-group">
+                                <a *ifRole="['admin', 'super-admin']" class="btn btn-outline-primary" (click)="viewTeam(attendee.teamId)">{{ "pages.attendees.view_team" | translate }}</a>
+                                <a class="btn btn-outline-primary" [class.disabled]="!attendee.cv" (click)="downloadResume(attendee._id)">{{ "pages.attendees.download_resume" | translate }}</a>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </ng-container>
+</div>

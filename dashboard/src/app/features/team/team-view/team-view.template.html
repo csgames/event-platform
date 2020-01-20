@@ -1,0 +1,125 @@
+<div class="page-wrapper">
+    <h1 class="title">{{ "pages.team.team_title" | translate }}</h1>
+    <app-loading-spinner [loading]="loading$">
+    </app-loading-spinner>
+    <ng-container *ngIf="error$ | async">
+        <div style="text-align: center">
+            <i class="far fa-times-circle error fa-8x"></i>
+            <h3>{{ "pages.team.loading_error" | translate }}</h3>
+        </div>
+    </ng-container>
+    <ng-container *ngIf="currentTeam$ | async as currentTeam">
+        <div *ngIf="!isEditingTeamName">
+            <h2 class="title">
+                {{ currentTeam?.name }}
+                <a *ifRole="['admin', 'captain', 'super-admin']" class="btn edit-name-button">
+                    <i class="fal fa-edit fa-md" (click)="onEditTeamName(currentTeam)"></i>
+                </a>
+            </h2>
+        </div>
+        <div class="edit-name-card" *ngIf="isEditingTeamName" fxFlexLayout="row" fxLayoutAlign="start center">
+            <div fxFlex="0 0 30%" fxFlex.lt-md="0 0 100%" class="input-group input-group-default input">
+                <input class="form-control" type="text" [(ngModel)]="teamName">
+            </div>
+            <button type="button" class="btn btn-primary m-1" (click)="onSaveTeamName(teamName)">
+                {{ "general.button.save" | translate }}<i class="fal fa-check"></i>
+            </button>
+            <button type="button" class="btn btn-danger m-1" (click)="onCancelTeamName()">
+                {{ "general.button.cancel" | translate }} <i class="fal fa-times"></i>
+            </button>
+        </div>
+        <ng-container *ngIf="currentAttendees$ | async as currentAttendees">
+            <h4 class="team-members">{{ "pages.team.team_members" | translate }}
+                <b>
+                    ({{currentAttendees.length}}/{{ attendeesSize$ | async }})
+                </b>
+            </h4>
+            <hr class="my-2">
+            <div *ngFor="let member of currentAttendees">
+                <app-attendee-view class="mb-4" [attendee]="member" [showRegister]="true">
+                </app-attendee-view>
+            </div>
+            <div *ifRole="['admin', 'captain', 'super-admin', 'sponsor']">
+                <button *ngIf="!isAddingTeamMember && canAddTeamMember$ | async" type="button"
+                        class="btn btn-lg btn-block borders"
+                        (click)="onEditTeamMember()">
+                    + {{ "pages.team.add_member" | translate }}
+                </button>
+            </div>
+        </ng-container>
+
+        <div *ngIf="isAddingTeamMember" class="card-wrapper">
+            <div class="add-member-card">
+                <div class="card-body">
+                    {{ "pages.team.add_a_member" | translate }}
+                    <br>
+                    <div class="row">
+                        <div class="col-sm-12 col-lg-7">
+                            <app-add-attendee-form #attendee [(ngModel)]="newAttendee"></app-add-attendee-form>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-7">
+                            <div class="button-group">
+                                <a class="btn btn-primary" (click)="onAddTeamMember()">
+                                    {{ "general.button.add" | translate }} <i class="fal fa-plus"></i>
+                                </a>
+                                <a class="btn btn-danger cancel" (click)="onCancelTeamMember()">
+                                    {{ "general.button.cancel" | translate }}<i class="fal fa-times"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <ng-container *ngIf="currentTeam.school && currentGodparent$ | async as currentGodparent">
+            <h4 class="team-members">
+                {{ "pages.team.godparent" | translate }}
+                <b>({{ currentGodparent?.length }}/{{ godparentSize$ | async}})</b>
+            </h4>
+            <hr class="my-2">
+            <div *ngFor="let member of currentGodparent">
+                <app-attendee-view style="margin-bottom:20px;" [attendee]="member" [showRegister]="true">
+                </app-attendee-view>
+            </div>
+            <div *ifRole="['admin', 'captain', 'super-admin']">
+                <button *ngIf="!isAddingTeamGodparent && canAddTeamGodparent$ | async" type="button"
+                        class="btn btn-lg btn-block borders"
+                        (click)="onEditTeamGodparent()">+ {{ "pages.team.add_godparent" | translate }}</button>
+            </div>
+            <div *ngIf="isAddingTeamGodparent" class="card-wrapper">
+                <div class="add-member-card">
+                    <div class="card-body">
+                        {{ "pages.team.add_a_godparent" | translate }}
+                        <br>
+                        <div class="row">
+                            <div class="col-sm-12 col-lg-7">
+                                <app-add-attendee-form #godparent [(ngModel)]="newGodparent"></app-add-attendee-form>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-7">
+                                <div class="button-group">
+                                    <a class="btn btn-primary" (click)="onAddTeamGodparent()">
+                                        {{ "general.button.add" | translate }} <i class="fal fa-plus"></i>
+                                    </a>
+                                    <a class="btn btn-danger cancel" (click)="onCancelTeamGodparent()">
+                                        {{ "general.button.cancel" | translate }} <i class="fal fa-times"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div *ifRole="['attendee']">
+                <div
+                    *ngIf="currentGodparent.length < 1 || (currentGodparent?.length < 1 && currentTeam?.maxMembersNumber === 11)"
+                    class="no-godparent">
+                    {{ "pages.team.no_godparent" | translate }}
+                </div>
+            </div>
+        </ng-container>
+    </ng-container>
+</div>
