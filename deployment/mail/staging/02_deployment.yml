@@ -1,0 +1,71 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: csgames-mail-staging
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: csgames-mail-staging
+  template:
+    metadata:
+      labels:
+        app: csgames-mail-staging
+        keel.sh/policy: force
+    spec:
+      volumes:
+      - name: sts-key
+        secret:
+          secretName: public-key
+      containers:
+      - name: csgames-mail-staging
+        image: "polyhx/mail:latest"
+        resources:
+          requests:
+            cpu: "60m"
+          limits:
+            cpu: "70m"
+        volumeMounts:
+        - name: sts-key
+          mountPath: /var/secret
+        env:
+        - name: DB_ADDRESS
+          valueFrom:
+            configMapKeyRef:
+              name: mail-configmap-staging
+              key: DB_ADDRESS
+        - name: DB_PASSWORD
+          valueFrom:
+            configMapKeyRef:
+              name: mail-configmap-staging
+              key: DB_PASSWORD
+        - name: DB_USERNAME
+          valueFrom:
+            configMapKeyRef:
+              name: mail-configmap-staging
+              key: DB_USERNAME
+        - name: JWT_PUBLIC_KEY
+          valueFrom:
+            configMapKeyRef:
+              name: mail-configmap-staging
+              key: JWT_PUBLIC_KEY
+        - name: MAILGUN_API_KEY
+          valueFrom:
+            configMapKeyRef:
+              name: mail-configmap-staging
+              key: MAILGUN_API_KEY
+        - name: MAILGUN_DOMAIN
+          valueFrom:
+            configMapKeyRef:
+              name: mail-configmap-staging
+              key: MAILGUN_DOMAIN
+        - name: PORT
+          valueFrom:
+            configMapKeyRef:
+              name: mail-configmap-staging
+              key: PORT
+        - name: VERSION
+          valueFrom:
+            configMapKeyRef:
+              name: mail-configmap-staging
+              key: VERSION

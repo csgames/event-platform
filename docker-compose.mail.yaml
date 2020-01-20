@@ -1,0 +1,18 @@
+version: '3'
+services:
+  api:
+    build: api/
+    volumes:
+      - ./sts/keys/public.pem:/keys/public.pem
+      - ./gcp:/gcp
+    env_file: api/.env
+  gateway:
+    build: gateway/
+    volumes:
+      - ./gateway/app/proxy-config.json:/config/proxy-config.json
+    env_file: gateway/.env
+  sts:
+    build: sts/
+    volumes:
+      - ./sts/keys:/keys
+    env_file: sts/.env

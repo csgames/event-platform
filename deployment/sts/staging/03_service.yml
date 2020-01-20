@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: csgames-sts-staging-backend
+spec:
+  selector:
+    app: csgames-sts-staging
+  ports:
+  - name: csgames-sts-staging-backend
+    targetPort: 5555
+    port: 5555
+  type: NodePort

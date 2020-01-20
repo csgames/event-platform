@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: csgames-gateway-staging-backend
+spec:
+  selector:
+    app: csgames-gateway-staging
+  ports:
+  - name: csgames-gateway-staging-backend
+    targetPort: 8000
+    port: 8000
+  type: NodePort

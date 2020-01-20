@@ -1,0 +1,4 @@
+.env
+*.pem
+*.pfx
+gcp/*.json

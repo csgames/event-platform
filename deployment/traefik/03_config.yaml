@@ -1,0 +1,51 @@
+# define Traefik configuration
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: traefik-config
+data:
+  traefik.toml: |
+    # traefik.toml
+    defaultEntryPoints = ["http", "https"]
+    [entryPoints]
+      [entryPoints.http]
+      address = ":80"
+        [entryPoints.http.redirect]
+        entryPoint = "https"
+      [entryPoints.https]
+      address = ":443"
+        [entryPoints.https.tls]
+      [entryPoints.traefik]
+      address = ":8080"
+        [entryPoints.traefik.auth.basic]
+          users = [
+            "admin:$2a$04$crtW0AOc.8LfwEt6m782oeBX1TJ1q4KxxScIS5ftyVfLKe0mVAlS2"
+          ]
+    [api]
+      entryPoint = "traefik"
+      dashboard = true
+    [ping]
+      entryPoint = "http"
+    [acme]
+      email = "julien@recursyve.io"
+      storage = "/etc/traefik/acme.json"
+      entryPoint = "https"
+      onHostRule = true
+      acmeLogging = true
+
+      [acme.httpChallenge]
+        entryPoint = "http"
+
+      [[acme.domains]]
+        main = "api.csgames.recursyve.dev"
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: traefik-certificates
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi

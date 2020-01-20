@@ -1,0 +1,17 @@
+# apiVersion: extensions/v1beta1
+# kind: Ingress
+# metadata:
+#   name: traefik-ingress
+#   annotations:
+#     kubernetes.io/ingress.class: traefik
+#     traefik.frontend.passHostHeader: "false"
+#     traefik.frontend.priority: "1"
+# spec:
+#   rules:
+#   - host: traefik.csgames.recursyve.dev
+#     http:
+#       paths:
+#       - path: /
+#         backend:
+#           serviceName: traefik-admin-ui
+#           servicePort: 8080

@@ -1,0 +1,1 @@
+kubectl create secret generic redis-pwd --from-literal=REDIS_PASSWORD=$1

@@ -1,0 +1,1 @@
+kubectl create secret generic $1 --from-file=key.pfx=$2

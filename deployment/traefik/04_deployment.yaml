@@ -1,0 +1,39 @@
+# declare Traefik deployment
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: traefik-ingress-controller
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: traefik-ingress-controller
+  template:
+    metadata:
+      labels:
+        app: traefik-ingress-controller
+    spec:
+      serviceAccountName: traefik-ingress-controller
+      terminationGracePeriodSeconds: 60
+      volumes:
+        - name: config
+          configMap:
+            name: traefik-config
+        - name: certificates
+          persistentVolumeClaim:
+            claimName: traefik-certificates
+      containers:
+      - name: traefik
+        image: "traefik:1.7"
+        volumeMounts:
+          - mountPath: "/etc/traefik/config"
+            name: config
+          - mountPath: /etc/traefik
+            name: certificates
+        args:
+        - --configfile=/etc/traefik/config/traefik.toml
+        - --kubernetes
+        - --logLevel=INFO
+        env:
+        - name: DEPLOYMENT_VAR
+          value: ab

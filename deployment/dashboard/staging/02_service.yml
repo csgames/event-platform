@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: csgames-dashboard-staging-backend
+spec:
+  selector:
+    app: csgames-dashboard-staging
+  ports:
+  - name: csgames-dashboard-staging-backend
+    targetPort: 4200
+    port: 4200
+  type: NodePort

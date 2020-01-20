@@ -1,0 +1,175 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: csgames-api-staging
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: csgames-api-staging
+  template:
+    metadata:
+      labels:
+        app: csgames-api-staging
+        keel.sh/policy: force
+    spec:
+      volumes:
+      - name: google-cloud-key
+        secret:
+          secretName: storage-key
+      - name: sts-public-key
+        secret:
+          secretName: public-key
+      - name: firebase-messaging-key
+        secret:
+          secretName: firebase-key
+      containers:
+      - name: csgames-api-staging
+        image: "polyhx/csgames-api:latest"
+        resources:
+          requests:
+            cpu: "250m"
+          limits:
+            cpu: "250m"
+        volumeMounts:
+        - name: google-cloud-key
+          mountPath: /var/keys/gcp
+        - name: sts-public-key
+          mountPath: /var/secret
+        - name: firebase-messaging-key
+          mountPath: /var/keys/firebase
+        env:
+        - name: ACCOUNT_CREATION_URL
+          valueFrom:
+            configMapKeyRef:
+              name: api-configmap-staging
+              key: ACCOUNT_CREATION_URL
+        - name: DB_ADDRESS
+          valueFrom:
+            configMapKeyRef:
+              name: api-configmap-staging
+              key: DB_ADDRESS
+        - name: DB_PASSWORD
+          valueFrom:
+            configMapKeyRef:
+              name: api-configmap-staging
+              key: DB_PASSWORD
+        - name: DB_USERNAME
+          valueFrom:
+            configMapKeyRef:
+              name: api-configmap-staging
+              key: DB_USERNAME
+        - name: EMAIL_SERVICE_URL
+          valueFrom:
+            configMapKeyRef:
+              name: api-configmap-staging
+              key: EMAIL_SERVICE_URL
+        - name: GCP_PROJECT_ID
+          valueFrom:
+            configMapKeyRef:
+              name: api-configmap-staging
+              key: GCP_PROJECT_ID
+        - name: GCS_BUCKET_NAME
+          valueFrom:
+            configMapKeyRef:
+              name: api-configmap-staging
+              key: GCS_BUCKET_NAME
+        - name: GCS_KEY_FILE_PATH
+          valueFrom:
+            configMapKeyRef:
+              name: api-configmap-staging
+              key: GCS_KEY_FILE_PATH
+        - name: JWT_PUBLIC_KEY
+          valueFrom:
+            configMapKeyRef:
+              name: api-configmap-staging
+              key: JWT_PUBLIC_KEY
+        - name: JWT_AUDIENCES
+          valueFrom:
+            configMapKeyRef:
+              name: api-configmap-staging
+              key: JWT_AUDIENCES
+        - name: JWT_ISSUER
+          valueFrom:
+            configMapKeyRef:
+              name: api-configmap-staging
+              key: JWT_ISSUER
+        - name: MESSAGING_KEY_FILE_PATH
+          valueFrom:
+            configMapKeyRef:
+              name: api-configmap-staging
+              key: MESSAGING_KEY_FILE_PATH
+        - name: MESSAGING_PROJECT_ID
+          valueFrom:
+            configMapKeyRef:
+              name: api-configmap-staging
+              key: MESSAGING_PROJECT_ID
+        - name: NEXMO_API_KEY
+          valueFrom:
+            configMapKeyRef:
+              name: api-configmap-staging
+              key: NEXMO_API_KEY
+        - name: NEXMO_API_SECRET
+          valueFrom:
+            configMapKeyRef:
+              name: api-configmap-staging
+              key: NEXMO_API_SECRET
+        - name: NEXMO_DEBUG
+          valueFrom:
+            configMapKeyRef:
+              name: api-configmap-staging
+              key: NEXMO_DEBUG
+        - name: NEXMO_FROM_NUMBER
+          valueFrom:
+            configMapKeyRef:
+              name: api-configmap-staging
+              key: NEXMO_FROM_NUMBER
+        - name: NODE_ENV
+          value: staging
+        - name: PORT
+          valueFrom:
+            configMapKeyRef:
+              name: api-configmap-staging
+              key: PORT
+        - name: REDIS_HOST
+          valueFrom:
+            configMapKeyRef:
+              name: api-configmap-staging
+              key: REDIS_HOST
+        - name: REDIS_PASSWORD
+          valueFrom:
+            configMapKeyRef:
+              name: api-configmap-staging
+              key: REDIS_PASSWORD
+        - name: REDIS_PORT
+          valueFrom:
+            configMapKeyRef:
+              name: api-configmap-staging
+              key: REDIS_PORT
+        - name: STS_CLIENT_ID
+          valueFrom:
+            configMapKeyRef:
+              name: api-configmap-staging
+              key: STS_CLIENT_ID
+        - name: STS_CLIENT_SCOPES
+          valueFrom:
+            configMapKeyRef:
+              name: api-configmap-staging
+              key: STS_CLIENT_SCOPES
+        - name: STS_CLIENT_SECRET
+          valueFrom:
+            configMapKeyRef:
+              name: api-configmap-staging
+              key: STS_CLIENT_SECRET
+        - name: STS_URL
+          valueFrom:
+            configMapKeyRef:
+              name: api-configmap-staging
+              key: STS_URL
+        - name: VERSION
+          valueFrom:
+            configMapKeyRef:
+              name: api-configmap-staging
+              key: VERSION
+        - name: DEPLOYMENT_VALUE
+          value: a

@@ -1,0 +1,11 @@
+{
+    "path": "/v1", 
+    "target": "http://csgames-api-staging-backend:8080",
+    "router": [
+        { "path_starts_with" : "/management", "redirect" : "http://csgames-api-staging-backend:8080", "path_without": "/v1/management" },
+        { "path_starts_with" : "/socket", "redirect" : "http://csgames-api-staging-backend:8081", "path_without": "/v1/socket" },
+        { "path_starts_with" : "/identity", "redirect" : "http://csgames-sts-staging-backend:5555", "path_without": "/v1/identity" },
+        { "path_starts_with" : "/mail", "redirect" : "http://csgames-mail-staging-backend:8090", "path_without": "/v1/mail" }
+    ],
+    "logLevel": "info"
+}

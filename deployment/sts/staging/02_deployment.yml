@@ -1,0 +1,113 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: csgames-sts-staging
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: csgames-sts-staging
+  template:
+    metadata:
+      labels:
+        app: csgames-sts-staging
+        keel.sh/policy: force
+    spec:
+      volumes:
+      - name: sts-key
+        secret:
+          secretName: cert-key
+      containers:
+      - name: csgames-sts-staging
+        image: "polyhx/csgames-sts:latest"
+        resources:
+          requests:
+            cpu: "250m"
+          limits:
+            cpu: "250m"
+        volumeMounts:
+        - name: sts-key
+          mountPath: /var/keys/
+        env:
+        - name: ALLOW_ORIGINS
+          valueFrom:
+            configMapKeyRef:
+              name: sts-configmap-staging
+              key: ALLOW_ORIGINS
+        - name: AUDIENCE
+          valueFrom:
+            configMapKeyRef:
+              name: sts-configmap-staging
+              key: AUDIENCE
+        - name: CERT_PASSWORD
+          valueFrom:
+            configMapKeyRef:
+              name: sts-configmap-staging
+              key: CERT_PASSWORD
+        - name: CERT_PATH
+          valueFrom:
+            configMapKeyRef:
+              name: sts-configmap-staging
+              key: CERT_PATH
+        - name: CONFIRM_EMAIL_URL
+          valueFrom:
+            configMapKeyRef:
+              name: sts-configmap-staging
+              key: CONFIRM_EMAIL_URL
+        - name: DB_CONNECTION_STRING
+          valueFrom:
+            configMapKeyRef:
+              name: sts-configmap-staging
+              key: DB_CONNECTION_STRING
+        - name: DB_NAME
+          valueFrom:
+            configMapKeyRef:
+              name: sts-configmap-staging
+              key: DB_NAME
+        - name: ISSUERS
+          valueFrom:
+            configMapKeyRef:
+              name: sts-configmap-staging
+              key: ISSUERS
+        - name: ISSUER_URI
+          valueFrom:
+            configMapKeyRef:
+              name: sts-configmap-staging
+              key: ISSUER_URI
+        - name: MAIL_API_URL
+          valueFrom:
+            configMapKeyRef:
+              name: sts-configmap-staging
+              key: MAIL_API_URL
+        - name: PORT
+          valueFrom:
+            configMapKeyRef:
+              name: sts-configmap-staging
+              key: PORT
+        - name: RESET_PASSWORD_URL
+          valueFrom:
+            configMapKeyRef:
+              name: sts-configmap-staging
+              key: RESET_PASSWORD_URL
+        - name: STS_API_URL
+          valueFrom:
+            configMapKeyRef:
+              name: sts-configmap-staging
+              key: STS_API_URL
+        - name: STS_CLIENT_ID
+          valueFrom:
+            configMapKeyRef:
+              name: sts-configmap-staging
+              key: STS_CLIENT_ID
+        - name: STS_CLIENT_SCOPE
+          valueFrom:
+            configMapKeyRef:
+              name: sts-configmap-staging
+              key: STS_CLIENT_SCOPE
+        - name: STS_CLIENT_SECRET
+          valueFrom:
+            configMapKeyRef:
+              name: sts-configmap-staging
+              key: STS_CLIENT_SECRET
+        - name: DEPLOYMENT_VALUE
+          value: a
