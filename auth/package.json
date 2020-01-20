@@ -1,0 +1,10 @@
+{
+  "name": "secure-token-service",
+  "version": "0.0.1",
+  "scripts": {
+    "start": "dotnet run"
+  },
+  "dependencies": {
+    
+  }
+}
