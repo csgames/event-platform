@@ -1,0 +1,42 @@
+{
+    "project_info": {
+      "project_number": "669372657906",
+      "firebase_url": "https://csgames.firebaseio.com",
+      "project_id": "csgames",
+      "storage_bucket": "csgames.appspot.com"
+    },
+    "client": [
+      {
+        "client_info": {
+          "mobilesdk_app_id": "1:669372657906:android:e2c49d0014e5c54e",
+          "android_client_info": {
+            "package_name": "org.csgames.mobileapp"
+          }
+        },
+        "oauth_client": [
+          {
+            "client_id": "669372657906-aftq1v5gcuv5fif6v0hvub95r5059gkc.apps.googleusercontent.com",
+            "client_type": 3
+          }
+        ],
+        "api_key": [
+          {
+            "current_key": "AIzaSyBXa6E-bnw_VrLSJco8yLiQOiyzDgcBloc"
+          }
+        ],
+        "services": {
+          "analytics_service": {
+            "status": 1
+          },
+          "appinvite_service": {
+            "status": 1,
+            "other_platform_oauth_client": []
+          },
+          "ads_service": {
+            "status": 2
+          }
+        }
+      }
+    ],
+    "configuration_version": "1"
+  }
