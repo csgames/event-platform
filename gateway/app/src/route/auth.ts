@@ -45,7 +45,7 @@ export class Auth {
                 headers: { "Content-Type": "application/x-www-form-urlencoded" }
             }).then(r => r.json());
 
-            if (response.access_token && response.refresh_token) {
+            if (response.access_token) {
                 req.session.access_token = response.access_token;
                 let payload = JSON.parse(Buffer.from(response.access_token.split(".")[1], "base64").toString());
                 req.session.access_token_expiration = payload.exp;
@@ -71,7 +71,25 @@ export class Auth {
     }
 
     // GET /logout
-    private logout(req: express.Request, res: express.Response) {
+    private async logout(req: express.Request, res: express.Response) {
+        if (req.session.refresh_token) {
+            const body = querystring.stringify({
+                client_id: process.env.STS_CLIENT_ID,
+                client_secret: process.env.STS_CLIENT_SECRET,
+                token: req.session.refresh_token
+            });
+
+            try {
+                await fetch(`${process.env.STS_URL}/connect/revoke`, {
+                    method: "POST",
+                    body: body,
+                    headers: {"Content-Type": "application/x-www-form-urlencoded"}
+                }).then(r => r.json());
+            } catch (e) {
+                // Catch error
+            }
+        }
+
         if (req.session) {
             req.session.destroy((err) => {
                 if (err) {
