@@ -1,15 +1,15 @@
-import { ArgumentMetadata, HttpException, HttpStatus, Injectable, PipeTransform } from '@nestjs/common';
+import { ArgumentMetadata, HttpException, HttpStatus, Injectable, PipeTransform } from "@nestjs/common";
 import { DeliveredWebHook, DroppedWebHook, MessageHeader } from "./webhook.interface";
 
 @Injectable()
 export class WebHookPipe implements PipeTransform<any> {
-    async transform(body, metadata: ArgumentMetadata) {
+    public async transform(body, metadata: ArgumentMetadata) {
         if (!body.event) {
             console.log("Missing event type.");
             throw new HttpException("", HttpStatus.BAD_REQUEST);
         }
 
-        let messageHeaders: MessageHeader = this.parseMessageHeader(body["message-headers"]);
+        const messageHeaders: MessageHeader = this.parseMessageHeader(body["message-headers"]);
         if (body.event === "delivered") {
             return <DeliveredWebHook> {
                 event: "delivered",

@@ -1,7 +1,7 @@
 import * as mongoose from "mongoose";
 
-export const templateVariableTypes = ['string', 'number', 'date'];
-export type TemplateVariableTypes = 'string' | 'number' | 'date';
+export const templateVariableTypes = ["string", "number", "date"];
+export type TemplateVariableTypes = "string" | "number" | "date";
 
 export interface TemplateVariables extends mongoose.Document {
     name: string;

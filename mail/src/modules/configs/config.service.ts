@@ -1,5 +1,5 @@
-import { Injectable } from '@nestjs/common';
-import { GlobalConfig } from './models/global-config';
+import { Injectable } from "@nestjs/common";
+import { GlobalConfig } from "./models/global-config";
 
 @Injectable()
 export class ConfigService {
@@ -14,9 +14,9 @@ export class ConfigService {
     }
 
     private loadGlobalConfig() {
-        const packageJson = require('../../../package.json');
+        const packageJson = require("../../../package.json");
         this.global = {
-            mode: process.env.NODE_ENV || 'development',
+            mode: process.env.NODE_ENV || "development",
             version: process.env.VERSION || packageJson.version
         };
     }

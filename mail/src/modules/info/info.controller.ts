@@ -1,6 +1,6 @@
-import { Controller, Get } from '@nestjs/common';
-import { PublicRoute } from 'nestjs-jwt2';
-import { ConfigService } from '../configs/config.service';
+import { Controller, Get } from "@nestjs/common";
+import { PublicRoute } from "nestjs-jwt2";
+import { ConfigService } from "../configs/config.service";
 
 @Controller()
 export class InfoController {
@@ -11,7 +11,7 @@ export class InfoController {
     @PublicRoute()
     public info() {
         return {
-            name: 'Mail Api',
+            name: "Mail Api",
             version: this.configService.global.version,
             mode: this.configService.global.mode
         };

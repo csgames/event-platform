@@ -6,7 +6,7 @@ import { TemplatesSchema } from "./templates.model";
 
 @Module({
     imports: [
-        MongooseModule.forFeature([{ name: 'Template', schema: TemplatesSchema }])
+        MongooseModule.forFeature([{ name: "Template", schema: TemplatesSchema }])
     ],
     controllers: [
         TemplatesController

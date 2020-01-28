@@ -7,7 +7,7 @@ import { EmailSchema } from "./email.model";
 
 @Module({
     imports: [
-        MongooseModule.forFeature([{ name: 'Mail', schema: EmailSchema }]),
+        MongooseModule.forFeature([{ name: "Mail", schema: EmailSchema }]),
         TemplatesModule
     ],
     controllers: [

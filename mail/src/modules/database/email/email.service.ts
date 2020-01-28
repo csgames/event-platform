@@ -10,7 +10,6 @@ import { DeliveredWebHook, DroppedWebHook } from "../../webhook/webhook.interfac
 
 @Injectable()
 export class EmailService {
-
     private readonly mailgun;
 
     constructor(@InjectModel("Mail") private readonly emailModel: Model<Email>,
@@ -18,21 +17,21 @@ export class EmailService {
         this.mailgun = new _mailgun({ apiKey: process.env.MAILGUN_API_KEY, domain: process.env.MAILGUN_DOMAIN });
     }
 
-    async send(emailMessage: EmailSendDto) {
+    public async send(emailMessage: EmailSendDto) {
         if (emailMessage.template) {
             emailMessage.html = await this.loadTemplate(emailMessage.template, emailMessage.variables);
         }
 
         emailMessage.to = typeof emailMessage.to === "string" ? [emailMessage.to] : emailMessage.to;
 
-        let res = await this.mailgun.messages().send(dtoToMailgunReadable(emailMessage));
+        const res = await this.mailgun.messages().send(dtoToMailgunReadable(emailMessage));
 
-        let recipients = emailMessage.to.reduce((map, recipient) => {
+        const recipients = emailMessage.to.reduce((map, recipient) => {
             map[this.replaceDots(recipient)] = "queued";
             return map;
         }, {});
 
-        let email = new this.emailModel({
+        const email = new this.emailModel({
             mailgunId: res.id,
             timestamp: new Date(),
             from: emailMessage.from,
@@ -48,8 +47,8 @@ export class EmailService {
         return res;
     }
 
-    async updateStatus(webHook: DeliveredWebHook | DroppedWebHook) {
-        let email = await this.emailModel.findOne({
+    public async updateStatus(webHook: DeliveredWebHook | DroppedWebHook) {
+        const email = await this.emailModel.findOne({
             mailgunId: webHook.messageHeaders.messageId
         }).exec();
 
@@ -68,7 +67,7 @@ export class EmailService {
     }
 
     private async loadTemplate(templateId: string, variables?: Object | string): Promise<string> {
-        let template: Template = await this.templatesService.findOne(templateId);
+        const template: Template = await this.templatesService.findOne(templateId);
         if (!template) {
             throw new HttpException(`Template ${template} not found.`, HttpStatus.NOT_FOUND);
         }

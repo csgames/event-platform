@@ -14,25 +14,25 @@ export class TemplatesController {
 
     @Post()
     @Permissions("mail_service:create:template")
-    async create(@Body(new ValidationPipe()) createTemplateDto: CreateTemplateDto) {
+    public async create(@Body(new ValidationPipe()) createTemplateDto: CreateTemplateDto) {
         await this.templatesService.create(createTemplateDto);
     }
 
     @Get()
     @Permissions("mail_service:get-all:template")
-    async getAll(): Promise<Template[]> {
+    public async getAll(): Promise<Template[]> {
         return this.templatesService.findAll();
     }
 
     @Put(":name")
     @Permissions("mail_service:update:template")
-    async update(@Param("name") name: string, @Body(new ValidationPipe()) updateTemplateDto: UpdateTemplateDto) {
+    public async update(@Param("name") name: string, @Body(new ValidationPipe()) updateTemplateDto: UpdateTemplateDto) {
         return this.templatesService.update(name, updateTemplateDto);
     }
 
     @Delete(":name")
     @Permissions("mail_service:delete:template")
-    async remove(@Param("name") name: string) {
+    public async remove(@Param("name") name: string) {
         return this.templatesService.remove(name);
     }
 }

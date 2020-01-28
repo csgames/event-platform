@@ -30,6 +30,7 @@
         ],
         "radix": true,
         "semicolon": true,
+        "quotemark": [true, "double"],
         "triple-equals": [true, "allow-null-check"],
         "variable-name": false,
         "whitespace": [true,
