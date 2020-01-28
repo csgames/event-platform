@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+using System.Net.Http;
 using System.Security.Claims;
-using System.Security.Cryptography.X509Certificates;
-using System.Threading.Tasks;
+using System.Security.Cryptography;
+using IdentityModel;
 using IdentityServer4.Models;
 using IdentityServer4.Services;
 using IdentityServer4.Stores;
@@ -12,23 +11,21 @@ using IdentityServer4.Validation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Cors.Infrastructure;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
+using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
-using MongoDB.Bson.IO;
 using MongoDB.Bson.Serialization;
+using Newtonsoft.Json;
 using PolyHxDotNetServices.Mail;
 using PolyHxDotNetServices.Sts;
 using STS.Configuration;
 using STS.Extension;
-using STS.Interface;
 using STS.Store;
 using STS.Models;
+using STS.Service;
 using STS.Utils;
+using STS.Workers;
 
 namespace STS
 {
@@ -40,18 +37,21 @@ namespace STS
         }
 
         public IConfiguration Configuration { get; }
-        
-        private readonly X509Certificate2 _cert = new X509Certificate2(Environment.GetEnvironmentVariable("CERT_PATH"),
-            Environment.GetEnvironmentVariable("CERT_PASSWORD"));
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddCors(options=>
+            services.AddHsts(options =>
+            {
+                options.Preload = true;
+                options.IncludeSubDomains = true;
+                options.MaxAge = TimeSpan.FromDays(365);
+            });
+            services.AddCors(options =>
             {
                 options.AddPolicy("default", policy =>
                 {
-                    policy.AllowAnyOrigin()
+                    policy.WithOrigins(Environment.GetEnvironmentVariable("ALLOW_ORIGINS")?.Split(" "))
                         .AllowAnyHeader()
                         .AllowAnyMethod()
                         .AllowCredentials();
@@ -60,17 +60,22 @@ namespace STS
 
             services.AddMvc();
             services.AddIdentityServer(x => x.IssuerUri = Environment.GetEnvironmentVariable("ISSUER_URI"))
-                .AddSigningCredential(_cert)
                 .AddMongoRepository()
                 .AddClients()
                 .AddIdentityApiResources()
                 .AddPersistedGrants()
                 .AddProfileService<ProfileService>();
 
+            services.AddSingleton(new CertificatesGenerator(Configuration));
             services.AddTransient<IResourceOwnerPasswordValidator, CustomResourceOwnerPasswordValidator>();
             services.AddTransient<IProfileService, ProfileService>();
             services.AddTransient<IPersistedGrantStore, CustomPersistedGrantStore>();
+            services.AddTransient<ISigningCredentialStore, CustomSigningCredentialStore>();
+            services.AddTransient<IValidationKeysStore, CustomValidationKeysStore>();
             services.AddSingleton<ICorsPolicyService, CustomCorsPolicyService>();
+            
+            services.AddSingleton<IHostedService, CertificatesBackgroundWorker>();
+            services.AddSingleton<IHostedService, PersistedGrantBackgroundWorker>();
 
             var stsService = new StsService();
             var mailService = new MailService(stsService);
@@ -80,9 +85,41 @@ namespace STS
             var tokenValidationParameters = new TokenValidationParameters
             {
                 ValidateIssuerSigningKey = true,
-                IssuerSigningKey = new X509SecurityKey(_cert),
-                ValidIssuers = Environment.GetEnvironmentVariable("ISSUERS").Split(","),
-                ValidAudiences = Environment.GetEnvironmentVariable("AUDIENCE").Split(","),
+                IssuerSigningKeyResolver = (token, securityToken, kid, parameters) =>
+                {
+                    var keys = new List<SecurityKey>();
+                    try
+                    {
+                        var client = new HttpClient();
+                        var disco = JsonConvert.DeserializeObject<JsonWebKeySet>(
+                            client.GetAsync($"{Environment.GetEnvironmentVariable("ISSUER_URI")}/.well-known/openid-configuration/jwks")
+                                .Result.Content.ReadAsStringAsync().Result
+                        );
+
+                        foreach (var webKey in disco.Keys)
+                        {
+                            var e = Base64Url.Decode(webKey.E);
+                            var n = Base64Url.Decode(webKey.N);
+
+                            var key = new RsaSecurityKey(new RSAParameters {Exponent = e, Modulus = n})
+                            {
+                                KeyId = webKey.Kid
+                            };
+
+                            keys.Add(key);
+                        }
+
+                        return keys;
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e);
+                    }
+
+                    return keys;
+                },
+                ValidIssuers = Environment.GetEnvironmentVariable("ISSUERS")?.Split(","),
+                ValidAudiences = Environment.GetEnvironmentVariable("AUDIENCE")?.Split(","),
                 ValidateLifetime = true,
                 ClockSkew = TimeSpan.Zero
             };
@@ -96,13 +133,24 @@ namespace STS
             {
                 options.DefaultPolicy = new AuthorizationPolicyBuilder(JwtBearerDefaults.AuthenticationScheme).RequireAuthenticatedUser().Build();
             });
+            
+            services.AddMvc(options => options.EnableEndpointRouting = false);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
+            else
+            {
+                app.UseExceptionHandler("/Error");
+                app.UseHsts();
+            }
+            
             app.UseCors("default");
-            app.UseDeveloperExceptionPage();
             app.UseIdentityServer();
             app.UseStaticFiles();
             app.UseMvcWithDefaultRoute();
