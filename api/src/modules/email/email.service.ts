@@ -31,7 +31,7 @@ export class EmailService {
         if (email.variables) {
             email.variables = JSON.stringify(email.variables);
         }
-        let body = querystring.stringify(email);
+        let body = querystring.stringify(email as any);
 
         let res: Response;
         try {

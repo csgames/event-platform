@@ -1,43 +1,43 @@
-import { ApiModelProperty } from "@nestjs/swagger";
+import { ApiProperty } from "@nestjs/swagger";
 import { IsNotEmpty, IsOptional, IsString } from "class-validator";
 
 export class CreateSponsorDto {
-    @ApiModelProperty({ required: true })
+    @ApiProperty({ required: true })
     @IsString()
     @IsNotEmpty()
     name: string;
 
-    @ApiModelProperty({ required: true })
+    @ApiProperty({ required: true })
     @IsNotEmpty()
     description: { [language: string]: object };
 
-    @ApiModelProperty({ required: true })
+    @ApiProperty({ required: true })
     @IsString()
     @IsNotEmpty()
     website: string;
 
-    @ApiModelProperty({ required: true })
+    @ApiProperty({ required: true })
     @IsString()
     @IsNotEmpty()
     imageUrl: string;
 }
 
 export class UpdateSponsorDto {
-    @ApiModelProperty()
+    @ApiProperty()
     @IsString()
     @IsOptional()
     name: string;
 
-    @ApiModelProperty()
+    @ApiProperty()
     @IsOptional()
     description: { [language: string]: object };
 
-    @ApiModelProperty()
+    @ApiProperty()
     @IsString()
     @IsOptional()
     website: string;
 
-    @ApiModelProperty()
+    @ApiProperty()
     @IsString()
     @IsOptional()
     imageUrl: string;

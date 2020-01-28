@@ -1,4 +1,4 @@
-import { ApiModelProperty } from "@nestjs/swagger";
+import { ApiProperty } from "@nestjs/swagger";
 import {
     ArrayMaxSize, ArrayMinSize, ArrayUnique, IsArray, IsDefined, IsHexColor, IsMongoId, IsNotEmpty, IsNumber, IsOptional, IsString,
     ValidateNested
@@ -8,150 +8,150 @@ import { EventAttendees } from "./events.model";
 export class CreateEventDto {
     @IsString()
     @IsNotEmpty()
-    @ApiModelProperty({ required: true })
+    @ApiProperty({ required: true })
     name: string;
 
     @IsDefined()
-    @ApiModelProperty({ required: true })
+    @ApiProperty({ required: true })
     details: object;
 
     @IsNotEmpty()
-    @ApiModelProperty({ required: true })
+    @ApiProperty({ required: true })
     beginDate: string;
 
     @IsNotEmpty()
-    @ApiModelProperty({ required: true })
+    @ApiProperty({ required: true })
     endDate: string;
 
     @IsOptional()
     @IsArray()
     @ArrayUnique()
-    @ApiModelProperty()
+    @ApiProperty()
     activities: string[];
 
     @IsOptional()
     @IsArray()
     @ArrayUnique()
-    @ApiModelProperty()
+    @ApiProperty()
     attendees: EventAttendees[];
 
     @IsOptional()
     @IsString()
-    @ApiModelProperty()
+    @ApiProperty()
     imageUrl: string;
 
     @IsOptional()
     @IsString()
-    @ApiModelProperty()
+    @ApiProperty()
     coverUrl: string;
 
     @IsOptional()
     @IsString()
-    @ApiModelProperty()
+    @ApiProperty()
     website: string;
 
     @IsOptional()
     @IsString()
-    @ApiModelProperty()
+    @ApiProperty()
     facebookEvent: string;
 
     @IsOptional()
     @IsString()
-    @ApiModelProperty()
+    @ApiProperty()
     locationName: string;
 
     @IsOptional()
     @IsString()
-    @ApiModelProperty()
+    @ApiProperty()
     locationAddress: string;
 
     @IsOptional()
     @IsNumber()
-    @ApiModelProperty()
+    @ApiProperty()
     maxTeamMembers: number;
 
     @IsOptional()
     @IsHexColor()
-    @ApiModelProperty()
+    @ApiProperty()
     primaryColor: string;
 }
 
 export class UpdateEventDto {
     @IsOptional()
     @IsString()
-    @ApiModelProperty()
+    @ApiProperty()
     name: string;
 
     @IsOptional()
-    @ApiModelProperty()
+    @ApiProperty()
     details: object;
 
     @IsOptional()
-    @ApiModelProperty()
+    @ApiProperty()
     beginDate: string;
 
     @IsOptional()
-    @ApiModelProperty()
+    @ApiProperty()
     endDate: string;
 
     @IsOptional()
     @IsArray()
     @ArrayUnique()
-    @ApiModelProperty()
+    @ApiProperty()
     activities: string[];
 
     @IsOptional()
     @IsArray()
     @ArrayUnique()
-    @ApiModelProperty()
+    @ApiProperty()
     attendees: EventAttendees[];
 
     @IsOptional()
     @IsString()
-    @ApiModelProperty()
+    @ApiProperty()
     imageUrl: string;
 
     @IsOptional()
     @IsString()
-    @ApiModelProperty()
+    @ApiProperty()
     coverUrl: string;
 
     @IsOptional()
     @IsString()
-    @ApiModelProperty()
+    @ApiProperty()
     website: string;
 
     @IsOptional()
     @IsString()
-    @ApiModelProperty()
+    @ApiProperty()
     facebookEvent: string;
 
     @IsOptional()
     @IsString()
-    @ApiModelProperty()
+    @ApiProperty()
     locationName: string;
 
     @IsOptional()
     @IsString()
-    @ApiModelProperty()
+    @ApiProperty()
     locationAddress: string;
 
     @IsOptional()
     @IsNumber()
-    @ApiModelProperty()
+    @ApiProperty()
     maxTeamMembers: number;
 
     @IsOptional()
-    @ApiModelProperty()
+    @ApiProperty()
     flashoutBeginDate: string;
 
     @IsOptional()
-    @ApiModelProperty()
+    @ApiProperty()
     flashoutEndDate: string;
 
     @IsOptional()
     @IsHexColor()
-    @ApiModelProperty()
+    @ApiProperty()
     primaryColor: string;
 }
 
@@ -162,19 +162,19 @@ export class SendConfirmEmailDto {
 }
 
 export class SponsorDetailsDto {
-    @ApiModelProperty()
+    @ApiProperty()
     @IsArray()
     @ArrayMaxSize(4)
     @ArrayMinSize(4)
     @IsOptional()
     padding: number[];
 
-    @ApiModelProperty()
+    @ApiProperty()
     @IsNumber()
     @IsOptional()
     widthFactor: number;
 
-    @ApiModelProperty()
+    @ApiProperty()
     @IsNumber()
     @IsOptional()
     heightFactor: number;
@@ -183,12 +183,12 @@ export class SponsorDetailsDto {
 export class AddSponsorDto {
     @IsString()
     @IsNotEmpty()
-    @ApiModelProperty({ required: true })
+    @ApiProperty({ required: true })
     tier: string;
 
     @IsMongoId()
     @IsNotEmpty()
-    @ApiModelProperty({ required: true })
+    @ApiProperty({ required: true })
     sponsor: string;
 
     @IsOptional()
@@ -204,22 +204,22 @@ export class AddScannedAttendee {
     @IsString()
     @IsNotEmpty()
     @IsMongoId()
-    @ApiModelProperty({ required: true })
+    @ApiProperty({ required: true })
     scannedAttendee: string;
 }
 
 export class SendSmsDto {
     @IsNotEmpty()
-    @ApiModelProperty({ required: true })
+    @ApiProperty({ required: true })
     text: string;
 }
 
 export class SendNotificationDto {
     @IsNotEmpty()
-    @ApiModelProperty({ required: true })
+    @ApiProperty({ required: true })
     title: string;
 
     @IsNotEmpty()
-    @ApiModelProperty({ required: true })
+    @ApiProperty({ required: true })
     body: string;
 }

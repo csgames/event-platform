@@ -1,14 +1,14 @@
-import { ExecutionContext, Injectable, NestInterceptor } from "@nestjs/common";
+import { CallHandler, ExecutionContext, Injectable, NestInterceptor } from "@nestjs/common";
 import * as express from "express";
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
 
 @Injectable()
 export class DataGridDownloadInterceptor implements NestInterceptor {
-    intercept(context: ExecutionContext, call$: Observable<Buffer | string>): Observable<any> {
+    public intercept(context: ExecutionContext, next: CallHandler<Buffer | string>): Observable<any> {
         const type = context.switchToHttp().getRequest<express.Request>().query.type;
         const res = context.switchToHttp().getResponse<express.Response>();
-        return call$.pipe(
+        return next.handle().pipe(
             map(value => {
                 if (type === "xlsx") {
                     res.setHeader("Content-Type", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");

@@ -1,7 +1,7 @@
 import {
     Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Post, Put, UploadedFile, UseGuards, UseInterceptors
 } from "@nestjs/common";
-import { ApiUseTags } from "@nestjs/swagger";
+import { ApiTags } from "@nestjs/swagger";
 import { EventId } from "../../../decorators/event-id.decorator";
 import { Permissions } from "../../../decorators/permission.decorator";
 import { User } from "../../../decorators/user.decorator";
@@ -20,7 +20,7 @@ import { Competitions } from "./competitions.model";
 import { CompetitionsService, TeamCompetitionResult } from "./competitions.service";
 import { QuestionGraphNodes } from "./questions/question-graph-nodes.model";
 
-@ApiUseTags("Competition")
+@ApiTags("Competition")
 @Controller("competition")
 @UseGuards(PermissionsGuard)
 export class CompetitionsController {

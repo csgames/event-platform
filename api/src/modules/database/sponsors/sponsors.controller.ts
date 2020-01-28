@@ -1,5 +1,5 @@
 import { Body, Controller, Get, Param, Post, Put, UseGuards } from "@nestjs/common";
-import { ApiUseTags } from "@nestjs/swagger";
+import { ApiTags } from "@nestjs/swagger";
 import { Permissions } from "../../../decorators/permission.decorator";
 import { PermissionsGuard } from "../../../guards/permission.guard";
 import { ValidationPipe } from "../../../pipes/validation.pipe";
@@ -7,7 +7,7 @@ import { CreateSponsorDto, UpdateSponsorDto } from "./sponsors.dto";
 import { Sponsors } from "./sponsors.model";
 import { SponsorsService } from "./sponsors.service";
 
-@ApiUseTags("Sponsor")
+@ApiTags("Sponsor")
 @Controller("sponsor")
 @UseGuards(PermissionsGuard)
 export class SponsorsController {

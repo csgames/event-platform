@@ -5,6 +5,7 @@ import { AttendeesModule } from "../attendees/attendees.module";
 import { NotificationsController } from "./notifications.controller";
 import { NotificationsSchema } from "./notifications.model";
 import { NotificationsService } from "./notifications.service";
+import { ConfigModule } from "../../configs/config.module";
 
 @Module({
     imports: [
@@ -12,6 +13,7 @@ import { NotificationsService } from "./notifications.service";
             name: "notifications",
             schema: NotificationsSchema
         }]),
+        ConfigModule,
         AttendeesModule,
         MessagingModule
     ],

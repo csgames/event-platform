@@ -2,7 +2,7 @@ import {
     Body, Controller, Get, HttpCode, HttpStatus, NotFoundException, Param, Post, Put, Query, UploadedFile, UseFilters, UseGuards,
     UseInterceptors
 } from "@nestjs/common";
-import { ApiUseTags } from "@nestjs/swagger";
+import { ApiTags } from "@nestjs/swagger";
 import { EventId } from "../../../decorators/event-id.decorator";
 import { Permissions } from "../../../decorators/permission.decorator";
 import { User } from "../../../decorators/user.decorator";
@@ -31,7 +31,7 @@ import { EventGuide, Events, EventSponsorDetails } from "./events.model";
 import { EventsService } from "./events.service";
 import { AddGuideSectionDto, GuideDto } from "./guide.dto";
 
-@ApiUseTags("Event")
+@ApiTags("Event")
 @Controller("event")
 @UseGuards(PermissionsGuard)
 @UseFilters(new CodeExceptionFilter(codeMap))

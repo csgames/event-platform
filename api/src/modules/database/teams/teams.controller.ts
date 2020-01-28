@@ -1,5 +1,5 @@
 import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Put, UseFilters, UseGuards } from "@nestjs/common";
-import { ApiUseTags } from "@nestjs/swagger";
+import { ApiTags } from "@nestjs/swagger";
 import { EventId } from "../../../decorators/event-id.decorator";
 import { Permissions } from "../../../decorators/permission.decorator";
 import { User } from "../../../decorators/user.decorator";
@@ -13,7 +13,7 @@ import { codeMap } from "./teams.exception";
 import { Teams } from "./teams.model";
 import { TeamsService } from "./teams.service";
 
-@ApiUseTags("Team")
+@ApiTags("Team")
 @Controller("team")
 @UseGuards(PermissionsGuard)
 @UseFilters(new CodeExceptionFilter(codeMap))

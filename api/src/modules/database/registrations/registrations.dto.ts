@@ -1,4 +1,4 @@
-import { ApiModelProperty } from "@nestjs/swagger";
+import { ApiProperty } from "@nestjs/swagger";
 import {
     IsBoolean, IsEmail, IsIn, IsMongoId, IsNotEmpty, IsNumber, IsOptional, IsString, IsUUID, ValidateIf, ValidateNested
 } from "class-validator";
@@ -8,65 +8,65 @@ export class CreateRegistrationDto {
     @IsString()
     @IsNotEmpty()
     @IsIn(["attendee", "captain", "godparent", "sponsor"])
-    @ApiModelProperty({ required: true })
+    @ApiProperty({ required: true })
     role: string;
 
     @IsString()
     @IsNotEmpty()
-    @ApiModelProperty({ required: true })
+    @ApiProperty({ required: true })
     firstName: string;
 
     @IsString()
     @IsNotEmpty()
-    @ApiModelProperty({ required: true })
+    @ApiProperty({ required: true })
     lastName: string;
 
     @IsEmail()
     @IsString()
     @IsNotEmpty()
-    @ApiModelProperty({ required: true })
+    @ApiProperty({ required: true })
     email: string;
 
     @IsString()
     @IsNotEmpty()
-    @ApiModelProperty({ required: true })
+    @ApiProperty({ required: true })
     teamName: string;
 
     @IsMongoId()
     @IsNotEmpty()
     @ValidateIf(x => x.role === "captain")
-    @ApiModelProperty({ required: true })
+    @ApiProperty({ required: true })
     schoolId: string;
 
     @IsMongoId()
     @IsNotEmpty()
     @ValidateIf(x => x.role === "sponsor")
-    @ApiModelProperty({ required: true })
+    @ApiProperty({ required: true })
     sponsorId: string;
 
     @IsNumber()
     @ValidateIf(x => x.role === "captain")
     @IsNotEmpty()
-    @ApiModelProperty({ required: true })
+    @ApiProperty({ required: true })
     maxMembersNumber: number;
 
     @IsBoolean()
     @IsNotEmpty()
     @IsOptional()
-    @ApiModelProperty({ required: true })
+    @ApiProperty({ required: true })
     showOnScoreboard: boolean;
 }
 
 export class RegisterAttendeeDto {
     @IsUUID("4")
     @IsNotEmpty()
-    @ApiModelProperty({ required: true })
+    @ApiProperty({ required: true })
     uuid: string;
 
     @IsEmail()
     @IsString()
     @IsNotEmpty()
-    @ApiModelProperty({ required: true })
+    @ApiProperty({ required: true })
     username: string;
 
     /*
@@ -77,7 +77,7 @@ export class RegisterAttendeeDto {
      */
     @IsString()
     @IsNotEmpty()
-    @ApiModelProperty({ required: true })
+    @ApiProperty({ required: true })
     password: string;
 
     @IsNotEmpty()
@@ -89,13 +89,13 @@ export class RegisterRoleDto {
     @IsString()
     @IsNotEmpty()
     @IsIn(["admin", "volunteer", "director"])
-    @ApiModelProperty({ required: true })
+    @ApiProperty({ required: true })
     role: string;
 
     @IsEmail()
     @IsString()
     @IsNotEmpty()
-    @ApiModelProperty({ required: true })
+    @ApiProperty({ required: true })
     username: string;
 
     /*
@@ -106,7 +106,7 @@ export class RegisterRoleDto {
      */
     @IsString()
     @IsNotEmpty()
-    @ApiModelProperty({ required: true })
+    @ApiProperty({ required: true })
     password: string;
 
     @IsNotEmpty()

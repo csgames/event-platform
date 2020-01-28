@@ -1,4 +1,4 @@
-import { ExecutionContext, Injectable, NestInterceptor } from "@nestjs/common";
+import { CallHandler, ExecutionContext, Injectable, NestInterceptor } from "@nestjs/common";
 import * as express from "express";
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
@@ -8,9 +8,9 @@ export class BufferInterceptor implements NestInterceptor {
     constructor(private contentType: string) {
     }
 
-    intercept(context: ExecutionContext, call$: Observable<Buffer>): Observable<void> {
+    public intercept(context: ExecutionContext, next: CallHandler<Buffer>): Observable<void> {
         const res = context.switchToHttp().getResponse<express.Response>();
-        return call$.pipe(
+        return next.handle().pipe(
             map(value => {
                 res.setHeader("Content-Type", this.contentType);
                 res.setHeader("Content-Length", value.length);

@@ -1,79 +1,79 @@
-import { ApiModelProperty } from "@nestjs/swagger";
+import { ApiProperty } from "@nestjs/swagger";
 import { IsBoolean, IsIn, IsMongoId, IsNotEmpty, IsOptional, IsString } from "class-validator";
 
 export class CreateAttendeeDto {
     @IsString()
     @IsNotEmpty()
-    @ApiModelProperty()
+    @ApiProperty()
     firstName: string;
 
     @IsString()
     @IsNotEmpty()
-    @ApiModelProperty()
+    @ApiProperty()
     lastName: string;
 
     @IsOptional()
     @IsString()
-    @ApiModelProperty()
+    @ApiProperty()
     github: string;
 
     @IsOptional()
     @IsString()
-    @ApiModelProperty()
+    @ApiProperty()
     linkedIn: string;
 
     @IsOptional()
     @IsString()
-    @ApiModelProperty()
+    @ApiProperty()
     website: string;
 
     @IsOptional()
     @IsString()
-    @ApiModelProperty()
+    @ApiProperty()
     cv: string;
 
     @IsOptional()
     @IsString()
     @IsNotEmpty()
     @IsIn(["male", "female", "other", "no_answer"])
-    @ApiModelProperty({ required: true })
+    @ApiProperty({ required: true })
     gender: string;
 
     @IsOptional()
     @IsString()
     @IsNotEmpty()
     @IsIn(["small", "medium", "large", "x-large", "2x-large"])
-    @ApiModelProperty({ required: true })
+    @ApiProperty({ required: true })
     tshirt: string;
 
     @IsOptional()
     @IsString()
-    @ApiModelProperty()
+    @ApiProperty()
     phoneNumber: string;
 
     @IsOptional()
     @IsBoolean()
-    @ApiModelProperty()
+    @ApiProperty()
     acceptSMSNotifications: boolean;
 
     @IsOptional()
     @IsBoolean()
-    @ApiModelProperty()
+    @ApiProperty()
     hasDietaryRestrictions: boolean;
 
     @IsOptional()
     @IsString()
-    @ApiModelProperty()
+    @ApiProperty()
     dietaryRestrictions: string;
 
     @IsOptional()
     @IsBoolean()
-    @ApiModelProperty()
+    @ApiProperty()
     handicapped: boolean;
 
     @IsOptional()
     @IsBoolean()
-    @ApiModelProperty()
+    @ApiProperty()
     needsTransportPass: boolean;
 }
 
@@ -81,92 +81,92 @@ export class UpdateAttendeeDto {
     @IsOptional()
     @IsString()
     @IsNotEmpty()
-    @ApiModelProperty()
+    @ApiProperty()
     firstName: string;
 
     @IsOptional()
     @IsString()
     @IsNotEmpty()
-    @ApiModelProperty()
+    @ApiProperty()
     lastName: string;
 
     @IsOptional()
     @IsString()
-    @ApiModelProperty()
+    @ApiProperty()
     github: string;
 
     @IsOptional()
     @IsString()
-    @ApiModelProperty()
+    @ApiProperty()
     linkedIn: string;
 
     @IsOptional()
     @IsString()
-    @ApiModelProperty()
+    @ApiProperty()
     website: string;
 
     @IsOptional()
     @IsString()
-    @ApiModelProperty()
+    @ApiProperty()
     cv: string;
 
     @IsOptional()
     @IsString()
     @IsIn(["male", "female", "other", "no_answer"])
-    @ApiModelProperty()
+    @ApiProperty()
     gender: string;
 
     @IsOptional()
     @IsString()
     @IsIn(["small", "medium", "large", "x-large", "2x-large"])
-    @ApiModelProperty()
+    @ApiProperty()
     tshirt: string;
 
     @IsOptional()
     @IsString()
-    @ApiModelProperty()
+    @ApiProperty()
     phoneNumber: string;
 
     @IsOptional()
     @IsBoolean()
-    @ApiModelProperty()
+    @ApiProperty()
     acceptSMSNotifications: boolean;
 
     @IsOptional()
     @IsBoolean()
-    @ApiModelProperty()
+    @ApiProperty()
     hasDietaryRestrictions: boolean;
 
     @IsOptional()
     @IsString()
-    @ApiModelProperty()
+    @ApiProperty()
     dietaryRestrictions: string;
 
     @IsOptional()
     @IsBoolean()
-    @ApiModelProperty()
+    @ApiProperty()
     handicapped: boolean;
 
     @IsOptional()
     @IsBoolean()
-    @ApiModelProperty()
+    @ApiProperty()
     needsTransportPass: boolean;
 }
 
 export class AddTokenDto {
     @IsNotEmpty()
-    @ApiModelProperty({ required: true })
+    @ApiProperty({ required: true })
     token: string;
 }
 
 export class UpdateNotificationDto {
     @IsMongoId()
     @IsNotEmpty()
-    @ApiModelProperty({ required: true })
+    @ApiProperty({ required: true })
     notification: string;
 
     @IsBoolean()
     @IsNotEmpty()
-    @ApiModelProperty({ required: true })
+    @ApiProperty({ required: true })
     seen: boolean;
 }

@@ -1,7 +1,7 @@
 import {
     BadRequestException, Body, Controller, Get, HttpCode, HttpStatus, Param, Patch, Post, Put, Query, UseGuards
 } from "@nestjs/common";
-import { ApiUseTags } from "@nestjs/swagger";
+import { ApiTags } from "@nestjs/swagger";
 import { EventId } from "../../../decorators/event-id.decorator";
 import { Permissions } from "../../../decorators/permission.decorator";
 import { User } from "../../../decorators/user.decorator";
@@ -18,7 +18,7 @@ import { Score } from "./scoreboard/score.model";
 import { TeamSeries } from "./scoreboard/team-series.model";
 import { Tracks } from "./tracks/tracks.model";
 
-@ApiUseTags("PuzzleHero")
+@ApiTags("PuzzleHero")
 @Controller("puzzle-hero")
 @UseGuards(PermissionsGuard)
 export class PuzzleHeroesController {

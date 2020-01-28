@@ -1,5 +1,5 @@
 import { Body, Controller, Post, UseGuards } from "@nestjs/common";
-import { ApiUseTags } from "@nestjs/swagger";
+import { ApiTags } from "@nestjs/swagger";
 import { EventId } from "../../../decorators/event-id.decorator";
 import { Permissions } from "../../../decorators/permission.decorator";
 import { PermissionsGuard } from "../../../guards/permission.guard";
@@ -8,7 +8,7 @@ import { CreateFlashOutDto } from "./flash-out.dto";
 import { FlashOut } from "./flash-out.model";
 import { FlashOutsService } from "./flash-out.service";
 
-@ApiUseTags("FlashOut")
+@ApiTags("FlashOut")
 @Controller("flash-out")
 @UseGuards(PermissionsGuard)
 export class FlashOutController {

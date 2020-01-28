@@ -1,5 +1,5 @@
 import { Body, Controller, Get, Post, UseFilters, UseGuards } from "@nestjs/common";
-import { ApiUseTags } from "@nestjs/swagger";
+import { ApiTags } from "@nestjs/swagger";
 import { Permissions } from "../../../decorators/permission.decorator";
 import { CodeExceptionFilter } from "../../../filters/code-error/code.filter";
 import { PermissionsGuard } from "../../../guards/permission.guard";
@@ -10,7 +10,7 @@ import { codeMap } from "./notifications.exception";
 import { Notifications } from "./notifications.model";
 import { NotificationsService } from "./notifications.service";
 
-@ApiUseTags("Notification")
+@ApiTags("Notification")
 @Controller("notification")
 @UseGuards(PermissionsGuard)
 @UseFilters(new CodeExceptionFilter(codeMap))

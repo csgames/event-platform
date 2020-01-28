@@ -1,19 +1,19 @@
-import { ApiModelProperty } from "@nestjs/swagger";
+import { ApiProperty } from "@nestjs/swagger";
 import { IsNotEmpty, IsString } from "class-validator";
 
 export class CreateSchoolDto {
     @IsString()
     @IsNotEmpty()
-    @ApiModelProperty({ required: true })
+    @ApiProperty({ required: true })
     name: string;
 
     @IsString()
     @IsNotEmpty()
-    @ApiModelProperty({ required: true })
+    @ApiProperty({ required: true })
     website: string;
 
     @IsString()
     @IsNotEmpty()
-    @ApiModelProperty({ required: true })
+    @ApiProperty({ required: true })
     countryCode: string;
 }

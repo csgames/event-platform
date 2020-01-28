@@ -11,6 +11,7 @@ import { CompetitionsController } from "./competitions.controller";
 import { CompetitionsGateway } from "./competitions.gateway";
 import { CompetitionsSchema } from "./competitions.model";
 import { CompetitionsService } from "./competitions.service";
+import { StorageModule } from "@polyhx/nest-services";
 
 @Module({
     imports: [
@@ -33,7 +34,8 @@ import { CompetitionsService } from "./competitions.service";
         EventsModule,
         RegistrationsModule,
         ActivitiesModule,
-        QuestionsModule
+        QuestionsModule,
+        StorageModule
     ],
     controllers: [CompetitionsController],
     providers: [

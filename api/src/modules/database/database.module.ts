@@ -29,6 +29,18 @@ import { TeamsModule } from "./teams/teams.module";
         TeamsModule,
         PuzzleHeroesModule,
         CompetitionsModule
+    ],
+    exports: [
+        ActivitiesModule,
+        AttendeesModule,
+        EventsModule,
+        NotificationsModule,
+        RegistrationsModule,
+        SchoolsModule,
+        SponsorsModule,
+        TeamsModule,
+        PuzzleHeroesModule,
+        CompetitionsModule
     ]
 })
 export class DatabaseModule {

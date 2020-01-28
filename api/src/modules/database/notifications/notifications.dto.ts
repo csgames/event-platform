@@ -1,29 +1,29 @@
-import { ApiModelProperty } from "@nestjs/swagger";
+import { ApiProperty } from "@nestjs/swagger";
 import { IsArray, IsMongoId, IsNotEmpty, IsOptional, IsString } from "class-validator";
 
 export class CreateNotificationsDto {
     @IsString()
     @IsNotEmpty()
-    @ApiModelProperty({ required: true })
+    @ApiProperty({ required: true })
     title: string;
 
     @IsString()
     @IsNotEmpty()
-    @ApiModelProperty({ required: true })
+    @ApiProperty({ required: true })
     body: string;
 
     @IsMongoId()
     @IsNotEmpty()
-    @ApiModelProperty({ required: true })
+    @ApiProperty({ required: true })
     event: string;
 
     @IsArray()
     @IsNotEmpty()
-    @ApiModelProperty({ required: true })
+    @ApiProperty({ required: true })
     attendees: string[];
 
     @IsOptional()
-    @ApiModelProperty()
+    @ApiProperty()
     data: any;
 }
 

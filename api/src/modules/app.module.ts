@@ -1,5 +1,6 @@
 import { Module } from "@nestjs/common";
 import { APP_GUARD } from "@nestjs/core";
+import { STSModule } from "@polyhx/nest-services";
 import { JwtGuard, JwtModule } from "nestjs-jwt2";
 import { AttendeeGuard } from "../guards/attendee.guard";
 import { CacheModule } from "./cache/cache.module";
@@ -13,7 +14,8 @@ import { RedisModule } from "./redis/redis.module";
         CacheModule,
         InfoModule,
         DatabaseModule,
-        JwtModule
+        JwtModule,
+        STSModule
     ],
     providers: [
         {

@@ -30,12 +30,12 @@ export class NotificationsService extends BaseService<Notifications, CreateNotif
                 private readonly configService: ConfigService) {
         super(notificationModel);
 
+        // @ts-ignore
         this.nexmo = new Nexmo({
             apiKey: configService.nexmo.apiKey,
-            apiSecret: configService.nexmo.apiSecret,
-            options: {
-                debug: configService.nexmo.debug
-            }
+            apiSecret: configService.nexmo.apiSecret
+        }, {
+            debug: configService.nexmo.debug
         });
     }
 

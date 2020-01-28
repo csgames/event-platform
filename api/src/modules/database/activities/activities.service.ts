@@ -104,7 +104,7 @@ export class ActivitiesService extends BaseService<Activities, CreateActivityDto
 
         await this.notificationService.create({
             ...message,
-            attendees: activity.subscribers,
+            attendees: activity.subscribers as string[],
             event: event._id,
             data: {
                 type: "activity",

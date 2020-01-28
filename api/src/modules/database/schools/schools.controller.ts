@@ -1,5 +1,5 @@
 import { Body, Controller, Get, Param, Post, UseGuards } from "@nestjs/common";
-import { ApiUseTags } from "@nestjs/swagger";
+import { ApiTags } from "@nestjs/swagger";
 import { Permissions } from "../../../decorators/permission.decorator";
 import { PermissionsGuard } from "../../../guards/permission.guard";
 import { ValidationPipe } from "../../../pipes/validation.pipe";
@@ -7,7 +7,7 @@ import { CreateSchoolDto } from "./schools.dto";
 import { Schools } from "./schools.model";
 import { SchoolsService } from "./schools.service";
 
-@ApiUseTags("School")
+@ApiTags("School")
 @Controller("school")
 @UseGuards(PermissionsGuard)
 export class SchoolsController {

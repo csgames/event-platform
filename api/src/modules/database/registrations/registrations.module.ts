@@ -8,6 +8,7 @@ import { EventsModule } from "../events/events.module";
 import { RegistrationsController } from "./registrations.controller";
 import { RegistrationsSchema } from "./registrations.model";
 import { RegistrationsService } from "./registrations.service";
+import { TeamsModule } from "../teams/teams.module";
 
 @Module({
     imports: [
@@ -19,7 +20,8 @@ import { RegistrationsService } from "./registrations.service";
         AttendeesModule,
         EventsModule,
         EmailModule,
-        ConfigModule
+        ConfigModule,
+        TeamsModule
     ],
     controllers: [
         RegistrationsController

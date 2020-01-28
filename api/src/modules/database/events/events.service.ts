@@ -219,7 +219,7 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
         await this.notificationService.create({
             ...message,
             event: id,
-            attendees: ids,
+            attendees: ids as string[],
             data: {
                 type: "event",
                 event: JSON.stringify({

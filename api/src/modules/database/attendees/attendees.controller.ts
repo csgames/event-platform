@@ -1,7 +1,7 @@
 import {
     BadRequestException, Body, Controller, Delete, Get, NotFoundException, Param, Post, Put, UploadedFile, UseFilters, UseGuards
 } from "@nestjs/common";
-import { ApiUseTags } from "@nestjs/swagger";
+import { ApiTags } from "@nestjs/swagger";
 import { StorageService } from "@polyhx/nest-services";
 import { EventId } from "../../../decorators/event-id.decorator";
 import { Permissions } from "../../../decorators/permission.decorator";
@@ -17,7 +17,7 @@ import { CreateAttendeeGuard } from "./attendees.guard";
 import { Attendees } from "./attendees.model";
 import { AttendeeInfo, AttendeesService } from "./attendees.service";
 
-@ApiUseTags("Attendee")
+@ApiTags("Attendee")
 @Controller("attendee")
 @UseGuards(PermissionsGuard)
 @UseFilters(new CodeExceptionFilter(codeMap))
