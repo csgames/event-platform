@@ -1,0 +1,21 @@
+name: Staging CI
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  auth:
+    name: Authentication service
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Build Docker image
+      working-directory: api
+      run: docker build -t docker.pkg.github.com/csgames/event-platform/auth-service:latest .
+    - name: Login to Github Registry
+      run: echo ${{ secrets.GITHUB_TOKEN }} | docker login docker.pkg.github.com -u csgames --password-stdin
+    - name: Pushing the Docker image
+      run: docker push docker.pkg.github.com/csgames/event-platform/auth-service:latest
