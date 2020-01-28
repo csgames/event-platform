@@ -13,7 +13,7 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     - name: Build Docker image
-      working-directory: api
+      working-directory: auth
       run: docker build -t docker.pkg.github.com/csgames/event-platform/auth-service:latest .
     - name: Login to Github Registry
       run: echo ${{ secrets.GITHUB_TOKEN }} | docker login docker.pkg.github.com -u csgames --password-stdin
