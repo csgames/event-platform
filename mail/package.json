@@ -32,7 +32,7 @@
     "express-jwt": "^5.3.0",
     "mailgun-js": "^0.13.1",
     "mongoose": "^4.13.0",
-    "morgan": "^1.9.0",
+    "morgan": "^1.9.1",
     "nestjs-jwt2": "^1.0.2-beta",
     "reflect-metadata": "^0.1.12",
     "rxjs": "^6.3.1",
