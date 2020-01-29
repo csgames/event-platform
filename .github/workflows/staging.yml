@@ -61,3 +61,23 @@ jobs:
       run: echo ${{ secrets.GITHUB_TOKEN }} | docker login docker.pkg.github.com -u csgames --password-stdin
     - name: Pushing the Docker image
       run: docker push docker.pkg.github.com/csgames/event-platform/mail-service:latest
+
+  dashboard:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Use Node.js
+      uses: actions/setup-node@v1
+      with:
+        node-version: 12.x
+    - name: Install packages
+      working-directory: dashboard
+      env:
+        FONTAWESOME_NPM_AUTH_TOKEN: ${{ secrets.FONTAWESOME_NPM_AUTH_TOKEN }}
+      run: |
+        npm ci
+    - name: Build application
+      working-directory: dashboard
+      run: |
+        npm run build:staging
