@@ -80,5 +80,7 @@ jobs:
         npm ci
     - name: Build application
       working-directory: dashboard
+      env:
+        FONTAWESOME_NPM_AUTH_TOKEN: ${{ secrets.FONTAWESOME_NPM_AUTH_TOKEN }}
       run: |
         npm run build:staging
