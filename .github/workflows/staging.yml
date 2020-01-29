@@ -63,6 +63,7 @@ jobs:
       run: docker push docker.pkg.github.com/csgames/event-platform/mail-service:latest
 
   dashboard:
+    name: Dashboard
     runs-on: ubuntu-latest
 
     steps:
