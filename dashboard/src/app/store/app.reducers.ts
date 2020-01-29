@@ -61,7 +61,7 @@ export function globalReducer(state = initialState, action: AppActions): GlobalS
         case AppActionTypes.EventsLoaded:
             return {
                 ...state,
-                events: action.events
+                events: action.events || []
             };
         case AppActionTypes.AppLoaded:
             return {

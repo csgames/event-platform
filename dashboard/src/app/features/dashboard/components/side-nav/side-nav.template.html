@@ -1,5 +1,5 @@
 <div class="side-nav-wrapper">
-    <ng-container *ngIf="loading; else content">
+    <ng-container *ngIf="loading || !(currentEvent$ | async); else content">
         <div class="sidenav-placeholder">
             <svg class="loading-placeholder">
                 <svg:circle cx="120" cy="100" r="100" />

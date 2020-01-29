@@ -162,7 +162,6 @@ export class AppEffects {
     @Effect()
     eventsLoaded$ = this.actions$.pipe(
         ofType<EventsLoaded>(AppActionTypes.EventsLoaded),
-        filter((action: EventsLoaded) => action.events.length > 0),
         map((action: EventsLoaded) => {
                 const currentEventId = this.eventService.getCurrentEvent();
                 const event = action.events.find((e) => e._id === currentEventId);
@@ -178,8 +177,10 @@ export class AppEffects {
     setCurrentEvent$ = this.actions$.pipe(
         ofType<SetCurrentEvent>(AppActionTypes.SetCurrentEvent),
         tap((action) => {
-            this.eventService.saveCurrentEvent(action.event._id);
-            this.themeService.setPrimaryColor(action.event.primaryColor);
+            if (action.event) {
+                this.eventService.saveCurrentEvent(action.event._id);
+                this.themeService.setPrimaryColor(action.event.primaryColor);
+            }
         }),
         switchMap(() => [new LoadCurrentAttendee(), new GetPuzzleHeroInfo(), new LoadRegisteredCompetitions()])
     );

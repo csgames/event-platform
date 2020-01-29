@@ -26,6 +26,17 @@ export class AttendeesService extends BaseService<Attendees, CreateAttendeeDto> 
     }
 
     public async getAttendeeInfo(user: UserModel, eventId: string): Promise<AttendeeInfo> {
+        if (user.role === "super-admin") {
+            return {
+                firstName: "Super",
+                lastName: "Admin",
+                email: user.username,
+                role: user.role,
+                permissions: user.permissions,
+                registered: true
+            } as AttendeeInfo;
+        }
+
         const attendee = await this.findOne({ email: user.username });
         if (!attendee) {
             throw new NotFoundException();

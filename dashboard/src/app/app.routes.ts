@@ -7,6 +7,8 @@ import { AuthenticatedGuard } from "./guards/authenticated.guard";
 import { NotAuthenticatedGuard } from "./guards/not-authenticated.guard";
 import { ForgetComponent } from "./features/forget/forget.component";
 import { ResetComponent } from "./features/reset/reset.component";
+import { EventNotFoundGuard } from "./guards/event-not-found.guard";
+import { EventFoundGuard } from "./guards/event-found.guard";
 
 export const ROUTES: Routes = [
     {
