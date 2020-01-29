@@ -23,7 +23,7 @@ export interface UpdatePuzzleHeroModal {
     styleUrls: ["update-puzzle-hero.style.scss"]
 })
 export class UpdatePuzzleHeroComponent extends SimpleModalComponent<UpdatePuzzleHeroModal, void> implements OnInit, OnDestroy {
-    @ViewChild(QuestionFormComponent)
+    @ViewChild(QuestionFormComponent, { static: true })
     public puzzleForm: QuestionFormComponent;
 
     public info: [Track, PuzzleInfo];

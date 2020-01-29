@@ -17,7 +17,7 @@ import { Subscription } from "rxjs";
     templateUrl: "create-track.template.html"
 })
 export class CreateTrackComponent extends SimpleModalComponent<void, void> implements OnInit, OnDestroy {
-    @ViewChild(TrackFormComponent)
+    @ViewChild(TrackFormComponent, { static: true })
     public trackForm: TrackFormComponent;
 
     public trackFormDto: TrackFormDto = new TrackFormDto();

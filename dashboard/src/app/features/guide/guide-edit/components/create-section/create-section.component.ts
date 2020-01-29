@@ -12,6 +12,7 @@ import {
 } from "./store/create-section.reducer";
 import { CreateSection, ResetState } from "./store/create-section.actions";
 import { EventGuide, EventGuideTypes } from "src/app/api/models/guide";
+import { ForgetFormComponent } from "../../../../forget/components/form/forget-form.component";
 
 export interface CreateSectionModal {
     guide: EventGuide;
@@ -22,7 +23,7 @@ export interface CreateSectionModal {
     templateUrl: "create-section.template.html"
 })
 export class CreateSectionComponent extends SimpleModalComponent<CreateSectionModal, void> implements OnInit, OnDestroy {
-    @ViewChild(SectionFormComponent)
+    @ViewChild(SectionFormComponent, { static: true })
     public sectionForm: SectionFormComponent;
     public types: string[];
     public sectionFormDto: SectionFormDto = new SectionFormDto();

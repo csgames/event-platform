@@ -18,7 +18,7 @@ import { Subscription } from "rxjs";
     ]
 })
 export class AttendeeFormComponent implements OnInit, OnDestroy, ControlValueAccessor {
-    @ViewChild("downloadButton")
+    @ViewChild("downloadButton", { static: true })
     public downloadButton: ElementRef;
 
     @Output()

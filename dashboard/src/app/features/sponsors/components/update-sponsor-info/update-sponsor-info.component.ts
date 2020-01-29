@@ -17,7 +17,7 @@ export interface UpdateSponsorInfoModal {
     templateUrl: "update-sponsor-info.template.html"
 })
 export class UpdateSponsorInfoComponent extends SimpleModalComponent<UpdateSponsorInfoModal, void> implements OnInit, OnDestroy {
-    @ViewChild(SponsorFormComponent)
+    @ViewChild(SponsorFormComponent, { static: true })
     public form: SponsorFormComponent;
 
     public dto: SponsorInfoDto;

@@ -14,7 +14,7 @@ import { ForgetFormComponent } from "./components/form/forget-form.component";
     styleUrls: ["./forget.style.scss"]
 })
 export class ForgetComponent {
-    @ViewChild(ForgetFormComponent)
+    @ViewChild(ForgetFormComponent, { static: true })
     private form: ForgetFormComponent;
 
     forgetFormDto = new ForgetFormDto();

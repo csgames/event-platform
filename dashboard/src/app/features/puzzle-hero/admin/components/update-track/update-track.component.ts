@@ -26,7 +26,7 @@ export class UpdateTrackComponent extends SimpleModalComponent<UpdateTrackModal,
 
     private track: Track;
 
-    @ViewChild(TrackFormComponent)
+    @ViewChild(TrackFormComponent, { static: true })
     public trackForm: TrackFormComponent;
 
     public trackFormDto: TrackFormDto;

@@ -18,7 +18,7 @@ import { Subscription } from "rxjs";
     styleUrls: ["./create-event-modal.style.scss"]
 })
 export class CreateEventModalComponent extends SimpleModalComponent<void, void> implements OnInit, OnDestroy {
-    @ViewChild(EventFormComponent)
+    @ViewChild(EventFormComponent, { static: true })
     public eventFormComponent: EventFormComponent;
 
     public eventFormDto: EventFormDto = new EventFormDto();

@@ -23,7 +23,7 @@ import { DownloadCv, UpdateAttendee, ResetStore } from "./store/profile-setting.
     styleUrls: ["profile-setting.style.scss"]
 })
 export class ProfileSettingComponent extends SimpleModalComponent<void, void> implements OnInit, OnDestroy {
-    @ViewChild(AttendeeFormComponent)
+    @ViewChild(AttendeeFormComponent, { static: true })
     private attendeeForm: AttendeeFormComponent;
 
     public loading$ = this.store$.pipe(selectProfileSettingGlobal(getLoading));

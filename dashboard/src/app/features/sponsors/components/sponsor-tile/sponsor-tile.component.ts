@@ -12,8 +12,7 @@ import { PopoverDirective } from "ngx-bootstrap";
     templateUrl: "sponsor-tile.template.html"
 })
 export class SponsorTileComponent implements OnInit {
-
-    @ViewChild(PopoverDirective)
+    @ViewChild(PopoverDirective, { static: true })
     popover: PopoverDirective;
 
     @Input()

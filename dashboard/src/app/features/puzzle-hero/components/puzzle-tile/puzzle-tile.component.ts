@@ -9,7 +9,7 @@ import { QuestionUtils } from "src/app/utils/question.utils";
     styleUrls: ["./puzzle-tile.style.scss"]
 })
 export class PuzzleTileComponent {
-    @ViewChild("pop")
+    @ViewChild("pop", { static: true })
     popover: PopoverDirective;
 
     @Input()

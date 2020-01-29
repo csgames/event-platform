@@ -11,7 +11,7 @@ import { getCurrentAttendee, State } from "../../../../store/app.reducers";
     styleUrls: ["ticket.style.scss"]
 })
 export class TicketComponent extends SimpleModalComponent<void, void> implements OnInit, OnDestroy {
-    @ViewChild("ticket")
+    @ViewChild("ticket", { static: true })
     public canvas: ElementRef;
     public currentAttendee$ = this.store$.pipe(select(getCurrentAttendee));
     private currentAttendeeSub$: Subscription;

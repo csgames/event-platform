@@ -17,7 +17,7 @@ export class OrganizersComponent implements OnInit, OnDestroy {
     isAddingTeamMember = false;
     newAttendee: RegisterAttendeeFormDto;
 
-    @ViewChild(RegisterAttendeeFormComponent)
+    @ViewChild(RegisterAttendeeFormComponent, { static: true })
     attendeeForm: RegisterAttendeeFormComponent;
 
     constructor(private store$: Store<State>) {}

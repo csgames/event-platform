@@ -25,7 +25,7 @@ export class TeamEditComponent implements OnInit {
 
     newTeamDto = new AddTeamFormDto();
 
-    @ViewChild(AddTeamFormComponent)
+    @ViewChild(AddTeamFormComponent, { static: true })
     teamForm: AddTeamFormComponent;
 
     searchInput = "";

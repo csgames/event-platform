@@ -19,7 +19,7 @@ export interface UpdateSponsorPositionningModal {
 })
 export class UpdateSponsorPositionningComponent extends SimpleModalComponent<UpdateSponsorPositionningModal, void>
                                                 implements OnInit, OnDestroy {
-    @ViewChild(SponsorPositionningFormComponent)
+    @ViewChild(SponsorPositionningFormComponent, { static: true })
     public form: SponsorPositionningFormComponent;
     
     public dto: SponsorPositionningDto;

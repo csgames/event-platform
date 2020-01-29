@@ -3,16 +3,30 @@ services:
   api:
     build: api/
     volumes:
-      - ./sts/keys/public.pem:/keys/public.pem
       - ./gcp:/gcp
-    env_file: api/.env
+    ports:
+      - "8080:8080"
+    env_file: api/.env.compose
+    networks:
+      - app
   gateway:
     build: gateway/
     volumes:
-      - ./gateway/app/proxy-config.json:/config/proxy-config.json
-    env_file: gateway/.env
+      - ./gateway/app:/config
+    ports:
+      - "8000:8000"
+    env_file: gateway/.env.compose
+    networks:
+      - app
   sts:
-    build: sts/
+    build: auth/
     volumes:
       - ./sts/keys:/keys
-    env_file: sts/.env
+    ports:
+      - "5555:5555"
+    env_file: auth/.env.compose
+    networks:
+      - app
+networks:
+  app:
+    driver: bridge

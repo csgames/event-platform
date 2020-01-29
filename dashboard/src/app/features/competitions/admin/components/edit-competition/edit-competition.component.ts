@@ -18,7 +18,7 @@ export interface EditCompetitionModal {
     styleUrls: ["./edit-competition.style.scss"]
 })
 export class EditCompetitionComponent extends SimpleModalComponent<EditCompetitionModal, boolean> implements OnInit, OnDestroy {
-    @ViewChild(CompetitionFormComponent)
+    @ViewChild(CompetitionFormComponent, { static: true })
     private form: CompetitionFormComponent;
 
     activities$ = this.store$.pipe(select(getActivities));

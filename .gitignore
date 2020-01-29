@@ -1,2 +1,4 @@
 storage-key.json
 firebase-adminsdk-key.json
+
+gcp/*.json

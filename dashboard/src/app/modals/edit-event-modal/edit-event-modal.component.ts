@@ -15,7 +15,7 @@ import { EventUtils } from "../../utils/event.utils";
     styleUrls: ["./edit-event-modal.style.scss"]
 })
 export class EditEventModalComponent extends SimpleModalComponent<void, void> implements OnInit, OnDestroy {
-    @ViewChild(EventFormComponent)
+    @ViewChild(EventFormComponent, { static: true })
     public eventFormComponent: EventFormComponent;
 
     public eventFormDto: EventFormDto = new EventFormDto();

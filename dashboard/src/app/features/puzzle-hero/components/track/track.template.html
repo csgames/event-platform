@@ -22,7 +22,7 @@
             <div fxFlex></div>
             <a class="fa-star star-button" [ngClass]="{fal: !isStarred, fas: isStarred}" [class.starred]="isStarred"
                (click)="onClickStar($event)" *ngIf="showStar"></a>
-            <a class="btn btn-primary" *ngIf="adminMode" (click)="onClickAccordionHeadingAddPuzzle($event, track)">
+            <a class="btn btn-primary" *ngIf="adminMode" (click)="onClickAccordionHeadingAddPuzzle($event)">
                 {{ "pages.puzzle_hero.admin.add_puzzle" | translate }}&nbsp;
                 <i class="fal fa-plus"></i>
             </a>
@@ -44,7 +44,6 @@
                     [enableZoom]="false"
                     [panningEnabled]="false"
                     [draggingEnabled]="false"
-                    [orientation]="orientation"
                 >
                     <ng-template #defsTemplate>
                         <svg:marker id="arrow" viewBox="0 -5 10 10" refX="8" refY="0" markerWidth="4" markerHeight="4"

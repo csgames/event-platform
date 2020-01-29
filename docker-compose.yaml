@@ -3,11 +3,10 @@ services:
   api:
     build: api/
     volumes:
-      - ./sts/keys:/keys
       - ./gcp:/gcp
     ports:
       - "8080:8080"
-    env_file: api/.env
+    env_file: api/.env.compose
     networks:
       - app
   gateway:
@@ -16,25 +15,23 @@ services:
       - ./gateway/app:/config
     ports:
       - "8000:8000"
-    env_file: gateway/.env
+    env_file: gateway/.env.compose
     networks:
       - app
   sts:
-    build: sts/
+    build: auth/
     volumes:
       - ./sts/keys:/keys
     ports:
       - "5555:5555"
-    env_file: sts/.env
+    env_file: auth/.env.compose
     networks:
       - app
   mail:
     build: mail/
-    volumes:
-      - ./sts/keys:/keys
     ports:
-      - "8090:8090"
-    env_file: mail/.env
+      - "8091:8090"
+    env_file: mail/.env.compose
     networks:
       - app
 networks:

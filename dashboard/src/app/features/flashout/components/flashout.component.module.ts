@@ -2,7 +2,7 @@ import { NgModule } from "@angular/core";
 
 import { FlashoutCardComponent } from "./flashout-card/flashout-card.component";
 import { CommonModule } from "@angular/common";
-import { YoutubePlayerModule } from "ngx-youtube-player";
+import { NgxYoutubePlayerModule } from "ngx-youtube-player";
 import { RatingModule, BsDatepickerModule, TimepickerModule } from "ngx-bootstrap";
 import { FormsModule, ReactiveFormsModule, FormBuilder } from "@angular/forms";
 import { FlexLayoutModule } from "@angular/flex-layout";
@@ -23,7 +23,7 @@ import { SimpleModalModule } from "ngx-simple-modal";
         CommonModule,
         FormsModule,
         ReactiveFormsModule,
-        YoutubePlayerModule,
+        NgxYoutubePlayerModule,
         RatingModule.forRoot(),
         FlexLayoutModule,
         LoadingSpinnerModule,

@@ -12,7 +12,6 @@ import { Subscription } from "rxjs";
 import { ResetState, CreatePuzzle } from "./store/create-puzzle-hero.actions";
 import { QuestionFormComponent } from "../../../../../components/question-form/question-form.component";
 import { QuestionFormDto } from "../../../../../components/question-form/dto/question-form.dto";
-
 export interface CreatePuzzleHeroModal {
     info: [Track, PuzzleInfo];
 }
@@ -23,7 +22,7 @@ export interface CreatePuzzleHeroModal {
     styleUrls: ["create-puzzle-hero.style.scss"]
 })
 export class CreatePuzzleHeroComponent extends SimpleModalComponent<CreatePuzzleHeroModal, void> implements OnInit, OnDestroy {
-    @ViewChild(QuestionFormComponent)
+    @ViewChild(QuestionFormComponent, { static: true })
     public questionFormComponent: QuestionFormComponent;
 
     public info: [Track, PuzzleInfo];

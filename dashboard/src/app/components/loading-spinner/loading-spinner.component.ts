@@ -11,7 +11,7 @@ export class LoadingSpinnerComponent implements OnInit {
     @Input()
     loading: Observable<boolean>;
 
-    @ContentChild(NgLoadingBodyDirective, { read: TemplateRef })
+    @ContentChild(NgLoadingBodyDirective, { read: TemplateRef, static: true })
     public loadingBodyRef: TemplateRef<any>;
 
     constructor() { }
