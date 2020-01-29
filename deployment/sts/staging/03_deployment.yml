@@ -14,46 +14,33 @@ spec:
         keel.sh/policy: force
     spec:
       volumes:
-      - name: sts-key
-        secret:
-          secretName: cert-key
+      - name: certificates
+        persistentVolumeClaim:
+          claimName: sts-staging-certificates
+      imagePullSecrets:
+        - name: githubcred
       containers:
       - name: csgames-sts-staging
-        image: "polyhx/csgames-sts:latest"
+        image: "docker.pkg.github.com/csgames/event-platform/auth-service:latest"
         resources:
           requests:
             cpu: "250m"
           limits:
             cpu: "250m"
         volumeMounts:
-        - name: sts-key
-          mountPath: /var/keys/
+        - name: certificates
+          mountPath: /var/keys
         env:
-        - name: ALLOW_ORIGINS
+        # Base config
+        - name: ASPNETCORE_ENVIRONMENT
+          value: Staging
+        - name: PORT
           valueFrom:
             configMapKeyRef:
               name: sts-configmap-staging
-              key: ALLOW_ORIGINS
-        - name: AUDIENCE
-          valueFrom:
-            configMapKeyRef:
-              name: sts-configmap-staging
-              key: AUDIENCE
-        - name: CERT_PASSWORD
-          valueFrom:
-            configMapKeyRef:
-              name: sts-configmap-staging
-              key: CERT_PASSWORD
-        - name: CERT_PATH
-          valueFrom:
-            configMapKeyRef:
-              name: sts-configmap-staging
-              key: CERT_PATH
-        - name: CONFIRM_EMAIL_URL
-          valueFrom:
-            configMapKeyRef:
-              name: sts-configmap-staging
-              key: CONFIRM_EMAIL_URL
+              key: PORT
+
+        # Database config
         - name: DB_CONNECTION_STRING
           valueFrom:
             configMapKeyRef:
@@ -64,31 +51,52 @@ spec:
             configMapKeyRef:
               name: sts-configmap-staging
               key: DB_NAME
-        - name: ISSUERS
+
+        # Identity server config
+        - name: ALLOW_ORIGINS
           valueFrom:
             configMapKeyRef:
               name: sts-configmap-staging
-              key: ISSUERS
+              key: ALLOW_ORIGINS
+        - name: AUDIENCE
+          valueFrom:
+            configMapKeyRef:
+              name: sts-configmap-staging
+              key: AUDIENCE
+        - name: CERTIFICATES_PASSWORD
+          valueFrom:
+            configMapKeyRef:
+              name: sts-configmap-staging
+              key: CERTIFICATES_PASSWORD
+        - name: CERTIFICATES_PATH
+          valueFrom:
+            configMapKeyRef:
+              name: sts-configmap-staging
+              key: CERTIFICATES_PATH
         - name: ISSUER_URI
           valueFrom:
             configMapKeyRef:
               name: sts-configmap-staging
               key: ISSUER_URI
-        - name: MAIL_API_URL
+        - name: ISSUERS
           valueFrom:
             configMapKeyRef:
               name: sts-configmap-staging
-              key: MAIL_API_URL
-        - name: PORT
+              key: ISSUERS
+
+        # Email url config
+        - name: CONFIRM_EMAIL_URL
           valueFrom:
             configMapKeyRef:
               name: sts-configmap-staging
-              key: PORT
+              key: CONFIRM_EMAIL_URL
         - name: RESET_PASSWORD_URL
           valueFrom:
             configMapKeyRef:
               name: sts-configmap-staging
               key: RESET_PASSWORD_URL
+
+        # STS client config
         - name: STS_API_URL
           valueFrom:
             configMapKeyRef:
@@ -109,5 +117,12 @@ spec:
             configMapKeyRef:
               name: sts-configmap-staging
               key: STS_CLIENT_SECRET
+
+        # Mail client config
+        - name: MAIL_API_URL
+          valueFrom:
+            configMapKeyRef:
+              name: sts-configmap-staging
+              key: MAIL_API_URL
         - name: DEPLOYMENT_VALUE
           value: a

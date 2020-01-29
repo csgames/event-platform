@@ -20,9 +20,11 @@ spec:
       - name: proxy-config
         secret:
           secretName: proxy-config-staging
+      imagePullSecrets:
+        - name: githubcred
       containers:
       - name: csgames-gateway-staging
-        image: "polyhx/csgames-gateway:latest"
+        image: "docker.pkg.github.com/csgames/event-platform/gateway:latest"
         resources:
           requests:
             cpu: "100m"
@@ -34,36 +36,41 @@ spec:
         - name: proxy-config
           mountPath: /var/config
         env:
+        # Base config
         - name: APP_URL
           valueFrom:
             configMapKeyRef:
               name: gateway-configmap-staging
               key: APP_URL
-        - name: COOKIE_SECRET
-          valueFrom:
-            configMapKeyRef:
-              name: gateway-configmap-staging
-              key: COOKIE_SECRET
         - name: GATEWAY_BASE_PATH
           valueFrom:
             configMapKeyRef:
               name: gateway-configmap-staging
               key: GATEWAY_BASE_PATH
-        - name: IS_HTTPS
-          valueFrom:
-            configMapKeyRef:
-              name: gateway-configmap-staging
-              key: IS_HTTPS
-        - name: PROXY_CONFIG_PATH
-          valueFrom:
-            configMapKeyRef:
-              name: gateway-configmap-staging
-              key: PROXY_CONFIG_PATH
         - name: PORT
           valueFrom:
             configMapKeyRef:
               name: gateway-configmap-staging
               key: PORT
+        - name: PROXY_CONFIG_PATH
+          valueFrom:
+            configMapKeyRef:
+              name: gateway-configmap-staging
+              key: PROXY_CONFIG_PATH
+        - name: IS_HTTPS
+          valueFrom:
+            configMapKeyRef:
+              name: gateway-configmap-staging
+              key: IS_HTTPS
+
+        # Session config
+        - name: COOKIE_SECRET
+          valueFrom:
+            configMapKeyRef:
+              name: gateway-configmap-staging
+              key: COOKIE_SECRET
+
+        # Redis config
         - name: REDIS_HOST
           valueFrom:
             configMapKeyRef:
@@ -79,11 +86,8 @@ spec:
             configMapKeyRef:
               name: gateway-configmap-staging
               key: REDIS_PASSWORD
-        - name: REDIS_PASSWORD
-          valueFrom:
-            configMapKeyRef:
-              name: gateway-configmap-staging
-              key: REDIS_PASSWORD
+
+        # STS config
         - name: STS_CLIENT_ID
           valueFrom:
             configMapKeyRef:
@@ -104,3 +108,5 @@ spec:
             configMapKeyRef:
               name: gateway-configmap-staging
               key: STS_URL
+        - name: DEPLOYMENT_VALUE
+          value: a
