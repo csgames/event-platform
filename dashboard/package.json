@@ -39,7 +39,7 @@
         "@ngrx/store-devtools": "^8.6.0",
         "@ngx-translate/core": "^11.0.1",
         "@ngx-translate/http-loader": "^4.0.0",
-        "@swimlane/ngx-charts": "^13.0.2",
+        "@swimlane/ngx-charts": "12.0.1",
         "@swimlane/ngx-graph": "^6.2.0",
         "@uppy/core": "^1.7.1",
         "@uppy/drag-drop": "^1.4.2",
