@@ -149,7 +149,12 @@ export class EventApi extends CSGamesApi {
     }
 
     public createEvent(createEventDto: CreateEventDto): Observable<Event> {
-        return this.http.post<Event>(this.url(), createEventDto, { withCredentials: true });
+        return this.http.post<Event>(this.url(), createEventDto, {
+            withCredentials: true,
+            headers: {
+                "With-Event": "false"
+            }
+        });
     }
 
     public updateEvent(updateEventDto: UpdateEventDto): Observable<Event> {

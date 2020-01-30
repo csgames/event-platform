@@ -8,12 +8,11 @@ import { Event } from "../models/event";
 
 @Injectable()
 export class EventInterceptor implements HttpInterceptor {
-
     private currentEvent$ = this.store$.pipe(select(getCurrentEvent));
 
     constructor(private store$: Store<State>) {}
 
-    intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    public intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         if (req.headers.get("With-Event") === "false") {
             return next.handle(req.clone({
                 headers: req.headers.delete("With-Event")

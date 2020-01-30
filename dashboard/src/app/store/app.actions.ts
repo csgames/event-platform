@@ -140,7 +140,6 @@ export type AppActions =
     | AppLoaded
     | SetCurrentEvent
     | EditProfile
-    | LoadCurrentAttendee
     | ChangeLanguage
     | ChangePassword
     | ViewTicket
