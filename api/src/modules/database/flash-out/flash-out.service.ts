@@ -16,14 +16,6 @@ export class FlashOutsService extends BaseService<FlashOut, FlashOut> {
     }
 
     public async getByEvent(eventId: string, email: string, role: string): Promise<FlashOut[]> {
-        const attendee = await this.attendeeService.findOne({
-            email
-        });
-
-        if (!attendee) {
-            throw new UserNotAttendeeException();
-        }
-
         const flashOuts = await this.flashOutsModel.find({
             event: eventId
         }).populate({
@@ -37,6 +29,14 @@ export class FlashOutsService extends BaseService<FlashOut, FlashOut> {
             });
 
             return flashOuts;
+        }
+
+        const attendee = await this.attendeeService.findOne({
+            email
+        });
+
+        if (!attendee) {
+            throw new UserNotAttendeeException();
         }
 
         const event = await this.eventModel.findById(eventId);

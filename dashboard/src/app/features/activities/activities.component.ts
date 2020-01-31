@@ -15,7 +15,7 @@ import { Activity } from "src/app/api/models/activity";
     styleUrls: ["activities.style.scss"]
 })
 export class ActivitiesComponent implements OnInit {
-    @ViewChild(ActivityFormComponent, { static: true })
+    @ViewChild(ActivityFormComponent, { static: false })
     private form: ActivityFormComponent;
 
     loading$ = this.store$.pipe(select(getLoading));

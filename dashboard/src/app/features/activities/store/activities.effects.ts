@@ -33,7 +33,7 @@ export class ActivitiesEffects {
 
     @Effect()
     loadActivities$ = this.actions$.pipe(
-        ofType(ActivitiesActionTypes.LoadActivities),
+        ofType(ActivitiesActionTypes.LoadActivities, ActivitiesActionTypes.ActivityAdded),
         switchMap(() => {
             return this.scheduleService.getActivitiesForEvent().pipe(
                 map(activities => new ActivitiesLoaded(activities)),

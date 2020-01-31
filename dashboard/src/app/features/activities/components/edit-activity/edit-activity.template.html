@@ -12,8 +12,7 @@
                     <h1 class="title">{{ "pages.activities.edit_activity" | translate }}</h1>
                 </div>
                 <div class="modal-body">
-                    <app-activity-form [(ngModel)]="dto">
-                    </app-activity-form>
+                    <app-activity-form #form [(ngModel)]="dto"></app-activity-form>
 
                     <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="center center" class="container">
                         <a class="btn btn-primary btn-rounded mt-1 mb-3 px-3"

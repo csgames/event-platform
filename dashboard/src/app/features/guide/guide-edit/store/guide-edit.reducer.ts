@@ -22,7 +22,7 @@ export function reducer(state = initialState, action: GuideEditActions): GuideEd
         case GuideEditActionTypes.GuideEditLoaded:
             return {
                 ...state,
-                guide: action.guide,
+                guide: action.guide || {} as EventGuide,
                 loading: false
             };
         case GuideEditActionTypes.LoadGuideEdit:

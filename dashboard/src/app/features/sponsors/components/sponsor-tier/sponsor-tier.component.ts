@@ -13,7 +13,7 @@ import { SponsorInfoDto } from "../sponsor-form/dto/sponsor-info.dto";
     styleUrls: ["./sponsor-tier.style.scss"]
 })
 export class SponsorTierComponent {
-    @ViewChild(SponsorFormComponent, { static: true })
+    @ViewChild(SponsorFormComponent, { static: false })
     private form: SponsorFormComponent;
 
     public addLoading$ = this.store$.pipe(select(getAddLoading));

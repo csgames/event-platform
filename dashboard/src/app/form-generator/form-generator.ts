@@ -166,7 +166,11 @@ export class FormGenerator<T> {
                 }
                 break;
             default:
-                data = value;
+                if (typeof value === "undefined") {
+                    data = model.defaultValue;
+                } else {
+                    data = value;
+                }
         }
 
         control.patchValue(data);

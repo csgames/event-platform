@@ -18,9 +18,9 @@ export class SponsorEditComponent implements OnInit {
     public get platinumTier$(): Observable<SponsorTier> {
         return this.sponsors$
             .pipe(
-                map((s) => (s && {
+                map((s) => ({
                     name: "platinum",
-                    sponsors: s["Platinum"],
+                    sponsors: s && s["Platinum"] || [],
                     maxInLine: 1,
                     size: 50,
                     gap: 0
@@ -31,9 +31,9 @@ export class SponsorEditComponent implements OnInit {
     public get goldTier$(): Observable<SponsorTier> {
         return this.sponsors$
             .pipe(
-                map((s) => (s && {
+                map((s) => ({
                     name: "gold",
-                    sponsors: s["Gold"],
+                    sponsors: s && s["Gold"] || [],
                     maxInLine: 2,
                     size: 40,
                     gap: 60
@@ -44,9 +44,9 @@ export class SponsorEditComponent implements OnInit {
     public get silverTier$(): Observable<SponsorTier> {
         return this.sponsors$
             .pipe(
-                map((s) => (s && {
+                map((s) => ({
                     name: "silver",
-                    sponsors: s["Silver"],
+                    sponsors: s && s["Silver"] || [],
                     maxInLine: 3,
                     size: 25,
                     gap: 100
@@ -57,9 +57,9 @@ export class SponsorEditComponent implements OnInit {
     public get bronzeTier$(): Observable<SponsorTier> {
         return this.sponsors$
             .pipe(
-                map((s) => (s && {
+                map((s) => ({
                     name: "bronze",
-                    sponsors: s["Bronze"],
+                    sponsors: s && s["Bronze"] || [],
                     maxInLine: 4,
                     size: 24,
                     gap: 120

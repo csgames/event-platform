@@ -27,7 +27,7 @@ import { CompetitionSettingsComponent } from "./components/competition-settings/
 
 })
 export class CompetitionsAdminComponent implements OnInit {
-    @ViewChild(CompetitionFormComponent, { static: true })
+    @ViewChild(CompetitionFormComponent, { static: false })
     private form: CompetitionFormComponent;
 
     activities$ = this.store$.pipe(select(getActivities));

@@ -3,7 +3,7 @@ import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from "@angular/c
 import { Observable } from "rxjs";
 import { getCurrentEvent, State } from "../../store/app.reducers";
 import { select, Store } from "@ngrx/store";
-import { mergeMap } from "rxjs/operators";
+import { exhaustMap, take } from "rxjs/operators";
 import { Event } from "../models/event";
 
 @Injectable()
@@ -19,7 +19,8 @@ export class EventInterceptor implements HttpInterceptor {
             }));
         }
         return this.currentEvent$.pipe(
-            mergeMap((event: Event) => {
+            take(1),
+            exhaustMap((event: Event) => {
                 if (!event || !event._id) {
                     return next.handle(req);
                 }
