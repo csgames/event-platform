@@ -1,4 +1,4 @@
-import { Component, forwardRef, Inject, OnDestroy, OnInit } from "@angular/core";
+import { Component, forwardRef, Inject, OnDestroy, OnInit, ViewEncapsulation } from "@angular/core";
 import { ControlValueAccessor, FormGroup, NG_VALUE_ACCESSOR } from "@angular/forms";
 import { FormGenerator } from "../../form-generator/form-generator";
 import { EVENT_FORM_GENERATOR } from "./event-form.constants";
@@ -9,6 +9,7 @@ import { ThemeService } from "../../providers/theme.service";
 @Component({
     selector: "app-event-form",
     templateUrl: "event-form.template.html",
+    encapsulation: ViewEncapsulation.None,
     providers: [
         {
             provide: NG_VALUE_ACCESSOR,

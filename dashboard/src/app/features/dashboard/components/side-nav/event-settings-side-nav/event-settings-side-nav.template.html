@@ -1,0 +1,18 @@
+<img class="logo" [src]="(currentEvent$ | async)?.imageUrl">
+<div class="navigation">
+    <a [routerLink]="['/event/setting']"
+       routerLinkActive="active">
+        <div [fxLayout]="'row'" fxFlexFill>
+            <div fxFlex="20">
+                <i class="fal fa-calendar-edit"></i>
+            </div>
+            <div fxFlex="80">
+                General
+            </div>
+        </div>
+    </a>
+</div>
+<div class="navigation-bottom" (click)="clickBack()">
+    <hr class="mx-2">
+    <i class="fal fa-chevron-left mr-2"></i> Back
+</div>

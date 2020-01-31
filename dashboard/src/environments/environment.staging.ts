@@ -1,9 +1,9 @@
 export const environment = {
-    production: false,
-    CSGAMES_API_URL: "https://api.csgames.polyhx.io/v1/management",
-    GATEWAY_URL: "https://api.csgames.polyhx.io",
+    production: true,
+    CSGAMES_API_URL: "https://api.csgames.recursyve.dev/v1/management",
+    GATEWAY_URL: "https://api.csgames.recursyve.dev",
     SOCKET_IO_PATH: "/v1/socket/socket.io",
-    IDENTITY_URL: "https://api.csgames.polyhx.io/v1/identity",
+    IDENTITY_URL: "https://api.csgames.recursyve.dev/v1/identity",
     GOOGLE_MAPS_API_KEY: "AIzaSyA5dpEcyydnsy5EPDeme1emxJJklIFb3ac",
     FIREBASE: {
         apiKey: "AIzaSyDQJCfpNw2mbgt_KcjsaD8RHg6_bCD0DlE",

@@ -1,0 +1,10 @@
+<h1 class="title">{{ "pages.event.settings.title" | translate }}</h1>
+
+<div class="event-form">
+    <app-event-form [(ngModel)]="eventFormDto"></app-event-form>
+    <div class="text-center">
+        <a class="btn btn-primary btn-rounded mt-3 px-3" (click)="clickSave()">
+            {{ "general.button.save" | translate }}
+        </a>
+    </div>
+</div>

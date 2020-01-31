@@ -587,6 +587,11 @@
             "load_error": "An error occurred while loading the activities. ",
             "edit_activity_success": "Successfully saved activity",
             "edit_activity": "Edit activity"
+        },
+        "event": {
+            "settings": {
+                "title": "Event's settings"
+            }
         }
     }
 }

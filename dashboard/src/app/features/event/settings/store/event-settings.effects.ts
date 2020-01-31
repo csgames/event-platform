@@ -1,15 +1,15 @@
 import { Injectable } from "@angular/core";
 import { Actions, Effect, ofType } from "@ngrx/effects";
-import { EventService } from "../../../providers/event.service";
+import { EventService } from "../../../../providers/event.service";
 import { ToastrService } from "ngx-toastr";
 import { TranslateService } from "@ngx-translate/core";
 import { catchError, map, switchMap, take, tap } from "rxjs/operators";
 import { of } from "rxjs";
-import { LoadEvents } from "../../../store/app.actions";
-import { EditEvent, EditEventError, EditEventModalActionTypes, EditEventSuccess } from "./edit-event-modal.actions";
+import { LoadEvents } from "../../../../store/app.actions";
+import { EditEvent, EditEventError, EditEventModalActionTypes, EditEventSuccess } from "./event-settings.actions";
 
 @Injectable()
-export class EditEventModalEffects {
+export class EventSettingsEffects {
     constructor(private actions$: Actions, private eventService: EventService, private toastrService: ToastrService,
                 private translateService: TranslateService) {}
 
