@@ -1,9 +1,8 @@
-import { Component, OnDestroy, OnInit, ViewChild } from "@angular/core";
+import { Component, OnDestroy, OnInit } from "@angular/core";
 import { select, Store } from "@ngrx/store";
 import { getCurrentEvent, State } from "../../../store/app.reducers";
 import { SetNavigation } from "../../../store/app.actions";
 import { ActivatedRoute } from "@angular/router";
-import { EventFormComponent } from "../../../components/event-form/event-form.component";
 import { EditEvent } from "./store/event-settings.actions";
 import { EventFormDto } from "../../../components/event-form/dto/event-form.dto";
 

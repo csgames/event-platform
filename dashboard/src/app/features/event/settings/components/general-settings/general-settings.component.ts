@@ -1,8 +1,8 @@
 import { Component, EventEmitter, Input, Output, ViewChild } from "@angular/core";
-import { Event } from "../../../../api/models/event";
-import { EventFormDto } from "../../../../components/event-form/dto/event-form.dto";
-import { EventUtils } from "../../../../utils/event.utils";
-import { EventFormComponent } from "../../../../components/event-form/event-form.component";
+import { Event } from "../../../../../api/models/event";
+import { EventFormDto } from "../../../../../components/event-form/dto/event-form.dto";
+import { EventUtils } from "../../../../../utils/event.utils";
+import { EventFormComponent } from "../../../../../components/event-form/event-form.component";
 
 @Component({
     selector: "app-general-settings",

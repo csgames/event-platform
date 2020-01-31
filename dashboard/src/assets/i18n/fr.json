@@ -251,6 +251,12 @@
         },
         "answers": {
             "answers": "Réponse du puzzle"
+        },
+        "side_nav": {
+            "settings": "Paramètres",
+            "back": "Retour",
+            "general": "Générale",
+            "email_templates": "Modèles courriel"
         }
     },
     "errors": {
@@ -589,7 +595,12 @@
         },
         "event": {
             "settings": {
-                "title": "Paramètres de l'événement"
+                "general": {
+                    "title": "Paramètres de l'événement"
+                },
+                "email_templates": {
+                    "title": "Modèles de courriels"
+                }
             }
         }
     }

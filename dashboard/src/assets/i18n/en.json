@@ -251,6 +251,12 @@
         },
         "answers": {
             "answers": "Puzzle answers"
+        },
+        "side_nav": {
+            "settings": "Settings",
+            "back": "Back",
+            "general": "General",
+            "email_templates": "Email templates"
         }
     },
     "errors": {
@@ -590,7 +596,12 @@
         },
         "event": {
             "settings": {
-                "title": "Event's settings"
+                "general": {
+                    "title": "Event's settings"
+                },
+                "email_templates": {
+                    "title": "Email templates"
+                }
             }
         }
     }

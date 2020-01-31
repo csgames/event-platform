@@ -5,5 +5,9 @@
                 [event]="currentEvent$ | async"
                 (save)="editEvent($event)"
         ></app-general-settings>
+        <app-email-templates
+            *ngSwitchCase="'template'"
+        >
+        </app-email-templates>
     </ng-container>
 </div>
