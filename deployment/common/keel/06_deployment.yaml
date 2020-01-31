@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: keel
+  namespace: keel
+  labels:
+    app: keel
+    chart: keel-0.6.1
+    release: keel
+    heritage: Tiller
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: keel
+      release: keel
+  template:
+    metadata:
+      labels:
+        app: keel
+        release: keel
+    spec:
+      serviceAccountName: keel
+      containers:
+        - name: keel
+          # Note that we use appVersion to get images tag.
+          image: "keelhq/keel:0.14.1"
+          imagePullPolicy: IfNotPresent
+          command: ["/bin/keel"]
+          env:
+            - name: DEBUG
+              value: "1"
+            - name: NAMESPACE
+              value: keel
+          ports:
+            - containerPort: 9300
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 9300
+            initialDelaySeconds: 30
+            timeoutSeconds: 10
+          resources:
+            limits:
+              cpu: 100m
+              memory: 128Mi
+            requests:
+              cpu: 50m
+              memory: 64Mi

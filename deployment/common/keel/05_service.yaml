@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: keel
+  namespace: keel
+  labels:
+    app: keel
+    chart: keel-0.6.1
+    release: keel
+    heritage: Tiller
+spec:
+  type: NodePort
+  ports:
+    - port: 9300
+      targetPort: 9300
+      name: keel
+  selector:
+    app: keel
+  sessionAffinity: None
