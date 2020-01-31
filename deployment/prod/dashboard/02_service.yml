@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: csgames-dashboard-prod-backend
+spec:
+  selector:
+    app: csgames-dashboard-prod
+  ports:
+  - name: csgames-dashboard-prod-backend
+    targetPort: 4200
+    port: 4200
+  type: NodePort

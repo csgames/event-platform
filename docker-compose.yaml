@@ -18,10 +18,10 @@ services:
     env_file: gateway/.env.compose
     networks:
       - app
-  sts:
+  auth:
     build: auth/
     volumes:
-      - ./sts/keys:/keys
+      - ./auth/keys:/keys
     ports:
       - "5555:5555"
     env_file: auth/.env.compose

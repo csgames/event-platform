@@ -2,3 +2,7 @@ storage-key.json
 firebase-adminsdk-key.json
 
 gcp/*.json
+api/.env.compose
+auth/.env.compose
+mail/.env.compose
+gateway/.env.compose

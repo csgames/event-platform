@@ -1,0 +1,128 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: csgames-auth-staging
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: csgames-auth-staging
+  template:
+    metadata:
+      labels:
+        app: csgames-auth-staging
+        keel.sh/policy: force
+    spec:
+      volumes:
+      - name: certificates
+        persistentVolumeClaim:
+          claimName: auth-staging-certificates
+      imagePullSecrets:
+        - name: githubcred
+      containers:
+      - name: csgames-auth-staging
+        image: "docker.pkg.github.com/csgames/event-platform/auth-service:latest"
+        resources:
+          requeauth:
+            cpu: "250m"
+          limits:
+            cpu: "250m"
+        volumeMounts:
+        - name: certificates
+          mountPath: /var/keys
+        env:
+        # Base config
+        - name: ASPNETCORE_ENVIRONMENT
+          value: Staging
+        - name: PORT
+          valueFrom:
+            configMapKeyRef:
+              name: auth-configmap-staging
+              key: PORT
+
+        # Database config
+        - name: DB_CONNECTION_STRING
+          valueFrom:
+            configMapKeyRef:
+              name: auth-configmap-staging
+              key: DB_CONNECTION_STRING
+        - name: DB_NAME
+          valueFrom:
+            configMapKeyRef:
+              name: auth-configmap-staging
+              key: DB_NAME
+
+        # Identity server config
+        - name: ALLOW_ORIGINS
+          valueFrom:
+            configMapKeyRef:
+              name: auth-configmap-staging
+              key: ALLOW_ORIGINS
+        - name: AUDIENCE
+          valueFrom:
+            configMapKeyRef:
+              name: auth-configmap-staging
+              key: AUDIENCE
+        - name: CERTIFICATES_PASSWORD
+          valueFrom:
+            configMapKeyRef:
+              name: auth-configmap-staging
+              key: CERTIFICATES_PASSWORD
+        - name: CERTIFICATES_PATH
+          valueFrom:
+            configMapKeyRef:
+              name: auth-configmap-staging
+              key: CERTIFICATES_PATH
+        - name: ISSUER_URI
+          valueFrom:
+            configMapKeyRef:
+              name: auth-configmap-staging
+              key: ISSUER_URI
+        - name: ISSUERS
+          valueFrom:
+            configMapKeyRef:
+              name: auth-configmap-staging
+              key: ISSUERS
+
+        # Email url config
+        - name: CONFIRM_EMAIL_URL
+          valueFrom:
+            configMapKeyRef:
+              name: auth-configmap-staging
+              key: CONFIRM_EMAIL_URL
+        - name: RESET_PASSWORD_URL
+          valueFrom:
+            configMapKeyRef:
+              name: auth-configmap-staging
+              key: RESET_PASSWORD_URL
+
+        # auth client config
+        - name: auth_API_URL
+          valueFrom:
+            configMapKeyRef:
+              name: auth-configmap-staging
+              key: auth_API_URL
+        - name: auth_CLIENT_ID
+          valueFrom:
+            configMapKeyRef:
+              name: auth-configmap-staging
+              key: auth_CLIENT_ID
+        - name: auth_CLIENT_SCOPE
+          valueFrom:
+            configMapKeyRef:
+              name: auth-configmap-staging
+              key: auth_CLIENT_SCOPE
+        - name: auth_CLIENT_SECRET
+          valueFrom:
+            configMapKeyRef:
+              name: auth-configmap-staging
+              key: auth_CLIENT_SECRET
+
+        # Mail client config
+        - name: MAIL_API_URL
+          valueFrom:
+            configMapKeyRef:
+              name: auth-configmap-staging
+              key: MAIL_API_URL
+        - name: DEPLOYMENT_VALUE
+          value: a

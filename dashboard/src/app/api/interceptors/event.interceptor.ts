@@ -32,5 +32,4 @@ export class EventInterceptor implements HttpInterceptor {
             })
         );
     }
-
 }

@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: csgames-auth-prod-backend
+  labels:
+    app: csgames-auth-prod
+    role: master
+    tier: backend
+spec:
+  ports:
+  - port: 5555
+    targetPort: 5555
+  selector:
+    app: csgames-auth-prod
+    role: master
+    tier: backend

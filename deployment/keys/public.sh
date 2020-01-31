@@ -1,1 +1,0 @@
-kubectl create secret generic $1 --from-file=public.pem=$2

@@ -1,0 +1,112 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: csgames-gateway-prod
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: csgames-gateway-prod
+  template:
+    metadata:
+      labels:
+        app: csgames-gateway-prod
+        keel.sh/policy: force
+    spec:
+      volumes:
+      - name: sts-key
+        secret:
+          secretName: public-key
+      - name: proxy-config
+        secret:
+          secretName: proxy-config-prod
+      imagePullSecrets:
+        - name: githubcred
+      containers:
+      - name: csgames-gateway-prod
+        image: "docker.pkg.github.com/csgames/event-platform/gateway:latest"
+        resources:
+          requests:
+            cpu: "100m"
+          limits:
+            cpu: "100m"
+        volumeMounts:
+        - name: sts-key
+          mountPath: /var/secret
+        - name: proxy-config
+          mountPath: /var/config
+        env:
+        # Base config
+        - name: APP_URL
+          valueFrom:
+            configMapKeyRef:
+              name: gateway-configmap-prod
+              key: APP_URL
+        - name: GATEWAY_BASE_PATH
+          valueFrom:
+            configMapKeyRef:
+              name: gateway-configmap-prod
+              key: GATEWAY_BASE_PATH
+        - name: PORT
+          valueFrom:
+            configMapKeyRef:
+              name: gateway-configmap-prod
+              key: PORT
+        - name: PROXY_CONFIG_PATH
+          valueFrom:
+            configMapKeyRef:
+              name: gateway-configmap-prod
+              key: PROXY_CONFIG_PATH
+        - name: IS_HTTPS
+          valueFrom:
+            configMapKeyRef:
+              name: gateway-configmap-prod
+              key: IS_HTTPS
+
+        # Session config
+        - name: COOKIE_SECRET
+          valueFrom:
+            configMapKeyRef:
+              name: gateway-configmap-prod
+              key: COOKIE_SECRET
+
+        # Redis config
+        - name: REDIS_HOST
+          valueFrom:
+            configMapKeyRef:
+              name: gateway-configmap-prod
+              key: REDIS_HOST
+        - name: REDIS_PORT
+          valueFrom:
+            configMapKeyRef:
+              name: gateway-configmap-prod
+              key: REDIS_PORT
+        - name: REDIS_PASSWORD
+          valueFrom:
+            configMapKeyRef:
+              name: gateway-configmap-prod
+              key: REDIS_PASSWORD
+
+        # STS config
+        - name: STS_CLIENT_ID
+          valueFrom:
+            configMapKeyRef:
+              name: gateway-configmap-prod
+              key: STS_CLIENT_ID
+        - name: STS_CLIENT_SCOPES
+          valueFrom:
+            configMapKeyRef:
+              name: gateway-configmap-prod
+              key: STS_CLIENT_SCOPES
+        - name: STS_CLIENT_SECRET
+          valueFrom:
+            configMapKeyRef:
+              name: gateway-configmap-prod
+              key: STS_CLIENT_SECRET
+        - name: STS_URL
+          valueFrom:
+            configMapKeyRef:
+              name: gateway-configmap-prod
+              key: STS_URL
+        - name: DEPLOYMENT_VALUE
+          value: a

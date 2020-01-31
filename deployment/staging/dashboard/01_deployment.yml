@@ -1,0 +1,20 @@
+kind: Deployment
+apiVersion: extensions/v1beta1
+metadata:
+  name: csgames-dashboard-staging
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: csgames-dashboard-staging
+        keel.sh/policy: force
+    spec:
+      containers:
+      - name: csgames-dashboard-staging
+        image: "docker.pkg.github.com/csgames/event-platform/dashboard:latest"
+        resources:
+          requests:
+            cpu: "60m"
+          limits:
+            cpu: "60m"
