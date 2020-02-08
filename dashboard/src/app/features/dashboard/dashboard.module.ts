@@ -25,9 +25,10 @@ import { ChangePasswordModule } from "./modals/change-password/change-password.m
 import { PipeModule } from "src/app/pipe/pipe.module";
 import { FlashoutGuard } from "../flashout/guards/flashout.guard";
 import { CreateEventModalModule } from "../../modals/create-event-modal/create-event-modal.module";
-import { EditEventModalModule } from "../../modals/edit-event-modal/edit-event-modal.module";
 import { EventFoundGuard } from "../../guards/event-found.guard";
 import { EventNotFoundGuard } from "../../guards/event-not-found.guard";
+import { EventSideNavComponent } from "./components/side-nav/event-side-nav/event-side-nav.component";
+import { EventSettingsSideNavComponent } from "./components/side-nav/event-settings-side-nav/event-settings-side-nav.component";
 
 @NgModule({
     imports: [
@@ -41,7 +42,6 @@ import { EventNotFoundGuard } from "../../guards/event-not-found.guard";
         BsDropdownModule,
         NotificationsListModalModule,
         CreateEventModalModule,
-        EditEventModalModule,
         GravatarModule.forRoot({ fallback: FALLBACK.mm }),
         LoadingSpinnerModule,
         LayoutModule,
@@ -56,6 +56,8 @@ import { EventNotFoundGuard } from "../../guards/event-not-found.guard";
     declarations: [
         DashboardComponent,
         EventsBarComponent,
+        EventSideNavComponent,
+        EventSettingsSideNavComponent,
         SideNavComponent,
         TopNavComponent
     ],

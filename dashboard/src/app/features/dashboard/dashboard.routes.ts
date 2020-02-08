@@ -1,7 +1,6 @@
 import { Routes } from "@angular/router";
 import { NotRegisteredGuard } from "./utils/not-registered.guard";
 import { RegisteredGuard } from "./utils/registered.guard";
-import { EventNotFoundGuard } from "../../guards/event-not-found.guard";
 import { EventFoundGuard } from "../../guards/event-found.guard";
 
 export const DASHBOARD_ROUTES: Routes = [
@@ -12,8 +11,7 @@ export const DASHBOARD_ROUTES: Routes = [
     },
     {
         path: "event",
-        loadChildren: "src/app/features/event/event.module#EventModule",
-        canActivate: [EventNotFoundGuard]
+        loadChildren: "src/app/features/event/event.module#EventModule"
     },
     // {
     //     path: "home",

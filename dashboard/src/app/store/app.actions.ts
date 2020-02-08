@@ -4,6 +4,7 @@ import { HttpErrorResponse } from "@angular/common/http";
 import { Event } from "../api/models/event";
 import { PuzzleHeroInfo } from "../api/models/puzzle-hero";
 import { Competition } from "../api/models/competition";
+import { NavigationTypes } from "./app.reducers";
 
 export enum AppActionTypes {
     GlobalError = "[App] Global error",
@@ -27,7 +28,8 @@ export enum AppActionTypes {
     GetPuzzleHeroInfo = "[App] Get puzzle hero info",
     UpdatePuzzleHeroStatus = "[App] Update puzzle hero status",
     LoadRegisteredCompetitions = "[App] Load Registered competitions",
-    RegisteredCompetitionsLoaded = "[App] Registered competitions loaded"
+    RegisteredCompetitionsLoaded = "[App] Registered competitions loaded",
+    SetNavigation = "[App] Set navigation"
 }
 
 export class ChangeLanguage implements Action {
@@ -130,6 +132,12 @@ export class RegisteredCompetitionsLoaded {
     constructor(public payload: Competition []) {}
 }
 
+export class SetNavigation {
+    readonly type = AppActionTypes.SetNavigation;
+
+    constructor(public payload: NavigationTypes) {}
+}
+
 export type AppActions =
     | GlobalError
     | Logout
@@ -151,4 +159,5 @@ export type AppActions =
     | GetPuzzleHeroInfo
     | UpdatePuzzleHeroStatus
     | LoadRegisteredCompetitions
-    | RegisteredCompetitionsLoaded;
+    | RegisteredCompetitionsLoaded
+    | SetNavigation;

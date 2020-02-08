@@ -1,0 +1,13 @@
+<div class="page-wrapper">
+    <ng-container [ngSwitch]="type">
+        <app-general-settings
+                *ngSwitchCase="'general'"
+                [event]="currentEvent$ | async"
+                (save)="editEvent($event)"
+        ></app-general-settings>
+        <app-email-templates
+            *ngSwitchCase="'template'"
+        >
+        </app-email-templates>
+    </ng-container>
+</div>

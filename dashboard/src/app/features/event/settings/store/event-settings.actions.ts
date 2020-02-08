@@ -1,12 +1,12 @@
 import { Action } from "@ngrx/store";
-import { EventFormDto } from "../../../components/event-form/dto/event-form.dto";
+import { EventFormDto } from "../../../../components/event-form/dto/event-form.dto";
 
 export enum EditEventModalActionTypes {
-    EditEvent = "[Edit event modal] Edit event",
-    EditEventSuccess = "[Edit event modal] Edit event success",
-    EditEventError = "[Edit event modal] Edit event error",
+    EditEvent = "[Event settings] Edit event",
+    EditEventSuccess = "[Event settings] Edit event success",
+    EditEventError = "[Event settings] Edit event error",
 
-    ResetState = "[Edit event modal] Reset state"
+    ResetState = "[Event settings] Reset state"
 }
 
 export class EditEvent implements Action {
@@ -27,7 +27,7 @@ export class ResetState implements Action {
     readonly type = EditEventModalActionTypes.ResetState;
 }
 
-export type EditEventModalActions =
+export type EventSettingsActions =
     | ResetState
     | EditEvent
     | EditEventSuccess

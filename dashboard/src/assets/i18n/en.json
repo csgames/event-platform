@@ -251,6 +251,12 @@
         },
         "answers": {
             "answers": "Puzzle answers"
+        },
+        "side_nav": {
+            "settings": "Settings",
+            "back": "Back",
+            "general": "General",
+            "email_templates": "Email templates"
         }
     },
     "errors": {
@@ -587,6 +593,16 @@
             "load_error": "An error occurred while loading the activities. ",
             "edit_activity_success": "Successfully saved activity",
             "edit_activity": "Edit activity"
+        },
+        "event": {
+            "settings": {
+                "general": {
+                    "title": "Event settings"
+                },
+                "email_templates": {
+                    "title": "Email templates"
+                }
+            }
         }
     }
 }

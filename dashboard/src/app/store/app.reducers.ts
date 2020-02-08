@@ -6,6 +6,8 @@ import { PuzzleHeroInfo } from "../api/models/puzzle-hero";
 import { AppActions, AppActionTypes } from "./app.actions";
 import { Competition } from "../api/models/competition";
 
+export type NavigationTypes = "event" | "event-settings" | "settings";
+
 export interface GlobalState {
     currentAttendee: Attendee;
     events: Event[];
@@ -15,6 +17,7 @@ export interface GlobalState {
     unseen: boolean;
     puzzleHeroInfo: PuzzleHeroInfo;
     registeredCompetitions: Competition[];
+    navigation: NavigationTypes;
 }
 
 export interface State {
@@ -33,7 +36,8 @@ export const initialState: GlobalState = {
     language: null,
     unseen: false,
     puzzleHeroInfo: null,
-    registeredCompetitions: []
+    registeredCompetitions: [],
+    navigation: "event"
 };
 
 export function globalReducer(state = initialState, action: AppActions): GlobalState {
@@ -104,6 +108,11 @@ export function globalReducer(state = initialState, action: AppActions): GlobalS
                 loading: false,
                 registeredCompetitions: action.payload
             };
+        case AppActionTypes.SetNavigation:
+            return {
+                ...state,
+                navigation: action.payload
+            };
     }
     return state;
 }
@@ -132,3 +141,5 @@ export const getUnseen = createSelector(getGlobalState, (state: GlobalState) => 
 export const getPuzzleHeroInfo = createSelector(getGlobalState, (state: GlobalState) => state.puzzleHeroInfo);
 
 export const getRegisteredCompetitions = createSelector(getGlobalState, (state: GlobalState) => state.registeredCompetitions);
+
+export const getNavigation = createSelector(getGlobalState, (state: GlobalState) => state.navigation);
