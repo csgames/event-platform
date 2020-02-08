@@ -597,7 +597,7 @@
         "event": {
             "settings": {
                 "general": {
-                    "title": "Event's settings"
+                    "title": "Event settings"
                 },
                 "email_templates": {
                     "title": "Email templates"
