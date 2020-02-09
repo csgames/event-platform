@@ -14,8 +14,8 @@ export class TemplatesController {
 
     @Post()
     @Permissions("mail_service:create:template")
-    public async create(@Body(new ValidationPipe()) createTemplateDto: CreateTemplateDto) {
-        await this.templatesService.create(createTemplateDto);
+    public async create(@Body(new ValidationPipe()) createTemplateDto: CreateTemplateDto): Promise<Template> {
+        return await this.templatesService.create(createTemplateDto);
     }
 
     @Get()

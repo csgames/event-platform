@@ -529,12 +529,12 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
             throw new EventNotFoundException();
         }
 
-        let templateId = event.templates[type];
+        let templateId = event.templates?.[type];
         if (!templateId) {
             templateId = await this.templateService.createTemplate({
                 name: `${event.name.toLowerCase()}_${type}_account_creation`,
                 html: dto.html
-            });
+            }).then(x => x._id);
         } else {
             await this.templateService.updateTemplate(templateId, {
                 html: dto.html

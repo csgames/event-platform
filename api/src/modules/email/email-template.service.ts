@@ -2,7 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { EmailBaseService } from "./email-base.service";
 
 export interface Template {
-    id?: string;
+    _id?: string;
     name: string;
     html: string;
 }

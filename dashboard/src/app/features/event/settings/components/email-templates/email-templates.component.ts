@@ -25,6 +25,7 @@ export class EmailTemplatesComponent implements OnInit {
                 this.currentType = params["type"];
                 this.store$.dispatch(new LoadTemplate(this.currentType));
                 this.preview = false;
+                this.html = "";
             } else if (this.currentType) {
                 this.router.navigate([], {
                     queryParams: {
