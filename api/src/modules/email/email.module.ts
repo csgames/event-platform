@@ -1,16 +1,20 @@
-import { Module } from "@nestjs/common";
+import { HttpModule, Module } from "@nestjs/common";
 import { STSModule } from "@polyhx/nest-services";
+import { EmailTemplateService } from "./email-template.service";
 import { EmailService } from "./email.service";
 
 @Module({
     imports: [
-        STSModule
+        STSModule,
+        HttpModule
     ],
     providers: [
-        EmailService
+        EmailService,
+        EmailTemplateService
     ],
     exports: [
-        EmailService
+        EmailService,
+        EmailTemplateService
     ]
 })
 export class EmailModule {

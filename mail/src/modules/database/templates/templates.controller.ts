@@ -24,10 +24,19 @@ export class TemplatesController {
         return this.templatesService.findAll();
     }
 
-    @Put(":name")
+    @Get(":id")
+    @Permissions("mail_service:get:template")
+    public async getById(@Param("id") id: string): Promise<Template> {
+        return this.templatesService.findById(id);
+    }
+
+    @Put(":nameOrId")
     @Permissions("mail_service:update:template")
-    public async update(@Param("name") name: string, @Body(new ValidationPipe()) updateTemplateDto: UpdateTemplateDto) {
-        return this.templatesService.update(name, updateTemplateDto);
+    public async update(
+        @Param("nameOrId") nameOrId: string,
+        @Body(new ValidationPipe()) updateTemplateDto: UpdateTemplateDto
+    ) {
+        return this.templatesService.update(nameOrId, updateTemplateDto);
     }
 
     @Delete(":name")

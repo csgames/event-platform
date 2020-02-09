@@ -7,6 +7,7 @@ import { UppyFile } from "@uppy/core";
 import { EventGuide } from "../api/models/guide";
 import { Team } from "../api/models/team";
 import { Competition } from "../api/models/competition";
+import { Template } from "../api/models/template";
 import { EventFormDto } from "../components/event-form/dto/event-form.dto";
 
 
@@ -88,5 +89,15 @@ export class EventService {
 
     public editEvent(eventFormDto: EventFormDto): Observable<Event> {
         return this.apiService.event.updateEvent(eventFormDto);
+    }
+
+    public getTemplate(type: string): Observable<Template> {
+        return this.apiService.event.getTemplate(type);
+    }
+
+    public updateTemplate(type: string, html: string): Observable<void> {
+        return this.apiService.event.updateTemplate(type, {
+            html
+        });
     }
 }

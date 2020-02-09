@@ -14,6 +14,7 @@ import { UserModel } from "../../../models/user.model";
 import { ArrayPipe } from "../../../pipes/array.pipe";
 import { NullPipe } from "../../../pipes/null-pipe.service";
 import { ValidationPipe } from "../../../pipes/validation.pipe";
+import { Template } from "../../email/email-template.service";
 import { CreateActivityDto } from "../activities/activities.dto";
 import { Activities } from "../activities/activities.model";
 import { UpdateAttendeeDto } from "../attendees/attendees.dto";
@@ -25,7 +26,7 @@ import { FlashOut } from "../flash-out/flash-out.model";
 import { FlashOutsService } from "../flash-out/flash-out.service";
 import { Teams } from "../teams/teams.model";
 import { TeamsService } from "../teams/teams.service";
-import { AddSponsorDto, CreateEventDto, SendNotificationDto, SendSmsDto, UpdateEventDto } from "./events.dto";
+import { AddSponsorDto, CreateEventDto, SendNotificationDto, SendSmsDto, UpdateEventDto, UpdateTemplateDto } from "./events.dto";
 import { codeMap, EventNotFoundException } from "./events.exception";
 import { EventGuide, Events, EventSponsorDetails } from "./events.model";
 import { EventsService } from "./events.service";
@@ -48,12 +49,6 @@ export class EventsController {
         await this.eventsService.create(createEventDto);
     }
 
-    @Put(":id/attendee")
-    @Permissions("csgames-api:add-attendee:event")
-    public async addAttendee(@User() user: UserModel, @Param("id") eventId: string) {
-        await this.eventsService.addAttendee(eventId, user.id, "attendee");
-    }
-
     @Get()
     public async getAll(@User() user: UserModel): Promise<Events[]> {
         return await this.eventsService.getEventList(user);
@@ -62,10 +57,16 @@ export class EventsController {
     @Get("guide")
     @Permissions("csgames-api:get:event")
     public async getGuideById(@EventId() id: string): Promise<EventGuide> {
-        let event = await this.eventsService.findOne({
+        const event = await this.eventsService.findOne({
             _id: id
         });
         return event.guide;
+    }
+
+    @Get("template/:type")
+    @Permissions("csgames-api:get:event")
+    public async getTemplate(@EventId() id: string, @Param("type") type: string): Promise<Template> {
+        return this.eventsService.getTemplate(id, type);
     }
 
     @Get("sponsor")
@@ -251,6 +252,18 @@ export class EventsController {
                 "sponsors.$": dto
             }
         } as any);
+    }
+
+    @Put("template/:type")
+    @Permissions("csgames-api:update:event")
+    public async updateTemplates(@EventId() id: string, @Param("type") type: string, @Body(new ValidationPipe()) dto: UpdateTemplateDto) {
+        await this.eventsService.updateTemplate(id, type, dto);
+    }
+
+    @Put(":id/attendee")
+    @Permissions("csgames-api:add-attendee:event")
+    public async addAttendee(@User() user: UserModel, @Param("id") eventId: string) {
+        await this.eventsService.addAttendee(eventId, user.id, "attendee");
     }
 
     @Put()

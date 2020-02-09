@@ -18,12 +18,25 @@ export class TemplatesService {
         return this.templatesModel.find().exec();
     }
 
+    public async findById(id: string): Promise<Template> {
+        return this.templatesModel.findOne({ _id: id }).exec();
+    }
+
     public async findOne(name: string): Promise<Template> {
         return this.templatesModel.findOne({ name: name }).exec();
     }
 
-    public async update(name: string, updateTemplateDto: UpdateTemplateDto) {
-        return this.templatesModel.update({ name: name }, updateTemplateDto).exec();
+    public async update(nameOrId: string, updateTemplateDto: UpdateTemplateDto) {
+        return this.templatesModel.updateOne({
+            $or: [
+                {
+                    name: nameOrId
+                },
+                {
+                    _id: nameOrId
+                }
+            ]
+        }, updateTemplateDto).exec();
     }
 
     public async remove(name: string) {
