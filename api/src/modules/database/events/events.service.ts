@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { StorageService } from "@polyhx/nest-services";
 import * as AdmZip from "adm-zip";
@@ -7,6 +7,7 @@ import { Model } from "mongoose";
 import { isNullOrUndefined } from "util";
 import { UserModel } from "../../../models/user.model";
 import { BaseService } from "../../../services/base.service";
+import { EmailTemplateService, Template } from "../../email/email-template.service";
 import { CreateActivityDto } from "../activities/activities.dto";
 import { Activities } from "../activities/activities.model";
 import { ActivitiesService } from "../activities/activities.service";
@@ -19,9 +20,9 @@ import { NotificationsService } from "../notifications/notifications.service";
 import { PuzzleHeroesService } from "../puzzle-heroes/puzzle-heroes.service";
 import { Schools } from "../schools/schools.model";
 import { Teams } from "../teams/teams.model";
-import { AddSponsorDto, CreateEventDto, SendNotificationDto } from "./events.dto";
+import { AddSponsorDto, CreateEventDto, SendNotificationDto, UpdateTemplateDto } from "./events.dto";
 import { AttendeeAlreadyRegisteredException, EventNotFoundException, UserNotAttendeeException } from "./events.exception";
-import { DefaultGuide, Events, EventSponsorDetails } from "./events.model";
+import { DefaultGuide, Events, EventSponsorDetails, EventTemplateTypes } from "./events.model";
 import { AddGuideSectionDto, GuideDto } from "./guide.dto";
 
 export interface EventScore {
@@ -52,7 +53,8 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
                 private readonly activitiesService: ActivitiesService,
                 private readonly storageService: StorageService,
                 private readonly notificationService: NotificationsService,
-                private readonly puzzleHeroesService: PuzzleHeroesService) {
+                private readonly puzzleHeroesService: PuzzleHeroesService,
+                private readonly templateService: EmailTemplateService) {
         super(eventsModel);
     }
 
@@ -515,6 +517,56 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
         }, {
             guide
         } as any);
+    }
+
+    public async updateTemplate(eventId: string, type: string, dto: UpdateTemplateDto) {
+        if (EventTemplateTypes.findIndex(x => x === type) < 0) {
+            throw new HttpException("Invalid template types", HttpStatus.PRECONDITION_FAILED);
+        }
+
+        const event = await this.findById(eventId);
+        if (!event) {
+            throw new EventNotFoundException();
+        }
+
+        let templateId = event.templates?.[type];
+        if (!templateId) {
+            templateId = await this.templateService.createTemplate({
+                name: `${event.name.toLowerCase()}_${type}_account_creation`,
+                html: dto.html
+            }).then(x => x._id);
+        } else {
+            await this.templateService.updateTemplate(templateId, {
+                html: dto.html
+            });
+        }
+
+        await this.update({
+            _id: eventId
+        }, {
+            templates: {
+                ...event.templates,
+                [type]: templateId
+            }
+        } as any);
+    }
+
+    public async getTemplate(eventId: string, type: string): Promise<Template> {
+        const event = await this.findById(eventId);
+        if (!event) {
+            throw new EventNotFoundException();
+        }
+
+        if (!event.templates) {
+            return;
+        }
+
+        let templateId = event.templates[type];
+        if (!templateId) {
+            return;
+        }
+
+        return this.templateService.getTemplate(templateId);
     }
 
     public async getScoreFiltered(eventId: string): Promise<EventScore> {

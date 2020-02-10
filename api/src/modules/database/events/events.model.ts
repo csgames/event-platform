@@ -184,6 +184,13 @@ export const DefaultGuide: EventGuide = {
     }
 };
 
+export interface EventTemplate {
+    attendee: string;
+    captain: string;
+    godparent: string;
+}
+export const EventTemplateTypes = ["attendee", "captain", "godparent"];
+
 export interface Events extends mongoose.Document {
     readonly name: string;
     readonly details: object;
@@ -206,6 +213,7 @@ export interface Events extends mongoose.Document {
     readonly teamEditLockDate: Date | string;
     readonly primaryColor: string;
     readonly competitionResultsLocked: boolean;
+    readonly templates: EventTemplate;
 }
 
 export const EventsSchema = new mongoose.Schema({
@@ -281,6 +289,10 @@ export const EventsSchema = new mongoose.Schema({
     competitionResultsLocked: {
         type: Boolean,
         default: false
+    },
+    templates: {
+        type: Object,
+        required: false
     }
 });
 

@@ -600,7 +600,16 @@
                     "title": "Event settings"
                 },
                 "email_templates": {
-                    "title": "Email templates"
+                    "title": "Email templates",
+                    "attendee": "Attendee",
+                    "attendee_subtitle": "Attendees registration email",
+                    "captain": "Captain",
+                    "captain_subtitle": "Captains registration email",
+                    "godparent": "Godparent",
+                    "godparent_subtitle": "Godparents registration email",
+                    "preview": "See preview",
+                    "close_preview": "Close preview",
+                    "template_saved": "Email template saved with success!"
                 }
             }
         }

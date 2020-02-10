@@ -1,2 +1,29 @@
-<h1 class="title">{{ "pages.event.settings.email_templates.title" | translate }}</h1>
+<div fxFlex fxLayout="column">
+    <h1 class="title">{{ "pages.event.settings.email_templates.title" | translate }}</h1>
 
+    <app-loading-spinner [loading]="loading$"></app-loading-spinner>
+    <div fxLayout="row" fxLayoutAlign="space-between center">
+        <ng-container [ngSwitch]="currentType">
+            <h2 class="mt-4" *ngSwitchCase="'attendee'">{{ "pages.event.settings.email_templates.attendee_subtitle" | translate }}</h2>
+            <h2 class="mt-4" *ngSwitchCase="'captain'">{{ "pages.event.settings.email_templates.captain_subtitle" | translate }}</h2>
+            <h2 class="mt-4" *ngSwitchCase="'godparent'">{{ "pages.event.settings.email_templates.godparent_subtitle" | translate }}</h2>
+        </ng-container>
+
+        <a class="btn btn-outline-primary" (click)="togglePreview()" *ngIf="!preview">{{ "pages.event.settings.email_templates.preview" | translate }}</a>
+        <a class="btn btn-outline-primary" (click)="togglePreview()" *ngIf="preview">{{ "pages.event.settings.email_templates.close_preview" | translate }}</a>
+    </div>
+
+    <ng-container *ngIf="!preview">
+        <ngx-monaco-editor
+                style="height: 700px;"
+                [options]="{ theme: 'vs-dark', language: 'html' }"
+                [(ngModel)]="html">
+        </ngx-monaco-editor>
+        <div class="text-center">
+            <a class="btn btn-primary btn-rounded mt-3 px-3" (click)="clickSave()">
+                {{ "general.button.save" | translate }}
+            </a>
+        </div>
+    </ng-container>
+    <div *ngIf="preview" [innerHTML]="html | safeHtml"></div>
+</div>

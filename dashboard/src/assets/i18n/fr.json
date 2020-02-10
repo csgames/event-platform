@@ -599,7 +599,16 @@
                     "title": "Paramètres de l'événement"
                 },
                 "email_templates": {
-                    "title": "Modèles de courriels"
+                    "title": "Modèles de courriels",
+                    "attendee": "Participant",
+                    "attendee_subtitle": "Courriel d'enregistrement des participants",
+                    "captain": "Capitaine",
+                    "captain_subtitle": "Courriel d'enregistrement des capitaines",
+                    "godparent": "Parrain",
+                    "godparent_subtitle": "Courriel d'enregistrement des parrains",
+                    "preview": "Voir l'aperçu",
+                    "close_preview": "Fermer l'aperçu",
+                    "template_saved": "Modèle de courriel sauvegardé avec succès!"
                 }
             }
         }

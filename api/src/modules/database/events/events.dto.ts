@@ -223,3 +223,9 @@ export class SendNotificationDto {
     @ApiProperty({ required: true })
     body: string;
 }
+
+export class UpdateTemplateDto {
+    @IsString()
+    @IsNotEmpty()
+    html: string;
+}

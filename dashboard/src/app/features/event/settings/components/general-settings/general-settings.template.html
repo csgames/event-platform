@@ -1,6 +1,7 @@
 <h1 class="title">{{ "pages.event.settings.general.title" | translate }}</h1>
 
 <div class="event-form">
+    <app-loading-spinner [loading]="loading$"></app-loading-spinner>
     <app-event-form [(ngModel)]="eventFormDto"></app-event-form>
     <div class="text-center">
         <a class="btn btn-primary btn-rounded mt-3 px-3" (click)="clickSave()">

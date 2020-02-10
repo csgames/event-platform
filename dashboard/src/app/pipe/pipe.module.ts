@@ -1,4 +1,5 @@
 import { NgModule } from "@angular/core";
+import { SafeHtmlPipe } from "./safe-html.pipe";
 import { TimeAgoPipe } from "./timeago.pipe";
 import { HoursPipe } from "./hours.pipe";
 import { SafePipe } from "./safe.pipe";
@@ -10,6 +11,7 @@ import { LocalizedDatePipe } from "./localized-date.pipe";
         TimeAgoPipe,
         HoursPipe,
         SafePipe,
+        SafeHtmlPipe,
         T18NPipe,
         LocalizedDatePipe
     ],
@@ -17,6 +19,7 @@ import { LocalizedDatePipe } from "./localized-date.pipe";
         TimeAgoPipe,
         HoursPipe,
         SafePipe,
+        SafeHtmlPipe,
         T18NPipe,
         LocalizedDatePipe
     ]

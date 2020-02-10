@@ -19,12 +19,6 @@ import { Registrations } from "./registrations.model";
 
 @Injectable()
 export class RegistrationsService {
-    private roleTemplate = {
-        attendee: "attendee_account_creation",
-        sponsor: "attendee_account_creation",
-        captain: "captain_account_creation",
-        godparent: "godparent_account_creation"
-    };
     private roles: { [name: string]: string };
 
     constructor(@InjectModel("registrations") private registrationsModel: Model<Registrations>,
@@ -65,7 +59,8 @@ export class RegistrationsService {
 
         await this.eventService.addAttendee(eventId, attendee, dto.role);
 
-        const template = this.roleTemplate[dto.role];
+        const event = await this.eventService.findById(eventId);
+        const template = dto.role === "sponsor" ? event.templates["attendee"] : event.templates[dto.role];
         if (!template) {
             return registration;
         }

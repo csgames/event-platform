@@ -1,53 +1,34 @@
 import * as fromApp from "../../../../store/app.reducers";
-import { EventSettingsActions, EditEventModalActionTypes } from "./event-settings.actions";
-import { createFeatureSelector, createSelector } from "@ngrx/store";
+import * as fromGeneralSetting from "../components/general-settings/store/general-settings.reducer";
+import * as fromEmailTemplateSetting from "../components/email-templates/store/email-templates.reducer";
+import { ActionReducerMap, createFeatureSelector, createSelector, select } from "@ngrx/store";
+import { EventEmailTemplateSettingsState } from "../components/email-templates/store/email-templates.reducer";
+import { EventGeneralSettingsState } from "../components/general-settings/store/general-settings.reducer";
 
 export interface EventSettingsState {
-    loading: boolean;
-    error: boolean;
-    success: boolean;
+    generalSetting: EventGeneralSettingsState;
+    emailTemplatesSetting: EventEmailTemplateSettingsState;
 }
-
-export const initialState: EventSettingsState = {
-    loading: false,
-    error: false,
-    success: false
-};
 
 export interface State extends fromApp.State {
     eventSettings: EventSettingsState;
 }
 
-export function reducer(state = initialState, action: EventSettingsActions) {
+export const eventSettingsReducers: ActionReducerMap<EventSettingsState> = {
+    generalSetting: fromGeneralSetting.reducer,
+    emailTemplatesSetting: fromEmailTemplateSetting.reducer
+};
 
-    switch (action.type) {
-        case EditEventModalActionTypes.EditEventSuccess:
-            return {
-                ...state,
-                loading: false,
-                success: true
-            };
-        case EditEventModalActionTypes.EditEventError:
-            return {
-                ...state,
-                loading: false,
-                error: true
-            };
-        case EditEventModalActionTypes.EditEvent:
-            return {
-                ...state,
-                loading: true,
-                error: false
-            };
-        case EditEventModalActionTypes.ResetState:
-            return initialState;
-    }
+export const getEventSettingsState = createFeatureSelector<State, EventSettingsState>("eventSettings");
 
-    return state;
+// Places base-list
+export const getGeneralSettingsState = createSelector(getEventSettingsState, (state: EventSettingsState) => state.generalSetting);
+export const getEmailTemplatesSettingsState =
+    createSelector(getEventSettingsState, (state: EventSettingsState) => state.emailTemplatesSetting);
+
+export function selectGeneralSettings(selector: (state: fromGeneralSetting.EventGeneralSettingsState) => any) {
+    return select(createSelector(getGeneralSettingsState, selector));
 }
-
-export const getEditEventModalState = createFeatureSelector<State, EventSettingsState>("eventSettings");
-
-export const getEditEventModalLoading = createSelector(getEditEventModalState, state => state.loading);
-export const getEditEventModalError = createSelector(getEditEventModalState, state => state.error);
-export const getEditEventModalSuccess = createSelector(getEditEventModalState, state => state.loading);
+export function selectEmailTemplatesSettings(selector: (state: fromEmailTemplateSetting.EventEmailTemplateSettingsState) => any) {
+    return select(createSelector(getEmailTemplatesSettingsState, selector));
+}

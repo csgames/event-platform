@@ -21,3 +21,7 @@ export interface UpdateEventDto {
     teamEditLockDate: Date;
     primaryColor: string;
 }
+
+export interface UpdateTemplateDto {
+    html: string;
+}

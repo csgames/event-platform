@@ -11,7 +11,7 @@
         </div>
     </a>
 
-    <a [routerLink]="['/event/setting/template']" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+    <a [routerLink]="['/event/setting/template']" routerLinkActive="active">
         <div [fxLayout]="'row'" fxFlexFill>
             <div fxFlex="20">
                 <i class="fal fa-envelope"></i>
@@ -21,6 +21,38 @@
             </div>
         </div>
     </a>
+    <div class="sublinks" *ngIf="isActive(['event/setting/template'])">
+        <a [routerLink]="['/event/setting/template']" [queryParams]="{ type: 'attendee' }" routerLinkActive="active">
+            <div [fxLayout]="'row'" fxFlexFill>
+                <div fxFlex="20">
+                    <i class="fal fa-user-friends"></i>
+                </div>
+                <div fxFlex="80">
+                    {{ "pages.event.settings.email_templates.attendee" | translate }}
+                </div>
+            </div>
+        </a>
+        <a [routerLink]="['/event/setting/template']" [queryParams]="{ type: 'captain' }" routerLinkActive="active">
+            <div [fxLayout]="'row'" fxFlexFill>
+                <div fxFlex="20">
+                    <i class="fal fa-user-shield"></i>
+                </div>
+                <div fxFlex="80">
+                    {{ "pages.event.settings.email_templates.captain" | translate }}
+                </div>
+            </div>
+        </a>
+        <a [routerLink]="['/event/setting/template']" [queryParams]="{ type: 'godparent' }" routerLinkActive="active">
+            <div [fxLayout]="'row'" fxFlexFill>
+                <div fxFlex="20">
+                    <i class="fal fa-user-secret"></i>
+                </div>
+                <div fxFlex="80">
+                    {{ "pages.event.settings.email_templates.godparent" | translate }}
+                </div>
+            </div>
+        </a>
+    </div>
 </div>
 <div class="navigation-bottom" (click)="clickBack()">
     <hr class="mx-2">

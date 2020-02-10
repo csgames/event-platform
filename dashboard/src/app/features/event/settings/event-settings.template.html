@@ -3,7 +3,6 @@
         <app-general-settings
                 *ngSwitchCase="'general'"
                 [event]="currentEvent$ | async"
-                (save)="editEvent($event)"
         ></app-general-settings>
         <app-email-templates
             *ngSwitchCase="'template'"

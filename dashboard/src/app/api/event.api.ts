@@ -13,8 +13,9 @@ import { AttendeeNotification } from "./models/notification";
 import { AttendeeVote, Flashout } from "./models/flashout";
 import { Competition } from "./models/competition";
 import { SectionFormDto } from "../features/guide/guide-edit/components/section-form/dto/section-form.dto";
-import { CreateEventDto, UpdateEventDto } from "./dto/event";
+import { CreateEventDto, UpdateEventDto, UpdateTemplateDto } from "./dto/event";
 import { SponsorPositionningDto } from "../features/sponsors/components/sponsor-positionning-form/dto/sponsor-positionning.dto";
+import { Template } from "./models/template";
 
 @Injectable()
 export class EventApi extends CSGamesApi {
@@ -227,5 +228,13 @@ export class EventApi extends CSGamesApi {
 
     public updateSection(eventGuide: EventGuide): Observable<void> {
         return this.http.put<void>(this.url("guide"), eventGuide, { withCredentials: true });
+    }
+
+    public getTemplate(type: string): Observable<Template> {
+        return this.http.get<Template>(this.url(`template/${type}`), { withCredentials: true });
+    }
+
+    public updateTemplate(type: string, dto: UpdateTemplateDto): Observable<void> {
+        return this.http.put<void>(this.url(`template/${type}`), dto, { withCredentials: true });
     }
 }
