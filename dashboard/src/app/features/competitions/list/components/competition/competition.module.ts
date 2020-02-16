@@ -13,7 +13,7 @@ import { CompetitionEffects } from "./store/competition.effects";
 import { CompetitionsService } from "src/app/providers/competitions.service";
 import { FileUploadModule } from "src/app/components/file-upload/file-upload.module";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { AccordionModule } from "ngx-bootstrap";
+import { AccordionModule } from "ngx-bootstrap/accordion";
 import { MarkdownModule } from "ngx-markdown";
 
 @NgModule({

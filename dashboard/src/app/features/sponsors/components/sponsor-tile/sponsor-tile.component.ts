@@ -5,7 +5,7 @@ import { UpdateSponsorPositionningComponent } from "../update-sponsor-positionni
 import { InfoSponsorComponent } from "../info-sponsor/info-sponsor.component";
 import { SimpleModalService } from "ngx-simple-modal";
 import { SponsorTier } from "../../models/sponsor-tier";
-import { PopoverDirective } from "ngx-bootstrap";
+import { PopoverDirective } from "ngx-bootstrap/popover";
 
 @Component({
     selector: "app-sponsor-tile",

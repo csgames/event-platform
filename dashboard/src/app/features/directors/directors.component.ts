@@ -17,7 +17,7 @@ export class DirectorsComponent implements OnInit, OnDestroy {
     isAddingTeamMember = false;
     newAttendee: RegisterAttendeeFormDto;
 
-    @ViewChild(RegisterAttendeeFormComponent, { static: false })
+    @ViewChild(RegisterAttendeeFormComponent)
     attendeeForm: RegisterAttendeeFormComponent;
 
     constructor(private store$: Store<State>) {}

@@ -7,7 +7,7 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { TranslateModule } from "@ngx-translate/core";
 import { LoadingSpinnerModule } from "src/app/components/loading-spinner/loading-spinner.module";
 import { NgSelectModule } from "@ng-select/ng-select";
-import { CollapseModule } from "ngx-bootstrap";
+import { CollapseModule } from "ngx-bootstrap/collapse";
 import { SponsorEditRoutingModule } from "./sponsor-edit-routing.module";
 import { FlexLayoutModule } from "@angular/flex-layout";
 import { StoreModule } from "@ngrx/store";

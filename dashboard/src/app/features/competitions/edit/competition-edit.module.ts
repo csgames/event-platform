@@ -13,7 +13,9 @@ import { CustomTextBoxModule } from "../../../components/custom-text-box/custom-
 import { FormsModule } from "@angular/forms";
 import { FlexLayoutModule } from "@angular/flex-layout";
 import { QuestionEditCardComponent } from "./components/question-edit-card/question-edit-card.component";
-import { AccordionModule, SortableModule, TabsModule } from "ngx-bootstrap";
+import { AccordionModule } from "ngx-bootstrap/accordion";
+import { SortableModule } from "ngx-bootstrap/sortable";
+import { TabsModule } from "ngx-bootstrap/tabs";
 import { QuestionFormModule } from "../../../components/question-form/question-form.module";
 import { UpdateQuestionComponent } from "./components/update-question/update-question.component";
 import { CreateQuestionComponent } from "./components/create-question/create-question.component";

@@ -15,7 +15,7 @@ import { getCurrentEvent } from "src/app/store/app.reducers";
     styleUrls: ["./flashout-edit.style.scss"]
 })
 export class FlashoutEditComponent implements OnInit {
-    @ViewChild(FlashoutFormComponent, { static: false })
+    @ViewChild(FlashoutFormComponent)
     private form: FlashoutFormComponent;
 
     flashouts$ = this.store$.pipe(select(getFlashouts));

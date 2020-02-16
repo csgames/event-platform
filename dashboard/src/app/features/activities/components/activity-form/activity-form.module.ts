@@ -9,7 +9,8 @@ import { ActivityFormDto } from "./dto/activity-form.dto";
 import { TranslateModule } from "@ngx-translate/core";
 import { NgSelectModule } from "@ng-select/ng-select";
 import { CustomTextBoxModule } from "src/app/components/custom-text-box/custom-text-box.module";
-import { DatepickerModule, BsDatepickerModule, TimepickerModule } from "ngx-bootstrap";
+import { DatepickerModule, BsDatepickerModule } from "ngx-bootstrap/datepicker";
+import { TimepickerModule } from "ngx-bootstrap/timepicker";
 import { FlexLayoutModule } from "@angular/flex-layout";
 
 @NgModule({

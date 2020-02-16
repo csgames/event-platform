@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output, ViewChild } from "@angular/core";
 import { PuzzleInfo } from "../../../../api/models/puzzle-hero";
-import { PopoverDirective } from "ngx-bootstrap";
+import { PopoverDirective } from "ngx-bootstrap/popover";
 import { QuestionUtils } from "src/app/utils/question.utils";
 
 @Component({
@@ -9,7 +9,7 @@ import { QuestionUtils } from "src/app/utils/question.utils";
     styleUrls: ["./puzzle-tile.style.scss"]
 })
 export class PuzzleTileComponent {
-    @ViewChild("pop", { static: false })
+    @ViewChild("pop")
     popover: PopoverDirective;
 
     @Input()

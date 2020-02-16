@@ -3,7 +3,7 @@ import { CommonModule } from "@angular/common";
 import { FormsModule, ReactiveFormsModule, FormBuilder } from "@angular/forms";
 import { TranslateModule } from "@ngx-translate/core";
 import { LoadingSpinnerModule } from "src/app/components/loading-spinner/loading-spinner.module";
-import { CollapseModule } from "ngx-bootstrap";
+import { CollapseModule } from "ngx-bootstrap/collapse";
 import { NgSelectModule } from "@ng-select/ng-select";
 import { DirectivesModule } from "src/app/directives/directives.module";
 import { FlexLayoutModule } from "@angular/flex-layout";

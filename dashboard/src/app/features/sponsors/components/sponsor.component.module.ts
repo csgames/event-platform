@@ -25,7 +25,7 @@ import { UpdateSponsorPositionningComponent } from "./update-sponsor-positionnin
 import { UpdateSponsorPositionningEffects } from "./update-sponsor-positionning/store/update-sponsor-positionning.effects";
 import * as fromUpdateSponsorPositionning from "./update-sponsor-positionning/store/update-sponsor-positionning.reducer";
 import { NgSelectModule } from "@ng-select/ng-select";
-import { PopoverModule } from "ngx-bootstrap";
+import { PopoverModule } from "ngx-bootstrap/popover";
 import { SponsorTileComponent } from "./sponsor-tile/sponsor-tile.component";
 
 @NgModule({

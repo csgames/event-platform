@@ -9,7 +9,7 @@ import * as fromCompetitions from "./store/competitions-list.reducer";
 import * as fromInfoCompetition from "./components/info-competition/store/info-competition.reducer";
 import { CompetitionsListComponent } from "./competitions-list.component";
 import { LoadingSpinnerModule } from "src/app/components/loading-spinner/loading-spinner.module";
-import { TabsModule } from "ngx-bootstrap";
+import { TabsModule } from "ngx-bootstrap/tabs";
 import { FlexLayoutModule } from "@angular/flex-layout";
 import { PipeModule } from "src/app/pipe/pipe.module";
 import { SimpleModalModule } from "ngx-simple-modal";

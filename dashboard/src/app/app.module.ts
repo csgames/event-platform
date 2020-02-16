@@ -36,15 +36,14 @@ import { ToastrModule } from "ngx-toastr";
 import { NgxMaskModule } from "ngx-mask";
 import { ResetModule } from "./features/reset/reset.module";
 import { MonacoEditorModule } from "ngx-monaco-editor";
-import {
-    AccordionModule,
-    PopoverModule,
-    AlertModule,
-    TooltipModule,
-    TimepickerModule,
-    DatepickerModule,
-    BsDatepickerModule, SortableModule, TabsModule
-} from "ngx-bootstrap";
+import { AccordionModule } from "ngx-bootstrap/accordion";
+import { AlertModule } from "ngx-bootstrap/alert";
+import { DatepickerModule, BsDatepickerModule } from "ngx-bootstrap/datepicker";
+import { PopoverModule } from "ngx-bootstrap/popover";
+import { SortableModule } from "ngx-bootstrap/sortable";
+import { TabsModule } from "ngx-bootstrap/tabs";
+import { TimepickerModule } from "ngx-bootstrap/timepicker";
+import { TooltipModule } from "ngx-bootstrap/tooltip";
 import { SponsorsService } from "./providers/sponsors.service";
 import { ScheduleService } from "./providers/schedule.service";
 import { RoleGuard } from "./guards/role.guard";

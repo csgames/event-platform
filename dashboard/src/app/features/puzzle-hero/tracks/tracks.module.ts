@@ -4,7 +4,7 @@ import { CommonModule } from "@angular/common";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { TracksRoutingModule } from "./tracks-routing.module";
 import { RouterModule } from "@angular/router";
-import { AccordionModule } from "ngx-bootstrap";
+import { AccordionModule } from "ngx-bootstrap/accordion";
 import { NgxGraphModule } from "@swimlane/ngx-graph";
 import { FlexLayoutModule } from "@angular/flex-layout";
 import { StoreModule } from "@ngrx/store";

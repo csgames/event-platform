@@ -8,7 +8,8 @@ import { EVENT_FORM_GENERATOR } from "./event-form.constants";
 import { EventFormDto } from "./dto/event-form.dto";
 import { DirectivesModule } from "../../directives/directives.module";
 import { CustomTextBoxModule } from "../custom-text-box/custom-text-box.module";
-import { BsDatepickerModule, DatepickerModule, TimepickerModule } from "ngx-bootstrap";
+import { BsDatepickerModule, DatepickerModule } from "ngx-bootstrap/datepicker";
+import { TimepickerModule } from "ngx-bootstrap/timepicker";
 import { FlexLayoutModule } from "@angular/flex-layout";
 import { ColorPickerModule } from "ngx-color-picker";
 

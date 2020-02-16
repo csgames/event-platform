@@ -18,7 +18,7 @@ export interface EditActivityModal {
     templateUrl: "edit-activity.template.html"
 })
 export class EditActivityComponent extends SimpleModalComponent<EditActivityModal, boolean> implements OnInit, OnDestroy {
-    @ViewChild(ActivityFormComponent, { static: false })
+    @ViewChild(ActivityFormComponent)
     private form: ActivityFormComponent;
 
     activities$ = this.store$.pipe(select(getActivities));

@@ -8,7 +8,7 @@ import { EffectsModule } from "@ngrx/effects";
 import { GravatarModule } from "ngx-gravatar";
 import { LoadingSpinnerModule } from "../../../components/loading-spinner/loading-spinner.module";
 import { DirectivesModule } from "../../../directives/directives.module";
-import { TooltipModule } from "ngx-bootstrap";
+import { TooltipModule } from "ngx-bootstrap/tooltip";
 import * as fromTeam from "./store/team-view.reducer";
 import { TeamViewEffects } from "./store/team-view.effects";
 import { AddAttendeeFormComponent } from "./components/add-attendee-form/add-attendee-form.component";

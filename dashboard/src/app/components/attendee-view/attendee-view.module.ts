@@ -4,7 +4,7 @@ import { AttendeeViewComponent } from "./attendee-view.component";
 import { CommonModule } from "@angular/common";
 import { TranslateModule } from "@ngx-translate/core";
 import { GravatarModule } from "ngx-gravatar";
-import { TooltipModule } from "ngx-bootstrap";
+import { TooltipModule } from "ngx-bootstrap/tooltip";
 import { FlexLayoutModule } from "@angular/flex-layout";
 
 @NgModule({

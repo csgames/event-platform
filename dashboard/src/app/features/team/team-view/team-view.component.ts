@@ -39,9 +39,9 @@ export class TeamViewComponent implements OnInit, OnDestroy {
         }
     }
 
-    @ViewChild("attendee", { static: false })
+    @ViewChild("attendee")
     attendeeForm: AddAttendeeFormComponent;
-    @ViewChild("godparent", { static: false })
+    @ViewChild("godparent")
     godparentForm: AddAttendeeFormComponent;
 
     currentTeam$ = this.store$.pipe(select(getCurrentTeam));

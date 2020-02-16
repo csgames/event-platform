@@ -8,7 +8,7 @@ import { SideNavComponent } from "./components/side-nav/side-nav.component";
 import { TopNavComponent } from "./components/top-nav/top-nav.component";
 import { FlexLayoutModule } from "@angular/flex-layout";
 import { FALLBACK, GravatarModule } from "ngx-gravatar";
-import { BsDropdownModule } from "ngx-bootstrap";
+import { BsDropdownModule } from "ngx-bootstrap/dropdown";
 import { SimpleModalModule } from "ngx-simple-modal";
 import { NotificationsListModalModule } from "../../modals/notifications-list-modal/notifications-list-modal.module";
 import { NotificationsListModalComponent } from "../../modals/notifications-list-modal/notifications-list-modal.component";
