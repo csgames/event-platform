@@ -23,7 +23,7 @@ spec:
       - name: csgames-auth-staging
         image: "docker.pkg.github.com/csgames/event-platform/auth-service:latest"
         resources:
-          requeauth:
+          requests:
             cpu: "250m"
           limits:
             cpu: "250m"
@@ -97,26 +97,26 @@ spec:
               key: RESET_PASSWORD_URL
 
         # auth client config
-        - name: auth_API_URL
+        - name: STS_API_URL
           valueFrom:
             configMapKeyRef:
               name: auth-configmap-staging
-              key: auth_API_URL
-        - name: auth_CLIENT_ID
+              key: STS_API_URL
+        - name: STS_CLIENT_ID
           valueFrom:
             configMapKeyRef:
               name: auth-configmap-staging
-              key: auth_CLIENT_ID
-        - name: auth_CLIENT_SCOPE
+              key: STS_CLIENT_ID
+        - name: STS_CLIENT_SCOPE
           valueFrom:
             configMapKeyRef:
               name: auth-configmap-staging
-              key: auth_CLIENT_SCOPE
-        - name: auth_CLIENT_SECRET
+              key: STS_CLIENT_SCOPE
+        - name: STS_CLIENT_SECRET
           valueFrom:
             configMapKeyRef:
               name: auth-configmap-staging
-              key: auth_CLIENT_SECRET
+              key: STS_CLIENT_SECRET
 
         # Mail client config
         - name: MAIL_API_URL

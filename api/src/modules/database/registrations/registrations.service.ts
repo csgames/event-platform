@@ -31,25 +31,34 @@ export class RegistrationsService {
     }
 
     public async create(dto: CreateRegistrationDto, role: string, eventId: string) {
-        const att = await this.attendeeService.findOne({ email: dto.email });
-        if (att) {
-            throw new AttendeeAlreadyExistException();
-        }
-
         if (dto.role !== "sponsor") {
             await this.validateTeam(dto.teamName, dto.role, eventId);
         }
-        const attendee = await this.attendeeService.create({
-            email: dto.email.toLowerCase(),
-            firstName: dto.firstName,
-            lastName: dto.lastName
-        });
+        let attendee = await this.attendeeService.findOne({ email: dto.email });
+        let url;
+        if (attendee) {
+            const event = await this.eventService.findOne({
+                _id: eventId,
+                "attendees.attendee": attendee._id
+            });
+            if (event) {
+                throw new AttendeeAlreadyExistException();
+            }
+            url = this.configService.registration.loginUrl;
+        } else {
+            attendee = await this.attendeeService.create({
+                email: dto.email.toLowerCase(),
+                firstName: dto.firstName,
+                lastName: dto.lastName
+            });
 
-        let registration = new this.registrationsModel({
-            attendee: attendee._id,
-            role: dto.role
-        });
-        registration = await registration.save();
+            let registration = new this.registrationsModel({
+                attendee: attendee._id,
+                role: dto.role
+            });
+            registration = await registration.save();
+            url = `${this.configService.registration.registrationUrl}${registration.uuid}`;
+        }
 
         if (dto.role === "sponsor") {
             await this.addSponsor(dto, role, eventId, attendee);
@@ -62,7 +71,7 @@ export class RegistrationsService {
         const event = await this.eventService.findById(eventId);
         const template = dto.role === "sponsor" ? event.templates["attendee"] : event.templates[dto.role];
         if (!template) {
-            return registration;
+            return;
         }
 
         try {
@@ -75,7 +84,7 @@ export class RegistrationsService {
                 template: template,
                 variables: {
                     name: dto.firstName,
-                    url: `${this.configService.registration.registrationUrl}${registration.uuid}`,
+                    url,
                     team: dto.teamName
                 }
             });
@@ -86,8 +95,6 @@ export class RegistrationsService {
 
             throw new InternalServerErrorException(e);
         }
-
-        return registration;
     }
 
     public async registerAttendee(userDto: RegisterAttendeeDto) {

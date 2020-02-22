@@ -1,8 +1,11 @@
-FROM node:8-alpine
+FROM node:12-alpine as builder
 
 # Create app directory
 RUN mkdir -p /usr/src/webapp
 WORKDIR /usr/src/webapp
+
+ARG FONTAWESOME_NPM_AUTH_TOKEN
+ENV FONTAWESOME_NPM_AUTH_TOKEN=$FONTAWESOME_NPM_AUTH_TOKEN
 
 ADD package.json /tmp/package.json
 ADD .npmrc /tmp/.npmrc
@@ -13,5 +16,10 @@ RUN cp -a /tmp/node_modules /usr/src/webapp
 ADD . /usr/src/webapp
 RUN npm run build:prod
 
-EXPOSE 4200
-CMD [ "npm", "run", "server" ]
+FROM nginx:stable-alpine
+
+RUN rm -rf /usr/share/nginx/html/*
+
+COPY --from=builder /usr/src/webapp/dist/dashboard /usr/share/nginx/html
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]

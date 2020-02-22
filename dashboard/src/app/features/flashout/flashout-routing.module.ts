@@ -6,13 +6,13 @@ import { FlashoutGuard } from "./guards/flashout.guard";
 const routes: Routes = [
     {
         path: "",
-        loadChildren: "src/app/features/flashout/flashout-view/flashout-view.module#FlashoutViewModule",
+        loadChildren: () => import("src/app/features/flashout/flashout-view/flashout-view.module").then(m => m.FlashoutViewModule),
         canActivate: [RoleGuard, FlashoutGuard],
         data: { roles: ["attendee", "captain", "godparent"], redirect: "flash-out/edit" }
     },
     {
         path: "edit",
-        loadChildren: "src/app/features/flashout/flashout-edit/flashout-edit.module#FlashoutEditModule",
+        loadChildren: () => import("src/app/features/flashout/flashout-edit/flashout-edit.module").then(m => m.FlashoutEditModule),
         canActivate: [RoleGuard],
         data: { roles: ["admin", "super-admin"], redirect: "flash-out" }
     }

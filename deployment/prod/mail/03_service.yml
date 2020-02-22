@@ -7,10 +7,9 @@ metadata:
     role: master
     tier: backend
 spec:
+  selector:
+    app: csgames-mail-prod
   ports:
   - port: 8090
     targetPort: 8090
-  selector:
-    app: csgames-mail-prod
-    role: master
-    tier: backend
+  type: NodePort

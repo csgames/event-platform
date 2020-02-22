@@ -20,9 +20,9 @@ spec:
         image: "docker.pkg.github.com/csgames/event-platform/mail-service:latest"
         resources:
           requests:
-            cpu: "60m"
+            cpu: "150m"
           limits:
-            cpu: "70m"
+            cpu: "200m"
         env:
         # Base config
         - name: PORT
@@ -42,11 +42,11 @@ spec:
             configMapKeyRef:
               name: mail-configmap-prod
               key: DB_ADDRESS
-        - name: DB_ADDRESS
+        - name: DB_USERNAME
           valueFrom:
             configMapKeyRef:
               name: mail-configmap-prod
-              key: DB_ADDRESS
+              key: DB_USERNAME
         - name: DB_PASSWORD
           valueFrom:
             configMapKeyRef:

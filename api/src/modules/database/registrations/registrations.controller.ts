@@ -25,7 +25,7 @@ export class RegistrationsController {
     public async createInvitation(@Body(new ValidationPipe()) dto: CreateRegistrationDto,
                                   @Role() role: string,
                                   @EventId() eventId: string
-    ): Promise<Registrations> {
+    ): Promise<void> {
         return await this.registrationService.create(dto, role, eventId);
     }
 

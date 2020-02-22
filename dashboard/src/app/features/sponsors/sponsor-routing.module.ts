@@ -5,13 +5,13 @@ import { NgModule } from "@angular/core";
 const routes: Routes = [
     {
         path: "",
-        loadChildren: "src/app/features/sponsors/sponsor-view/sponsor-view.module#SponsorViewModule",
+        loadChildren: () => import("src/app/features/sponsors/sponsor-view/sponsor-view.module").then(m => m.SponsorViewModule),
         canActivate: [RoleGuard],
         data: { roles: ["attendee", "captain", "godparent", "director"], redirect: "sponsor/edit" }
     },
     {
         path: "edit",
-        loadChildren: "src/app/features/sponsors/sponsor-edit/sponsor-edit.module#SponsorEditModule",
+        loadChildren: () => import("src/app/features/sponsors/sponsor-edit/sponsor-edit.module").then(m => m.SponsorEditModule),
         canActivate: [RoleGuard],
         data: { roles: ["admin", "super-admin"], redirect: "sponsor"}
     }

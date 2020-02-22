@@ -38,6 +38,9 @@ data:
 
       [[acme.domains]]
         main = "api.csgames.recursyve.dev"
+
+      [[acme.domains]]
+        main = "api.csgames.org"
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim

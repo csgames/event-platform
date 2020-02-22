@@ -11,7 +11,7 @@ export const DASHBOARD_ROUTES: Routes = [
     },
     {
         path: "event",
-        loadChildren: "src/app/features/event/event.module#EventModule"
+        loadChildren: () => import("src/app/features/event/event.module").then(m => m.EventModule)
     },
     // {
     //     path: "home",
@@ -20,47 +20,47 @@ export const DASHBOARD_ROUTES: Routes = [
     // },
     {
         path: "team",
-        loadChildren: "src/app/features/team/team.module#TeamModule",
+        loadChildren: () => import("src/app/features/team/team.module").then(m => m.TeamModule),
         canActivate: [RegisteredGuard, EventFoundGuard]
     },
     {
         path: "puzzle-hero",
-        loadChildren: "src/app/features/puzzle-hero/puzzle-hero.module#PuzzleHeroModule",
+        loadChildren: () => import("src/app/features/puzzle-hero/puzzle-hero.module").then(m => m.PuzzleHeroModule),
         canActivate: [RegisteredGuard, EventFoundGuard]
     },
     {
         path: "onboarding",
-        loadChildren: "src/app/features/onboarding/onboarding.module#OnboardingModule",
+        loadChildren: () => import("src/app/features/onboarding/onboarding.module").then(m => m.OnboardingModule),
         canActivate: [NotRegisteredGuard, EventFoundGuard]
     },
     {
         path: "guide",
-        loadChildren: "src/app/features/guide/guide.module#GuideModule",
+        loadChildren: () => import("src/app/features/guide/guide.module").then(m => m.GuideModule),
         canActivate: [RegisteredGuard, EventFoundGuard]
     },
     {
         path: "sponsors",
-        loadChildren: "src/app/features/sponsors/sponsor.module#SponsorModule",
+        loadChildren: () => import("src/app/features/sponsors/sponsor.module").then(m => m.SponsorModule),
         canActivate: [RegisteredGuard, EventFoundGuard]
     },
     {
         path: "schedule",
-        loadChildren: "src/app/features/schedule/schedule.module#ScheduleModule",
+        loadChildren: () => import("src/app/features/schedule/schedule.module").then(m => m.ScheduleModule),
         canActivate: [RegisteredGuard, EventFoundGuard]
     },
     {
         path: "competition",
-        loadChildren: "src/app/features/competitions/competitions.module#CompetitionsModule",
+        loadChildren: () => import("src/app/features/competitions/competitions.module").then(m => m.CompetitionsModule),
         canActivate: [RegisteredGuard, EventFoundGuard]
     },
     {
         path: "notifications",
-        loadChildren: "src/app/features/notifications/notifications.module#NotificationsModule",
+        loadChildren: () => import("src/app/features/notifications/notifications.module").then(m => m.NotificationsModule),
         canActivate: [RegisteredGuard, EventFoundGuard]
     },
     {
         path: "flash-out",
-        loadChildren: "src/app/features/flashout/flashout.module#FlashoutModule",
+        loadChildren: () => import("src/app/features/flashout/flashout.module").then(m => m.FlashoutModule),
         canActivate: [RegisteredGuard, EventFoundGuard]
     },
     {
@@ -70,27 +70,27 @@ export const DASHBOARD_ROUTES: Routes = [
     },
     {
         path: "user/organizer",
-        loadChildren: "src/app/features/organizers/organizers.module#OrganizersModule",
+        loadChildren: () => import("src/app/features/organizers/organizers.module").then(m => m.OrganizersModule),
         canActivate: [RegisteredGuard, EventFoundGuard]
     },
     {
         path: "user/volunteer",
-        loadChildren: "src/app/features/volunteers/volunteers.module#VolunteersModule",
+        loadChildren: () => import("src/app/features/volunteers/volunteers.module").then(m => m.VolunteersModule),
         canActivate: [RegisteredGuard, EventFoundGuard]
     },
     {
         path: "user/director",
-        loadChildren: "src/app/features/directors/directors.module#DirectorsModule",
+        loadChildren: () => import("src/app/features/directors/directors.module").then(m => m.DirectorsModule),
         canActivate: [RegisteredGuard, EventFoundGuard]
     },
     {
         path: "user/attendee",
-        loadChildren: "src/app/features/attendees/attendees.module#AttendeesModule",
+        loadChildren: () => import("src/app/features/attendees/attendees.module").then(m => m.AttendeesModule),
         canActivate: [RegisteredGuard, EventFoundGuard]
     },
     {
         path: "activities",
-        loadChildren: "src/app/features/activities/activities.module#ActivitiesModule",
+        loadChildren: () => import("src/app/features/activities/activities.module").then(m => m.ActivitiesModule),
         canActivate: [RegisteredGuard, EventFoundGuard]
     },
     {

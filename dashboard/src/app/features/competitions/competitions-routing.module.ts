@@ -5,19 +5,19 @@ import { RoleGuard } from "../../guards/role.guard";
 const routes: Routes = [
     {
         path: "admin",
-        loadChildren: "src/app/features/competitions/admin/competitions-admin.module#CompetitionsAdminModule",
+        loadChildren: () => import("src/app/features/competitions/admin/competitions-admin.module").then(m => m.CompetitionsAdminModule),
         canActivate: [RoleGuard],
         data: { roles: ["admin", "super-admin", "director"], redirect: "competition" }
     },
     {
         path: "edit",
-        loadChildren: "src/app/features/competitions/edit/competition-edit.module#CompetitionEditModule",
+        loadChildren: () => import("src/app/features/competitions/edit/competition-edit.module").then(m => m.CompetitionEditModule),
         canActivate: [RoleGuard],
         data: { roles: ["admin", "super-admin", "director"], redirect: "competition" }
     },
     {
         path: "",
-        loadChildren: "src/app/features/competitions/list/competitions-list.module#CompetitionsListModule",
+        loadChildren: () => import("src/app/features/competitions/list/competitions-list.module").then(m => m.CompetitionsListModule),
         canActivate: [RoleGuard],
         data: { roles: ["attendee", "captain"], redirect: "competition/admin" }
     },

@@ -42,11 +42,11 @@ spec:
             configMapKeyRef:
               name: mail-configmap-staging
               key: DB_ADDRESS
-        - name: DB_ADDRESS
+        - name: DB_USERNAME
           valueFrom:
             configMapKeyRef:
               name: mail-configmap-staging
-              key: DB_ADDRESS
+              key: DB_USERNAME
         - name: DB_PASSWORD
           valueFrom:
             configMapKeyRef:

@@ -7,19 +7,19 @@ import { RoleGuard } from "../../guards/role.guard";
 const routes: Routes = [
     {
         path: "edit",
-        loadChildren: "src/app/features/puzzle-hero/admin/puzzle-admin.module#PuzzleAdminModule",
+        loadChildren: () => import("src/app/features/puzzle-hero/admin/puzzle-admin.module").then(m => m.PuzzleAdminModule),
         canActivate: [RoleGuard],
         data: { roles: ["admin", "super-admin"], redirect: "puzzle-hero/tracks" }
     },
     {
         path: "tracks",
-        loadChildren: "src/app/features/puzzle-hero/tracks/tracks.module#TracksModule",
+        loadChildren: () => import("src/app/features/puzzle-hero/tracks/tracks.module").then(m => m.TracksModule),
         canActivate: [PuzzleHeroGuard, RoleGuard],
         data: { roles: ["attendee", "captain", "godparent"], redirect: "puzzle-hero/edit" }
     },
     {
         path: "scoreboard",
-        loadChildren: "src/app/features/puzzle-hero/scoreboard/scoreboard.module#ScoreboardModule",
+        loadChildren: () => import("src/app/features/puzzle-hero/scoreboard/scoreboard.module").then(m => m.ScoreboardModule),
         canActivate: [ScoreboardGuard]
     },
     { path: "**", redirectTo: "tracks" }

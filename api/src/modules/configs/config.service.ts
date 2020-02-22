@@ -62,7 +62,8 @@ export class ConfigService {
 
     private loadRegistration() {
         this.registration = {
-            registrationUrl: process.env.ACCOUNT_CREATION_URL
+            registrationUrl: process.env.ACCOUNT_CREATION_URL,
+            loginUrl: process.env.LOGIN_URL
         };
     }
 
