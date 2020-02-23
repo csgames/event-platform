@@ -143,17 +143,29 @@ export class RegistrationsService {
             await this.fetchRoles();
         }
 
-        try {
-            await this.stsService.registerUser({
-                username: userDto.username,
-                password: userDto.password,
-                roleId: this.roles["attendee"]
-            } as UserModel);
-
-            const attendee = await this.attendeeService.create({
-                ...userDto.attendee,
-                email: userDto.username
+        let attendee = await this.attendeeService.findOne({ email: userDto.username });
+        if (attendee) {
+            const event = await this.eventService.findOne({
+                _id: eventId,
+                "attendees.attendee": attendee._id
             });
+            if (event) {
+                throw new AttendeeAlreadyExistException();
+            }
+        }
+        try {
+            if (!attendee) {
+                await this.stsService.registerUser({
+                    username: userDto.username,
+                    password: userDto.password,
+                    roleId: this.roles["attendee"]
+                } as UserModel);
+
+                attendee = await this.attendeeService.create({
+                    ...userDto.attendee,
+                    email: userDto.username
+                });
+            }
             await this.eventService.addAttendee(eventId, attendee, userDto.role);
             return attendee;
         } catch (err) {

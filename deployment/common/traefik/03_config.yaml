@@ -41,6 +41,9 @@ data:
 
       [[acme.domains]]
         main = "api.csgames.org"
+
+      [[acme.domains]]
+        main = "dashboard.csgames.org"
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim

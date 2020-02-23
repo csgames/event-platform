@@ -8,6 +8,13 @@ metadata:
     traefik.frontend.priority: "1"
 spec:
   rules:
+  - host: dashboard.csgames.org
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: csgames-dashboard-prod-backend
+          servicePort: 4200
   - host: api.csgames.org
     http:
       paths:

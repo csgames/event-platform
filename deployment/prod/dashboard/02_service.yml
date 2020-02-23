@@ -7,6 +7,6 @@ spec:
     app: csgames-dashboard-prod
   ports:
   - name: csgames-dashboard-prod-backend
-    targetPort: 4200
+    targetPort: 80
     port: 4200
   type: NodePort
