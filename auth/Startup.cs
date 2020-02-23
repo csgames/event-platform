@@ -92,7 +92,7 @@ namespace STS
                     {
                         var client = new HttpClient();
                         var disco = JsonConvert.DeserializeObject<JsonWebKeySet>(
-                            client.GetAsync($"{Environment.GetEnvironmentVariable("ISSUER_URI")}/.well-known/openid-configuration/jwks")
+                            client.GetAsync($"{Environment.GetEnvironmentVariable("STS_API_URL")}/.well-known/openid-configuration/jwks")
                                 .Result.Content.ReadAsStringAsync().Result
                         );
 
