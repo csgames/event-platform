@@ -20,7 +20,7 @@ export interface HotelSection {
 }
 
 export interface TranslateInfo {
-    [key: string]: string[];
+    [key: string]: string;
 }
 
 export interface SchoolSection {

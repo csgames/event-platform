@@ -5,6 +5,7 @@ import { filter, map } from "rxjs/operators";
 import { Attendee } from "../../api/models/attendee";
 import { DownloadAllResume, DownloadCsv, DownloadResume, DownloadXlsx, LoadAttendees } from "./store/attendees.actions";
 import { getAttendees, getLoading, State } from "./store/attendees.reducer";
+import { Observable } from "rxjs";
 
 @Component({
     selector: "app-attendees",
@@ -16,7 +17,7 @@ export class AttendeesComponent implements OnInit, OnDestroy {
     loading$ = this.store$.pipe(select(getLoading));
     searchInput = "";
 
-    get sortedFilteredAttendees$() {
+    get sortedFilteredAttendees$(): Observable<Attendee[]> {
         return this.attendees$.pipe(
             filter(x => x !== null),
             map(t => t.filter((attendee: Attendee) => {

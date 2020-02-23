@@ -2,14 +2,14 @@
     <app-custom-text-box fxFlex="100%" label="{{ 'components.map_form.website' | translate }}"
         placeholder="{{ 'components.map_form.website' | translate }}"
         formType="textbox" class="custom-text" [(ngModel)]="section.website" 
-        (ngModelChange)="itemChange()">
+        (ngModelChange)="itemSchoolChange()">
     </app-custom-text-box>
 </div>
 <label>{{ "components.map_form.maps" | translate }}</label>
 <div fxLayout="column" *ngIf="lang && section">
     <div fxFlex="100" *ngFor="let d of section.maps; let i = index">
         <div class="input-group input-group-default">
-            <input class="form-control" type="text" [(ngModel)]="d" (ngModelChange)="itemChange()">
+            <input class="form-control" type="text" [ngModel]="d" (ngModelChange)="itemMapChange(i, $event)">
             <span class="input-group-btn">
                 <a class="remove btn btn-danger btn-outline pull-right" (click)="deleteValue(i)">
                     <i class="fa fa-trash"></i>
@@ -30,7 +30,7 @@
                         placeholder='{{ "components.map_form.map" | translate }}'>
                 </div>
             </div>
-            <div fxFlex="100" class="control-error" *ngIf="newItemError">
+            <div fxFlex="100" class="control-error" *ngIf="newMapError">
                 {{ "components.map_form.add_error" }}
             </div>
         </div>

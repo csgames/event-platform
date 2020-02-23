@@ -52,7 +52,7 @@
 
             <agm-map *ngIf="guide" [latitude]="guide.hotel.latitude" [longitude]="guide.hotel.longitude"
                 [zoom]="guide.hotel.zoom" [disableDefaultUI]="false" [zoomControl]="false">
-                <agm-marker *ngIf="guide" (markerClick)="clickedMarker(m.label, i)" [latitude]="guide.hotel.latitude"
+                <agm-marker *ngIf="guide" [latitude]="guide.hotel.latitude"
                     [longitude]="guide.hotel.longitude" [label]="" [markerDraggable]="false">
                     <agm-info-window>
                         <strong>{{ guide.hotel.name }}</strong>

@@ -53,7 +53,12 @@ export class MapFormComponent implements OnInit, ControlValueAccessor {
 
     public registerOnTouched(fn: any): void { }
 
-    public itemChange() {
+    public itemSchoolChange() {
+        this.propagate(this.section);
+    }
+
+    public itemMapChange(index: number, map: string) {
+        this.section.maps[index] = map;
         this.propagate(this.section);
     }
 

@@ -1,7 +1,7 @@
 <div fxLayout="column" *ngIf="section">
     <app-custom-text-box fxFlex="100%" label="{{ 'components.transportation_form.info' | translate }}"
         placeholder="{{ 'components.transportation_form.info' | translate }}" formType="textarea" class="custom-text"
-        [textareaRows]="3" [(ngModel)]="section.info" (ngModelChange)="itemChange()">
+        [textareaRows]="3" [(ngModel)]="section.info">
     </app-custom-text-box>
 </div>
 <form [formGroup]="formGroup">

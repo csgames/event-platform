@@ -6,7 +6,7 @@ import { TranslateService } from "@ngx-translate/core";
 export class HoursPipe implements PipeTransform {
     constructor(private translateService: TranslateService) { }
 
-    transform(date: string): string {
+    transform(date: Date | string): string {
         return formatDate(date, "h:mm a", this.translateService.getDefaultLang());
     }
 }

@@ -40,6 +40,7 @@ export interface PuzzleInfo {
     question?: Question;
     answers?: Answers[];
     answersCount?: number;
+    inputType?: string;
 }
 
 export interface Track {

@@ -74,8 +74,8 @@
                                     <i class="fal fa-edit"></i>
                                 </a>
                             </h2>
-                            <small *ngIf="team?.school">{{ team?.school?.name }}</small>
-                            <small *ngIf="team?.sponsor">{{ team?.sponsor?.name }}</small>
+                            <small *ngIf="team?.school">{{ $any(team)?.school?.name }}</small>
+                            <small *ngIf="team?.sponsor">{{ $any(team)?.sponsor?.name }}</small>
                             <br>
                             <small>{{ "pages.team.max" | translate }} : {{ team?.maxMembersNumber }}</small>
                             <app-attendee-view [attendee]="getTeamCaptain(team)"></app-attendee-view>

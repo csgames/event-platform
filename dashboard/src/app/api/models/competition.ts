@@ -5,6 +5,7 @@ import { Question, QuestionGraphNode } from "./question";
 export interface TeamResult {
     teamId: string;
     teamName?: string;
+    teamSchoolName?: string;
     score: number;
 }
 

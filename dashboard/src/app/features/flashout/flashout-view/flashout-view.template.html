@@ -4,7 +4,7 @@
     <div *ngIf="flashouts$ | async" class="animated fadeIn">
         <div class="row" *ngIf="flashouts && flashouts[0] && flashouts[0].votes[0]">
             <div *ngFor="let f of flashouts" class="col-xs-12 col-md-6 col-xl-4">
-                <app-flashout-card [flashout]="f" [showRate]="hasVoted" [(ngModel)]="f.votes[0].rating" rate></app-flashout-card>
+                <app-flashout-card [flashout]="f" [showRate]="hasVoted" [(ngModel)]="f.votes[0].rating" [rate]="true"></app-flashout-card>
             </div>
         </div>
     </div>

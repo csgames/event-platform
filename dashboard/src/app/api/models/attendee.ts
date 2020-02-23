@@ -1,3 +1,5 @@
+import { Team } from "./team";
+
 export interface Attendee {
     _id: string;
     firstName: string;
@@ -18,6 +20,9 @@ export interface Attendee {
     permissions?: string[];
     handicapped: boolean;
     needsTransportPass: boolean;
+    team?: Team[];
+    teamId?: string;
+    school?: string;
 }
 
 export interface AttendeeModel {

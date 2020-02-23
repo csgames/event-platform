@@ -13,7 +13,7 @@
 <div fxLayout="column" *ngIf="lang && section">
     <div fxFlex="100" *ngFor="let d of section[lang]; let i = index">
         <div class="input-group input-group-default">
-            <input class="form-control" type="text" [(ngModel)]="d" (ngModelChange)="itemChange()">
+            <input class="form-control" type="text" [ngModel]="d" (ngModelChange)="itemChange(i, $event)">
             <span class="input-group-btn">
                 <a class="remove btn btn-outline-danger pull-right" (click)="deleteValue(i)">
                     <i class="fa fa-trash"></i>

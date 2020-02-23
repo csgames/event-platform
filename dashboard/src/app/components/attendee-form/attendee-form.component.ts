@@ -1,5 +1,5 @@
 import { Component, ElementRef, EventEmitter, forwardRef, Inject, OnDestroy, OnInit, Output, ViewChild } from "@angular/core";
-import { ControlValueAccessor, FormGroup, NG_VALUE_ACCESSOR } from "@angular/forms";
+import { ControlValueAccessor, FormGroup, NG_VALUE_ACCESSOR, FormControl } from "@angular/forms";
 import { Attendee } from "../../api/models/attendee";
 import { ATTENDEE_FORM_GENERATOR } from "./attendee-form.constants";
 import { FormGenerator } from "../../form-generator/form-generator";
@@ -31,6 +31,10 @@ export class AttendeeFormComponent implements OnInit, OnDestroy, ControlValueAcc
 
     public get hasDietaryRestrictions() {
         return this.formGroup.controls.hasDietaryRestrictions.value;
+    }
+
+    public get CVControl(): FormControl {
+        return this.formGroup.get("cv") as FormControl;
     }
 
     private propagate: (obj: Attendee) => void;

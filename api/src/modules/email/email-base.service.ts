@@ -10,6 +10,9 @@ export class EmailBaseService {
     constructor(private resource: string) {}
 
     protected url(path = ""): string {
+        if (!path) {
+            return `${process.env.EMAIL_SERVICE_URL}/${this.resource}`;
+        }
         return `${process.env.EMAIL_SERVICE_URL}/${this.resource}/${path}`;
     }
 

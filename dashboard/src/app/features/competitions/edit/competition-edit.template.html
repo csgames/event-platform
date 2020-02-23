@@ -69,7 +69,7 @@
                             class="fal fa-download"></i> {{ "pages.competition.edit.submissions" | translate }}</span>
                     </ng-template>
                     <app-question-results-card
-                        *ngFor="let question of competition.questions"
+                        *ngFor="let question of $any(competition).questions"
                         (clickDownloadSubmissions)="clickDownloadSubmissions(question)"
                         [teamResults]="getTeamResultsForQuestion(competitionResults, question.question._id)"
                         [question]="question.question"></app-question-results-card>
@@ -80,7 +80,7 @@
                     </ng-template>
                     <app-competition-results [teamResults]="competition.results"
                                              [teamCompetitionResults]="competitionResults"
-                                             [questions]="competition.questions"
+                                             [questions]="$any(competition.questions)"
                                              (teamResultChange)="onResultsUpdate($event)"></app-competition-results>
                 </tab>
             </ng-container>

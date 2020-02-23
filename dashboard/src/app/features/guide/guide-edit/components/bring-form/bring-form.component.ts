@@ -47,7 +47,8 @@ export class BringFormComponent implements OnInit, ControlValueAccessor {
     public registerOnTouched(fn: any): void {
     }
 
-    public itemChange() {
+    public itemChange(index: number, bring: string) {
+        this.section[this.lang][index] = bring;
         this.propagate(this.section);
     }
 

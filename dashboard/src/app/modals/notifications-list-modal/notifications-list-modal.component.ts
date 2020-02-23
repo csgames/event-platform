@@ -3,7 +3,7 @@ import { SimpleModalComponent } from "ngx-simple-modal";
 import { Store, select } from "@ngrx/store";
 import { State, getNotifications, getNotificationsLoading } from "./store/notifications.reducer";
 import { Subscription } from "rxjs";
-import { AttendeeNotification } from "../../api/models/notification";
+import { AppNotification, AttendeeNotification } from "../../api/models/notification";
 import { LoadNotifications } from "./store/notifications.actions";
 import { Activity } from "../../api/models/activity";
 
@@ -36,15 +36,15 @@ export class NotificationsListModalComponent extends SimpleModalComponent<void, 
         this.notificationSub$.unsubscribe();
     }
 
-    getIcon(notification: Notification): string {
+    getIcon(notification: AppNotification): string {
         if (!notification.data) {
             return "";
         }
-        switch (notification.data.type) {
+        switch (notification.data["type"]) {
             case "event":
                 return "fal fa-calendar-check text-danger";
             case "activity":
-                const activity = JSON.parse(notification.data.activity);
+                const activity = JSON.parse(notification.data["activity"]);
                 if (activity.type === "competition") {
                     return "fal fa-trophy text-primary";
                 } else if (activity.type === "food") {
@@ -56,11 +56,11 @@ export class NotificationsListModalComponent extends SimpleModalComponent<void, 
         return "";
     }
 
-    getActivityName(notification: Notification): { [lang: string]: string } {
-        if (!notification.data || !notification.data.activity || notification.data.type !== "activity") {
+    getActivityName(notification: AppNotification): { [lang: string]: string } {
+        if (!notification.data || !notification.data["activity"] || notification.data["type"] !== "activity") {
             return null;
         }
-        const activity: Activity = JSON.parse(notification.data.activity);
+        const activity: Activity = JSON.parse(notification.data["activity"]);
         return activity.name;
     }
 

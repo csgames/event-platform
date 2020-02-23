@@ -43,6 +43,11 @@ spec:
             configMapKeyRef:
               name: api-configmap-staging
               key: ACCOUNT_CREATION_URL
+        - name: LOGIN_URL
+          valueFrom:
+            configMapKeyRef:
+              name: api-configmap-staging
+              key: LOGIN_URL
         - name: NODE_ENV
           value: staging
         - name: PORT

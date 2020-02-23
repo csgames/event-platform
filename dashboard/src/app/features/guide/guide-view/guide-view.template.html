@@ -60,7 +60,6 @@
                 [zoomControl]="false">
                 <agm-marker
                     *ngIf="guide"
-                    (markerClick)="clickedMarker(m.label, i)"
                     [latitude]="guide.hotel.latitude"
                     [longitude]="guide.hotel.longitude"
                     [label]=""
