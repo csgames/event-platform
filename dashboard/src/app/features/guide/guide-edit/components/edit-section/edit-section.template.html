@@ -13,12 +13,12 @@
                 <div class="modal-body">
                     <ng-container [ngSwitch]="type">
                         <bring-form *ngSwitchCase="'bring'" [(ngModel)]="guide.bring"></bring-form>
-                        <transportation-form *ngSwitchCase="'transport'" [(ngModel)]="guide.transport"></transportation-form>
-                        <hotel-form *ngSwitchCase="'hotel'" [(ngModel)]="guide.hotel"></hotel-form>
-                        <school-form *ngSwitchCase="'school'" [(ngModel)]="guide.school"></school-form>
-                        <map-form *ngSwitchCase="'map'" [(ngModel)]="guide.school"></map-form>
-                        <parking-form *ngSwitchCase="'parking'" [(ngModel)]="guide.parking"></parking-form>
-                        <restaurant-form *ngSwitchCase="'restaurant'" [(ngModel)]="guide.restaurant"></restaurant-form>
+                        <transportation-form  #transportation *ngSwitchCase="'transport'" [(ngModel)]="guide.transport"></transportation-form>
+                        <hotel-form #hotel *ngSwitchCase="'hotel'" [(ngModel)]="guide.hotel"></hotel-form>
+                        <school-form #school *ngSwitchCase="'school'" [(ngModel)]="guide.school"></school-form>
+                        <map-form #map *ngSwitchCase="'map'" [(ngModel)]="guide.school"></map-form>
+                        <parking-form #parking *ngSwitchCase="'parking'" [(ngModel)]="guide.parking"></parking-form>
+                        <restaurant-form #restaurant *ngSwitchCase="'restaurant'" [(ngModel)]="guide.restaurant"></restaurant-form>
                     </ng-container>
                 </div>
                 <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="center center" class="container">

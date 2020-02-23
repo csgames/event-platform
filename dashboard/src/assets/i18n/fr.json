@@ -389,7 +389,8 @@
             "types": {
                 "other": "Autre",
                 "food": "Repas",
-                "competition": "Compétition"
+                "competition": "Compétition",
+                "transport": "Transport"
             }
         },
         "guide": {

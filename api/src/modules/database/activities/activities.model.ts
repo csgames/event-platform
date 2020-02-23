@@ -5,6 +5,7 @@ import { Attendees } from "../attendees/attendees.model";
 export const ActivityTypes = [
     "food",
     "competition",
+    "transport",
     "other"
 ];
 

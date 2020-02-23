@@ -180,6 +180,7 @@ export class AppEffects {
             if (action.event) {
                 this.eventService.saveCurrentEvent(action.event._id);
                 this.themeService.setPrimaryColor(action.event.primaryColor);
+                this.router.navigate(["/"]);
             }
         }),
         switchMap(() => [new LoadCurrentAttendee(), new GetPuzzleHeroInfo(), new LoadRegisteredCompetitions()])

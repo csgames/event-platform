@@ -1,7 +1,8 @@
 export enum ActivityTypes {
     General = "other", 
     Meal = "food",
-    Competition = "competition"
+    Competition = "competition",
+    Transport = "transport"
 }
 
 export interface Activity {

@@ -9,6 +9,8 @@ export namespace ActivityUtils {
                 return "fal fal-4x fa-utensils";
             case ActivityTypes.Competition: 
                 return "fal fal-4x fa-trophy";
+            case ActivityTypes.Transport:
+                return "fal fal-4x fa-bus-alt";
         }
     }
 

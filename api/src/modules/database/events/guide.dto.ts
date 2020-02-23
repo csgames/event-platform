@@ -1,5 +1,5 @@
 import { Type } from "class-transformer";
-import { ArrayNotEmpty, IsArray, IsIn, IsNotEmpty, IsNumber, IsOptional, IsString, ValidateNested } from "class-validator";
+import { ArrayNotEmpty, IsArray, IsIn, IsNotEmpty, IsNumber, IsOptional, IsString, ValidateIf, ValidateNested } from "class-validator";
 import { EventGuideTypes } from "./events.model";
 
 export class GuideBringDto {
@@ -36,30 +36,37 @@ export class CoordinateDto {
 export class GuideSchoolDto {
     @IsNumber()
     @IsNotEmpty()
+    @ValidateIf((value) => value.name || value.address || value.longitude || value.zoom)
     latitude: number;
 
     @IsNumber()
     @IsNotEmpty()
+    @ValidateIf((value) => value.name || value.address || value.latitude || value.zoom)
     longitude: number;
 
     @IsNumber()
     @IsNotEmpty()
+    @ValidateIf((value) => value.name || value.address || value.latitude || value.longitude)
     zoom: number;
 
     @IsString()
     @IsNotEmpty()
+    @ValidateIf((value) => value.name || value.longitude || value.latitude || value.zoom)
     address: string;
 
     @IsString()
     @IsNotEmpty()
+    @ValidateIf((value) => value.address || value.longitude || value.latitude || value.zoom)
     name: string;
 
-    @ArrayNotEmpty()
+    @IsOptional()
     @IsArray()
+    @ValidateIf((value) => (value.name) || (value.website?.fr && value.website?.en))
     maps: string[];
 
     @ValidateNested()
     @Type(() => TranslateDto)
+    @ValidateIf((value) => (value.maps?.length) || (value.website?.fr && value.website?.en))
     website: TranslateDto;
 }
 
