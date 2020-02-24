@@ -31,7 +31,7 @@
             </a>
             <i class="fas fa-caret-down ml-2" [class.fa-rotate-90]="!isOpen"></i>
         </div>
-        <div class="track-container">
+        <div class="track-container" *ngIf="ready">
             <div class="track" xmlns:svg="http://www.w3.org/1999/XSL/Transform">
                 <ngx-graph
                     track

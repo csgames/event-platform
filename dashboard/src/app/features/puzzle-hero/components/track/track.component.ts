@@ -48,6 +48,10 @@ export class TrackComponent implements OnInit {
 
     isOpen = false;
 
+    get ready() {
+        return this.nodes.length;
+    }
+
     constructor(private puzzleHeroService: PuzzleHeroService, private modalService: SimpleModalService) {}
 
     public ngOnInit() {}
