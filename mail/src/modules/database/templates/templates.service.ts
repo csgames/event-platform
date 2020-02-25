@@ -1,5 +1,5 @@
 import { Injectable } from "@nestjs/common";
-import { Model } from "mongoose";
+import { Model, Types } from "mongoose";
 import { Template } from "./templates.model";
 import { CreateTemplateDto, UpdateTemplateDto } from "./templates.dto";
 import { InjectModel } from "@nestjs/mongoose";
@@ -23,29 +23,13 @@ export class TemplatesService {
     }
 
     public async findOne(nameOrId: string): Promise<Template> {
-        return this.templatesModel.findOne({
-            $or: [
-                {
-                    name: nameOrId
-                },
-                {
-                    _id: nameOrId
-                }
-            ]
-        }).exec();
+        const condition = Types.ObjectId.isValid(nameOrId) ? { _id: nameOrId } : { name: nameOrId };
+        return this.templatesModel.findOne(condition).exec();
     }
 
     public async update(nameOrId: string, updateTemplateDto: UpdateTemplateDto) {
-        return this.templatesModel.updateOne({
-            $or: [
-                {
-                    name: nameOrId
-                },
-                {
-                    _id: nameOrId
-                }
-            ]
-        }, updateTemplateDto).exec();
+        const condition = Types.ObjectId.isValid(nameOrId) ? { _id: nameOrId } : { name: nameOrId };
+        return this.templatesModel.updateOne(condition, updateTemplateDto).exec();
     }
 
     public async remove(name: string) {
