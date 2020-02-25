@@ -17,7 +17,7 @@ import { getLoading } from "./store/onboarding.reducer";
     styleUrls: ["onboarding.style.scss"]
 })
 export class OnboardingComponent implements OnInit, OnDestroy {
-    @ViewChild(AttendeeFormComponent, { static: true })
+    @ViewChild(AttendeeFormComponent)
     private attendeeForm: AttendeeFormComponent;
 
     public loading$ = this.store$.pipe(select(getLoading));

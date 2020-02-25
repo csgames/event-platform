@@ -23,7 +23,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
     private queryParamsSub$: Subscription;
     private registrationSub$: Subscription;
 
-    @ViewChild(UserFormComponent, { static: true })
+    @ViewChild(UserFormComponent)
     private userForm: UserFormComponent;
 
     private uuid: string;
