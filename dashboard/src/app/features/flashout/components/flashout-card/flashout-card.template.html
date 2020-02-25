@@ -8,7 +8,7 @@
                     <small>{{ "pages.flashouts.votes" | translate }} {{ flashout.votes.length }}</small>
                 </ng-container>
                 
-                <youtube-player [videoId]="'uoHBigE8PnY'" (ready)="onReady()"></youtube-player>
+                <youtube-player [videoId]="flashout.videoId" (ready)="onReady()"></youtube-player>
             </div>
             <ng-container *ngIf="rate !== undefined">
                 <div class="rating" *ngIf="!showRate">
