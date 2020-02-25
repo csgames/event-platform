@@ -22,8 +22,17 @@ export class TemplatesService {
         return this.templatesModel.findOne({ _id: id }).exec();
     }
 
-    public async findOne(name: string): Promise<Template> {
-        return this.templatesModel.findOne({ name: name }).exec();
+    public async findOne(nameOrId: string): Promise<Template> {
+        return this.templatesModel.findOne({
+            $or: [
+                {
+                    name: nameOrId
+                },
+                {
+                    _id: nameOrId
+                }
+            ]
+        }).exec();
     }
 
     public async update(nameOrId: string, updateTemplateDto: UpdateTemplateDto) {

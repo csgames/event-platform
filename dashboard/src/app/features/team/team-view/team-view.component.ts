@@ -143,7 +143,9 @@ export class TeamViewComponent implements OnInit, OnDestroy {
         if (this.currentEventSub$) {
             this.currentEventSub$.unsubscribe();
         }
-        this.currentAttendeeSub$.unsubscribe();
+        if (this.currentAttendeeSub$) {
+            this.currentAttendeeSub$.unsubscribe();
+        }
     }
 
     public onEditTeamName(currentTeam: Team): void {

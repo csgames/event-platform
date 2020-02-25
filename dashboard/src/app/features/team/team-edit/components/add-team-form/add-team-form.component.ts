@@ -40,7 +40,9 @@ export class AddTeamFormComponent implements OnInit, OnDestroy, ControlValueAcce
     }
 
     public ngOnDestroy() {
-        this.valueChangesSub$.unsubscribe();
+        if (this.valueChangesSub$) {
+            this.valueChangesSub$.unsubscribe();
+        }
     }
 
     public writeValue(obj: AddTeamFormDto): void {

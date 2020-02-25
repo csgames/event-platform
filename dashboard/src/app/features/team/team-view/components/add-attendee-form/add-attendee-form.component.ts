@@ -39,7 +39,9 @@ export class AddAttendeeFormComponent implements OnInit, OnDestroy, ControlValue
     }
 
     public ngOnDestroy() {
-        this.valueChangesSub$.unsubscribe();
+        if (this.valueChangesSub$) {
+            this.valueChangesSub$.unsubscribe();
+        }
     }
 
     public writeValue(obj: AddAttendeeFormDto): void {

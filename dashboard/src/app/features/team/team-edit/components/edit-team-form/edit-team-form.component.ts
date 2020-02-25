@@ -41,7 +41,9 @@ export class EditTeamFormComponent implements OnInit, OnDestroy, ControlValueAcc
     }
 
     public ngOnDestroy() {
-        this.valueChangesSub$.unsubscribe();
+        if (this.valueChangesSub$) {
+            this.valueChangesSub$.unsubscribe();
+        }
     }
 
     public writeValue(obj: EditTeamFormDto): void {
