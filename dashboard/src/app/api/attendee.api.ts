@@ -35,7 +35,10 @@ export class AttendeeApi extends CSGamesApi {
         }
 
         return this.http.put<void>(this.url(), form, {
-            withCredentials: true
+            withCredentials: true,
+            headers: {
+                "ngsw-bypass": "true"
+            }
         });
     }
 

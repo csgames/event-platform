@@ -64,7 +64,10 @@ export class EventApi extends CSGamesApi {
         }
 
         return this.http.put<void>(this.url("registration"), form, {
-            withCredentials: true
+            withCredentials: true,
+            headers: {
+                "ngsw-bypass": "true"
+            }
         });
     }
 

@@ -42,7 +42,10 @@ export class CompetitionApi extends CSGamesApi {
         }
 
         return this.http.post<void>(this.url(`${competitionId}/question/${questionId}/validate`), form, {
-            withCredentials: true
+            withCredentials: true,
+            headers: {
+                "ngsw-bypass": "true"
+            }
         });
     }
 
