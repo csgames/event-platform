@@ -21,6 +21,7 @@ import { Subscription } from "rxjs";
 import { TeamCompetitionResult } from "../../../api/definitions/competition";
 import { CompetitionsService } from "../../../providers/competitions.service";
 import { FileUtils } from "../../../utils/file.utils";
+import { SimpleModalService } from "ngx-simple-modal";
 
 @Component({
     selector: "app-edit-competition",
@@ -41,7 +42,12 @@ export class CompetitionEditComponent implements OnInit, OnDestroy {
     private competitionIdSub$: Subscription;
     private competitionSub$: Subscription;
 
-    constructor(private store$: Store<State>, private activatedRoute: ActivatedRoute, private competitionService: CompetitionsService) {}
+    constructor(
+        private store$: Store<State>,
+        private activatedRoute: ActivatedRoute,
+        private competitionService: CompetitionsService,
+        private modalService: SimpleModalService
+    ) {}
 
     ngOnInit() {
         this.competitionService.open();

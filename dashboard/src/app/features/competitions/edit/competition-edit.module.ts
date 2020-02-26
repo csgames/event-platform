@@ -17,13 +17,13 @@ import { AccordionModule } from "ngx-bootstrap/accordion";
 import { SortableModule } from "ngx-bootstrap/sortable";
 import { TabsModule } from "ngx-bootstrap/tabs";
 import { QuestionFormModule } from "../../../components/question-form/question-form.module";
-import { UpdateQuestionComponent } from "./components/update-question/update-question.component";
-import { CreateQuestionComponent } from "./components/create-question/create-question.component";
 import { MarkdownModule } from "ngx-markdown";
 import { EditCompetitionModule } from "../admin/components/edit-competition/edit-competition.module";
 import { QuestionResultsCardComponent } from "./components/question-results-card/question-results-card.component";
 import { CompetitionResultsComponent } from "./components/competition-results/competition-results.component";
 import { QuestionDownloadComponent } from "./components/question-download/question-download.component";
+import { CreateQuestionModule } from "./components/create-question/create-question.module";
+import { UpdateQuestionModule } from "./components/update-question/update-question.module";
 
 @NgModule({
     imports: [
@@ -41,17 +41,15 @@ import { QuestionDownloadComponent } from "./components/question-download/questi
         MarkdownModule,
         EditCompetitionModule,
         TabsModule,
+        CreateQuestionModule,
+        UpdateQuestionModule,
 
         StoreModule.forFeature("competitionEdit", fromCompetitionEdit.reducer),
         EffectsModule.forFeature([CompetitionEditEffects])
     ],
-    exports: [],
-    entryComponents: [UpdateQuestionComponent, CreateQuestionComponent],
     declarations: [
         CompetitionEditComponent,
         QuestionEditCardComponent,
-        UpdateQuestionComponent,
-        CreateQuestionComponent,
         CompetitionResultsComponent,
         QuestionResultsCardComponent,
         QuestionDownloadComponent

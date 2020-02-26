@@ -2,7 +2,6 @@ import { Competition } from "../../../../api/models/competition";
 import * as fromApp from "../../../../store/app.reducers";
 import { CompetitionEditActions, CompetitionEditActionTypes } from "./competition-edit.actions";
 import { createFeatureSelector, createSelector } from "@ngrx/store";
-import { Question, QuestionGraphNode } from "../../../../api/models/question";
 import { TeamCompetitionResult } from "../../../../api/definitions/competition";
 
 export interface CompetitionEditState {
@@ -47,51 +46,6 @@ export function reducer(state = initialState, action: CompetitionEditActions): C
                 competition: null
             };
 
-        case CompetitionEditActionTypes.UpdateQuestion:
-            return {
-                ...state,
-                loading: true
-            };
-
-        case CompetitionEditActionTypes.QuestionUpdated:
-            const oldQuestionNode = (state.competition.questions as QuestionGraphNode[])
-                .find(q => (q.question as Question)._id === action.question._id);
-            const competitionIndex = (state.competition.questions as QuestionGraphNode[]).indexOf(oldQuestionNode);
-            return {
-                ...state,
-                loading: false,
-                competition: {
-                    ...state.competition,
-                    questions: ([
-                        ...state.competition.questions.slice(0, competitionIndex),
-                        {
-                            ...oldQuestionNode,
-                            question: action.question
-                        },
-                        ...state.competition.questions.slice(competitionIndex + 1)
-                    ] as QuestionGraphNode[])
-                }
-            };
-
-        case CompetitionEditActionTypes.CreateQuestion:
-            return {
-                ...state,
-                loading: true
-            };
-
-        case CompetitionEditActionTypes.QuestionCreated:
-            return {
-                ...state,
-                loading: false,
-                competition: {
-                    ...state.competition,
-                    questions: ([
-                        ...state.competition.questions,
-                        action.question
-                    ] as QuestionGraphNode[])
-                }
-            };
-
         case CompetitionEditActionTypes.SaveCompetition:
             return {
                 ...state,
@@ -112,8 +66,6 @@ export function reducer(state = initialState, action: CompetitionEditActions): C
                 competitionResults: action.competitionResults
             };
 
-        case CompetitionEditActionTypes.UpdateQuestionError:
-        case CompetitionEditActionTypes.CreateQuestionError:
         case CompetitionEditActionTypes.QuestionsAndDescriptionSaved:
         case CompetitionEditActionTypes.LoadCompetitionResultsError:
         case CompetitionEditActionTypes.SaveCompetitionError:

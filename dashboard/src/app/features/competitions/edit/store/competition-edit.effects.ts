@@ -4,34 +4,29 @@ import { CompetitionsService } from "../../../../providers/competitions.service"
 import {
     CompetitionEditActionTypes,
     CompetitionLoaded, CompetitionResultsLoaded,
-    CreateQuestion,
-    CreateQuestionError, DownloadUploadedSubmissions,
+    DownloadUploadedSubmissions,
     LoadCompetition,
     LoadCompetitionError, LoadCompetitionResults, LoadCompetitionResultsError,
     OpenCreateQuestionModal, OpenSettingsModal,
     OpenUpdateQuestionModal,
-    QuestionCreated,
     CompetitionSaved,
-    QuestionUpdated,
-    SaveCompetition, SaveCompetitionError,
-    UpdateQuestion,
-    UpdateQuestionError, UploadedSubmissionsDownloaded
+    SaveCompetition, SaveCompetitionError
 } from "./competition-edit.actions";
 import { catchError, filter, map, switchMap, tap, withLatestFrom } from "rxjs/operators";
 import { Competition } from "../../../../api/models/competition";
 import { of } from "rxjs";
 import { SimpleModalService } from "ngx-simple-modal";
-import { Question } from "../../../../api/models/question";
 import { getCompetitionEditCompetition, State } from "./competition-edit.reducer";
 import { select, Store } from "@ngrx/store";
 import { UpdateQuestionComponent } from "../components/update-question/update-question.component";
-import { CreateQuestionComponent } from "../components/create-question/create-question.component";
+import { CreateQuestionComponent, CreateQuestionData } from "../components/create-question/create-question.component";
 import { ToastrService } from "ngx-toastr";
 import { TranslateService } from "@ngx-translate/core";
 import { EditCompetitionComponent } from "../../admin/components/edit-competition/edit-competition.component";
 import { Event } from "../../../../api/models/event";
-import { FileUtils } from "../../../../utils/file.utils";
 import { getCurrentEvent } from "../../../../store/app.reducers";
+import { CreateQuestionActionTypes, QuestionCreated } from "../components/create-question/store/create-question.actions";
+import { QuestionUpdated, UpdateQuestionActionTypes } from "../components/update-question/store/update-question.actions";
 
 @Injectable()
 export class CompetitionEditEffects {
@@ -50,72 +45,36 @@ export class CompetitionEditEffects {
         )
     );
 
-    @Effect()
+    @Effect({ dispatch: false })
     openUpdateQuestionModal$ = this.actions$.pipe(
         ofType<OpenUpdateQuestionModal>(CompetitionEditActionTypes.OpenUpdateQuestionModal),
-        switchMap((action: OpenUpdateQuestionModal) =>
-            this.modalService.addModal(UpdateQuestionComponent, { question: action.question })
-                .pipe(
-                    filter(r => !!r),
-                    map((question: Question) => new UpdateQuestion(question))
-                )
+        withLatestFrom(this.store$.pipe(select(getCompetitionEditCompetition))),
+        tap(([action, competition]: [OpenUpdateQuestionModal, Competition]) =>
+            this.modalService.addModal(UpdateQuestionComponent, { question: action.question, competitionId:  competition._id })
         )
     );
 
     @Effect()
-    updateQuestion$ = this.actions$.pipe(
-        ofType<UpdateQuestion>(CompetitionEditActionTypes.UpdateQuestion),
+    updateQuestionSuccess$ = this.actions$.pipe(
+        ofType<QuestionUpdated>(UpdateQuestionActionTypes.QuestionUpdated),
         withLatestFrom(this.store$.pipe(select(getCompetitionEditCompetition))),
-        switchMap(([action, competition]: [UpdateQuestion, Competition]) => {
-            return this.competitionsService.updateQuestion(competition._id, action.question._id, action.question)
-                .pipe(
-                    map(() => new QuestionUpdated(action.question)),
-                    catchError(() => of(new UpdateQuestionError()))
-                );
-        })
+        map(([, competition]: [QuestionUpdated, Competition]) => new LoadCompetition(competition._id))
     );
 
     @Effect({ dispatch: false })
-    updateQuestionError$ = this.actions$.pipe(
-        ofType<UpdateQuestionError>(CompetitionEditActionTypes.UpdateQuestionError),
-        tap(() => this.toastrService.error("", this.translateService.instant("pages.competition.edit.update_question_error")))
-    );
-
-    @Effect()
     openCreateQuestionModal$ = this.actions$.pipe(
         ofType<OpenCreateQuestionModal>(CompetitionEditActionTypes.OpenCreateQuestionModal),
-        switchMap(() =>
-            this.modalService.addModal(CreateQuestionComponent)
-                .pipe(
-                    filter(r => !!r),
-                    map((question: Question) => new CreateQuestion(question))
-                )
+        withLatestFrom(this.store$.pipe(select(getCompetitionEditCompetition))),
+        tap(([, competition]: [OpenCreateQuestionModal, Competition]) =>
+            this.modalService.addModal<CreateQuestionData, void>(CreateQuestionComponent, { competitionId: competition._id })
         )
     );
 
     @Effect()
-    createQuestion$ = this.actions$.pipe(
-        ofType<CreateQuestion>(CompetitionEditActionTypes.CreateQuestion),
+    createQuestionSuccess$ = this.actions$.pipe(
+        ofType<QuestionCreated>(CreateQuestionActionTypes.QuestionCreated),
         withLatestFrom(this.store$.pipe(select(getCompetitionEditCompetition))),
-        switchMap(([action, competition]: [CreateQuestion, Competition]) => {
-            return this.competitionsService.createQuestion(competition._id, action.question)
-                .pipe(
-                    map((r) => new QuestionCreated({
-                        ...r,
-                        question: {
-                            _id: r.question as any,
-                            ...action.question
-                        }
-                    })),
-                    catchError(() => of(new CreateQuestionError()))
-                );
-        })
-    );
-
-    @Effect({ dispatch: false })
-    createQuestionError$ = this.actions$.pipe(
-        ofType<CreateQuestionError>(CompetitionEditActionTypes.CreateQuestionError),
-        tap(() => this.toastrService.error("", this.translateService.instant("pages.competition.edit.add_question_error")))
+        map(([, competition]: [QuestionCreated, Competition]) => new LoadCompetition(competition._id))
     );
 
     @Effect()

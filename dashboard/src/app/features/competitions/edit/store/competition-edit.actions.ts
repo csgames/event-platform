@@ -9,14 +9,8 @@ export enum CompetitionEditActionTypes {
     LoadCompetitionError = "[Competition Edit] Load competition error",
 
     OpenUpdateQuestionModal = "[Competition Edit] Open update question modal",
-    UpdateQuestion = "[Competition Edit] Update question",
-    QuestionUpdated = "[Competition Edit] Question updated",
-    UpdateQuestionError = "[Competition Edit] Update question error",
 
     OpenCreateQuestionModal = "[Competition Edit] Open create question modal",
-    CreateQuestion = "[Competition Edit] Create question",
-    QuestionCreated = "[Competition Edit] Question created",
-    CreateQuestionError = "[Competition Edit] Create question error",
 
     OpenSettingsModal = "[Competition Edit] Open settings modal",
 
@@ -56,40 +50,8 @@ export class OpenUpdateQuestionModal implements Action {
     constructor(public question: Question) {}
 }
 
-export class UpdateQuestion implements Action {
-    readonly type = CompetitionEditActionTypes.UpdateQuestion;
-
-    constructor(public question: Question) {}
-}
-
-export class QuestionUpdated implements Action {
-    readonly type = CompetitionEditActionTypes.QuestionUpdated;
-
-    constructor(public question: Question) {}
-}
-
-export class UpdateQuestionError implements Action {
-    readonly type = CompetitionEditActionTypes.UpdateQuestionError;
-}
-
 export class OpenCreateQuestionModal implements Action {
     readonly type = CompetitionEditActionTypes.OpenCreateQuestionModal;
-}
-
-export class CreateQuestion implements Action {
-    readonly type = CompetitionEditActionTypes.CreateQuestion;
-
-    constructor(public question: Question) {}
-}
-
-export class QuestionCreated implements Action {
-    readonly type = CompetitionEditActionTypes.QuestionCreated;
-
-    constructor(public question: QuestionGraphNode) {}
-}
-
-export class CreateQuestionError implements Action {
-    readonly type = CompetitionEditActionTypes.CreateQuestionError;
 }
 
 export class SaveCompetition implements Action {
@@ -158,12 +120,6 @@ export type CompetitionEditActions =
     | SaveCompetitionError
     | CompetitionSaved
     | OpenUpdateQuestionModal
-    | UpdateQuestion
-    | QuestionUpdated
-    | UpdateQuestionError
-    | CreateQuestion
-    | QuestionCreated
-    | CreateQuestionError
     | OpenCreateQuestionModal
     | LoadCompetition
     | CompetitionLoaded
