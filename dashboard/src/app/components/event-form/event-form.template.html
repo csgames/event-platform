@@ -142,4 +142,40 @@
             </div>
         </div>
     </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="input-group">
+                <app-custom-text-box
+                        fxFlex="100%"
+                        label="{{ 'components.event_form.disclaimer' | translate }}"
+                        [formType]="'textbox'"
+                        controlStatus
+                        formControlName="disclaimer">
+                </app-custom-text-box>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="checkbox-group flex-container">
+                <input type="checkbox" class="form-checkbox" id="publicTransportation"
+                       formControlName="publicTransportation">
+                <label class="checkboxText flex-content"
+                       for="publicTransportation">{{ "components.event_form.public_transportation" | translate }}</label>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="checkbox-group flex-container">
+                <input type="checkbox" class="form-checkbox" id="askDietaryRestriction"
+                       formControlName="askDietaryRestriction">
+                <label class="checkboxText flex-content"
+                       for="askDietaryRestriction">{{ "components.event_form.ask_dietary_restriction" | translate }}</label>
+            </div>
+        </div>
+    </div>
 </form>

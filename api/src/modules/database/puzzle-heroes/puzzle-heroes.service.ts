@@ -114,7 +114,7 @@ export class PuzzleHeroesService extends BaseService<PuzzleHeroes, PuzzleHeroes>
             if (!TracksUtils.isAvailable(track)) {
                 continue;
             }
-            const t = await this.formatTrack(track.toJSON(), puzzleHero, teamId, type);
+            const t = await this.formatTrack(track, puzzleHero, teamId, type);
             if (t.puzzles.length > 0) {
                 res.push(t);
             }

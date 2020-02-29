@@ -22,6 +22,7 @@ export class OnboardingComponent implements OnInit, OnDestroy {
 
     public loading$ = this.store$.pipe(select(getLoading));
     public currentAttendee$ = this.store$.pipe(select(fromApp.getCurrentAttendee));
+    public event$ = this.store$.pipe(select(fromApp.getCurrentEvent));
 
     public currentAttendee: Attendee;
     private currentAttendeeSub$: Subscription;

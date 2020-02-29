@@ -1,6 +1,17 @@
 import { ApiProperty } from "@nestjs/swagger";
 import {
-    ArrayMaxSize, ArrayMinSize, ArrayUnique, IsArray, IsDefined, IsHexColor, IsMongoId, IsNotEmpty, IsNumber, IsOptional, IsString,
+    ArrayMaxSize,
+    ArrayMinSize,
+    ArrayUnique,
+    IsArray,
+    IsBoolean,
+    IsDefined,
+    IsHexColor,
+    IsMongoId,
+    IsNotEmpty,
+    IsNumber,
+    IsOptional,
+    IsString,
     ValidateNested
 } from "class-validator";
 import { EventAttendees } from "./events.model";
@@ -74,6 +85,20 @@ export class CreateEventDto {
     @IsHexColor()
     @ApiProperty()
     primaryColor: string;
+
+    @IsDefined()
+    @ApiProperty({ required: true })
+    disclaimer: object;
+
+    @IsOptional()
+    @IsBoolean()
+    @ApiProperty()
+    publicTransportation: boolean;
+
+    @IsOptional()
+    @IsBoolean()
+    @ApiProperty()
+    askDietaryRestriction: boolean;
 }
 
 export class UpdateEventDto {
@@ -153,6 +178,20 @@ export class UpdateEventDto {
     @IsHexColor()
     @ApiProperty()
     primaryColor: string;
+
+    @IsOptional()
+    @ApiProperty()
+    disclaimer: object;
+
+    @IsOptional()
+    @IsBoolean()
+    @ApiProperty()
+    publicTransportation: boolean;
+
+    @IsOptional()
+    @IsBoolean()
+    @ApiProperty()
+    askDietaryRestriction: boolean;
 }
 
 export class SendConfirmEmailDto {

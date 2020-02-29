@@ -33,4 +33,14 @@ export class EventFormDto {
     @Control()
     @Required()
     primaryColor: string;
+
+    @Control()
+    @Required()
+    disclaimer: { [lang: string]: string };
+
+    @Control()
+    publicTransportation: boolean;
+
+    @Control()
+    askDietaryRestriction: boolean;
 }

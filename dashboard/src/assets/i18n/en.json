@@ -234,6 +234,9 @@
             "create_event_success": "Event successfully created",
             "create_event_error": "An error occurred while creating the event",
             "primary_color": "Primary color",
+            "disclaimer": "Disclaimer",
+            "public_transportation": "We use public transportation as a means of transportation",
+            "ask_dietary_restriction": "Ask participants for dietary restrictions",
             "edit_event_success": "Event successfully updated",
             "edit_event_error": "An error occurred while updating the event"
         },

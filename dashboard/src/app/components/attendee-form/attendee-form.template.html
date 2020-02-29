@@ -109,7 +109,7 @@
         </div>
     </div>
 
-    <div class="row">
+    <div class="row" *ngIf="event.publicTransportation">
         <div class="col-sm-12">
             <div class="checkbox-group flex-container">
                 <input type="checkbox" class="form-checkbox" id="needs-transport-pass"
@@ -120,24 +120,26 @@
         </div>
     </div>
 
-    <div class="row">
-        <div class="col-sm-12">
-            <div class="checkbox-group flex-container">
-                <input type="checkbox" class="form-checkbox" id="restriction"
-                       formControlName="hasDietaryRestrictions">
-                <label class="checkboxText flex-content"
-                       for="restriction">{{ "components.profile.has_dietary_restrictions" | translate }}</label>
+    <ng-container *ngIf="event.askDietaryRestriction">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="checkbox-group flex-container">
+                    <input type="checkbox" class="form-checkbox" id="restriction"
+                           formControlName="hasDietaryRestrictions">
+                    <label class="checkboxText flex-content"
+                           for="restriction">{{ "components.profile.has_dietary_restrictions" | translate }}</label>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="row" *ngIf="hasDietaryRestrictions">
-        <div class="col-sm-12">
-            <div class="input-group">
+        <div class="row" *ngIf="hasDietaryRestrictions">
+            <div class="col-sm-12">
+                <div class="input-group">
                 <textarea class="form-control" formControlName="dietaryRestrictions"
                           [placeholder]="'components.profile.dietary_restrictions' | translate"></textarea>
+                </div>
             </div>
         </div>
-    </div>
+    </ng-container>
 
     <div class="row">
         <div class="col-sm-12">
