@@ -11,6 +11,7 @@ export const environment = {
         databaseURL: "https://csgames.firebaseio.com",
         projectId: "csgames",
         storageBucket: "csgames.appspot.com",
-        messagingSenderId: "669372657906"
+        messagingSenderId: "669372657906",
+        appId: "1:669372657906:web:cdbefb90c5bcb15476606b"
     }
 };
