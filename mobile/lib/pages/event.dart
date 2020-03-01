@@ -1,6 +1,10 @@
 import 'dart:async';
 
 import 'package:CSGamesApp/domain/attendee.dart';
+import 'package:CSGamesApp/domain/event.dart';
+import 'package:CSGamesApp/pages/activities-schedule.dart';
+import 'package:CSGamesApp/pages/attendee-retrieval.dart';
+import 'package:CSGamesApp/pages/event-info.dart';
 import 'package:CSGamesApp/pages/notification-list.dart';
 import 'package:CSGamesApp/pages/notification.dart';
 import 'package:CSGamesApp/pages/profile.dart';
@@ -14,15 +18,11 @@ import 'package:CSGamesApp/redux/actions/profile-actions.dart';
 import 'package:CSGamesApp/redux/actions/puzzle-actions.dart';
 import 'package:CSGamesApp/redux/actions/puzzle-hero-actions.dart';
 import 'package:CSGamesApp/redux/actions/sponsors-actions.dart';
+import 'package:CSGamesApp/redux/state.dart';
+import 'package:CSGamesApp/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:CSGamesApp/domain/event.dart';
-import 'package:CSGamesApp/pages/activities-schedule.dart';
-import 'package:CSGamesApp/pages/attendee-retrieval.dart';
-import 'package:CSGamesApp/pages/event-info.dart';
-import 'package:CSGamesApp/redux/state.dart';
-import 'package:CSGamesApp/utils/constants.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:redux/redux.dart';
 
@@ -124,218 +124,89 @@ class _EventPageState extends State<EventPage> {
     }
 
     List<Widget> _buildItems(_EventPageViewModel vm) {
-        if (vm.puzzleHeroOpen != null && vm.puzzleHeroOpen) {
-            return <Widget>[
-                IconButton(
-                    icon: Icon(
-                        FontAwesomeIcons.book,
-                        color: _currentTabIndex == EventTabs.Guide.index ? Constants.csBlue : Colors.black
-                    ),
-                    onPressed: () {
-                        setState(() => _currentTabIndex = EventTabs.Guide.index);
-                    }
-                ),
-                IconButton(
-                    icon: Icon(
-                        FontAwesomeIcons.gem,
-                        color: _currentTabIndex == EventTabs.Sponsors.index ? Constants.csBlue : Colors.black
-                    ),
-                    onPressed: () {
-                        setState(() => _currentTabIndex = EventTabs.Sponsors.index);
-                    }
-                ),
-                IconButton(
-                    icon: Icon(
-                        FontAwesomeIcons.puzzlePiece,
-                        color: _currentTabIndex == EventTabs.Puzzle.index ? Constants.csBlue : Colors.black
-                    ),
-                    onPressed: () {
-                        setState(() => _currentTabIndex = EventTabs.Puzzle.index);
-                    }
-                ),
-                IconButton(
-                    icon: Icon(
-                        FontAwesomeIcons.calendar,
-                        color: _currentTabIndex == EventTabs.Activities.index ? Constants.csBlue : Colors.black
-                    ),
-                    onPressed: () {
-                        setState(() => _currentTabIndex = EventTabs.Activities.index);
-                    }
-                ),
-                IconButton(
-                    icon: Icon(
-                        FontAwesomeIcons.userAlt,
-                        color: _currentTabIndex == EventTabs.Profile.index ? Constants.csBlue : Colors.black
-                    ),
-                    onPressed: () {
-                        setState(() => _currentTabIndex = EventTabs.Profile.index);
-                    }
-                )
-            ];
-        } else {
-            return <Widget>[
-                IconButton(
-                    icon: Icon(
-                        FontAwesomeIcons.book,
-                        color: _currentTabIndex == EventTabs.Guide.index ? Constants.csBlue : Colors.black
-                    ),
-                    onPressed: () {
-                        setState(() => _currentTabIndex = EventTabs.Guide.index);
-                    }
-                ),
-                IconButton(
-                    icon: Icon(
-                        FontAwesomeIcons.gem,
-                        color: _currentTabIndex == EventTabs.Sponsors.index ? Constants.csBlue : Colors.black
-                    ),
-                    onPressed: () {
-                        setState(() => _currentTabIndex = EventTabs.Sponsors.index);
-                    }
-                ),
-                IconButton(
-                    icon: Icon(
-                        FontAwesomeIcons.calendar,
-                        color: _currentTabIndex == EventTabs.Activities.index ? Constants.csBlue : Colors.black
-                    ),
-                    onPressed: () {
-                        setState(() => _currentTabIndex = EventTabs.Activities.index);
-                    }
-                ),
-                IconButton(
-                    icon: Icon(
-                        FontAwesomeIcons.userAlt,
-                        color: _currentTabIndex == EventTabs.Profile.index ? Constants.csBlue : Colors.black
-                    ),
-                    onPressed: () {
-                        setState(() => _currentTabIndex = EventTabs.Profile.index);
-                    }
-                )
-            ];
-        }
+        return <Widget>[
+            _buildItem(EventTabs.Guide.index, FontAwesomeIcons.book),
+            _buildItem(EventTabs.Sponsors.index, FontAwesomeIcons.gem),
+            if (vm.puzzleHeroOpen ?? false)
+                _buildItem(EventTabs.Puzzle.index, FontAwesomeIcons.puzzlePiece),
+            _buildItem(EventTabs.Activities.index, FontAwesomeIcons.calendar),
+            _buildItem(EventTabs.Profile.index, FontAwesomeIcons.userAlt)
+        ];
     }
 
     List<Widget> _buildVolunteerItems(_EventPageViewModel model) {
         return <Widget>[
-            IconButton(
-                icon: Icon(
-                    FontAwesomeIcons.qrcode,
-                    color: _currentTabIndex == VolunteerTabs.Scan.index ? Constants.csBlue : Colors.black
-                ),
-                onPressed: () {
-                    setState(() => _currentTabIndex = VolunteerTabs.Scan.index);
+            _buildItem(VolunteerTabs.Scan.index, FontAwesomeIcons.qrcode),
+            _buildItem(VolunteerTabs.Guide.index, FontAwesomeIcons.book, onPressed: () {
+                if (_currentTabIndex == VolunteerTabs.Scan.index) {
+                    model.unsubscribe();
                 }
-            ),
-            IconButton(
-                icon: Icon(
-                    FontAwesomeIcons.book,
-                    color: _currentTabIndex == VolunteerTabs.Guide.index ? Constants.csBlue : Colors.black
-                ),
-                onPressed: () {
-                    if (_currentTabIndex == VolunteerTabs.Scan.index) {
-                        model.unsubscribe();
-                    }
-                    setState(() => _currentTabIndex = VolunteerTabs.Guide.index);
+                setState(() => _currentTabIndex = VolunteerTabs.Guide.index);
+            }),
+            _buildItem(VolunteerTabs.Sponsors.index, FontAwesomeIcons.gem, onPressed: () {
+                if (_currentTabIndex == VolunteerTabs.Scan.index) {
+                    model.unsubscribe();
                 }
-            ),
-            IconButton(
-                icon: Icon(
-                    FontAwesomeIcons.gem,
-                    color: _currentTabIndex == VolunteerTabs.Sponsors.index ? Constants.csBlue : Colors.black
-                ),
-                onPressed: () {
-                    if (_currentTabIndex == VolunteerTabs.Scan.index) {
-                        model.unsubscribe();
-                    }
-                    setState(() => _currentTabIndex = VolunteerTabs.Sponsors.index);
+                setState(() => _currentTabIndex = VolunteerTabs.Sponsors.index);
+            }),
+            _buildItem(VolunteerTabs.Activities.index, FontAwesomeIcons.calendar, onPressed: () {
+                if (_currentTabIndex == VolunteerTabs.Scan.index) {
+                    model.unsubscribe();
                 }
-            ),
-            IconButton(
-                icon: Icon(
-                    FontAwesomeIcons.calendar,
-                    color: _currentTabIndex == VolunteerTabs.Activities.index ? Constants.csBlue : Colors.black
-                ),
-                onPressed: () {
-                    if (_currentTabIndex == VolunteerTabs.Scan.index) {
-                        model.unsubscribe();
-                    }
-                    setState(() => _currentTabIndex = VolunteerTabs.Activities.index);
+                setState(() => _currentTabIndex = VolunteerTabs.Activities.index);
+            }),
+            _buildItem(VolunteerTabs.Profile.index, FontAwesomeIcons.userAlt, onPressed: () {
+                if (_currentTabIndex == VolunteerTabs.Scan.index) {
+                    model.unsubscribe();
                 }
-            ),
-            IconButton(
-                icon: Icon(
-                    FontAwesomeIcons.userAlt,
-                    color: _currentTabIndex == VolunteerTabs.Profile.index ? Constants.csBlue : Colors.black
-                ),
-                onPressed: () {
-                    if (_currentTabIndex == VolunteerTabs.Scan.index) {
-                        model.unsubscribe();
-                    }
-                    setState(() => _currentTabIndex = VolunteerTabs.Profile.index);
-                }
-            )
+                setState(() => _currentTabIndex = VolunteerTabs.Profile.index);
+            })
         ];
     }
 
     List<Widget> _buildAdminItems(_EventPageViewModel model) {
         return <Widget>[
-            IconButton(
-                icon: Icon(
-                    FontAwesomeIcons.qrcode,
-                    color: _currentTabIndex == AdminEventTabs.Scan.index ? Constants.csBlue : Colors.black
-                ),
-                onPressed: () {
-                    setState(() => _currentTabIndex = AdminEventTabs.Scan.index);
+            _buildItem(AdminEventTabs.Scan.index, FontAwesomeIcons.qrcode),
+            _buildItem(AdminEventTabs.Notification.index, FontAwesomeIcons.lightCommentAlt, onPressed: () {
+                if (_currentTabIndex == AdminEventTabs.Scan.index) {
+                    model.unsubscribe();
                 }
-            ),
-            IconButton(
-                icon: Icon(
-                    FontAwesomeIcons.commentAlt,
-                    color: _currentTabIndex == AdminEventTabs.Notification.index ? Constants.csBlue : Colors.black
-                ),
-                onPressed: () {
-                    if (_currentTabIndex == VolunteerTabs.Scan.index) {
-                        model.unsubscribe();
-                    }
-                    setState(() => _currentTabIndex = AdminEventTabs.Notification.index);
+                setState(() => _currentTabIndex = AdminEventTabs.Notification.index);
+            }),
+            _buildItem(AdminEventTabs.Sponsors.index, FontAwesomeIcons.gem, onPressed: () {
+                if (_currentTabIndex == AdminEventTabs.Scan.index) {
+                    model.unsubscribe();
                 }
-            ),
-            IconButton(
-                icon: Icon(
-                    FontAwesomeIcons.gem,
-                    color: _currentTabIndex == AdminEventTabs.Sponsors.index ? Constants.csBlue : Colors.black
-                ),
-                onPressed: () {
-                    if (_currentTabIndex == VolunteerTabs.Scan.index) {
-                        model.unsubscribe();
-                    }
-                    setState(() => _currentTabIndex = AdminEventTabs.Sponsors.index);
+                setState(() => _currentTabIndex = AdminEventTabs.Sponsors.index);
+            }),
+            _buildItem(AdminEventTabs.Activities.index, FontAwesomeIcons.calendar, onPressed: () {
+                if (_currentTabIndex == AdminEventTabs.Scan.index) {
+                    model.unsubscribe();
                 }
-            ),
-            IconButton(
-                icon: Icon(
-                    FontAwesomeIcons.calendar,
-                    color: _currentTabIndex == AdminEventTabs.Activities.index ? Constants.csBlue : Colors.black
-                ),
-                onPressed: () {
-                    if (_currentTabIndex == VolunteerTabs.Scan.index) {
-                        model.unsubscribe();
-                    }
-                    setState(() => _currentTabIndex = AdminEventTabs.Activities.index);
-                }
-            ),
-            IconButton(
-                icon: Icon(
-                    FontAwesomeIcons.userAlt,
-                    color: _currentTabIndex == AdminEventTabs.Profile.index ? Constants.csBlue : Colors.black
-                ),
-                onPressed: () {
-                    if (_currentTabIndex == VolunteerTabs.Scan.index) {
-                        model.unsubscribe();
-                    }
-                    setState(() => _currentTabIndex = AdminEventTabs.Profile.index);
-                }
-            )
+                setState(() => _currentTabIndex = AdminEventTabs.Activities.index);
+            }),
         ];
+    }
+
+    Widget _buildItem(int index, IconData icon, {Function onPressed}) {
+        return Container(
+            margin: EdgeInsets.all(2.0),
+            decoration: BoxDecoration(
+                color: _currentTabIndex == index ? Constants.csLightBlue.withOpacity(0.05) : Colors.transparent,
+                shape: BoxShape.circle
+            ),
+            child: IconButton(
+                icon: Icon(
+                    icon,
+                    color: _currentTabIndex == index ? Constants.csLightBlue : Constants.csBlue
+                ),
+                onPressed: onPressed ?? () {
+                    setState(() {
+                        _currentTabIndex = index;
+                    });
+                }
+            ),
+        );
     }
 
     Widget _buildNavigationBar(_EventPageViewModel vm) {
@@ -370,7 +241,7 @@ class _EventPageState extends State<EventPage> {
             backgroundColor: Constants.csBlue,
             title: Text(
                 model.event.name,
-                style: TextStyle(fontFamily: 'OpenSans')
+                style: TextStyle(fontFamily: 'Montserrat')
             ),
             actions: <Widget>[
                 Stack(
@@ -475,8 +346,7 @@ class _EventPageViewModel {
     Function resetPuzzle;
     Function resetPuzzleCard;
 
-    _EventPageViewModel(
-        this.hasUnseenNotifications,
+    _EventPageViewModel(this.hasUnseenNotifications,
         this.event,
         this.attendee,
         this.resetSchedule,
@@ -488,8 +358,7 @@ class _EventPageViewModel {
         this.resetPuzzle,
         this.resetCurrentAttendee,
         this.resetPuzzleCard,
-        this.puzzleHeroOpen
-    );
+        this.puzzleHeroOpen);
 
     _EventPageViewModel.fromStore(Store<AppState> store) {
         hasUnseenNotifications = store.state.notificationState.hasUnseenNotifications;

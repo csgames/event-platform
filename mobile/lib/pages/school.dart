@@ -18,60 +18,54 @@ class SchoolPage extends StatelessWidget {
         return Container(
             child: Hero(
                 tag: "guide-card-school",
-                child: Stack(
-                    children: <Widget>[
-                        Positioned(
-                            top: 17.0,
-                            left: 9.0,
-                            child: Center(
-                                child: Container(
-                                    width: 20,
-                                    height: 60,
-                                    decoration: BoxDecoration(
-                                        boxShadow: [
-                                            BoxShadow(
-                                                color: Colors.black12,
-                                                blurRadius: 4.0,
-                                                offset: Offset(0, 1),
-                                                spreadRadius: 0.0
-                                            )
-                                        ]
-                                    ),
-                                    child: Material(
-                                        borderRadius: BorderRadius.circular(10.0),
-                                        color: Constants.csBlue,
-                                        child: Text('')
-                                    )
-                                )
-                            )
-                        ),
-                        Padding(
-                            padding: EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 0.0),
-                            child: Material(
-                                elevation: 2.0,
-                                borderRadius: BorderRadius.circular(15.0),
+                child: Container(
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        boxShadow: <BoxShadow>[
+                            BoxShadow(
+                                color: Colors.black.withOpacity(0.1),
+                                offset: Offset(1.1, 1.1),
+                                blurRadius: 5.0,
+                            ),
+                        ]
+                    ),
+                    margin: EdgeInsets.symmetric(horizontal: 20.0),
+                    child: Stack(
+                        children: <Widget>[
+                            Material(
+                                elevation: 0,
                                 child: Column(
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: <Widget>[
                                         Padding(
-                                            padding: EdgeInsets.only(left: 10.0),
+                                            padding: EdgeInsets.only(left: 10.0, top: 10.0),
                                             child: Row(
-                                                crossAxisAlignment: CrossAxisAlignment.end,
+                                                crossAxisAlignment: CrossAxisAlignment.center,
                                                 children: <Widget>[
-                                                    Icon(
-                                                        FontAwesomeIcons.mapSigns,
-                                                        size: 38.0,
-                                                        color: Constants.csBlue,
+                                                    Container(
+                                                        decoration: BoxDecoration(
+                                                            color: Constants.csLightBlue.withOpacity(0.05),
+                                                            shape: BoxShape.circle
+                                                        ),
+                                                        child: Padding(
+                                                            padding: EdgeInsets.all(7.0),
+                                                            child: Icon(
+                                                                FontAwesomeIcons.lightMapSigns,
+                                                                size: 28.0,
+                                                                color: Constants.csLightBlue,
+                                                            )
+                                                        )
                                                     ),
                                                     Padding(
                                                         padding: EdgeInsets.only(left: 10.0),
                                                         child: Text(
                                                             LocalizationService
                                                                 .of(context)
-                                                                .eventInfo['school'].toUpperCase(),
+                                                                .eventInfo['school'],
                                                             style: TextStyle(
-                                                                fontFamily: 'flipbash',
+                                                                fontFamily: 'Montserrat',
                                                                 color: Constants.polyhxGrey,
+                                                                fontWeight: FontWeight.w500,
                                                                 fontSize: 20.0
                                                             )
                                                         )
@@ -99,23 +93,41 @@ class SchoolPage extends StatelessWidget {
                                         Padding(
                                             padding: EdgeInsets.only(bottom: 25.0, top: 10.0),
                                             child: InkWell(
-                                                onTap: () => launch(_school.website[LocalizationService.of(context).language]),
+                                                onTap: () =>
+                                                    launch(_school.website[LocalizationService
+                                                        .of(context)
+                                                        .language]),
                                                 child: Text(
-                                                    LocalizationService.of(context).eventInfo['visit'],
+                                                    LocalizationService
+                                                        .of(context)
+                                                        .eventInfo['visit'],
                                                     style: TextStyle(
-                                                        fontFamily: 'OpenSans',
+                                                        fontFamily: 'Montserrat',
                                                         fontSize: 18.0,
                                                         decoration: TextDecoration.underline,
-                                                        color: Colors.blue
+                                                        color: Constants.csBlue
                                                     )
                                                 )
                                             )
                                         )
                                     ]
                                 )
+                            ),
+                            Positioned(
+                                top: 0.0,
+                                child: Center(
+                                    child: Container(
+                                        width: 60,
+                                        height: 6,
+                                        child: Material(
+                                            color: Constants.csBlue,
+                                            child: Text('')
+                                        )
+                                    )
+                                )
                             )
-                        )
-                    ]
+                        ]
+                    ),
                 )
             )
         );
@@ -131,7 +143,7 @@ class SchoolPage extends StatelessWidget {
                 .of(context)
                 .padding
                 .bottom),
-            child:  _buildCard(context)
+            child: _buildCard(context)
         );
     }
 }

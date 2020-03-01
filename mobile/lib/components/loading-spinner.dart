@@ -1,15 +1,16 @@
 import 'dart:math';
 
+import 'package:CSGamesApp/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class LoadingSpinner extends StatelessWidget {
     final _random = Random();
     final List<String> sponsors = [
-        "mirego",
-        "cfp",
-        "bnc",
-        "cse"
+        "squarepoint",
+        "aeets",
+        "gsoft",
+        "hivestack"
     ];
 
     int next(int min, int max) {
@@ -26,8 +27,8 @@ class LoadingSpinner extends StatelessWidget {
                     children: <Widget>[
                         Column(
                             children: <Widget>[
-                                SpinKitCircle(
-                                    color: Colors.grey,
+                                SpinKitWanderingCubes(
+                                    color: Constants.csLightBlue,
                                     size: 70.0,
                                 ),
                                 Padding(

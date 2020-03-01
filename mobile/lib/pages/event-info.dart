@@ -63,7 +63,7 @@ class EventInfoPage extends StatelessWidget {
         if (state.guide.school != null) {
             list.add(
                 Tile(
-                    FontAwesomeIcons.mapSigns,
+                    FontAwesomeIcons.lightMapSigns,
                     LocalizationService
                         .of(context)
                         .eventInfo['school'],
@@ -75,7 +75,7 @@ class EventInfoPage extends StatelessWidget {
         if (state.guide.hotel != null) {
             list.add(
                 Tile(
-                    Icons.hotel,
+                    FontAwesomeIcons.lightBed,
                     LocalizationService
                         .of(context)
                         .eventInfo['hotel'],
@@ -86,7 +86,7 @@ class EventInfoPage extends StatelessWidget {
 
         list.add(
             Tile(
-                FontAwesomeIcons.subway,
+                FontAwesomeIcons.lightSubway,
                 LocalizationService
                     .of(context)
                     .eventInfo['transport'],
@@ -97,7 +97,7 @@ class EventInfoPage extends StatelessWidget {
         if (state.guide.parking != null) {
             list.add(
                 Tile(
-                    FontAwesomeIcons.parking,
+                    FontAwesomeIcons.lightParking,
                     LocalizationService
                         .of(context)
                         .eventInfo['parking'],
@@ -106,10 +106,10 @@ class EventInfoPage extends StatelessWidget {
             );
         }
 
-        if (state.guide.bring.isNotEmpty) {
+        if (state.guide.bring?.isNotEmpty ?? false) {
             list.add(
                 Tile(
-                    FontAwesomeIcons.clipboardCheck,
+                    FontAwesomeIcons.lightClipboardCheck,
                     LocalizationService
                         .of(context)
                         .eventInfo['bring'],
@@ -121,7 +121,7 @@ class EventInfoPage extends StatelessWidget {
         if (state.guide.restaurant != null) {
             list.add(
                 Tile(
-                    FontAwesomeIcons.utensils,
+                    FontAwesomeIcons.lightUtensils,
                     LocalizationService
                         .of(context)
                         .eventInfo['restaurant'],
@@ -156,7 +156,7 @@ class EventInfoPage extends StatelessWidget {
                 return state.isLoading
                     ? LoadingSpinner()
                     : Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                             AppTitle(
                                 LocalizationService

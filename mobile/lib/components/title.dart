@@ -20,8 +20,9 @@ class AppTitle extends StatelessWidget {
                     Text(
                         title.toUpperCase(),
                         style: TextStyle(
-                            fontFamily: 'flipbash',
-                            fontSize: 30.0
+                            fontFamily: 'Montserrat',
+                            fontSize: 30.0,
+                            fontWeight: FontWeight.w800
                         )
                     ),
                     this.icon != null ?

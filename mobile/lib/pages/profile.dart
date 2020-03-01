@@ -28,7 +28,9 @@ class ProfilePage extends StatelessWidget {
                 shape: BoxShape.circle,
                 image: DecorationImage(
                     fit: BoxFit.fill,
-                    image: Gravatar(model.attendee.email)
+                    image: NetworkImage(
+                        gravatarFromEmailWithFallback(model?.attendee?.email),
+                    )
                 )
             )
         );
@@ -40,9 +42,10 @@ class ProfilePage extends StatelessWidget {
             child: Text(
                 '${model.attendee.firstName} ${model.attendee.lastName}',
                 style: TextStyle(
-                    fontFamily: 'OpenSans',
-                    fontSize: 35.0,
-                    fontWeight: FontWeight.w600
+                    color: Constants.csBlue,
+                    fontFamily: 'Montserrat',
+                    fontSize: 30.0,
+                    fontWeight: FontWeight.w700
                 ),
                 textAlign: TextAlign.center
             )
@@ -53,8 +56,9 @@ class ProfilePage extends StatelessWidget {
         return Text(
             '${model.team.name}',
             style: TextStyle(
-                fontFamily: 'OpenSans',
-                fontSize: 30.0,
+                color: Constants.csLightBlue,
+                fontFamily: 'Montserrat',
+                fontSize: 25.0,
                 fontWeight: FontWeight.w400
             ),
             textAlign: TextAlign.center,
@@ -71,9 +75,10 @@ class ProfilePage extends StatelessWidget {
             child: Text(
                 '${model.team.school.name}',
                 style: TextStyle(
-                    fontFamily: 'OpenSans',
+                    color: Constants.csBlue,
+                    fontFamily: 'Montserrat',
                     fontSize: 20.0,
-                    fontWeight: FontWeight.w100
+                    fontWeight: FontWeight.w200
                 ),
                 textAlign: TextAlign.center,
             )
@@ -81,6 +86,9 @@ class ProfilePage extends StatelessWidget {
     }
 
     Widget _buildQR(BuildContext context, _ProfilePageViewModel model) {
+        if (model?.attendee?.publicId == null) {
+            return Container();
+        }
         return QrImage(
             data: model.attendee.publicId,
             size: MediaQuery
@@ -139,6 +147,51 @@ class ProfilePage extends StatelessWidget {
         );
     }
 
+    Widget _buildContent(BuildContext context, _ProfilePageViewModel model) {
+        return Container(
+            margin: EdgeInsets.symmetric(horizontal: 15.0),
+            child: Stack(
+                children: <Widget>[
+                    Container(
+                        padding: EdgeInsets.all(15.0),
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            boxShadow: <BoxShadow>[
+                                BoxShadow(
+                                    color: Colors.black.withOpacity(0.1),
+                                    offset: Offset(1.1, 1.1),
+                                    blurRadius: 5.0,
+                                ),
+                            ]
+                        ),
+                        child: Column(
+                            children: <Widget>[
+                                _buildAvatar(context, model),
+                                _buildName(model),
+                                model.team != null ? _buildTeam(model) : Container(),
+                                model.team != null ? _buildSchool(context, model) : Container(),
+                                _buildQR(context, model)
+                            ]
+                        ),
+                    ),
+                    Positioned(
+                        top: 0.0,
+                        child: Center(
+                            child: Container(
+                                width: 80,
+                                height: 6,
+                                child: Material(
+                                    color: Constants.csBlue,
+                                    child: Text('')
+                                )
+                            )
+                        )
+                    )
+                ],
+            ),
+        );
+    }
+
     @override
     Widget build(BuildContext context) {
         return StoreConnector<AppState, _ProfilePageViewModel>(
@@ -150,14 +203,14 @@ class ProfilePage extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
-                            AppTitle(LocalizationService
-                                .of(context)
-                                .profile['title'], MainAxisAlignment.start),
-                            _buildAvatar(context, model),
-                            _buildName(model),
-                            model.team != null ? _buildTeam(model) : Container(),
-                            model.team != null ? _buildSchool(context, model) : Container(),
-                            _buildQR(context, model)
+                            Row(
+                                children: <Widget>[
+                                    AppTitle(LocalizationService
+                                        .of(context)
+                                        .profile['title'], MainAxisAlignment.start),
+                                ],
+                            ),
+                            _buildContent(context, model)
                         ]
                     )
                 );

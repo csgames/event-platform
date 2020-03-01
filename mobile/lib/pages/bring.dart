@@ -30,7 +30,7 @@ class BringPage extends StatelessWidget {
                                     softWrap: true,
                                     maxLines: 3,
                                     style: TextStyle(
-                                        fontFamily: 'OpenSans',
+                                        fontFamily: 'Montserrat',
                                         fontSize: 15.0
                                     )
                                 )
@@ -46,49 +46,42 @@ class BringPage extends StatelessWidget {
         return Container(
             child: Hero(
                 tag: "guide-card-bring",
-                child: Stack(
-                    children: <Widget>[
-                        Positioned(
-                            top: 17.0,
-                            left: 9.0,
-                            child: Center(
-                                child: Container(
-                                    width: 20,
-                                    height: 60,
-                                    decoration: BoxDecoration(
-                                        boxShadow: [
-                                            BoxShadow(
-                                                color: Colors.black12,
-                                                blurRadius: 4.0,
-                                                offset: Offset(0, 1),
-                                                spreadRadius: 0.0
-                                            )
-                                        ]
-                                    ),
-                                    child: Material(
-                                        borderRadius: BorderRadius.circular(10.0),
-                                        color: Constants.csBlue,
-                                        child: Text('')
-                                    )
-                                )
-                            )
-                        ),
-                        Padding(
-                            padding: EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 0.0),
-                            child: Material(
-                                elevation: 2.0,
-                                borderRadius: BorderRadius.circular(15.0),
+                child: Container(
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        boxShadow: <BoxShadow>[
+                            BoxShadow(
+                                color: Colors.black.withOpacity(0.1),
+                                offset: Offset(1.1, 1.1),
+                                blurRadius: 5.0,
+                            ),
+                        ]
+                    ),
+                    margin: EdgeInsets.symmetric(horizontal: 20.0),
+                    child: Stack(
+                        children: <Widget>[
+                            Material(
+                                elevation: 0.0,
                                 child: Column(
                                     children: [
                                         Padding(
-                                            padding: EdgeInsets.only(left: 10.0),
+                                            padding: EdgeInsets.only(left: 10.0, top: 10.0),
                                             child: Row(
-                                                crossAxisAlignment: CrossAxisAlignment.end,
+                                                crossAxisAlignment: CrossAxisAlignment.center,
                                                 children: <Widget>[
-                                                    Icon(
-                                                        FontAwesomeIcons.clipboardCheck,
-                                                        size: 38.0,
-                                                        color: Constants.csBlue,
+                                                    Container(
+                                                        decoration: BoxDecoration(
+                                                            color: Constants.csLightBlue.withOpacity(0.05),
+                                                            shape: BoxShape.circle
+                                                        ),
+                                                        child: Padding(
+                                                            padding: EdgeInsets.all(7.0),
+                                                            child: Icon(
+                                                                FontAwesomeIcons.lightClipboardCheck,
+                                                                size: 28.0,
+                                                                color: Constants.csLightBlue,
+                                                            )
+                                                        )
                                                     ),
                                                     Expanded(
                                                         child: SingleChildScrollView(
@@ -101,10 +94,11 @@ class BringPage extends StatelessWidget {
                                                                 child: Text(
                                                                     LocalizationService
                                                                         .of(context)
-                                                                        .eventInfo['bring'].toUpperCase(),
+                                                                        .eventInfo['bring'],
                                                                     style: TextStyle(
                                                                         color: Constants.polyhxGrey,
-                                                                        fontFamily: 'flipbash',
+                                                                        fontFamily: 'Montserrat',
+                                                                        fontWeight: FontWeight.w500,
                                                                         fontSize: 20.0
                                                                     ),
                                                                     overflow: TextOverflow.fade,
@@ -134,9 +128,22 @@ class BringPage extends StatelessWidget {
                                         )
                                     ]
                                 )
+                            ),
+                            Positioned(
+                                top: 0.0,
+                                child: Center(
+                                    child: Container(
+                                        width: 60,
+                                        height: 6,
+                                        child: Material(
+                                            color: Constants.csBlue,
+                                            child: Text('')
+                                        )
+                                    )
+                                )
                             )
-                        )
-                    ]
+                        ]
+                    ),
                 )
             )
         );

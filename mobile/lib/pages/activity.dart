@@ -1,5 +1,8 @@
 import 'dart:async';
+
 import 'package:CSGamesApp/components/loading-spinner.dart';
+import 'package:CSGamesApp/components/user-profile.dart';
+import 'package:CSGamesApp/domain/activity.dart';
 import 'package:CSGamesApp/domain/attendee.dart';
 import 'package:CSGamesApp/domain/team.dart';
 import 'package:CSGamesApp/redux/actions/activity-actions.dart';
@@ -8,8 +11,6 @@ import 'package:CSGamesApp/services/localization.service.dart';
 import 'package:CSGamesApp/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:CSGamesApp/components/user-profile.dart';
-import 'package:CSGamesApp/domain/activity.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 
@@ -32,28 +33,33 @@ class _ActivityPageState extends State<ActivityPage> {
     Widget _buildUserDialog(Attendee attendee, bool isAlreadyAttending, Team team) {
         return Center(
             child: Container(
-                width: 300.0,
                 height: 300.0,
-                child: UserProfile(
-                    attendee,
-                    team,
-                    opacity: 0.9,
-                    content: Padding(
-                        padding: EdgeInsets.only(top: 20.0),
-                        child: Text(
-                            isAlreadyAttending
-                                ? LocalizationService.of(context).activity['already']
-                                : LocalizationService.of(context).activity['signed'],
-                            style: TextStyle(
-                                color: isAlreadyAttending ? Colors.red : Colors.green,
-                                fontWeight: FontWeight.w700,
-                                fontSize: 24.0,
-                                fontFamily: 'OpenSans'
+                child: Expanded(
+                    child: UserProfile(
+                        attendee,
+                        team,
+                        opacity: 0.9,
+                        content: Padding(
+                            padding: EdgeInsets.only(top: 20.0),
+                            child: Text(
+                                isAlreadyAttending
+                                    ? LocalizationService
+                                    .of(context)
+                                    .activity['already']
+                                    : LocalizationService
+                                    .of(context)
+                                    .activity['signed'],
+                                style: TextStyle(
+                                    color: isAlreadyAttending ? Colors.red : Colors.green,
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 24.0,
+                                    fontFamily: 'Montserrat'
+                                )
                             )
                         )
                     )
                 )
-            )
+            ),
         );
     }
 
@@ -85,19 +91,36 @@ class _ActivityPageState extends State<ActivityPage> {
             child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                    Icon(
-                        Icons.nfc,
-                        size: 240.0,
-                        color: Constants.polyhxGrey.withAlpha(144)
+                    Padding(
+                        padding: EdgeInsets.only(left: 15.0, right: 10.0),
+                        child: Container(
+                            decoration: BoxDecoration(
+                                color: Constants.csLightBlue.withOpacity(0.05),
+                                shape: BoxShape.circle
+                            ),
+                            child: Padding(
+                                padding: EdgeInsets.all(55.0),
+                                child: Icon(
+                                    Icons.nfc,
+                                    size: 120.0,
+                                    color: Constants.csLightBlue,
+                                )
+                            )
+                        ),
                     ),
-                    Text(
-                        LocalizationService.of(context).activity['scan'],
-                        style: TextStyle(
-                            fontSize: 30.0,
-                            fontWeight: FontWeight.w900,
-                            color: Constants.polyhxGrey.withAlpha(144),
-                            fontFamily: 'OpenSans'
-                        )
+                    Padding(
+                        padding: const EdgeInsets.all(50.0),
+                        child: Text(
+                            LocalizationService
+                                .of(context)
+                                .activity['scan'],
+                            style: TextStyle(
+                                fontSize: 30.0,
+                                fontWeight: FontWeight.w800,
+                                color: Constants.csBlue,
+                                fontFamily: 'Montserrat'
+                            )
+                        ),
                     )
                 ]
             )
@@ -110,12 +133,14 @@ class _ActivityPageState extends State<ActivityPage> {
                 Padding(
                     padding: EdgeInsets.only(top: 30.0),
                     child: Text(
-                        LocalizationService.of(context).activity['count'],
+                        LocalizationService
+                            .of(context)
+                            .activity['count'],
                         style: TextStyle(
-                            color: Constants.polyhxGrey.withAlpha(200),
+                            color: Constants.csBlue,
                             fontSize: 34.0,
-                            fontWeight: FontWeight.w900,
-                            fontFamily: 'OpenSans'
+                            fontWeight: FontWeight.w700,
+                            fontFamily: 'Montserrat'
                         )
                     )
                 ),
@@ -124,10 +149,10 @@ class _ActivityPageState extends State<ActivityPage> {
                     child: Text(
                         _activity.attendees?.length?.toString() ?? '0',
                         style: TextStyle(
-                            color: Constants.polyhxGrey.withAlpha(200),
-                            fontSize: 34.0,
-                            fontWeight: FontWeight.w900,
-                            fontFamily: 'Raleway'
+                            color: Constants.csLightBlue.withAlpha(200),
+                            fontSize: 50.0,
+                            fontWeight: FontWeight.w800,
+                            fontFamily: 'Montserrat'
                         )
                     )
                 )
@@ -155,7 +180,9 @@ class _ActivityPageState extends State<ActivityPage> {
     Widget build(BuildContext context) {
         return StoreConnector<AppState, _ActivityPageViewModel>(
             onInit: (store) {
-                store.dispatch(InitAction(_activity.id, LocalizationService.of(context).activity['errors']));
+                store.dispatch(InitAction(_activity.id, LocalizationService
+                    .of(context)
+                    .activity['errors']));
                 store.dispatch(GetCurrentActivity(_activity.id));
             },
             converter: (store) => _ActivityPageViewModel.fromStore(store),
@@ -166,9 +193,9 @@ class _ActivityPageState extends State<ActivityPage> {
                         appBar: AppBar(
                             title: Text(
                                 _activity.name[LocalizationService
-                                        .of(context)
-                                        .language],
-                                style: TextStyle(fontFamily: 'Raleway')
+                                    .of(context)
+                                    .language],
+                                style: TextStyle(fontFamily: 'Montserrat')
                             ),
                             backgroundColor: Constants.csBlue
                         ),
@@ -231,8 +258,7 @@ class _ActivityPageViewModel {
         this.reset,
         this.init,
         this.pop,
-        this.team
-    );
+        this.team);
 
     _ActivityPageViewModel.fromStore(Store<AppState> store) {
         isLoading = store.state.activityState.isLoading;

@@ -11,6 +11,20 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:redux_epics/redux_epics.dart';
 import 'package:rxdart/rxdart.dart';
 
+Future<dynamic> backgroundMessageHandler(Map<String, dynamic> message) {
+    if (message.containsKey('data')) {
+        // Handle data message
+        final dynamic data = message['data'];
+    }
+
+    if (message.containsKey('notification')) {
+        // Handle notification message
+        final dynamic notification = message['notification'];
+    }
+
+    // Or do other work.
+}
+
 class NotificationMiddleware implements EpicClass<AppState> {
     final FirebaseMessaging _firebaseMessaging;
     final AttendeesService _attendeesService;
@@ -100,6 +114,7 @@ class NotificationMiddleware implements EpicClass<AppState> {
             }
 
             _firebaseMessaging.configure(
+                onBackgroundMessage: backgroundMessageHandler,
                 onMessage: (Map<String, dynamic> message) async {
                     print('on message $message');
                 },

@@ -20,10 +20,11 @@ class SponsorsPage extends StatelessWidget {
             padding: EdgeInsets.all(5.0),
             child: Text(
                 value,
-                textAlign: TextAlign.center,
+                textAlign: TextAlign.left,
                 style: TextStyle(
-                    fontFamily: 'flipbash',
-                    fontSize: 20.0
+                    fontFamily: 'Montserrat',
+                    fontSize: 20.0,
+                    fontWeight: FontWeight.w400
                 )
             )
         );
@@ -70,13 +71,14 @@ class SponsorsPage extends StatelessWidget {
             .of(context)
             .sponsors['error'])
             : Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
                 AppTitle(LocalizationService
                     .of(context)
                     .sponsors['title'], MainAxisAlignment.start),
                 Expanded(
                     child: ListView(
-                        padding: EdgeInsets.symmetric(vertical: 15.0),
+                        padding: EdgeInsets.all(15.0),
                         scrollDirection: Axis.vertical,
                         shrinkWrap: true,
                         children: state.sponsors.isEmpty ? [] : _groupSponsors(context, state.sponsors)

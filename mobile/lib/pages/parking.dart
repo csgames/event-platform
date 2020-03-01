@@ -1,4 +1,5 @@
 import 'dart:io';
+
 import 'package:CSGamesApp/components/pill-button.dart';
 import 'package:CSGamesApp/domain/guide.dart';
 import 'package:CSGamesApp/services/localization.service.dart';
@@ -53,60 +54,54 @@ class _ParkingPageState extends State<ParkingState> {
         return Container(
             child: Hero(
                 tag: "guide-card-parking",
-                child: Stack(
-                    children: <Widget>[
-                        Positioned(
-                            top: 17.0,
-                            left: 9.0,
-                            child: Center(
-                                child: Container(
-                                    width: 20,
-                                    height: 60,
-                                    decoration: BoxDecoration(
-                                        boxShadow: [
-                                            BoxShadow(
-                                                color: Colors.black12,
-                                                blurRadius: 4.0,
-                                                offset: Offset(0, 1),
-                                                spreadRadius: 0.0
-                                            )
-                                        ]
-                                    ),
-                                    child: Material(
-                                        borderRadius: BorderRadius.circular(10.0),
-                                        color: Constants.csBlue,
-                                        child: Text('')
-                                    )
-                                )
-                            )
-                        ),
-                        Padding(
-                            padding: EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 0.0),
-                            child: Material(
-                                elevation: 2.0,
-                                borderRadius: BorderRadius.circular(15.0),
+                child: Container(
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        boxShadow: <BoxShadow>[
+                            BoxShadow(
+                                color: Colors.black.withOpacity(0.1),
+                                offset: Offset(1.1, 1.1),
+                                blurRadius: 5.0,
+                            ),
+                        ]
+                    ),
+                    margin: EdgeInsets.symmetric(horizontal: 20.0),
+                    child: Stack(
+                        children: <Widget>[
+                            Material(
+                                elevation: 0.0,
                                 child: Column(
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: <Widget>[
                                         Padding(
-                                            padding: EdgeInsets.only(left: 10.0),
+                                            padding: EdgeInsets.only(left: 10.0, top: 10.0),
                                             child: Row(
-                                                crossAxisAlignment: CrossAxisAlignment.end,
+                                                crossAxisAlignment: CrossAxisAlignment.center,
                                                 children: <Widget>[
-                                                    Icon(
-                                                        FontAwesomeIcons.parking,
-                                                        size: 38.0,
-                                                        color: Constants.csBlue,
+                                                    Container(
+                                                        decoration: BoxDecoration(
+                                                            color: Constants.csLightBlue.withOpacity(0.05),
+                                                            shape: BoxShape.circle
+                                                        ),
+                                                        child: Padding(
+                                                            padding: EdgeInsets.all(7.0),
+                                                            child: Icon(
+                                                                FontAwesomeIcons.lightParking,
+                                                                size: 28.0,
+                                                                color: Constants.csLightBlue,
+                                                            )
+                                                        )
                                                     ),
                                                     Padding(
                                                         padding: EdgeInsets.only(left: 10.0),
                                                         child: Text(
                                                             LocalizationService
                                                                 .of(context)
-                                                                .eventInfo['parking'].toUpperCase(),
+                                                                .eventInfo['parking'],
                                                             style: TextStyle(
                                                                 color: Constants.polyhxGrey,
-                                                                fontFamily: 'flipbash',
+                                                                fontFamily: 'Montserrat',
+                                                                fontWeight: FontWeight.w500,
                                                                 fontSize: 20.0
                                                             )
                                                         )
@@ -141,9 +136,9 @@ class _ParkingPageState extends State<ParkingState> {
                                             )
                                         ),
                                         Padding(
-                                            padding: EdgeInsets.only(bottom: 10.0),
+                                            padding: EdgeInsets.symmetric(vertical: 10.0),
                                             child: PillButton(
-                                                color: Constants.csRed,
+                                                color: Constants.csLightBlue,
                                                 onPressed: _clickNavigate,
                                                 child: Padding(
                                                     padding: EdgeInsets.fromLTRB(16.0, 12.5, 16.0, 12.5),
@@ -160,9 +155,22 @@ class _ParkingPageState extends State<ParkingState> {
                                         )
                                     ]
                                 )
+                            ),
+                            Positioned(
+                                top: 0.0,
+                                child: Center(
+                                    child: Container(
+                                        width: 60,
+                                        height: 6,
+                                        child: Material(
+                                            color: Constants.csBlue,
+                                            child: Text('')
+                                        )
+                                    )
+                                )
                             )
-                        )
-                    ]
+                        ]
+                    ),
                 )
             )
         );

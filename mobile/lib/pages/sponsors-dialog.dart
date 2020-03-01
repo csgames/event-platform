@@ -31,7 +31,7 @@ class SponsorsDialog extends StatelessWidget {
         return Expanded(
             child: ListView(
                 shrinkWrap: true,
-                padding: EdgeInsets.fromLTRB(25.0, 5.0, 25.0, 10.0),
+                padding: EdgeInsets.fromLTRB(15.0, 5.0, 15.0, 10.0),
                 children: <Widget>[
                     Text(
                         _sponsors.description[ LocalizationService
@@ -41,7 +41,7 @@ class SponsorsDialog extends StatelessWidget {
                         style: TextStyle(
                             fontFamily: 'Raleway',
                             fontSize: 15.0,
-                            height: 1.15
+                            height: 1.3
                         )
                     )
                 ]
@@ -70,7 +70,7 @@ class SponsorsDialog extends StatelessWidget {
 
     Widget _buildButton(BuildContext context) {
         return PillButton(
-          color: Constants.csBlue,
+            color: Constants.csBlue,
             onPressed: () => Navigator.pop(context),
             child: Padding(
                 padding: EdgeInsets.fromLTRB(16.0, 12.5, 16.0, 12.5),
@@ -94,8 +94,7 @@ class SponsorsDialog extends StatelessWidget {
             children: <Widget>[
                 Material(
                     color: Colors.white,
-                    elevation: 1.0,
-                    borderRadius: BorderRadius.circular(10.0),
+                    elevation: 0.0,
                     child: Container(
                         padding: EdgeInsets.symmetric(vertical: 10.0),
                         child: Column(
@@ -108,6 +107,19 @@ class SponsorsDialog extends StatelessWidget {
                             ]
                         )
                     )
+                ),
+                Positioned(
+                    top: 0.0,
+                    child: Center(
+                        child: Container(
+                            width: 100,
+                            height: 6,
+                            child: Material(
+                                color: Constants.csBlue,
+                                child: Text('')
+                            )
+                        )
+                    )
                 )
             ]
         );
@@ -118,6 +130,16 @@ class SponsorsDialog extends StatelessWidget {
     Widget build(BuildContext context) {
         return Center(
             child: Container(
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    boxShadow: <BoxShadow>[
+                        BoxShadow(
+                            color: Colors.black.withOpacity(0.1),
+                            offset: Offset(1.1, 1.1),
+                            blurRadius: 5.0,
+                        ),
+                    ]
+                ),
                 margin: EdgeInsets.only(
                     right: 20.0,
                     left: 20.0,

@@ -7,12 +7,27 @@ class Guide {
     Transport transport;
 
     Guide.fromMap(Map<String, dynamic> map) {
-        bring = Map.castFrom<dynamic, dynamic, String, List<dynamic>>(map['bring']);
-        school = School.fromMap(map['school']);
-        hotel = Hotel.fromMap(map['hotel']);
-        parking = Parking.fromMap(map['parking']);
-        transport = Transport.fromMap(map['transport']);
-        restaurant = Restaurant.fromMap(map['restaurant']);
+        if (map == null) {
+            return;
+        }
+        if (map['bring'] != null) {
+            bring = Map.castFrom<dynamic, dynamic, String, List<dynamic>>(map['bring']);
+        }
+        if (map['school'] != null) {
+            school = School.fromMap(map['school']);
+        }
+        if (map['hotel'] != null) {
+            hotel = Hotel.fromMap(map['hotel']);
+        }
+        if (map['parking'] != null) {
+            parking = Parking.fromMap(map['parking']);
+        }
+        if (map['transport'] != null) {
+            transport = Transport.fromMap(map['transport']);
+        }
+        if (map['restaurant'] != null) {
+            restaurant = Restaurant.fromMap(map['restaurant']);
+        }
     }
 }
 
@@ -95,10 +110,10 @@ class Transport {
         image = map['image'];
         school = map['school'];
         hotel = map['hotel'];
-        hotelLatitude = map['hotelLatitude'];
-        hotelLongitude = map['hotelLongitude'];
-        schoolLatitude = map['schoolLatitude'];
-        schoolLongitude = map['schoolLongitude'];
+        hotelLatitude = map['hotelLatitude']?.toDouble();
+        hotelLongitude = map['hotelLongitude']?.toDouble();
+        schoolLatitude = map['schoolLatitude']?.toDouble();
+        schoolLongitude = map['schoolLongitude']?.toDouble();
     }
 }
 
@@ -107,8 +122,11 @@ class ParkingCoordinate {
     double longitude;
 
     ParkingCoordinate.fromMap(Map<String, dynamic> map) {
-        latitude = map['latitude'];
-        longitude = map['longitude'];
+        if (map == null) {
+            return;
+        }
+        latitude = map['latitude']?.toDouble();
+        longitude = map['longitude']?.toDouble();
     }
 }
 
@@ -118,8 +136,11 @@ class RestaurantCoordinate {
     String info;
 
     RestaurantCoordinate.fromMap(Map<String, dynamic> map) {
-        latitude = map['latitude'];
-        longitude = map['longitude'];
+        if (map == null) {
+            return;
+        }
+        latitude = map['latitude']?.toDouble();
+        longitude = map['longitude']?.toDouble();
         info = map['info'];
     }
 }

@@ -1,97 +1,137 @@
 import 'package:CSGamesApp/domain/attendee.dart';
 import 'package:CSGamesApp/domain/team.dart';
+import 'package:CSGamesApp/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:CSGamesApp/components/circle-gravatar.dart';
-import 'package:CSGamesApp/utils/constants.dart';
+
+import 'gravatar.dart';
 
 class UserProfile extends StatelessWidget {
-  final Attendee _attendee;
-  final Widget content;
-  final Color color;
-  final double elevation;
-  final double opacity;
-  final StackFit fit;
-  final Team _team;
+    final Attendee _attendee;
+    final Widget content;
+    final Color color;
+    final double elevation;
+    final double opacity;
+    final StackFit fit;
+    final Team _team;
 
-  UserProfile(
-    this._attendee,
-    this._team, {
-    this.content,
-    this.color = Colors.white,
-    this.elevation = 1.0,
-    this.opacity = 1.0,
-    this.fit = StackFit.expand,
-  });
+    UserProfile(this._attendee,
+        this._team, {
+            this.content,
+            this.color = Colors.white,
+            this.elevation = 1.0,
+            this.opacity = 1.0,
+            this.fit = StackFit.expand,
+        });
 
-  Widget _buildNameWidget() {
-    return Center(
-      child: Padding(
-        padding: EdgeInsets.only(top: 100.0),
-        child: Text(
-          '${_attendee.firstName} ${_attendee.lastName}',
-          style: TextStyle(
-            color: Constants.polyhxGrey,
-            fontSize: 24.0,
-            fontWeight: FontWeight.w900,
-          ),
-        ),
-      ),
-    );
-  }
+    Widget _buildNameWidget() {
+        return Padding(
+            padding: EdgeInsets.all(10.0),
+            child: Text(
+                '${_attendee.firstName} ${_attendee.lastName}',
+                style: TextStyle(
+                    color: Constants.csBlue,
+                    fontFamily: 'Montserrat',
+                    fontSize: 20.0,
+                    fontWeight: FontWeight.w700
+                ),
+                textAlign: TextAlign.center
+            )
+        );
+    }
 
-  Widget _buildTeamWidget() {
-    return Center(
-      child: Padding(
-        padding: EdgeInsets.only(top: 10.0),
-        child: Text(
-          '${_team.school.name}',
-          style: TextStyle(
-            color: Colors.blue,
-            fontSize: 15.0,
-            fontWeight: FontWeight.w700,
-          ),
-        ),
-      ),
-    );
-  }
+    Widget _buildTeamWidget() {
+        return Container(
+            padding: EdgeInsets.all(10.0),
+            child: Text(
+                '${_team.school.name}',
+                style: TextStyle(
+                    color: Constants.csLightBlue,
+                    fontFamily: 'Montserrat',
+                    fontSize: 15.0,
+                    fontWeight: FontWeight.w500
+                ),
+                textAlign: TextAlign.center,
+            )
+        );
+    }
 
-  Widget _buildBody() {
-    return Padding(
-        padding: EdgeInsets.only(top: 40.0),
-        child: Opacity(
-          opacity: opacity,
-          child: Material(
-            elevation: elevation,
-            borderRadius: BorderRadius.circular(10.0),
-            child: Column(
-              children: <Widget>[
+    Widget _buildBody() {
+        return Column(
+            children: <Widget>[
                 _buildNameWidget(),
                 _buildTeamWidget(),
                 Container(
-                  child: content
+                    child: content
                 )
-              ]
+            ]
+        );
+    }
+
+    Widget _buildAvatar(BuildContext context) {
+        double size = MediaQuery
+            .of(context)
+            .size
+            .width * 0.3;
+        return Container(
+            width: size,
+            height: size,
+            decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                image: DecorationImage(
+                    fit: BoxFit.fill,
+                    image: NetworkImage(
+                        gravatarFromEmailWithFallback(_attendee?.email),
+                    )
+                )
             )
-          )
-        ));
-  }
+        );
+    }
 
-  Widget _buildAvatar() {
-    return Align(
-      alignment: Alignment.topCenter,
-      child: CircleGravatar(_attendee.email),
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Stack(
-      fit: fit,
-      children: <Widget>[
-        _buildBody(),
-        _buildAvatar(),
-      ],
-    );
-  }
+    @override
+    Widget build(BuildContext context) {
+        return Container(
+            margin: EdgeInsets.symmetric(horizontal: 15.0),
+            child: Stack(
+                children: <Widget>[
+                    Container(
+                        padding: EdgeInsets.all(15.0),
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            boxShadow: <BoxShadow>[
+                                BoxShadow(
+                                    color: Colors.black.withOpacity(0.1),
+                                    offset: Offset(1.1, 1.1),
+                                    blurRadius: 5.0,
+                                ),
+                            ]
+                        ),
+                        child: Material(
+                            elevation: 0,
+                            color: Colors.white,
+                            child: Column(
+                                children: <Widget>[
+                                    _buildAvatar(context),
+                                    _buildBody(),
+                                ],
+                            ),
+                        )
+                    ),
+                    Positioned(
+                        top: 0.0,
+                        child: Center(
+                            child: Container(
+                                width: 80,
+                                height: 6,
+                                child: Material(
+                                    color: Constants.csBlue,
+                                    child: Text('')
+                                )
+                            )
+                        )
+                    )
+                ]
+            )
+        );
+    }
 }

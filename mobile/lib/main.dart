@@ -48,6 +48,8 @@ import 'package:CSGamesApp/redux/state.dart';
 import 'package:redux_epics/redux_epics.dart';
 
 void main() {
+    WidgetsFlutterBinding.ensureInitialized();
+
     final client = Client();
     final nfcService = NfcService();
     final qrCodeReader = QRCodeReader();

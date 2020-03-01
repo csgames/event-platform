@@ -1,6 +1,7 @@
 class ActivityTypes {
     static const String Competition = 'competition';
     static const String Food = 'food';
+    static const String Transport = 'transport';
 }
 
 class Activity {
@@ -31,8 +32,8 @@ class Activity {
         id = map['_id'];
         name = Map.castFrom<String, dynamic, String, String>(map['name'] ?? {});
         type = map['type'];
-        beginDate = DateTime.parse(map['beginDate']);
-        endDate = DateTime.parse(map['endDate']);
+        beginDate = DateTime.parse(map['beginDate'])?.toLocal();
+        endDate = DateTime.parse(map['endDate'])?.toLocal();
         location = map['location'];
         attendees = List.castFrom<dynamic, String>(map['attendees']);
         description = Map.castFrom<String, dynamic, String, String>(map['details'] ?? {});
