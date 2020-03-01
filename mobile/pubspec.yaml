@@ -7,7 +7,7 @@ dependencies:
   redux: ^3.0.0
   flutter_redux:
   font_awesome_flutter:
-    git: git@github.com:Recursyve/font-awesome-flutter.git
+    git: git@github.com:csgames/font-awesome-flutter.git
   qr_reader: ^0.1.3
   cupertino_icons: ^0.1.0
   flutter:
