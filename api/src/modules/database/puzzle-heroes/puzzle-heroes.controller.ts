@@ -1,5 +1,5 @@
 import {
-    BadRequestException, Body, Controller, Get, HttpCode, HttpStatus, Param, Patch, Post, Put, Query, UseGuards
+    BadRequestException, Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Patch, Post, Put, Query, UploadedFile, UseGuards
 } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
 import { EventId } from "../../../decorators/event-id.decorator";
@@ -78,6 +78,7 @@ export class PuzzleHeroesController {
     public async updatePuzzle(@Body(new ValidationPipe()) dto: UpdateQuestionDto,
                               @Param("trackId") trackId: string,
                               @Param("puzzleId") puzzleId: string,
+                              @UploadedFile("file") file: Express.Multer.File,
                               @EventId() eventId: string): Promise<void> {
         return await this.puzzleHeroService.updatePuzzle(eventId, trackId, puzzleId, dto);
     }
@@ -85,10 +86,15 @@ export class PuzzleHeroesController {
     @Post("puzzle/:puzzleId/validate")
     @Permissions("csgames-api:validate-puzzle:puzzle-hero")
     @HttpCode(HttpStatus.OK)
-    public async validateAnswer(@EventId() id: string, @Param("puzzleId") puzzleId, @Body(new ValidationPipe()) dto: QuestionAnswerDto,
+    public async validateAnswer(@EventId() id: string,
+                                @Param("puzzleId") puzzleId,
+                                @Body(new ValidationPipe()) dto: QuestionAnswerDto,
+                                @UploadedFile("file") file: Express.Multer.File,
                                 @User() user: UserModel): Promise<void> {
-        console.log("validating puzzle...");
-        return await this.puzzleHeroService.validateAnswer(dto, puzzleId, id, user.username);
+        return await this.puzzleHeroService.validateAnswer({
+            ...dto,
+            file
+        }, puzzleId, id, user.username);
     }
 
     @Get()
@@ -115,6 +121,30 @@ export class PuzzleHeroesController {
     public async getTeamsSeries(@EventId() eventId: string,
                                 @User() user: UserModel, @Query("teams-ids") teamsIds: string): Promise<TeamSeries[]> {
         return await this.puzzleHeroService.getTeamsSeries(eventId, user, teamsIds.split(","));
+    }
+
+    @Get("puzzle/:puzzleId/:answerId/file")
+    @Permissions("csgames-api:update:puzzle-hero")
+    public async getAnswerFile(@EventId() eventId: string,
+                               @Param("puzzleId") puzzleId: string,
+                               @Param("answerId") answerId: string): Promise<{ type: string, url: string }> {
+        return this.puzzleHeroService.getAnswerFile(eventId, puzzleId, answerId);
+    }
+
+    @Put("puzzle/:puzzleId/:answerId")
+    @Permissions("csgames-api:update:puzzle-hero")
+    public async validateAnswerManually(@EventId() eventId: string,
+                               @Param("puzzleId") puzzleId: string,
+                               @Param("answerId") answerId: string): Promise<void> {
+        await this.puzzleHeroService.manualValidation(eventId, puzzleId, answerId);
+    }
+
+    @Delete("puzzle/:puzzleId/:answerId")
+    @Permissions("csgames-api:update:puzzle-hero")
+    public async refuseAnswerManually(@EventId() eventId: string,
+                               @Param("puzzleId") puzzleId: string,
+                               @Param("answerId") answerId: string): Promise<void> {
+        await this.puzzleHeroService.refuseValidation(eventId, puzzleId, answerId);
     }
 
     @Patch("scoreboard")

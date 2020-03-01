@@ -253,7 +253,13 @@
             "image": "Url de l'image pour le trajet "
         },
         "answers": {
-            "answers": "Réponse du puzzle"
+            "answers": "Réponse du puzzle",
+            "validated": "Validé",
+            "needs_validation": "Doit être validé",
+            "refused": "Refusé",
+            "download": "Télécharger le fichier",
+            "accept": "Accepter",
+            "refuse": "Refuser"
         },
         "side_nav": {
             "settings": "Paramètres",
@@ -505,6 +511,8 @@
             "loading_error": "Une erreur est survenue lors du chargement des puzzle hero",
             "scoreboard_loading_error": "Une erreur est survenue lors du chargement du classement",
             "validate_success": "Bonne réponse!",
+            "waiting_for_validation": "En attende d'être validé!",
+            "answer_refused": "Votre réponse a été refusé, veuillez entrer une nouvelle réponse!",
             "answer": "Réponse",
             "count": "Nombre de réponse:",
             "admin": {

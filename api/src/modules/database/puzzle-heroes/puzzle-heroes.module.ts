@@ -10,6 +10,7 @@ import { PuzzleHeroesController } from "./puzzle-heroes.controller";
 import { PuzzleHeroesGateway } from "./puzzle-heroes.gateway";
 import { PuzzleHeroesSchema } from "./puzzle-heroes.model";
 import { PuzzleHeroesService } from "./puzzle-heroes.service";
+import { StorageModule } from "@polyhx/nest-services";
 
 @Module({
     imports: [
@@ -34,7 +35,8 @@ import { PuzzleHeroesService } from "./puzzle-heroes.service";
             schema: SchoolsSchema
         }]),
         QuestionsModule,
-        RedisModule
+        RedisModule,
+        StorageModule
     ],
     controllers: [PuzzleHeroesController],
     providers: [

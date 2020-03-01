@@ -29,7 +29,7 @@ export class CreateQuestionDto {
     type: QuestionTypes;
 
     @IsNotEmpty()
-    @IsIn(["string", "regex", "function", "none"])
+    @IsIn(["string", "regex", "function", "none", "manual"])
     validationType: ValidationTypes;
 
     @IsNotEmpty({
@@ -86,7 +86,7 @@ export class UpdateQuestionDto {
     @IsNotEmpty({
         always: true
     })
-    @IsIn(["string", "regex", "function", "none"])
+    @IsIn(["string", "regex", "function", "none", "manual"])
     validationType: ValidationTypes;
 
     @IsOptional()

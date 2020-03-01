@@ -30,7 +30,8 @@ export enum ValidationTypes {
     String = "string",
     Regex = "regex",
     Function = "function",
-    None = "none"
+    None = "none",
+    Manual = "manual"
 }
 
 export enum InputTypes {

@@ -33,6 +33,8 @@ export interface PuzzleInfo {
     label?: string;
     type?: QuestionTypes;
     completed?: boolean;
+    validated?: boolean;
+    refused?: boolean;
     locked?: boolean;
     description?: { [lang: string]: string };
     dependsOn?: string;
@@ -57,6 +59,8 @@ export interface Answers {
     timestamp: string | Date;
     puzzle: string;
     teamId: Team;
+    validated: boolean;
+    refused: boolean;
 }
 
 export interface PuzzleHero {

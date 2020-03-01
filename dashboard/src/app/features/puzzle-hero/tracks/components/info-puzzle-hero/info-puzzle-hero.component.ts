@@ -6,8 +6,10 @@ import { select, Store } from "@ngrx/store";
 import { getInfoPuzzleHeroError, getInfoPuzzleHeroLoading, getInfoPuzzleHeroSuccess, State } from "./store/info-puzzle-hero.reducer";
 import { ResetState, ValidateAnswer } from "./store/info-puzzle-hero.actions";
 import { Subscription } from "rxjs";
-import { QuestionTypes } from "../../../../../api/models/question";
+import { InputTypes, QuestionTypes } from "../../../../../api/models/question";
 import { QuestionUtils } from "../../../../../utils/question.utils";
+import { FormControl } from "@angular/forms";
+import { UpdateQuestionAnswer } from "../../../../competitions/list/components/competition/store/competition.actions";
 
 export interface InfoPuzzleHeroModal {
     puzzle: PuzzleInfo;
@@ -27,7 +29,9 @@ export class InfoPuzzleHeroComponent extends SimpleModalComponent<InfoPuzzleHero
     public puzzle: PuzzleInfo;
     public track: Track;
 
+    public error = false;
     public answer: string;
+    public file = new FormControl();
 
     puzzleHeroSuccessSub$: Subscription;
 
@@ -62,6 +66,32 @@ export class InfoPuzzleHeroComponent extends SimpleModalComponent<InfoPuzzleHero
     }
 
     validate() {
-        this.store$.dispatch(new ValidateAnswer(this.puzzle.id, this.answer));
+        switch (this.puzzle.inputType) {
+            case InputTypes.Upload:
+                if (!this.file.value) {
+                    this.error = true;
+                    return;
+                } else {
+                    this.error = false;
+                }
+                this.store$.dispatch(new ValidateAnswer(this.puzzle.id, {
+                    file: this.file.value.data,
+                    upload: true
+                }));
+                break;
+
+            case InputTypes.String:
+            case InputTypes.Code:
+                if (!this.answer) {
+                    this.error = true;
+                    return;
+                } else {
+                    this.error = false;
+                }
+                this.store$.dispatch(new ValidateAnswer(this.puzzle.id, {
+                    answer: this.answer
+                }));
+                break;
+        }
     }
 }

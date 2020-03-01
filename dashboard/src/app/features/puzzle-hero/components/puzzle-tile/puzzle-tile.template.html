@@ -27,8 +27,18 @@
             </svg:text>
             <svg:text class="fa fa-4x text-success" x="50%" y="50%" alignment-baseline="middle"
                       dominant-baseline="middle"
-                      text-anchor="middle" *ngIf="puzzle?.completed">
+                      text-anchor="middle" *ngIf="puzzle?.completed && puzzle?.validated">
                 &#xf00c;
+            </svg:text>
+            <svg:text class="far fa-4x text-warning" x="50%" y="50%" alignment-baseline="middle"
+                      dominant-baseline="middle"
+                      text-anchor="middle" *ngIf="puzzle?.completed && !puzzle?.validated && !puzzle.refused">
+                &#xf017;
+            </svg:text>
+            <svg:text class="fa fa-4x text-danger" x="50%" y="50%" alignment-baseline="middle"
+                      dominant-baseline="middle"
+                      text-anchor="middle" *ngIf="puzzle?.refused">
+                &#xf00d;
             </svg:text>
         </svg>
 

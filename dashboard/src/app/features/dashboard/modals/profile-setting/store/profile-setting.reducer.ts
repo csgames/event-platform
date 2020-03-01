@@ -72,6 +72,7 @@ export const getProfileSettingGlobalState = createSelector(
 export const getLoading = (state: ProfileSettingGlobalState) => state.loading;
 export const getSaving = (state: ProfileSettingGlobalState) => state.saving;
 export const getCurrentAttendee = (state: GlobalState) => state.currentAttendee;
+export const getCurrentEvent = (state: GlobalState) => state.currentEvent;
 export const getClosing = (state: ProfileSettingGlobalState) => state.closing;
 
 export const selectProfileSettingGlobal = (selector: (state: ProfileSettingGlobalState) => any) =>

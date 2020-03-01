@@ -3,6 +3,7 @@ import { SimpleModalComponent } from "ngx-simple-modal";
 import { Store } from "@ngrx/store";
 import {
     getCurrentAttendee,
+    getCurrentEvent,
     getLoading,
     getSaving,
     selectGlobal,
@@ -29,6 +30,7 @@ export class ProfileSettingComponent extends SimpleModalComponent<void, void> im
     public loading$ = this.store$.pipe(selectProfileSettingGlobal(getLoading));
     public saving$ = this.store$.pipe(selectProfileSettingGlobal(getSaving));
     public currentAttendee$ = this.store$.pipe(selectGlobal(getCurrentAttendee));
+    public currentEvent$ = this.store$.pipe(selectGlobal(getCurrentEvent));
     private closing$ = this.store$.pipe(selectProfileSettingGlobal(getClosing));
 
     public currentAttendee: Attendee;

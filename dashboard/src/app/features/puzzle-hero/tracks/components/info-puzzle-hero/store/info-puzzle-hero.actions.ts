@@ -1,4 +1,5 @@
 import { Action } from "@ngrx/store";
+import { QuestionAnswerDto } from "../../../../../../api/dto/competition";
 
 export enum InfoPuzzleHeroActionTypes {
     ResetState = "[Info puzzle hero] Reset state",
@@ -14,7 +15,7 @@ export class ResetState implements Action {
 export class ValidateAnswer implements Action {
     readonly type = InfoPuzzleHeroActionTypes.ValidateAnswer;
 
-    constructor(public puzzleId: string, public answer: string) {}
+    constructor(public puzzleId: string, public answer: QuestionAnswerDto) {}
 }
 
 export class ValidateAnswerSuccess implements Action {

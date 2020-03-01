@@ -94,6 +94,8 @@ export class QuestionFormComponent implements OnInit, ControlValueAccessor, OnDe
                 return "fa-space-shuttle";
             case ValidationTypes.None:
                 return "fa-times";
+            case ValidationTypes.Manual:
+                return "fa-user-check";
         }
         return "";
     }

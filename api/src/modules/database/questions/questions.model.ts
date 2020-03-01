@@ -12,7 +12,8 @@ export enum ValidationTypes {
     String = "string",
     Regex = "regex",
     Function = "function",
-    None = "none"
+    None = "none",
+    Manual = "manual"
 }
 
 export enum InputTypes {
@@ -52,7 +53,7 @@ export const QuestionsSchema = new mongoose.Schema({
     },
     validationType: {
         type: String,
-        enum: ["string", "regex", "function", "none"],
+        enum: ["string", "regex", "function", "none", "manual"],
         required: true
     },
     inputType: {

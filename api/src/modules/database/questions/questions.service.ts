@@ -6,7 +6,7 @@ import { AxiosResponse } from "axios";
 import { Model } from "mongoose";
 import { QuestionAnswerDto } from "./question-answer.dto";
 import { UpdateQuestionDto } from "./questions.dto";
-import { Questions, QuestionTypes, ValidationTypes } from "./questions.model";
+import { InputTypes, Questions, QuestionTypes, ValidationTypes } from "./questions.model";
 
 @Injectable()
 export class QuestionsService {
@@ -26,7 +26,7 @@ export class QuestionsService {
         }, dto).exec();
     }
 
-    public async validateAnswer(dto: QuestionAnswerDto, questionId: string): Promise<number> {
+    public async validateAnswer(dto: QuestionAnswerDto, questionId: string): Promise<[number, boolean, string]> {
         const question = await this.questionsModel.findOne({
             _id: questionId
         }).exec();
@@ -35,6 +35,7 @@ export class QuestionsService {
         }
 
         let success: boolean;
+        let answer = dto.answer;
         switch (question.validationType) {
             case ValidationTypes.String:
                 success = this.validateString(dto.answer, question.answer);
@@ -57,19 +58,20 @@ export class QuestionsService {
                 }
                 break;
             case ValidationTypes.None:
+            case ValidationTypes.Manual:
                 break;
             default:
                 throw new BadRequestException("Invalid validation type");
         }
 
-        if (question.type === QuestionTypes.Upload) {
-            success = await this.uploadFile(dto.file, question, dto.teamId);
-            if (!success) {
+        if (question.type === QuestionTypes.Upload || question.inputType === InputTypes.Upload) {
+            answer = await this.uploadFile(dto.file, question, dto.teamId);
+            if (!answer) {
                 throw new BadRequestException("Upload failed");
             }
         }
 
-        return question.score;
+         return [question.score, question.validationType !== ValidationTypes.Manual, answer];
     }
 
     public async getUplodedFile(questionId: string): Promise<{ [name: string]: Buffer }> {
@@ -130,19 +132,18 @@ export class QuestionsService {
         }
     }
 
-    public async uploadFile(file: Express.Multer.File, question: Questions, teamId: string): Promise<boolean> {
+    public async uploadFile(file: Express.Multer.File, question: Questions, teamId: string): Promise<string> {
         if (question.option && question.option.contentTypes &&
             !question.option.contentTypes.some(x => x.toLowerCase() === file.mimetype.toLowerCase())) {
-            return false;
+            return null;
         }
 
         try {
             const ext = file.originalname.slice(file.originalname.indexOf("."), file.originalname.length);
             file.originalname = `${teamId}${ext}`;
-            await this.storageService.upload(file, `questions/${question._id.toHexString()}`);
-            return true;
+            return await this.storageService.upload(file, `questions/${question._id.toHexString()}`);
         } catch (e) {
-            return false;
+            return null;
         }
     }
 }
