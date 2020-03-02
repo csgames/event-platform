@@ -58,6 +58,20 @@ android {
             signingConfig signingConfigs.release
         }
     }
+    flavorDimensions "app"
+    productFlavors {
+        qa {
+            dimension "app"
+            applicationIdSuffix ".qa"
+        }
+        dev {
+            dimension "app"
+            applicationIdSuffix ".dev"
+        }
+        production {
+            dimension "app"
+        }
+    }
 }
 
 flutter {

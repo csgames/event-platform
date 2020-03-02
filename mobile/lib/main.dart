@@ -47,7 +47,7 @@ import 'package:CSGamesApp/redux/reducers/app-state-reducer.dart';
 import 'package:CSGamesApp/redux/state.dart';
 import 'package:redux_epics/redux_epics.dart';
 
-void main() {
+void mainDelegate() {
     WidgetsFlutterBinding.ensureInitialized();
 
     final client = Client();

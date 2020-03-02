@@ -134,7 +134,7 @@ packages:
       path: "."
       ref: HEAD
       resolved-ref: b0862cd4be2d8d3866538bd62a4e34a22fbb653b
-      url: "git@github.com:Recursyve/font-awesome-flutter.git"
+      url: "git@github.com:csgames/font-awesome-flutter.git"
     source: git
     version: "8.5.0"
   google_maps_flutter:
@@ -178,7 +178,7 @@ packages:
       name: intl
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.16.1"
+    version: "0.16.0"
   markdown:
     dependency: transitive
     description:
@@ -337,7 +337,7 @@ packages:
       name: test_api
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.2.14"
+    version: "0.2.11"
   timeago:
     dependency: "direct main"
     description:
