@@ -1,3 +1,5 @@
 build
 gradle
 .gradle
+ios/Runner.app.dSYM.zip
+ios/Runner.ipa
