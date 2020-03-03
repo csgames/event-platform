@@ -1,0 +1,81 @@
+name: Mobile QA
+
+on:
+  push:
+    paths:
+      - 'mobile/**'
+jobs:
+  android:
+    name: Android
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Generate build number
+        uses: einaregilsson/build-number@v1
+        with:
+          token: ${{secrets.github_token}}
+      - uses: actions/checkout@v1
+      - uses: actions/setup-java@v1
+        with:
+          java-version: "12.x"
+      - uses: subosito/flutter-action@v1
+        with:
+          channel: "stable"
+      - name: Use Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12.x
+      - name: Get dependencies
+        run: flutter pub get
+        working-directory: mobile
+      - name: Build APK
+        run: flutter build apk --flavor qa -t lib/main_qa.dart --build-number $BUILD_NUMBER
+        working-directory: mobile
+      - name: Setup Firebase
+        run: |
+          npm i -g firebase-tools
+      - name: Package APK
+        uses: maierj/fastlane-action@v1.4.0
+        with:
+          lane: qa
+          subdirectory: mobile/android
+        env:
+          FIREBASE_CLI_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+  ios:
+    name: iOS
+    runs-on: macos-latest
+
+    steps:
+      - name: Generate build number
+        uses: einaregilsson/build-number@v1
+        with:
+          token: ${{secrets.github_token}}
+      - uses: actions/checkout@v1
+      - uses: actions/setup-java@v1
+        with:
+          java-version: '12.x'
+      - uses: subosito/flutter-action@v1
+        with:
+          channel: 'stable'
+      - name: Use Node.js
+        uses: actions/setup-node@v1
+        with:
+            node-version: 12.x
+      - name: Get dependencies
+        run: flutter pub get
+        working-directory: mobile
+      - name: Build App
+        run: flutter build ios --release --flavor qa -t lib/main_qa.dart --build-number $BUILD_NUMBER
+        working-directory: mobile
+      - name: Setup Firebase
+        run: |
+          npm i -g firebase-tools
+      - name: Package IPA
+        uses: maierj/fastlane-action@v1.4.0
+        with:
+          lane: qa
+          subdirectory: mobile/ios
+        env:
+          MATCH_PASSWORD: ${{secrets.MATCH_PASSWORD}}
+          MATCH_GIT_BASIC_AUTHORIZATION: ${{secrets.MATCH_GIT_BASIC_AUTHORIZATION}}
+          FIREBASE_CLI_TOKEN: ${{ secrets.FIREBASE_CLI_TOKEN }}

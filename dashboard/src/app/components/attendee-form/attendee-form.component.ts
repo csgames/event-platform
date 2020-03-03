@@ -1,9 +1,10 @@
-import { Component, ElementRef, EventEmitter, forwardRef, Inject, OnDestroy, OnInit, Output, ViewChild } from "@angular/core";
+import { Component, ElementRef, EventEmitter, forwardRef, Inject, Input, OnDestroy, OnInit, Output, ViewChild } from "@angular/core";
 import { ControlValueAccessor, FormGroup, NG_VALUE_ACCESSOR, FormControl } from "@angular/forms";
 import { Attendee } from "../../api/models/attendee";
 import { ATTENDEE_FORM_GENERATOR } from "./attendee-form.constants";
 import { FormGenerator } from "../../form-generator/form-generator";
 import { Subscription } from "rxjs";
+import { Event } from "../../api/models/event";
 
 @Component({
     selector: "app-attendee-form",
@@ -18,6 +19,9 @@ import { Subscription } from "rxjs";
     ]
 })
 export class AttendeeFormComponent implements OnInit, OnDestroy, ControlValueAccessor {
+    @Input()
+    public event: Event;
+
     @ViewChild("downloadButton", { static: true })
     public downloadButton: ElementRef;
 

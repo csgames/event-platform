@@ -13,6 +13,7 @@ import { MarkdownModule } from "ngx-markdown";
 import { PipeModule } from "../../../../../pipe/pipe.module";
 import { MonacoEditorModule } from "ngx-monaco-editor";
 import { FlexLayoutModule } from "@angular/flex-layout";
+import { FileUploadModule } from "../../../../../components/file-upload/file-upload.module";
 
 @NgModule({
     imports: [
@@ -27,7 +28,8 @@ import { FlexLayoutModule } from "@angular/flex-layout";
 
         StoreModule.forFeature("infoPuzzleHero", fromInfoPuzzleHero.reducer),
         EffectsModule.forFeature([InfoPuzzleHeroEffects]),
-        FlexLayoutModule
+        FlexLayoutModule,
+        FileUploadModule
     ],
     exports: [],
     entryComponents: [InfoPuzzleHeroComponent],

@@ -234,6 +234,9 @@
             "create_event_success": "Event successfully created",
             "create_event_error": "An error occurred while creating the event",
             "primary_color": "Primary color",
+            "disclaimer": "Disclaimer",
+            "public_transportation": "We use public transportation as a means of transportation",
+            "ask_dietary_restriction": "Ask participants for dietary restrictions",
             "edit_event_success": "Event successfully updated",
             "edit_event_error": "An error occurred while updating the event"
         },
@@ -250,7 +253,13 @@
             "image": "Url of the route image"
         },
         "answers": {
-            "answers": "Puzzle answers"
+            "answers": "Puzzle answers",
+            "validated": "Validated",
+            "needs_validation": "Needs validation",
+            "refused": "Refused",
+            "download": "Download file",
+            "accept": "Accept",
+            "refuse": "Refuse"
         },
         "side_nav": {
             "settings": "Settings",
@@ -503,6 +512,8 @@
             "loading_error": "An error occurred while loading the puzzle hero",
             "scoreboard_loading_error": "An error occurred while loading the scoreboard",
             "validate_success": "Good answer!",
+            "waiting_for_validation": "Waiting for validation!",
+            "answer_refused": "Your answer has been refused, please enter a new answer!",
             "answer": "Answer",
             "count": "Answers count:",
             "admin": {

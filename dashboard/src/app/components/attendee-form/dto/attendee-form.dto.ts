@@ -27,7 +27,6 @@ export class AttendeeFormDto {
     phoneNumber: string;
 
     @Control()
-    @Required()
     cv: string;
 
     @Control()

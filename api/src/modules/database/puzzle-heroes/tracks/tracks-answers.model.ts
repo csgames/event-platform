@@ -6,6 +6,9 @@ export interface TracksAnswers extends mongoose.Document {
     puzzle: mongoose.Types.ObjectId | string;
     teamId: Teams | mongoose.Types.ObjectId | string;
     timestamp: Date | string;
+    validated: boolean;
+    refused?: boolean;
+    file?: string;
 }
 
 export const TracksAnswersSchema = new mongoose.Schema({
@@ -21,13 +24,25 @@ export const TracksAnswersSchema = new mongoose.Schema({
     timestamp: {
         type: Date,
         required: true
+    },
+    validated: {
+        type: Boolean,
+        default: true
+    },
+    refused: {
+        type: Boolean,
+        required: false
+    },
+    file: {
+        type: String,
+        required: false
     }
 });
 
 export class TracksAnswersUtils {
     public static find(puzzle: PuzzleGraphNodes, teamId: string) {
         return (answer: TracksAnswers) => {
-            return (answer.teamId as mongoose.Types.ObjectId).toHexString() === teamId &&
+            return (answer.teamId as Teams)._id.toHexString() === teamId &&
                 (answer.puzzle as mongoose.Types.ObjectId).toHexString() === (puzzle._id as mongoose.Types.ObjectId).toHexString();
         };
     }
@@ -40,7 +55,7 @@ export class TracksAnswersUtils {
 
     public static findDepends(puzzle: PuzzleGraphNodes, teamId: string) {
         return (answer: TracksAnswers) => {
-            return (answer.teamId as mongoose.Types.ObjectId).toHexString() === teamId && puzzle.dependsOn &&
+            return (answer.teamId as Teams)._id.toHexString() === teamId && puzzle.dependsOn &&
                 (answer.puzzle as mongoose.Types.ObjectId).toHexString() === (puzzle.dependsOn as mongoose.Types.ObjectId).toHexString();
         };
     }

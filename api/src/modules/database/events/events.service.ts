@@ -97,7 +97,10 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
             flashoutEndDate: true,
             attendee: true,
             primaryColor: true,
-            competitionResultsLocked: true
+            competitionResultsLocked: true,
+            disclaimer: true,
+            publicTransportation: true,
+            askDietaryRestriction: true
         }).exec();
     }
 

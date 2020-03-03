@@ -56,7 +56,8 @@ export class SponsorTileComponent implements OnInit {
             "padding-top": `${sponsor.web.padding[1]}px`,
             "padding-right": `${sponsor.web.padding[2]}px`,
             "padding-bottom": `${sponsor.web.padding[3]}px`,
-            "width": "100%"
+            "width": `${sponsor.web.widthFactor * 100}%`,
+            "height": `${sponsor.web.heightFactor * 100}%`
         };
     }
 }

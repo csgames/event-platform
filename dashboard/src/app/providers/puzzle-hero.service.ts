@@ -11,6 +11,7 @@ import { CreateTrackDto, UpdateTrackDto, CreatePuzzleDto } from "../api/dto/puzz
 import { PuzzleAdminUtils } from "../features/puzzle-hero/admin/puzzle-admin.utils";
 import { PuzzleHeroSettingsDto } from "../features/puzzle-hero/admin/components/puzzle-hero-settings/dto/puzzle-hero-settings.dto";
 import { QuestionFormDto } from "../components/question-form/dto/question-form.dto";
+import { QuestionAnswerDto } from "../api/dto/competition";
 
 const STARRED_TRACKS = "STARRED_TRACKS";
 
@@ -100,7 +101,7 @@ export class PuzzleHeroService {
         );
     }
 
-    validatePuzzleHero(puzzleId: string, answer: string): Observable<void> {
+    validatePuzzleHero(puzzleId: string, answer: QuestionAnswerDto): Observable<void> {
         return this.apiService.puzzleHero.validatePuzzleHero(puzzleId, answer);
     }
 
@@ -127,4 +128,15 @@ export class PuzzleHeroService {
         return this.apiService.puzzleHero.updatePuzzle(trackId, id, PuzzleAdminUtils.puzzleFormDtoToUpdateQuestionDto(questionFormDto));
     }
 
+    getAnswerFile(puzzleId: string, answerId: string): Observable<{ type: string, url: string }> {
+        return this.apiService.puzzleHero.getAnswerFile(puzzleId, answerId);
+    }
+
+    manuallyAcceptAnswer(puzzleId: string, answerId: string): Observable<void> {
+        return this.apiService.puzzleHero.manuallyAcceptAnswer(puzzleId, answerId);
+    }
+
+    manuallyRefuseAnswer(puzzleId: string, answerId: string): Observable<void> {
+        return this.apiService.puzzleHero.manuallyRefuseAnswer(puzzleId, answerId);
+    }
 }

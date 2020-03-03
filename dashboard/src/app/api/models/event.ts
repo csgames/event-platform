@@ -21,6 +21,9 @@ export interface Event {
     teamEditLockDate?: Date | string;
     primaryColor: string;
     competitionResultsLocked?: boolean;
+    disclaimer: any;
+    publicTransportation: boolean;
+    askDietaryRestriction: boolean;
 }
 
 export interface EventScore {

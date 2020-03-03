@@ -22,9 +22,12 @@ import { Score } from "./scoreboard/score.model";
 import { Serie, TeamSeries } from "./scoreboard/team-series.model";
 import { TracksAnswers, TracksAnswersUtils } from "./tracks/tracks-answers.model";
 import { Tracks, TracksUtils } from "./tracks/tracks.model";
+import { StorageService } from "@polyhx/nest-services";
 
 export interface PuzzleDefinition extends PuzzleGraphNodes {
     completed: boolean;
+    validated: boolean;
+    refused: boolean;
     locked: boolean;
     label: string;
     description: { [lang: string]: string };
@@ -48,7 +51,8 @@ export class PuzzleHeroesService extends BaseService<PuzzleHeroes, PuzzleHeroes>
                 @InjectModel("schools") private readonly schoolsModel: Model<Schools>,
                 private questionsService: QuestionsService,
                 private puzzleHeroesGateway: PuzzleHeroesGateway,
-                private redisService: RedisService) {
+                private redisService: RedisService,
+                private storageService: StorageService) {
         super(puzzleHeroesModel);
     }
 
@@ -114,7 +118,7 @@ export class PuzzleHeroesService extends BaseService<PuzzleHeroes, PuzzleHeroes>
             if (!TracksUtils.isAvailable(track)) {
                 continue;
             }
-            const t = await this.formatTrack(track.toJSON(), puzzleHero, teamId, type);
+            const t = await this.formatTrack(track, puzzleHero, teamId, type);
             if (t.puzzles.length > 0) {
                 res.push(t);
             }
@@ -361,19 +365,38 @@ export class PuzzleHeroesService extends BaseService<PuzzleHeroes, PuzzleHeroes>
                 && (puzzle.dependsOn as mongoose.Types.ObjectId).equals(x.puzzle))) {
             throw new BadRequestException("The puzzle hero is locked");
         }
-        if (puzzleHero.answers.some(x => (x.teamId as mongoose.Types.ObjectId).equals(teamId) && puzzle._id.equals(x.puzzle))) {
+        if (puzzleHero.answers.some(x =>
+            (x.teamId as mongoose.Types.ObjectId).equals(teamId) && puzzle._id.equals(x.puzzle) && !x.refused)
+        ) {
             throw new BadRequestException("Cannot answer puzzle twice");
         }
 
-        const score = await this.questionsService.validateAnswer(answer, puzzle.question as string);
+        const [score, validated, res] = await this.questionsService.validateAnswer({
+            ...answer,
+            teamId
+        }, puzzle.question as string);
 
-        puzzleHero.answers.push({
-            puzzle: puzzle._id.toHexString(),
-            teamId,
-            timestamp: DateUtils.nowUTC()
-        } as TracksAnswers);
+        const oldAnswer = puzzleHero.answers.find(x =>
+            (x.teamId as mongoose.Types.ObjectId).equals(teamId) && puzzle._id.equals(x.puzzle)
+        );
+        if (oldAnswer) {
+            oldAnswer.refused = false;
+            oldAnswer.validated = false;
+            oldAnswer.timestamp =  DateUtils.nowUTC();
+            oldAnswer.file = res !== answer.answer ? res : undefined;
+        } else {
+            puzzleHero.answers.push({
+                puzzle: puzzle._id.toHexString(),
+                teamId,
+                timestamp: DateUtils.nowUTC(),
+                validated: validated,
+                file: res !== answer.answer ? res : undefined
+            } as TracksAnswers);
+        }
         await puzzleHero.save();
-        await this.addTeamScore(eventId, teamId, score, new Date().toISOString());
+        if (validated) {
+            await this.addTeamScore(eventId, teamId, score, new Date().toISOString());
+        }
     }
 
     public async start(eventId: string, teams?: Teams[], date?: string): Promise<void> {
@@ -425,10 +448,108 @@ export class PuzzleHeroesService extends BaseService<PuzzleHeroes, PuzzleHeroes>
         }
     }
 
+    public async getAnswerFile(eventId: string, puzzleId: string, answerId: string): Promise<{ type: string, url: string }> {
+        const puzzleHero = await this.findOne({
+            event: eventId
+        });
+        if (!puzzleHero) {
+            throw new NotFoundException("No puzzle hero found");
+        }
+
+        const track = puzzleHero.tracks.find(track => track.puzzles.findIndex(x => x._id.equals(puzzleId)) >= 0);
+        if (!track) {
+            throw new NotFoundException("No track found");
+        }
+
+        const puzzle = track.puzzles.find(puzzle => puzzle._id.equals(puzzleId));
+        if (!puzzle) {
+            throw new NotFoundException("No puzzle found");
+        }
+
+        const answer = puzzleHero.answers.find(answer =>
+            (answer.puzzle as mongoose.Types.ObjectId).equals(puzzleId) &&
+            answer._id.equals(answerId)
+        );
+        if (!answer || !answer.file) {
+            throw new NotFoundException("No answer found");
+        }
+
+        const metadata = await this.storageService.getMetadata(answer.file);
+        return {
+            type: metadata.mimeType,
+            url: await this.storageService.getDownloadUrl(answer.file)
+        };
+    }
+
+    public async manualValidation(eventId: string, puzzleId: string, answerId: string): Promise<void> {
+        const puzzleHero = await this.findOne({
+            event: eventId
+        });
+        if (!puzzleHero) {
+            throw new NotFoundException("No puzzle hero found");
+        }
+
+        const track = puzzleHero.tracks.find(track => track.puzzles.findIndex(x => x._id.equals(puzzleId)) >= 0);
+        if (!track) {
+            throw new NotFoundException("No track found");
+        }
+
+        const puzzle = track.puzzles.find(puzzle => puzzle._id.equals(puzzleId));
+        if (!puzzle) {
+            throw new NotFoundException("No puzzle found");
+        }
+
+        const answer = puzzleHero.answers.find(answer =>
+            (answer.puzzle as mongoose.Types.ObjectId).equals(puzzleId) &&
+            answer._id.equals(answerId)
+        );
+        if (!answer) {
+            throw new NotFoundException("No answer found");
+        }
+        answer.validated = true;
+        await puzzleHero.save();
+
+        const question = await this.questionsModel.findById(puzzle.question);
+        await this.addTeamScore(eventId, answer.teamId as string, question?.score, new Date().toISOString());
+    }
+
+    public async refuseValidation(eventId: string, puzzleId: string, answerId: string): Promise<void> {
+        const puzzleHero = await this.findOne({
+            event: eventId
+        });
+        if (!puzzleHero) {
+            throw new NotFoundException("No puzzle hero found");
+        }
+
+        const track = puzzleHero.tracks.find(track => track.puzzles.findIndex(x => x._id.equals(puzzleId)) >= 0);
+        if (!track) {
+            throw new NotFoundException("No track found");
+        }
+
+        const puzzle = track.puzzles.find(puzzle => puzzle._id.equals(puzzleId));
+        if (!puzzle) {
+            throw new NotFoundException("No puzzle found");
+        }
+
+        const answer = puzzleHero.answers.find(answer =>
+            (answer.puzzle as mongoose.Types.ObjectId).equals(puzzleId) &&
+            answer._id.equals(answerId)
+        );
+        if (!answer) {
+            throw new NotFoundException("No answer found");
+        }
+        answer.validated = false;
+        answer.refused = true;
+        await puzzleHero.save();
+    }
+
     private async formatTrack(track: Tracks, puzzleHero: PuzzleHeroes, teamId: string, type?: string): Promise<Tracks> {
         const puzzles = [];
         for (const puzzle of track.puzzles as PuzzleDefinition[]) {
-            puzzle.completed = puzzleHero.answers.some(TracksAnswersUtils.find(puzzle, teamId));
+            const answer = puzzleHero.answers.find(TracksAnswersUtils.find(puzzle, teamId));
+            puzzle.completed = !!answer;
+            puzzle.validated = answer?.validated ?? puzzle.completed;
+            puzzle.refused = answer?.refused;
             puzzle.answersCount = puzzleHero.answers.filter(TracksAnswersUtils.findById(puzzle)).length;
 
             const question = puzzle.question as Questions;

@@ -24,8 +24,11 @@
                     <div>
                         <markdown data="{{ puzzle.description | t18n }}"></markdown>
                     </div>
-                    <ng-container *ngIf="!puzzle.completed">
-                        <div *ngIf="puzzle?.inputType !== 'code'"
+                    <div *ngIf="puzzle.refused">
+                        <h4 class="text-danger">{{ "pages.puzzle_hero.answer_refused" | translate }}</h4>
+                    </div>
+                    <ng-container *ngIf="!puzzle.completed || puzzle.refused">
+                        <div *ngIf="puzzle?.inputType === 'string'"
                              class="input-group input-group-default input answer" [class.has-error]="error$ | async">
                             <input class="form-control" [(ngModel)]="answer" type="text"
                                    placeholder='{{ "pages.puzzle_hero.answer" | translate }}'>
@@ -39,8 +42,15 @@
                                 </ngx-monaco-editor>
                             </div>
                         </div>
+                        <app-file-upload *ngIf="puzzle?.inputType === 'upload'" class="upload"
+                                         placeholder='{{ "pages.question.upload" | translate }}'
+                                         [formControl]="file" ngDefaultControl>
+                        </app-file-upload>
                         <span class="control-error"
                               *ngIf="error$ | async">{{ "pages.puzzle_hero.wrong_answer" | translate }}</span>
+                        <br>
+                        <span class="control-error"
+                              *ngIf="error">{{ "pages.question.submit_error" | translate }}</span>
                         <br>
                         <div class="text-center">
                             <a class="btn btn-primary btn-rounded mt-3 px-3"
@@ -48,6 +58,10 @@
                         </div>
 
                     </ng-container>
+
+                    <div *ngIf="puzzle.completed && !puzzle.validated && !puzzle.refused">
+                        <h3 class="text-center">{{ "pages.puzzle_hero.waiting_for_validation" | translate }}</h3>
+                    </div>
                 </div>
             </div>
         </div>

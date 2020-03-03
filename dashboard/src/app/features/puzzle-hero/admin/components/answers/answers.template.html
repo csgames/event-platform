@@ -2,27 +2,74 @@
      style="display: block;">
     <div class="modal-dialog modal-lg">
         <div class="modal-content-wrapper">
-            <div class="modal-content card">
+            <div class="modal-content card answers">
+                <app-loading-spinner [loading]="loading$"></app-loading-spinner>
                 <div class="modal-header">
                     <button type="button" class="close" (click)="onClose()"><span aria-hidden="true">×</span><span
                         class="sr-only">{{ "general.button.close" | translate }}</span>
                     </button>
                     <h1 class="title">{{ "components.answers.answers" | translate }}</h1>
+                </div>
 
-                    <table class="table">
-                        <thead>
-                          <tr>
-                            <th scope="col">{{ "general.profile.team_name" | translate }}</th>
-                            <th scope="col">Timestamp</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr *ngFor="let answer of answers">
-                            <td>{{ answer.teamId.name }}</td>
-                            <td>{{ answer.timestamp | localizedDate: "medium" }}</td>
-                          </tr>
-                        </tbody>
-                      </table>
+                <table class="table table-hover" *ngIf="!validating">
+                    <thead>
+                    <tr>
+                        <th scope="col">{{ "general.profile.team_name" | translate }}</th>
+                        <th scope="col">Timestamp</th>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let answer of answers" class="clickable">
+                        <td>{{ answer.teamId.name }}</td>
+                        <td>{{ answer.timestamp | localizedDate: "medium" }}</td>
+                        <td>
+                            <ng-container *ngIf="isValidated(answer)">
+                                <span class="text-success">
+                                    <i class="fa fa-check mr-2"></i> {{ "components.answers.validated" | translate }}
+                                </span>
+                            </ng-container>
+                            <ng-container *ngIf="answer.validated === false && !answer.refused">
+                                <span class="text-danger">
+                                    <i class="fa fa-times mr-2"></i> {{ "components.answers.needs_validation" | translate }}
+                                </span>
+                            </ng-container>
+                            <ng-container *ngIf="answer.refused">
+                                <span class="text-danger">
+                                    <i class="fa fa-times mr-2"></i> {{ "components.answers.refused" | translate }}
+                                </span>
+                            </ng-container>
+                        </td>
+                        <td class="action">
+                            <button class="btn btn-primary" *ngIf="answer.validated === false && !answer.refused" (click)="validate(answer)">{{ "general.button.validate" | translate }}</button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div *ngIf="validating" class="m-4" fxLayout="column" fxLayoutGap="15px">
+                    <h2>{{ validating.teamId?.name }}</h2>
+                    <ng-container *ngIf="file$ | async as file">
+                        <div fxLayout="column" fxLayoutAlign="start center" class="mt-5">
+                            <img *ngIf="file.type.startsWith('image')" [src]="file.url"/>
+
+                            <video *ngIf="file.type.startsWith('video')" width="700" controls>
+                                <source [src]="file.url"/>
+                            </video>
+
+                            <ng-container *ngIf="!file.type.startsWith('image') && !file.type.startsWith('video')">
+                                <button class="btn btn-primary" (click)="download(file.url)">{{ "components.answers.download" | translate }}</button>
+                            </ng-container>
+                        </div>
+                    </ng-container>
+
+                    <div fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="15px">
+                        <button class="btn btn-danger" (click)="cancel()">{{ "general.button.cancel" | translate }}</button>
+                        <div fxLayout="row" fxLayoutAlign="end" fxLayoutGap="15px">
+                            <button class="btn btn-primary" (click)="accept()">{{ "components.answers.accept" | translate }}</button>
+                            <button class="btn btn-danger" (click)="refuse()">{{ "components.answers.refuse" | translate }}</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

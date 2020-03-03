@@ -5,6 +5,7 @@ import { Observable } from "rxjs";
 import { PuzzleHero, PuzzleHeroInfo, Score, TeamSeries, Track, PuzzleInfo } from "./models/puzzle-hero";
 import { CreateTrackDto, UpdateTrackDto, CreatePuzzleDto } from "./dto/puzzle-hero";
 import { UpdateQuestionDto } from "./dto/question";
+import { QuestionAnswerDto } from "./dto/competition";
 
 @Injectable()
 export class PuzzleHeroApi extends CSGamesApi {
@@ -32,8 +33,20 @@ export class PuzzleHeroApi extends CSGamesApi {
         return this.http.get<TeamSeries[]>(this.url(`team-series?teams-ids=${teamsIds.join(",")}`), { withCredentials: true });
     }
 
-    public validatePuzzleHero(puzzleId: string, answer: string): Observable<void> {
-        return this.http.post<void>(this.url(`puzzle/${puzzleId}/validate`), { answer }, { withCredentials: true });
+    public validatePuzzleHero(puzzleId: string, dto: QuestionAnswerDto): Observable<void> {
+        const form = new FormData();
+        for (const key in dto) {
+            if (key in dto) {
+                form.append(key, dto[key]);
+            }
+        }
+
+        return this.http.post<void>(this.url(`puzzle/${puzzleId}/validate`), form, {
+            withCredentials: true,
+            headers: {
+                "ngsw-bypass": "true"
+            }
+        });
     }
 
     public createTrack(createTrackDto: CreateTrackDto): Observable<Track> {
@@ -50,5 +63,23 @@ export class PuzzleHeroApi extends CSGamesApi {
 
     public updatePuzzle(trackId: string, id: string, updateQuestionDto: UpdateQuestionDto): Observable<void> {
         return this.http.put<void>(this.url(`track/${trackId}/puzzle/${id}`), updateQuestionDto, { withCredentials: true });
+    }
+
+    public getAnswerFile(puzzleId: string, answerId: string): Observable<{ type: string, url: string }> {
+        return this.http.get<{ type: string, url: string }>(
+            this.url(`puzzle/${puzzleId}/${answerId}/file`), { withCredentials: true }
+        );
+    }
+
+    public manuallyAcceptAnswer(puzzleId: string, answerId: string): Observable<void> {
+        return this.http.put<void>(
+            this.url(`puzzle/${puzzleId}/${answerId}`), {}, { withCredentials: true }
+        );
+    }
+
+    public manuallyRefuseAnswer(puzzleId: string, answerId: string): Observable<void> {
+        return this.http.delete<void>(
+            this.url(`puzzle/${puzzleId}/${answerId}`), { withCredentials: true }
+        );
     }
 }

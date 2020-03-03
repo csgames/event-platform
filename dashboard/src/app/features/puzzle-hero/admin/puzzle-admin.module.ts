@@ -23,6 +23,7 @@ import * as fromUpdateTrack from "./components/update-track/store/update-track.r
 import * as fromUpdatePuzzle from "./components/update-puzzle-hero/store/update-puzzle-hero.reducer";
 import * as fromCreatePuzzle from "./components/create-puzzle-hero/store/create-puzzle-hero.reducer";
 import * as fromPuzzleHeroSettings from "./components/puzzle-hero-settings/store/puzzle-hero-settings.reducer";
+import * as fromAnswer from "./components/answers/store/answers.reducer";
 import { EffectsModule } from "@ngrx/effects";
 import { PuzzleAdminEffects } from "./store/puzzle-admin.effects";
 import { PuzzleComponentsModule } from "../components/puzzle-components.module";
@@ -38,6 +39,7 @@ import { CreatePuzzleEffects } from "./components/create-puzzle-hero/store/creat
 import { UpdateTrackComponent } from "./components/update-track/update-track.component";
 import { UpdateTrackEffects } from "./components/update-track/store/update-track.effects";
 import { UpdatePuzzleEffects } from "./components/update-puzzle-hero/store/update-puzzle-hero.effects";
+import { AnswersEffects } from "./components/answers/store/answers.effects";
 import { PuzzleHeroSettingsComponent } from "./components/puzzle-hero-settings/puzzle-hero-settings.component";
 import { PUZZLE_HERO_SETTINGS_FORM_GENERATOR } from "./components/puzzle-hero-settings/puzzle-hero-settings.constants";
 import { PuzzleHeroSettingsDto } from "./components/puzzle-hero-settings/dto/puzzle-hero-settings.dto";
@@ -78,13 +80,15 @@ import { PipeModule } from "src/app/pipe/pipe.module";
         StoreModule.forFeature("puzzleHeroCreatePuzzle", fromCreatePuzzle.reducer),
         StoreModule.forFeature("puzzleHeroUpdatePuzzle", fromUpdatePuzzle.reducer),
         StoreModule.forFeature("puzzleHeroSettings", fromPuzzleHeroSettings.reducer),
+        StoreModule.forFeature("answer", fromAnswer.reducer),
         EffectsModule.forFeature([
             PuzzleAdminEffects,
             CreateTrackEffects,
             UpdateTrackEffects,
             CreatePuzzleEffects,
             UpdatePuzzleEffects,
-            PuzzleHeroSettingsEffects
+            PuzzleHeroSettingsEffects,
+            AnswersEffects
         ])
     ],
     exports: [],

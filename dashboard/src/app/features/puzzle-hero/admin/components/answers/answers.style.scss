@@ -1,0 +1,14 @@
+td:not(.action) {
+  padding-top: 13px !important;
+}
+
+.answers {
+  max-height: 900px;
+  overflow-y: auto;
+}
+
+.btn-danger {
+  color: #fff !important;
+  background-color: #dc3545 !important;
+  border-color: #dc3545 !important;
+}

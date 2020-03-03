@@ -214,6 +214,9 @@ export interface Events extends mongoose.Document {
     readonly primaryColor: string;
     readonly competitionResultsLocked: boolean;
     readonly templates: EventTemplate;
+    readonly disclaimer: object;
+    readonly publicTransportation: boolean;
+    readonly askDietaryRestriction: boolean;
 }
 
 export const EventsSchema = new mongoose.Schema({
@@ -293,6 +296,18 @@ export const EventsSchema = new mongoose.Schema({
     templates: {
         type: Object,
         required: false
+    },
+    disclaimer: {
+        type: Object,
+        required: true
+    },
+    publicTransportation: {
+        type: Boolean,
+        default: false
+    },
+    askDietaryRestriction: {
+        type: Boolean,
+        default: true
     }
 });
 

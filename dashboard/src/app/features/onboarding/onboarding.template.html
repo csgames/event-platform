@@ -2,16 +2,16 @@
     <h1 class="title">{{ "pages.onboarding.onboarding" | translate }}</h1>
     <div class="onboard-container">
         <app-loading-spinner [loading]="loading$"></app-loading-spinner>
-        <app-attendee-form [(ngModel)]="currentAttendee" (downloadCv)="downloadCv()"></app-attendee-form>
+        <app-attendee-form [event]="event$ | async" [(ngModel)]="currentAttendee" (downloadCv)="downloadCv()"></app-attendee-form>
         <div class="row">
             <div class="col-sm-12">
                 <div class="checkbox-group flex-container">
                     <input type="checkbox" class="form-checkbox" id="accept-code" [(ngModel)]="acceptedCode">
-                    <label for="accept-code" class="flex-content">
+                    <label for="accept-code" class="flex-content" *ngIf="event$ | async as event">
                         {{ "pages.onboarding.agree" | translate }}
-                        <a *ngIf="lang === 'en'" href="http://2019.csgames.org/assets/file/Disclaimer_EN.pdf"
+                        <a *ngIf="lang === 'en'" [href]="event?.disclaimer?.en"
                            target="_blank">{{ "pages.onboarding.code" | translate }}</a>
-                        <a *ngIf="lang === 'fr'" href="http://2019.csgames.org/assets/file/Decharge_FR.pdf"
+                        <a *ngIf="lang === 'fr'" [href]="event?.disclaimer?.fr"
                            target="_blank">{{ "pages.onboarding.code" | translate }}</a>
                     </label>
                 </div>

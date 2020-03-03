@@ -10,7 +10,7 @@
                 </div>
                 <div class="modal-body">
                     <app-loading-spinner [loading]="loading$"></app-loading-spinner>
-                    <app-attendee-form [(ngModel)]="currentAttendee" (downloadCv)="downloadCv()"></app-attendee-form>
+                    <app-attendee-form [event]="currentEvent$ | async" [(ngModel)]="currentAttendee" (downloadCv)="downloadCv()"></app-attendee-form>
                     <div class="text-center">
                         <a class="btn btn-primary btn-rounded mt-3 px-3"
                            (click)="clickSave()">{{ "general.button.save" | translate }}</a>
