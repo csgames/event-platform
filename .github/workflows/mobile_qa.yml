@@ -39,15 +39,13 @@ jobs:
       - name: Setup Firebase
         run: |
           npm i -g firebase-tools
-      - name: Package APK
-        run: |
-          sudo apt-get install ruby-dev
-          sudo gem install fastlane -NV
-          sudo gem install bundler
-          bundle exec fastlane qa
-        env:
-          FIREBASE_CLI_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
-        working-directory: mobile/android
+      - name: Upload APK to Firebase App Distribution
+        uses: wzieba/Firebase-Distribution-Github-Action@v1.1.1
+        with:
+          appId: ${{secrets.ANDROID_APP_ID_QA}}
+          token: ${{secrets.FIREBASE_TOKEN}}
+          groups: qa
+          file: ./mobile/build/app/outputs/apk/qa/release/app-qa-release.apk
   ios:
     name: iOS
     runs-on: macos-latest
