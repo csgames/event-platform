@@ -73,7 +73,7 @@ jobs:
         run: flutter pub get
         working-directory: mobile
       - name: Build App
-        run: flutter build ios --release --flavor qa -t lib/main_qa.dart --build-number $BUILD_NUMBER
+        run: flutter build ios --release --flavor qa -t lib/main_qa.dart --no-codesign --build-number $BUILD_NUMBER
         working-directory: mobile
       - name: Setup Firebase
         run: |
