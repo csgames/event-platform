@@ -47,6 +47,7 @@ jobs:
           bundle exec fastlane qa
         env:
           FIREBASE_CLI_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+        working-directory: mobile/android
   ios:
     name: iOS
     runs-on: macos-latest
