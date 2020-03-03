@@ -1,0 +1,8 @@
+app_identifier("org.csgames.mobileapp") # The bundle identifier of your app
+apple_id("julien@recursyve.io") # Your Apple email address
+
+
+# For more information about the Appfile, see:
+#     https://docs.fastlane.tools/advanced/#appfile
+itc_team_id("121125687");
+team_id("ZV833RNSXW");

@@ -1,0 +1,78 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+# For a list of all available plugins, check out
+#
+#     https://docs.fastlane.tools/plugins/available-plugins
+#
+
+# Uncomment the line if you want fastlane to automatically update itself
+update_fastlane
+
+default_platform(:ios)
+
+keychain_name = "org.csgames.mobileapp.keychain"
+
+platform :ios do
+  desc "Package QA"
+  lane :qa do
+    create_keychain(
+      name: keychain_name,
+      password: ENV["MATCH_PASSWORD"],
+      default_keychain: true,
+      unlock: true,
+      timeout: 3600,
+      add_to_search_list: true
+    )
+    
+    match(
+      keychain_name: keychain_name,
+      keychain_password: ENV["MATCH_PASSWORD"],
+      type: "adhoc",
+      force_for_new_devices: true
+    )
+    build_ios_app(
+      scheme: "qa",
+      configuration: "Release-qa",
+      export_method: "ad-hoc",
+      workspace: "Runner.xcworkspace",
+      include_symbols: true
+    )
+    firebase_app_distribution(
+      app: "1:669372657906:ios:29570f0fcada29b376606b",
+      groups: "qa",
+      firebase_cli_token: ENV["FIREBASE_CLI_TOKEN"],
+    )
+  end
+
+  desc "Package Production"
+  lane :production do
+    keychain_name = "org.csgames.mobileapp.production.keychain"
+
+    create_keychain(
+      name: keychain_name,
+      password: ENV["MATCH_PASSWORD"],
+      default_keychain: true,
+      unlock: true,
+      timeout: 3600,
+      add_to_search_list: true
+    )
+
+    match(
+      keychain_name: keychain_name,
+      keychain_password: ENV["MATCH_PASSWORD"],
+      type: "appstore"
+    )
+    build_ios_app(
+      scheme: "production",
+      configuration: "Release-production",
+      export_method: "app-store",
+      workspace: "Runner.xcworkspace",
+      include_symbols: true
+    )
+  end
+end

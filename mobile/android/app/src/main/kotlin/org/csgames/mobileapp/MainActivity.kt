@@ -1,18 +1,14 @@
 package org.csgames.mobileapp
 
+import android.content.Context
+import android.content.Intent
+import android.nfc.NfcAdapter
+import android.nfc.NfcManager
+import android.nfc.Tag
 import android.os.Bundle
-
 import io.flutter.app.FlutterActivity
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugins.GeneratedPluginRegistrant
-import android.app.Activity
-import android.app.PendingIntent
-import android.content.Context
-import android.content.Intent
-import android.content.IntentFilter
-import android.nfc.*
-import android.nfc.tech.*
-import android.os.AsyncTask
 
 class MainActivity() : FlutterActivity() {
     private val CHANNEL = "app.csgames.org/nfc"
@@ -77,6 +73,8 @@ class MainActivity() : FlutterActivity() {
     }
 
     private fun handleNfcScan(id: String) {
-        MethodChannel(flutterView, CHANNEL).invokeMethod("newNfcTagScanned", id)
+        runOnUiThread {
+            MethodChannel(flutterView, CHANNEL).invokeMethod("newNfcTagScanned", id)
+        }
     }
 }

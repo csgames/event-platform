@@ -1,8 +1,7 @@
 import 'dart:convert';
-import 'package:crypto/crypto.dart';
-import 'package:flutter/widgets.dart';
 
-class Gravatar extends NetworkImage {
-  Gravatar(String email, {int size = 200})
-    :super('https://www.gravatar.com/avatar/${md5.convert(utf8.encode(email))}?s=$size&d=mm');
+import 'package:crypto/crypto.dart';
+
+String gravatarFromEmailWithFallback(String email) {
+  return 'http://www.gravatar.com/avatar/${md5.convert(utf8.encode(email ?? '')).toString()}?s=256&r=g&d=mm';
 }

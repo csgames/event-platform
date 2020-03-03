@@ -1,12 +1,14 @@
 name: CSGamesApp
 description: Official CSGames Mobile App
+version: 1.1.0
 
 dependencies:
   shared_preferences: ^0.4.2
   intl:
   redux: ^3.0.0
   flutter_redux:
-  font_awesome_flutter: ^8.0.1
+  font_awesome_flutter:
+    git: git@github.com:csgames/font-awesome-flutter.git
   qr_reader: ^0.1.3
   cupertino_icons: ^0.1.0
   flutter:
@@ -16,14 +18,14 @@ dependencies:
   rxdart: ^0.18.1
   redux_epics: ^0.10.0
   flutter_spinkit: ^2.1.0
-  qr_flutter: ^2.0.0+51
+  qr_flutter: ^3.2.0
   url_launcher: ^3.0.0
   http: ^0.12.0
   crypto: ^2.0.6
-  firebase_messaging: ^2.1.0
-  google_maps_flutter: ^0.3.0+2
+  firebase_messaging: ^6.0.9
+  google_maps_flutter: ^0.5.24+1
   timeago: ^2.0.10
-  photo_view: ^0.2.1
+  photo_view: ^0.9.2
   flutter_html: ^0.9.4
   flutter_markdown: ^0.2.0
 
@@ -37,41 +39,61 @@ flutter:
   assets:
     - assets/logo.png
     - assets/tshirt.png
-    - assets/mirego.png
-    - assets/bnc.png
-    - assets/cfp.png
-    - assets/cse.png
+    - assets/squarepoint.png
+    - assets/aeets.png
+    - assets/hivestack.png
+    - assets/gsoft.png
 
   fonts:
     - family: Raleway
       fonts:
         - asset: fonts/Raleway-Regular.ttf
-    - family: OpenSans
+    - family: Montserrat
       fonts:
-        - asset: fonts/OpenSans-Regular.ttf
-          weight: 400
-        - asset: fonts/OpenSans-Italic.ttf
-          weight: 400
+        - asset: fonts/Montserrat-Thin.ttf
+          weight: 100
+        - asset: fonts/Montserrat-ThinItalic.ttf
+          weight: 100
           style: italic
-        - asset: fonts/OpenSans-Light.ttf
+        - asset: fonts/Montserrat-ExtraLight.ttf
+          weight: 200
+        - asset: fonts/Montserrat-ExtraLightItalic.ttf
+          weight: 200
+          style: italic
+        - asset: fonts/Montserrat-Light.ttf
           weight: 300
-        - asset: fonts/OpenSans-LightItalic.ttf
+        - asset: fonts/Montserrat-LightItalic.ttf
           weight: 300
           style: italic
-        - asset: fonts/OpenSans-SemiBold.ttf
+        - asset: fonts/Montserrat-Regular.ttf
+          weight: 400
+        - asset: fonts/Montserrat-Italic.ttf
+          weight: 400
+          style: italic
+        - asset: fonts/Montserrat-Medium.ttf
+          weight: 500
+        - asset: fonts/Montserrat-MediumItalic.ttf
+          weight: 500
+          style: italic
+        - asset: fonts/Montserrat-SemiBold.ttf
           weight: 600
-        - asset: fonts/OpenSans-SemiBoldItalic.ttf
+        - asset: fonts/Montserrat-SemiBoldItalic.ttf
           weight: 600
           style: italic
-        - asset: fonts/OpenSans-Bold.ttf
+        - asset: fonts/Montserrat-Bold.ttf
           weight: 700
-        - asset: fonts/OpenSans-BoldItalic.ttf
+        - asset: fonts/Montserrat-BoldItalic.ttf
           weight: 700
           style: italic
-        - asset: fonts/OpenSans-ExtraBold.ttf
+        - asset: fonts/Montserrat-ExtraBold.ttf
           weight: 800
-        - asset: fonts/OpenSans-ExtraBoldItalic.ttf
+        - asset: fonts/Montserrat-ExtraBoldItalic.ttf
           weight: 800
+          style: italic
+        - asset: fonts/Montserrat-Black.ttf
+          weight: 900
+        - asset: fonts/Montserrat-BlackItalic.ttf
+          weight: 900
           style: italic
     - family: Flipbash
       fonts:

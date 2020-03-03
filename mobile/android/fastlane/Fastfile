@@ -1,0 +1,28 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+# For a list of all available plugins, check out
+#
+#     https://docs.fastlane.tools/plugins/available-plugins
+#
+
+# Uncomment the line if you want fastlane to automatically update itself
+# update_fastlane
+
+default_platform(:android)
+
+platform :android do
+  desc "Deploy new QA version"
+  lane :qa do
+    firebase_app_distribution(
+      app: "1:669372657906:android:bd2b9865cb5154d076606b",
+      groups: "qa",
+      firebase_cli_token: ENV["FIREBASE_CLI_TOKEN"],
+      apk_path: Dir.pwd + '/../../build/app/outputs/apk/qa/release/app-qa-release.apk'
+    )
+  end
+end

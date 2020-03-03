@@ -33,7 +33,7 @@ class _NotificationPageState extends State<NotificationPage> {
             child: Text(
                 title,
                 style: TextStyle(
-                    fontFamily: 'OpenSans',
+                    fontFamily: 'Montserrat',
                     fontSize: 30.0
                 )
             )
@@ -137,7 +137,7 @@ class _NotificationPageState extends State<NotificationPage> {
                             value.name[LocalizationService
                                     .of(context)
                                     .language],
-                            style: TextStyle(fontFamily: 'OpenSans')
+                            style: TextStyle(fontFamily: 'Montserrat')
                         )
                     );
                 }).toList(),

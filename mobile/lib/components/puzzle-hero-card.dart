@@ -6,10 +6,10 @@ import 'package:CSGamesApp/redux/state.dart';
 import 'package:CSGamesApp/services/localization.service.dart';
 import 'package:CSGamesApp/utils/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:redux/redux.dart';
-import 'package:flutter_markdown/flutter_markdown.dart';
 
 class PuzzleHeroCard extends StatelessWidget {
     final PuzzleInfo _puzzle;
@@ -19,19 +19,19 @@ class PuzzleHeroCard extends StatelessWidget {
     Widget _buildRightIcon(_PuzzleHeroCardViewModel model) {
         if (_puzzle.completed) {
             return Icon(
-                FontAwesomeIcons.checkCircle,
+                FontAwesomeIcons.lightCheckCircle,
                 color: Colors.green,
                 size: 30.0,
             );
         } else if (_puzzle.locked) {
             return Icon(
-                FontAwesomeIcons.lock,
+                FontAwesomeIcons.lightLock,
                 color: Colors.red,
                 size: 30.0
             );
         } else {
             return Icon(
-                FontAwesomeIcons.timesCircle,
+                FontAwesomeIcons.lightTimesCircle,
                 color: Colors.grey,
                 size: 30.0
             );
@@ -45,11 +45,20 @@ class PuzzleHeroCard extends StatelessWidget {
             children: <Widget>[
                 Padding(
                     padding: EdgeInsets.only(left: 15.0, right: 10.0),
-                    child: Icon(
-                        FontAwesomeIcons.camera,
-                        size: 40.0,
-                        color: Constants.polyhxGrey
-                    )
+                    child: Container(
+                        decoration: BoxDecoration(
+                            color: Constants.csLightBlue.withOpacity(0.05),
+                            shape: BoxShape.circle
+                        ),
+                        child: Padding(
+                            padding: EdgeInsets.all(15.0),
+                            child: Icon(
+                                FontAwesomeIcons.lightCamera,
+                                size: 25.0,
+                                color: Constants.csLightBlue,
+                            )
+                        )
+                    ),
                 ),
                 Expanded(
                     child: Padding(
@@ -61,9 +70,10 @@ class PuzzleHeroCard extends StatelessWidget {
                                 Text(
                                     _puzzle.label,
                                     style: TextStyle(
-                                        fontSize: 18.0,
+                                        color: Constants.csBlue,
+                                        fontSize: 16.0,
                                         fontWeight: FontWeight.w600,
-                                        fontFamily: 'OpenSans'
+                                        fontFamily: 'Montserrat'
                                     )
                                 )
                             ]
@@ -99,7 +109,7 @@ class PuzzleHeroCard extends StatelessWidget {
                 .puzzle['submit'];
             function = () => model.validate(model.answer, _puzzle.id, context);
         } else {
-            color = Constants.csRed;
+            color = Constants.csLightBlue;
             text = LocalizationService
                 .of(context)
                 .puzzle['scan'];
@@ -121,7 +131,7 @@ class PuzzleHeroCard extends StatelessWidget {
                     style: TextStyle(
                         fontSize: 13.0,
                         height: 1.1,
-                        fontFamily: 'OpenSans',
+                        fontFamily: 'Montserrat',
                         color: model.hasValidationErrors ? Colors.red : Colors.black
                     )
                 )
@@ -156,38 +166,23 @@ class PuzzleHeroCard extends StatelessWidget {
             converter: (store) => _PuzzleHeroCardViewModel.fromStore(_puzzle.id, store),
             builder: (BuildContext context, _PuzzleHeroCardViewModel model) {
                 return Container(
-                    margin: const EdgeInsets.fromLTRB(17.0, 5.0, 15.0, 5.0),
+                    margin: const EdgeInsets.fromLTRB(17.0, 10.0, 15.0, 10.0),
                     child: Stack(
                         children: <Widget>[
-                            Positioned(
-                                top: 10.0,
-                                child: Center(
-                                    child: Container(
-                                        width: 20,
-                                        height: 50,
-                                        decoration: BoxDecoration(
-                                            boxShadow: [
-                                                BoxShadow(
-                                                    color: Colors.black12,
-                                                    blurRadius: 4.0,
-                                                    offset: Offset(0, 1),
-                                                    spreadRadius: 0.0
-                                                )
-                                            ]
+                            Container(
+                                padding: EdgeInsets.symmetric(vertical: 10.0),
+                                decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    boxShadow: <BoxShadow>[
+                                        BoxShadow(
+                                            color: Colors.black.withOpacity(0.1),
+                                            offset: Offset(1.1, 1.1),
+                                            blurRadius: 5.0,
                                         ),
-                                        child: Material(
-                                            borderRadius: BorderRadius.circular(10.0),
-                                            color: Constants.csBlue,
-                                            child: Text('')
-                                        )
-                                    )
-                                )
-                            ),
-                            Padding(
-                                padding: EdgeInsets.only(left: 10.0),
+                                    ]
+                                ),
                                 child: Material(
-                                    borderRadius: BorderRadius.circular(15.0),
-                                    elevation: 1.0,
+                                    elevation: 0.0,
                                     color: Colors.white,
                                     child: Theme(
                                         data: Theme.of(context).copyWith(accentColor: Colors.black),
@@ -197,6 +192,19 @@ class PuzzleHeroCard extends StatelessWidget {
                                             children: _buildCardContent(context, model)
                                         )
                                             : _buildCardTitle(context, model)
+                                    )
+                                )
+                            ),
+                            Positioned(
+                                top: 0.0,
+                                child: Center(
+                                    child: Container(
+                                        width: 80,
+                                        height: 6,
+                                        child: Material(
+                                            color: Constants.csBlue,
+                                            child: Text('')
+                                        )
                                     )
                                 )
                             )

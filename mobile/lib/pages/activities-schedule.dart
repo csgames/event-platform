@@ -1,5 +1,9 @@
+import 'package:CSGamesApp/components/activity-card.dart';
+import 'package:CSGamesApp/components/loading-spinner.dart';
 import 'package:CSGamesApp/components/time-card.dart';
 import 'package:CSGamesApp/components/title.dart';
+import 'package:CSGamesApp/domain/activity.dart';
+import 'package:CSGamesApp/pages/activity.dart';
 import 'package:CSGamesApp/redux/actions/activities-schedule-actions.dart';
 import 'package:CSGamesApp/redux/state.dart';
 import 'package:CSGamesApp/redux/states/activities-schedule-state.dart';
@@ -9,10 +13,6 @@ import 'package:CSGamesApp/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:CSGamesApp/components/activity-card.dart';
-import 'package:CSGamesApp/components/loading-spinner.dart';
-import 'package:CSGamesApp/domain/activity.dart';
-import 'package:CSGamesApp/pages/activity.dart';
 
 class ActivitiesSchedulePage extends StatefulWidget {
     final String _userRole;
@@ -61,15 +61,23 @@ class _ActivitiesScheduleState extends State<ActivitiesSchedulePage> with Ticker
             );
             _tabController.addListener(() => currentTabIndex = _tabController.index);
         }
-        if (_tabController == null) return Column(children: <Widget>[AppTitle(LocalizationService
-            .of(context)
-            .schedule['title'], MainAxisAlignment.start)
-        ]);
+        if (_tabController == null) {
+            return Row(
+                children: <Widget>[
+                    AppTitle(LocalizationService
+                        .of(context)
+                        .schedule['title'], MainAxisAlignment.start)
+                ]);
+        }
         return Column(
             children: <Widget>[
-                AppTitle(LocalizationService
-                    .of(context)
-                    .schedule['title'], MainAxisAlignment.start),
+                Row(
+                    children: <Widget>[
+                        AppTitle(LocalizationService
+                            .of(context)
+                            .schedule['title'], MainAxisAlignment.start)
+                    ]
+                ),
                 Container(
                     width: MediaQuery
                         .of(context)
@@ -77,16 +85,25 @@ class _ActivitiesScheduleState extends State<ActivitiesSchedulePage> with Ticker
                         .width * 0.925,
                     margin: EdgeInsets.only(bottom: 5.0),
                     child: Material(
-                        borderRadius: BorderRadius.circular(15.0),
-                        elevation: 3,
                         color: Colors.white,
                         child: TabBar(
                             indicator: BoxDecoration(
-                                color: Constants.csBlue,
-                                borderRadius: BorderRadius.circular(15.0)
+                                gradient: LinearGradient(
+                                    begin: Alignment.centerLeft,
+                                    colors: [Constants.csLightBlue, Constants.csLightBlue.withOpacity(0.8)],
+                                    tileMode: TileMode.repeated,
+                                ),
+                                boxShadow: <BoxShadow>[
+                                    BoxShadow(
+                                        color: Colors.black.withOpacity(0.1),
+                                        offset: Offset(1.1, 1.1),
+                                        blurRadius: 5.0,
+                                    ),
+                                ]
                             ),
                             labelStyle: TextStyle(
-                                fontFamily: 'OpenSans',
+                                fontFamily: 'Montserrat',
+                                fontWeight: FontWeight.w600,
                                 fontSize: MediaQuery
                                     .of(context)
                                     .size
@@ -134,7 +151,10 @@ class _ActivitiesScheduleState extends State<ActivitiesSchedulePage> with Ticker
     @override
     Widget build(BuildContext context) {
         return StoreConnector<AppState, ActivitiesScheduleState>(
-            onInit: (store) => store.dispatch(LoadActivitiesScheduleAction(LocalizationService.of(context).code)),
+            onInit: (store) =>
+                store.dispatch(LoadActivitiesScheduleAction(LocalizationService
+                    .of(context)
+                    .code)),
             converter: (store) => store.state.activitiesScheduleState,
             builder: (BuildContext context, ActivitiesScheduleState state) {
                 return state.isLoading

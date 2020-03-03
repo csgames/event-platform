@@ -15,11 +15,15 @@ class PuzzleHeroPage extends StatelessWidget {
         Widget body;
         DateTime now = DateTime.now();
         if (!state.isOpen) {
-            body = Text(LocalizationService.of(context).puzzle['date']);
+            body = Text(LocalizationService
+                .of(context)
+                .puzzle['date']);
         } else if (state.puzzleHero != null && state.puzzleHero.releaseDate.isBefore(now) && state.puzzleHero.endDate.isAfter(now)) {
             body = _buildCards(context, state.puzzleHero);
         } else {
-            body = Text(LocalizationService.of(context).puzzle['error']);
+            body = Text(LocalizationService
+                .of(context)
+                .puzzle['error']);
         }
         return body;
     }
@@ -27,9 +31,13 @@ class PuzzleHeroPage extends StatelessWidget {
     Widget _buildCards(BuildContext context, PuzzleHero puzzleHero) {
         return Column(
             children: <Widget>[
-                AppTitle(LocalizationService
-                    .of(context)
-                    .puzzle['title'], MainAxisAlignment.start),
+                Row(
+                    children: <Widget>[
+                        AppTitle(LocalizationService
+                            .of(context)
+                            .puzzle['title'], MainAxisAlignment.start),
+                    ],
+                ),
                 Flexible(
                     child: SingleChildScrollView(
                         child: Column(

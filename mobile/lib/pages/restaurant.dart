@@ -43,7 +43,7 @@ class _RestaurantPageState extends State<RestaurantState> {
                                     softWrap: true,
                                     maxLines: 3,
                                     style: TextStyle(
-                                        fontFamily: 'OpenSans',
+                                        fontFamily: 'Montserrat',
                                         fontSize: 15.0
                                     )
                                 )
@@ -77,50 +77,43 @@ class _RestaurantPageState extends State<RestaurantState> {
         return Container(
             child: Hero(
                 tag: "guide-card-restaurant",
-                child: Stack(
-                    children: <Widget>[
-                        Positioned(
-                            top: 17.0,
-                            left: 9.0,
-                            child: Center(
-                                child: Container(
-                                    width: 20,
-                                    height: 60,
-                                    decoration: BoxDecoration(
-                                        boxShadow: [
-                                            BoxShadow(
-                                                color: Colors.black12,
-                                                blurRadius: 4.0,
-                                                offset: Offset(0, 1),
-                                                spreadRadius: 0.0
-                                            )
-                                        ]
-                                    ),
-                                    child: Material(
-                                        borderRadius: BorderRadius.circular(10.0),
-                                        color: Constants.csBlue,
-                                        child: Text('')
-                                    )
-                                )
-                            )
-                        ),
-                        Padding(
-                            padding: EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 0.0),
-                            child: Material(
-                                elevation: 2.0,
-                                borderRadius: BorderRadius.circular(15.0),
+                child: Container(
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        boxShadow: <BoxShadow>[
+                            BoxShadow(
+                                color: Colors.black.withOpacity(0.1),
+                                offset: Offset(1.1, 1.1),
+                                blurRadius: 5.0,
+                            ),
+                        ]
+                    ),
+                    margin: EdgeInsets.symmetric(horizontal: 20.0),
+                    child: Stack(
+                        children: <Widget>[
+                            Material(
+                                elevation: 0.0,
                                 child: Column(
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: <Widget>[
                                         Padding(
-                                            padding: EdgeInsets.only(left: 10.0),
+                                            padding: EdgeInsets.only(left: 10.0, top: 10.0),
                                             child: Row(
-                                                crossAxisAlignment: CrossAxisAlignment.end,
+                                                crossAxisAlignment: CrossAxisAlignment.center,
                                                 children: <Widget>[
-                                                    Icon(
-                                                        FontAwesomeIcons.utensils,
-                                                        size: 38.0,
-                                                        color: Constants.csBlue,
+                                                    Container(
+                                                        decoration: BoxDecoration(
+                                                            color: Constants.csLightBlue.withOpacity(0.05),
+                                                            shape: BoxShape.circle
+                                                        ),
+                                                        child: Padding(
+                                                            padding: EdgeInsets.all(9.0),
+                                                            child: Icon(
+                                                                FontAwesomeIcons.lightUtensils,
+                                                                size: 24.0,
+                                                                color: Constants.csLightBlue,
+                                                            )
+                                                        )
                                                     ),
                                                     Expanded(
                                                         child: SingleChildScrollView(
@@ -133,11 +126,12 @@ class _RestaurantPageState extends State<RestaurantState> {
                                                                 child: Text(
                                                                     LocalizationService
                                                                         .of(context)
-                                                                        .eventInfo['restaurant'].toUpperCase(),
+                                                                        .eventInfo['restaurant'],
                                                                     style: TextStyle(
                                                                         color: Constants.polyhxGrey,
-                                                                        fontFamily: 'flipbash',
-                                                                        fontSize: 20.0
+                                                                        fontFamily: 'Montserrat',
+                                                                        fontSize: 20.0,
+                                                                        fontWeight: FontWeight.w500
                                                                     ),
                                                                     overflow: TextOverflow.fade,
                                                                 )
@@ -154,7 +148,7 @@ class _RestaurantPageState extends State<RestaurantState> {
                                         ),
                                         Expanded(
                                             child: Padding(
-                                                padding: EdgeInsets.only(bottom: 5.0),
+                                                padding: EdgeInsets.only(bottom: 10.0),
                                                 child: ListView(
                                                     children: _restaurant.coordinates.map((c) => _buildBulletPoint(c.info)).toList()
                                                 )
@@ -163,7 +157,7 @@ class _RestaurantPageState extends State<RestaurantState> {
                                         Padding(
                                             padding: EdgeInsets.only(bottom: 10.0),
                                             child: PillButton(
-                                                color: Constants.csBlue,
+                                                color: Constants.csLightBlue,
                                                 onPressed: _clickNavigate,
                                                 child: Padding(
                                                     padding: EdgeInsets.fromLTRB(16.0, 12.5, 16.0, 12.5),
@@ -180,9 +174,22 @@ class _RestaurantPageState extends State<RestaurantState> {
                                         )
                                     ]
                                 )
+                            ),
+                            Positioned(
+                                top: 0.0,
+                                child: Center(
+                                    child: Container(
+                                        width: 60,
+                                        height: 6,
+                                        child: Material(
+                                            color: Constants.csBlue,
+                                            child: Text('')
+                                        )
+                                    )
+                                )
                             )
-                        )
-                    ]
+                        ]
+                    ),
                 )
             )
         );

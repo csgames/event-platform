@@ -1,8 +1,8 @@
 import 'package:CSGamesApp/components/loading-spinner.dart';
 import 'package:CSGamesApp/domain/activity.dart';
+import 'package:CSGamesApp/domain/notification.dart';
 import 'package:CSGamesApp/redux/actions/notification-actions.dart';
 import 'package:CSGamesApp/redux/state.dart';
-import 'package:CSGamesApp/domain/notification.dart';
 import 'package:CSGamesApp/services/localization.service.dart';
 import 'package:CSGamesApp/utils/constants.dart';
 import 'package:flutter/material.dart';
@@ -13,20 +13,22 @@ import 'package:timeago/timeago.dart' as timeago;
 
 class NotificationListPage extends StatelessWidget {
 
-    _getIcon(AppNotification notification) {
+    IconData _getIcon(AppNotification notification) {
         switch (notification.type) {
             case NotificationTypes.Activity:
                 if (notification.activity != null) {
                     switch (notification.activity.type) {
                         case ActivityTypes.Competition:
-                            return FontAwesomeIcons.laptopCode;
+                            return FontAwesomeIcons.lightLaptopCode;
                         case ActivityTypes.Food:
-                            return FontAwesomeIcons.utensils;
+                            return FontAwesomeIcons.lightUtensils;
+                        case ActivityTypes.Transport:
+                            return FontAwesomeIcons.lightBus;
                     }
                 }
-                return FontAwesomeIcons.calendar;
+                return FontAwesomeIcons.lightCalendar;
             case NotificationTypes.Event:
-                return FontAwesomeIcons.calendarCheck;
+                return FontAwesomeIcons.lightCalendarCheck;
         }
     }
 
@@ -34,89 +36,128 @@ class NotificationListPage extends StatelessWidget {
         String date = timeago.format(notification.date, locale: LocalizationService
             .of(context)
             .code);
-        return Padding(
-            padding: EdgeInsets.fromLTRB(15.0, 3.0, 15.0, 3.0),
-            child: Material(
-                borderRadius: BorderRadius.circular(5.0),
-                color: Colors.white,
-                elevation: 1.0,
-                child: Padding(
-                    padding: EdgeInsets.only(left: 10.0),
-                    child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                            Padding(
-                                padding: EdgeInsets.all(10.0),
-                                child: Icon(
-                                    _getIcon(notification),
-                                    color: notification.type == NotificationTypes.Event ? Constants.csRed : Constants.csBlue,
-                                    size: 40.0,
-                                )
-                            ),
-                            Expanded(
-                                child: Padding(
-                                    padding: EdgeInsets.all(15.0),
-                                    child: Column(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: <Widget>[
-                                            notification.activity != null ? Text(
-                                                notification.activity.name[LocalizationService
-                                                    .of(context)
-                                                    .language],
-                                                style: TextStyle(
-                                                    fontSize: 11.0,
-                                                    fontWeight: FontWeight.w400
-                                                ),
-                                            ) : Container(),
-                                            Column(
+        return Container(
+            margin: const EdgeInsets.fromLTRB(0.0, 5.0, 0.0, 5.0),
+            child: Stack(
+                children: <Widget>[
+                    Container(
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            boxShadow: <BoxShadow>[
+                                BoxShadow(
+                                    color: Colors.black.withOpacity(0.1),
+                                    offset: Offset(1.1, 1.1),
+                                    blurRadius: 5.0,
+                                ),
+                            ]
+                        ),
+                        child: Material(
+                            color: Colors.white,
+                            elevation: 0.0,
+                            child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: <Widget>[
+                                    Padding(
+                                        padding: EdgeInsets.only(left: 15.0, right: 10.0),
+                                        child: Container(
+                                            decoration: BoxDecoration(
+                                                color: Constants.csLightBlue.withOpacity(0.05),
+                                                shape: BoxShape.circle
+                                            ),
+                                            child: Padding(
+                                                padding: EdgeInsets.all(20.0),
+                                                child: Icon(
+                                                    _getIcon(notification),
+                                                    size: 25.0,
+                                                    color: Constants.csLightBlue,
+                                                )
+                                            )
+                                        ),
+                                    ),
+                                    Expanded(
+                                        child: Padding(
+                                            padding: EdgeInsets.all(15.0),
+                                            child: Column(
+                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                 crossAxisAlignment: CrossAxisAlignment.start,
                                                 children: <Widget>[
-                                                    Text(
-                                                        notification.title,
+                                                    notification.activity != null ? Text(
+                                                        notification.activity.name[LocalizationService
+                                                            .of(context)
+                                                            .language],
                                                         style: TextStyle(
-                                                            fontFamily: 'OpenSans',
-                                                            fontSize: 15.0,
-                                                            fontWeight: FontWeight.w600
-                                                        )
+                                                            color: Constants.csLightBlue,
+                                                            fontSize: 12.0,
+                                                            fontWeight: FontWeight.w400
+                                                        ),
+                                                    ) : Container(),
+                                                    Column(
+                                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                                        children: <Widget>[
+                                                            Text(
+                                                                notification.title,
+                                                                style: TextStyle(
+                                                                    color: Constants.csBlue,
+                                                                    fontFamily: 'Montserrat',
+                                                                    fontSize: 15.0,
+                                                                    fontWeight: FontWeight.w700
+                                                                )
+                                                            ),
+                                                            Container(
+                                                                padding: EdgeInsets.only(top: 2.0),
+                                                                child: Text(
+                                                                    notification.body,
+                                                                    style: TextStyle(
+                                                                        fontFamily: 'Montserrat',
+                                                                        fontSize: 14.0,
+                                                                        fontWeight: FontWeight.w400,
+                                                                        height: 1.3
+                                                                    )
+                                                                )
+                                                            )
+                                                        ]
                                                     ),
-                                                    Container(
-                                                        padding: EdgeInsets.only(top: 2.0),
+                                                    Padding(
+                                                        padding: EdgeInsets.only(top: 3.0),
                                                         child: Text(
-                                                            notification.body,
+                                                            date,
                                                             style: TextStyle(
-                                                                fontFamily: 'OpenSans',
-                                                                fontSize: 15.0,
-                                                                fontWeight: FontWeight.w400
+                                                                color: Constants.csBlue,
+                                                                fontFamily: 'Montserrat',
+                                                                fontWeight: FontWeight.w200,
+                                                                fontSize: 12.0
                                                             )
                                                         )
                                                     )
                                                 ]
-                                            ),
-                                            Padding(
-                                                padding: EdgeInsets.only(top: 3.0),
-                                                child: Text(
-                                                    date,
-                                                    style: TextStyle(
-                                                        fontFamily: 'OpenSans',
-                                                        fontSize: 10.0
-                                                    )
-                                                )
                                             )
-                                        ]
+                                        )
                                     )
+                                ]
+                            )
+                        )
+                    ),
+                    Positioned(
+                        top: 0.0,
+                        child: Center(
+                            child: Container(
+                                width: 80,
+                                height: 6,
+                                child: Material(
+                                    color: Constants.csBlue,
+                                    child: Text('')
                                 )
                             )
-                        ]
+                        )
                     )
-                )
+                ]
             )
         );
     }
 
     Widget _buildNotifications(BuildContext context, _NotificationsListViewModel model) {
-        return Padding(
-            padding: EdgeInsets.only(top: 10.0),
+        return Container(
+            padding: EdgeInsets.only(left: 15.0, right: 15.0, top: 10.0),
             child: ListView(
                 scrollDirection: Axis.vertical,
                 shrinkWrap: true,
@@ -168,7 +209,7 @@ class NotificationListPage extends StatelessWidget {
                                 .of(context)
                                 .notification['title'],
                             style: TextStyle(
-                                fontFamily: 'OpenSans'
+                                fontFamily: 'Montserrat'
                             )
                         )
                     ),

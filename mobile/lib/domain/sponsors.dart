@@ -26,7 +26,7 @@ class SponsorDetails {
 
     SponsorDetails.fromMap(Map<String, dynamic> map) {
         padding = map['padding'];
-        widthFactor = map['widthFactor'];
-        heightFactor = map['heightFactor'];
+        widthFactor = map['widthFactor']?.toDouble();
+        heightFactor = map['heightFactor']?.toDouble();
     }
 }

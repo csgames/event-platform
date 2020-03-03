@@ -36,32 +36,7 @@ class _InfoTileState extends State<InfoTile> {
                 padding: EdgeInsets.all(12.5),
                 child: Stack(
                     children: <Widget>[
-                        Positioned(
-                            top: 15.0,
-                            child: Center(
-                                child: Container(
-                                    width: 20,
-                                    height: 60,
-                                    decoration: BoxDecoration(
-                                        boxShadow: [
-                                            BoxShadow(
-                                                color: Colors.black12,
-                                                blurRadius: 4.0,
-                                                offset: Offset(0, 1),
-                                                spreadRadius: 0.0
-                                            )
-                                        ]
-                                    ),
-                                    child: Material(
-                                        borderRadius: BorderRadius.circular(10.0),
-                                        color: Constants.csBlue,
-                                        child: Text('')
-                                    )
-                                )
-                            )
-                        ),
                         Container(
-                            margin: EdgeInsets.only(left: 10.0),
                             constraints: BoxConstraints(
                                 maxHeight: 400.0,
                                 maxWidth: 400.0,
@@ -70,20 +45,33 @@ class _InfoTileState extends State<InfoTile> {
                             ),
                             child: Hero(
                                 tag: "guide-card-" + _tile.id,
-                                child: Material(
-                                    color: _pressed ? Colors.white70 : Colors.white,
-                                    borderRadius: BorderRadius.circular(15.0),
-                                    elevation: _pressed ? 5.0 : 2.0,
+                                child: Container(
+                                    decoration: BoxDecoration(
+                                        color: _pressed ? Colors.white.withOpacity(0.85) : Colors.white,
+                                        boxShadow: <BoxShadow>[
+                                            BoxShadow(
+                                                color: Colors.black.withOpacity(_pressed ? 0.15 : 0.1),
+                                                offset: Offset(1.1, 1.1),
+                                                blurRadius: 5.0,
+                                            ),
+                                        ]
+                                    ),
                                     child: Column(
                                         mainAxisAlignment: MainAxisAlignment.center,
                                         children: <Widget>[
-                                            Padding(
-                                                padding: EdgeInsets.only(top: 7.0),
-                                                child: Icon(
-                                                    _tile.icon,
-                                                    size: 80.0,
-                                                    color: Constants.csBlue
-                                                )
+                                            Container(
+                                                decoration: BoxDecoration(
+                                                    color: Constants.csLightBlue.withOpacity(0.05),
+                                                    shape: BoxShape.circle
+                                                ),
+                                                child: Padding(
+                                                    padding: EdgeInsets.all(25.0),
+                                                    child: Icon(
+                                                        _tile.icon,
+                                                        size: 50.0,
+                                                        color: Constants.csLightBlue
+                                                    )
+                                                ),
                                             ),
                                             Padding(
                                                 padding: EdgeInsets.only(top: MediaQuery
@@ -94,11 +82,25 @@ class _InfoTileState extends State<InfoTile> {
                                                     _tile.title,
                                                     style: TextStyle(
                                                         fontSize: 15.0,
-                                                        fontFamily: 'OpenSans'
+                                                        fontWeight: FontWeight.w500,
+                                                        fontFamily: 'Montserrat'
                                                     )
                                                 )
                                             ),
                                         ]
+                                    )
+                                )
+                            )
+                        ),
+                        Positioned(
+                            top: 0.0,
+                            child: Center(
+                                child: Container(
+                                    width: 60,
+                                    height: 6,
+                                    child: Material(
+                                        color: Constants.csBlue,
+                                        child: Text('')
                                     )
                                 )
                             )
