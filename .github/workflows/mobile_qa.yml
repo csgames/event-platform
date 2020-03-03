@@ -43,6 +43,7 @@ jobs:
         run: |
           sudo apt-get install ruby-dev
           sudo gem install fastlane -NV
+          sudo gem install bundler
           bundle exec fastlane qa
         env:
           FIREBASE_CLI_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
@@ -84,6 +85,7 @@ jobs:
           lane: qa
           subdirectory: mobile/ios
         env:
+          FASTLANE_PASSWORD: ${{secrets.FASTLANE_PASSWORD}}
           FASTLANE_SESSION: ${{secrets.FASTLANE_SESSION}}
           MATCH_PASSWORD: ${{secrets.MATCH_PASSWORD}}
           MATCH_GIT_BASIC_AUTHORIZATION: ${{secrets.MATCH_GIT_BASIC_AUTHORIZATION}}
