@@ -17,6 +17,7 @@ import { PuzzleHeroesService, PuzzleHeroInfo } from "./puzzle-heroes.service";
 import { Score } from "./scoreboard/score.model";
 import { TeamSeries } from "./scoreboard/team-series.model";
 import { Tracks } from "./tracks/tracks.model";
+import { AnswerData } from "./tracks/tracks-answers.model";
 
 @ApiTags("PuzzleHero")
 @Controller("puzzle-hero")
@@ -123,12 +124,12 @@ export class PuzzleHeroesController {
         return await this.puzzleHeroService.getTeamsSeries(eventId, user, teamsIds.split(","));
     }
 
-    @Get("puzzle/:puzzleId/:answerId/file")
+    @Get("puzzle/:puzzleId/:answerId/data")
     @Permissions("csgames-api:update:puzzle-hero")
-    public async getAnswerFile(@EventId() eventId: string,
+    public async getAnswerData(@EventId() eventId: string,
                                @Param("puzzleId") puzzleId: string,
-                               @Param("answerId") answerId: string): Promise<{ type: string, url: string }> {
-        return this.puzzleHeroService.getAnswerFile(eventId, puzzleId, answerId);
+                               @Param("answerId") answerId: string): Promise<AnswerData> {
+        return this.puzzleHeroService.getAnswerData(eventId, puzzleId, answerId);
     }
 
     @Put("puzzle/:puzzleId/:answerId")

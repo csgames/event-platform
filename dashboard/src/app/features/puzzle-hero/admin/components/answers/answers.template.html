@@ -49,16 +49,30 @@
                 </table>
                 <div *ngIf="validating" class="m-4" fxLayout="column" fxLayoutGap="15px">
                     <h2>{{ validating.teamId?.name }}</h2>
-                    <ng-container *ngIf="file$ | async as file">
+                    <ng-container *ngIf="answer$ | async as answer">
                         <div fxLayout="column" fxLayoutAlign="start center" class="mt-5">
-                            <img *ngIf="file.type.startsWith('image')" [src]="file.url"/>
+                            <ng-container *ngIf="answer.file as file">
+                                <img *ngIf="file.type.startsWith('image')" [src]="file.url" style="max-width: 700px"/>
 
-                            <video *ngIf="file.type.startsWith('video')" width="700" controls>
-                                <source [src]="file.url"/>
-                            </video>
+                                <video *ngIf="file.type.startsWith('video')" width="700" controls>
+                                    <source [src]="file.url"/>
+                                </video>
 
-                            <ng-container *ngIf="!file.type.startsWith('image') && !file.type.startsWith('video')">
-                                <button class="btn btn-primary" (click)="download(file.url)">{{ "components.answers.download" | translate }}</button>
+                                <ng-container *ngIf="!file.type.startsWith('image') && !file.type.startsWith('video')">
+                                    <button class="btn btn-primary" (click)="download(file.url)">{{ "components.answers.download" | translate }}</button>
+                                </ng-container>
+                            </ng-container>
+
+                            <ng-container *ngIf="answer.value">
+                                <h3>{{ answer.value }}</h3>
+                            </ng-container>
+
+                            <ng-container *ngIf="answer.code">
+                                <ngx-monaco-editor style="width: 100%"
+                                        [options]=" { theme: 'vs-dark', language: 'javascript' }"
+                                        [ngModel]="answer.code"
+                                >
+                                </ngx-monaco-editor>
                             </ng-container>
                         </div>
                     </ng-container>

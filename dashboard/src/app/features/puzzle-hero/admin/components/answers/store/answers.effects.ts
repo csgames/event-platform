@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Actions, Effect, ofType } from "@ngrx/effects";
 import { PuzzleHeroService } from "../../../../../../providers/puzzle-hero.service";
-import { AnswerActionTypes, AnswerAccepted, FileLoaded, LoadFile, AcceptAnswer, RefuseAnswer, AnswerRefused, } from "./answers.actions";
+import { AnswerActionTypes, AnswerAccepted, DataLoaded, LoadData, AcceptAnswer, RefuseAnswer, AnswerRefused, } from "./answers.actions";
 import { catchError, map, switchMap } from "rxjs/operators";
 import { of } from "rxjs";
 import { GlobalError } from "../../../../../../store/app.actions";
@@ -11,11 +11,11 @@ export class AnswersEffects {
     constructor(private actions$: Actions, private puzzleHeroService: PuzzleHeroService) {}
 
     @Effect()
-    createPuzzle$ = this.actions$.pipe(
-        ofType<LoadFile>(AnswerActionTypes.LoadFile),
-        switchMap((action: LoadFile) => this.puzzleHeroService.getAnswerFile(action.puzzleId, action.answerId)
+    LoadData$ = this.actions$.pipe(
+        ofType<LoadData>(AnswerActionTypes.LoadData),
+        switchMap((action: LoadData) => this.puzzleHeroService.getAnswerFile(action.puzzleId, action.answerId)
             .pipe(
-                map((file) => new FileLoaded(file)),
+                map((data) => new DataLoaded(data)),
                 catchError((e) => of(new GlobalError(e))
             )
         ))

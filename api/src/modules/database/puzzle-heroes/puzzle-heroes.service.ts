@@ -20,7 +20,7 @@ import { PuzzleHeroesGateway } from "./puzzle-heroes.gateway";
 import { PuzzleHeroes, PuzzleHeroesUtils } from "./puzzle-heroes.model";
 import { Score } from "./scoreboard/score.model";
 import { Serie, TeamSeries } from "./scoreboard/team-series.model";
-import { TracksAnswers, TracksAnswersUtils } from "./tracks/tracks-answers.model";
+import { AnswerData, TracksAnswers, TracksAnswersUtils } from "./tracks/tracks-answers.model";
 import { Tracks, TracksUtils } from "./tracks/tracks.model";
 import { StorageService } from "@polyhx/nest-services";
 
@@ -86,6 +86,7 @@ export class PuzzleHeroesService extends BaseService<PuzzleHeroes, PuzzleHeroes>
             case "captain":
             case "attendee":
             case "godparent":
+            case "sponsor":
                 return this.getPuzzleHeroForAttendee(eventId, user, type, puzzleHero);
             case "admin":
             case "super-admin":
@@ -383,14 +384,14 @@ export class PuzzleHeroesService extends BaseService<PuzzleHeroes, PuzzleHeroes>
             oldAnswer.refused = false;
             oldAnswer.validated = false;
             oldAnswer.timestamp =  DateUtils.nowUTC();
-            oldAnswer.file = res !== answer.answer ? res : undefined;
+            oldAnswer.answer = !validated ? res : undefined;
         } else {
             puzzleHero.answers.push({
                 puzzle: puzzle._id.toHexString(),
                 teamId,
                 timestamp: DateUtils.nowUTC(),
                 validated: validated,
-                file: res !== answer.answer ? res : undefined
+                answer: !validated ? res : undefined
             } as TracksAnswers);
         }
         await puzzleHero.save();
@@ -448,7 +449,7 @@ export class PuzzleHeroesService extends BaseService<PuzzleHeroes, PuzzleHeroes>
         }
     }
 
-    public async getAnswerFile(eventId: string, puzzleId: string, answerId: string): Promise<{ type: string, url: string }> {
+    public async getAnswerData(eventId: string, puzzleId: string, answerId: string): Promise<AnswerData> {
         const puzzleHero = await this.findOne({
             event: eventId
         });
@@ -470,14 +471,20 @@ export class PuzzleHeroesService extends BaseService<PuzzleHeroes, PuzzleHeroes>
             (answer.puzzle as mongoose.Types.ObjectId).equals(puzzleId) &&
             answer._id.equals(answerId)
         );
-        if (!answer || !answer.file) {
+        if (!answer || !answer.answer) {
             throw new NotFoundException("No answer found");
         }
 
-        const metadata = await this.storageService.getMetadata(answer.file);
+        if (!answer.answer.file) {
+            return answer.answer;
+        }
+
+        const metadata = await this.storageService.getMetadata(answer.answer.file.url);
         return {
-            type: metadata.mimeType,
-            url: await this.storageService.getDownloadUrl(answer.file)
+            file: {
+                type: metadata.mimeType,
+                url: await this.storageService.getDownloadUrl(answer.answer.file.url)
+            }
         };
     }
 

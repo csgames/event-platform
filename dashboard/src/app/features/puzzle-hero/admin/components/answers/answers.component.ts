@@ -2,8 +2,8 @@ import { Component, OnDestroy } from "@angular/core";
 import { Answers } from "src/app/api/models/puzzle-hero";
 import { SimpleModalComponent } from "ngx-simple-modal";
 import { select, Store } from "@ngrx/store";
-import { getPuzzleHeroAnswerFile, getPuzzleHeroAnswerLoading, State } from "./store/answers.reducer";
-import { LoadFile, ResetState, AcceptAnswer, RefuseAnswer } from "./store/answers.actions";
+import { getPuzzleHeroAnswerAnswer, getPuzzleHeroAnswerLoading, State } from "./store/answers.reducer";
+import { LoadData, ResetState, AcceptAnswer, RefuseAnswer } from "./store/answers.actions";
 import { FileUtils } from "../../../../../utils/file.utils";
 
 interface AnswersModal {
@@ -17,7 +17,7 @@ interface AnswersModal {
 })
 export class AnswersComponent extends SimpleModalComponent<AnswersModal, void> implements OnDestroy {
     public loading$ = this.store$.pipe(select(getPuzzleHeroAnswerLoading));
-    public file$ = this.store$.pipe(select(getPuzzleHeroAnswerFile));
+    public answer$ = this.store$.pipe(select(getPuzzleHeroAnswerAnswer));
 
     public answers: Answers[];
     public validating: Answers = null;
@@ -41,7 +41,7 @@ export class AnswersComponent extends SimpleModalComponent<AnswersModal, void> i
 
     public validate(answer: Answers) {
         this.validating = answer;
-        this.store$.dispatch(new LoadFile(answer.puzzle, answer._id));
+        this.store$.dispatch(new LoadData(answer.puzzle, answer._id));
     }
 
     public download(url: string) {

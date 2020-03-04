@@ -1,9 +1,10 @@
 import { Action } from "@ngrx/store";
 import { QuestionFormDto } from "../../../../../../components/question-form/dto/question-form.dto";
+import { AnswerData } from "../../../../../../api/models/puzzle-hero";
 
 export enum AnswerActionTypes {
-    LoadFile = "[Answer] Load file",
-    FileLoaded = "[Answer] File loaded",
+    LoadData = "[Answer] Load data",
+    DataLoaded = "[Answer] Data loaded",
     AcceptAnswer = "[Answer] Accept answer",
     AnswerAccepted = "[Answer] Answer accepted",
     RefuseAnswer = "[Answer] Refuse answer",
@@ -11,16 +12,16 @@ export enum AnswerActionTypes {
     ResetState = "[Answer] Reset state"
 }
 
-export class LoadFile implements Action {
-    readonly type = AnswerActionTypes.LoadFile;
+export class LoadData implements Action {
+    readonly type = AnswerActionTypes.LoadData;
 
     constructor(public puzzleId: string, public answerId: string) {}
 }
 
-export class FileLoaded implements Action {
-    readonly type = AnswerActionTypes.FileLoaded;
+export class DataLoaded implements Action {
+    readonly type = AnswerActionTypes.DataLoaded;
 
-    constructor(public file: { type: string, url: string }) {}
+    constructor(public data: AnswerData) {}
 }
 
 export class AcceptAnswer implements Action {
@@ -49,9 +50,9 @@ export class ResetState implements Action {
 
 export type AnswerActions =
     | ResetState
-    | LoadFile
+    | LoadData
     | AcceptAnswer
     | AnswerAccepted
     | RefuseAnswer
     | AnswerRefused
-    | FileLoaded;
+    | DataLoaded;

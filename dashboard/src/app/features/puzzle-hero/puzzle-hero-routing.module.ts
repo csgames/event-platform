@@ -15,7 +15,7 @@ const routes: Routes = [
         path: "tracks",
         loadChildren: () => import("src/app/features/puzzle-hero/tracks/tracks.module").then(m => m.TracksModule),
         canActivate: [PuzzleHeroGuard, RoleGuard],
-        data: { roles: ["attendee", "captain", "godparent"], redirect: "puzzle-hero/edit" }
+        data: { roles: ["attendee", "captain", "godparent", "sponsor"], redirect: "puzzle-hero/edit" }
     },
     {
         path: "scoreboard",

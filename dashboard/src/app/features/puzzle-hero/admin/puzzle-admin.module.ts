@@ -48,6 +48,7 @@ import { DirectivesModule } from "../../../directives/directives.module";
 import { QuestionFormModule } from "../../../components/question-form/question-form.module";
 import { AnswersComponent } from "./components/answers/answers.component";
 import { PipeModule } from "src/app/pipe/pipe.module";
+import { MonacoEditorModule } from "ngx-monaco-editor";
 
 
 @NgModule({
@@ -89,7 +90,8 @@ import { PipeModule } from "src/app/pipe/pipe.module";
             UpdatePuzzleEffects,
             PuzzleHeroSettingsEffects,
             AnswersEffects
-        ])
+        ]),
+        MonacoEditorModule
     ],
     exports: [],
     entryComponents: [

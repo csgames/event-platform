@@ -7,7 +7,7 @@ const routes: Routes = [
         path: "",
         loadChildren: () => import("src/app/features/guide/guide-view/guide-view.module").then(m => m.GuideViewModule),
         canActivate: [RoleGuard],
-        data: { roles: ["attendee", "captain", "godparent", "director", "volunteer"], redirect: "guide/edit" }
+        data: { roles: ["attendee", "captain", "godparent", "director", "volunteer", "sponsor"], redirect: "guide/edit" }
     },
     {
         path: "edit",

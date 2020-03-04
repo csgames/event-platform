@@ -7,7 +7,7 @@ const routes: Routes = [
         path: "",
         loadChildren: () => import("src/app/features/sponsors/sponsor-view/sponsor-view.module").then(m => m.SponsorViewModule),
         canActivate: [RoleGuard],
-        data: { roles: ["attendee", "captain", "godparent", "director"], redirect: "sponsor/edit" }
+        data: { roles: ["attendee", "captain", "godparent", "director", "volunteer", "sponsor"], redirect: "sponsor/edit" }
     },
     {
         path: "edit",

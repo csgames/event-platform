@@ -15,7 +15,7 @@ update_fastlane
 
 default_platform(:ios)
 
-keychain_name = "org.csgames.mobileapp.keychain"
+keychain_name = "org.csgames.app.keychain"
 
 platform :ios do
   desc "Package QA"
@@ -43,7 +43,7 @@ platform :ios do
       include_symbols: true
     )
     firebase_app_distribution(
-      app: "1:669372657906:ios:29570f0fcada29b376606b",
+      app: "1:669372657906:ios:dc6e4a3cb55abb2276606b",
       groups: "qa",
       firebase_cli_token: ENV["FIREBASE_CLI_TOKEN"],
     )
@@ -51,7 +51,7 @@ platform :ios do
 
   desc "Package Production"
   lane :production do
-    keychain_name = "org.csgames.mobileapp.production.keychain"
+    keychain_name = "org.csgames.app.production.keychain"
 
     create_keychain(
       name: keychain_name,

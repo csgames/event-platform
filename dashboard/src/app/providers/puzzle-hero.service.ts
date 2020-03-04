@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
 import { ApiService } from "../api/api.service";
-import { PuzzleHero, PuzzleHeroInfo, Score, TeamSeries, Track, PuzzleInfo } from "../api/models/puzzle-hero";
+import { PuzzleHero, PuzzleHeroInfo, Score, TeamSeries, Track, PuzzleInfo, AnswerData } from "../api/models/puzzle-hero";
 import * as io from "socket.io-client";
 import { environment } from "../../environments/environment";
 import { PuzzleHeroUtils } from "../features/puzzle-hero/utils/puzzle-hero.utils";
@@ -128,7 +128,7 @@ export class PuzzleHeroService {
         return this.apiService.puzzleHero.updatePuzzle(trackId, id, PuzzleAdminUtils.puzzleFormDtoToUpdateQuestionDto(questionFormDto));
     }
 
-    getAnswerFile(puzzleId: string, answerId: string): Observable<{ type: string, url: string }> {
+    getAnswerFile(puzzleId: string, answerId: string): Observable<AnswerData> {
         return this.apiService.puzzleHero.getAnswerFile(puzzleId, answerId);
     }
 

@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>669372657906-opsfecs704j2qlt8pbmrhvcov08pfrps.apps.googleusercontent.com</string>
+	<string>669372657906-2uipbrpr23u669egm5pbptcf6gth2koa.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.669372657906-opsfecs704j2qlt8pbmrhvcov08pfrps</string>
+	<string>com.googleusercontent.apps.669372657906-2uipbrpr23u669egm5pbptcf6gth2koa</string>
 	<key>API_KEY</key>
 	<string>AIzaSyAtEisM2oqE-NQKc6Ft7lDKVEkAJ-S_ESs</string>
 	<key>GCM_SENDER_ID</key>
@@ -13,7 +13,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>org.csgames.mobileapp</string>
+	<string>org.csgames.app</string>
 	<key>PROJECT_ID</key>
 	<string>csgames</string>
 	<key>STORAGE_BUCKET</key>
@@ -29,7 +29,7 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:669372657906:ios:5c179a364fa61a5776606b</string>
+	<string>1:669372657906:ios:6a520f73999a8e02</string>
 	<key>DATABASE_URL</key>
 	<string>https://csgames.firebaseio.com</string>
 </dict>

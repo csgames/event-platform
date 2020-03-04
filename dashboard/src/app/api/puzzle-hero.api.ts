@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { CSGamesApi } from "./csgames.api";
 import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
-import { PuzzleHero, PuzzleHeroInfo, Score, TeamSeries, Track, PuzzleInfo } from "./models/puzzle-hero";
+import { PuzzleHero, PuzzleHeroInfo, Score, TeamSeries, Track, PuzzleInfo, AnswerData } from "./models/puzzle-hero";
 import { CreateTrackDto, UpdateTrackDto, CreatePuzzleDto } from "./dto/puzzle-hero";
 import { UpdateQuestionDto } from "./dto/question";
 import { QuestionAnswerDto } from "./dto/competition";
@@ -65,21 +65,15 @@ export class PuzzleHeroApi extends CSGamesApi {
         return this.http.put<void>(this.url(`track/${trackId}/puzzle/${id}`), updateQuestionDto, { withCredentials: true });
     }
 
-    public getAnswerFile(puzzleId: string, answerId: string): Observable<{ type: string, url: string }> {
-        return this.http.get<{ type: string, url: string }>(
-            this.url(`puzzle/${puzzleId}/${answerId}/file`), { withCredentials: true }
-        );
+    public getAnswerFile(puzzleId: string, answerId: string): Observable<AnswerData> {
+        return this.http.get<AnswerData>(this.url(`puzzle/${puzzleId}/${answerId}/data`), { withCredentials: true });
     }
 
     public manuallyAcceptAnswer(puzzleId: string, answerId: string): Observable<void> {
-        return this.http.put<void>(
-            this.url(`puzzle/${puzzleId}/${answerId}`), {}, { withCredentials: true }
-        );
+        return this.http.put<void>(this.url(`puzzle/${puzzleId}/${answerId}`), {}, { withCredentials: true });
     }
 
     public manuallyRefuseAnswer(puzzleId: string, answerId: string): Observable<void> {
-        return this.http.delete<void>(
-            this.url(`puzzle/${puzzleId}/${answerId}`), { withCredentials: true }
-        );
+        return this.http.delete<void>(this.url(`puzzle/${puzzleId}/${answerId}`), { withCredentials: true });
     }
 }

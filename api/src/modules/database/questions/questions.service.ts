@@ -7,6 +7,7 @@ import { Model } from "mongoose";
 import { QuestionAnswerDto } from "./question-answer.dto";
 import { UpdateQuestionDto } from "./questions.dto";
 import { InputTypes, Questions, QuestionTypes, ValidationTypes } from "./questions.model";
+import { AnswerData } from "../puzzle-heroes/tracks/tracks-answers.model";
 
 @Injectable()
 export class QuestionsService {
@@ -26,7 +27,7 @@ export class QuestionsService {
         }, dto).exec();
     }
 
-    public async validateAnswer(dto: QuestionAnswerDto, questionId: string): Promise<[number, boolean, string]> {
+    public async validateAnswer(dto: QuestionAnswerDto, questionId: string): Promise<[number, boolean, AnswerData]> {
         const question = await this.questionsModel.findOne({
             _id: questionId
         }).exec();
@@ -35,7 +36,9 @@ export class QuestionsService {
         }
 
         let success: boolean;
-        let answer = dto.answer;
+        let answer: AnswerData = {
+            value: dto.answer
+        };
         switch (question.validationType) {
             case ValidationTypes.String:
                 success = this.validateString(dto.answer, question.answer);
@@ -65,7 +68,11 @@ export class QuestionsService {
         }
 
         if (question.type === QuestionTypes.Upload || question.inputType === InputTypes.Upload) {
-            answer = await this.uploadFile(dto.file, question, dto.teamId);
+            answer = {
+                file: {
+                    url: await this.uploadFile(dto.file, question, dto.teamId)
+                }
+            } as AnswerData;
             if (!answer) {
                 throw new BadRequestException("Upload failed");
             }

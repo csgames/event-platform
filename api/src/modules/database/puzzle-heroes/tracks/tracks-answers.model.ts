@@ -2,13 +2,18 @@ import * as mongoose from "mongoose";
 import { Teams } from "../../teams/teams.model";
 import { PuzzleGraphNodes } from "../puzzle-graph-nodes/puzzle-graph.nodes.model";
 
+export interface AnswerData {
+    value?: string;
+    file?: { type: string, url: string };
+}
+
 export interface TracksAnswers extends mongoose.Document {
     puzzle: mongoose.Types.ObjectId | string;
     teamId: Teams | mongoose.Types.ObjectId | string;
     timestamp: Date | string;
     validated: boolean;
     refused?: boolean;
-    file?: string;
+    answer?: AnswerData;
 }
 
 export const TracksAnswersSchema = new mongoose.Schema({
@@ -33,8 +38,8 @@ export const TracksAnswersSchema = new mongoose.Schema({
         type: Boolean,
         required: false
     },
-    file: {
-        type: String,
+    answer: {
+        type: Object,
         required: false
     }
 });

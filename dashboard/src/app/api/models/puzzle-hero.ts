@@ -63,6 +63,12 @@ export interface Answers {
     refused: boolean;
 }
 
+export interface AnswerData {
+    value?: string;
+    code?: string;
+    file?: { type: string, url: string };
+}
+
 export interface PuzzleHero {
     tracks?: Track[];
     open: boolean;
