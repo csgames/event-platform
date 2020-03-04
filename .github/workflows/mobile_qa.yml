@@ -39,13 +39,13 @@ jobs:
       - name: Setup Firebase
         run: |
           npm i -g firebase-tools
-      - name: Package APK
-        uses: maierj/fastlane-action@v1.4.0
+      - name: Upload APK to Firebase App Distribution
+        uses: wzieba/Firebase-Distribution-Github-Action@v1.1.1
         with:
-          lane: qa
-          subdirectory: mobile/android
-        env:
-          FIREBASE_CLI_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+          appId: ${{secrets.ANDROID_APP_ID_QA}}
+          token: ${{secrets.FIREBASE_TOKEN}}
+          groups: qa
+          file: ./mobile/build/app/outputs/apk/qa/release/app-qa-release.apk
   ios:
     name: iOS
     runs-on: macos-latest
@@ -85,6 +85,7 @@ jobs:
           subdirectory: mobile/ios
         env:
           FASTLANE_PASSWORD: ${{secrets.FASTLANE_PASSWORD}}
+          FASTLANE_SESSION: ${{secrets.FASTLANE_SESSION}}
           MATCH_PASSWORD: ${{secrets.MATCH_PASSWORD}}
           MATCH_GIT_BASIC_AUTHORIZATION: ${{secrets.MATCH_GIT_BASIC_AUTHORIZATION}}
           FIREBASE_CLI_TOKEN: ${{ secrets.FIREBASE_CLI_TOKEN }}
