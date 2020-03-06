@@ -106,7 +106,7 @@ class CSGamesApp extends StatelessWidget {
             store: store,
             child: MaterialApp(
                 title: 'CSGames',
-                debugShowCheckedModeBanner: false,
+                debugShowCheckedModeBanner: true,
                 theme: ThemeData(
                     accentColor: Colors.lightBlue,
                     buttonColor: Constants.csRed,

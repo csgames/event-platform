@@ -15,7 +15,7 @@ app.get('/*', function (req, res) {
 
 let server = http.createServer(app);
 
-const port = process.env.PORT || 4200;
+const port = process.env.PORT || 80;
 server.listen(port);
 server.on('error', onError);
 server.on('listening', onListening);
