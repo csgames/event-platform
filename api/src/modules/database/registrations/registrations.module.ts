@@ -1,6 +1,6 @@
 import { Module } from "@nestjs/common";
 import { MongooseModule } from "@nestjs/mongoose";
-import { STSModule } from "@polyhx/nest-services";
+import { Auth0Module } from "../../auth0/auth0.module";
 import { ConfigModule } from "../../configs/config.module";
 import { EmailModule } from "../../email/email.module";
 import { AttendeesModule } from "../attendees/attendees.module";
@@ -16,7 +16,7 @@ import { TeamsModule } from "../teams/teams.module";
             name: "registrations",
             schema: RegistrationsSchema
         }]),
-        STSModule,
+        Auth0Module,
         AttendeesModule,
         EventsModule,
         EmailModule,

@@ -42,15 +42,6 @@ export class AttendeesService extends BaseService<Attendees, CreateAttendeeDto> 
             throw new NotFoundException();
         }
 
-        if (user.role === "super-admin") {
-            return {
-                ...attendee.toJSON(),
-                role: user.role,
-                permissions: user.permissions,
-                registered: true
-            };
-        }
-
         const event = await this.eventsModel.findOne({
             _id: eventId
         }).exec();

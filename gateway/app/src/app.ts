@@ -77,6 +77,8 @@ export class Application {
     }
 
     public routes() {
+        const auth: Auth = new Auth();
+        this.app.use(process.env.GATEWAY_BASE_PATH, auth.router);
         this.app.use(this.renewToken.bind(this));
         let proxy = proxyConfig();
 
@@ -89,9 +91,6 @@ export class Application {
             ws: true,
             ignorePath: true
         }));
-        const auth: Auth = new Auth();
-
-        this.app.use(process.env.GATEWAY_BASE_PATH, auth.router);
     }
 
     private async renewToken(req: express.Request, res: express.Response, next) {
@@ -138,7 +137,7 @@ export class Application {
         });
 
         try {
-            const response = await fetch(`${process.env.STS_URL}/connect/token`, {
+            const response = await fetch(`${process.env.STS_URL}/token`, {
                 method: "POST",
                 body: body,
                 headers: { "Content-Type": "application/x-www-form-urlencoded" }

@@ -1,4 +1,5 @@
 import { Injectable } from "@nestjs/common";
+import { Auth0Config } from "./models/auth0-config";
 import { GlobalConfig } from "./models/global-config";
 import { MessagingConfig } from "./models/messaging-config";
 import { MongoConfig } from "./models/mongo-config";
@@ -14,6 +15,7 @@ export class ConfigService {
     public nexmo: NexmoConfig;
     public registration: RegistrationConfig;
     public redisConfig: RedisConfig;
+    public auth0: Auth0Config;
 
     constructor() {
         this.loadConfigs();
@@ -26,6 +28,7 @@ export class ConfigService {
         this.loadNexmo();
         this.loadRegistration();
         this.loadRedis();
+        this.auth0 = new Auth0Config();
     }
 
     private loadGlobalConfig() {

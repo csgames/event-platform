@@ -4,6 +4,7 @@ import { STSService, UserModel } from "@polyhx/nest-services";
 import * as mongoose from "mongoose";
 import { Model } from "mongoose";
 import { CodeException } from "../../../filters/code-error/code.exception";
+import { Auth0Service } from "../../auth0/auth0.service";
 import { ConfigService } from "../../configs/config.service";
 import { EmailService } from "../../email/email.service";
 import { Attendees } from "../attendees/attendees.model";
@@ -19,10 +20,8 @@ import { Registrations } from "./registrations.model";
 
 @Injectable()
 export class RegistrationsService {
-    private roles: { [name: string]: string };
-
     constructor(@InjectModel("registrations") private registrationsModel: Model<Registrations>,
-                private readonly stsService: STSService,
+                private readonly auth0Service: Auth0Service,
                 private readonly attendeeService: AttendeesService,
                 private readonly eventService: EventsService,
                 private readonly emailService: EmailService,
@@ -98,10 +97,6 @@ export class RegistrationsService {
     }
 
     public async registerAttendee(userDto: RegisterAttendeeDto) {
-        if (!this.roles) {
-            await this.fetchRoles();
-        }
-
         const registration = await this.registrationsModel.findOne({
             uuid: userDto.uuid
         }).exec();
@@ -111,11 +106,10 @@ export class RegistrationsService {
         }
 
         try {
-            await this.stsService.registerUser({
-                username: userDto.username,
-                password: userDto.password,
-                roleId: this.roles["attendee"]
-            } as UserModel);
+            await this.auth0Service.users.createUser({
+                email: userDto.username,
+                password: userDto.username
+            });
 
             await this.attendeeService.update({
                 _id: registration.attendee
@@ -139,10 +133,6 @@ export class RegistrationsService {
     }
 
     public async registerRole(userDto: RegisterRoleDto, eventId: string): Promise<Attendees> {
-        if (!this.roles) {
-            await this.fetchRoles();
-        }
-
         let attendee = await this.attendeeService.findOne({ email: userDto.username });
         if (attendee) {
             const event = await this.eventService.findOne({
@@ -155,11 +145,10 @@ export class RegistrationsService {
         }
         try {
             if (!attendee) {
-                await this.stsService.registerUser({
-                    username: userDto.username,
-                    password: userDto.password,
-                    roleId: this.roles["attendee"]
-                } as UserModel);
+                await this.auth0Service.users.createUser({
+                    email: userDto.username,
+                    password: userDto.username
+                });
 
                 attendee = await this.attendeeService.create({
                     ...userDto.attendee,
@@ -270,18 +259,6 @@ export class RegistrationsService {
                     attendees: attendee._id
                 }
             } as any);
-        }
-    }
-
-    private async fetchRoles() {
-        const roles = await this.stsService.getRoles().then(x => x.roles);
-        if (!roles) {
-            return;
-        }
-
-        this.roles = {};
-        for (const role of roles) {
-            this.roles[role.name] = role.id;
         }
     }
 }
