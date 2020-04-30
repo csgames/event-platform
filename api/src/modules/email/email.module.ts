@@ -1,11 +1,11 @@
 import { HttpModule, Module } from "@nestjs/common";
-import { STSModule } from "@polyhx/nest-services";
+import { Auth0Module } from "../auth0/auth0.module";
 import { EmailTemplateService } from "./email-template.service";
 import { EmailService } from "./email.service";
 
 @Module({
     imports: [
-        STSModule,
+        Auth0Module,
         HttpModule
     ],
     providers: [

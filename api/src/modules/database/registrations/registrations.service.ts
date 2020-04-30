@@ -1,6 +1,5 @@
 import { BadRequestException, HttpException, HttpStatus, Injectable, InternalServerErrorException } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
-import { STSService, UserModel } from "@polyhx/nest-services";
 import * as mongoose from "mongoose";
 import { Model } from "mongoose";
 import { CodeException } from "../../../filters/code-error/code.exception";

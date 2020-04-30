@@ -42,8 +42,9 @@ async function main() {
 
         await auth0.syncUsers(userImport);*/
 
-        /*await permission.syncApiPermissions();*/
+        await permission.syncApiPermissions();
         await permission.syncRolePermissions();
+        await permission.syncMailPermissions();
     } catch (e) {
         console.log(e);
     }

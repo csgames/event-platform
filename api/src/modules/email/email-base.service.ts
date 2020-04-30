@@ -1,11 +1,11 @@
 import { HttpService, Inject } from "@nestjs/common";
-import { STSService } from "@polyhx/nest-services";
+import { Auth0AuthClient } from "../auth0/auth.client";
 
 export class EmailBaseService {
     @Inject()
     protected httpService: HttpService;
     @Inject()
-    protected stsService: STSService;
+    protected authClient: Auth0AuthClient;
 
     constructor(private resource: string) {}
 
@@ -47,7 +47,7 @@ export class EmailBaseService {
     }
 
     protected async getAuthHeader(): Promise<object> {
-        const token = await this.stsService.getCurrentAccessToken();
+        const token = await this.authClient.getAccessToken();
         return {
             Authorization: `Bearer ${token}`
         };

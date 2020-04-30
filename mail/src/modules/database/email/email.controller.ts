@@ -12,7 +12,7 @@ export class EmailController {
     }
 
     @Post()
-    @Permissions("mail_service:send:email")
+    @Permissions("mail-api:send:email")
     public async send(@Body(new ValidationPipe()) emailSendDto: EmailSendDto) {
         return this.emailService.send(emailSendDto);
     }

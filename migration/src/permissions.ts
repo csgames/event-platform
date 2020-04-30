@@ -60,4 +60,11 @@ export class PermissionsServices {
             await this.auth0.syncRoleApiPermissions(role.Name, rolePermissions.map(x => x.Name));
         }
     }
+
+    public async syncMailPermissions(): Promise<void> {
+        const permissions = await this.permissionsRepository.find({
+            Name: new RegExp(`mail_service.*`, "i")
+        }).lean().exec();
+        await this.auth0.syncMailPermissions(permissions.map(x => x.Name.replace("mail_service", "mail-api")));
+    }
 }

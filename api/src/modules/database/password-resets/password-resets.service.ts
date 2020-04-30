@@ -26,11 +26,20 @@ export class PasswordResetsService extends BaseService<PasswordResets, CreatePas
             return null;
         }
 
-        const reset = await super.create({
+        let reset = await this.findOne({
             userId: user.user_id,
-            uuid: uuid.v4(),
             used: false
         });
+        if (!reset) {
+            reset = await this.create({
+                userId: user.user_id,
+                uuid: uuid.v4(),
+                used: false
+            });
+        } else {
+            reset.uuid = uuid.v4();
+            await reset.save();
+        }
 
         await this.emailService.sendEmail({
             from: "CS Games <support@csgames.org>",

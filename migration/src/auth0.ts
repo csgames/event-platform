@@ -49,4 +49,12 @@ export class Auth0Service {
             scopes: permissions.map(x => ({ value: x, description: x}))
         })
     }
+
+    public async syncMailPermissions(permissions: string[]): Promise<void> {
+        await this.client.updateResourceServer({
+            id: process.env.AUTH0_MAIL_RESOURCE_SERVER
+        }, {
+            scopes: permissions.map(x => ({ value: x, description: x}))
+        })
+    }
 }

@@ -1,6 +1,6 @@
 import { forwardRef, Module } from "@nestjs/common";
 import { MongooseModule } from "@nestjs/mongoose";
-import { StorageModule, STSModule } from "@polyhx/nest-services";
+import { StorageModule } from "@polyhx/nest-services";
 import { EmailModule } from "../../email/email.module";
 import { MessagingModule } from "../../messaging/messaging.module";
 import { ActivitiesModule } from "../activities/activities.module";
@@ -32,7 +32,6 @@ import { EventsService } from "./events.service";
         ActivitiesModule,
         AttendeesModule,
         EmailModule,
-        STSModule,
         forwardRef(() => TeamsModule),
         MessagingModule,
         NotificationsModule,
