@@ -1,5 +1,6 @@
 import * as dotenv from "dotenv";
 import { Auth0Service, UserImportData } from "./auth0";
+import { PermissionsServices } from "./permissions";
 import { UserService } from "./users";
 
 async function main() {
@@ -7,8 +8,9 @@ async function main() {
 
     const auth0 = new Auth0Service();
     const user = new UserService();
+    const permission = new PermissionsServices();
     try {
-        const users = await user.findAll();
+        /*const users = await user.findAll();
         const userImport: UserImportData[] = users.map(x => {
             if (x.Username === "info@csgames.org") {
                 return {
@@ -38,7 +40,10 @@ async function main() {
             };
         });
 
-        await auth0.syncUsers(userImport);
+        await auth0.syncUsers(userImport);*/
+
+        /*await permission.syncApiPermissions();*/
+        await permission.syncRolePermissions();
     } catch (e) {
         console.log(e);
     }

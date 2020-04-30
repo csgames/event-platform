@@ -32,4 +32,21 @@ export class Auth0Service {
             upsert: true
         })
     }
+
+    public async syncRoleApiPermissions(roleName: string, permissions: string[]): Promise<void> {
+        const role = await this.client.getRoles().then(x => x.find(r => r.name === roleName));
+        await this.client.addPermissionsInRole({
+            id: role.id
+        }, {
+            permissions: permissions.map(x => ({ permission_name: x, resource_server_identifier: "https://api.csgames.org" }))
+        });
+    }
+
+    public async syncApiPermissions(permissions: string[]): Promise<void> {
+        await this.client.updateResourceServer({
+            id: process.env.AUTH0_API_RESOURCE_SERVER
+        }, {
+            scopes: permissions.map(x => ({ value: x, description: x}))
+        })
+    }
 }

@@ -1,24 +1,17 @@
 import { Injectable } from "@angular/core";
-import { IdentityApi } from "./identity.api";
-import { HttpClient, HttpParams } from "@angular/common/http";
+import { CSGamesApi } from "./csgames.api";
+import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
-import { Forget } from "./definitions/auth";
-import { CustomEncoder } from "../utils/custom.encoder";
 
 @Injectable()
-export class PasswordApi extends IdentityApi {
+export class PasswordApi extends CSGamesApi {
     constructor(private http: HttpClient) {
-        super("resetPassword");
+        super("password-reset");
     }
 
     public create(username: string): Observable<void> {
-        const body = new HttpParams({
-            encoder: new CustomEncoder()
-        }).set("username", username);
-        return this.http.post<void>(this.url(), body.toString(), {
-            headers: {
-                "Content-Type": "application/x-www-form-urlencoded"
-            }
+        return this.http.post<void>(this.url(), {
+            email: username
         });
     }
 
@@ -27,13 +20,8 @@ export class PasswordApi extends IdentityApi {
     }
 
     public resetPassword(uuid: string, password: string): Observable<void> {
-        const body = new HttpParams({
-            encoder: new CustomEncoder()
-        }).set("password", password);
-        return this.http.put<void>(this.url(`${uuid}`), body.toString(), {
-            headers: {
-                "Content-Type": "application/x-www-form-urlencoded"
-            }
+        return this.http.put<void>(this.url(`${uuid}`), {
+            password
         });
     }
 }

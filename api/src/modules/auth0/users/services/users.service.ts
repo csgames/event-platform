@@ -19,4 +19,16 @@ export class UsersService extends Auth0ManagementClient {
             id
         });
     }
+
+    public async findUserByEmail(email: string): Promise<User> {
+        return this.client.getUsersByEmail(email).then(x => x.shift());
+    }
+
+    public async updatePassword(userId: string, password: string): Promise<void> {
+        await this.client.updateUser({
+            id: userId
+        }, {
+            password: password
+        });
+    }
 }

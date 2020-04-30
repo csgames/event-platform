@@ -7,6 +7,7 @@ import { AttendeesModule } from "./attendees/attendees.module";
 import { CompetitionsModule } from "./competitions/competitions.module";
 import { EventsModule } from "./events/events.module";
 import { NotificationsModule } from "./notifications/notifications.module";
+import { PasswordResetsModule } from "./password-resets/password-resets.module";
 import { PuzzleHeroesModule } from "./puzzle-heroes/puzzle-heroes.module";
 import { RegistrationsModule } from "./registrations/registrations.module";
 import { SchoolsModule } from "./schools/schools.module";
@@ -28,7 +29,8 @@ import { TeamsModule } from "./teams/teams.module";
         SponsorsModule,
         TeamsModule,
         PuzzleHeroesModule,
-        CompetitionsModule
+        CompetitionsModule,
+        PasswordResetsModule
     ],
     exports: [
         ActivitiesModule,
@@ -40,7 +42,8 @@ import { TeamsModule } from "./teams/teams.module";
         SponsorsModule,
         TeamsModule,
         PuzzleHeroesModule,
-        CompetitionsModule
+        CompetitionsModule,
+        PasswordResetsModule
     ]
 })
 export class DatabaseModule {

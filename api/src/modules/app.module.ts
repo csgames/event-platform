@@ -1,6 +1,5 @@
 import { Module } from "@nestjs/common";
 import { APP_GUARD } from "@nestjs/core";
-import { STSModule } from "@polyhx/nest-services";
 import { JwtGuard, JwtModule } from "nestjs-jwt2";
 import { AttendeeGuard } from "../guards/attendee.guard";
 import { Auth0Module } from "./auth0/auth0.module";
