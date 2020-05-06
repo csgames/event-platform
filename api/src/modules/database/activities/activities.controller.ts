@@ -1,6 +1,5 @@
 import { Body, Controller, Delete, Get, HttpException, HttpStatus, Param, Post, Put, UseGuards } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
-import { STSService } from "@polyhx/nest-services";
 import { Permissions } from "../../../decorators/permission.decorator";
 import { PermissionsGuard } from "../../../guards/permission.guard";
 import { ValidationPipe } from "../../../pipes/validation.pipe";
@@ -15,9 +14,8 @@ import { ActivitiesService } from "./activities.service";
 @UseGuards(PermissionsGuard)
 export class ActivitiesController {
     constructor(private readonly activitiesService: ActivitiesService,
-                private readonly attendeesService: AttendeesService,
-                private readonly stsService: STSService) {
-    }
+                private readonly attendeesService: AttendeesService
+    ) {}
 
     @Post()
     @Permissions("csgames-api:create:activity")

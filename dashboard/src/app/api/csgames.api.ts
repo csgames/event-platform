@@ -9,6 +9,9 @@ export class CSGamesApi {
     }
 
     protected url(route = ""): string {
+        if (!route) {
+            return `${this.API_URL}/${this.path}`;
+        }
         return `${this.API_URL}/${this.path}/${route}`;
     }
 }

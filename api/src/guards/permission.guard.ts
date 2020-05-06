@@ -12,8 +12,12 @@ export class PermissionsGuard implements CanActivate {
 
         const req = context.switchToHttp().getRequest<IRequest>();
         try {
-            if (req.header("token-claim-client_permissions")) {
-                userPermissions = JSON.parse(req.header("token-claim-client_permissions"));
+            const sub = req.header("token-claim-sub");
+            if (!sub) {
+                return false;
+            }
+            if (sub.endsWith("@clients")) {
+                userPermissions = req.header("token-claim-permissions");
             } else {
                 userPermissions = req.permissions;
             }

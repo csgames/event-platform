@@ -1,10 +1,12 @@
 import { Injectable } from "@nestjs/common";
+import { Auth0Config } from "./models/auth0-config";
 import { GlobalConfig } from "./models/global-config";
 import { MessagingConfig } from "./models/messaging-config";
 import { MongoConfig } from "./models/mongo-config";
 import { NexmoConfig } from "./models/nexmo-config";
 import { RedisConfig } from "./models/redis-config";
 import { RegistrationConfig } from "./models/registration-config";
+import { ResetPasswordConfig } from "./models/reset-password-config";
 
 @Injectable()
 export class ConfigService {
@@ -14,6 +16,8 @@ export class ConfigService {
     public nexmo: NexmoConfig;
     public registration: RegistrationConfig;
     public redisConfig: RedisConfig;
+    public resetPasswordConfig: ResetPasswordConfig;
+    public auth0: Auth0Config;
 
     constructor() {
         this.loadConfigs();
@@ -26,6 +30,8 @@ export class ConfigService {
         this.loadNexmo();
         this.loadRegistration();
         this.loadRedis();
+        this.loadResetPassword();
+        this.auth0 = new Auth0Config();
     }
 
     private loadGlobalConfig() {
@@ -72,6 +78,12 @@ export class ConfigService {
             host: process.env.REDIS_HOST,
             password: process.env.REDIS_PASSWORD,
             port: +process.env.REDIS_PORT
+        };
+    }
+
+    private loadResetPassword() {
+        this.resetPasswordConfig = {
+            resetPasswordUrl: process.env.RESET_PASSWORD_URL
         };
     }
 }

@@ -1,6 +1,6 @@
 import { Module } from "@nestjs/common";
 import { MongooseModule } from "@nestjs/mongoose";
-import { StorageModule, STSModule } from "@polyhx/nest-services";
+import { StorageModule } from "@polyhx/nest-services";
 import { EventsSchema } from "../events/events.model";
 import { TeamsSchema } from "../teams/teams.model";
 import { AttendeesController } from "./attendees.controller";
@@ -21,8 +21,7 @@ import { AttendeesService } from "./attendees.service";
             name: "teams",
             schema: TeamsSchema
         }]),
-        StorageModule,
-        STSModule
+        StorageModule
     ],
     controllers: [
         AttendeesController

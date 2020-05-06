@@ -1,6 +1,5 @@
 import { forwardRef, Module } from "@nestjs/common";
 import { MongooseModule } from "@nestjs/mongoose";
-import { STSModule } from "@polyhx/nest-services";
 import { EmailModule } from "../../email/email.module";
 import { AttendeesModule } from "../attendees/attendees.module";
 import { EventsSchema } from "../events/events.model";
@@ -22,7 +21,6 @@ import { TeamsService } from "./teams.service";
         }]),
         forwardRef(() => EventsModule),
         AttendeesModule,
-        STSModule,
         EmailModule,
         SchoolsModule
     ],

@@ -13,25 +13,25 @@ export class TemplatesController {
     }
 
     @Post()
-    @Permissions("mail_service:create:template")
+    @Permissions("mail-api:create:template")
     public async create(@Body(new ValidationPipe()) createTemplateDto: CreateTemplateDto): Promise<Template> {
         return await this.templatesService.create(createTemplateDto);
     }
 
     @Get()
-    @Permissions("mail_service:get-all:template")
+    @Permissions("mail-api:get-all:template")
     public async getAll(): Promise<Template[]> {
         return this.templatesService.findAll();
     }
 
     @Get(":id")
-    @Permissions("mail_service:get:template")
+    @Permissions("mail-api:get:template")
     public async getById(@Param("id") id: string): Promise<Template> {
         return this.templatesService.findById(id);
     }
 
     @Put(":nameOrId")
-    @Permissions("mail_service:update:template")
+    @Permissions("mail-api:update:template")
     public async update(
         @Param("nameOrId") nameOrId: string,
         @Body(new ValidationPipe()) updateTemplateDto: UpdateTemplateDto
@@ -40,7 +40,7 @@ export class TemplatesController {
     }
 
     @Delete(":name")
-    @Permissions("mail_service:delete:template")
+    @Permissions("mail-api:delete:template")
     public async remove(@Param("name") name: string) {
         return this.templatesService.remove(name);
     }

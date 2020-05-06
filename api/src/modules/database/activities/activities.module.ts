@@ -1,6 +1,5 @@
 import { Module } from "@nestjs/common";
 import { MongooseModule } from "@nestjs/mongoose";
-import { STSModule } from "@polyhx/nest-services";
 import { AttendeesSchema } from "../attendees/attendees.model";
 import { AttendeesModule } from "../attendees/attendees.module";
 import { EventsSchema } from "../events/events.model";
@@ -24,7 +23,6 @@ import { ActivitiesService } from "./activities.service";
             schema: AttendeesSchema
         }]),
         AttendeesModule,
-        STSModule,
         NotificationsModule
     ],
     controllers: [

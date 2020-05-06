@@ -33,13 +33,14 @@ export class Auth {
             client_id: process.env.STS_CLIENT_ID,
             client_secret: process.env.STS_CLIENT_SECRET,
             scope: process.env.STS_CLIENT_SCOPES,
+            audience: "https://api.csgames.org",
             grant_type: "password",
             username: email,
             password: password
         });
 
         try {
-            let response = await fetch(`${process.env.STS_URL}/connect/token`, {
+            let response = await fetch(`${process.env.STS_URL}/token`, {
                 method: "POST",
                 body: body,
                 headers: { "Content-Type": "application/x-www-form-urlencoded" }
@@ -80,7 +81,7 @@ export class Auth {
             });
 
             try {
-                await fetch(`${process.env.STS_URL}/connect/revoke`, {
+                await fetch(`${process.env.STS_URL}/revoke`, {
                     method: "POST",
                     body: body,
                     headers: {"Content-Type": "application/x-www-form-urlencoded"}
