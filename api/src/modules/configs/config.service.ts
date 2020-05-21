@@ -51,10 +51,19 @@ export class ConfigService {
     }
 
     private loadMessagingConfig() {
-        this.messaging = {
-            projectId: process.env.MESSAGING_PROJECT_ID,
-            keyFilePath: process.env.MESSAGING_KEY_FILE_PATH
-        };
+        const file = process.env.MESSAGING_KEY_FILE_B64;
+        if (file) {
+            const data = new Buffer(file, "base64").toString();
+            this.messaging = {
+                projectId: process.env.MESSAGING_PROJECT_ID,
+                keyFileObj: JSON.parse(data)
+            };
+        } else {
+            this.messaging = {
+                projectId: process.env.MESSAGING_PROJECT_ID,
+                keyFilePath: process.env.MESSAGING_KEY_FILE_PATH
+            };
+        }
     }
 
     private loadNexmo() {

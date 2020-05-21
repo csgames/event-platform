@@ -22,7 +22,13 @@ export interface ProxyConfig {
 }
 
 export const proxyConfig = (): ProxyConfig => {
-    const config = require(process.env.PROXY_CONFIG_PATH);
+    let config;
+    if (process.env.PROXY_CONFIG_B64) {
+        const data = new Buffer(process.env.PROXY_CONFIG_B64, "base64").toString();
+        config = JSON.parse(data);
+    } else {
+        config = require(process.env.PROXY_CONFIG_PATH);
+    }
     const router: Array<ProxyRouterConfig> = config.router;
     const routerFunction = (req: http.IncomingMessage): string => {
         if (!req.url) {

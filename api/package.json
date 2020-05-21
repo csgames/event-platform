@@ -33,7 +33,7 @@
         "@nestjs/swagger": "4.2.3",
         "@nestjs/testing": "6.11.4",
         "@nestjs/websockets": "6.11.4",
-        "@polyhx/nest-services": "2.0.9",
+        "@polyhx/nest-services": "2.1.2",
         "adm-zip": "^0.4.13",
         "auth0": "^2.24.0",
         "class-transformer": "^0.2.3",

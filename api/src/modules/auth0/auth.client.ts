@@ -22,7 +22,8 @@ export class Auth0AuthClient {
 
     private async fetchAccessToken(): Promise<TokenResponse> {
         return await this.client.clientCredentialsGrant({
-            audience: "https://api.csgames.org/mail"
+            audience: "https://api.csgames.org/mail",
+            scope: null
         });
     }
 

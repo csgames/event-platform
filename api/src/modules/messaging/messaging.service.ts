@@ -22,7 +22,7 @@ export class MessagingService {
     private init() {
         this.app = admin.initializeApp({
             projectId: this.config.messaging.projectId,
-            credential: admin.credential.cert(this.config.messaging.keyFilePath)
+            credential: admin.credential.cert(this.config.messaging.keyFileObj ?? this.config.messaging.keyFilePath)
         });
 
         this.messaging = this.app.messaging();

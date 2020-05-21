@@ -1,4 +1,5 @@
 export interface MessagingConfig {
     projectId: string;
-    keyFilePath: string;
+    keyFilePath?: string;
+    keyFileObj?: string;
 }
