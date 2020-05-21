@@ -24,7 +24,7 @@ export class QuestionsService {
 
         await this.questionsModel.update({
             _id: questionId
-        }, dto).exec();
+        }, dto as Questions).exec();
     }
 
     public async validateAnswer(dto: QuestionAnswerDto, questionId: string): Promise<[number, boolean, AnswerData]> {

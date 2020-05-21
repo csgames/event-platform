@@ -2,7 +2,7 @@ import { Injectable, NotFoundException } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { StorageService } from "@polyhx/nest-services";
 import * as mongoose from "mongoose";
-import { Model } from "mongoose";
+import { DocumentDefinition, Model } from "mongoose";
 import { UserModel } from "../../../models/user.model";
 import { BaseService } from "../../../services/base.service";
 import { ArrayUtils } from "../../../utils/array.utils";
@@ -13,6 +13,7 @@ import { CreateAttendeeDto, UpdateAttendeeDto, UpdateNotificationDto } from "./a
 import { Attendees } from "./attendees.model";
 
 export type AttendeeInfo = Attendees & { role: string; permissions: string[], registered: boolean };
+export type AttendeeData = DocumentDefinition<Attendees> & { team: string, school: string };
 
 @Injectable()
 export class AttendeesService extends BaseService<Attendees, CreateAttendeeDto> {
@@ -165,7 +166,7 @@ export class AttendeesService extends BaseService<Attendees, CreateAttendeeDto> 
             _id: {
                 $in: ids
             }
-        }).lean().exec();
+        }).lean().exec() as AttendeeData[];
         const teams = await this.teamsModel.find({
             attendees: {
                 $in: ids
@@ -191,7 +192,7 @@ export class AttendeesService extends BaseService<Attendees, CreateAttendeeDto> 
             return attendees;
         }
 
-        attendees = attendees.map(x => {
+        const formattedAttendees = attendees.map(x => {
             return {
                 firstName: x.firstName,
                 lastName: x.lastName,
@@ -202,11 +203,11 @@ export class AttendeesService extends BaseService<Attendees, CreateAttendeeDto> 
         });
 
         if (type === "xlsx") {
-            return ArrayUtils.arrayToXlsxBuffer(attendees, "attendees", this.sheetHeaders);
+            return ArrayUtils.arrayToXlsxBuffer(formattedAttendees, "attendees", this.sheetHeaders);
         } else if (type === "csv") {
-            return await ArrayUtils.arrayToCsvBuffer(attendees, this.sheetHeaders);
+            return await ArrayUtils.arrayToCsvBuffer(formattedAttendees, this.sheetHeaders);
         } else {
-            return attendees;
+            return formattedAttendees;
         }
     }
 }

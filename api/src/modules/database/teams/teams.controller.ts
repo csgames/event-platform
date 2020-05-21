@@ -12,6 +12,7 @@ import { UpdateTeamDto } from "./teams.dto";
 import { codeMap } from "./teams.exception";
 import { Teams } from "./teams.model";
 import { TeamsService } from "./teams.service";
+import { DocumentDefinition } from "mongoose";
 
 @ApiTags("Team")
 @Controller("team")
@@ -40,13 +41,13 @@ export class TeamsController {
 
     @Get("info")
     @Permissions("csgames-api:get:team")
-    public async getInfo(@User() user: UserModel, @EventId() eventId: string): Promise<Teams> {
+    public async getInfo(@User() user: UserModel, @EventId() eventId: string): Promise<DocumentDefinition<Teams>> {
         return this.getTeamByUserAndEvent(eventId, user.username);
     }
 
     @Get("info/:email")
     @Permissions("csgames-api:get:team")
-    public async getAttendeeTeamInfo(@Param("email") email: string, @EventId() eventId: string): Promise<Teams> {
+    public async getAttendeeTeamInfo(@Param("email") email: string, @EventId() eventId: string): Promise<DocumentDefinition<Teams>> {
         const attendee = await this.attendeesService.findOne({ email });
         if (!attendee) {
             return null;
@@ -57,7 +58,7 @@ export class TeamsController {
 
     @Get("event/:eventId/user/:email")
     @Permissions("csgames-api:get:team")
-    public async getTeamByUserAndEvent(@Param("eventId") event: string, @Param("email") email: string): Promise<Teams> {
+    public async getTeamByUserAndEvent(@Param("eventId") event: string, @Param("email") email: string): Promise<DocumentDefinition<Teams>> {
         const attendee = await this.attendeesService.findOne({ email });
         if (!attendee) {
             return null;
@@ -68,7 +69,7 @@ export class TeamsController {
 
     @Get(":id")
     @Permissions("csgames-api:get:team")
-    public get(@Param("id") id: string, @EventId() eventId: string): Promise<Teams> {
+    public get(@Param("id") id: string, @EventId() eventId: string): Promise<DocumentDefinition<Teams>> {
         return this.teamsService.getTeamById(id, eventId);
     }
 

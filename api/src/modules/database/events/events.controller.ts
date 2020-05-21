@@ -31,6 +31,7 @@ import { codeMap, EventNotFoundException } from "./events.exception";
 import { EventGuide, Events, EventSponsorDetails } from "./events.model";
 import { EventsService } from "./events.service";
 import { AddGuideSectionDto, GuideDto } from "./guide.dto";
+import { DocumentDefinition } from "mongoose";
 
 @ApiTags("Event")
 @Controller("event")
@@ -77,13 +78,13 @@ export class EventsController {
 
     @Get("team")
     @Permissions("csgames-api:get-all:team")
-    public async eventTeamQuery(@EventId() eventId: string): Promise<Teams[]> {
+    public async eventTeamQuery(@EventId() eventId: string): Promise<DocumentDefinition<Teams>[]> {
         return await this.teamsService.getTeamFromEvent(eventId);
     }
 
     @Get("activity")
     @Permissions("csgames-api:get-all:activity")
-    public async getActivity(@EventId() eventId: string, @User() user: UserModel): Promise<Activities[]> {
+    public async getActivity(@EventId() eventId: string, @User() user: UserModel): Promise<DocumentDefinition<Activities>[]> {
         return await this.eventsService.getActivities(eventId, user);
     }
 
@@ -137,7 +138,7 @@ export class EventsController {
     @Get("competition/member")
     @Permissions("csgames-api:get:competition")
     public async getCompetitionsAsMember(@EventId() eventId: string,
-                                         @User() user: UserModel): Promise<Competitions[]> {
+                                         @User() user: UserModel): Promise<DocumentDefinition<Competitions>[]> {
         return await this.eventsService.getCompetitionsAsMember(eventId, user);
     }
 

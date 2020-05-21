@@ -3,6 +3,8 @@ import { DateUtils } from "../../../utils/date.utils";
 import { Events } from "../events/events.model";
 import { TracksAnswers, TracksAnswersSchema } from "./tracks/tracks-answers.model";
 import { Tracks, TracksSchema } from "./tracks/tracks.model";
+import { DocumentDefinition } from "mongoose";
+import { Teams } from "../teams/teams.model";
 
 export interface PuzzleHeroes extends mongoose.Document {
     event: Events | mongoose.Types.ObjectId | string;
@@ -47,12 +49,12 @@ export const PuzzleHeroesSchema = new mongoose.Schema({
 });
 
 export class PuzzleHeroesUtils {
-    public static isAvailable(puzzleHero: PuzzleHeroes): boolean {
+    public static isAvailable(puzzleHero: DocumentDefinition<PuzzleHeroes>): boolean {
         const now = DateUtils.nowUTC();
         return now > puzzleHero.releaseDate && now < puzzleHero.endDate && puzzleHero.open;
     }
 
-    public static isScoreboardAvailable(puzzleHero: PuzzleHeroes): boolean {
+    public static isScoreboardAvailable(puzzleHero: DocumentDefinition<PuzzleHeroes>): boolean {
         const now = DateUtils.nowUTC();
         return now > puzzleHero.releaseDate && now < puzzleHero.scoreboardEndDate && puzzleHero.open;
     }

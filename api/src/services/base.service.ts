@@ -1,6 +1,6 @@
 import { HttpException, HttpStatus } from "@nestjs/common";
 import { MongoError } from "mongodb";
-import { Document, Model, ModelPopulateOptions } from "mongoose";
+import { Document, DocumentDefinition, Model, ModelPopulateOptions } from "mongoose";
 
 export class BaseService<T extends Document, Dto> {
     constructor(private readonly model: Model<T>) {
@@ -39,7 +39,7 @@ export class BaseService<T extends Document, Dto> {
         }
     }
 
-    async findOne(condition: Object, populate?: ModelPopulateOptions | string): Promise<T> {
+    async findOne(condition: any, populate?: ModelPopulateOptions | string): Promise<T> {
         if (!populate) {
             return this.model.findOne(condition).exec();
         } else {
@@ -47,11 +47,11 @@ export class BaseService<T extends Document, Dto> {
         }
     }
 
-    async findOneLean(condition: Object, populate?: ModelPopulateOptions | ModelPopulateOptions[] | string): Promise<T> {
+    async findOneLean(condition: any, populate?: ModelPopulateOptions | ModelPopulateOptions[] | string): Promise<DocumentDefinition<T>> {
         if (!populate) {
-            return this.model.findOne(condition).lean().exec() as Promise<T>;
+            return this.model.findOne(condition).lean().exec();
         } else {
-            return this.model.findOne(condition).populate(populate).lean().exec() as Promise<T>;
+            return this.model.findOne(condition).populate(populate).lean().exec();
         }
     }
 
@@ -63,15 +63,15 @@ export class BaseService<T extends Document, Dto> {
         }
     }
 
-    async update(condition: Object, data: Partial<T>): Promise<any> {
+    async update(condition: any, data: Partial<T>): Promise<any> {
         return this.model.updateOne(condition, <T>data).exec();
     }
 
-    async updateMany(condition: Object, data: Partial<T>): Promise<any> {
+    async updateMany(condition: any, data: Partial<T>): Promise<any> {
         return this.model.updateMany(condition, <T>data).exec();
     }
 
-    async remove(condition: Object): Promise<void> {
+    async remove(condition: any): Promise<void> {
         await this.model.remove(condition).exec();
     }
 }

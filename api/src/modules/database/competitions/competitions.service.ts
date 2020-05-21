@@ -20,6 +20,8 @@ import {
 } from "./competitions.dto";
 import { Competitions } from "./competitions.model";
 import { QuestionGraphNodes } from "./questions/question-graph-nodes.model";
+import { Members } from "./members/members.model";
+import { QuestionAnswers } from "./questions/question-answers.model";
 
 export interface QuestionInfo extends Questions {
     isLocked: boolean;
@@ -107,7 +109,7 @@ export class CompetitionsService extends BaseService<Competitions, Competitions>
                     members: {
                         team: teamId,
                         attendees: [attendee._id]
-                    }
+                    } as Members
                 }
             }).exec();
         }
@@ -217,7 +219,7 @@ export class CompetitionsService extends BaseService<Competitions, Competitions>
                 event: eventId,
                 answers: {
                     _id: question._id
-                }
+                } as QuestionAnswers
             }, {
                 $set: {
                     "answer.$.timestamp": DateUtils.nowUTC()
@@ -233,7 +235,7 @@ export class CompetitionsService extends BaseService<Competitions, Competitions>
                         question: (question.question as Questions)._id,
                         teamId,
                         timestamp: DateUtils.nowUTC()
-                    }
+                    } as QuestionAnswers
                 }
             }).exec();
         }
@@ -260,7 +262,7 @@ export class CompetitionsService extends BaseService<Competitions, Competitions>
 
         await this.questionsModel.updateOne({
             _id: (question.question as Questions)._id
-        }, dto).exec();
+        }, dto as Questions).exec();
     }
 
     public async removeQuestion(eventId: string, competitionId: string, questionId: string): Promise<void> {

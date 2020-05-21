@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable, NotFoundException } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
-import { Model, Types } from "mongoose";
+import { DocumentDefinition, Model, Types } from "mongoose";
 import { UserModel } from "../../../models/user.model";
 import { BaseService } from "../../../services/base.service";
 import { DateUtils } from "../../../utils/date.utils";
@@ -51,7 +51,7 @@ export class TeamsService extends BaseService<Teams, CreateTeamDto> {
         });
     }
 
-    public async getTeamFromEvent(eventId: string): Promise<Teams[]> {
+    public async getTeamFromEvent(eventId: string): Promise<DocumentDefinition<Teams>[]> {
         const event = await this.eventsModel.findOne({
             _id: eventId
         }).exec();
@@ -70,7 +70,7 @@ export class TeamsService extends BaseService<Teams, CreateTeamDto> {
         }, {
             model: "sponsors",
             path: "sponsor"
-        }]).exec() as Teams[];
+        }]).exec() as DocumentDefinition<Teams>[];
 
         for (let team of teams) {
             team = this.getTeamAttendeeInfo(team, event);
@@ -96,7 +96,7 @@ export class TeamsService extends BaseService<Teams, CreateTeamDto> {
         return this.getTeamAttendeeInfo(team, event);
     }
 
-    public async getTeamInfo(attendeeId: string, eventId: string): Promise<Teams> {
+    public async getTeamInfo(attendeeId: string, eventId: string): Promise<DocumentDefinition<Teams>> {
         const team = await this.findOneLean({
             attendees: attendeeId,
             event: eventId
@@ -135,7 +135,7 @@ export class TeamsService extends BaseService<Teams, CreateTeamDto> {
         return null;
     }
 
-    private getTeamAttendeeInfo(team: Teams, event: Events) {
+    private getTeamAttendeeInfo(team: DocumentDefinition<Teams>, event: Events): DocumentDefinition<Teams> {
         const members = event.attendees
             .filter(x => team.attendees.findIndex(a => (a as Attendees)._id.equals(x.attendee as ObjectId)) >= 0);
         for (const member of team.attendees as (Attendees & { role: string, registered: boolean })[]) {

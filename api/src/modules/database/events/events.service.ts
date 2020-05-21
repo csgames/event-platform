@@ -3,7 +3,7 @@ import { InjectModel } from "@nestjs/mongoose";
 import { StorageService } from "@polyhx/nest-services";
 import * as AdmZip from "adm-zip";
 import * as mongoose from "mongoose";
-import { Model } from "mongoose";
+import { DocumentDefinition, Model } from "mongoose";
 import { isNullOrUndefined } from "util";
 import { UserModel } from "../../../models/user.model";
 import { BaseService } from "../../../services/base.service";
@@ -22,7 +22,15 @@ import { Schools } from "../schools/schools.model";
 import { Teams } from "../teams/teams.model";
 import { AddSponsorDto, CreateEventDto, SendNotificationDto, UpdateTemplateDto } from "./events.dto";
 import { AttendeeAlreadyRegisteredException, EventNotFoundException, UserNotAttendeeException } from "./events.exception";
-import { DefaultGuide, Events, EventSponsorDetails, EventTemplateTypes } from "./events.model";
+import {
+    DefaultGuide,
+    EventAttendees,
+    EventAttendeeTypes,
+    Events,
+    EventSponsorDetails,
+    EventSponsors,
+    EventTemplateTypes
+} from "./events.model";
 import { AddGuideSectionDto, GuideDto } from "./guide.dto";
 
 export interface EventScore {
@@ -138,9 +146,9 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
             $push: {
                 attendees: {
                     attendee: attendee._id,
-                    role: role,
+                    role: role as EventAttendeeTypes,
                     registered
-                }
+                } as EventAttendees
             }
         }).exec();
     }
@@ -175,7 +183,7 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
         return await event.save();
     }
 
-    public async getActivities(eventId: string, user: UserModel): Promise<Activities[]> {
+    public async getActivities(eventId: string, user: UserModel): Promise<DocumentDefinition<Activities>[]> {
         const event = await this.findById(eventId);
         if (!event) {
             throw new EventNotFoundException();
@@ -210,7 +218,7 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
             _id: eventId
         }, {
             $push: {
-                sponsors: dto
+                sponsors: dto as EventSponsors
             }
         }).exec();
     }
@@ -364,7 +372,7 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
         return competitions;
     }
 
-    public async getCompetitionsAsMember(eventId: string, user: UserModel): Promise<Competitions[]> {
+    public async getCompetitionsAsMember(eventId: string, user: UserModel): Promise<DocumentDefinition<Competitions>[]> {
         let competitions = await this.competitionsModel.find({
             event: eventId
         }).select({
@@ -390,7 +398,7 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
             return competition.members &&
                 competition.members.some(m => m.attendees && m.attendees.some(a => attendee._id.equals(a)));
         }).map(competition => {
-            competition.activities = ActivitiesService.formatActivities(competition.activities as any, attendee);
+            competition.activities = ActivitiesService.formatActivities(competition.activities as any, attendee) as Activities[];
             delete competition.members;
             return competition;
         });
@@ -476,7 +484,7 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
                 return {
                     ...x,
                     name,
-                    results: x.results.filter(x => x.teamId.school).map(result => {
+                    results: x.results.filter(x => (x.teamId as Teams).school).map(result => {
                         const team = result.teamId as Teams;
                         return {
                             teamId: team._id.toHexString(),
@@ -600,7 +608,7 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
         return { overall: filteredOverallScores, competitions: filteredCompetitionsScores };
     }
 
-    private async getOverallScore(eventId: string, competitions: Competitions[]): Promise<TeamScore[]> {
+    private async getOverallScore(eventId: string, competitions: DocumentDefinition<Competitions>[]): Promise<TeamScore[]> {
         const teams = await this.teamsModel.find({
             event: eventId,
             school: {
@@ -621,7 +629,7 @@ export class EventsService extends BaseService<Events, CreateEventDto> {
         return overall.sort((a, b) => a.score > b.score ? -1 : 1);
     }
 
-    private getTeamOverallScore(team: Teams, competitions: Competitions[]): TeamScore {
+    private getTeamOverallScore(team: DocumentDefinition<Teams>, competitions: DocumentDefinition<Competitions>[]): TeamScore {
         let total = 0;
         for (const competition of competitions) {
             const teamResult = competition.results.find(x => team._id.equals((x.teamId as Teams)._id));

@@ -6,6 +6,7 @@ import { Members, MembersSchema } from "./members/members.model";
 import { QuestionAnswers, QuestionAnswersSchema } from "./questions/question-answers.model";
 import { QuestionGraphNodes, QuestionGraphNodesSchema } from "./questions/question-graph-nodes.model";
 import { TeamResults, TeamResultsSchema } from "./results/team-result.model";
+import { DocumentDefinition } from "mongoose";
 
 export interface Competitions extends mongoose.Document {
     event: Events | mongoose.Types.ObjectId | string;
@@ -14,7 +15,7 @@ export interface Competitions extends mongoose.Document {
     questions: QuestionGraphNodes[];
     answers: QuestionAnswers[];
     members: Members[];
-    results: TeamResults[];
+    results: (TeamResults | DocumentDefinition<TeamResults>)[];
     description: { [lang: string]: string };
     maxMembers: number;
     password: string;

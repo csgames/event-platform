@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable, NotFoundException } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import * as mongoose from "mongoose";
-import { Model } from "mongoose";
+import { DocumentDefinition, Model } from "mongoose";
 import { UserModel } from "../../../models/user.model";
 import { BaseService } from "../../../services/base.service";
 import { DateUtils } from "../../../utils/date.utils";
@@ -94,7 +94,7 @@ export class PuzzleHeroesService extends BaseService<PuzzleHeroes, PuzzleHeroes>
         }
     }
 
-    private formatPuzzleHeroForAdmin(puzzleHero: PuzzleHeroes): any {
+    private formatPuzzleHeroForAdmin(puzzleHero: DocumentDefinition<PuzzleHeroes>): any {
         for (const track of puzzleHero.tracks) {
             track.puzzles.forEach((p: any) => {
                 p.answers = puzzleHero.answers.filter((a) => p._id.equals(a.puzzle));
@@ -103,8 +103,9 @@ export class PuzzleHeroesService extends BaseService<PuzzleHeroes, PuzzleHeroes>
         return puzzleHero;
     }
 
-    private async getPuzzleHeroForAttendee(eventId: string,
-                                           user: UserModel, type: string, puzzleHero: PuzzleHeroes): Promise<PuzzleHeroes> {
+    private async getPuzzleHeroForAttendee(
+        eventId: string, user: UserModel, type: string, puzzleHero: DocumentDefinition<PuzzleHeroes>
+    ): Promise<PuzzleHeroes> {
         if (!PuzzleHeroesUtils.isAvailable(puzzleHero)) {
             return {
                 endDate: puzzleHero.endDate,
@@ -550,7 +551,7 @@ export class PuzzleHeroesService extends BaseService<PuzzleHeroes, PuzzleHeroes>
         await puzzleHero.save();
     }
 
-    private async formatTrack(track: Tracks, puzzleHero: PuzzleHeroes, teamId: string, type?: string): Promise<Tracks> {
+    private async formatTrack(track: Tracks, puzzleHero: DocumentDefinition<PuzzleHeroes>, teamId: string, type?: string): Promise<Tracks> {
         const puzzles = [];
         for (const puzzle of track.puzzles as PuzzleDefinition[]) {
             const answer = puzzleHero.answers.find(TracksAnswersUtils.find(puzzle, teamId));

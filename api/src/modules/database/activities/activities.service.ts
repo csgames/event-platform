@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import * as Mongoose from "mongoose";
-import { Model, Types } from "mongoose";
+import { DocumentDefinition, Model, Types } from "mongoose";
 import { UserModel } from "../../../models/user.model";
 import { BaseService } from "../../../services/base.service";
 import { Attendees } from "../attendees/attendees.model";
@@ -19,7 +19,7 @@ export class ActivitiesService extends BaseService<Activities, CreateActivityDto
         super(activityModel);
     }
 
-    public async findByIds(activitiesId: string[], user: UserModel): Promise<Activities[]> {
+    public async findByIds(activitiesId: string[], user: UserModel): Promise<DocumentDefinition<Activities>[]> {
         const activities = await this.activityModel.find({
             _id: { $in: activitiesId }
         }).lean().exec();
@@ -118,9 +118,9 @@ export class ActivitiesService extends BaseService<Activities, CreateActivityDto
         });
     }
 
-    public static formatActivities(activities: (Activities & { subscribed: boolean })[], attendee: Attendees) {
+    public static formatActivities(activities: DocumentDefinition<Activities>[], attendee: Attendees) {
         return activities.map(activity => {
-            activity.subscribed = activity.subscribers.some(x => (x as Types.ObjectId).equals(attendee._id));
+            (activity as any).subscribed = activity.subscribers.some(x => (x as Types.ObjectId).equals(attendee._id));
             delete activity.subscribers;
             delete activity.attendees;
             return activity;
