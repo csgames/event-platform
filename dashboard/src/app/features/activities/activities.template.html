@@ -5,7 +5,7 @@
 
     <ng-container *ngIf="error$ | async">
         <div style="text-align: center">
-            <i class="far fa-times-circle error fa-8x"></i>
+            <i class="fa fa-times-circle error fa-8x"></i>
             <h5>{{ "pages.activities.load_error" | translate }}</h5>
         </div>
     </ng-container>
@@ -28,10 +28,10 @@
                             <div class="offset-sm-5 col-sm-7">
                                 <div class="button-group">
                                     <a class="btn btn-danger cancel float-right" (click)="onCancelActivity()">
-                                        {{ "general.button.cancel" | translate }} <i class="fal fa-times"></i>
+                                        {{ "general.button.cancel" | translate }} <i class="fa fa-times"></i>
                                     </a>
                                     <a class="btn btn-primary mr-2 float-right" (click)="onAdd()">
-                                        {{ "general.button.add" | translate }} <i class="fal fa-plus"></i>
+                                        {{ "general.button.add" | translate }} <i class="fa fa-plus"></i>
                                     </a>
                                 </div>
                             </div>

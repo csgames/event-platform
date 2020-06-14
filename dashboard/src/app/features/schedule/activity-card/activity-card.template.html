@@ -2,10 +2,10 @@
     <div class="card-body activity-card-body">
         <div fxLayout="row" class="tile">
             <div fxFlex="initial" [ngSwitch]="activity.type">
-                <i *ngSwitchCase="'competition'" class="fal fa-trophy"></i>
-                <i *ngSwitchCase="'other'" class="fal fa-calendar"></i>
-                <i *ngSwitchCase="'food'" class="fal fa-utensils"></i>
-                <i *ngSwitchCase="'transport'" class="fal fa-bus-alt"></i>
+                <i *ngSwitchCase="'competition'" class="fa fa-trophy"></i>
+                <i *ngSwitchCase="'other'" class="fa fa-calendar"></i>
+                <i *ngSwitchCase="'food'" class="fa fa-utensils"></i>
+                <i *ngSwitchCase="'transport'" class="fa fa-bus-alt"></i>
             </div>
             <div fxFlex>
                 <p class="name">{{ activity.name | t18n }}</p>
@@ -13,7 +13,7 @@
                 <p class="location">{{ activity.location }}</p>
             </div>
             <div fxFlex="nogrow">
-                <i class="fal fa-check text-success" *ngIf="activity.subscribed"></i>
+                <i class="fa fa-check text-success" *ngIf="activity.subscribed"></i>
             </div>
         </div>
     </div>

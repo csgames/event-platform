@@ -4,7 +4,7 @@
             <div class="col-sm-12">
                 <div class="input-group input-group-default">
                     <div class="input-group-prepend">
-                        <i class="fal fa-file-signature"></i>
+                        <i class="fa fa-file-signature"></i>
                     </div>
                     <input autofocus class="form-control" type="text" name="label" formControlName="label"
                            placeholder='{{ "components.question_form.label_placeholder" | translate }}'
@@ -44,7 +44,7 @@
                                placeholder='{{ "components.question_form.validation_types" | translate }}' controlStatus
                                formControlName="validationType">
                         <ng-template ng-option-tmp ng-label-tmp let-item="item">
-                            <i class="fal" [ngClass]="getValidationIcon(item)"></i>&nbsp;
+                            <i class="fa" [ngClass]="getValidationIcon(item)"></i>&nbsp;
                             <span class="ng-option-label">
                                 {{ item }}
                             </span>
@@ -73,7 +73,7 @@
                                placeholder='{{ "components.question_form.input_types" | translate }}' controlStatus
                                formControlName="inputType">
                         <ng-template ng-option-tmp ng-label-tmp let-item="item">
-                            <i class="fal" [ngClass]="getInputTypeIcon(item)"></i>&nbsp;
+                            <i class="fa" [ngClass]="getInputTypeIcon(item)"></i>&nbsp;
                             <span class="ng-option-label">
                         {{ item }}
                     </span>

@@ -4,55 +4,55 @@ export namespace QuestionUtils {
     export function getQuestionTypeIconClass(type: QuestionTypes): string {
         switch (type) {
             case QuestionTypes.Crypto:
-                return "fal fa-key";
+                return "fa fa-key";
             case QuestionTypes.Gaming:
-                return "fal fa-gamepad";
+                return "fa fa-gamepad";
             case QuestionTypes.Scavenger:
-                return "fal fa-camera-alt";
+                return "fa fa-camera";
             case QuestionTypes.Sponsor:
-                return "fal fa-gem";
+                return "fa fa-gem";
             case QuestionTypes.Upload:
-                return "fal fa-upload";
+                return "fa fa-upload";
             case QuestionTypes.Vine:
                 return "fab fa-vine";
             case QuestionTypes.EsotericLanguages:
-                return "fal fa-book-spells";
+                return "fa fa-atlas";
             case QuestionTypes.DataAnalysis:
-                return "fal fa-analytics";
+                return "fa fa-chart-bar";
             case QuestionTypes.Recon:
-                return "fal fa-user-secret";
+                return "fa fa-user-secret";
             case QuestionTypes.Steganography:
-                return "fal fa-search";
+                return "fa fa-search";
             case QuestionTypes.Debugging:
-                return "fal fa-debug";
+                return "fa fa-bug";
             case QuestionTypes.Forensics:
-                return "fal fa-hdd";
+                return "fa fa-hdd";
             case QuestionTypes.Charades:
-                return "fal fa-comment";
+                return "fa fa-comment";
             case QuestionTypes.ReverseEngineering:
-                return "fal fa-microscope";
+                return "fa fa-microscope";
             case QuestionTypes.CodeGolf:
-                return "fal fa-golf-ball";
+                return "fa fa-golf-ball";
             case QuestionTypes.Regex:
-                return "fal fa-slash";
+                return "fa fa-slash";
             case QuestionTypes.Scripting:
-                return "fal fa-laptop-code";
+                return "fa fa-laptop-code";
             case QuestionTypes.Food:
-                return "fal fa-utensils";
+                return "fa fa-utensils";
             case QuestionTypes.Karaoke:
-                return "fal fa-music";
+                return "fa fa-music";
             case QuestionTypes.Pwning:
-                return "fal fa-skull";
+                return "fa fa-skull";
             case QuestionTypes.Authentication:
-                return "fal fa-mobile";
+                return "fa fa-mobile";
             case QuestionTypes.StaticAnalysis:
-                return "fal fa-file-code";
+                return "fa fa-file-code";
             case QuestionTypes.ArtificialIntelligence:
-                return "fal fa-robot";
+                return "fa fa-robot";
             case QuestionTypes.OffensiveSecurity:
-                return "fal fa-swords";
+                return "fa fa-khanda";
             case QuestionTypes.DefensiveSecurity:
-                return "fal fa-shield-alt";
+                return "fa fa-shield-alt";
         }
         return "";
     }
@@ -64,7 +64,7 @@ export namespace QuestionUtils {
             case QuestionTypes.Gaming:
                 return "&#xf11b;";
             case QuestionTypes.Scavenger:
-                return "&#xf332;";
+                return "&#xf030;";
             case QuestionTypes.Sponsor:
                 return "&#xf3a5;";
             case QuestionTypes.Upload:
@@ -72,15 +72,15 @@ export namespace QuestionUtils {
             case QuestionTypes.Vine:
                 return "&#xf1ca;";
             case QuestionTypes.EsotericLanguages:
-                return "&#xf6b8;";
+                return "&#xf558;";
             case QuestionTypes.DataAnalysis:
-                return "&#xf643;";
+                return "&#xf080;";
             case QuestionTypes.Recon:
                 return "&#xf21b;";
             case QuestionTypes.Steganography:
                 return "&#xf002;";
             case QuestionTypes.Debugging:
-                return "&#xf7f9;";
+                return "&#xf188;";
             case QuestionTypes.Forensics:
                 return "&#xf0a0;";
             case QuestionTypes.Charades:

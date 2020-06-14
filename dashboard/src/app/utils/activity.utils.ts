@@ -4,13 +4,13 @@ export namespace ActivityUtils {
     export function getActivityTypeIconClass(type: string): string {
         switch (type) {
             case ActivityTypes.General:
-                return "fal fal-4x fa-calendar";
+                return "fa fal-4x fa-calendar";
             case ActivityTypes.Meal:
-                return "fal fal-4x fa-utensils";
+                return "fa fal-4x fa-utensils";
             case ActivityTypes.Competition: 
-                return "fal fal-4x fa-trophy";
+                return "fa fal-4x fa-trophy";
             case ActivityTypes.Transport:
-                return "fal fal-4x fa-bus-alt";
+                return "fa fal-4x fa-bus-alt";
         }
     }
 

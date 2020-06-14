@@ -8,7 +8,7 @@
     <ng-container *ngIf="error$ | async">
         <h1 class="title">{{ "pages.competition.competition" | translate }}</h1>
         <div style="text-align: center">
-            <i class="far fa-times-circle text-danger fa-8x"></i>
+            <i class="fa fa-times-circle text-danger fa-8x"></i>
             <h3 class="mt-3">{{ "pages.competition.loading_error" | translate }}</h3>
         </div>
     </ng-container>
@@ -21,7 +21,7 @@
             <a class="btn btn-outline-primary" (click)="clickSave()">
                 {{ "general.button.save" | translate }}
             </a>
-            <a class="btn btn-default" (click)="clickSettings()"><i class="fal fa-cogs"></i></a>
+            <a class="btn btn-default" (click)="clickSettings()"><i class="fa fa-cogs"></i></a>
         </div>
         <div class="row mt-4">
             <div class="col-sm-7">
@@ -35,7 +35,7 @@
             <tab>
                 <ng-template tabHeading>
                     <span>
-                        <i class="fal fa-stream"></i>&nbsp;
+                        <i class="fa fa-stream"></i>&nbsp;
                         {{ "pages.competition.edit.description_and_questions" | translate }}
                     </span>
                 </ng-template>
@@ -66,7 +66,7 @@
                 <tab>
                     <ng-template tabHeading>
                         <span><i
-                            class="fal fa-download"></i> {{ "pages.competition.edit.submissions" | translate }}</span>
+                            class="fa fa-download"></i> {{ "pages.competition.edit.submissions" | translate }}</span>
                     </ng-template>
                     <app-question-results-card
                         *ngFor="let question of $any(competition).questions"
@@ -76,7 +76,7 @@
                 </tab>
                 <tab>
                     <ng-template tabHeading>
-                        <span><i class="fal fa-trophy"></i> {{ "pages.competition.edit.results" | translate }}</span>
+                        <span><i class="fa fa-trophy"></i> {{ "pages.competition.edit.results" | translate }}</span>
                     </ng-template>
                     <app-competition-results [teamResults]="competition.results"
                                              [teamCompetitionResults]="competitionResults"

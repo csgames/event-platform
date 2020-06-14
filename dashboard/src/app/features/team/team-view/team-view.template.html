@@ -4,7 +4,7 @@
     </app-loading-spinner>
     <ng-container *ngIf="error$ | async">
         <div style="text-align: center">
-            <i class="far fa-times-circle error fa-8x"></i>
+            <i class="fa fa-times-circle error fa-8x"></i>
             <h3>{{ "pages.team.loading_error" | translate }}</h3>
         </div>
     </ng-container>
@@ -13,7 +13,7 @@
             <h2 class="title">
                 {{ currentTeam?.name }}
                 <a *ifRole="['admin', 'captain', 'super-admin']" class="btn edit-name-button">
-                    <i class="fal fa-edit fa-md" (click)="onEditTeamName(currentTeam)"></i>
+                    <i class="fa fa-edit fa-md" (click)="onEditTeamName(currentTeam)"></i>
                 </a>
             </h2>
         </div>
@@ -22,10 +22,10 @@
                 <input class="form-control" type="text" [(ngModel)]="teamName">
             </div>
             <button type="button" class="btn btn-primary m-1" (click)="onSaveTeamName(teamName)">
-                {{ "general.button.save" | translate }}<i class="fal fa-check"></i>
+                {{ "general.button.save" | translate }}<i class="fa fa-check"></i>
             </button>
             <button type="button" class="btn btn-danger m-1" (click)="onCancelTeamName()">
-                {{ "general.button.cancel" | translate }} <i class="fal fa-times"></i>
+                {{ "general.button.cancel" | translate }} <i class="fa fa-times"></i>
             </button>
         </div>
         <ng-container *ngIf="currentAttendees$ | async as currentAttendees">
@@ -62,10 +62,10 @@
                         <div class="col-sm-7">
                             <div class="button-group">
                                 <a class="btn btn-primary" (click)="onAddTeamMember()">
-                                    {{ "general.button.add" | translate }} <i class="fal fa-plus"></i>
+                                    {{ "general.button.add" | translate }} <i class="fa fa-plus"></i>
                                 </a>
                                 <a class="btn btn-danger cancel" (click)="onCancelTeamMember()">
-                                    {{ "general.button.cancel" | translate }}<i class="fal fa-times"></i>
+                                    {{ "general.button.cancel" | translate }}<i class="fa fa-times"></i>
                                 </a>
                             </div>
                         </div>
@@ -102,10 +102,10 @@
                             <div class="col-sm-7">
                                 <div class="button-group">
                                     <a class="btn btn-primary" (click)="onAddTeamGodparent()">
-                                        {{ "general.button.add" | translate }} <i class="fal fa-plus"></i>
+                                        {{ "general.button.add" | translate }} <i class="fa fa-plus"></i>
                                     </a>
                                     <a class="btn btn-danger cancel" (click)="onCancelTeamGodparent()">
-                                        {{ "general.button.cancel" | translate }} <i class="fal fa-times"></i>
+                                        {{ "general.button.cancel" | translate }} <i class="fa fa-times"></i>
                                     </a>
                                 </div>
                             </div>

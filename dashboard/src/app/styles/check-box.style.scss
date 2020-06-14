@@ -19,17 +19,18 @@
     margin-right: 7px;
     outline: none;
 
-    font-family: 'Font Awesome 5 Pro';
+    font-weight: 900;
+    font-family: 'Font Awesome 5 Free';
 }
 
 .form-checkbox:checked::before {
     position: absolute;
-    left: 0;
-    top: -17px;
+    left: 2px;
+    top: -11px;
     content: '\f00c';
     color: var(--primary-color);
     filter: brightness(110%);
-    font-size: 28px;
+    font-size: 22px;
 }
 
 label {

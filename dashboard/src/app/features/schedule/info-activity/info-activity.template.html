@@ -10,10 +10,10 @@
                     </button>
                     <div fxLayout="row" fxLayoutGap="10px" class="tile">
                         <ng-container [ngSwitch]="activity.type">
-                            <i *ngSwitchCase="'competition'" class="fal fa-trophy"></i>
-                            <i *ngSwitchCase="'other'" class="fal fa-calendar"></i>
-                            <i *ngSwitchCase="'food'" class="fal fa-utensils"></i>
-                            <i *ngSwitchCase="'transport'" class="fal fa-bus-alt"></i>
+                            <i *ngSwitchCase="'competition'" class="fa fa-trophy"></i>
+                            <i *ngSwitchCase="'other'" class="fa fa-calendar"></i>
+                            <i *ngSwitchCase="'food'" class="fa fa-utensils"></i>
+                            <i *ngSwitchCase="'transport'" class="fa fa-bus-alt"></i>
                         </ng-container>
                         <div fxFlex>
                             <p class="name">{{ activity.name | t18n }}</p>

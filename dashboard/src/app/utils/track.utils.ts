@@ -4,53 +4,53 @@ export namespace TrackUtils {
     export function getTrackTypeIconClass(type: TrackTypes): string {
         switch (type) {
             case TrackTypes.Crypto:
-                return "fal fa-key";
+                return "fa fa-key";
             case TrackTypes.Gaming:
-                return "fal fa-gamepad";
+                return "fa fa-gamepad";
             case TrackTypes.Scavenger:
-                return "fal fa-camera-alt";
+                return "fa fa-camera";
             case TrackTypes.Sponsor:
-                return "fal fa-gem";
+                return "fa fa-gem";
             case TrackTypes.Vine:
                 return "fab fa-vine";
             case TrackTypes.EsotericLanguages:
-                return "fal fa-book-spells";
+                return "fa fa-atlas";
             case TrackTypes.DataAnalysis:
-                return "fal fa-analytics";
+                return "fa fa-chart-bar";
             case TrackTypes.Recon:
-                return "fal fa-user-secret";
+                return "fa fa-user-secret";
             case TrackTypes.Steganography:
-                return "fal fa-search";
+                return "fa fa-search";
             case TrackTypes.Debugging:
-                return "fal fa-debug";
+                return "fa fa-bug";
             case TrackTypes.Forensics:
-                return "fal fa-hdd";
+                return "fa fa-hdd";
             case TrackTypes.Charades:
-                return "fal fa-comment";
+                return "fa fa-comment";
             case TrackTypes.ReverseEngineering:
-                return "fal fa-microscope";
+                return "fa fa-microscope";
             case TrackTypes.CodeGolf:
-                return "fal fa-golf-ball";
+                return "fa fa-golf-ball";
             case TrackTypes.Regex:
-                return "fal fa-slash";
+                return "fa fa-slash";
             case TrackTypes.Scripting:
-                return "fal fa-laptop-code";
+                return "fa fa-laptop-code";
             case TrackTypes.Food:
-                return "fal fa-utensils";
+                return "fa fa-utensils";
             case TrackTypes.Karaoke:
-                return "fal fa-music";
+                return "fa fa-music";
             case TrackTypes.Pwning:
-                return "fal fa-skull";
+                return "fa fa-skull";
             case TrackTypes.Authentication:
-                return "fal fa-mobile";
+                return "fa fa-mobile";
             case TrackTypes.StaticAnalysis:
-                return "fal fa-file-code";
+                return "fa fa-file-code";
             case TrackTypes.ArtificialIntelligence:
-                return "fal fa-robot";
+                return "fa fa-robot";
             case TrackTypes.OffensiveSecurity:
-                return "fal fa-swords";
+                return "fa fa-khanda";
             case TrackTypes.DefensiveSecurity:
-                return "fal fa-shield-alt";
+                return "fa fa-shield-alt";
         }
         return "";
     }

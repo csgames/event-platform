@@ -16,7 +16,7 @@
                   [class.completed]="puzzle?.completed"/>
 
         <svg width="77" height="77">
-            <svg:text [ngClass]="{fal: puzzle.type !== 'vine', fab: puzzle.type === 'vine'}" class="fa-3x" x="50%"
+            <svg:text [ngClass]="{fa: puzzle.type !== 'vine', fab: puzzle.type === 'vine'}" class="fa-3x" x="50%"
                       y="50%" alignment-baseline="middle" dominant-baseline="middle"
                       text-anchor="middle" [innerHTML]="icon">
             </svg:text>
@@ -30,7 +30,7 @@
                       text-anchor="middle" *ngIf="puzzle?.completed && puzzle?.validated">
                 &#xf00c;
             </svg:text>
-            <svg:text class="far fa-4x text-warning" x="50%" y="50%" alignment-baseline="middle"
+            <svg:text class="fa fa-4x text-warning" x="50%" y="50%" alignment-baseline="middle"
                       dominant-baseline="middle"
                       text-anchor="middle" *ngIf="puzzle?.completed && !puzzle?.validated && !puzzle.refused">
                 &#xf017;
@@ -51,13 +51,13 @@
 
     <ng-template #popoverContent>
         <a class="btn btn-primary" (click)="onClickAddLink()">
-            {{ "general.button.add" | translate }} <i class="fal fa-plus"></i>
+            {{ "general.button.add" | translate }} <i class="fa fa-plus"></i>
         </a>
         <a class="btn btn-default" (click)="onClickPuzzle()">
-            <i class="fal fa-edit"></i>
+            <i class="fa fa-edit"></i>
         </a>
         <a class="btn btn-default" *ngIf="puzzle.answers.length !== 0" (click)="onClickAnswers()">
-            <i class="fal fa-question"></i>
+            <i class="fa fa-question"></i>
         </a>
     </ng-template>
 

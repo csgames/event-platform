@@ -24,10 +24,10 @@
                (click)="onClickStar($event)" *ngIf="showStar"></a>
             <a class="btn btn-primary" *ngIf="adminMode" (click)="onClickAccordionHeadingAddPuzzle($event)">
                 {{ "pages.puzzle_hero.admin.add_puzzle" | translate }}&nbsp;
-                <i class="fal fa-plus"></i>
+                <i class="fa fa-plus"></i>
             </a>
             <a class="btn btn-default" *ngIf="adminMode" (click)="onClickUpdateTrack($event, track)">
-                <i class="fal fa-edit"></i>
+                <i class="fa fa-edit"></i>
             </a>
             <i class="fas fa-caret-down ml-2" [class.fa-rotate-90]="!isOpen"></i>
         </div>

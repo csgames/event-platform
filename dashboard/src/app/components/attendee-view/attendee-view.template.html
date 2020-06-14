@@ -4,15 +4,15 @@
     <div class="info-attendee" fxLayout="column">
         <div class="attendee-name" fxLayout="row" fxLayoutAlign="start center">
             <b class="name">{{ attendee.firstName }} {{ attendee.lastName }} </b>
-            <i *ngIf="attendee.role === 'captain'" class="fal fa-crown px-2" tooltip="{{ 'general.roles.captain' | translate }}" placement="right"></i>
+            <i *ngIf="attendee.role === 'captain'" class="fa fa-crown px-2" tooltip="{{ 'general.roles.captain' | translate }}" placement="right"></i>
         </div>
         <div class="email">{{ attendee.email }}</div>
     </div>
     <ng-container *ngIf="showRegister">
         <div class="d-lg-none d-xl-none d-md-none">
-            <i class="fal fa-check-circle text-white text-primary" tooltip="{{ 'pages.team.registered' | translate }}" placement="left" *ngIf="attendee.registered"></i>
+            <i class="fa fa-check-circle text-white text-primary" tooltip="{{ 'pages.team.registered' | translate }}" placement="left" *ngIf="attendee.registered"></i>
 
-            <i class="fal fa-times-circle text-white text-danger" tooltip="{{ 'pages.team.not_registered' | translate }}" placement="left" *ngIf="!attendee.registered"></i>
+            <i class="fa fa-times-circle text-white text-danger" tooltip="{{ 'pages.team.not_registered' | translate }}" placement="left" *ngIf="!attendee.registered"></i>
         </div>
         <div fxLayout="column" class="icons-right d-none d-md-flex d-lg-flex d-xl-flex text-center">
             <div fxLayout="row">
@@ -20,7 +20,7 @@
                 <div><span *ngIf="!attendee.registered" class="badge badge-pill badge-danger">{{ "pages.team.not_registered" | translate }}</span></div>
                 <button  type="button" class="close" (click)="clickDelete()" *ifRole="['admin', 'super-admin', 'captain', 'sponsor']">
                         <span *ngIf="attendee.role == 'attendee' || attendee.role == 'godparent' || attendee.role === 'sponsor'" aria-hidden="true">
-                            <i class="fal fa-trash fa-lg trash"></i>
+                            <i class="fa fa-trash fa-lg trash"></i>
                         </span>
                         <span *ngIf="attendee.role == 'admin' || attendee.role == 'captain' || attendee.role == 'super-admin'" aria-hidden="true" style="visibility: hidden">x</span>
                 </button>

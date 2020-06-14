@@ -89,7 +89,7 @@ export class QuestionFormComponent implements OnInit, ControlValueAccessor, OnDe
             case ValidationTypes.String:
                 return "fa-align-justify";
             case ValidationTypes.Function:
-                return "fa-function";
+                return "fa-terminal";
             case ValidationTypes.Regex:
                 return "fa-space-shuttle";
             case ValidationTypes.None:

@@ -9,7 +9,7 @@
             <div class="input-group input-group-default mx-0 h-auto">
                 <div class="input-group-prepend">
                     <a class="form-icon">
-                        <i class="fal fa-calendar"></i>
+                        <i class="fa fa-calendar"></i>
                     </a>
                 </div>
                 <ng-select formControlName="activities" [items]="activities" placeholder='{{ "components.competition_form.activities" | translate }}'
@@ -23,7 +23,7 @@
             <div class="input-group input-group-default mx-0 h-auto">
                 <div class="input-group-prepend">
                     <a class="form-icon">
-                        <i class="fal fa-user-astronaut"></i>
+                        <i class="fa fa-user-astronaut"></i>
                     </a>
                 </div>
                 <ng-select formControlName="directors" [items]="directors" placeholder='{{ "components.competition_form.directors" | translate }}'
@@ -44,7 +44,7 @@
             <div class="input-group input-group-default mx-0">
                 <div class="input-group-prepend">
                     <a class="form-icon">
-                        <i class="fal fa-users"></i>
+                        <i class="fa fa-users"></i>
                     </a>
                 </div>
                 <input autofocus class="form-control" formControlName="maxMembers" type="number"
@@ -57,7 +57,7 @@
             <div class="input-group input-group-default mx-0">
                 <div class="input-group-prepend">
                     <a class="form-icon">
-                        <i class="fal fa-weight"></i>
+                        <i class="fa fa-weight"></i>
                     </a>
                 </div>
                 <input autofocus class="form-control" formControlName="weight" type="number"
@@ -69,13 +69,13 @@
         <div class="col-sm-12">
             <div class="input-group input-group-default mx-0">
                 <div class="input-group-prepend">
-                    <i class="far fa-lock"></i>
+                    <i class="fa fa-lock"></i>
                 </div>
                 <input autofocus class="form-control" [type]="viewPassword ? 'text' : 'password'" controlStatus
                        formControlName="password" placeholder='{{ "general.profile.password" | translate }}' autocomplete="false">
                 <div class="input-group-append">
-                    <a class="btn btn-default" (click)="generatePassword()"><i class="fal fa-sync-alt"></i></a>
-                    <a class="btn btn-default" (click)="toggleViewPassword()"><i class="fal fa-eye"></i></a>
+                    <a class="btn btn-default" (click)="generatePassword()"><i class="fa fa-sync-alt"></i></a>
+                    <a class="btn btn-default" (click)="toggleViewPassword()"><i class="fa fa-eye"></i></a>
                 </div>
             </div>
         </div>

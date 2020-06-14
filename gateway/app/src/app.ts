@@ -80,7 +80,7 @@ export class Application {
         this.app.use(this.renewToken.bind(this));
         let proxy = proxyConfig();
 
-        this.app.use(httpProxy(proxy.path, {
+        this.app.use(httpProxy.createProxyMiddleware(proxy.path, {
             target: proxy.path,
             router: proxy.options.router,
             logLevel: proxy.options.logLevel,
