@@ -35,7 +35,7 @@ export interface Questions extends mongoose.Document {
     inputType: InputTypes;
     answer: any;
     score: number;
-    option: QuestionOption;
+    option?: QuestionOption;
 }
 
 export const QuestionsSchema = new mongoose.Schema({

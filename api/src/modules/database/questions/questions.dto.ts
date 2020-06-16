@@ -21,7 +21,7 @@ export class CreateQuestionDto {
     @IsNotEmpty({
         always: true
     })
-    description: object;
+    description: { [lang: string]: string };
 
     @IsNotEmpty({
         always: true
