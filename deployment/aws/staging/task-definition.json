@@ -1,0 +1,383 @@
+{
+    "taskDefinitionArn": "arn:aws:ecs:ca-central-1:673063228953:task-definition/EventPlatform:14",
+    "containerDefinitions": [
+        {
+            "name": "Gateway",
+            "image": "docker.pkg.github.com/csgames/event-platform/gateway:latest",
+            "repositoryCredentials": {
+                "credentialsParameter": "arn:aws:secretsmanager:ca-central-1:673063228953:secret:github/docker-pPaDFZ"
+            },
+            "cpu": 0,
+            "portMappings": [
+                {
+                    "containerPort": 8000,
+                    "hostPort": 8000,
+                    "protocol": "tcp"
+                }
+            ],
+            "essential": true,
+            "environment": [],
+            "mountPoints": [],
+            "volumesFrom": [],
+            "secrets": [
+                {
+                    "name": "APP_URL",
+                    "valueFrom": "arn:aws:ssm:ca-central-1:673063228953:parameter/event-platform/staging/gateway/app-url"
+                },
+                {
+                    "name": "COOKIE_SECRET",
+                    "valueFrom": "arn:aws:ssm:ca-central-1:673063228953:parameter/event-platform/staging/gateway/cookie-secret"
+                },
+                {
+                    "name": "GATEWAY_BASE_PATH",
+                    "valueFrom": "arn:aws:ssm:ca-central-1:673063228953:parameter/event-platform/staging/gateway/gateway-base-path"
+                },
+                {
+                    "name": "IS_HTTPS",
+                    "valueFrom": "arn:aws:ssm:ca-central-1:673063228953:parameter/event-platform/staging/gateway/is-https"
+                },
+                {
+                    "name": "PORT",
+                    "valueFrom": "arn:aws:ssm:ca-central-1:673063228953:parameter/event-platform/staging/gateway/port"
+                },
+                {
+                    "name": "PROXY_CONFIG_B64",
+                    "valueFrom": "arn:aws:ssm:ca-central-1:673063228953:parameter/event-platform/staging/gateway/proxy-config-b64"
+                },
+                {
+                    "name": "REDIS_HOST",
+                    "valueFrom": "arn:aws:ssm:ca-central-1:673063228953:parameter/event-platform/staging/gateway/redis-host"
+                },
+                {
+                    "name": "REDIS_PASSWORD",
+                    "valueFrom": "arn:aws:ssm:ca-central-1:673063228953:parameter/event-platform/staging/gateway/redis-password"
+                },
+                {
+                    "name": "REDIS_PORT",
+                    "valueFrom": "arn:aws:ssm:ca-central-1:673063228953:parameter/event-platform/staging/gateway/redis-port"
+                },
+                {
+                    "name": "STS_CLIENT_ID",
+                    "valueFrom": "arn:aws:ssm:ca-central-1:673063228953:parameter/event-platform/staging/gateway/sts-client-id"
+                },
+                {
+                    "name": "STS_CLIENT_SCOPES",
+                    "valueFrom": "arn:aws:ssm:ca-central-1:673063228953:parameter/event-platform/staging/gateway/sts-client-scopes"
+                },
+                {
+                    "name": "STS_CLIENT_SECRET",
+                    "valueFrom": "arn:aws:ssm:ca-central-1:673063228953:parameter/event-platform/staging/gateway/sts-client-secret"
+                },
+                {
+                    "name": "STS_URL",
+                    "valueFrom": "arn:aws:ssm:ca-central-1:673063228953:parameter/event-platform/staging/gateway/sts-url"
+                }
+            ],
+            "dependsOn": [
+                {
+                    "containerName": "Redis",
+                    "condition": "START"
+                }
+            ],
+            "logConfiguration": {
+                "logDriver": "awslogs",
+                "options": {
+                    "awslogs-group": "/ecs/EventPlatform",
+                    "awslogs-region": "ca-central-1",
+                    "awslogs-stream-prefix": "ecs"
+                }
+            }
+        },
+        {
+            "name": "Redis",
+            "image": "redis",
+            "cpu": 0,
+            "portMappings": [
+                {
+                    "containerPort": 6379,
+                    "hostPort": 6379,
+                    "protocol": "tcp"
+                }
+            ],
+            "essential": true,
+            "command": [
+                "--requirepass murSYaXBX2w4F5pZG4RG"
+            ],
+            "environment": [],
+            "mountPoints": [],
+            "volumesFrom": [],
+            "logConfiguration": {
+                "logDriver": "awslogs",
+                "options": {
+                    "awslogs-group": "/ecs/EventPlatform",
+                    "awslogs-region": "ca-central-1",
+                    "awslogs-stream-prefix": "ecs"
+                }
+            }
+        },
+        {
+            "name": "Mail",
+            "image": "docker.pkg.github.com/csgames/event-platform/mail-service:latest",
+            "repositoryCredentials": {
+                "credentialsParameter": "arn:aws:secretsmanager:ca-central-1:673063228953:secret:github/docker-pPaDFZ"
+            },
+            "cpu": 0,
+            "portMappings": [
+                {
+                    "containerPort": 8090,
+                    "hostPort": 8090,
+                    "protocol": "tcp"
+                }
+            ],
+            "essential": true,
+            "environment": [],
+            "mountPoints": [],
+            "volumesFrom": [],
+            "secrets": [
+                {
+                    "name": "ALLOW_ORIGINS",
+                    "valueFrom": "arn:aws:ssm:ca-central-1:673063228953:parameter/event-platform/staging/mail/allow-origins"
+                },
+                {
+                    "name": "AUTH0_CLIENT_DOMAIN",
+                    "valueFrom": "arn:aws:ssm:ca-central-1:673063228953:parameter/event-platform/staging/mail/auth0-client-domain"
+                },
+                {
+                    "name": "AUTH0_CLIENT_ID",
+                    "valueFrom": "arn:aws:ssm:ca-central-1:673063228953:parameter/event-platform/staging/mail/auth0-client-id"
+                },
+                {
+                    "name": "AUTH0_CLIENT_SECRET",
+                    "valueFrom": "arn:aws:ssm:ca-central-1:673063228953:parameter/event-platform/staging/mail/auth0-client-secret"
+                },
+                {
+                    "name": "DB_ADDRESS",
+                    "valueFrom": "arn:aws:ssm:ca-central-1:673063228953:parameter/event-platform/staging/mail/db-address"
+                },
+                {
+                    "name": "DB_PASSWORD",
+                    "valueFrom": "arn:aws:ssm:ca-central-1:673063228953:parameter/event-platform/staging/mail/db-password"
+                },
+                {
+                    "name": "DB_USERNAME",
+                    "valueFrom": "arn:aws:ssm:ca-central-1:673063228953:parameter/event-platform/staging/mail/db-username"
+                },
+                {
+                    "name": "JWKS_URI",
+                    "valueFrom": "arn:aws:ssm:ca-central-1:673063228953:parameter/event-platform/staging/mail/jwks-uri"
+                },
+                {
+                    "name": "JWT_ISSUER",
+                    "valueFrom": "arn:aws:ssm:ca-central-1:673063228953:parameter/event-platform/staging/mail/jwt-issuer"
+                },
+                {
+                    "name": "MAILGUN_API_KEY",
+                    "valueFrom": "arn:aws:ssm:ca-central-1:673063228953:parameter/event-platform/staging/mail/mailgun-api-key"
+                },
+                {
+                    "name": "MAILGUN_DOMAIN",
+                    "valueFrom": "arn:aws:ssm:ca-central-1:673063228953:parameter/event-platform/staging/mail/mailgun-domain"
+                },
+                {
+                    "name": "NODE_ENV",
+                    "valueFrom": "arn:aws:ssm:ca-central-1:673063228953:parameter/event-platform/staging/mail/node-env"
+                },
+                {
+                    "name": "PORT",
+                    "valueFrom": "arn:aws:ssm:ca-central-1:673063228953:parameter/event-platform/staging/mail/port"
+                },
+                {
+                    "name": "VERSION",
+                    "valueFrom": "arn:aws:ssm:ca-central-1:673063228953:parameter/event-platform/staging/mail/version"
+                }
+            ],
+            "logConfiguration": {
+                "logDriver": "awslogs",
+                "options": {
+                    "awslogs-group": "/ecs/EventPlatform",
+                    "awslogs-region": "ca-central-1",
+                    "awslogs-stream-prefix": "ecs"
+                }
+            }
+        },
+        {
+            "name": "Api",
+            "image": "docker.pkg.github.com/csgames/event-platform/api:latest",
+            "repositoryCredentials": {
+                "credentialsParameter": "arn:aws:secretsmanager:ca-central-1:673063228953:secret:github/docker-pPaDFZ"
+            },
+            "cpu": 0,
+            "portMappings": [
+                {
+                    "containerPort": 8080,
+                    "hostPort": 8080,
+                    "protocol": "tcp"
+                }
+            ],
+            "essential": true,
+            "environment": [],
+            "mountPoints": [],
+            "volumesFrom": [],
+            "secrets": [
+                {
+                    "name": "ACCOUNT_CREATION_URL",
+                    "valueFrom": "arn:aws:ssm:ca-central-1:673063228953:parameter/event-platform/staging/api/version"
+                },
+                {
+                    "name": "AUTH0_CLIENT_DOMAIN",
+                    "valueFrom": "arn:aws:ssm:ca-central-1:673063228953:parameter/event-platform/staging/api/auth0-client-domain"
+                },
+                {
+                    "name": "AUTH0_CLIENT_ID",
+                    "valueFrom": "arn:aws:ssm:ca-central-1:673063228953:parameter/event-platform/staging/api/auth0-client-id"
+                },
+                {
+                    "name": "AUTH0_CLIENT_SECRET",
+                    "valueFrom": "arn:aws:ssm:ca-central-1:673063228953:parameter/event-platform/staging/api/auth0-client-secret"
+                },
+                {
+                    "name": "AUTH0_DEFAULT_CONNECTION",
+                    "valueFrom": "arn:aws:ssm:ca-central-1:673063228953:parameter/event-platform/staging/api/auth0-default-connection"
+                },
+                {
+                    "name": "DB_ADDRESS",
+                    "valueFrom": "arn:aws:ssm:ca-central-1:673063228953:parameter/event-platform/staging/api/db-address"
+                },
+                {
+                    "name": "DB_PASSWORD",
+                    "valueFrom": "arn:aws:ssm:ca-central-1:673063228953:parameter/event-platform/staging/api/db-password"
+                },
+                {
+                    "name": "DB_USERNAME",
+                    "valueFrom": "arn:aws:ssm:ca-central-1:673063228953:parameter/event-platform/staging/api/db-username"
+                },
+                {
+                    "name": "EMAIL_SERVICE_URL",
+                    "valueFrom": "arn:aws:ssm:ca-central-1:673063228953:parameter/event-platform/staging/api/email-service-url"
+                },
+                {
+                    "name": "GCP_PROJECT_ID",
+                    "valueFrom": "arn:aws:ssm:ca-central-1:673063228953:parameter/event-platform/staging/api/gcp-project-id"
+                },
+                {
+                    "name": "GCS_BUCKET_NAME",
+                    "valueFrom": "arn:aws:ssm:ca-central-1:673063228953:parameter/event-platform/staging/api/gcs-bucket-name"
+                },
+                {
+                    "name": "GCS_KEY_FILE_B64",
+                    "valueFrom": "arn:aws:ssm:ca-central-1:673063228953:parameter/event-platform/staging/api/gcs-key-file-b64"
+                },
+                {
+                    "name": "JWKS_URI",
+                    "valueFrom": "arn:aws:ssm:ca-central-1:673063228953:parameter/event-platform/staging/api/jwks-uri"
+                },
+                {
+                    "name": "JWT_AUDIENCES",
+                    "valueFrom": "arn:aws:ssm:ca-central-1:673063228953:parameter/event-platform/staging/api/jwt-audiences"
+                },
+                {
+                    "name": "JWT_ISSUER",
+                    "valueFrom": "arn:aws:ssm:ca-central-1:673063228953:parameter/event-platform/staging/api/jwt-issuer"
+                },
+                {
+                    "name": "MESSAGING_KEY_FILE_B64",
+                    "valueFrom": "arn:aws:ssm:ca-central-1:673063228953:parameter/event-platform/staging/api/messaging-key-file-b64"
+                },
+                {
+                    "name": "MESSAGING_PROJECT_ID",
+                    "valueFrom": "arn:aws:ssm:ca-central-1:673063228953:parameter/event-platform/staging/api/messaging-project-id"
+                },
+                {
+                    "name": "NEXMO_API_KEY",
+                    "valueFrom": "arn:aws:ssm:ca-central-1:673063228953:parameter/event-platform/staging/api/nexmo-api-key"
+                },
+                {
+                    "name": "NEXMO_API_SECRET",
+                    "valueFrom": "arn:aws:ssm:ca-central-1:673063228953:parameter/event-platform/staging/api/nexmo-api-secret"
+                },
+                {
+                    "name": "NEXMO_DEBUG",
+                    "valueFrom": "arn:aws:ssm:ca-central-1:673063228953:parameter/event-platform/staging/api/nexmo-debug"
+                },
+                {
+                    "name": "NEXMO_FROM_NUMBER",
+                    "valueFrom": "arn:aws:ssm:ca-central-1:673063228953:parameter/event-platform/staging/api/nexmo-from-number"
+                },
+                {
+                    "name": "PORT",
+                    "valueFrom": "arn:aws:ssm:ca-central-1:673063228953:parameter/event-platform/staging/api/port"
+                },
+                {
+                    "name": "REDIS_HOST",
+                    "valueFrom": "arn:aws:ssm:ca-central-1:673063228953:parameter/event-platform/staging/api/redis-host"
+                },
+                {
+                    "name": "REDIS_PASSWORD",
+                    "valueFrom": "arn:aws:ssm:ca-central-1:673063228953:parameter/event-platform/staging/api/redis-password"
+                },
+                {
+                    "name": "REDIS_PORT",
+                    "valueFrom": "arn:aws:ssm:ca-central-1:673063228953:parameter/event-platform/staging/api/redis-port"
+                },
+                {
+                    "name": "RESET_PASSWORD_URL",
+                    "valueFrom": "arn:aws:ssm:ca-central-1:673063228953:parameter/event-platform/staging/api/reset-password-url"
+                },
+                {
+                    "name": "VERSION",
+                    "valueFrom": "arn:aws:ssm:ca-central-1:673063228953:parameter/event-platform/staging/api/reset-password-url"
+                }
+            ],
+            "logConfiguration": {
+                "logDriver": "awslogs",
+                "options": {
+                    "awslogs-group": "/ecs/EventPlatform",
+                    "awslogs-region": "ca-central-1",
+                    "awslogs-stream-prefix": "ecs"
+                }
+            }
+        }
+    ],
+    "family": "EventPlatform",
+    "executionRoleArn": "arn:aws:iam::673063228953:role/ecsTaskExecutionRole",
+    "networkMode": "awsvpc",
+    "revision": 14,
+    "volumes": [],
+    "status": "ACTIVE",
+    "requiresAttributes": [
+        {
+            "name": "com.amazonaws.ecs.capability.logging-driver.awslogs"
+        },
+        {
+            "name": "ecs.capability.execution-role-awslogs"
+        },
+        {
+            "name": "com.amazonaws.ecs.capability.docker-remote-api.1.19"
+        },
+        {
+            "name": "ecs.capability.private-registry-authentication.secretsmanager"
+        },
+        {
+            "name": "ecs.capability.container-ordering"
+        },
+        {
+            "name": "ecs.capability.secrets.ssm.environment-variables"
+        },
+        {
+            "name": "com.amazonaws.ecs.capability.docker-remote-api.1.18"
+        },
+        {
+            "name": "ecs.capability.task-eni"
+        }
+    ],
+    "placementConstraints": [],
+    "compatibilities": [
+        "EC2",
+        "FARGATE"
+    ],
+    "requiresCompatibilities": [
+        "FARGATE"
+    ],
+    "cpu": "1024",
+    "memory": "2048"
+}
