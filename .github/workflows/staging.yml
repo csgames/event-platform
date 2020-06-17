@@ -6,20 +6,6 @@ on:
       - master
 
 jobs:
-  auth:
-    name: Authentication service
-    runs-on: ubuntu-latest
-
-    steps:
-    - uses: actions/checkout@v1
-    - name: Build Docker image
-      working-directory: auth
-      run: docker build -t docker.pkg.github.com/csgames/event-platform/auth-service:latest .
-    - name: Login to Github Registry
-      run: echo ${{ secrets.GITHUB_TOKEN }} | docker login docker.pkg.github.com -u csgames --password-stdin
-    - name: Pushing the Docker image
-      run: docker push docker.pkg.github.com/csgames/event-platform/auth-service:latest
-
   gateway:
     name: Gateway
     runs-on: ubuntu-latest
@@ -62,25 +48,24 @@ jobs:
     - name: Pushing the Docker image
       run: docker push docker.pkg.github.com/csgames/event-platform/mail-service:latest
 
-  dashboard:
-    name: Dashboard
+  aws:
+    name: Deploy on AWS
+    needs: [gateway, api, mail]
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v1
-    - name: Use Node.js
-      uses: actions/setup-node@v1
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
       with:
-        node-version: 12.x
-    - name: Install packages
-      working-directory: dashboard
-      env:
-        FONTAWESOME_NPM_AUTH_TOKEN: ${{ secrets.FONTAWESOME_NPM_AUTH_TOKEN }}
-      run: |
-        npm ci
-    - name: Build application
-      working-directory: dashboard
-      env:
-        FONTAWESOME_NPM_AUTH_TOKEN: ${{ secrets.FONTAWESOME_NPM_AUTH_TOKEN }}
-      run: |
-        npm run build:staging
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: us-east-2
+    - name: Login to Amazon ECR
+      id: login-ecr
+      uses: aws-actions/amazon-ecr-login@v1
+    - name: Deploy Amazon ECS task definition
+      uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+      with:
+        task-definition: deployment/aws/staging/task-definition.json
+        service: EventPlatform-Staging
+        cluster: EventPlatform
