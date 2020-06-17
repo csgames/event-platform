@@ -60,9 +60,12 @@ jobs:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: us-east-2
+    - name: Setup Amazon ECS task definition
+      run: |
+        cp ./deployment/aws/staging/task-definition.json .
     - name: Deploy Amazon ECS task definition
       uses: aws-actions/amazon-ecs-deploy-task-definition@v1
       with:
-        task-definition: ./deployment/aws/staging/task-definition.json
+        task-definition: task-definition.json
         service: EventPlatform-Staging
         cluster: EventPlatform
