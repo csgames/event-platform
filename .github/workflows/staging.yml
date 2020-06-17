@@ -63,6 +63,6 @@ jobs:
     - name: Deploy Amazon ECS task definition
       uses: aws-actions/amazon-ecs-deploy-task-definition@v1
       with:
-        task-definition: deployment/aws/staging/task-definition.json
+        task-definition: ./deployment/aws/staging/task-definition.json
         service: EventPlatform-Staging
         cluster: EventPlatform
