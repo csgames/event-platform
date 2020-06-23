@@ -4,11 +4,8 @@ FROM node:12-alpine as builder
 RUN mkdir -p /usr/src/webapp
 WORKDIR /usr/src/webapp
 
-ARG FONTAWESOME_NPM_AUTH_TOKEN
-ENV FONTAWESOME_NPM_AUTH_TOKEN=$FONTAWESOME_NPM_AUTH_TOKEN
-
 ADD package.json /tmp/package.json
-ADD .npmrc /tmp/.npmrc
+ADD package-lock.json /tmp/package-lock.json
 RUN cd /tmp && npm install
 RUN cp -a /tmp/node_modules /usr/src/webapp
 

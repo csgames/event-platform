@@ -11,6 +11,6 @@ RUN cp -a /tmp/node_modules /usr/src/webapp
 
 # Bundle app source
 ADD . /usr/src/webapp
-RUN npm run build:prod
+RUN npm run build
 
 CMD ["npm", "run", "server"]

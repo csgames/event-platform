@@ -18,20 +18,19 @@ services:
     env_file: gateway/.env.compose
     networks:
       - app
-  auth:
-    build: auth/
-    volumes:
-      - ./auth/keys:/keys
-    ports:
-      - "5555:5555"
-    env_file: auth/.env.compose
-    networks:
-      - app
   mail:
     build: mail/
     ports:
-      - "8091:8090"
+      - "8090:8090"
     env_file: mail/.env.compose
+    networks:
+      - app
+  dashboard:
+    build:
+      context: dashboard/
+      dockerfile: Dockerfile.dev
+    ports:
+      - "4200:80"
     networks:
       - app
 networks:
