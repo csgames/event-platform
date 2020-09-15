@@ -30,7 +30,7 @@
         "@angular/platform-browser-dynamic": "^9.0.1",
         "@angular/router": "^9.0.1",
         "@angular/service-worker": "^9.0.1",
-        "@angular/youtube-player": "^9.0.1",
+        "@angular/youtube-player": "^9.2.4",
         "@fortawesome/fontawesome": "^1.1.5",
         "@fortawesome/fontawesome-free": "^5.13.0",
         "@ng-select/ng-select": "^3.7.2",
