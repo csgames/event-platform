@@ -36,7 +36,7 @@
         "@polyhx/nest-services": "2.1.2",
         "adm-zip": "^0.4.14",
         "auth0": "^2.27.1",
-        "class-transformer": "^0.2.3",
+        "class-transformer": "^0.3.1",
         "class-validator": "^0.12.2",
         "csv-stringify": "^5.5.0",
         "dotenv": "^8.2.0",
