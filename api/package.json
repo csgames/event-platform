@@ -35,7 +35,7 @@
         "@nestjs/websockets": "6.11.11",
         "@polyhx/nest-services": "2.1.2",
         "adm-zip": "^0.4.14",
-        "auth0": "^2.26.0",
+        "auth0": "^2.27.1",
         "class-transformer": "^0.2.3",
         "class-validator": "^0.12.2",
         "csv-stringify": "^5.5.0",
