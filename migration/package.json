@@ -18,6 +18,6 @@
   "dependencies": {
     "auth0": "^2.24.0",
     "dotenv": "^8.2.0",
-    "mongoose": "^5.9.10"
+    "mongoose": "^5.11.7"
   }
 }
