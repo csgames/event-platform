@@ -10,7 +10,7 @@
     "dev": "npm run build && npm start"
   },
   "dependencies": {
-    "@nestjs/common": "6.11.11",
+    "@nestjs/common": "7.6.5",
     "@nestjs/core": "6.11.11",
     "@nestjs/microservices": "6.11.11",
     "@nestjs/mongoose": "6.4.0",
