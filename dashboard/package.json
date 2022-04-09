@@ -56,7 +56,7 @@
         "idx": "^2.5.6",
         "javascript-time-ago": "^2.0.6",
         "lottie-web": "^5.6.4",
-        "moment": "^2.24.0",
+        "moment": "^2.29.2",
         "ngx-bootstrap": "^5.3.2",
         "ngx-color-picker": "^8.2.0",
         "ngx-gravatar": "^8.1.0",
