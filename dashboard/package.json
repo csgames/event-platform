@@ -91,7 +91,7 @@
         "@types/socket.io-client": "^1.4.32",
         "codelyzer": "^5.1.2",
         "compression": "^1.7.3",
-        "express": "^4.16.4",
+        "express": "^4.17.3",
         "husky": "^1.1.2",
         "jasmine-core": "~3.5.0",
         "jasmine-spec-reporter": "~4.2.1",
