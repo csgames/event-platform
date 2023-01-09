@@ -16,7 +16,7 @@
     "typescript": "^3.8.3"
   },
   "dependencies": {
-    "auth0": "^2.24.0",
+    "auth0": "^3.0.1",
     "dotenv": "^8.2.0",
     "mongoose": "^5.9.10"
   }
